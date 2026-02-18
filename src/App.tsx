@@ -50,7 +50,7 @@ function App() {
   return (
     <div className="container">
       <header className="header">
-        <h1 className="title">KissSkin</h1>
+        <h1 className="title">KisSkin</h1>
         <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
       </header>
 
