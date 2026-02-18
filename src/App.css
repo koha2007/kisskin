@@ -333,3 +333,40 @@
   border-top: 1px solid #eee;
   margin: 20px 0;
 }
+
+/* 메이크업 이미지 결과 */
+.result-image-section {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.result-image-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d4607a;
+  margin-bottom: 12px;
+}
+
+.result-image {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 2px solid #d4607a;
+  border-radius: 10px;
+  background: #fff;
+  color: #d4607a;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.download-btn:hover {
+  background: #fef5f7;
+}

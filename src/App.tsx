@@ -21,6 +21,7 @@ function App() {
   const [makeupStyle, setMakeupStyle] = useState<MakeupStyle>(null)
   const [loading, setLoading] = useState(false)
   const [report, setReport] = useState<string | null>(null)
+  const [resultImage, setResultImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -65,6 +66,7 @@ function App() {
       }
 
       setReport(data.report)
+      if (data.image) setResultImage(data.image)
     } catch (e) {
       setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
     } finally {
@@ -74,7 +76,16 @@ function App() {
 
   const handleReset = () => {
     setReport(null)
+    setResultImage(null)
     setError(null)
+  }
+
+  const handleDownload = () => {
+    if (!resultImage) return
+    const link = document.createElement('a')
+    link.href = resultImage
+    link.download = `kisskin-${makeupStyle}.png`
+    link.click()
   }
 
   // 로딩 화면
@@ -88,13 +99,13 @@ function App() {
         <div className="card loading-card">
           <div className="spinner" />
           <p className="loading-text">AI가 맞춤 메이크업을 분석하고 있어요...</p>
-          <p className="loading-sub">약 15~30초 소요됩니다</p>
+          <p className="loading-sub">보고서 + 이미지 생성 중 (약 30~60초)</p>
         </div>
       </div>
     )
   }
 
-  // 보고서 결과 화면
+  // 결과 화면 (보고서 + 이미지)
   if (report) {
     return (
       <div className="container">
@@ -109,7 +120,21 @@ function App() {
             <span>{skinType}</span>
             <span>{makeupStyle}</span>
           </div>
+
+          {/* 메이크업 이미지 */}
+          {resultImage && (
+            <section className="result-image-section">
+              <h3 className="result-image-title">{makeupStyle} 메이크업 스타일 미리보기</h3>
+              <img src={resultImage} alt="메이크업 스타일" className="result-image" />
+              <button className="download-btn" onClick={handleDownload}>
+                이미지 저장하기
+              </button>
+            </section>
+          )}
+
+          {/* 텍스트 보고서 */}
           <div className="report-content" dangerouslySetInnerHTML={{ __html: formatReport(report) }} />
+
           <button className="submit-btn ready" onClick={handleReset}>
             다시 분석하기
           </button>
@@ -127,7 +152,6 @@ function App() {
       </header>
 
       <div className="card">
-        {/* 사진 업로드 */}
         <section className="section">
           <h2 className="section-title">사진 업로드</h2>
           <div
@@ -159,7 +183,6 @@ function App() {
           )}
         </section>
 
-        {/* 성별 선택 */}
         <section className="section">
           <h2 className="section-title">성별</h2>
           <div className="button-group">
@@ -175,7 +198,6 @@ function App() {
           </div>
         </section>
 
-        {/* 피부 타입 선택 */}
         <section className="section">
           <h2 className="section-title">피부 타입</h2>
           <div className="button-group skin-type">
@@ -191,7 +213,6 @@ function App() {
           </div>
         </section>
 
-        {/* 화장법 선택 */}
         <section className="section">
           <h2 className="section-title">화장법</h2>
           <div className="button-group makeup-style">
@@ -209,10 +230,8 @@ function App() {
           </div>
         </section>
 
-        {/* 에러 메시지 */}
         {error && <p className="error-msg">{error}</p>}
 
-        {/* 분석 시작 버튼 */}
         <button
           className={`submit-btn ${isComplete ? 'ready' : ''}`}
           disabled={!isComplete}
