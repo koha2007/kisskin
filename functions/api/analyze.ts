@@ -9,16 +9,19 @@ interface RequestBody {
   makeupStyle: string
 }
 
-interface OpenAIImageResponse {
-  data: { b64_json: string; revised_prompt?: string }[]
+interface ResponseOutput {
+  output: {
+    type: string
+    role?: string
+    content?: { type: string; text: string }[]
+  }[]
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
-  const envKeys = Object.keys(env)
-
   if (!env.OPENAI_API_KEY) {
+    const envKeys = Object.keys(env)
     return new Response(JSON.stringify({
       error: 'API key not configured',
       debug: `Available env keys: [${envKeys.join(', ')}]`,
@@ -38,44 +41,63 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    // base64 데이터 URL에서 순수 base64 추출
-    const base64Match = photo.match(/^data:image\/(\w+);base64,(.+)$/)
-    if (!base64Match) {
-      return new Response(JSON.stringify({ error: 'Invalid image format' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    }
+    const developerPrompt = `당신은 전문 메이크업 아티스트입니다.
+사용자의 사진을 분석하고, 사용자가 선택한 피부 타입과 화장법에 맞는 전문 메이크업 스타일 컨설팅 보고서를 작성해주세요.
 
-    const imageType = base64Match[1]
-    const base64Data = base64Match[2]
+보고서는 다음 형식으로 작성해주세요:
 
-    // base64 → binary → Blob
-    const binaryString = atob(base64Data)
-    const bytes = new Uint8Array(binaryString.length)
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i)
-    }
-    const imageBlob = new Blob([bytes], { type: `image/${imageType}` })
+## 🪞 피부 분석
+사진을 기반으로 피부 톤, 얼굴형, 눈매, 골격 등 특징 분석
 
-    const prompt = `너는 최고의 메이크업 아티스트야. 2x2 그리드로, 어떤 메이크업인지 한국어 설명과 함께 첨부한 사진속 사람에게 최고로 잘 어울리는 "${makeupStyle}" 메이크업 스타일 4가지 변형을 생성해줘. 단 첨부한 사람의 얼굴은 절대 바꾸지 말고 기존 얼굴 그대로 유지하고 메이크업 스타일만 바꿔. 이 사람은 ${gender}이고 ${skinType} 피부타입이야. ${skinType} 피부에 맞는 제품감과 질감을 반영해줘.`
+## 💄 ${makeupStyle} 메이크업 가이드
+선택한 화장법에 맞는 구체적인 메이크업 방법을 단계별로 상세히 설명
+- 베이스 메이크업 (${skinType} 피부 맞춤)
+- 아이 메이크업
+- 브로우
+- 립 & 치크
 
-    // OpenAI images/edits API 호출 (multipart/form-data)
-    const formData = new FormData()
-    formData.append('image', imageBlob, `photo.${imageType}`)
-    formData.append('prompt', prompt)
-    formData.append('model', 'gpt-image-1')
-    formData.append('n', '1')
-    formData.append('size', '1024x1024')
-    formData.append('quality', 'auto')
-    formData.append('response_format', 'b64_json')
+## 🛍️ 추천 제품
+각 단계에 맞는 한국 화장품 브랜드 제품 추천 (5~8개, 구체적인 제품명과 이유)
 
-    const response = await fetch('https://api.openai.com/v1/images/edits', {
+## ⚠️ 주의사항
+${skinType} 피부 타입의 ${gender}이(가) ${makeupStyle} 메이크업 시 주의할 점과 지속력 팁
+
+보고서는 한국어로 작성하고, 친근하면서도 전문적인 톤으로 작성해주세요.`
+
+    const userPrompt = `성별: ${gender}
+피부 타입: ${skinType}
+화장법: ${makeupStyle}`
+
+    const response = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
       },
-      body: formData,
+      body: JSON.stringify({
+        model: 'gpt-5.2',
+        input: [
+          {
+            role: 'developer',
+            content: [
+              { type: 'input_text', text: developerPrompt },
+            ],
+          },
+          {
+            role: 'user',
+            content: [
+              { type: 'input_image', image_url: photo },
+              { type: 'input_text', text: userPrompt },
+            ],
+          },
+        ],
+        text: {
+          format: { type: 'text' },
+        },
+        reasoning: {
+          effort: 'medium',
+        },
+      }),
     })
 
     if (!response.ok) {
@@ -86,19 +108,22 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const data = (await response.json()) as OpenAIImageResponse
+    const data = (await response.json()) as ResponseOutput
 
-    const imageBase64 = data.data?.[0]?.b64_json
-    if (!imageBase64) {
-      return new Response(JSON.stringify({ error: '이미지를 생성할 수 없습니다.' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      })
+    // output에서 output_text 추출
+    let report = '보고서를 생성할 수 없습니다.'
+    for (const item of data.output) {
+      if (item.type === 'message' && item.content) {
+        for (const block of item.content) {
+          if (block.type === 'output_text') {
+            report = block.text
+            break
+          }
+        }
+      }
     }
 
-    const resultImage = `data:image/png;base64,${imageBase64}`
-
-    return new Response(JSON.stringify({ image: resultImage }), {
+    return new Response(JSON.stringify({ report }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch {

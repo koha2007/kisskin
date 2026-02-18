@@ -20,7 +20,7 @@ function App() {
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [makeupStyle, setMakeupStyle] = useState<MakeupStyle>(null)
   const [loading, setLoading] = useState(false)
-  const [resultImage, setResultImage] = useState<string | null>(null)
+  const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -64,7 +64,7 @@ function App() {
         throw new Error(data.error || '분석 중 오류가 발생했습니다.')
       }
 
-      setResultImage(data.image)
+      setReport(data.report)
     } catch (e) {
       setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
     } finally {
@@ -73,16 +73,8 @@ function App() {
   }
 
   const handleReset = () => {
-    setResultImage(null)
+    setReport(null)
     setError(null)
-  }
-
-  const handleDownload = () => {
-    if (!resultImage) return
-    const link = document.createElement('a')
-    link.href = resultImage
-    link.download = `kisskin-${makeupStyle}.png`
-    link.click()
   }
 
   // 로딩 화면
@@ -95,39 +87,32 @@ function App() {
         </header>
         <div className="card loading-card">
           <div className="spinner" />
-          <p className="loading-text">AI가 메이크업을 적용하고 있어요...</p>
-          <p className="loading-sub">약 30~60초 소요됩니다</p>
+          <p className="loading-text">AI가 맞춤 메이크업을 분석하고 있어요...</p>
+          <p className="loading-sub">약 15~30초 소요됩니다</p>
         </div>
       </div>
     )
   }
 
-  // 결과 화면
-  if (resultImage) {
+  // 보고서 결과 화면
+  if (report) {
     return (
       <div className="container">
         <header className="header">
           <h1 className="title">KisSkin</h1>
           <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
         </header>
-        <div className="card result-card">
-          <h2 className="result-title">{makeupStyle} 메이크업</h2>
-          <div className="result-meta">
+        <div className="card report-card">
+          <h2 className="report-title">메이크업 컨설팅 보고서</h2>
+          <div className="report-meta">
             <span>{gender}</span>
             <span>{skinType}</span>
             <span>{makeupStyle}</span>
           </div>
-          <div className="result-images">
-            <img src={resultImage} alt="메이크업 결과" className="result-image" />
-          </div>
-          <div className="result-actions">
-            <button className="submit-btn ready" onClick={handleDownload}>
-              이미지 저장하기
-            </button>
-            <button className="reset-btn" onClick={handleReset}>
-              다시 분석하기
-            </button>
-          </div>
+          <div className="report-content" dangerouslySetInnerHTML={{ __html: formatReport(report) }} />
+          <button className="submit-btn ready" onClick={handleReset}>
+            다시 분석하기
+          </button>
         </div>
       </div>
     )
@@ -233,11 +218,25 @@ function App() {
           disabled={!isComplete}
           onClick={handleSubmit}
         >
-          메이크업 생성하기
+          분석 시작하기
         </button>
       </div>
     </div>
   )
+}
+
+function formatReport(markdown: string): string {
+  return markdown
+    .replace(/## (.*)/g, '<h3 class="report-h3">$1</h3>')
+    .replace(/### (.*)/g, '<h4 class="report-h4">$1</h4>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n- (.*)/g, '\n<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/<\/ul>\s*<ul>/g, '')
+    .replace(/\n\d+\) (.*)/g, '\n<li>$1</li>')
+    .replace(/---/g, '<hr class="report-divider"/>')
+    .replace(/\n{2,}/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>')
 }
 
 export default App
