@@ -154,6 +154,39 @@
   font-weight: 600;
 }
 
+/* 화장법 선택 */
+.button-group.makeup-style {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.makeup-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 12px;
+}
+
+.makeup-emoji {
+  font-size: 1.5rem;
+}
+
+.makeup-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.makeup-desc {
+  font-size: 0.72rem;
+  color: #aaa;
+  line-height: 1.3;
+}
+
+.makeup-btn.active .makeup-desc {
+  color: #d4607a;
+}
+
 /* 제출 버튼 */
 .submit-btn {
   width: 100%;

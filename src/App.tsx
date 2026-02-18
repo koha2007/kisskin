@@ -3,11 +3,22 @@ import './App.css'
 
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | null
+type MakeupStyle = '내추럴' | '글라스 스킨' | '블러셔 중심' | '톤온톤' | '스모키' | '딥 베리 립' | null
+
+const makeupStyles = [
+  { name: '내추럴' as const, emoji: '🌿', desc: '자연스러운 데일리 룩' },
+  { name: '글라스 스킨' as const, emoji: '✨', desc: '촉촉한 광채 피부 표현' },
+  { name: '블러셔 중심' as const, emoji: '🩷', desc: '혈색감 강조 메이크업' },
+  { name: '톤온톤' as const, emoji: '🎨', desc: '같은 톤으로 통일감 연출' },
+  { name: '스모키' as const, emoji: '🖤', desc: '깊고 강렬한 아이 메이크업' },
+  { name: '딥 베리 립' as const, emoji: '💋', desc: '진한 베리톤 립 포인트' },
+]
 
 function App() {
   const [photo, setPhoto] = useState<string | null>(null)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
+  const [makeupStyle, setMakeupStyle] = useState<MakeupStyle>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +40,11 @@ function App() {
     }
   }
 
-  const isComplete = photo && gender && skinType
+  const isComplete = photo && gender && skinType && makeupStyle
 
   const handleSubmit = () => {
     if (!isComplete) return
-    alert(`분석을 시작합니다!\n성별: ${gender}\n피부타입: ${skinType}`)
+    alert(`분석을 시작합니다!\n성별: ${gender}\n피부타입: ${skinType}\n화장법: ${makeupStyle}`)
   }
 
   return (
@@ -103,6 +114,24 @@ function App() {
                 onClick={() => setSkinType(type)}
               >
                 {type}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* 화장법 선택 */}
+        <section className="section">
+          <h2 className="section-title">화장법</h2>
+          <div className="button-group makeup-style">
+            {makeupStyles.map((style) => (
+              <button
+                key={style.name}
+                className={`select-btn makeup-btn ${makeupStyle === style.name ? 'active' : ''}`}
+                onClick={() => setMakeupStyle(style.name)}
+              >
+                <span className="makeup-emoji">{style.emoji}</span>
+                <span className="makeup-name">{style.name}</span>
+                <span className="makeup-desc">{style.desc}</span>
               </button>
             ))}
           </div>
