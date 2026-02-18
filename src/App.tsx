@@ -1,34 +1,123 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useRef } from 'react'
 import './App.css'
 
+type Gender = '여성' | '남성' | null
+type SkinType = '건성' | '지성' | '중성' | '복합성' | null
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [photo, setPhoto] = useState<string | null>(null)
+  const [gender, setGender] = useState<Gender>(null)
+  const [skinType, setSkinType] = useState<SkinType>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => setPhoto(reader.result as string)
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onloadend = () => setPhoto(reader.result as string)
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const isComplete = photo && gender && skinType
+
+  const handleSubmit = () => {
+    if (!isComplete) return
+    alert(`분석을 시작합니다!\n성별: ${gender}\n피부타입: ${skinType}`)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+    <div className="container">
+      <header className="header">
+        <h1 className="title">KissSkin</h1>
+        <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
+      </header>
+
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        {/* 사진 업로드 */}
+        <section className="section">
+          <h2 className="section-title">사진 업로드</h2>
+          <div
+            className={`photo-upload ${photo ? 'has-photo' : ''}`}
+            onClick={() => fileInputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            {photo ? (
+              <img src={photo} alt="업로드된 사진" className="photo-preview" />
+            ) : (
+              <div className="photo-placeholder">
+                <span className="upload-icon">+</span>
+                <span className="upload-text">클릭 또는 드래그하여<br />사진을 업로드하세요</span>
+              </div>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              hidden
+            />
+          </div>
+          {photo && (
+            <button className="photo-reset" onClick={(e) => { e.stopPropagation(); setPhoto(null) }}>
+              사진 변경
+            </button>
+          )}
+        </section>
+
+        {/* 성별 선택 */}
+        <section className="section">
+          <h2 className="section-title">성별</h2>
+          <div className="button-group">
+            {(['여성', '남성'] as const).map((g) => (
+              <button
+                key={g}
+                className={`select-btn ${gender === g ? 'active' : ''}`}
+                onClick={() => setGender(g)}
+              >
+                {g === '여성' ? '👩' : '👨'} {g}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* 피부 타입 선택 */}
+        <section className="section">
+          <h2 className="section-title">피부 타입</h2>
+          <div className="button-group skin-type">
+            {(['건성', '지성', '중성', '복합성'] as const).map((type) => (
+              <button
+                key={type}
+                className={`select-btn ${skinType === type ? 'active' : ''}`}
+                onClick={() => setSkinType(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* 분석 시작 버튼 */}
+        <button
+          className={`submit-btn ${isComplete ? 'ready' : ''}`}
+          disabled={!isComplete}
+          onClick={handleSubmit}
+        >
+          분석 시작하기
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
