@@ -2,7 +2,18 @@ interface Env {
   OPENAI_API_KEY: string
 }
 
-export const onRequestPost: PagesFunction<Env> = async (context) => {
+interface RequestBody {
+  photo: string
+  gender: string
+  skinType: string
+  makeupStyle: string
+}
+
+interface OpenAIResponse {
+  choices: { message: { content: string } }[]
+}
+
+export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
   if (!env.OPENAI_API_KEY) {
@@ -13,12 +24,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   }
 
   try {
-    const { photo, gender, skinType, makeupStyle } = await request.json<{
-      photo: string
-      gender: string
-      skinType: string
-      makeupStyle: string
-    }>()
+    const { photo, gender, skinType, makeupStyle } = (await request.json()) as RequestBody
 
     if (!photo || !gender || !skinType || !makeupStyle) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -86,16 +92,14 @@ ${skinType} 피부 타입에 맞는 메이크업 시 주의할 점
       })
     }
 
-    const data = await response.json<{
-      choices: { message: { content: string } }[]
-    }>()
+    const data = (await response.json()) as OpenAIResponse
 
     const report = data.choices?.[0]?.message?.content || '보고서를 생성할 수 없습니다.'
 
     return new Response(JSON.stringify({ report }), {
       headers: { 'Content-Type': 'application/json' },
     })
-  } catch (e) {
+  } catch {
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
