@@ -263,12 +263,12 @@
   color: #aaa;
 }
 
-/* 보고서 */
-.report-card {
+/* 결과 화면 */
+.result-card {
   padding: 28px 20px;
 }
 
-.report-title {
+.result-title {
   font-size: 1.2rem;
   font-weight: 700;
   color: #d4607a;
@@ -276,14 +276,14 @@
   margin-bottom: 12px;
 }
 
-.report-meta {
+.result-meta {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-.report-meta span {
+.result-meta span {
   background: #fef5f7;
   color: #d4607a;
   font-size: 0.8rem;
@@ -293,30 +293,35 @@
   border: 1px solid #f0d0d8;
 }
 
-.report-content {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: #444;
-  margin-bottom: 28px;
-  word-break: keep-all;
+.result-images {
+  margin-bottom: 24px;
 }
 
-.report-content .report-h3 {
-  font-size: 1.05rem;
-  font-weight: 700;
+.result-image {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #d4607a;
+  border-radius: 14px;
+  background: #fff;
   color: #d4607a;
-  margin: 20px 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.report-content ul {
-  padding-left: 18px;
-  margin: 8px 0;
-}
-
-.report-content li {
-  margin-bottom: 4px;
-}
-
-.report-content strong {
-  color: #333;
+.reset-btn:hover {
+  background: #fef5f7;
 }

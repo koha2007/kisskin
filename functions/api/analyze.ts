@@ -9,8 +9,8 @@ interface RequestBody {
   makeupStyle: string
 }
 
-interface OpenAIResponse {
-  choices: { message: { content: string } }[]
+interface OpenAIImageResponse {
+  data: { b64_json: string; revised_prompt?: string }[]
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
@@ -33,55 +33,44 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const systemPrompt = `당신은 전문 퍼스널 메이크업 컨설턴트입니다.
-사용자의 얼굴 사진을 분석하고, 선택한 정보를 바탕으로 맞춤형 메이크업 컨설팅 보고서를 작성해주세요.
+    // base64 데이터 URL에서 순수 base64 추출
+    const base64Match = photo.match(/^data:image\/(\w+);base64,(.+)$/)
+    if (!base64Match) {
+      return new Response(JSON.stringify({ error: 'Invalid image format' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
 
-보고서는 다음 형식으로 작성해주세요:
+    const imageType = base64Match[1]
+    const base64Data = base64Match[2]
 
-## 🪞 피부 분석
-사진을 기반으로 피부 톤, 얼굴형, 특징 분석
+    // base64 → binary → Blob
+    const binaryString = atob(base64Data)
+    const bytes = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i)
+    }
+    const imageBlob = new Blob([bytes], { type: `image/${imageType}` })
 
-## 💄 ${makeupStyle} 메이크업 가이드
-선택한 화장법에 맞는 구체적인 메이크업 방법을 단계별로 설명
+    const prompt = `너는 최고의 메이크업 아티스트야. 2x2 그리드로, 어떤 메이크업인지 한국어 설명과 함께 첨부한 사진속 사람에게 최고로 잘 어울리는 "${makeupStyle}" 메이크업 스타일 4가지 변형을 생성해줘. 단 첨부한 사람의 얼굴은 절대 바꾸지 말고 기존 얼굴 그대로 유지하고 메이크업 스타일만 바꿔. 이 사람은 ${gender}이고 ${skinType} 피부타입이야. ${skinType} 피부에 맞는 제품감과 질감을 반영해줘.`
 
-## 🛍️ 추천 제품
-각 단계에 맞는 한국 화장품 브랜드 제품 추천 (3~5개)
+    // OpenAI images/edits API 호출 (multipart/form-data)
+    const formData = new FormData()
+    formData.append('image', imageBlob, `photo.${imageType}`)
+    formData.append('prompt', prompt)
+    formData.append('model', 'gpt-image-1')
+    formData.append('n', '1')
+    formData.append('size', '1024x1024')
+    formData.append('quality', 'auto')
+    formData.append('response_format', 'b64_json')
 
-## ⚠️ 주의사항
-${skinType} 피부 타입에 맞는 메이크업 시 주의할 점
-
-보고서는 한국어로 작성하고, 친근하면서도 전문적인 톤으로 작성해주세요.`
-
-    const userPrompt = `성별: ${gender}
-피부 타입: ${skinType}
-원하는 화장법: ${makeupStyle}
-
-위 정보와 첨부된 사진을 분석하여 맞춤 메이크업 컨설팅 보고서를 작성해주세요.`
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
       },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: userPrompt },
-              {
-                type: 'image_url',
-                image_url: { url: photo, detail: 'low' },
-              },
-            ],
-          },
-        ],
-        max_tokens: 2000,
-        temperature: 0.7,
-      }),
+      body: formData,
     })
 
     if (!response.ok) {
@@ -92,11 +81,19 @@ ${skinType} 피부 타입에 맞는 메이크업 시 주의할 점
       })
     }
 
-    const data = (await response.json()) as OpenAIResponse
+    const data = (await response.json()) as OpenAIImageResponse
 
-    const report = data.choices?.[0]?.message?.content || '보고서를 생성할 수 없습니다.'
+    const imageBase64 = data.data?.[0]?.b64_json
+    if (!imageBase64) {
+      return new Response(JSON.stringify({ error: '이미지를 생성할 수 없습니다.' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
 
-    return new Response(JSON.stringify({ report }), {
+    const resultImage = `data:image/png;base64,${imageBase64}`
+
+    return new Response(JSON.stringify({ image: resultImage }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch {
