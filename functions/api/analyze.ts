@@ -21,7 +21,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
   if (!env.OPENAI_API_KEY) {
-    return new Response(JSON.stringify({ error: 'API key not configured' }), {
+    return new Response(JSON.stringify({
+      error: 'API key not configured',
+      availableKeys: Object.keys(env),
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
