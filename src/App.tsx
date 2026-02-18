@@ -19,6 +19,9 @@ function App() {
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [makeupStyle, setMakeupStyle] = useState<MakeupStyle>(null)
+  const [loading, setLoading] = useState(false)
+  const [report, setReport] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,11 +45,80 @@ function App() {
 
   const isComplete = photo && gender && skinType && makeupStyle
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isComplete) return
-    alert(`분석을 시작합니다!\n성별: ${gender}\n피부타입: ${skinType}\n화장법: ${makeupStyle}`)
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ photo, gender, skinType, makeupStyle }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || '분석 중 오류가 발생했습니다.')
+      }
+
+      setReport(data.report)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
+    } finally {
+      setLoading(false)
+    }
   }
 
+  const handleReset = () => {
+    setReport(null)
+    setError(null)
+  }
+
+  // 로딩 화면
+  if (loading) {
+    return (
+      <div className="container">
+        <header className="header">
+          <h1 className="title">KisSkin</h1>
+          <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
+        </header>
+        <div className="card loading-card">
+          <div className="spinner" />
+          <p className="loading-text">AI가 맞춤 메이크업을 분석하고 있어요...</p>
+          <p className="loading-sub">약 10~20초 소요됩니다</p>
+        </div>
+      </div>
+    )
+  }
+
+  // 보고서 결과 화면
+  if (report) {
+    return (
+      <div className="container">
+        <header className="header">
+          <h1 className="title">KisSkin</h1>
+          <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
+        </header>
+        <div className="card report-card">
+          <h2 className="report-title">메이크업 컨설팅 보고서</h2>
+          <div className="report-meta">
+            <span>{gender}</span>
+            <span>{skinType}</span>
+            <span>{makeupStyle}</span>
+          </div>
+          <div className="report-content" dangerouslySetInnerHTML={{ __html: formatReport(report) }} />
+          <button className="submit-btn ready" onClick={handleReset}>
+            다시 분석하기
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // 입력 화면
   return (
     <div className="container">
       <header className="header">
@@ -137,6 +209,9 @@ function App() {
           </div>
         </section>
 
+        {/* 에러 메시지 */}
+        {error && <p className="error-msg">{error}</p>}
+
         {/* 분석 시작 버튼 */}
         <button
           className={`submit-btn ${isComplete ? 'ready' : ''}`}
@@ -148,6 +223,17 @@ function App() {
       </div>
     </div>
   )
+}
+
+function formatReport(markdown: string): string {
+  return markdown
+    .replace(/## (.*)/g, '<h3 class="report-h3">$1</h3>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n- (.*)/g, '\n<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/<\/ul>\s*<ul>/g, '')
+    .replace(/\n{2,}/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>')
 }
 
 export default App
