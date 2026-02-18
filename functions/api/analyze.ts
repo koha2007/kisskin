@@ -16,8 +16,13 @@ interface OpenAIImageResponse {
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
+  const envKeys = Object.keys(env)
+
   if (!env.OPENAI_API_KEY) {
-    return new Response(JSON.stringify({ error: 'API key not configured' }), {
+    return new Response(JSON.stringify({
+      error: 'API key not configured',
+      debug: `Available env keys: [${envKeys.join(', ')}]`,
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
