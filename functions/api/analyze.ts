@@ -21,11 +21,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
   if (!env.OPENAI_API_KEY) {
-    const envKeys = Object.keys(env)
-    return new Response(JSON.stringify({
-      error: 'API key not configured',
-      debug: `Available env keys: [${envKeys.join(', ')}]`,
-    }), {
+    return new Response(JSON.stringify({ error: 'API key not configured' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
@@ -41,32 +37,19 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const developerPrompt = `당신은 전문 메이크업 아티스트입니다.
-사용자의 사진을 분석하고, 사용자가 선택한 피부 타입과 화장법에 맞는 전문 메이크업 스타일 컨설팅 보고서를 작성해주세요.
+    const developerPrompt = `당신은 전문 메이크업 아티스트 입니다.
+사용자의 사진과 선택한 정보를 분석하여 맞춤형 최신 메이크업 스타일 컨설팅 보고서를 작성해 주세요.
+보고서에는 다음 내용을 포함해주세요.
+1. 남자, 여자
+2. 건성, 지성, 중성, 복합성
+3. 내추럴, 글라스 스킨, 블러셔 중심, 톤온톤, 스모키, 딥 베리 립
+친절하고 전문적인 메이크업 방법을 작성해주세요.
+그리고 메이크업 방법을 소개해줄때, 화장품 소개까지 해주세요.`
 
-보고서는 다음 형식으로 작성해주세요:
-
-## 🪞 피부 분석
-사진을 기반으로 피부 톤, 얼굴형, 눈매, 골격 등 특징 분석
-
-## 💄 ${makeupStyle} 메이크업 가이드
-선택한 화장법에 맞는 구체적인 메이크업 방법을 단계별로 상세히 설명
-- 베이스 메이크업 (${skinType} 피부 맞춤)
-- 아이 메이크업
-- 브로우
-- 립 & 치크
-
-## 🛍️ 추천 제품
-각 단계에 맞는 한국 화장품 브랜드 제품 추천 (5~8개, 구체적인 제품명과 이유)
-
-## ⚠️ 주의사항
-${skinType} 피부 타입의 ${gender}이(가) ${makeupStyle} 메이크업 시 주의할 점과 지속력 팁
-
-보고서는 한국어로 작성하고, 친근하면서도 전문적인 톤으로 작성해주세요.`
-
-    const userPrompt = `성별: ${gender}
-피부 타입: ${skinType}
-화장법: ${makeupStyle}`
+    const userPrompt = `${gender}
+${skinType}
+${makeupStyle}
+메이크업추천`
 
     const response = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
@@ -93,10 +76,13 @@ ${skinType} 피부 타입의 ${gender}이(가) ${makeupStyle} 메이크업 시 �
         ],
         text: {
           format: { type: 'text' },
+          verbosity: 'medium',
         },
         reasoning: {
           effort: 'medium',
         },
+        tools: [],
+        store: true,
       }),
     })
 
@@ -110,7 +96,6 @@ ${skinType} 피부 타입의 ${gender}이(가) ${makeupStyle} 메이크업 시 �
 
     const data = (await response.json()) as ResponseOutput
 
-    // output에서 output_text 추출
     let report = '보고서를 생성할 수 없습니다.'
     for (const item of data.output) {
       if (item.type === 'message' && item.content) {
