@@ -59,6 +59,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             type: 'image_generation',
             quality: 'auto',
             size: '1024x1024',
+            background: 'auto',
           },
         ],
         tool_choice: { type: 'image_generation' },
