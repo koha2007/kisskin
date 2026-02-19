@@ -3,22 +3,11 @@ import './App.css'
 
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | null
-type MakeupStyle = '내추럴' | '글라스 스킨' | '블러셔 중심' | '톤온톤' | '스모키' | '딥 베리 립' | null
-
-const makeupStyles = [
-  { name: '내추럴' as const, emoji: '🌿', desc: '자연스러운 데일리 룩' },
-  { name: '글라스 스킨' as const, emoji: '✨', desc: '촉촉한 광채 피부 표현' },
-  { name: '블러셔 중심' as const, emoji: '🩷', desc: '혈색감 강조 메이크업' },
-  { name: '톤온톤' as const, emoji: '🎨', desc: '같은 톤으로 통일감 연출' },
-  { name: '스모키' as const, emoji: '🖤', desc: '깊고 강렬한 아이 메이크업' },
-  { name: '딥 베리 립' as const, emoji: '💋', desc: '진한 베리톤 립 포인트' },
-]
 
 function App() {
   const [photo, setPhoto] = useState<string | null>(null)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
-  const [makeupStyle, setMakeupStyle] = useState<MakeupStyle>(null)
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -43,7 +32,7 @@ function App() {
     }
   }
 
-  const isComplete = photo && gender && skinType && makeupStyle
+  const isComplete = photo && gender && skinType
 
   const handleSubmit = async () => {
     if (!isComplete) return
@@ -55,7 +44,7 @@ function App() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, gender, skinType, makeupStyle }),
+        body: JSON.stringify({ photo, gender, skinType }),
       })
 
       const data = await res.json()
@@ -81,7 +70,7 @@ function App() {
     if (!resultImage) return
     const link = document.createElement('a')
     link.href = resultImage
-    link.download = `kisskin-${makeupStyle}.png`
+    link.download = 'kisskin-makeup.png'
     link.click()
   }
 
@@ -102,7 +91,7 @@ function App() {
     )
   }
 
-  // 결과 화면 (이미지만)
+  // 결과 화면
   if (resultImage) {
     return (
       <div className="container">
@@ -114,20 +103,10 @@ function App() {
           <div className="report-meta">
             <span>{gender}</span>
             <span>{skinType}</span>
-            <span>{makeupStyle}</span>
           </div>
 
           <section className="result-image-section">
-            <div className="compare-images">
-              <div className="compare-item">
-                <span className="compare-label">원본</span>
-                <img src={photo!} alt="원본 사진" className="result-image" />
-              </div>
-              <div className="compare-item">
-                <span className="compare-label">{makeupStyle} 메이크업</span>
-                <img src={resultImage} alt="메이크업 스타일" className="result-image" />
-              </div>
-            </div>
+            <img src={resultImage} alt="메이크업 스타일 6종" className="result-image full" />
             <button className="download-btn" onClick={handleDownload}>
               이미지 저장하기
             </button>
@@ -206,23 +185,6 @@ function App() {
                 onClick={() => setSkinType(type)}
               >
                 {type}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section className="section">
-          <h2 className="section-title">화장법</h2>
-          <div className="button-group makeup-style">
-            {makeupStyles.map((style) => (
-              <button
-                key={style.name}
-                className={`select-btn makeup-btn ${makeupStyle === style.name ? 'active' : ''}`}
-                onClick={() => setMakeupStyle(style.name)}
-              >
-                <span className="makeup-emoji">{style.emoji}</span>
-                <span className="makeup-name">{style.name}</span>
-                <span className="makeup-desc">{style.desc}</span>
               </button>
             ))}
           </div>

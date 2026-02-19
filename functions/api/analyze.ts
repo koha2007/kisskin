@@ -6,7 +6,6 @@ interface RequestBody {
   photo: string
   gender: string
   skinType: string
-  makeupStyle: string
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
@@ -20,9 +19,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { photo, gender, skinType, makeupStyle } = (await request.json()) as RequestBody
+    const { photo, gender, skinType } = (await request.json()) as RequestBody
 
-    if (!photo || !gender || !skinType || !makeupStyle) {
+    if (!photo || !gender || !skinType) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -49,10 +48,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     formData.append('moderation', 'auto')
     formData.append('input_fidelity', 'high')
     formData.append('prompt', `너는 최고의 메이크업 아티스트야. 이 사람은 ${gender}이고 ${skinType} 피부타입이야.
-사용자가 사진을 넣으면 ${skinType} 타입을 반영해서 "${makeupStyle}" 메이크업을 적용해줘.
+사용자가 사진을 넣으면 ${skinType} 타입을 반영해서
+2026년 유행하는 메이크업과 기본메이크업 총 6가지로 2x3 그리드로 생성해줘.
 단 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해줘.
-머리카락 화면에서 잘리지 않게 생성해줘.
-"${makeupStyle}" 메이크업 방식을 확실하게 적용해서 1장 생성해줘.`)
+그리드 라인 표시해줘, 그리고 머리카락 화면에서 잘리지 않게 다 균등하게 생성해줘.
+내추럴, 글라스 스킨, 블러셔 중심, 톤온톤, 스모키, 딥 베리 립 총 6가지 메이크업으로
+다 다르게 확실한 메이크업 방식으로 생성해줘`)
 
     // Images Edit API 호출
     const res = await fetch('https://api.openai.com/v1/images/edits', {
