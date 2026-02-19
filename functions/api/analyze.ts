@@ -37,7 +37,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini',
         input: [
           {
             role: 'user',
