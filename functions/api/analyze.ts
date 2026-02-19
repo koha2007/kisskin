@@ -29,61 +29,38 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    // Responses API + image_generation 도구 사용
-    const res = await fetch('https://api.openai.com/v1/responses', {
+    // base64 data URL → Blob 변환
+    const base64Data = photo.split(',')[1]
+    const binaryStr = atob(base64Data)
+    const bytes = new Uint8Array(binaryStr.length)
+    for (let i = 0; i < binaryStr.length; i++) {
+      bytes[i] = binaryStr.charCodeAt(i)
+    }
+    const imageBlob = new Blob([bytes], { type: 'image/png' })
+
+    // FormData 구성
+    const formData = new FormData()
+    formData.append('image', imageBlob, 'photo.png')
+    formData.append('model', 'gpt-image-1.5')
+    formData.append('n', '1')
+    formData.append('size', '1024x1024')
+    formData.append('quality', 'auto')
+    formData.append('background', 'auto')
+    formData.append('moderation', 'auto')
+    formData.append('input_fidelity', 'high')
+    formData.append('prompt', `너는 최고의 메이크업 아티스트야. 이 사람은 ${gender}이고 ${skinType} 피부타입이야.
+사용자가 사진을 넣으면 ${skinType} 타입을 반영해서 "${makeupStyle}" 메이크업을 적용해줘.
+단 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해줘.
+머리카락 화면에서 잘리지 않게 생성해줘.
+"${makeupStyle}" 메이크업 방식을 확실하게 적용해서 1장 생성해줘.`)
+
+    // Images Edit API 호출
+    const res = await fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
       },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        input: [
-          {
-            role: 'user',
-            content: [
-              { type: 'input_image', image_url: photo },
-              {
-                type: 'input_text',
-                text: `Retouch this exact photo. This is a PHOTO EDITING task, NOT a new image generation task.
-
-DO NOT generate a new face. DO NOT redraw the person. Edit THIS photo only.
-
-Task: Apply "${makeupStyle}" makeup to this exact photo as a retouch.
-- Skin type: ${skinType}
-- Gender: ${gender}
-
-What to EDIT (cosmetics only):
-- Lip color/gloss
-- Eye shadow, eyeliner, mascara
-- Blush/cheek color
-- Foundation/skin tone evening
-- Eyebrow shaping/color
-
-What MUST stay pixel-identical (do NOT touch):
-- Face shape, jawline, bone structure
-- Eye shape, nose shape, mouth shape, ear shape
-- Hair, hairstyle, hair color
-- Skin texture, moles, freckles
-- Background, clothing, accessories
-- Camera angle, lighting, framing, composition
-- Head position and body posture
-
-Output a single retouched photo of this exact person with "${makeupStyle}" makeup applied. Keep the full head and hair visible, do not crop.`,
-              },
-            ],
-          },
-        ],
-        tools: [
-          {
-            type: 'image_generation',
-            quality: 'auto',
-            size: '1024x1024',
-            background: 'auto',
-          },
-        ],
-        tool_choice: { type: 'image_generation' },
-      }),
+      body: formData,
     })
 
     if (!res.ok) {
@@ -96,28 +73,43 @@ Output a single retouched photo of this exact person with "${makeupStyle}" makeu
       })
     }
 
-    // 응답에서 image_generation_call 추출
     const data = await res.json() as {
-      output: { type: string; result?: string }[]
+      data: { b64_json?: string; url?: string }[]
     }
 
-    const imageResult = data.output?.find(
-      (o) => o.type === 'image_generation_call' && o.result
-    )
-
-    if (!imageResult?.result) {
+    const result = data.data?.[0]
+    if (!result) {
       return new Response(JSON.stringify({
         error: '이미지가 생성되지 않았습니다.',
-        raw: JSON.stringify(data.output?.map((o) => o.type)),
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       })
     }
 
-    return new Response(JSON.stringify({
-      image: `data:image/png;base64,${imageResult.result}`,
-    }), {
+    // b64_json 또는 url 처리
+    let imageData: string
+    if (result.b64_json) {
+      imageData = `data:image/png;base64,${result.b64_json}`
+    } else if (result.url) {
+      const imgRes = await fetch(result.url)
+      const imgBuf = await imgRes.arrayBuffer()
+      const imgBytes = new Uint8Array(imgBuf)
+      let binary = ''
+      for (let i = 0; i < imgBytes.length; i++) {
+        binary += String.fromCharCode(imgBytes[i])
+      }
+      imageData = `data:image/png;base64,${btoa(binary)}`
+    } else {
+      return new Response(JSON.stringify({
+        error: '이미지 데이터를 찾을 수 없습니다.',
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    return new Response(JSON.stringify({ image: imageData }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (e) {
