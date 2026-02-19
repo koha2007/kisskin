@@ -62,7 +62,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const formData = new FormData()
     formData.append('image', imageBlob, `photo.${imageType === 'jpg' ? 'jpeg' : imageType}`)
     formData.append('prompt', imagePrompt)
-    formData.append('model', 'gpt-image-1')
+    formData.append('model', 'dall-e-2')
     formData.append('n', '1')
     formData.append('size', '1024x1024')
     formData.append('response_format', 'b64_json')
