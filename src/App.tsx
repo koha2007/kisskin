@@ -20,7 +20,6 @@ function App() {
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [makeupStyle, setMakeupStyle] = useState<MakeupStyle>(null)
   const [loading, setLoading] = useState(false)
-  const [report, setReport] = useState<string | null>(null)
   const [resultImage, setResultImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -62,20 +61,18 @@ function App() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || '분석 중 오류가 발생했습니다.')
+        throw new Error(data.error || '이미지 생성 중 오류가 발생했습니다.')
       }
 
-      setReport(data.report)
       if (data.image) setResultImage(data.image)
     } catch (e) {
-      setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
+      setError(e instanceof Error ? e.message : '이미지 생성 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)
     }
   }
 
   const handleReset = () => {
-    setReport(null)
     setResultImage(null)
     setError(null)
   }
@@ -98,15 +95,15 @@ function App() {
         </header>
         <div className="card loading-card">
           <div className="spinner" />
-          <p className="loading-text">AI가 맞춤 메이크업을 분석하고 있어요...</p>
-          <p className="loading-sub">보고서 + 이미지 생성 중 (약 30~60초)</p>
+          <p className="loading-text">AI가 맞춤 메이크업 이미지를 생성하고 있어요...</p>
+          <p className="loading-sub">약 30~60초 소요</p>
         </div>
       </div>
     )
   }
 
-  // 결과 화면 (보고서 + 이미지)
-  if (report) {
+  // 결과 화면 (이미지만)
+  if (resultImage) {
     return (
       <div className="container">
         <header className="header">
@@ -114,26 +111,18 @@ function App() {
           <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
         </header>
         <div className="card report-card">
-          <h2 className="report-title">메이크업 컨설팅 보고서</h2>
           <div className="report-meta">
             <span>{gender}</span>
             <span>{skinType}</span>
             <span>{makeupStyle}</span>
           </div>
 
-          {/* 메이크업 이미지 */}
-          {resultImage && (
-            <section className="result-image-section">
-              <h3 className="result-image-title">{makeupStyle} 메이크업 스타일 미리보기</h3>
-              <img src={resultImage} alt="메이크업 스타일" className="result-image" />
-              <button className="download-btn" onClick={handleDownload}>
-                이미지 저장하기
-              </button>
-            </section>
-          )}
-
-          {/* 텍스트 보고서 */}
-          <div className="report-content" dangerouslySetInnerHTML={{ __html: formatReport(report) }} />
+          <section className="result-image-section">
+            <img src={resultImage} alt="메이크업 스타일" className="result-image" />
+            <button className="download-btn" onClick={handleDownload}>
+              이미지 저장하기
+            </button>
+          </section>
 
           <button className="submit-btn ready" onClick={handleReset}>
             다시 분석하기
@@ -242,20 +231,6 @@ function App() {
       </div>
     </div>
   )
-}
-
-function formatReport(markdown: string): string {
-  return markdown
-    .replace(/## (.*)/g, '<h3 class="report-h3">$1</h3>')
-    .replace(/### (.*)/g, '<h4 class="report-h4">$1</h4>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n- (.*)/g, '\n<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/<\/ul>\s*<ul>/g, '')
-    .replace(/\n\d+\) (.*)/g, '\n<li>$1</li>')
-    .replace(/---/g, '<hr class="report-divider"/>')
-    .replace(/\n{2,}/g, '<br/><br/>')
-    .replace(/\n/g, '<br/>')
 }
 
 export default App
