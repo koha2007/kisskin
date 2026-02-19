@@ -205,7 +205,7 @@ function App() {
         <section className="section">
           <h2 className="section-title">피부 타입</h2>
           <div className="button-group skin-type">
-            {(['건성', '지성', '중성', '복합성', '잘 모름'] as const).map((type) => (
+            {(['건성', '지성', '중성', '복합성'] as const).map((type) => (
               <button
                 key={type}
                 className={`select-btn ${skinType === type ? 'active' : ''}`}
@@ -215,6 +215,12 @@ function App() {
               </button>
             ))}
           </div>
+          <button
+            className={`select-btn skin-unknown ${skinType === '잘 모름' ? 'active' : ''}`}
+            onClick={() => setSkinType('잘 모름')}
+          >
+            잘 모름
+          </button>
         </section>
 
         {error && <p className="error-msg">{error}</p>}
