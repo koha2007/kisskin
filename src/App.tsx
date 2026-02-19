@@ -4,12 +4,24 @@ import './App.css'
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | null
 
+function renderMarkdown(text: string): string {
+  return text
+    .replace(/^### (.+)$/gm, '<h3 class="report-h3">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h3 class="report-h3">$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+    .replace(/\n{2,}/g, '<br /><br />')
+    .replace(/\n/g, '<br />')
+}
+
 function App() {
   const [photo, setPhoto] = useState<string | null>(null)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
+  const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -50,12 +62,13 @@ function App() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || '이미지 생성 중 오류가 발생했습니다.')
+        throw new Error(data.error || '분석 중 오류가 발생했습니다.')
       }
 
       if (data.image) setResultImage(data.image)
+      if (data.report) setReport(data.report)
     } catch (e) {
-      setError(e instanceof Error ? e.message : '이미지 생성 중 오류가 발생했습니다.')
+      setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)
     }
@@ -63,6 +76,7 @@ function App() {
 
   const handleReset = () => {
     setResultImage(null)
+    setReport(null)
     setError(null)
   }
 
@@ -84,7 +98,7 @@ function App() {
         </header>
         <div className="card loading-card">
           <div className="spinner" />
-          <p className="loading-text">AI가 맞춤 메이크업 이미지를 생성하고 있어요...</p>
+          <p className="loading-text">AI가 맞춤 메이크업을 분석하고 있어요...</p>
           <p className="loading-sub">약 30~60초 소요</p>
         </div>
       </div>
@@ -92,7 +106,7 @@ function App() {
   }
 
   // 결과 화면
-  if (resultImage) {
+  if (resultImage || report) {
     return (
       <div className="container">
         <header className="header">
@@ -105,12 +119,25 @@ function App() {
             <span>{skinType}</span>
           </div>
 
-          <section className="result-image-section">
-            <img src={resultImage} alt="메이크업 스타일 6종" className="result-image full" />
-            <button className="download-btn" onClick={handleDownload}>
-              이미지 저장하기
-            </button>
-          </section>
+          {resultImage && (
+            <section className="result-image-section">
+              <h3 className="section-title">메이크업 스타일 6종</h3>
+              <img src={resultImage} alt="메이크업 스타일 6종" className="result-image full" />
+              <button className="download-btn" onClick={handleDownload}>
+                이미지 저장하기
+              </button>
+            </section>
+          )}
+
+          {report && (
+            <section className="report-section">
+              <h3 className="section-title">맞춤 화장품 추천</h3>
+              <div
+                className="report-content"
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(report) }}
+              />
+            </section>
+          )}
 
           <button className="submit-btn ready" onClick={handleReset}>
             다시 분석하기

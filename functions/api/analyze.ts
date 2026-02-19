@@ -37,7 +37,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
     const imageBlob = new Blob([bytes], { type: 'image/png' })
 
-    // FormData 구성
+    // 1. 이미지 생성 (gpt-image-1.5) - 6가지 메이크업 2x3 그리드
     const formData = new FormData()
     formData.append('image', imageBlob, 'photo.png')
     formData.append('model', 'gpt-image-1.5')
@@ -55,62 +55,102 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 내추럴, 글라스 스킨, 블러셔 중심, 톤온톤, 스모키, 딥 베리 립 총 6가지 메이크업으로
 다 다르게 확실한 메이크업 방식으로 생성해줘`)
 
-    // Images Edit API 호출
-    const res = await fetch('https://api.openai.com/v1/images/edits', {
+    const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
-      },
+      headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
       body: formData,
     })
 
-    if (!res.ok) {
-      const errorBody = await res.text()
-      return new Response(JSON.stringify({
-        error: `API 오류 (${res.status}): ${errorBody}`,
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    }
+    // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
+    const reportPromise = fetch('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4.1',
+        input: [
+          {
+            role: 'system',
+            content: [
+              {
+                type: 'input_text',
+                text: `당신은 전문 메이크업 아티스트 입니다.
+사용자의 사진과 피부타입중 건성, 지성, 중성, 복합성 을 분석하여
+맞춤형 화장품 추천을 해주세요.
+제품명과 설명은 최대한 간소하게 해주세요.
+보고서에는 다음과 같이 표현해주세요.
+사진을 보고 톤앤톤도 아주 간략하게 설명해주세요.
+성별
+피부타입
+피부타입에 따라서 관련된 화장품 제품 이름과 간략한 설명.`,
+              },
+            ],
+          },
+          {
+            role: 'user',
+            content: [
+              { type: 'input_image', image_url: photo },
+              {
+                type: 'input_text',
+                text: `${gender}\n${skinType}`,
+              },
+            ],
+          },
+        ],
+        temperature: 1,
+        max_output_tokens: 2048,
+        top_p: 1,
+      }),
+    })
 
-    const data = await res.json() as {
-      data: { b64_json?: string; url?: string }[]
-    }
+    // 병렬 실행
+    const [imageRes, reportRes] = await Promise.all([imagePromise, reportPromise])
 
-    const result = data.data?.[0]
-    if (!result) {
-      return new Response(JSON.stringify({
-        error: '이미지가 생성되지 않았습니다.',
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    }
-
-    // b64_json 또는 url 처리
-    let imageData: string
-    if (result.b64_json) {
-      imageData = `data:image/png;base64,${result.b64_json}`
-    } else if (result.url) {
-      const imgRes = await fetch(result.url)
-      const imgBuf = await imgRes.arrayBuffer()
-      const imgBytes = new Uint8Array(imgBuf)
-      let binary = ''
-      for (let i = 0; i < imgBytes.length; i++) {
-        binary += String.fromCharCode(imgBytes[i])
+    // 이미지 응답 처리
+    let imageData = ''
+    if (imageRes.ok) {
+      const imgJson = await imageRes.json() as {
+        data: { b64_json?: string; url?: string }[]
       }
-      imageData = `data:image/png;base64,${btoa(binary)}`
-    } else {
+      const imgResult = imgJson.data?.[0]
+      if (imgResult?.b64_json) {
+        imageData = `data:image/png;base64,${imgResult.b64_json}`
+      } else if (imgResult?.url) {
+        const imgFetch = await fetch(imgResult.url)
+        const imgBuf = await imgFetch.arrayBuffer()
+        const imgBytes = new Uint8Array(imgBuf)
+        let binary = ''
+        for (let i = 0; i < imgBytes.length; i++) {
+          binary += String.fromCharCode(imgBytes[i])
+        }
+        imageData = `data:image/png;base64,${btoa(binary)}`
+      }
+    }
+
+    // 보고서 응답 처리
+    let report = ''
+    if (reportRes.ok) {
+      const reportJson = await reportRes.json() as {
+        output: { type: string; content?: { type: string; text?: string }[] }[]
+      }
+      const msg = reportJson.output?.find((o) => o.type === 'message')
+      const textBlock = msg?.content?.find((c) => c.type === 'output_text')
+      report = textBlock?.text || ''
+    }
+
+    if (!imageData && !report) {
+      const errBody = !imageRes.ok ? await imageRes.text() : ''
       return new Response(JSON.stringify({
-        error: '이미지 데이터를 찾을 수 없습니다.',
+        error: `API 오류: ${errBody || '이미지와 보고서 모두 생성 실패'}`,
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       })
     }
 
-    return new Response(JSON.stringify({ image: imageData }), {
+    return new Response(JSON.stringify({ image: imageData, report }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (e) {

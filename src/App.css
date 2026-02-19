@@ -334,3 +334,17 @@
 .download-btn:hover {
   background: #fef5f7;
 }
+
+/* 화장품 추천 보고서 */
+.report-section {
+  margin-bottom: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #f0d0d8;
+}
+
+.report-section .section-title {
+  color: #d4607a;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
