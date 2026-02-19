@@ -118,7 +118,16 @@ function App() {
           </div>
 
           <section className="result-image-section">
-            <img src={resultImage} alt="메이크업 스타일" className="result-image" />
+            <div className="compare-images">
+              <div className="compare-item">
+                <span className="compare-label">원본</span>
+                <img src={photo!} alt="원본 사진" className="result-image" />
+              </div>
+              <div className="compare-item">
+                <span className="compare-label">{makeupStyle} 메이크업</span>
+                <img src={resultImage} alt="메이크업 스타일" className="result-image" />
+              </div>
+            </div>
             <button className="download-btn" onClick={handleDownload}>
               이미지 저장하기
             </button>

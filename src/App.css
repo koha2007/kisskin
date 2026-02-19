@@ -340,18 +340,33 @@
   text-align: center;
 }
 
-.result-image-title {
-  font-size: 1rem;
+.compare-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.compare-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.compare-label {
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #d4607a;
-  margin-bottom: 12px;
+  color: #666;
+  background: #f5f5f5;
+  padding: 3px 10px;
+  border-radius: 12px;
 }
 
 .result-image {
   width: 100%;
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 12px;
 }
 
 .download-btn {

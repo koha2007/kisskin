@@ -45,19 +45,31 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
               { type: 'input_image', image_url: photo },
               {
                 type: 'input_text',
-                text: `You are the world's best professional makeup artist. Your task is to apply makeup ONLY to the person in the attached photo.
+                text: `Retouch this exact photo. This is a PHOTO EDITING task, NOT a new image generation task.
 
-CRITICAL RULES - YOU MUST FOLLOW:
-1. NEVER change the person's face shape, bone structure, eyes, nose, mouth, ears, or any facial features. The face must remain 100% identical to the original photo.
-2. NEVER change the person's hair, hairstyle, or hair color.
-3. ONLY modify: foundation, eye shadow, eyeliner, mascara, blush, lip color, contouring/highlighting.
-4. The entire head, hair, and neck must be fully visible - do NOT crop any part of the head or hair.
-5. Keep the same camera angle and framing as the original photo.
+DO NOT generate a new face. DO NOT redraw the person. Edit THIS photo only.
 
-Person info: ${gender}, ${skinType} skin type.
-Selected makeup style: "${makeupStyle}"
+Task: Apply "${makeupStyle}" makeup to this exact photo as a retouch.
+- Skin type: ${skinType}
+- Gender: ${gender}
 
-Generate a 2x2 grid showing 4 different variations of "${makeupStyle}" makeup applied to this EXACT same person. Each variation should differ in intensity or color tone, but the person's face must remain perfectly identical across all 4 images.`,
+What to EDIT (cosmetics only):
+- Lip color/gloss
+- Eye shadow, eyeliner, mascara
+- Blush/cheek color
+- Foundation/skin tone evening
+- Eyebrow shaping/color
+
+What MUST stay pixel-identical (do NOT touch):
+- Face shape, jawline, bone structure
+- Eye shape, nose shape, mouth shape, ear shape
+- Hair, hairstyle, hair color
+- Skin texture, moles, freckles
+- Background, clothing, accessories
+- Camera angle, lighting, framing, composition
+- Head position and body posture
+
+Output a single retouched photo of this exact person with "${makeupStyle}" makeup applied. Keep the full head and hair visible, do not crop.`,
               },
             ],
           },
@@ -66,7 +78,7 @@ Generate a 2x2 grid showing 4 different variations of "${makeupStyle}" makeup ap
           {
             type: 'image_generation',
             quality: 'auto',
-            size: '1024x1536',
+            size: '1024x1024',
             background: 'auto',
           },
         ],
