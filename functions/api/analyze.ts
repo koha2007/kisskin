@@ -47,8 +47,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     formData.append('background', 'auto')
     formData.append('moderation', 'auto')
     formData.append('input_fidelity', 'high')
-    formData.append('prompt', `너는 최고의 메이크업 아티스트야. 이 사람은 ${gender}이고 ${skinType} 피부타입이야.
-${skinType} 타입을 반영해서 총 6가지 메이크업을 2x3 그리드로 생성해줘.
+    const skinDesc = skinType === '잘 모름' ? '피부타입을 사진을 보고 너가 판단해서' : `${skinType} 타입을 반영해서`
+    formData.append('prompt', `너는 최고의 메이크업 아티스트야. 이 사람은 ${gender}이고 ${skinType === '잘 모름' ? '피부타입을 잘 모르는 상태' : skinType + ' 피부타입'}이야.
+${skinDesc} 총 6가지 메이크업을 2x3 그리드로 생성해줘.
 
 반드시 지켜야 할 규칙:
 1. 사람의 얼굴은 절대 바꾸지 말고 메이크업만 바꿔.
@@ -96,7 +97,8 @@ ${skinType} 타입을 반영해서 총 6가지 메이크업을 2x3 그리드로 
 사진을 보고 톤앤톤도 아주 간략하게 설명해주세요.
 성별
 피부타입
-피부타입에 따라서 관련된 화장품 제품 이름과 간략한 설명.`,
+피부타입에 따라서 관련된 화장품 제품 이름과 간략한 설명.
+피부타입에서 잘 모름을 선택하면 너가 사진보고 알아서 판단해서 설명해줘`,
               },
             ],
           },

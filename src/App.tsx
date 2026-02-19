@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import './App.css'
 
 type Gender = '여성' | '남성' | null
-type SkinType = '건성' | '지성' | '중성' | '복합성' | null
+type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
 
 function renderMarkdown(text: string): string {
   return text
@@ -205,7 +205,7 @@ function App() {
         <section className="section">
           <h2 className="section-title">피부 타입</h2>
           <div className="button-group skin-type">
-            {(['건성', '지성', '중성', '복합성'] as const).map((type) => (
+            {(['건성', '지성', '중성', '복합성', '잘 모름'] as const).map((type) => (
               <button
                 key={type}
                 className={`select-btn ${skinType === type ? 'active' : ''}`}
