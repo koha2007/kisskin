@@ -56,7 +56,7 @@ ${skinType}
 ${makeupStyle}
 메이크업추천`
 
-    // === 2) 메이크업 이미지 생성 (gpt-image-1) ===
+    // === 2) 메이크업 이미지 생성 (gpt-image-1.5) ===
     // base64 → Blob 변환
     const base64Match = photo.match(/^data:image\/(\w+);base64,(.+)$/)
     let imageBlob: Blob | null = null
@@ -72,7 +72,7 @@ ${makeupStyle}
       imageBlob = new Blob([bytes], { type: `image/${imageType}` })
     }
 
-    const imagePrompt = `너는 최고의 전문 메이크업 아티스트야. 총 6가지의 메이크업 스타일(내추럴, 글라스 스킨, 블러셔 중심, 톤온톤, 스모키, 딥 베리 립)이 있어. 사용자가 "${makeupStyle}" 메이크업을 선택했어. 2x2 그리드로 첨부한 사진속 사람에게 최고로 잘 어울리는 전문 "${makeupStyle}" 메이크업 스타일 4가지 단계로 생성해줘. 이 사람은 ${gender}이고 ${skinType} 피부타입이야. 단 첨부한 사람의 얼굴은 절대 바꾸지 말고 기존 얼굴 그대로 유지하고 헤어 스타일만 바꿔.`
+    const imagePrompt = `너는 최고의 전문 메이크업 아티스트야. 총 6가지의 메이크업이 있어. 내추럴메이크업, 글라스스킨메이크업, 블러셔중심메이크업, 톤온톤메이크업, 스모키메이크업, 딥베리립메이크업. 사용자가 "${makeupStyle}" 메이크업을 선택했어. 이 사람은 ${gender}이고 ${skinType} 피부타입이야. 2x2 그리드로, "${makeupStyle}" 메이크업 방식을 4가지로 생성해줘. 단 첨부한 사람의 얼굴은 절대 바꾸지 말고 기존 얼굴 그대로 유지하고 메이크업만 바꿔.`
 
     // 두 API 동시 호출
     const reportPromise = fetch('https://api.openai.com/v1/responses', {
@@ -108,10 +108,13 @@ ${makeupStyle}
       const formData = new FormData()
       formData.append('image', imageBlob, `photo.${imageType}`)
       formData.append('prompt', imagePrompt)
-      formData.append('model', 'gpt-image-1')
+      formData.append('model', 'gpt-image-1.5')
       formData.append('n', '1')
       formData.append('size', '1024x1024')
       formData.append('quality', 'auto')
+      formData.append('background', 'auto')
+      formData.append('moderation', 'auto')
+      formData.append('input_fidelity', 'high')
       formData.append('response_format', 'b64_json')
 
       imagePromise = fetch('https://api.openai.com/v1/images/edits', {
