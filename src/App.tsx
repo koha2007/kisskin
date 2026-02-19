@@ -24,30 +24,23 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const convertToPng = (file: File) => {
-    const img = new Image()
-    const url = URL.createObjectURL(file)
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = img.width
-      canvas.height = img.height
-      const ctx = canvas.getContext('2d')!
-      ctx.drawImage(img, 0, 0)
-      setPhoto(canvas.toDataURL('image/png'))
-      URL.revokeObjectURL(url)
-    }
-    img.src = url
-  }
-
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) convertToPng(file)
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => setPhoto(reader.result as string)
+      reader.readAsDataURL(file)
+    }
   }
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
-    if (file && file.type.startsWith('image/')) convertToPng(file)
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onloadend = () => setPhoto(reader.result as string)
+      reader.readAsDataURL(file)
+    }
   }
 
   const isComplete = photo && gender && skinType && makeupStyle
