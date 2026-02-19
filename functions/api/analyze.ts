@@ -51,7 +51,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
     const imageBlob = new Blob([bytes], { type: `image/${imageType}` })
 
-    const imagePrompt = `너는 최고의 전문 메이크업 아티스트야. 총 6가지의 메이크업이 있어. 내추럴메이크업, 글라스스킨메이크업, 블러셔중심메이크업, 톤온톤메이크업, 스모키메이크업, 딥베리립메이크업. 사용자가 "${makeupStyle}" 메이크업을 선택했어. 이 사람은 ${gender}이고 ${skinType} 피부타입이야. 2x2 그리드로, "${makeupStyle}" 메이크업 방식을 4가지로 생성해줘. 단 첨부한 사람의 얼굴은 절대 바꾸지 말고 기존 얼굴 그대로 유지하고 메이크업만 바꿔.`
+    // 참고: Python SDK client.images.edits() 와 동일한 파라미터
+    const imagePrompt = `너는 최고의 전문 메이크업 아티스트야. 총 6가지의 메이크업이 있어. 내추럴메이크업, 글라스스킨메이크업, 블러셔중심메이크업, 톤온톤메이크업, 스모키메이크업, 딥베리립메이크업. 사진 첨부한 사람이 한번에 한개만 선택할수 있어. 선택된 메이크업 방식으로 "${makeupStyle}"메이크업을 선택했어. 이 사람은 ${gender}이고 ${skinType} 피부타입이야. 2x2 그리드로, "${makeupStyle}"메이크업 방식을 4가지로 생성해줘. 단 첨부한 사람의 얼굴은 절대 바꾸지 말고 기존 얼굴 그대로 유지하고 메이크업만 바꿔.`
 
     // 메이크업 이미지 생성 (gpt-image-1.5)
     const formData = new FormData()
@@ -64,7 +65,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     formData.append('background', 'auto')
     formData.append('moderation', 'auto')
     formData.append('input_fidelity', 'high')
-    formData.append('response_format', 'b64_json')
 
     const imageRes = await fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
@@ -72,8 +72,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       body: formData,
     })
 
+    // OpenAI API 에러 시 실제 에러 메시지 전달
     if (!imageRes.ok) {
-      return new Response(JSON.stringify({ error: '이미지 생성에 실패했습니다.' }), {
+      const errorBody = await imageRes.text()
+      return new Response(JSON.stringify({
+        error: `이미지 생성 실패 (${imageRes.status}): ${errorBody}`,
+      }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -82,7 +86,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const imgData = (await imageRes.json()) as ImageResponse
     const b64 = imgData.data?.[0]?.b64_json
     if (!b64) {
-      return new Response(JSON.stringify({ error: '이미지를 생성할 수 없습니다.' }), {
+      return new Response(JSON.stringify({
+        error: '이미지 응답에 데이터가 없습니다.',
+        raw: JSON.stringify(imgData),
+      }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -91,8 +98,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     return new Response(JSON.stringify({ image: `data:image/png;base64,${b64}` }), {
       headers: { 'Content-Type': 'application/json' },
     })
-  } catch {
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+  } catch (e) {
+    return new Response(JSON.stringify({
+      error: `서버 오류: ${e instanceof Error ? e.message : String(e)}`,
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
