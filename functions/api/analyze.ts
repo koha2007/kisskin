@@ -65,10 +65,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     formData.append('model', 'gpt-image-1')
     formData.append('n', '1')
     formData.append('size', '1024x1024')
-    formData.append('quality', 'auto')
-    formData.append('background', 'auto')
-    formData.append('moderation', 'auto')
-    formData.append('input_fidelity', 'high')
     formData.append('response_format', 'b64_json')
 
     const imageRes = await fetch('https://api.openai.com/v1/images/edits', {
