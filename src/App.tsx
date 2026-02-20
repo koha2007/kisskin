@@ -60,6 +60,19 @@ function App() {
     }
   }
 
+  const [dragging, setDragging] = useState(false)
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setDragging(false)
+    const file = e.dataTransfer.files[0]
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onloadend = () => loadPhoto(reader.result as string)
+      reader.readAsDataURL(file)
+    }
+  }
+
   const isComplete = photo && gender && skinType
 
   const handleSubmit = async () => {
@@ -196,8 +209,14 @@ function App() {
           <h3 className="upload-heading">사진을 업로드하세요</h3>
           <p className="upload-sub">밝은 조명에서 촬영하면 AI 분석 정확도가 높아져요</p>
 
-          <div className="avatar-upload" onClick={() => fileInputRef.current?.click()}>
-            <div className={`avatar-circle ${photo ? 'has-photo' : ''}`}>
+          <div
+            className={`avatar-upload ${dragging ? 'dragging' : ''}`}
+            onClick={() => fileInputRef.current?.click()}
+            onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={handleDrop}
+          >
+            <div className={`avatar-circle ${photo ? 'has-photo' : ''} ${dragging ? 'dragging' : ''}`}>
               {photo ? (
                 <>
                   <img src={photo} alt="업로드된 사진" className="avatar-img" />

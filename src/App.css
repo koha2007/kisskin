@@ -111,9 +111,11 @@
   transition: all 0.2s;
 }
 
-.avatar-circle:hover {
+.avatar-circle:hover,
+.avatar-circle.dragging {
   border-color: #eb4763;
   background: rgba(235, 71, 99, 0.1);
+  transform: scale(1.05);
 }
 
 .avatar-circle.has-photo {
