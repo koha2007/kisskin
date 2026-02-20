@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   max-width: 480px;
+  margin: 0 auto;
   padding: 24px 16px 40px;
 }
 
@@ -8,6 +9,26 @@
 .header {
   text-align: center;
   margin-bottom: 28px;
+  position: relative;
+}
+
+.back-nav {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #d4607a;
+  transition: background 0.2s;
+}
+
+.back-nav:hover {
+  background: #fef5f7;
 }
 
 .title {

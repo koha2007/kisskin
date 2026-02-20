@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import './App.css'
+import HomePage from './HomePage'
 
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
+type Page = 'home' | 'analysis'
 
 function renderMarkdown(text: string): string {
   return text
@@ -16,6 +18,7 @@ function renderMarkdown(text: string): string {
 }
 
 function App() {
+  const [page, setPage] = useState<Page>('home')
   const [photo, setPhoto] = useState<string | null>(null)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
@@ -24,6 +27,11 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleNavigate = (target: Page) => {
+    setPage(target)
+    window.scrollTo(0, 0)
+  }
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -88,6 +96,11 @@ function App() {
     link.click()
   }
 
+  // 홈 페이지
+  if (page === 'home') {
+    return <HomePage onNavigate={handleNavigate} />
+  }
+
   // 로딩 화면
   if (loading) {
     return (
@@ -147,10 +160,13 @@ function App() {
     )
   }
 
-  // 입력 화면
+  // 입력 화면 (분석 페이지)
   return (
     <div className="container">
       <header className="header">
+        <div className="back-nav" onClick={() => handleNavigate('home')}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </div>
         <h1 className="title">KisSkin</h1>
         <p className="subtitle">나만의 퍼스널 메이크업 분석</p>
       </header>
