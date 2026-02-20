@@ -6,12 +6,12 @@ type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
 type Page = 'home' | 'analysis'
 
-const SKIN_LABELS: Record<string, string> = {
-  '건성': 'Dry',
-  '지성': 'Oily',
-  '중성': 'Normal',
-  '복합성': 'Combination',
-  '잘 모름': 'Not sure',
+const SKIN_DATA: Record<string, { en: string; icon: string; desc: string }> = {
+  '지성': { en: 'Oily', icon: 'water_drop', desc: '피지 분비가 많은 피부' },
+  '건성': { en: 'Dry', icon: 'dry_cleaning', desc: '수분이 부족한 피부' },
+  '복합성': { en: 'Combination', icon: 'contrast', desc: 'T존 유분, U존 건조' },
+  '중성': { en: 'Normal', icon: 'verified_user', desc: '균형 잡힌 피부' },
+  '잘 모름': { en: 'Not sure', icon: 'help', desc: 'AI가 자동 판별' },
 }
 
 function renderMarkdown(text: string): string {
@@ -60,20 +60,7 @@ function App() {
     }
   }
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    const file = e.dataTransfer.files[0]
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader()
-      reader.onloadend = () => loadPhoto(reader.result as string)
-      reader.readAsDataURL(file)
-    }
-  }
-
   const isComplete = photo && gender && skinType
-
-  const progress = [photo, gender, skinType].filter(Boolean).length
-  const progressPercent = Math.round((progress / 3) * 100)
 
   const handleSubmit = async () => {
     if (!isComplete) return
@@ -200,51 +187,38 @@ function App() {
         <button className="top-bar-back" onClick={() => handleNavigate('home')}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h2 className="top-bar-title">프로필 설정</h2>
+        <h2 className="top-bar-title">Profile Setup</h2>
       </div>
 
-      {/* Progress */}
-      <div className="progress-area">
-        <div className="progress-row">
-          <p className="progress-label">프로필 설정</p>
-          <p className="progress-count">{progress}/3</p>
-        </div>
-        <div className="progress-track">
-          <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
-        </div>
-        <p className="progress-hint">밝은 조명에서 촬영하면 AI 분석 정확도가 높아져요.</p>
-      </div>
+      <div className="analysis-body setup-body">
+        {/* Upload Section */}
+        <section className="upload-section">
+          <h3 className="upload-heading">사진을 업로드하세요</h3>
+          <p className="upload-sub">밝은 조명에서 촬영하면 AI 분석 정확도가 높아져요</p>
 
-      <div className="analysis-body">
-        {/* Photo Upload */}
-        <div
-          className={`upload-card ${photo ? 'has-photo' : ''}`}
-          onClick={() => !photo && fileInputRef.current?.click()}
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-        >
-          {photo ? (
-            <div className="upload-preview-wrap">
-              <img src={photo} alt="업로드된 사진" className="upload-preview-img" />
-              <button className="upload-change-btn" onClick={(e) => { e.stopPropagation(); setPhoto(null) }}>
-                <span className="material-symbols-outlined">swap_horiz</span>
-                사진 변경
-              </button>
+          <div className="avatar-upload" onClick={() => fileInputRef.current?.click()}>
+            <div className={`avatar-circle ${photo ? 'has-photo' : ''}`}>
+              {photo ? (
+                <>
+                  <img src={photo} alt="업로드된 사진" className="avatar-img" />
+                  <div className="avatar-hover">
+                    <span className="material-symbols-outlined">photo_camera</span>
+                    <span>사진 변경</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined avatar-placeholder-icon">add_a_photo</span>
+                  <span className="avatar-placeholder-text">사진 선택</span>
+                </>
+              )}
             </div>
-          ) : (
-            <>
-              <div className="upload-icon-circle">
-                <span className="material-symbols-outlined">add_a_photo</span>
+            {photo && (
+              <div className="avatar-edit-badge">
+                <span className="material-symbols-outlined">edit</span>
               </div>
-              <div className="upload-text-group">
-                <p className="upload-title">탭하여 사진을 업로드하세요</p>
-                <p className="upload-desc">얼굴이 잘 보이고 정면을 향한 사진이 가장 정확한 분석 결과를 제공합니다.</p>
-              </div>
-              <button className="upload-select-btn" onClick={() => fileInputRef.current?.click()}>
-                사진 선택
-              </button>
-            </>
-          )}
+            )}
+          </div>
           <input
             ref={fileInputRef}
             type="file"
@@ -252,63 +226,64 @@ function App() {
             onChange={handlePhotoUpload}
             hidden
           />
-        </div>
+        </section>
 
         {/* Gender Selection */}
-        <div className="form-group">
-          <h3 className="form-heading">성별 선택</h3>
+        <section className="form-group">
+          <h4 className="section-label">성별</h4>
           <div className="gender-row">
             {(['여성', '남성'] as const).map((g) => (
-              <label key={g} className="radio-card">
-                <input
-                  type="radio"
-                  name="gender"
-                  checked={gender === g}
-                  onChange={() => setGender(g)}
-                  hidden
-                />
-                <div className={`radio-card-inner ${gender === g ? 'checked' : ''}`}>
-                  {g}
-                </div>
-              </label>
+              <button
+                key={g}
+                className={`gender-btn ${gender === g ? 'selected' : ''}`}
+                onClick={() => setGender(g)}
+              >
+                {g}
+              </button>
             ))}
           </div>
-        </div>
+        </section>
 
         {/* Skin Type Selection */}
-        <div className="form-group">
-          <h3 className="form-heading">피부 타입</h3>
-          <div className="skin-grid">
-            {(['건성', '지성', '중성', '복합성'] as const).map((type) => (
-              <label key={type} className="radio-card">
-                <input
-                  type="radio"
-                  name="skintype"
-                  checked={skinType === type}
-                  onChange={() => setSkinType(type)}
-                  hidden
-                />
-                <div className={`skin-card-inner ${skinType === type ? 'checked' : ''}`}>
-                  <span className="skin-kr">{type}</span>
-                  <span className="skin-en">{SKIN_LABELS[type]}</span>
-                </div>
-              </label>
-            ))}
-            <label className="radio-card full-width">
-              <input
-                type="radio"
-                name="skintype"
-                checked={skinType === '잘 모름'}
-                onChange={() => setSkinType('잘 모름')}
-                hidden
-              />
-              <div className={`skin-card-inner ${skinType === '잘 모름' ? 'checked' : ''}`}>
-                <span className="skin-kr">잘 모름</span>
-                <span className="skin-en">Not sure</span>
-              </div>
-            </label>
+        <section className="form-group">
+          <div className="section-label-row">
+            <h4 className="section-label">피부 타입</h4>
+            <span className="section-label-hint">하나 선택</span>
           </div>
-        </div>
+          <div className="skin-grid">
+            {(['지성', '건성', '복합성', '중성'] as const).map((type) => (
+              <button
+                key={type}
+                className={`skin-card ${skinType === type ? 'selected' : ''}`}
+                onClick={() => setSkinType(type)}
+              >
+                <div className="skin-card-top">
+                  <span className="material-symbols-outlined skin-card-icon">{SKIN_DATA[type].icon}</span>
+                  {skinType === type && <span className="material-symbols-outlined skin-card-check">check_circle</span>}
+                </div>
+                <span className="skin-card-name">{type}</span>
+                <span className="skin-card-desc">{SKIN_DATA[type].desc}</span>
+              </button>
+            ))}
+            <button
+              className={`skin-card full-width horizontal ${skinType === '잘 모름' ? 'selected' : ''}`}
+              onClick={() => setSkinType('잘 모름')}
+            >
+              <div className="skin-card-h-left">
+                <span className="material-symbols-outlined skin-card-icon">{SKIN_DATA['잘 모름'].icon}</span>
+                <div className="skin-card-h-text">
+                  <span className="skin-card-name">잘 모름</span>
+                  <span className="skin-card-desc">{SKIN_DATA['잘 모름'].desc}</span>
+                </div>
+              </div>
+              {skinType === '잘 모름' ? (
+                <span className="material-symbols-outlined skin-card-check">check_circle</span>
+              ) : (
+                <span className="material-symbols-outlined skin-card-chevron">chevron_right</span>
+              )}
+            </button>
+          </div>
+        </section>
 
         {/* Info Tip */}
         <div className="info-tip">
@@ -326,13 +301,14 @@ function App() {
 
       {/* Fixed CTA */}
       <div className="fixed-cta-spacer" />
-      <div className="fixed-cta">
+      <div className="fixed-cta gradient">
         <button
           className={`cta-btn ${!isComplete ? 'disabled' : ''}`}
           disabled={!isComplete}
           onClick={handleSubmit}
         >
-          Analyze My Look
+          <span>Generate My Looks</span>
+          <span className="material-symbols-outlined">auto_awesome</span>
         </button>
       </div>
     </div>
