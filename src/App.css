@@ -207,9 +207,8 @@
 
 .upload-preview-img {
   width: 100%;
-  aspect-ratio: 1;
-  max-height: 300px;
-  object-fit: cover;
+  max-height: 400px;
+  object-fit: contain;
   border-radius: 10px;
 }
 
