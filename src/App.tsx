@@ -151,8 +151,8 @@ function App() {
 
           {resultImage && (
             <section className="result-section">
-              <h3 className="section-heading">메이크업 스타일 6종</h3>
-              <img src={resultImage} alt="메이크업 스타일 6종" className="result-image" />
+              <h3 className="section-heading">메이크업 스타일 9종</h3>
+              <img src={resultImage} alt="메이크업 스타일 9종" className="result-image" />
               <button className="download-btn" onClick={handleDownload}>
                 <span className="material-symbols-outlined">download</span>
                 이미지 저장하기
