@@ -526,7 +526,7 @@
 
 .report-content {
   font-size: 0.9rem;
-  line-height: 1.8;
+  line-height: 2;
   color: #334155;
   word-break: keep-all;
 }
@@ -535,14 +535,22 @@
   font-size: 1.05rem;
   font-weight: 700;
   color: #e8304f;
-  margin: 24px 0 10px;
+  margin: 20px 0 8px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.report-content .report-h3:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .report-content .report-h4 {
   font-size: 0.95rem;
   font-weight: 600;
   color: #475569;
-  margin: 16px 0 8px;
+  margin: 12px 0 6px;
 }
 
 .report-content ul {
@@ -551,9 +559,16 @@
 }
 
 .report-content li {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  line-height: 1.8;
 }
 
 .report-content strong {
   color: #0f172a;
+}
+
+.report-content br + br {
+  display: block;
+  content: "";
+  margin-top: 8px;
 }

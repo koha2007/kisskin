@@ -6,6 +6,7 @@ interface RequestBody {
   photo: string
   gender: string
   skinType: string
+  photoRatio?: number
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
@@ -19,7 +20,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { photo, gender, skinType } = (await request.json()) as RequestBody
+    const { photo, gender, skinType, photoRatio } = (await request.json()) as RequestBody
 
     if (!photo || !gender || !skinType) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -37,12 +38,21 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
     const imageBlob = new Blob([bytes], { type: 'image/png' })
 
-    // 1. 이미지 생성 (gpt-image-1.5) - 6가지 메이크업 2x3 그리드
+    // 사진 비율에 맞는 이미지 사이즈 결정
+    const ratio = photoRatio || 1
+    let imageSize = '1024x1024'
+    if (ratio < 0.85) {
+      imageSize = '1024x1536' // 세로 사진
+    } else if (ratio > 1.15) {
+      imageSize = '1536x1024' // 가로 사진
+    }
+
+    // 1. 이미지 생성 (gpt-image-1.5) - 9가지 메이크업 3x3 그리드
     const formData = new FormData()
     formData.append('image', imageBlob, 'photo.png')
     formData.append('model', 'gpt-image-1.5')
     formData.append('n', '1')
-    formData.append('size', '1024x1024')
+    formData.append('size', imageSize)
     formData.append('quality', 'auto')
     formData.append('background', 'auto')
     formData.append('moderation', 'auto')

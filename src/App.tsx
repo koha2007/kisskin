@@ -28,6 +28,7 @@ function renderMarkdown(text: string): string {
 function App() {
   const [page, setPage] = useState<Page>('home')
   const [photo, setPhoto] = useState<string | null>(null)
+  const [photoRatio, setPhotoRatio] = useState<number>(1)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [loading, setLoading] = useState(false)
@@ -41,11 +42,20 @@ function App() {
     window.scrollTo(0, 0)
   }
 
+  const loadPhoto = (dataUrl: string) => {
+    const img = new Image()
+    img.onload = () => {
+      setPhotoRatio(img.width / img.height)
+      setPhoto(dataUrl)
+    }
+    img.src = dataUrl
+  }
+
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
-      reader.onloadend = () => setPhoto(reader.result as string)
+      reader.onloadend = () => loadPhoto(reader.result as string)
       reader.readAsDataURL(file)
     }
   }
@@ -55,7 +65,7 @@ function App() {
     const file = e.dataTransfer.files[0]
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
-      reader.onloadend = () => setPhoto(reader.result as string)
+      reader.onloadend = () => loadPhoto(reader.result as string)
       reader.readAsDataURL(file)
     }
   }
@@ -75,7 +85,7 @@ function App() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, gender, skinType }),
+        body: JSON.stringify({ photo, gender, skinType, photoRatio }),
       })
 
       const data = await res.json()
