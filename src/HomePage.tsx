@@ -90,7 +90,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <span className="step-label">Step 03</span>
                 <h3 className="step-name">Get Results</h3>
                 <p className="step-desc">
-                  Instantly receive 6 stunning, personalized makeup personas ready to wear.
+                  Instantly receive 9 stunning, personalized makeup personas ready to wear.
                 </p>
               </div>
             </div>
@@ -124,7 +124,7 @@ function HomePage({ onNavigate }: HomePageProps) {
           </div>
           <div className="explore-cta">
             <button className="explore-btn">
-              View all 6 personas <span className="material-symbols-outlined">arrow_forward</span>
+              View all 9 personas <span className="material-symbols-outlined">arrow_forward</span>
             </button>
           </div>
         </section>
