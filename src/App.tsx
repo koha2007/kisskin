@@ -189,6 +189,7 @@ function App() {
                         backgroundImage: `url(${resultImage})`,
                         backgroundSize: '300% 300%',
                         backgroundPosition: GRID_POSITIONS[i],
+                        aspectRatio: `${photoRatio < 0.85 ? 1024 / 1536 : photoRatio > 1.15 ? 1536 / 1024 : 1}`,
                       }}
                     />
                     <p className="makeup-cell-label">{style}</p>
