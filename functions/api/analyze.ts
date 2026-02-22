@@ -56,31 +56,31 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     formData.append('background', 'auto')
     formData.append('moderation', 'auto')
     formData.append('input_fidelity', 'high')
-    formData.append('prompt', `This image is a 3×3 grid of the SAME face repeated 9 times. This person is ${gender}, skin type: ${skinType}.
+    formData.append('prompt', `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'} 반영해서 총 9가지 메이크업을 표현해줘.
 
-YOUR TASK: Apply a different makeup look to each of the 9 cells. Do NOT change ANYTHING else.
+[절대 규칙]
+- 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해
+- 9칸 모두 얼굴 위치, 크기, 각도, 표정이 완전히 동일해야 해
+- 이빨이 보이면 깨끗하고 하얗고 고르게 보정해줘
+- 배경, 조명, 머리카락은 절대 변경하지 마
+- 총 9가지 메이크업 스타일을 확실하고 정확하게 자연스럽게 표현해줘
+- 각 메이크업 스타일이 한눈에 구분될 만큼 확실하게 달라야 해
+- 얼굴이 칸 안에 다 들어가게 생성하고 위, 아래, 좌, 우 여백 균등하게 생성해줘
+- 그리드 칸 사이에 여백/테두리/구분선 없이 빈틈없이 딱 붙여
+- 글자, 텍스트, 라벨, 숫자를 이미지에 절대 넣지 마
 
-[ABSOLUTE RULES]
-- Keep the face position, size, angle, expression EXACTLY as in the input for ALL 9 cells
-- Keep the background, lighting, hair EXACTLY as in the input
-- ONLY change makeup colors: eyeshadow, lipstick, blush, foundation tone
-- If teeth are visible, make them look clean, bright white, and evenly aligned in ALL 9 cells
-- Do NOT move, resize, zoom, or crop any face
-- ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO LABELS anywhere in the image. Zero text of any kind.
-- No gaps, borders, or margins between cells. Seamless edge-to-edge grid
+[9가지 메이크업 스타일 - 좌→우, 위→아래 순서]
+1: 내추럴 글로우 (Natural Glow) - 촉촉한 광채 피부, 부드러운 피치 블러셔, 누드 립
+2: 클라우드 스킨 (Cloud Skin) - 뽀얀 구름 피부, 밝고 깨끗한 베이스, 최소한의 컬러
+3: 블러드 립 (Blood Lip) - 진하고 어두운 버건디/레드 립, 깔끔한 아이 메이크업
+4: 맥시멀리스트 아이 (Maximalist Eye) - 화려한 컬러 아이섀도(보라/파랑/초록), 굵은 아이라인
+5: 메탈릭 아이 (Metallic Eye) - 반짝이는 골드/실버 메탈릭 아이섀도, 글로시 눈매
+6: 볼드 립 (Bold Lip) - 선명한 빨강/코랄 립스틱, 강렬한 입술 컬러
+7: 블러쉬 드레이핑 (Blush Draping & Layering) - 광대뼈와 관자놀이까지 진하게 분홍/코랄 블러셔
+8: 그런지 메이크업 (Grunge Makeup) - 어두운 스모키 아이, 다크 베리/브라운 립, 매트 피부
+9: K-pop 아이돌 (K-pop Idol Makeup) - 유리알 피부 광택, 그라데이션 핑크 립, 눈 안쪽 쉬머
 
-[9 MAKEUP STYLES - left to right, top to bottom]
-1: Natural Glow - subtle dewy skin, soft peachy tones
-2: Cloud Skin - bright milky-white flawless base
-3: Blood Lip - deep dark red lips, minimal eye makeup
-4: Maximalist Eye - dramatic colorful eyeshadow, bold eyeliner
-5: Metallic Eye - shimmery metallic silver/gold eyeshadow
-6: Bold Lip - vibrant bright red/orange lips
-7: Blush Draping & Layering - heavy blush across cheeks and temples
-8: Grunge Makeup - dark smoky eyes, dark lips, edgy look
-9: K-pop Idol - glass skin, gradient lips, subtle shimmer eyes
-
-The input already has the correct grid layout. Just recolor the makeup in each cell. NO TEXT ANYWHERE.`)
+핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해. 보는 사람이 즉시 어떤 스타일인지 알 수 있을 만큼 뚜렷하게 표현해줘. 절대 글자 넣지 마.`)
 
     const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
