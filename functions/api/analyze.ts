@@ -64,6 +64,7 @@ YOUR TASK: Apply a different makeup look to each of the 9 cells. Do NOT change A
 - Keep the face position, size, angle, expression EXACTLY as in the input for ALL 9 cells
 - Keep the background, lighting, hair EXACTLY as in the input
 - ONLY change makeup colors: eyeshadow, lipstick, blush, foundation tone
+- If teeth are visible, make them look clean, bright white, and evenly aligned in ALL 9 cells
 - Do NOT move, resize, zoom, or crop any face
 - ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO LABELS anywhere in the image. Zero text of any kind.
 - No gaps, borders, or margins between cells. Seamless edge-to-edge grid

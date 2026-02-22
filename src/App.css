@@ -1,7 +1,16 @@
-/* ===== Global Mobile Fix ===== */
+/* ===== Global Cross-Device Fix (Galaxy + iPhone) ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
 html, body {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* ===== Analysis Page Layout ===== */
@@ -832,10 +841,21 @@ html, body {
   transform: scale(0.95);
 }
 
-/* ===== Mobile Touch Feedback ===== */
-button, .product-buy-btn, .gender-btn, .skin-card {
+/* ===== Cross-Device Touch & Button Fix ===== */
+button, a, .product-buy-btn, .gender-btn, .skin-card {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 /* ===== Mobile Responsive ===== */
