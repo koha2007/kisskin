@@ -83,10 +83,41 @@ const CATEGORY_STYLE: Record<string, { icon: string; bg: string }> = {
   Cheeks: { icon: 'brush', bg: '#f9a8d4' },
 }
 
+// 원본 사진을 3x3 타일 그리드로 만들어 AI에게 전달 (얼굴 위치 고정)
+function createTiledGrid(photoUrl: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      const GRID = 1024
+      const CELL = Math.floor(GRID / 3)
+      const cvs = document.createElement('canvas')
+      cvs.width = GRID
+      cvs.height = GRID
+      const ctx = cvs.getContext('2d')
+      if (!ctx) { reject(new Error('Canvas not supported')); return }
+
+      // 원본을 정사각형으로 크롭 (상단 유지 - 셀피 얼굴 보존)
+      const w = img.naturalWidth
+      const h = img.naturalHeight
+      const cropSize = Math.min(w, h)
+      const sx = Math.floor((w - cropSize) / 2)
+      const sy = h > w ? Math.floor((h - cropSize) * 0.2) : Math.floor((h - cropSize) / 2)
+
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+          ctx.drawImage(img, sx, sy, cropSize, cropSize, col * CELL, row * CELL, CELL, CELL)
+        }
+      }
+      resolve(cvs.toDataURL('image/jpeg', 0.92))
+    }
+    img.onerror = () => reject(new Error('Image load failed'))
+    img.src = photoUrl
+  })
+}
+
 function App() {
   const [page, setPage] = useState<Page>('home')
   const [photo, setPhoto] = useState<string | null>(null)
-  const [photoRatio, setPhotoRatio] = useState<number>(1)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [loading, setLoading] = useState(false)
@@ -124,7 +155,6 @@ function App() {
       if (!ctx) return
       ctx.drawImage(img, 0, 0, w, h)
       const compressed = cvs.toDataURL('image/jpeg', 0.85)
-      setPhotoRatio(w / h)
       setPhoto(compressed)
     }
     img.onerror = () => {
@@ -172,10 +202,13 @@ function App() {
     setError(null)
 
     try {
+      // 원본 사진을 3x3 타일 그리드로 만들어서 전송
+      const gridPhoto = await createTiledGrid(photo!)
+
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, gender, skinType, photoRatio }),
+        body: JSON.stringify({ photo, gridPhoto, gender, skinType }),
       })
 
       const data = await res.json()
