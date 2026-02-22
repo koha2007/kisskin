@@ -1,29 +1,39 @@
+/* ===== Global Mobile Fix ===== */
+html, body {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 /* ===== Analysis Page Layout ===== */
 .analysis-page {
   font-family: 'Manrope', 'Pretendard', system-ui, sans-serif;
   background: #f8f6f6;
   color: #0f172a;
   min-height: 100vh;
+  min-height: 100dvh;
   max-width: 448px;
   margin: 0 auto;
   position: relative;
+  overflow-x: hidden;
 }
 
 /* ===== Top Bar ===== */
 .top-bar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   z-index: 50;
   display: flex;
   align-items: center;
   padding: 16px 16px;
+  padding-top: calc(16px + env(safe-area-inset-top, 0px));
   background: rgba(248, 246, 246, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   max-width: 448px;
-  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .top-bar-back {
@@ -57,14 +67,14 @@
 /* ===== Analysis Body ===== */
 .analysis-body {
   padding: 16px;
-  padding-top: 80px;
+  padding-top: calc(80px + env(safe-area-inset-top, 0px));
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
 .setup-body {
-  padding-top: 80px;
+  padding-top: calc(80px + env(safe-area-inset-top, 0px));
   gap: 32px;
   padding-left: 24px;
   padding-right: 24px;
@@ -385,12 +395,14 @@
 .fixed-cta {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   padding: 24px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   max-width: 448px;
-  margin: 0 auto;
   z-index: 50;
+  box-sizing: border-box;
 }
 
 .fixed-cta.gradient {
@@ -818,4 +830,74 @@
 
 .product-buy-btn:active {
   transform: scale(0.95);
+}
+
+/* ===== Mobile Touch Feedback ===== */
+button, .product-buy-btn, .gender-btn, .skin-card {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 380px) {
+  .makeup-grid {
+    gap: 6px;
+  }
+
+  .makeup-cell-label {
+    font-size: 0.55rem;
+    padding: 4px 2px;
+  }
+
+  .product-card {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .product-buy-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+  }
+
+  .setup-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .upload-heading {
+    font-size: 1.25rem;
+  }
+
+  .avatar-circle {
+    width: 160px;
+    height: 160px;
+  }
+
+  .skin-grid {
+    gap: 8px;
+  }
+
+  .analysis-card {
+    padding: 12px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 340px) {
+  .product-card {
+    padding: 12px;
+  }
+
+  .product-name {
+    font-size: 0.8rem;
+  }
+
+  .product-brand-price {
+    font-size: 0.7rem;
+  }
+
+  .makeup-grid {
+    gap: 4px;
+  }
 }

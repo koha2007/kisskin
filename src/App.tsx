@@ -104,8 +104,31 @@ function App() {
   const loadPhoto = (dataUrl: string) => {
     const img = new Image()
     img.onload = () => {
-      setPhotoRatio(img.width / img.height)
-      setPhoto(dataUrl)
+      // 모바일 카메라 사진 리사이즈 & 압축 (EXIF 방향도 자동 보정)
+      const MAX = 1280
+      let w = img.naturalWidth
+      let h = img.naturalHeight
+      if (w > MAX || h > MAX) {
+        if (w > h) {
+          h = Math.round(h * (MAX / w))
+          w = MAX
+        } else {
+          w = Math.round(w * (MAX / h))
+          h = MAX
+        }
+      }
+      const cvs = document.createElement('canvas')
+      cvs.width = w
+      cvs.height = h
+      const ctx = cvs.getContext('2d')
+      if (!ctx) return
+      ctx.drawImage(img, 0, 0, w, h)
+      const compressed = cvs.toDataURL('image/jpeg', 0.85)
+      setPhotoRatio(w / h)
+      setPhoto(compressed)
+    }
+    img.onerror = () => {
+      setError('이미지를 불러올 수 없습니다. 다른 사진을 선택해주세요.')
     }
     img.src = dataUrl
   }
@@ -113,10 +136,18 @@ function App() {
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (!file.type.startsWith('image/')) {
+        setError('이미지 파일만 업로드할 수 있습니다.')
+        return
+      }
+      setError(null)
       const reader = new FileReader()
       reader.onloadend = () => loadPhoto(reader.result as string)
+      reader.onerror = () => setError('파일을 읽을 수 없습니다. 다시 시도해주세요.')
       reader.readAsDataURL(file)
     }
+    // Reset input so same file/camera can be re-selected
+    e.target.value = ''
   }
 
   const [dragging, setDragging] = useState(false)
@@ -495,7 +526,7 @@ function App() {
             type="file"
             accept="image/*"
             onChange={handlePhotoUpload}
-            hidden
+            style={{ position: 'absolute', width: 0, height: 0, opacity: 0, overflow: 'hidden' }}
           />
         </section>
 

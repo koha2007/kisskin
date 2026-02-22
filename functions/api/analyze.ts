@@ -29,14 +29,17 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    // base64 data URL → Blob 변환
+    // base64 data URL → Blob 변환 (JPEG/PNG 자동 감지)
+    const mimeMatch = photo.match(/^data:(.+?);/)
+    const mimeType = mimeMatch?.[1] || 'image/png'
     const base64Data = photo.split(',')[1]
     const binaryStr = atob(base64Data)
     const bytes = new Uint8Array(binaryStr.length)
     for (let i = 0; i < binaryStr.length; i++) {
       bytes[i] = binaryStr.charCodeAt(i)
     }
-    const imageBlob = new Blob([bytes], { type: 'image/png' })
+    const imageBlob = new Blob([bytes], { type: mimeType })
+    const ext = mimeType === 'image/jpeg' ? 'photo.jpg' : 'photo.png'
 
     // 사진 비율에 맞는 이미지 사이즈 결정
     const ratio = photoRatio || 1
@@ -49,7 +52,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     // 1. 이미지 생성 (gpt-image-1.5) - 9가지 메이크업 3x3 그리드
     const formData = new FormData()
-    formData.append('image', imageBlob, 'photo.png')
+    formData.append('image', imageBlob, ext)
     formData.append('model', 'gpt-image-1.5')
     formData.append('n', '1')
     formData.append('size', imageSize)
