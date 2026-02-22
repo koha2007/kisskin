@@ -83,32 +83,53 @@ const CATEGORY_STYLE: Record<string, { icon: string; bg: string }> = {
   Cheeks: { icon: 'brush', bg: '#f9a8d4' },
 }
 
-// 원본 사진을 3x3 타일 그리드로 만들어 AI에게 전달 (얼굴 위치 고정)
-function createTiledGrid(photoUrl: string): Promise<string> {
+// 원본 사진 비율을 유지하며 3x3 타일 그리드 생성
+function createTiledGrid(photoUrl: string): Promise<{ gridPhoto: string; gridSize: string }> {
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = () => {
-      const GRID = 1024
-      const CELL = Math.floor(GRID / 3)
+      const w = img.naturalWidth
+      const h = img.naturalHeight
+      const ratio = w / h
+
+      // 원본 비율에 맞는 그리드 사이즈 선택 (OpenAI 지원 사이즈)
+      let gridW: number, gridH: number, gridSize: string
+      if (ratio < 0.85) {
+        gridW = 1024; gridH = 1536; gridSize = '1024x1536' // 세로 사진
+      } else if (ratio > 1.15) {
+        gridW = 1536; gridH = 1024; gridSize = '1536x1024' // 가로 사진
+      } else {
+        gridW = 1024; gridH = 1024; gridSize = '1024x1024' // 정사각형
+      }
+
+      const cellW = Math.floor(gridW / 3)
+      const cellH = Math.floor(gridH / 3)
+      const cellRatio = cellW / cellH
+
       const cvs = document.createElement('canvas')
-      cvs.width = GRID
-      cvs.height = GRID
+      cvs.width = gridW
+      cvs.height = gridH
       const ctx = cvs.getContext('2d')
       if (!ctx) { reject(new Error('Canvas not supported')); return }
 
-      // 원본을 정사각형으로 크롭 (상단 유지 - 셀피 얼굴 보존)
-      const w = img.naturalWidth
-      const h = img.naturalHeight
-      const cropSize = Math.min(w, h)
-      const sx = Math.floor((w - cropSize) / 2)
-      const sy = h > w ? Math.floor((h - cropSize) * 0.2) : Math.floor((h - cropSize) / 2)
+      // 원본 사진을 셀 비율에 맞게 크롭 (중앙 기준, 세로는 상단 바이어스)
+      let sx: number, sy: number, sw: number, sh: number
+      if (ratio > cellRatio) {
+        // 사진이 셀보다 가로로 넓음 → 좌우 크롭
+        sh = h; sw = Math.floor(h * cellRatio)
+        sx = Math.floor((w - sw) / 2); sy = 0
+      } else {
+        // 사진이 셀보다 세로로 김 → 하단 크롭 (얼굴 상단 유지)
+        sw = w; sh = Math.floor(w / cellRatio)
+        sx = 0; sy = Math.floor((h - sh) * 0.15)
+      }
 
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
-          ctx.drawImage(img, sx, sy, cropSize, cropSize, col * CELL, row * CELL, CELL, CELL)
+          ctx.drawImage(img, sx, sy, sw, sh, col * cellW, row * cellH, cellW, cellH)
         }
       }
-      resolve(cvs.toDataURL('image/jpeg', 0.92))
+      resolve({ gridPhoto: cvs.toDataURL('image/jpeg', 0.92), gridSize })
     }
     img.onerror = () => reject(new Error('Image load failed'))
     img.src = photoUrl
@@ -202,13 +223,13 @@ function App() {
     setError(null)
 
     try {
-      // 원본 사진을 3x3 타일 그리드로 만들어서 전송
-      const gridPhoto = await createTiledGrid(photo!)
+      // 원본 비율 유지하며 3x3 타일 그리드 생성
+      const { gridPhoto, gridSize } = await createTiledGrid(photo!)
 
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, gridPhoto, gender, skinType }),
+        body: JSON.stringify({ photo, gridPhoto, gridSize, gender, skinType }),
       })
 
       const data = await res.json()

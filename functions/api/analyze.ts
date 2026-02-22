@@ -5,6 +5,7 @@ interface Env {
 interface RequestBody {
   photo: string
   gridPhoto?: string
+  gridSize?: string
   gender: string
   skinType: string
 }
@@ -20,7 +21,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { photo, gridPhoto, gender, skinType } = (await request.json()) as RequestBody
+    const { photo, gridPhoto, gridSize, gender, skinType } = (await request.json()) as RequestBody
 
     if (!photo || !gender || !skinType) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -42,7 +43,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const imageBlob = new Blob([bytes], { type: mimeType })
     const ext = mimeType === 'image/jpeg' ? 'photo.jpg' : 'photo.png'
 
-    const imageSize = '1024x1024'
+    // 프론트에서 전달된 그리드 사이즈 사용 (원본 비율 유지)
+    const imageSize = gridSize || '1024x1024'
 
     // 1. 이미지 생성 (gpt-image-1.5) - 9가지 메이크업 3x3 그리드
     const formData = new FormData()
@@ -58,12 +60,13 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
 YOUR TASK: Apply a different makeup look to each of the 9 cells. Do NOT change ANYTHING else.
 
-[CRITICAL RULES]
-- Keep the face position, size, angle, expression EXACTLY as in the input image for ALL 9 cells
-- Keep the background, lighting, hair EXACTLY as in the input image
+[ABSOLUTE RULES]
+- Keep the face position, size, angle, expression EXACTLY as in the input for ALL 9 cells
+- Keep the background, lighting, hair EXACTLY as in the input
 - ONLY change makeup colors: eyeshadow, lipstick, blush, foundation tone
-- Do NOT move, resize, zoom, or crop any face. Each cell must be pixel-identical to the input except for makeup colors
-- No gaps, borders, margins, or text between cells. Seamless edge-to-edge grid
+- Do NOT move, resize, zoom, or crop any face
+- ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO LABELS anywhere in the image. Zero text of any kind.
+- No gaps, borders, or margins between cells. Seamless edge-to-edge grid
 
 [9 MAKEUP STYLES - left to right, top to bottom]
 1: Natural Glow - subtle dewy skin, soft peachy tones
@@ -76,7 +79,7 @@ YOUR TASK: Apply a different makeup look to each of the 9 cells. Do NOT change A
 8: Grunge Makeup - dark smoky eyes, dark lips, edgy look
 9: K-pop Idol - glass skin, gradient lips, subtle shimmer eyes
 
-REMEMBER: The input already has the correct grid layout. Just recolor the makeup in each cell. Face structure and position must remain IDENTICAL across all 9 cells.`)
+The input already has the correct grid layout. Just recolor the makeup in each cell. NO TEXT ANYWHERE.`)
 
     const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
