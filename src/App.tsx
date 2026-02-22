@@ -43,6 +43,41 @@ function renderMarkdown(text: string): string {
     .replace(/\n/g, '<br />')
 }
 
+interface ProductRecommendation {
+  category: string
+  name: string
+  brand: string
+  price: string
+  reason: string
+}
+
+interface StructuredReport {
+  summary: string
+  products: ProductRecommendation[]
+}
+
+function parseReport(reportStr: string): StructuredReport | null {
+  try {
+    const parsed = JSON.parse(reportStr)
+    if (parsed && typeof parsed.summary === 'string' && Array.isArray(parsed.products) && parsed.products.length > 0) {
+      return parsed as StructuredReport
+    }
+  } catch { /* not JSON */ }
+  return null
+}
+
+function buildBuyLink(brand: string, name: string): string {
+  return `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(brand + ' ' + name)}`
+}
+
+const CATEGORY_STYLE: Record<string, { icon: string; bg: string }> = {
+  Skin: { icon: 'face', bg: '#f0abfc' },
+  Base: { icon: 'palette', bg: '#fbbf24' },
+  Eyes: { icon: 'visibility', bg: '#818cf8' },
+  Lips: { icon: 'lip_touch', bg: '#fb7185' },
+  Cheeks: { icon: 'brush', bg: '#f9a8d4' },
+}
+
 function App() {
   const [page, setPage] = useState<Page>('home')
   const [photo, setPhoto] = useState<string | null>(null)
@@ -280,15 +315,57 @@ function App() {
             </section>
           )}
 
-          {report && (
-            <section className="report-section">
-              <h3 className="section-heading">맞춤 화장품 추천</h3>
-              <div
-                className="report-content"
-                dangerouslySetInnerHTML={{ __html: renderMarkdown(report) }}
-              />
-            </section>
-          )}
+          {report && (() => {
+            const structured = parseReport(report)
+            if (structured) {
+              return (
+                <section className="report-section">
+                  <h3 className="section-heading">맞춤 화장품 추천</h3>
+                  <div className="report-summary">{structured.summary}</div>
+                  <div className="product-cards">
+                    {structured.products.map((p, i) => {
+                      const cat = CATEGORY_STYLE[p.category] || { icon: 'cosmetics', bg: '#94a3b8' }
+                      return (
+                        <div key={i} className="product-card">
+                          <div className="product-card-left">
+                            <span
+                              className="product-category-badge"
+                              style={{ backgroundColor: cat.bg }}
+                            >
+                              <span className="material-symbols-outlined">{cat.icon}</span>
+                            </span>
+                          </div>
+                          <div className="product-card-body">
+                            <p className="product-category-label">{p.category}</p>
+                            <p className="product-name">{p.name}</p>
+                            <p className="product-brand-price">{p.brand} · {p.price}</p>
+                            <p className="product-reason">{p.reason}</p>
+                          </div>
+                          <a
+                            className="product-buy-btn"
+                            href={buildBuyLink(p.brand, p.name)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Buy Now
+                          </a>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </section>
+              )
+            }
+            return (
+              <section className="report-section">
+                <h3 className="section-heading">맞춤 화장품 추천</h3>
+                <div
+                  className="report-content"
+                  dangerouslySetInnerHTML={{ __html: renderMarkdown(report) }}
+                />
+              </section>
+            )
+          })()}
 
           {/* Fixed CTA */}
           <div className="fixed-cta-spacer" />

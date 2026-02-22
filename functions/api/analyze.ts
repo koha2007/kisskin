@@ -112,16 +112,20 @@ ${skinDesc} 총 9가지 메이크업을 3x3 그리드로 생성해줘.
             content: [
               {
                 type: 'input_text',
-                text: `당신은 전문 메이크업 아티스트 입니다.
-사용자의 사진과 피부타입중 건성, 지성, 중성, 복합성 을 분석하여
-맞춤형 화장품 추천을 해주세요.
-제품명과 설명은 최대한 간소하게 해주세요.
-보고서에는 다음과 같이 표현해주세요.
-사진을 보고 톤앤톤도 아주 간략하게 설명해주세요.
-성별
-피부타입
-피부타입에 따라서 관련된 화장품 제품 이름과 간략한 설명.
-피부타입에서 잘 모름을 선택하면 너가 사진보고 알아서 판단해서 설명해줘`,
+                text: `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
+사용자의 사진과 피부타입을 분석하여 맞춤형 화장품을 추천해주세요.
+
+반드시 아래 JSON 형식으로만 응답하세요. JSON 외의 텍스트는 절대 포함하지 마세요. 코드펜스(\`\`\`)도 쓰지 마세요.
+
+{"summary":"피부 분석 요약 (2-3문장). 성별, 피부타입, 피부톤 분석을 포함.","products":[{"category":"카테고리","name":"제품명","brand":"브랜드명","price":"₩가격","reason":"추천 이유 1문장"}]}
+
+규칙:
+- products 배열에 6~8개 제품을 추천하세요
+- category는 반드시 Skin, Eyes, Lips, Cheeks, Base 중 하나
+- 실제 존재하는 한국에서 구매 가능한 화장품을 추천하세요
+- 가격은 한국 원화(₩)로 대략적인 정가를 표기하세요
+- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요
+- summary에 성별, 피부타입, 톤 분석을 간략히 포함하세요`,
               },
             ],
           },
@@ -175,6 +179,20 @@ ${skinDesc} 총 9가지 메이크업을 3x3 그리드로 생성해줘.
       const msg = reportJson.output?.find((o) => o.type === 'message')
       const textBlock = msg?.content?.find((c) => c.type === 'output_text')
       report = textBlock?.text || ''
+
+      // JSON 추출 및 검증
+      if (report) {
+        try {
+          const jsonMatch = report.match(/```(?:json)?\s*([\s\S]*?)```/)
+          const jsonStr = jsonMatch ? jsonMatch[1].trim() : report.trim()
+          const parsed = JSON.parse(jsonStr)
+          if (parsed && typeof parsed.summary === 'string' && Array.isArray(parsed.products)) {
+            report = JSON.stringify(parsed)
+          }
+        } catch {
+          // JSON 파싱 실패 시 원본 텍스트 유지 (마크다운 폴백)
+        }
+      }
     }
 
     if (!imageData && !report) {
