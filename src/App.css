@@ -57,6 +57,7 @@
 /* ===== Analysis Body ===== */
 .analysis-body {
   padding: 16px;
+  padding-top: 80px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -497,11 +498,37 @@
   margin-bottom: 24px;
 }
 
-.result-image {
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+/* ===== Makeup 3x3 Grid ===== */
+.makeup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   margin-bottom: 16px;
+}
+
+.makeup-cell {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.makeup-cell-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-repeat: no-repeat;
+}
+
+.makeup-cell-label {
+  padding: 6px 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-align: center;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
 }
 
 .download-btn {

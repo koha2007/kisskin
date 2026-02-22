@@ -6,6 +6,24 @@ type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
 type Page = 'home' | 'analysis'
 
+const MAKEUP_STYLES = [
+  'Natural Glow',
+  'Cloud Skin',
+  'Blood Lip',
+  'Maximalist Eye',
+  'Metallic Eye',
+  'Bold Lip',
+  'Blush Draping & Layering',
+  'Grunge Makeup',
+  'K-pop Idol Makeup',
+]
+
+const GRID_POSITIONS = [
+  '0% 0%', '50% 0%', '100% 0%',
+  '0% 50%', '50% 50%', '100% 50%',
+  '0% 100%', '50% 100%', '100% 100%',
+]
+
 const SKIN_DATA: Record<string, { en: string; icon: string; desc: string }> = {
   '지성': { en: 'Oily', icon: 'water_drop', desc: '피지 분비가 많은 피부' },
   '건성': { en: 'Dry', icon: 'dry_cleaning', desc: '수분이 부족한 피부' },
@@ -162,7 +180,21 @@ function App() {
           {resultImage && (
             <section className="result-section">
               <h3 className="section-heading">메이크업 스타일 9종</h3>
-              <img src={resultImage} alt="메이크업 스타일 9종" className="result-image" />
+              <div className="makeup-grid">
+                {MAKEUP_STYLES.map((style, i) => (
+                  <div key={style} className="makeup-cell">
+                    <div
+                      className="makeup-cell-img"
+                      style={{
+                        backgroundImage: `url(${resultImage})`,
+                        backgroundSize: '300% 300%',
+                        backgroundPosition: GRID_POSITIONS[i],
+                      }}
+                    />
+                    <p className="makeup-cell-label">{style}</p>
+                  </div>
+                ))}
+              </div>
               <button className="download-btn" onClick={handleDownload}>
                 <span className="material-symbols-outlined">download</span>
                 이미지 저장하기
