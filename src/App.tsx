@@ -46,15 +46,25 @@ interface ProductRecommendation {
   reason: string
 }
 
+interface AnalysisDetail {
+  gender: string
+  skinType: string
+  skinTypeDetail: string
+  tone: string
+  toneDetail: string
+  advice: string
+}
+
 interface StructuredReport {
-  summary: string
+  analysis?: AnalysisDetail
+  summary?: string
   products: ProductRecommendation[]
 }
 
 function parseReport(reportStr: string): StructuredReport | null {
   try {
     const parsed = JSON.parse(reportStr)
-    if (parsed && typeof parsed.summary === 'string' && Array.isArray(parsed.products) && parsed.products.length > 0) {
+    if (parsed && Array.isArray(parsed.products) && parsed.products.length > 0) {
       return parsed as StructuredReport
     }
   } catch { /* not JSON */ }
@@ -301,11 +311,57 @@ function App() {
           <h2 className="top-bar-title">분석 결과</h2>
         </div>
         <div className="analysis-body">
-          <div className="report-meta">
-            <span>{gender}</span>
-            <span>{skinType}</span>
-          </div>
+          {/* AI 분석 리포트 */}
+          {report && (() => {
+            const structured = parseReport(report)
+            const a = structured?.analysis
+            if (a) {
+              return (
+                <section className="ai-analysis-section">
+                  <div className="ai-analysis-header">
+                    <span className="material-symbols-outlined">auto_awesome</span>
+                    <h3>AI Skin Analysis</h3>
+                  </div>
 
+                  <div className="analysis-badges">
+                    <span className="analysis-badge">{a.gender}</span>
+                    <span className="analysis-badge">{a.skinType}</span>
+                    <span className="analysis-badge tone">{a.tone}</span>
+                  </div>
+
+                  <div className="analysis-cards">
+                    <div className="analysis-card">
+                      <div className="analysis-card-icon">
+                        <span className="material-symbols-outlined">dermatology</span>
+                      </div>
+                      <div className="analysis-card-content">
+                        <h4>피부 타입</h4>
+                        <p>{a.skinTypeDetail}</p>
+                      </div>
+                    </div>
+
+                    <div className="analysis-card">
+                      <div className="analysis-card-icon tone-icon">
+                        <span className="material-symbols-outlined">palette</span>
+                      </div>
+                      <div className="analysis-card-content">
+                        <h4>톤 분석</h4>
+                        <p>{a.toneDetail}</p>
+                      </div>
+                    </div>
+
+                    <div className="analysis-advice">
+                      <span className="material-symbols-outlined">tips_and_updates</span>
+                      <p>{a.advice}</p>
+                    </div>
+                  </div>
+                </section>
+              )
+            }
+            return null
+          })()}
+
+          {/* 메이크업 그리드 */}
           {resultCells.length === 9 && (
             <section className="result-section">
               <h3 className="section-heading">메이크업 스타일 9종</h3>
@@ -324,13 +380,13 @@ function App() {
             </section>
           )}
 
+          {/* 추천 제품 */}
           {report && (() => {
             const structured = parseReport(report)
             if (structured) {
               return (
                 <section className="report-section">
                   <h3 className="section-heading">맞춤 화장품 추천</h3>
-                  <div className="report-summary">{structured.summary}</div>
                   <div className="product-cards">
                     {structured.products.map((p, i) => {
                       const cat = CATEGORY_STYLE[p.category] || { icon: 'cosmetics', bg: '#94a3b8' }

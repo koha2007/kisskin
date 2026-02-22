@@ -469,24 +469,136 @@
   color: #94a3b8;
 }
 
-/* ===== Report / Results ===== */
-.report-meta {
+/* ===== AI Analysis Section ===== */
+.ai-analysis-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 16px rgba(235, 71, 99, 0.06);
+  border: 1px solid rgba(235, 71, 99, 0.08);
+  margin-bottom: 20px;
+}
+
+.ai-analysis-header {
   display: flex;
-  justify-content: center;
+  align-items: center;
   gap: 8px;
   margin-bottom: 16px;
 }
 
-.report-meta span {
+.ai-analysis-header .material-symbols-outlined {
+  font-size: 22px;
+  color: #eb4763;
+}
+
+.ai-analysis-header h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+
+.analysis-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.analysis-badge {
   background: rgba(235, 71, 99, 0.06);
   color: #eb4763;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 4px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
   border: 1px solid rgba(235, 71, 99, 0.15);
 }
 
+.analysis-badge.tone {
+  background: rgba(251, 191, 36, 0.1);
+  color: #b45309;
+  border-color: rgba(251, 191, 36, 0.25);
+}
+
+.analysis-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.analysis-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  background: #f8f6f6;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+.analysis-card-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(235, 71, 99, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #eb4763;
+}
+
+.analysis-card-icon .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.analysis-card-icon.tone-icon {
+  background: rgba(251, 191, 36, 0.12);
+  color: #d97706;
+}
+
+.analysis-card-content h4 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.analysis-card-content p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #334155;
+  word-break: keep-all;
+}
+
+.analysis-advice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(235, 71, 99, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(235, 71, 99, 0.1);
+}
+
+.analysis-advice .material-symbols-outlined {
+  font-size: 20px;
+  color: #eb4763;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.analysis-advice p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #475569;
+  font-style: italic;
+  word-break: keep-all;
+}
+
+/* ===== Section Heading ===== */
 .section-heading {
   font-size: 1rem;
   font-weight: 700;
@@ -602,19 +714,6 @@
 
 .report-content strong {
   color: #0f172a;
-}
-
-/* ===== Report Summary ===== */
-.report-summary {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: #334155;
-  word-break: keep-all;
-  margin-bottom: 20px;
-  padding: 16px;
-  background: rgba(235, 71, 99, 0.04);
-  border: 1px solid rgba(235, 71, 99, 0.12);
-  border-radius: 12px;
 }
 
 /* ===== Product Cards ===== */

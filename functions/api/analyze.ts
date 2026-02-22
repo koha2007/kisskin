@@ -117,15 +117,17 @@ ${skinDesc} 총 9가지 메이크업을 3x3 그리드로 생성해줘.
 
 반드시 아래 JSON 형식으로만 응답하세요. JSON 외의 텍스트는 절대 포함하지 마세요. 코드펜스(\`\`\`)도 쓰지 마세요.
 
-{"summary":"피부 분석 요약 (2-3문장). 성별, 피부타입, 피부톤 분석을 포함.","products":[{"category":"카테고리","name":"제품명","brand":"브랜드명","price":"₩가격","reason":"추천 이유 1문장"}]}
+{"analysis":{"gender":"성별","skinType":"피부타입","skinTypeDetail":"피부타입에 대한 상세 설명 2-3문장","tone":"톤 이름 (예: Warm Undertone)","toneDetail":"톤앤톤에 대한 상세 설명. 어울리는 컬러 계열과 피해야 할 컬러 포함. 2-3문장","advice":"종합적인 메이크업 조언 1-2문장"},"products":[{"category":"카테고리","name":"제품명","brand":"브랜드명","price":"$가격","reason":"추천 이유 1문장"}]}
 
 규칙:
+- analysis.skinTypeDetail: 피부타입의 특징, 장단점, 관리 포인트를 설명
+- analysis.toneDetail: 웜톤/쿨톤/뉴트럴 판단 근거, 어울리는 컬러와 피할 컬러를 구체적으로 설명
+- analysis.advice: 이 사람에게 맞는 메이크업 방향을 종합 조언
 - products 배열에 6~8개 제품을 추천하세요
 - category는 반드시 Skin, Eyes, Lips, Cheeks, Base 중 하나
 - 전 세계에서 구매 가능한 글로벌 브랜드 화장품을 추천하세요 (예: MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique 등)
 - 가격은 미국 달러($)로 대략적인 정가를 표기하세요
-- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요
-- summary에 성별, 피부타입, 톤 분석을 간략히 포함하세요`,
+- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`,
               },
             ],
           },
