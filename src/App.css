@@ -517,7 +517,8 @@
 
 .makeup-cell-img {
   width: 100%;
-  background-repeat: no-repeat;
+  display: block;
+  object-fit: cover;
 }
 
 .makeup-cell-label {

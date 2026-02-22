@@ -18,11 +18,6 @@ const MAKEUP_STYLES = [
   'K-pop Idol Makeup',
 ]
 
-const GRID_POSITIONS = [
-  '0% 0%', '50% 0%', '100% 0%',
-  '0% 50%', '50% 50%', '100% 50%',
-  '0% 100%', '50% 100%', '100% 100%',
-]
 
 const SKIN_DATA: Record<string, { en: string; icon: string; desc: string }> = {
   '지성': { en: 'Oily', icon: 'water_drop', desc: '피지 분비가 많은 피부' },
@@ -86,7 +81,7 @@ function App() {
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
-  const [resultRatio, setResultRatio] = useState<number>(1)
+  const [resultCells, setResultCells] = useState<string[]>([])
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -149,10 +144,25 @@ function App() {
       }
 
       if (data.image) {
-        const img = new Image()
-        img.onload = () => setResultRatio(img.width / img.height)
-        img.src = data.image
         setResultImage(data.image)
+        const img = new Image()
+        img.onload = () => {
+          const cellW = Math.floor(img.width / 3)
+          const cellH = Math.floor(img.height / 3)
+          const cells: string[] = []
+          for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+              const cvs = document.createElement('canvas')
+              cvs.width = cellW
+              cvs.height = cellH
+              const ctx = cvs.getContext('2d')!
+              ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
+              cells.push(cvs.toDataURL('image/png'))
+            }
+          }
+          setResultCells(cells)
+        }
+        img.src = data.image
       }
       if (data.report) setReport(data.report)
     } catch (e) {
@@ -164,6 +174,7 @@ function App() {
 
   const handleReset = () => {
     setResultImage(null)
+    setResultCells([])
     setReport(null)
     setError(null)
   }
@@ -295,21 +306,13 @@ function App() {
             <span>{skinType}</span>
           </div>
 
-          {resultImage && (
+          {resultCells.length === 9 && (
             <section className="result-section">
               <h3 className="section-heading">메이크업 스타일 9종</h3>
               <div className="makeup-grid">
                 {MAKEUP_STYLES.map((style, i) => (
                   <div key={style} className="makeup-cell">
-                    <div
-                      className="makeup-cell-img"
-                      style={{
-                        backgroundImage: `url(${resultImage})`,
-                        backgroundSize: '300% 300%',
-                        backgroundPosition: GRID_POSITIONS[i],
-                        aspectRatio: `${resultRatio}`,
-                      }}
-                    />
+                    <img src={resultCells[i]} alt={style} className="makeup-cell-img" />
                     <p className="makeup-cell-label">{style}</p>
                   </div>
                 ))}
