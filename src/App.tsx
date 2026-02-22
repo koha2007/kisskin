@@ -67,7 +67,7 @@ function parseReport(reportStr: string): StructuredReport | null {
 }
 
 function buildBuyLink(brand: string, name: string): string {
-  return `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(brand + ' ' + name)}`
+  return `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(brand + ' ' + name)}`
 }
 
 const CATEGORY_STYLE: Record<string, { icon: string; bg: string }> = {
@@ -86,6 +86,7 @@ function App() {
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
+  const [resultRatio, setResultRatio] = useState<number>(1)
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -147,7 +148,12 @@ function App() {
         throw new Error(data.error || '분석 중 오류가 발생했습니다.')
       }
 
-      if (data.image) setResultImage(data.image)
+      if (data.image) {
+        const img = new Image()
+        img.onload = () => setResultRatio(img.width / img.height)
+        img.src = data.image
+        setResultImage(data.image)
+      }
       if (data.report) setReport(data.report)
     } catch (e) {
       setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
@@ -301,7 +307,7 @@ function App() {
                         backgroundImage: `url(${resultImage})`,
                         backgroundSize: '300% 300%',
                         backgroundPosition: GRID_POSITIONS[i],
-                        aspectRatio: `${photoRatio < 0.85 ? 1024 / 1536 : photoRatio > 1.15 ? 1536 / 1024 : 1}`,
+                        aspectRatio: `${resultRatio}`,
                       }}
                     />
                     <p className="makeup-cell-label">{style}</p>

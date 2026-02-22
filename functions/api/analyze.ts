@@ -122,8 +122,8 @@ ${skinDesc} 총 9가지 메이크업을 3x3 그리드로 생성해줘.
 규칙:
 - products 배열에 6~8개 제품을 추천하세요
 - category는 반드시 Skin, Eyes, Lips, Cheeks, Base 중 하나
-- 실제 존재하는 한국에서 구매 가능한 화장품을 추천하세요
-- 가격은 한국 원화(₩)로 대략적인 정가를 표기하세요
+- 전 세계에서 구매 가능한 글로벌 브랜드 화장품을 추천하세요 (예: MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique 등)
+- 가격은 미국 달러($)로 대략적인 정가를 표기하세요
 - 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요
 - summary에 성별, 피부타입, 톤 분석을 간략히 포함하세요`,
               },
