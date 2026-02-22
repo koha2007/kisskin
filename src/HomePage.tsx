@@ -59,7 +59,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                 Makeup Looks
               </h1>
               <p className="text-lg text-slate-500 max-w-lg font-light leading-relaxed">
-                Upload a selfie and our AI creates 9 professional makeup transformations with personalized product recommendations.
+                Upload a selfie and our AI creates 9 professional makeup transformations. We analyze your skin and recommend the best matching products with direct links to purchase.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
