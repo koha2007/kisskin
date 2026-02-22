@@ -58,9 +58,15 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <span className="text-primary">9 Stunning</span><br />
                 Makeup Looks
               </h1>
-              <p className="text-lg text-slate-500 max-w-lg font-light leading-relaxed">
-                Upload a selfie and our AI creates 9 professional makeup transformations. We analyze your skin and recommend the best matching products with direct links to purchase.
+              <p className="text-lg text-slate-700 max-w-lg leading-relaxed font-medium">
+                Upload a selfie and our AI creates <strong className="text-primary">9 professional makeup transformations</strong>.
               </p>
+              <div className="flex items-start gap-3 bg-white rounded-2xl p-4 border border-primary/15 shadow-sm max-w-lg">
+                <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
+                <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+                  We <strong className="text-slate-800">analyze your skin</strong> and recommend the <strong className="text-primary">best matching products</strong> with <strong className="text-slate-800">direct links to purchase</strong>.
+                </p>
+              </div>
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25 group"
