@@ -3,15 +3,15 @@ interface HomePageProps {
 }
 
 const STYLES = [
-  { name: 'Natural Glow', icon: 'wb_sunny', color: 'from-amber-200 to-orange-300', desc: '촉촉한 광채 피부' },
-  { name: 'Cloud Skin', icon: 'cloud', color: 'from-sky-200 to-blue-300', desc: '뽀얀 구름 피부' },
-  { name: 'Blood Lip', icon: 'favorite', color: 'from-red-400 to-rose-600', desc: '진한 버건디 립' },
-  { name: 'Maximalist Eye', icon: 'visibility', color: 'from-violet-400 to-purple-600', desc: '화려한 컬러 아이' },
-  { name: 'Metallic Eye', icon: 'diamond', color: 'from-yellow-300 to-amber-500', desc: '메탈릭 골드/실버' },
-  { name: 'Bold Lip', icon: 'local_fire_department', color: 'from-red-500 to-pink-600', desc: '선명한 강렬 립' },
-  { name: 'Blush Draping', icon: 'spa', color: 'from-pink-300 to-rose-400', desc: '블러쉬 레이어링' },
-  { name: 'Grunge', icon: 'contrast', color: 'from-slate-500 to-zinc-700', desc: '다크 스모키 그런지' },
-  { name: 'K-pop Idol', icon: 'star', color: 'from-pink-400 to-fuchsia-500', desc: '유리알 아이돌 메이크업' },
+  { name: 'Natural Glow', icon: 'wb_sunny', color: 'from-amber-200 to-orange-300', desc: '촉촉한 광채 피부', img: '/styles/natural-glow.jpg' },
+  { name: 'Cloud Skin', icon: 'cloud', color: 'from-sky-200 to-blue-300', desc: '뽀얀 구름 피부', img: '/styles/cloud-skin.jpg' },
+  { name: 'Blood Lip', icon: 'favorite', color: 'from-red-400 to-rose-600', desc: '진한 버건디 립', img: '/styles/blood-lip.jpg' },
+  { name: 'Maximalist Eye', icon: 'visibility', color: 'from-violet-400 to-purple-600', desc: '화려한 컬러 아이', img: '/styles/maximalist-eye.jpg' },
+  { name: 'Metallic Eye', icon: 'diamond', color: 'from-yellow-300 to-amber-500', desc: '메탈릭 골드/실버', img: '/styles/metallic-eye.jpg' },
+  { name: 'Bold Lip', icon: 'local_fire_department', color: 'from-red-500 to-pink-600', desc: '선명한 강렬 립', img: '/styles/bold-lip.jpg' },
+  { name: 'Blush Draping', icon: 'spa', color: 'from-pink-300 to-rose-400', desc: '블러쉬 레이어링', img: '/styles/blush-draping.jpg' },
+  { name: 'Grunge', icon: 'contrast', color: 'from-slate-500 to-zinc-700', desc: '다크 스모키 그런지', img: '/styles/grunge.jpg' },
+  { name: 'K-pop Idol', icon: 'star', color: 'from-pink-400 to-fuchsia-500', desc: '유리알 아이돌 메이크업', img: '/styles/kpop-idol.jpg' },
 ]
 
 function HomePage({ onNavigate }: HomePageProps) {
@@ -100,8 +100,8 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <div className="grid grid-cols-3 gap-2">
                   {STYLES.map((s) => (
                     <div key={s.name} className="relative group cursor-pointer" onClick={() => onNavigate('analysis')}>
-                      <div className={`aspect-square rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center transition-transform group-hover:scale-105`}>
-                        <span className="material-symbols-outlined text-white text-3xl md:text-4xl drop-shadow-md" style={{ fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
+                      <div className="aspect-square rounded-xl overflow-hidden transition-transform group-hover:scale-105">
+                        <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
                       </div>
                       <p className="text-[0.6rem] md:text-xs font-bold text-center mt-1.5 text-slate-700 leading-tight">{s.name}</p>
                     </div>
@@ -154,10 +154,9 @@ function HomePage({ onNavigate }: HomePageProps) {
                 className="group cursor-pointer"
                 onClick={() => onNavigate('analysis')}
               >
-                <div className={`aspect-square rounded-2xl md:rounded-3xl bg-gradient-to-br ${s.color} flex flex-col items-center justify-center gap-2 p-3 transition-all group-hover:scale-105 group-hover:shadow-xl relative overflow-hidden`}>
-                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all"></div>
-                  <span className="material-symbols-outlined text-white text-4xl md:text-5xl drop-shadow-md relative" style={{ fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
-                  <span className="absolute top-2 right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-bold">{i + 1}</span>
+                <div className="aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden transition-all group-hover:scale-105 group-hover:shadow-xl relative">
+                  <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
+                  <span className="absolute top-2 right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white text-xs font-bold">{i + 1}</span>
                 </div>
                 <div className="mt-2 md:mt-3 text-center">
                   <p className="text-xs md:text-sm font-bold text-slate-800">{s.name}</p>
