@@ -100,7 +100,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <div className="grid grid-cols-3 gap-2">
                   {STYLES.map((s) => (
                     <div key={s.name} className="relative group cursor-pointer" onClick={() => onNavigate('analysis')}>
-                      <div className="aspect-square rounded-xl overflow-hidden transition-transform group-hover:scale-105">
+                      <div className="aspect-[2/3] rounded-xl overflow-hidden transition-transform group-hover:scale-105">
                         <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
                       </div>
                       <p className="text-[0.6rem] md:text-xs font-bold text-center mt-1.5 text-slate-700 leading-tight">{s.name}</p>
