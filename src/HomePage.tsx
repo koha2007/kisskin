@@ -99,10 +99,8 @@ function HomePage({ onNavigate }: HomePageProps) {
               <div className="relative bg-white rounded-[2rem] p-5 shadow-2xl border border-slate-100">
                 <div className="grid grid-cols-3 gap-2">
                   {STYLES.map((s) => (
-                    <div key={s.name} className="relative group cursor-pointer" onClick={() => onNavigate('analysis')}>
-                      <div className="rounded-xl overflow-hidden transition-transform group-hover:scale-105">
-                        <img src={s.img} alt={s.name} className="w-full h-auto block" />
-                      </div>
+                    <div key={s.name} className="group cursor-pointer" onClick={() => onNavigate('analysis')}>
+                      <img src={s.img} alt={s.name} className="w-full rounded-xl transition-transform group-hover:scale-105" />
                       <p className="text-[0.6rem] md:text-xs font-bold text-center mt-1.5 text-slate-700 leading-tight">{s.name}</p>
                     </div>
                   ))}
@@ -154,8 +152,8 @@ function HomePage({ onNavigate }: HomePageProps) {
                 className="group cursor-pointer"
                 onClick={() => onNavigate('analysis')}
               >
-                <div className="rounded-2xl md:rounded-3xl overflow-hidden transition-all group-hover:scale-105 group-hover:shadow-xl relative">
-                  <img src={s.img} alt={s.name} className="w-full h-auto block" />
+                <div className="relative transition-all group-hover:scale-105 group-hover:shadow-xl">
+                  <img src={s.img} alt={s.name} className="w-full rounded-2xl md:rounded-3xl" />
                   <span className="absolute top-2 right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white text-xs font-bold">{i + 1}</span>
                 </div>
                 <div className="mt-2 md:mt-3 text-center">
