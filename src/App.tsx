@@ -20,14 +20,14 @@ const FEMALE_MAKEUP_STYLES = [
 
 const MALE_MAKEUP_STYLES = [
   'No-Makeup Makeup',
+  'Skincare Hybrid Base',
   'Blurred Lip',
-  'Blue Eye',
   'Grunge / Smoky Eye',
-  'Vampire Romantic',
-  'Dramatic Lip',
   'Monochrome',
-  'Embellished Eye',
-  'Glitch Glam',
+  'Utility Makeup',
+  'Blue & Color Point Eye',
+  'Vampire Romantic',
+  'K-pop Idol Makeup',
 ]
 
 
