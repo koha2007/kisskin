@@ -6,7 +6,7 @@ type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
 type Page = 'home' | 'analysis'
 
-const MAKEUP_STYLES = [
+const FEMALE_MAKEUP_STYLES = [
   'Natural Glow',
   'Cloud Skin',
   'Blood Lip',
@@ -16,6 +16,18 @@ const MAKEUP_STYLES = [
   'Blush Draping & Layering',
   'Grunge Makeup',
   'K-pop Idol Makeup',
+]
+
+const MALE_MAKEUP_STYLES = [
+  'No-Makeup Makeup',
+  'Blurred Lip',
+  'Blue Eye',
+  'Grunge / Smoky Eye',
+  'Vampire Romantic',
+  'Dramatic Lip',
+  'Monochrome',
+  'Embellished Eye',
+  'Glitch Glam',
 ]
 
 
@@ -214,6 +226,8 @@ function App() {
     }
   }
 
+  const activeStyles = gender === '남성' ? MALE_MAKEUP_STYLES : FEMALE_MAKEUP_STYLES
+
   const isComplete = photo && gender && skinType
 
   const handleSubmit = async () => {
@@ -347,7 +361,7 @@ function App() {
           ctx.font = `700 ${fontSize}px Manrope, sans-serif`
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
-          ctx.fillText(MAKEUP_STYLES[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
+          ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
         }
       }
 
@@ -451,7 +465,7 @@ function App() {
             <section className="result-section">
               <h3 className="section-heading">메이크업 스타일 9종</h3>
               <div className="makeup-grid">
-                {MAKEUP_STYLES.map((style, i) => (
+                {activeStyles.map((style, i) => (
                   <div key={style} className="makeup-cell">
                     <img src={resultCells[i]} alt={style} className="makeup-cell-img" />
                     <p className="makeup-cell-label">{style}</p>

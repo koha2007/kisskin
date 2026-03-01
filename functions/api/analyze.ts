@@ -56,7 +56,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     formData.append('background', 'auto')
     formData.append('moderation', 'auto')
     formData.append('input_fidelity', 'high')
-    formData.append('prompt', `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'} 반영해서 총 9가지 메이크업을 표현해줘.
+    const skinTypeInstruction = skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'
+
+    const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinTypeInstruction} 반영해서 총 9가지 메이크업을 표현해줘.
 
 [절대 규칙]
 - 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해
@@ -80,7 +82,35 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 8: 그런지 메이크업 (Grunge Makeup) - 어두운 스모키 아이, 다크 베리/브라운 립, 매트 피부
 9: K-pop 아이돌 (K-pop Idol Makeup) - 유리알 피부 광택, 그라데이션 핑크 립, 눈 안쪽 쉬머
 
-핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해. 보는 사람이 즉시 어떤 스타일인지 알 수 있을 만큼 뚜렷하게 표현해줘. 절대 글자 넣지 마.`)
+핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해. 보는 사람이 즉시 어떤 스타일인지 알 수 있을 만큼 뚜렷하게 표현해줘. 절대 글자 넣지 마.`
+
+    const malePrompt = `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinTypeInstruction} 반영해서 2026년 글로벌 트렌드 메이크업 9가지를 표현해줘.
+
+[절대 규칙]
+- 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해
+- 9칸 모두 얼굴 위치, 크기, 각도, 표정이 완전히 동일해야 해
+- 이빨이 보이면 깨끗하고 하얗고 고르게 보정해줘
+- 배경, 조명, 옷, 머리카락은 절대 변경하지 마
+- 총 9가지 메이크업 스타일을 확실하고 정확하게 자연스럽게 표현해줘
+- 각 메이크업 스타일이 한눈에 구분될 만큼 확실하게 달라야 해
+- 얼굴이 칸 안에 다 들어가게 생성하고 위, 아래, 좌, 우 여백 균등하게 생성해줘
+- 그리드 칸 사이에 여백/테두리/구분선 없이 빈틈없이 딱 붙여
+- 글자, 텍스트, 라벨, 숫자를 이미지에 절대 넣지 마
+
+[9가지 메이크업 스타일 - 좌→우, 위→아래 순서]
+1: 내추럴 소프트포커스 스킨 (No-Makeup Makeup) - 풀커버리지가 아닌 피부 본연의 결을 드러내는 스킨케어 기반 베이스, 자연스럽고 살아있는 피부
+2: 디퓨즈드 립 (Blurred Lip) - 립 컬러가 자연스럽게 번진 듯한 색감, 입술 경계가 흐릿하고 부드러운 그라데이션
+3: 블루 아이 (Blue Eye) - 코발트, 터콰이즈, 아이시 블루 등 파란색 계열 아이섀도, 프로스티드 텍스처
+4: 그런지 / 스모키 아이 (Grunge / Smoky Eye) - 어두운 톤의 스모키 아이, 세련된 그런지 스타일, 번진 듯한 아이라인
+5: 뱀파이어 로맨틱 (Vampire Romantic) - 창백하게 정돈된 피부 위에 딥한 레드 립, 강렬한 스모키 아이 조합
+6: 드라마틱 립 (Dramatic Lip) - 진한 자두색, 강렬한 레드, 글로시 베리 등 고채도 립 컬러가 주인공
+7: 모노크롬 메이크업 (Monochrome) - 하나의 컬러 계열로 눈, 입술, 볼을 통일, 매트와 새틴 텍스처 차이로 세련미
+8: 임벨리시드 아이 (Embellished Eye) - 크리스탈, 보석, 스터드 등으로 눈가를 장식하는 맥시멀리스트 아이 룩
+9: 글리치 글램 (Glitch Glam) - 플로팅 라이너, 기하학적 형태, 예상치 못한 위치에 컬러를 배치하는 자유로운 아방가르드 표현
+
+핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해. 보는 사람이 즉시 어떤 스타일인지 알 수 있을 만큼 뚜렷하게 표현해줘. 절대 글자 넣지 마.`
+
+    formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
 
     const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
