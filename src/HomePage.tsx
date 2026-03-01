@@ -94,17 +94,10 @@ function HomePage({ onNavigate }: HomePageProps) {
             </div>
 
             {/* Hero Visual - 3x3 Grid Preview */}
-            <div className="relative order-1 lg:order-2">
+            <div className="relative order-1 lg:order-2 cursor-pointer" onClick={() => onNavigate('analysis')}>
               <div className="absolute -inset-6 bg-gradient-to-br from-primary/10 via-pink-100/50 to-amber-100/50 rounded-[3rem] blur-2xl"></div>
-              <div className="relative bg-white rounded-[2rem] p-5 shadow-2xl border border-slate-100">
-                <div className="grid grid-cols-3 gap-2">
-                  {STYLES.map((s) => (
-                    <div key={s.name} className="group cursor-pointer" onClick={() => onNavigate('analysis')}>
-                      <img src={s.img} alt={s.name} className="w-full rounded-xl transition-transform group-hover:scale-105" />
-                      <p className="text-[0.6rem] md:text-xs font-bold text-center mt-1.5 text-slate-700 leading-tight">{s.name}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="relative bg-white rounded-[2rem] p-3 md:p-5 shadow-2xl border border-slate-100">
+                <img src="/styles/grid-preview.jpg" alt="9 Makeup Styles Preview" className="w-full rounded-xl" />
                 {/* Floating badge */}
                 <div className="absolute -bottom-4 -right-4 bg-primary text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg shadow-primary/30 flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-lg">auto_awesome</span>
@@ -145,23 +138,18 @@ function HomePage({ onNavigate }: HomePageProps) {
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight">9 Signature Styles</h2>
             <p className="text-slate-500 max-w-lg font-light">From natural everyday to bold editorial — find the perfect look for every occasion.</p>
           </div>
-          <div className="grid grid-cols-3 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
-            {STYLES.map((s, i) => (
-              <div
-                key={s.name}
-                className="group cursor-pointer"
-                onClick={() => onNavigate('analysis')}
-              >
-                <div className="relative transition-all group-hover:scale-105 group-hover:shadow-xl">
-                  <img src={s.img} alt={s.name} className="w-full rounded-2xl md:rounded-3xl" />
-                  <span className="absolute top-2 right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white text-xs font-bold">{i + 1}</span>
-                </div>
-                <div className="mt-2 md:mt-3 text-center">
-                  <p className="text-xs md:text-sm font-bold text-slate-800">{s.name}</p>
+          <div className="max-w-3xl mx-auto">
+            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl cursor-pointer" onClick={() => onNavigate('analysis')}>
+              <img src="/styles/grid-preview.jpg" alt="9 Makeup Styles" className="w-full" />
+            </div>
+            <div className="grid grid-cols-3 gap-4 md:gap-6 mt-3">
+              {STYLES.map((s, i) => (
+                <div key={s.name} className="text-center">
+                  <p className="text-xs md:text-sm font-bold text-slate-800">{i + 1}. {s.name}</p>
                   <p className="text-[0.6rem] md:text-xs text-slate-400 mt-0.5">{s.desc}</p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           <div className="mt-14 text-center">
             <button
