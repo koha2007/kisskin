@@ -86,7 +86,7 @@ function AnimatedGrid({ onClick }: { onClick: () => void }) {
       {cells.map((cell, i) => (
         <div
           key={i}
-          className="relative aspect-[3/4] overflow-hidden rounded-lg md:rounded-xl"
+          className="relative aspect-square overflow-hidden rounded-lg md:rounded-xl"
           style={{
             transformStyle: 'preserve-3d',
             transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -101,7 +101,7 @@ function AnimatedGrid({ onClick }: { onClick: () => void }) {
             <img
               src={cell.current}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           </div>
           {/* Back face */}
@@ -115,7 +115,7 @@ function AnimatedGrid({ onClick }: { onClick: () => void }) {
             <img
               src={cell.next}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           </div>
         </div>
