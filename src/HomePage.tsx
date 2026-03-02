@@ -1,3 +1,5 @@
+import { useState, useEffect, useCallback, useRef } from 'react'
+
 interface HomePageProps {
   onNavigate: (page: 'home' | 'analysis') => void
 }
@@ -13,6 +15,122 @@ const STYLES = [
   { name: 'Grunge', icon: 'contrast', color: 'from-slate-500 to-zinc-700', desc: '다크 스모키 그런지', img: '/styles/grunge.jpg' },
   { name: 'K-pop Idol', icon: 'star', color: 'from-pink-400 to-fuchsia-500', desc: '유리알 아이돌 메이크업', img: '/styles/kpop-idol.jpg' },
 ]
+
+const STYLE_IMAGES = [
+  '/styles/natural-glow.jpg',
+  '/styles/cloud-skin.jpg',
+  '/styles/blood-lip.jpg',
+  '/styles/maximalist-eye.jpg',
+  '/styles/metallic-eye.jpg',
+  '/styles/bold-lip.jpg',
+  '/styles/blush-draping.jpg',
+  '/styles/grunge.jpg',
+  '/styles/kpop-idol.jpg',
+]
+
+function AnimatedGrid({ onClick }: { onClick: () => void }) {
+  // Each cell has: current image, next image, and whether it's flipping
+  const [cells, setCells] = useState(() =>
+    // Start with shuffled images so all 9 are different
+    shuffleArray([...STYLE_IMAGES]).map(img => ({
+      current: img,
+      next: img,
+      flipping: false,
+    }))
+  )
+  const cellsRef = useRef(cells)
+  cellsRef.current = cells
+
+  const swapCell = useCallback(() => {
+    const currentCells = cellsRef.current
+    // Pick a random cell
+    const cellIdx = Math.floor(Math.random() * 9)
+    // Pick a random image that's different from the current one in that cell
+    const currentImg = currentCells[cellIdx].current
+    const availableImgs = STYLE_IMAGES.filter(img => img !== currentImg)
+    const nextImg = availableImgs[Math.floor(Math.random() * availableImgs.length)]
+
+    // Start flip animation
+    setCells(prev => prev.map((cell, i) =>
+      i === cellIdx ? { ...cell, next: nextImg, flipping: true } : cell
+    ))
+
+    // After flip halfway (300ms), the back face shows
+    // After full flip (600ms), reset
+    setTimeout(() => {
+      setCells(prev => prev.map((cell, i) =>
+        i === cellIdx ? { current: nextImg, next: nextImg, flipping: false } : cell
+      ))
+    }, 600)
+  }, [])
+
+  useEffect(() => {
+    // Swap a random cell every 1.5-2.5 seconds
+    const schedule = () => {
+      const delay = 1500 + Math.random() * 1000
+      return setTimeout(() => {
+        swapCell()
+        timerRef.current = schedule()
+      }, delay)
+    }
+    const timerRef = { current: schedule() }
+    return () => clearTimeout(timerRef.current)
+  }, [swapCell])
+
+  return (
+    <div
+      className="grid grid-cols-3 gap-1.5 md:gap-2 cursor-pointer"
+      onClick={onClick}
+      style={{ perspective: '1200px' }}
+    >
+      {cells.map((cell, i) => (
+        <div
+          key={i}
+          className="relative aspect-[3/4] overflow-hidden rounded-lg md:rounded-xl"
+          style={{
+            transformStyle: 'preserve-3d',
+            transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: cell.flipping ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          }}
+        >
+          {/* Front face */}
+          <div
+            className="absolute inset-0"
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            <img
+              src={cell.current}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+          {/* Back face */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)',
+            }}
+          >
+            <img
+              src={cell.next}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function shuffleArray<T>(arr: T[]): T[] {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
+}
 
 function HomePage({ onNavigate }: HomePageProps) {
   return (
@@ -93,11 +211,11 @@ function HomePage({ onNavigate }: HomePageProps) {
               </div>
             </div>
 
-            {/* Hero Visual - 3x3 Grid Preview */}
-            <div className="relative order-1 lg:order-2 cursor-pointer" onClick={() => onNavigate('analysis')}>
+            {/* Hero Visual - Animated 3x3 Grid */}
+            <div className="relative order-1 lg:order-2">
               <div className="absolute -inset-6 bg-gradient-to-br from-primary/10 via-pink-100/50 to-amber-100/50 rounded-[3rem] blur-2xl"></div>
               <div className="relative bg-white rounded-[2rem] p-3 md:p-5 shadow-2xl border border-slate-100">
-                <img src="/styles/grid-preview.jpg" alt="9 Makeup Styles Preview" className="w-full rounded-xl" />
+                <AnimatedGrid onClick={() => onNavigate('analysis')} />
                 {/* Floating badge */}
                 <div className="absolute -bottom-4 -right-4 bg-primary text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg shadow-primary/30 flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-lg">auto_awesome</span>
