@@ -18,46 +18,59 @@ const STYLES = [
 
 const HERO_IMAGES = Array.from({ length: 9 }, (_, i) => `/styles/hero-${i + 1}.jpg`)
 
+// Float offsets per cell for organic movement
+const FLOAT_CONFIGS = [
+  { dur: 4.0, x: 6, y: 10 },
+  { dur: 5.2, x: -5, y: 8 },
+  { dur: 4.6, x: 7, y: -9 },
+  { dur: 5.8, x: -6, y: 11 },
+  { dur: 4.3, x: 5, y: -7 },
+  { dur: 5.5, x: -7, y: 9 },
+  { dur: 4.8, x: 8, y: -10 },
+  { dur: 5.0, x: -5, y: 8 },
+  { dur: 4.4, x: 6, y: -8 },
+]
+
 function AnimatedGrid({ onClick }: { onClick: () => void }) {
   const [cells, setCells] = useState(() =>
     shuffleArray([...HERO_IMAGES]).map(img => ({
-      bottom: img,
-      top: img,
-      animating: false,
+      images: [img],
       key: 0,
     }))
   )
   const cellsRef = useRef(cells)
   cellsRef.current = cells
+  const busyRef = useRef<Set<number>>(new Set())
 
   const swapCell = useCallback(() => {
     const current = cellsRef.current
-    // Don't swap a cell that's already animating
-    const candidates = current.map((c, i) => ({ ...c, i })).filter(c => !c.animating)
+    const candidates = Array.from({ length: 9 }, (_, i) => i).filter(i => !busyRef.current.has(i))
     if (candidates.length === 0) return
-    const pick = candidates[Math.floor(Math.random() * candidates.length)]
-    const cellIdx = pick.i
+    const cellIdx = candidates[Math.floor(Math.random() * candidates.length)]
 
-    const currentImg = current[cellIdx].bottom
+    const currentImg = current[cellIdx].images[0]
     const available = HERO_IMAGES.filter(img => img !== currentImg)
     const nextImg = available[Math.floor(Math.random() * available.length)]
 
-    // Place new image on top, start fade-in
+    busyRef.current.add(cellIdx)
+
+    // Push new image — triggers slide-up animation
     setCells(prev => prev.map((cell, i) =>
-      i === cellIdx ? { ...cell, top: nextImg, animating: true, key: cell.key + 1 } : cell
+      i === cellIdx ? { images: [nextImg, ...cell.images.slice(0, 1)], key: cell.key + 1 } : cell
     ))
 
-    // After transition completes, move top to bottom
+    // Cleanup after animation
     setTimeout(() => {
       setCells(prev => prev.map((cell, i) =>
-        i === cellIdx ? { ...cell, bottom: nextImg, animating: false } : cell
+        i === cellIdx ? { ...cell, images: [cell.images[0]] } : cell
       ))
-    }, 900)
+      busyRef.current.delete(cellIdx)
+    }, 800)
   }, [])
 
   useEffect(() => {
     const schedule = () => {
-      const delay = 1800 + Math.random() * 1200
+      const delay = 1200 + Math.random() * 800
       return setTimeout(() => {
         swapCell()
         timerRef.current = schedule()
@@ -70,47 +83,68 @@ function AnimatedGrid({ onClick }: { onClick: () => void }) {
   return (
     <>
       <style>{`
-        @keyframes heroFadeIn {
-          0% { opacity: 0; transform: scale(1.08); filter: blur(4px); }
-          100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+        @keyframes heroFloat {
+          0%, 100% { translate: var(--fx) var(--fy); }
+          50% { translate: calc(var(--fx) * -1) calc(var(--fy) * -1); }
         }
-        @keyframes heroBreath {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.02); }
+        @keyframes slideUp {
+          from { translate: 0 100%; }
+          to   { translate: 0 0; }
         }
-        .hero-cell { animation: heroBreath 6s ease-in-out infinite; }
-        .hero-fade-in { animation: heroFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideOut {
+          from { translate: 0 0; }
+          to   { translate: 0 -100%; }
+        }
+        .hero-cell {
+          animation: heroFloat var(--dur) ease-in-out infinite;
+        }
+        .hero-slide-in {
+          animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .hero-slide-out {
+          animation: slideOut 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
       `}</style>
       <div
         className="grid grid-cols-3 gap-1.5 md:gap-2.5 cursor-pointer"
         onClick={onClick}
       >
-        {cells.map((cell, i) => (
-          <div
-            key={i}
-            className="hero-cell relative overflow-hidden rounded-lg md:rounded-xl"
-            style={{
-              aspectRatio: '3 / 4',
-              animationDelay: `${i * 0.7}s`,
-            }}
-          >
-            {/* Bottom (current) image */}
-            <img
-              src={cell.bottom}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {/* Top (incoming) image with fade+scale animation */}
-            {cell.animating && (
+        {cells.map((cell, i) => {
+          const fc = FLOAT_CONFIGS[i]
+          const isSwapping = cell.images.length > 1
+          return (
+            <div
+              key={i}
+              className="hero-cell relative overflow-hidden rounded-lg md:rounded-xl"
+              style={{
+                aspectRatio: '3 / 4',
+                '--dur': `${fc.dur}s`,
+                '--fx': `${fc.x}px`,
+                '--fy': `${fc.y}px`,
+                animationDelay: `${i * -0.8}s`,
+              } as React.CSSProperties}
+            >
+              {/* New image (slides up from bottom) */}
               <img
                 key={cell.key}
-                src={cell.top}
+                src={cell.images[0]}
                 alt=""
-                className="hero-fade-in absolute inset-0 w-full h-full object-cover"
+                className={`absolute inset-0 w-full h-full object-cover ${isSwapping ? 'hero-slide-in' : ''}`}
+                style={{ zIndex: 2 }}
               />
-            )}
-          </div>
-        ))}
+              {/* Old image (slides up and out) */}
+              {isSwapping && cell.images[1] && (
+                <img
+                  key={cell.key - 1}
+                  src={cell.images[1]}
+                  alt=""
+                  className="hero-slide-out absolute inset-0 w-full h-full object-cover"
+                  style={{ zIndex: 1 }}
+                />
+              )}
+            </div>
+          )
+        })}
       </div>
     </>
   )
