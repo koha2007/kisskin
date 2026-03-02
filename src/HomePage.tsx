@@ -16,58 +16,48 @@ const STYLES = [
   { name: 'K-pop Idol', icon: 'star', color: 'from-pink-400 to-fuchsia-500', desc: '유리알 아이돌 메이크업', img: '/styles/kpop-idol.jpg' },
 ]
 
-const STYLE_IMAGES = [
-  '/styles/natural-glow.jpg',
-  '/styles/cloud-skin.jpg',
-  '/styles/blood-lip.jpg',
-  '/styles/maximalist-eye.jpg',
-  '/styles/metallic-eye.jpg',
-  '/styles/bold-lip.jpg',
-  '/styles/blush-draping.jpg',
-  '/styles/grunge.jpg',
-  '/styles/kpop-idol.jpg',
-]
+const HERO_IMAGES = Array.from({ length: 9 }, (_, i) => `/styles/hero-${i + 1}.jpg`)
 
 function AnimatedGrid({ onClick }: { onClick: () => void }) {
-  // Each cell has: current image, next image, and whether it's flipping
   const [cells, setCells] = useState(() =>
-    // Start with shuffled images so all 9 are different
-    shuffleArray([...STYLE_IMAGES]).map(img => ({
-      current: img,
-      next: img,
-      flipping: false,
+    shuffleArray([...HERO_IMAGES]).map(img => ({
+      bottom: img,
+      top: img,
+      animating: false,
+      key: 0,
     }))
   )
   const cellsRef = useRef(cells)
   cellsRef.current = cells
 
   const swapCell = useCallback(() => {
-    const currentCells = cellsRef.current
-    // Pick a random cell
-    const cellIdx = Math.floor(Math.random() * 9)
-    // Pick a random image that's different from the current one in that cell
-    const currentImg = currentCells[cellIdx].current
-    const availableImgs = STYLE_IMAGES.filter(img => img !== currentImg)
-    const nextImg = availableImgs[Math.floor(Math.random() * availableImgs.length)]
+    const current = cellsRef.current
+    // Don't swap a cell that's already animating
+    const candidates = current.map((c, i) => ({ ...c, i })).filter(c => !c.animating)
+    if (candidates.length === 0) return
+    const pick = candidates[Math.floor(Math.random() * candidates.length)]
+    const cellIdx = pick.i
 
-    // Start flip animation
+    const currentImg = current[cellIdx].bottom
+    const available = HERO_IMAGES.filter(img => img !== currentImg)
+    const nextImg = available[Math.floor(Math.random() * available.length)]
+
+    // Place new image on top, start fade-in
     setCells(prev => prev.map((cell, i) =>
-      i === cellIdx ? { ...cell, next: nextImg, flipping: true } : cell
+      i === cellIdx ? { ...cell, top: nextImg, animating: true, key: cell.key + 1 } : cell
     ))
 
-    // After flip halfway (300ms), the back face shows
-    // After full flip (600ms), reset
+    // After transition completes, move top to bottom
     setTimeout(() => {
       setCells(prev => prev.map((cell, i) =>
-        i === cellIdx ? { current: nextImg, next: nextImg, flipping: false } : cell
+        i === cellIdx ? { ...cell, bottom: nextImg, animating: false } : cell
       ))
-    }, 600)
+    }, 900)
   }, [])
 
   useEffect(() => {
-    // Swap a random cell every 1.5-2.5 seconds
     const schedule = () => {
-      const delay = 1500 + Math.random() * 1000
+      const delay = 1800 + Math.random() * 1200
       return setTimeout(() => {
         swapCell()
         timerRef.current = schedule()
@@ -78,49 +68,51 @@ function AnimatedGrid({ onClick }: { onClick: () => void }) {
   }, [swapCell])
 
   return (
-    <div
-      className="grid grid-cols-3 gap-1.5 md:gap-2 cursor-pointer"
-      onClick={onClick}
-      style={{ perspective: '1200px' }}
-    >
-      {cells.map((cell, i) => (
-        <div
-          key={i}
-          className="relative aspect-square overflow-hidden rounded-lg md:rounded-xl"
-          style={{
-            transformStyle: 'preserve-3d',
-            transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-            transform: cell.flipping ? 'rotateY(180deg)' : 'rotateY(0deg)',
-          }}
-        >
-          {/* Front face */}
+    <>
+      <style>{`
+        @keyframes heroFadeIn {
+          0% { opacity: 0; transform: scale(1.08); filter: blur(4px); }
+          100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+        }
+        @keyframes heroBreath {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.02); }
+        }
+        .hero-cell { animation: heroBreath 6s ease-in-out infinite; }
+        .hero-fade-in { animation: heroFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+      `}</style>
+      <div
+        className="grid grid-cols-3 gap-1.5 md:gap-2.5 cursor-pointer"
+        onClick={onClick}
+      >
+        {cells.map((cell, i) => (
           <div
-            className="absolute inset-0"
-            style={{ backfaceVisibility: 'hidden' }}
-          >
-            <img
-              src={cell.current}
-              alt=""
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-          {/* Back face */}
-          <div
-            className="absolute inset-0"
+            key={i}
+            className="hero-cell relative overflow-hidden rounded-lg md:rounded-xl"
             style={{
-              backfaceVisibility: 'hidden',
-              transform: 'rotateY(180deg)',
+              aspectRatio: '3 / 4',
+              animationDelay: `${i * 0.7}s`,
             }}
           >
+            {/* Bottom (current) image */}
             <img
-              src={cell.next}
+              src={cell.bottom}
               alt=""
-              className="w-full h-full object-cover object-top"
+              className="absolute inset-0 w-full h-full object-cover"
             />
+            {/* Top (incoming) image with fade+scale animation */}
+            {cell.animating && (
+              <img
+                key={cell.key}
+                src={cell.top}
+                alt=""
+                className="hero-fade-in absolute inset-0 w-full h-full object-cover"
+              />
+            )}
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   )
 }
 
