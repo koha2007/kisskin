@@ -702,20 +702,7 @@ function App() {
         {/* Info Tip */}
         <div className="info-tip">
           <span className="material-symbols-outlined">info</span>
-          <p>AI가 피부 톤과 얼굴 특징을 분석하여 9가지 메이크업 시뮬레이션과 맞춤 제품을 추천해드립니다.</p>
-        </div>
-
-        {/* Pricing Info */}
-        <div className="pricing-info">
-          <div className="pricing-badge">
-            <span className="pricing-amount">$2.99</span>
-            <span className="pricing-per">/ 1회 분석</span>
-          </div>
-          <ul className="pricing-features">
-            <li><span className="material-symbols-outlined">check_circle</span>AI 맞춤 메이크업 9종 시뮬레이션</li>
-            <li><span className="material-symbols-outlined">check_circle</span>피부 타입 & 톤 분석 리포트</li>
-            <li><span className="material-symbols-outlined">check_circle</span>맞춤 화장품 6~8종 추천</li>
-          </ul>
+          <p>AI가 피부 톤과 얼굴 특징을 분석하여 가장 어울리는 메이크업 제품을 추천해드립니다.</p>
         </div>
 
         {error && (

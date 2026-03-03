@@ -262,10 +262,12 @@ function HomePage({ onNavigate }: HomePageProps) {
             <a href="#how" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">How it Works</a>
           </div>
           <button
-            className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20"
+            className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-1.5"
             onClick={() => onNavigate('analysis')}
           >
-            무료 분석 시작
+            <span className="opacity-80 text-xs font-semibold">$2.99</span>
+            <span className="w-px h-3.5 bg-white/40"></span>
+            분석 시작
           </button>
         </div>
       </nav>
@@ -312,7 +314,8 @@ function HomePage({ onNavigate }: HomePageProps) {
                   className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25 group"
                   onClick={() => onNavigate('analysis')}
                 >
-                  무료 분석 시작하기
+                  <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">$2.99</span>
+                  분석 시작하기
                   <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </button>
                 <a
@@ -354,7 +357,7 @@ function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: 'bolt', title: '즉시 분석', desc: 'AI가 얼굴을 분석하고 60초 안에 9가지 룩을 생성합니다.', gradient: 'from-amber-400 to-orange-500' },
+              { icon: 'bolt', title: '1회 $2.99', desc: 'AI가 얼굴을 분석하고 60초 안에 9가지 룩 + 맞춤 제품 추천을 제공합니다.', gradient: 'from-amber-400 to-orange-500' },
               { icon: 'palette', title: '맞춤 추천', desc: 'AI가 어울리는 코스메틱 제품을 추천하고 구매 링크를 제공합니다.', gradient: 'from-pink-400 to-rose-500' },
               { icon: 'devices', title: '모든 기기 지원', desc: 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.', gradient: 'from-violet-400 to-purple-500' },
             ].map((item) => (
@@ -491,7 +494,8 @@ function HomePage({ onNavigate }: HomePageProps) {
             className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-12 py-5 rounded-full text-xl font-extrabold transition-all shadow-2xl shadow-primary/30 inline-flex items-center gap-3 hover:scale-[1.02]"
             onClick={() => onNavigate('analysis')}
           >
-            무료 분석 시작하기
+            <span className="bg-white/20 px-2.5 py-0.5 rounded-full text-base">$2.99</span>
+            분석 시작하기
             <span className="material-symbols-outlined text-2xl">arrow_forward</span>
           </button>
         </div>
