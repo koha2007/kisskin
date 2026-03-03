@@ -5,7 +5,7 @@ import HomePage from './HomePage'
 declare global {
   interface Window {
     PolarEmbedCheckout?: {
-      create: (url: string, theme?: string) => Promise<{
+      create: (url: string, options?: { theme?: string }) => Promise<{
         on: (event: string, callback: () => void) => void
       }>
     }
@@ -311,7 +311,7 @@ function App() {
         throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
       }
 
-      const embed = await window.PolarEmbedCheckout.create(checkoutData.url, 'light')
+      const embed = await window.PolarEmbedCheckout.create(checkoutData.url, { theme: 'light' })
 
       embed.on('success', () => {
         runAnalysis()
