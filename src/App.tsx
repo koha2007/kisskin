@@ -4,10 +4,13 @@ import HomePage from './HomePage'
 
 declare global {
   interface Window {
-    PolarEmbedCheckout?: {
-      create: (url: string, options?: { theme?: string }) => Promise<{
-        on: (event: string, callback: () => void) => void
-      }>
+    Polar?: {
+      EmbedCheckout: {
+        create: (url: string, options?: { theme?: string }) => Promise<{
+          addEventListener: (event: string, callback: (e: Event) => void, options?: { once?: boolean }) => void
+          close: () => void
+        }>
+      }
     }
   }
 }
@@ -307,18 +310,23 @@ function App() {
       }
 
       // 2. 결제 모달 열기
-      if (!window.PolarEmbedCheckout) {
+      if (!window.Polar?.EmbedCheckout) {
         throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
       }
 
-      const embed = await window.PolarEmbedCheckout.create(checkoutData.url, { theme: 'light' })
+      let paid = false
+      const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
 
-      embed.on('success', () => {
+      embed.addEventListener('success', () => {
+        paid = true
+        embed.close()
         runAnalysis()
       })
 
-      embed.on('close', () => {
-        // 결제 완료 없이 닫힘 — 아무 작업 안 함
+      embed.addEventListener('close', () => {
+        if (!paid) {
+          // 결제 완료 없이 닫힘
+        }
       })
     } catch (e) {
       setError(e instanceof Error ? e.message : '결제 처리 중 오류가 발생했습니다.')
