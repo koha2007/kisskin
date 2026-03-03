@@ -440,6 +440,7 @@ function HomePage({ onNavigate }: HomePageProps) {
               } text-white px-10 py-4 rounded-full text-lg font-bold transition-all shadow-xl inline-flex items-center gap-2 hover:scale-[1.02]`}
               onClick={() => onNavigate('analysis')}
             >
+              <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">$2.99</span>
               9가지 스타일 체험하기
               <span className="material-symbols-outlined">arrow_forward</span>
             </button>
