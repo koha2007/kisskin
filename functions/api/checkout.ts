@@ -15,7 +15,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   try {
     const origin = request.headers.get('Origin') || 'https://kisskin.pages.dev'
 
-    const res = await fetch('https://api.polar.sh/v1/checkouts/', {
+    const res = await fetch('https://sandbox-api.polar.sh/v1/checkouts/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
