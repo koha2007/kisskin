@@ -376,6 +376,60 @@ html, body {
   line-height: 1.6;
 }
 
+/* ===== Pricing Info ===== */
+.pricing-info {
+  background: #fff;
+  border: 1px solid #f0e4e6;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.pricing-badge {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.pricing-amount {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #eb4763;
+  letter-spacing: -0.02em;
+}
+
+.pricing-per {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #334155;
+  text-align: left;
+}
+
+.pricing-features li .material-symbols-outlined {
+  font-size: 18px;
+  color: #eb4763;
+  flex-shrink: 0;
+}
+
 /* ===== Error Message ===== */
 .error-msg {
   display: flex;

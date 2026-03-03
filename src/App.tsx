@@ -2,6 +2,16 @@ import { useState, useRef } from 'react'
 import './App.css'
 import HomePage from './HomePage'
 
+declare global {
+  interface Window {
+    PolarEmbedCheckout?: {
+      create: (url: string, theme?: string) => Promise<{
+        on: (event: string, callback: () => void) => void
+      }>
+    }
+  }
+}
+
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
 type Page = 'home' | 'analysis'
@@ -230,14 +240,11 @@ function App() {
 
   const isComplete = photo && gender && skinType
 
-  const handleSubmit = async () => {
-    if (!isComplete) return
-
+  const runAnalysis = async () => {
     setLoading(true)
     setError(null)
 
     try {
-      // 원본 비율 유지하며 3x3 타일 그리드 생성
       const { gridPhoto, gridSize } = await createTiledGrid(photo!)
 
       const res = await fetch('/api/analyze', {
@@ -278,6 +285,43 @@ function App() {
       setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (!isComplete) return
+
+    setError(null)
+
+    try {
+      // 1. Polar 체크아웃 세션 생성
+      const checkoutRes = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const checkoutData = await checkoutRes.json()
+
+      if (!checkoutRes.ok) {
+        throw new Error(checkoutData.error || '결제 세션 생성 실패')
+      }
+
+      // 2. 결제 모달 열기
+      if (!window.PolarEmbedCheckout) {
+        throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
+      }
+
+      const embed = await window.PolarEmbedCheckout.create(checkoutData.url, 'light')
+
+      embed.on('success', () => {
+        runAnalysis()
+      })
+
+      embed.on('close', () => {
+        // 결제 완료 없이 닫힘 — 아무 작업 안 함
+      })
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '결제 처리 중 오류가 발생했습니다.')
     }
   }
 
@@ -658,7 +702,20 @@ function App() {
         {/* Info Tip */}
         <div className="info-tip">
           <span className="material-symbols-outlined">info</span>
-          <p>AI가 피부 톤과 얼굴 특징을 분석하여 가장 어울리는 메이크업 제품을 추천해드립니다.</p>
+          <p>AI가 피부 톤과 얼굴 특징을 분석하여 9가지 메이크업 시뮬레이션과 맞춤 제품을 추천해드립니다.</p>
+        </div>
+
+        {/* Pricing Info */}
+        <div className="pricing-info">
+          <div className="pricing-badge">
+            <span className="pricing-amount">$2.99</span>
+            <span className="pricing-per">/ 1회 분석</span>
+          </div>
+          <ul className="pricing-features">
+            <li><span className="material-symbols-outlined">check_circle</span>AI 맞춤 메이크업 9종 시뮬레이션</li>
+            <li><span className="material-symbols-outlined">check_circle</span>피부 타입 & 톤 분석 리포트</li>
+            <li><span className="material-symbols-outlined">check_circle</span>맞춤 화장품 6~8종 추천</li>
+          </ul>
         </div>
 
         {error && (

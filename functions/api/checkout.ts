@@ -1,0 +1,51 @@
+interface Env {
+  POLAR_ACCESS_TOKEN: string
+}
+
+export async function onRequestPost(context: { request: Request; env: Env }) {
+  const { request, env } = context
+
+  if (!env.POLAR_ACCESS_TOKEN) {
+    return new Response(JSON.stringify({ error: 'Payment not configured' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  try {
+    const origin = request.headers.get('Origin') || 'https://kisskin.pages.dev'
+
+    const res = await fetch('https://api.polar.sh/v1/checkouts/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+        products: ['4fc15562-84b3-49bd-9475-01b8f58b4a61'],
+        embed_origin: origin,
+      }),
+    })
+
+    if (!res.ok) {
+      const errText = await res.text()
+      return new Response(JSON.stringify({ error: `Polar API error: ${errText}` }), {
+        status: res.status,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    const data = await res.json() as { url: string }
+
+    return new Response(JSON.stringify({ url: data.url }), {
+      headers: { 'Content-Type': 'application/json' },
+    })
+  } catch (e) {
+    return new Response(JSON.stringify({
+      error: `Server error: ${e instanceof Error ? e.message : String(e)}`,
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+}
