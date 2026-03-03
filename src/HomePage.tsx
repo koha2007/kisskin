@@ -69,7 +69,7 @@ const MEN_STYLES = [
 
 function AnimatedGrid({ onClick }: { onClick: () => void }) {
   const [cells, setCells] = useState(() =>
-    shuffleArray([...HERO_IMAGES]).map(img => ({
+    shuffleArray([...HERO_IMAGES]).slice(0, 9).map(img => ({
       images: [img],
       key: 0,
     }))
