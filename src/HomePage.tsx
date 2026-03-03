@@ -4,7 +4,32 @@ interface HomePageProps {
   onNavigate: (page: 'home' | 'analysis') => void
 }
 
-const HERO_IMAGES = Array.from({ length: 9 }, (_, i) => `/styles/hero-${i + 1}.jpg`)
+const HERO_IMAGES = [
+  // photo2 series
+  ...Array.from({ length: 9 }, (_, i) => `/styles/hero/photo2_${i + 1}.png`),
+  // photo5 series
+  ...[
+    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
+    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
+  ].map(s => `/styles/hero/photo5_${s}.png`),
+  // photo6 series
+  ...[
+    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
+    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
+  ].map(s => `/styles/hero/photo6_${s}.png`),
+  // photo7 series
+  ...[
+    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
+    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
+  ].map(s => `/styles/hero/photo7_${s}.png`),
+  // photo9 series
+  ...Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.png`),
+  // photo10 series
+  ...[
+    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
+    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
+  ].map(s => `/styles/hero/photo10_${s}.png`),
+]
 
 const FLOAT_CONFIGS = [
   { dur: 4.0, x: 6, y: 10 },
