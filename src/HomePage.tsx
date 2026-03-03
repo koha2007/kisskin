@@ -302,7 +302,7 @@ function HomePage({ onNavigate }: HomePageProps) {
               <div className="animate-fade-in-up-delay flex items-start gap-3 bg-white/80 rounded-2xl p-4 border border-pink-100 shadow-sm max-w-lg backdrop-blur-sm">
                 <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  <strong className="text-slate-800">피부타입을 분석</strong>해서 가장 적합한 제품을 추천해 드리고,
+                  <strong className="text-slate-800">피부 특성을 AI가 분석</strong>하여 어울리는 코스메틱 제품을 추천하고,
                   <strong className="text-primary"> 구매 링크</strong>도 함께 제공합니다.
                 </p>
               </div>
@@ -355,7 +355,7 @@ function HomePage({ onNavigate }: HomePageProps) {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: 'bolt', title: '즉시 분석', desc: 'AI가 얼굴을 분석하고 60초 안에 9가지 룩을 생성합니다.', gradient: 'from-amber-400 to-orange-500' },
-              { icon: 'palette', title: '맞춤 추천', desc: '피부타입에 맞는 제품을 추천하고 구매 링크를 제공합니다.', gradient: 'from-pink-400 to-rose-500' },
+              { icon: 'palette', title: '맞춤 추천', desc: 'AI가 어울리는 코스메틱 제품을 추천하고 구매 링크를 제공합니다.', gradient: 'from-pink-400 to-rose-500' },
               { icon: 'devices', title: '모든 기기 지원', desc: 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.', gradient: 'from-violet-400 to-purple-500' },
             ].map((item) => (
               <div key={item.title} className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl border border-slate-100 hover:border-pink-200 hover:shadow-xl hover:shadow-pink-50 transition-all group bg-white">
@@ -455,7 +455,7 @@ function HomePage({ onNavigate }: HomePageProps) {
             <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-pink-200 via-primary/30 to-pink-200"></div>
             {[
               { num: '1', icon: 'photo_camera', title: '사진 업로드', desc: '셀카를 찍거나 갤러리에서 사진을 선택하세요', gradient: 'from-pink-400 to-rose-500' },
-              { num: '2', icon: 'psychology', title: 'AI 분석', desc: '피부타입, 피부톤, 얼굴 특징을 분석합니다', gradient: 'from-violet-400 to-purple-500' },
+              { num: '2', icon: 'psychology', title: 'AI 분석', desc: '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다', gradient: 'from-violet-400 to-purple-500' },
               { num: '3', icon: 'auto_awesome', title: '결과 확인', desc: '9가지 메이크업 + 맞춤 제품 추천을 받으세요', gradient: 'from-amber-400 to-orange-500' },
             ].map((step) => (
               <div key={step.num} className="flex flex-col items-center text-center gap-5 relative">
@@ -507,7 +507,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <span className="text-2xl font-bold tracking-tight">KisSkin</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-                AI 기반 메이크업 분석과 맞춤형 뷰티 추천 서비스
+                AI 메이크업 시뮬레이션 및 코스메틱 추천 서비스
               </p>
             </div>
             <div className="flex flex-col gap-3">
