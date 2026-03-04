@@ -755,6 +755,21 @@ html, body {
   font-size: 20px;
 }
 
+.action-btn-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.share-btn {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.share-btn:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
 .report-section {
   padding-top: 20px;
   border-top: 1px solid #f1f5f9;
