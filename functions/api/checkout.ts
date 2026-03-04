@@ -13,7 +13,22 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
+    const body = await request.json().catch(() => ({})) as { mobile?: boolean }
+    const isMobile = !!body.mobile
     const origin = request.headers.get('Origin') || 'https://kissinskin.net'
+
+    const checkoutBody: Record<string, unknown> = {
+      products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
+      allow_discount_codes: true,
+    }
+
+    if (isMobile) {
+      // 모바일: 리다이렉트 방식 (discount 코드 정상 동작)
+      checkoutBody.success_url = `${origin}/?checkout_id={CHECKOUT_ID}`
+    } else {
+      // PC: 임베디드 방식
+      checkoutBody.embed_origin = origin
+    }
 
     const res = await fetch('https://api.polar.sh/v1/checkouts/', {
       method: 'POST',
@@ -21,11 +36,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}`,
       },
-      body: JSON.stringify({
-        products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
-        embed_origin: origin,
-        allow_discount_codes: true,
-      }),
+      body: JSON.stringify(checkoutBody),
     })
 
     if (!res.ok) {

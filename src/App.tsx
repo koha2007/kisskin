@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import HomePage from './HomePage'
 
@@ -291,16 +291,24 @@ function App() {
     }
   }
 
+  const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
   const handleSubmit = async () => {
     if (!isComplete) return
 
     setError(null)
 
     try {
+      // 모바일: 분석 데이터를 저장해두고 결제 후 복원
+      if (isMobile) {
+        sessionStorage.setItem('kissinskin_pending', JSON.stringify({ photo, gender, skinType }))
+      }
+
       // 1. Polar 체크아웃 세션 생성
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: isMobile }),
       })
 
       const checkoutData = await checkoutRes.json()
@@ -309,7 +317,13 @@ function App() {
         throw new Error(checkoutData.error || '결제 세션 생성 실패')
       }
 
-      // 2. 결제 모달 열기
+      if (isMobile) {
+        // 모바일: Polar 체크아웃 페이지로 리다이렉트
+        window.location.href = checkoutData.url
+        return
+      }
+
+      // PC: 임베디드 체크아웃 모달
       if (!window.Polar?.EmbedCheckout) {
         throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
       }
@@ -332,6 +346,50 @@ function App() {
       setError(e instanceof Error ? e.message : '결제 처리 중 오류가 발생했습니다.')
     }
   }
+
+  // 모바일 결제 완료 후 복귀 처리
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const checkoutId = params.get('checkout_id')
+    if (!checkoutId) return
+
+    // URL에서 checkout_id 제거
+    window.history.replaceState({}, '', window.location.pathname)
+
+    // 저장된 분석 데이터 복원
+    const pending = sessionStorage.getItem('kissinskin_pending')
+    if (!pending) return
+    sessionStorage.removeItem('kissinskin_pending')
+
+    try {
+      const data = JSON.parse(pending)
+      setPhoto(data.photo)
+      setGender(data.gender)
+      setSkinType(data.skinType)
+      setPage('analysis')
+
+      // 결제 확인 후 분석 시작
+      fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ checkoutId }),
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.status === 'succeeded' || result.status === 'confirmed') {
+            // 분석 데이터가 세팅된 후 실행되도록 약간 지연
+            setTimeout(() => runAnalysis(), 100)
+          } else {
+            setError('결제가 완료되지 않았습니다. 다시 시도해주세요.')
+          }
+        })
+        .catch(() => {
+          setError('결제 확인 중 오류가 발생했습니다.')
+        })
+    } catch {
+      // 복원 실패
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleReset = () => {
     setResultImage(null)
