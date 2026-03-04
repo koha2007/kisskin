@@ -154,7 +154,7 @@ function createTiledGrid(photoUrl: string): Promise<{ gridPhoto: string; gridSiz
           ctx.drawImage(img, sx, sy, sw, sh, col * cellW, row * cellH, cellW, cellH)
         }
       }
-      resolve({ gridPhoto: cvs.toDataURL('image/jpeg', 0.92), gridSize })
+      resolve({ gridPhoto: cvs.toDataURL('image/png'), gridSize })
     }
     img.onerror = () => reject(new Error('Image load failed'))
     img.src = photoUrl
@@ -182,7 +182,7 @@ function App() {
     const img = new Image()
     img.onload = () => {
       // 모바일 카메라 사진 리사이즈 & 압축 (EXIF 방향도 자동 보정)
-      const MAX = 1280
+      const MAX = 1536
       let w = img.naturalWidth
       let h = img.naturalHeight
       if (w > MAX || h > MAX) {
@@ -200,7 +200,7 @@ function App() {
       const ctx = cvs.getContext('2d')
       if (!ctx) return
       ctx.drawImage(img, 0, 0, w, h)
-      const compressed = cvs.toDataURL('image/jpeg', 0.85)
+      const compressed = cvs.toDataURL('image/jpeg', 0.92)
       setPhoto(compressed)
     }
     img.onerror = () => {

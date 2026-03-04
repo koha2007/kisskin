@@ -13,7 +13,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const origin = request.headers.get('Origin') || 'https://kisskin.pages.dev'
+    const origin = request.headers.get('Origin') || 'https://kissinskin.net'
 
     const res = await fetch('https://api.polar.sh/v1/checkouts/', {
       method: 'POST',
@@ -24,6 +24,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       body: JSON.stringify({
         products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
         embed_origin: origin,
+        allow_discount_codes: true,
       }),
     })
 
