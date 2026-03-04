@@ -15,14 +15,14 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   try {
     const origin = request.headers.get('Origin') || 'https://kisskin.pages.dev'
 
-    const res = await fetch('https://sandbox-api.polar.sh/v1/checkouts/', {
+    const res = await fetch('https://api.polar.sh/v1/checkouts/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}`,
       },
       body: JSON.stringify({
-        products: ['4fc15562-84b3-49bd-9475-01b8f58b4a61'],
+        products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
         embed_origin: origin,
       }),
     })

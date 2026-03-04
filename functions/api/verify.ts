@@ -37,7 +37,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const res = await fetch(`https://sandbox-api.polar.sh/v1/checkouts/${checkoutId}`, {
+    const res = await fetch(`https://api.polar.sh/v1/checkouts/${checkoutId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}`,

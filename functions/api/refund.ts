@@ -63,7 +63,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     // 1. checkoutId로 주문(order) 조회
     const ordersRes = await fetch(
-      `https://sandbox-api.polar.sh/v1/orders/?checkout_id=${checkoutId}`,
+      `https://api.polar.sh/v1/orders/?checkout_id=${checkoutId}`,
       {
         method: 'GET',
         headers: {
@@ -116,7 +116,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       refundBody.comment = comment
     }
 
-    const refundRes = await fetch('https://sandbox-api.polar.sh/v1/refunds/', {
+    const refundRes = await fetch('https://api.polar.sh/v1/refunds/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
