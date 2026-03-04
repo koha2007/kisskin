@@ -254,8 +254,8 @@ function HomePage({ onNavigate }: HomePageProps) {
       <nav className="sticky top-0 z-50 w-full glass-card border-b border-pink-100/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
-            <span className="text-xl font-bold tracking-tight text-slate-900">KisSkin</span>
+            <img src="/logo.jpg" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
+            <span className="text-xl font-bold tracking-tight text-slate-900">kissinskin</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#styles" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">Styles</a>
@@ -489,7 +489,7 @@ function HomePage({ onNavigate }: HomePageProps) {
             나에게 어울리는<br />메이크업을 찾아보세요
           </h2>
           <p className="text-base text-slate-500 mb-8 max-w-md mx-auto">
-            50,000명 이상이 KisSkin AI로 자신만의 시그니처 스타일을 발견했습니다.
+            50,000명 이상이 kissinskin AI로 자신만의 시그니처 스타일을 발견했습니다.
           </p>
           <button
             className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-12 py-5 rounded-full text-xl font-extrabold transition-all shadow-2xl shadow-primary/30 inline-flex items-center gap-3 hover:scale-[1.02]"
@@ -508,8 +508,8 @@ function HomePage({ onNavigate }: HomePageProps) {
           <div className="grid md:grid-cols-3 gap-10 mb-10">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
-                <span className="text-2xl font-bold tracking-tight">KisSkin</span>
+                <img src="/logo.jpg" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
+                <span className="text-2xl font-bold tracking-tight">kissinskin</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
                 AI 메이크업 시뮬레이션 및 코스메틱 추천 서비스
@@ -531,7 +531,7 @@ function HomePage({ onNavigate }: HomePageProps) {
             </div>
           </div>
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-slate-500 text-xs">&copy; 2026 KisSkin. All rights reserved.</p>
+            <p className="text-slate-500 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
             <p className="text-slate-600 text-xs">Powered by AI</p>
           </div>
         </div>

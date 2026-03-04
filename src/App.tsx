@@ -422,7 +422,7 @@ function App() {
 
       if (navigator.share && navigator.canShare?.({ files: [file] })) {
         await navigator.share({
-          title: 'KisSkin - AI Makeup Looks',
+          title: 'kissinskin - AI Makeup Looks',
           text: 'AI가 추천한 나만의 메이크업 스타일 9종',
           files: [file],
         })
