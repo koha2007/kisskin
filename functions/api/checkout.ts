@@ -13,19 +13,21 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const body = await request.json().catch(() => ({})) as { mobile?: boolean }
-    const isMobile = !!body.mobile
+    const body = await request.json().catch(() => ({})) as { redirect?: boolean }
+    const useRedirect = !!body.redirect
     const origin = request.headers.get('Origin') || 'https://kissinskin.net'
 
     const checkoutBody: Record<string, unknown> = {
       products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
       allow_discount_codes: true,
-      embed_origin: origin,
     }
 
-    if (isMobile) {
-      // 모바일: 임베디드 + success_url (결제 완료 후 복귀용)
+    if (useRedirect) {
+      // 임베디드 불가 시 리다이렉트 fallback
       checkoutBody.success_url = `${origin}/?checkout_id={CHECKOUT_ID}`
+    } else {
+      // 임베디드 모드 (success_url 없어야 success 이벤트 정상 발생)
+      checkoutBody.embed_origin = origin
     }
 
     const res = await fetch('https://api.polar.sh/v1/checkouts/', {

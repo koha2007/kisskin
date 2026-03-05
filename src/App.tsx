@@ -320,8 +320,18 @@ function App() {
       // 임베디드 체크아웃 모달 (PC + 모바일 공통)
       if (!window.Polar?.EmbedCheckout) {
         if (isMobile) {
-          // 임베디드 로드 실패 시 모바일은 리다이렉트 fallback
-          window.location.href = checkoutData.url
+          // 임베디드 SDK 로드 실패 → 리다이렉트용 세션 새로 생성
+          const redirectRes = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mobile: true, redirect: true }),
+          })
+          const redirectData = await redirectRes.json()
+          if (redirectRes.ok) {
+            window.location.href = redirectData.url
+          } else {
+            throw new Error(redirectData.error || '결제 세션 생성 실패')
+          }
           return
         }
         throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
