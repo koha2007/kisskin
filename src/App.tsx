@@ -299,7 +299,7 @@ function App() {
     setError(null)
 
     try {
-      // 모바일: 분석 데이터를 저장해두고 결제 후 복원
+      // 모바일: 분석 데이터를 저장해두고 결제 후 복원 (임베디드 실패 시 리다이렉트 대비)
       if (isMobile) {
         sessionStorage.setItem('kissinskin_pending', JSON.stringify({ photo, gender, skinType }))
       }
@@ -317,14 +317,13 @@ function App() {
         throw new Error(checkoutData.error || '결제 세션 생성 실패')
       }
 
-      if (isMobile) {
-        // 모바일: Polar 체크아웃 페이지로 리다이렉트
-        window.location.href = checkoutData.url
-        return
-      }
-
-      // PC: 임베디드 체크아웃 모달
+      // 임베디드 체크아웃 모달 (PC + 모바일 공통)
       if (!window.Polar?.EmbedCheckout) {
+        if (isMobile) {
+          // 임베디드 로드 실패 시 모바일은 리다이렉트 fallback
+          window.location.href = checkoutData.url
+          return
+        }
         throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
       }
 
@@ -334,6 +333,9 @@ function App() {
       embed.addEventListener('success', () => {
         paid = true
         embed.close()
+        if (isMobile) {
+          sessionStorage.removeItem('kissinskin_pending')
+        }
         runAnalysis()
       })
 

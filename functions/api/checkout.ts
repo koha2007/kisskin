@@ -20,14 +20,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const checkoutBody: Record<string, unknown> = {
       products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
       allow_discount_codes: true,
+      embed_origin: origin,
     }
 
     if (isMobile) {
-      // 모바일: 리다이렉트 방식 (discount 코드 정상 동작)
+      // 모바일: 임베디드 + success_url (결제 완료 후 복귀용)
       checkoutBody.success_url = `${origin}/?checkout_id={CHECKOUT_ID}`
-    } else {
-      // PC: 임베디드 방식
-      checkoutBody.embed_origin = origin
     }
 
     const res = await fetch('https://api.polar.sh/v1/checkouts/', {
