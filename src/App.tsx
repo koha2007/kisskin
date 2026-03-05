@@ -485,27 +485,60 @@ function App() {
         }
       }
 
-      const blob = await new Promise<Blob>((resolve) =>
-        canvas.toBlob((b) => resolve(b!), 'image/png')
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob((b) => resolve(b), 'image/jpeg', 0.9)
       )
-      const file = new File([blob], 'kisskin-makeup.png', { type: 'image/png' })
 
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({
-          title: 'kissinskin - AI Makeup Looks',
-          text: 'AI가 추천한 나만의 메이크업 스타일 9종',
-          files: [file],
-        })
-      } else {
-        // Web Share API 미지원 시 클립보드에 이미지 복사
+      if (!blob) {
+        alert('이미지 생성에 실패했습니다. 저장하기를 이용해주세요.')
+        return
+      }
+
+      const file = new File([blob], 'kisskin-makeup.jpg', { type: 'image/jpeg' })
+
+      if (navigator.share) {
+        try {
+          if (navigator.canShare?.({ files: [file] })) {
+            await navigator.share({
+              title: 'kissinskin - AI Makeup Looks',
+              text: 'AI가 추천한 나만의 메이크업 스타일 9종',
+              files: [file],
+            })
+            return
+          }
+        } catch (e) {
+          if (e instanceof Error && e.name === 'AbortError') return
+        }
+        // 파일 공유 불가 시 텍스트만 공유
+        try {
+          await navigator.share({
+            title: 'kissinskin - AI Makeup Looks',
+            text: 'AI가 추천한 나만의 메이크업 스타일 9종\nhttps://kissinskin.net',
+          })
+          return
+        } catch (e) {
+          if (e instanceof Error && e.name === 'AbortError') return
+        }
+      }
+
+      // Web Share API 미지원 시 클립보드 복사 시도
+      try {
         await navigator.clipboard.write([
           new ClipboardItem({ 'image/png': blob }),
         ])
         alert('이미지가 클립보드에 복사되었습니다!')
+      } catch {
+        // 클립보드도 실패 시 다운로드로 대체
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = 'kisskin-makeup.jpg'
+        link.click()
+        URL.revokeObjectURL(link.href)
+        alert('이미지가 저장되었습니다. 갤러리에서 공유해주세요!')
       }
     } catch (e) {
       if (e instanceof Error && e.name !== 'AbortError') {
-        alert('공유에 실패했습니다. 이미지를 저장 후 공유해주세요.')
+        alert('공유에 실패했습니다. 저장하기를 이용해주세요.')
       }
     }
   }
