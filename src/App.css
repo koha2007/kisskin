@@ -761,6 +761,10 @@ html, body {
   justify-content: center;
 }
 
+.share-wrapper {
+  position: relative;
+}
+
 .share-btn {
   border-color: #6366f1;
   color: #6366f1;
@@ -768,6 +772,56 @@ html, body {
 
 .share-btn:hover {
   background: rgba(99, 102, 241, 0.05);
+}
+
+.share-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  z-index: 100;
+  min-width: 280px;
+  animation: shareMenuIn 0.15s ease-out;
+}
+
+@keyframes shareMenuIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border: none;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 11px;
+  color: #334155;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.share-option:hover {
+  background: #f1f5f9;
+}
+
+.share-option .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.share-option svg {
+  flex-shrink: 0;
 }
 
 .report-section {
