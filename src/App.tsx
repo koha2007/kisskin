@@ -17,7 +17,7 @@ declare global {
 
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
-type Page = 'home' | 'analysis'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy'
 
 const FEMALE_MAKEUP_STYLES = [
   'Natural Glow',
@@ -642,6 +642,151 @@ function App() {
       link.click()
     }
     img.src = resultImage
+  }
+
+  // 이용약관
+  if (page === 'terms') {
+    return (
+      <div className="legal-page">
+        <div className="legal-header">
+          <button className="legal-back" onClick={() => handleNavigate('home')}>
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <h1>Terms of Service</h1>
+        </div>
+        <div className="legal-content">
+          <p className="legal-date">Effective Date: March 6, 2026</p>
+
+          <h2>1. Service Overview</h2>
+          <p>kisskin ("Service") is an AI-powered makeup simulation and beauty recommendation platform operated at kisskin.net. By using this Service, you agree to these Terms of Service.</p>
+
+          <h2>2. Service Description</h2>
+          <p>kisskin uses artificial intelligence to generate makeup simulations based on your uploaded photo. The Service provides:</p>
+          <ul>
+            <li>AI-generated makeup style previews (9 styles per analysis)</li>
+            <li>Personalized skincare and cosmetic product recommendations</li>
+          </ul>
+
+          <h2>3. Payment & Pricing</h2>
+          <ul>
+            <li>Each analysis costs <strong>$2.99 USD</strong> (one-time payment, non-subscription).</li>
+            <li>Payment is processed securely via <strong>Polar</strong> (third-party payment processor).</li>
+            <li>You will receive the analysis result immediately after payment.</li>
+          </ul>
+
+          <h2>4. Refund Policy</h2>
+          <ul>
+            <li>Due to the nature of AI-generated digital content, <strong>all sales are final</strong>.</li>
+            <li>Refunds may be considered on a case-by-case basis if the Service fails to deliver results due to a technical error. Contact us at <strong>support@kisskin.net</strong>.</li>
+          </ul>
+
+          <h2>5. User Responsibilities</h2>
+          <ul>
+            <li>You must be at least 13 years old to use this Service.</li>
+            <li>You are responsible for the photos you upload. Do not upload photos of others without their consent.</li>
+            <li>You agree not to misuse the Service for illegal, harmful, or offensive purposes.</li>
+          </ul>
+
+          <h2>6. Intellectual Property</h2>
+          <ul>
+            <li>You retain ownership of your uploaded photos.</li>
+            <li>AI-generated results are provided for your personal use.</li>
+            <li>The kisskin brand, logo, and website content are the property of kisskin.</li>
+          </ul>
+
+          <h2>7. Disclaimer</h2>
+          <ul>
+            <li>AI-generated makeup simulations are approximations and may not perfectly reflect real-world results.</li>
+            <li>Product recommendations are AI-generated suggestions. kisskin is not responsible for purchases made based on these recommendations.</li>
+            <li>The Service is provided "as is" without warranties of any kind.</li>
+          </ul>
+
+          <h2>8. Limitation of Liability</h2>
+          <p>To the maximum extent permitted by law, kisskin shall not be liable for any indirect, incidental, or consequential damages arising from the use of the Service.</p>
+
+          <h2>9. Changes to Terms</h2>
+          <p>We may update these Terms at any time. Continued use of the Service after changes constitutes acceptance of the updated Terms.</p>
+
+          <h2>10. Contact</h2>
+          <p>For questions or concerns, contact us at <strong>support@kisskin.net</strong>.</p>
+        </div>
+      </div>
+    )
+  }
+
+  // 개인정보처리방침
+  if (page === 'privacy') {
+    return (
+      <div className="legal-page">
+        <div className="legal-header">
+          <button className="legal-back" onClick={() => handleNavigate('home')}>
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <h1>Privacy Policy</h1>
+        </div>
+        <div className="legal-content">
+          <p className="legal-date">Effective Date: March 6, 2026</p>
+
+          <h2>1. Information We Collect</h2>
+          <h3>Photos</h3>
+          <ul>
+            <li>Your uploaded photo is sent to OpenAI's API for AI processing.</li>
+            <li>Photos are <strong>not stored on our servers</strong> after analysis is complete.</li>
+            <li>Photos are processed in-memory and discarded immediately after generating results.</li>
+          </ul>
+          <h3>Payment Information</h3>
+          <ul>
+            <li>Payment is handled entirely by <strong>Polar</strong>. We do not store your credit card or payment details.</li>
+          </ul>
+          <h3>Usage Data</h3>
+          <ul>
+            <li>We may collect basic analytics (page views, device type) to improve the Service.</li>
+            <li>No personally identifiable information is tracked.</li>
+          </ul>
+
+          <h2>2. How We Use Your Information</h2>
+          <ul>
+            <li>Photos are used solely to generate your AI makeup analysis.</li>
+            <li>We do not sell, share, or use your photos for any other purpose.</li>
+            <li>We do not use your photos to train AI models.</li>
+          </ul>
+
+          <h2>3. Third-Party Services</h2>
+          <ul>
+            <li><strong>OpenAI</strong> — processes photos for AI makeup generation. Subject to <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">OpenAI's Privacy Policy</a>.</li>
+            <li><strong>Polar</strong> — handles payment processing. Subject to <a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">Polar's Privacy Policy</a>.</li>
+            <li><strong>Cloudflare</strong> — hosts the website. Subject to <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare's Privacy Policy</a>.</li>
+          </ul>
+
+          <h2>4. Data Retention</h2>
+          <ul>
+            <li>Uploaded photos: <strong>Not retained</strong> (processed and discarded).</li>
+            <li>Analysis results: Stored only in your browser session. Not saved on our servers.</li>
+            <li>Payment records: Maintained by Polar per their retention policy.</li>
+          </ul>
+
+          <h2>5. Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Know what data we collect (described above).</li>
+            <li>Request deletion of any data associated with you.</li>
+            <li>Opt out of any future data collection.</li>
+          </ul>
+
+          <h2>6. Children's Privacy</h2>
+          <p>The Service is not intended for children under 13. We do not knowingly collect information from children under 13.</p>
+
+          <h2>7. Security</h2>
+          <p>All data transmission is encrypted via HTTPS. We implement industry-standard security measures to protect your information.</p>
+
+          <h2>8. Changes to This Policy</h2>
+          <p>We may update this Privacy Policy at any time. Changes will be posted on this page with an updated effective date.</p>
+
+          <h2>9. Contact</h2>
+          <p>For privacy-related inquiries, contact us at <strong>support@kisskin.net</strong>.</p>
+        </div>
+      </div>
+    )
   }
 
   // 홈 페이지
