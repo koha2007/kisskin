@@ -1063,7 +1063,7 @@ function App() {
                   </button>
                   {showShareMenu && (
                     <div className="share-menu">
-                      {navigator.share && (
+                      {'share' in navigator && (
                         <button className="share-option" onClick={() => handleShare('native')}>
                           <span className="material-symbols-outlined">phone_iphone</span>기본 공유
                         </button>
