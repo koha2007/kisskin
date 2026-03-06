@@ -500,7 +500,7 @@ function App() {
         try {
           if (navigator.canShare?.({ files: [file] })) {
             await navigator.share({
-              title: 'kissinskin - AI Makeup Looks',
+              title: 'kisskin - AI Makeup Looks',
               text: 'AI가 추천한 나만의 메이크업 스타일 9종',
               files: [file],
             })
@@ -512,8 +512,8 @@ function App() {
         // 파일 공유 불가 시 텍스트만 공유
         try {
           await navigator.share({
-            title: 'kissinskin - AI Makeup Looks',
-            text: 'AI가 추천한 나만의 메이크업 스타일 9종\nhttps://kissinskin.net',
+            title: 'kisskin - AI Makeup Looks',
+            text: 'AI가 추천한 나만의 메이크업 스타일 9종\nhttps://kisskin.net',
           })
           return
         } catch (e) {
