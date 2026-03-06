@@ -904,6 +904,42 @@ html, body {
 .legal-content a {
   color: #6366f1;
   text-decoration: underline;
+  cursor: pointer;
+}
+
+.legal-content ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.legal-table th,
+.legal-table td {
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.legal-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.legal-table td {
+  color: #334155;
+}
+
+.legal-link {
+  color: #6366f1;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .report-section {

@@ -17,7 +17,7 @@ declare global {
 
 type Gender = '여성' | '남성' | null
 type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
-type Page = 'home' | 'analysis' | 'terms' | 'privacy'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund'
 
 const FEMALE_MAKEUP_STYLES = [
   'Natural Glow',
@@ -644,7 +644,7 @@ function App() {
     img.src = resultImage
   }
 
-  // 이용약관
+  // 이용약관 (Terms of Service)
   if (page === 'terms') {
     return (
       <div className="legal-page">
@@ -657,64 +657,184 @@ function App() {
         <div className="legal-content">
           <p className="legal-date">Effective Date: March 6, 2026</p>
 
-          <h2>1. Service Overview</h2>
-          <p>kisskin ("Service") is an AI-powered makeup simulation and beauty recommendation platform operated at kisskin.net. By using this Service, you agree to these Terms of Service.</p>
+          <h2>1. Agreement to Terms</h2>
+          <p>By accessing or using kisskin (<a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a>), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.</p>
 
           <h2>2. Service Description</h2>
-          <p>kisskin uses artificial intelligence to generate makeup simulations based on your uploaded photo. The Service provides:</p>
+          <p>kisskin is an AI-powered makeup simulation and beauty recommendation service. When you submit a photo, our AI generates:</p>
           <ul>
-            <li>AI-generated makeup style previews (9 styles per analysis)</li>
-            <li>Personalized skincare and cosmetic product recommendations</li>
+            <li>9 personalized makeup style previews applied to your face</li>
+            <li>Skin type and tone analysis</li>
+            <li>Customized cosmetic product recommendations</li>
+          </ul>
+          <p>Results are generated using OpenAI's image generation and language models, delivered instantly in your browser.</p>
+
+          <h2>3. Payment & Billing</h2>
+          <ul>
+            <li>Each analysis is a <strong>one-time purchase of $2.99 USD</strong>. There are no subscriptions, recurring charges, or hidden fees.</li>
+            <li>Payment is securely processed by <strong>Polar</strong> (<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>), a Merchant of Record. Polar handles all billing, tax calculation, and payment processing on our behalf.</li>
+            <li>Accepted payment methods include credit/debit cards and other methods supported by Polar.</li>
+            <li>By completing a purchase, you authorize Polar to charge your selected payment method.</li>
+            <li>Your payment receipt and invoice are provided by Polar. For billing inquiries, you may contact Polar directly or reach us at <strong>support@kisskin.net</strong>.</li>
           </ul>
 
-          <h2>3. Payment & Pricing</h2>
+          <h2>4. Delivery of Service</h2>
           <ul>
-            <li>Each analysis costs <strong>$2.99 USD</strong> (one-time payment, non-subscription).</li>
-            <li>Payment is processed securely via <strong>Polar</strong> (third-party payment processor).</li>
-            <li>You will receive the analysis result immediately after payment.</li>
+            <li>Results are delivered <strong>immediately</strong> after payment, directly in your browser.</li>
+            <li>No download, account creation, or email is required to receive results.</li>
+            <li>Results are available only during your current browser session. Once you close the page, results cannot be recovered. We recommend using the <strong>Save</strong> or <strong>Share</strong> feature before leaving.</li>
           </ul>
 
-          <h2>4. Refund Policy</h2>
+          <h2>5. Refund Policy</h2>
+          <p>Please see our dedicated <a className="legal-link" onClick={() => handleNavigate('refund')}>Refund Policy</a> page for full details. In summary:</p>
           <ul>
-            <li>Due to the nature of AI-generated digital content, <strong>all sales are final</strong>.</li>
-            <li>Refunds may be considered on a case-by-case basis if the Service fails to deliver results due to a technical error. Contact us at <strong>support@kisskin.net</strong>.</li>
+            <li>Since results are delivered instantly as digital content, <strong>all sales are generally final</strong>.</li>
+            <li>Full refunds are granted if the Service fails to deliver results due to a technical error on our side.</li>
+            <li>Refund requests are processed through Polar.</li>
           </ul>
 
-          <h2>5. User Responsibilities</h2>
+          <h2>6. User Eligibility & Responsibilities</h2>
           <ul>
-            <li>You must be at least 13 years old to use this Service.</li>
-            <li>You are responsible for the photos you upload. Do not upload photos of others without their consent.</li>
-            <li>You agree not to misuse the Service for illegal, harmful, or offensive purposes.</li>
+            <li>You must be at least <strong>13 years old</strong> to use this Service. Users under 18 should have parental consent.</li>
+            <li>You must only upload photos of yourself, or photos for which you have explicit consent from the person depicted.</li>
+            <li>You agree not to use the Service to generate harmful, illegal, deceptive, or offensive content.</li>
+            <li>You are responsible for ensuring your uploaded content does not violate any third-party rights.</li>
           </ul>
 
-          <h2>6. Intellectual Property</h2>
+          <h2>7. Intellectual Property</h2>
           <ul>
-            <li>You retain ownership of your uploaded photos.</li>
-            <li>AI-generated results are provided for your personal use.</li>
-            <li>The kisskin brand, logo, and website content are the property of kisskin.</li>
+            <li><strong>Your photos:</strong> You retain full ownership of photos you upload. We claim no rights over your original images.</li>
+            <li><strong>AI-generated results:</strong> The makeup simulation images are generated by OpenAI's models. You are granted a personal, non-exclusive license to use, save, and share your results. Commercial use of results is permitted.</li>
+            <li><strong>Our content:</strong> The kisskin brand, logo, website design, and all original content are owned by kisskin and protected by applicable intellectual property laws.</li>
           </ul>
 
-          <h2>7. Disclaimer</h2>
+          <h2>8. AI Disclaimer</h2>
           <ul>
-            <li>AI-generated makeup simulations are approximations and may not perfectly reflect real-world results.</li>
-            <li>Product recommendations are AI-generated suggestions. kisskin is not responsible for purchases made based on these recommendations.</li>
-            <li>The Service is provided "as is" without warranties of any kind.</li>
+            <li>AI-generated makeup simulations are <strong>artistic approximations</strong>, not guarantees of real-world appearance.</li>
+            <li>Product recommendations are AI-generated suggestions based on your skin analysis. kisskin does not manufacture, sell, or endorse any recommended products.</li>
+            <li>kisskin is not liable for any purchasing decisions you make based on AI recommendations.</li>
+            <li>AI results may vary based on photo quality, lighting, angle, and other factors.</li>
           </ul>
 
-          <h2>8. Limitation of Liability</h2>
-          <p>To the maximum extent permitted by law, kisskin shall not be liable for any indirect, incidental, or consequential damages arising from the use of the Service.</p>
+          <h2>9. Limitation of Liability</h2>
+          <p>The Service is provided <strong>"as is" and "as available"</strong> without warranties of any kind, express or implied. To the maximum extent permitted by applicable law:</p>
+          <ul>
+            <li>kisskin shall not be liable for any indirect, incidental, special, consequential, or punitive damages.</li>
+            <li>Our total liability for any claim shall not exceed the amount you paid for the specific transaction giving rise to the claim.</li>
+          </ul>
 
-          <h2>9. Changes to Terms</h2>
-          <p>We may update these Terms at any time. Continued use of the Service after changes constitutes acceptance of the updated Terms.</p>
+          <h2>10. Service Availability</h2>
+          <ul>
+            <li>We strive for 24/7 availability but do not guarantee uninterrupted service.</li>
+            <li>We may temporarily suspend the Service for maintenance, updates, or circumstances beyond our control.</li>
+            <li>We reserve the right to modify, suspend, or discontinue the Service at any time with reasonable notice.</li>
+          </ul>
 
-          <h2>10. Contact</h2>
-          <p>For questions or concerns, contact us at <strong>support@kisskin.net</strong>.</p>
+          <h2>11. Prohibited Uses</h2>
+          <p>You may not:</p>
+          <ul>
+            <li>Reverse-engineer, decompile, or attempt to extract the source code of the Service.</li>
+            <li>Use automated tools (bots, scrapers) to access the Service.</li>
+            <li>Circumvent payment or abuse free trials or promotional offers.</li>
+            <li>Upload content that is illegal, explicit, or violates others' rights.</li>
+          </ul>
+
+          <h2>12. Governing Law</h2>
+          <p>These Terms are governed by and construed in accordance with applicable international commercial laws. Any disputes shall be resolved through good-faith negotiation first, then through arbitration if necessary.</p>
+
+          <h2>13. Changes to Terms</h2>
+          <p>We may update these Terms at any time. Material changes will be posted on this page with an updated effective date. Your continued use of the Service after changes constitutes acceptance.</p>
+
+          <h2>14. Contact Us</h2>
+          <p>For any questions about these Terms:</p>
+          <ul>
+            <li>Email: <strong>support@kisskin.net</strong></li>
+            <li>Website: <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a></li>
+          </ul>
         </div>
       </div>
     )
   }
 
-  // 개인정보처리방침
+  // 환불 규정 (Refund Policy)
+  if (page === 'refund') {
+    return (
+      <div className="legal-page">
+        <div className="legal-header">
+          <button className="legal-back" onClick={() => handleNavigate('home')}>
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <h1>Refund Policy</h1>
+        </div>
+        <div className="legal-content">
+          <p className="legal-date">Effective Date: March 6, 2026</p>
+
+          <h2>1. Overview</h2>
+          <p>kisskin provides AI-generated makeup analysis results that are delivered <strong>instantly</strong> after payment. Because our product is digital content consumed immediately upon delivery, our refund policy reflects this nature.</p>
+
+          <h2>2. General Policy</h2>
+          <p>All purchases are <strong>final</strong> once the AI analysis results have been successfully delivered to your browser. Since results are generated and displayed immediately after payment, we cannot "undo" or "take back" the delivered content.</p>
+
+          <h2>3. When You ARE Eligible for a Refund</h2>
+          <p>We will issue a <strong>full refund</strong> in the following cases:</p>
+          <ul>
+            <li><strong>Technical failure:</strong> Payment was charged but no analysis results were generated or displayed due to a server error, API failure, or other technical issue on our end.</li>
+            <li><strong>Duplicate charge:</strong> You were accidentally charged more than once for the same analysis.</li>
+            <li><strong>Processing error:</strong> The AI returned a completely blank, corrupted, or unrelated result (not merely an unsatisfactory style preference).</li>
+          </ul>
+
+          <h2>4. When You Are NOT Eligible for a Refund</h2>
+          <ul>
+            <li>You are <strong>dissatisfied with the AI-generated styles</strong> (style preferences are subjective; AI results vary based on photo quality, lighting, and other factors).</li>
+            <li>You <strong>closed the browser</strong> before saving your results. Results exist only in your active browser session.</li>
+            <li>You <strong>changed your mind</strong> after seeing the results.</li>
+            <li>You <strong>uploaded the wrong photo</strong> or selected incorrect options (gender, skin type).</li>
+            <li>Your <strong>device or internet connection</strong> caused issues displaying the results.</li>
+          </ul>
+
+          <h2>5. How to Request a Refund</h2>
+          <ol>
+            <li>Email <strong>support@kisskin.net</strong> within <strong>7 days</strong> of your purchase.</li>
+            <li>Include the following information:
+              <ul>
+                <li>The email address used for payment</li>
+                <li>Date and approximate time of purchase</li>
+                <li>Description of the issue (screenshot if possible)</li>
+              </ul>
+            </li>
+            <li>We will review your request and respond within <strong>3 business days</strong>.</li>
+          </ol>
+
+          <h2>6. How Refunds Are Processed</h2>
+          <ul>
+            <li>Approved refunds are processed through <strong>Polar</strong>, our payment processor.</li>
+            <li>Refunds are returned to your <strong>original payment method</strong>.</li>
+            <li>Processing time: <strong>5–10 business days</strong> depending on your bank or card issuer.</li>
+            <li>You will receive a confirmation email from Polar once the refund is initiated.</li>
+          </ul>
+
+          <h2>7. Chargebacks</h2>
+          <p>We encourage you to contact us at <strong>support@kisskin.net</strong> before initiating a chargeback with your bank. We are committed to resolving issues fairly and promptly. Filing a chargeback without contacting us first may result in delays and additional complications.</p>
+
+          <h2>8. Pricing & Currency</h2>
+          <ul>
+            <li>All prices are listed in <strong>USD ($)</strong>.</li>
+            <li>The final amount charged may vary slightly due to currency conversion fees applied by your bank. kisskin is not responsible for exchange rate differences.</li>
+            <li>Tax may be added to your purchase depending on your location, as calculated by Polar.</li>
+          </ul>
+
+          <h2>9. Contact Us</h2>
+          <p>For refund requests or billing questions:</p>
+          <ul>
+            <li>Email: <strong>support@kisskin.net</strong></li>
+            <li>Response time: Within 3 business days</li>
+          </ul>
+        </div>
+      </div>
+    )
+  }
+
+  // 개인정보처리방침 (Privacy Policy)
   if (page === 'privacy') {
     return (
       <div className="legal-page">
@@ -727,63 +847,106 @@ function App() {
         <div className="legal-content">
           <p className="legal-date">Effective Date: March 6, 2026</p>
 
-          <h2>1. Information We Collect</h2>
-          <h3>Photos</h3>
+          <h2>1. Introduction</h2>
+          <p>kisskin ("we", "our", "us") operates the website <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a>. This Privacy Policy explains how we collect, use, and protect your information when you use our AI makeup analysis service.</p>
+
+          <h2>2. Information We Collect</h2>
+
+          <h3>2.1 Photos You Upload</h3>
           <ul>
-            <li>Your uploaded photo is sent to OpenAI's API for AI processing.</li>
-            <li>Photos are <strong>not stored on our servers</strong> after analysis is complete.</li>
-            <li>Photos are processed in-memory and discarded immediately after generating results.</li>
-          </ul>
-          <h3>Payment Information</h3>
-          <ul>
-            <li>Payment is handled entirely by <strong>Polar</strong>. We do not store your credit card or payment details.</li>
-          </ul>
-          <h3>Usage Data</h3>
-          <ul>
-            <li>We may collect basic analytics (page views, device type) to improve the Service.</li>
-            <li>No personally identifiable information is tracked.</li>
+            <li>When you use our Service, you upload a facial photo for AI analysis.</li>
+            <li>Your photo is sent to <strong>OpenAI's API</strong> for processing and is <strong>not stored on our servers</strong>.</li>
+            <li>Photos are processed in real-time memory and <strong>discarded immediately</strong> after your analysis results are generated.</li>
+            <li>We do not keep, archive, or back up your photos in any form.</li>
           </ul>
 
-          <h2>2. How We Use Your Information</h2>
+          <h3>2.2 Payment Information</h3>
           <ul>
-            <li>Photos are used solely to generate your AI makeup analysis.</li>
-            <li>We do not sell, share, or use your photos for any other purpose.</li>
-            <li>We do not use your photos to train AI models.</li>
+            <li>All payment processing is handled by <strong>Polar</strong> (<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>), acting as our Merchant of Record.</li>
+            <li>We <strong>never</strong> receive, see, or store your credit card number, CVV, or full billing details.</li>
+            <li>Polar collects the necessary payment information (card details, billing address, email) to process your transaction. This data is subject to <a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">Polar's Privacy Policy</a>.</li>
+            <li>We may receive from Polar: transaction confirmation, order amount, and a reference ID for customer support purposes.</li>
           </ul>
 
-          <h2>3. Third-Party Services</h2>
+          <h3>2.3 Automatically Collected Data</h3>
           <ul>
-            <li><strong>OpenAI</strong> — processes photos for AI makeup generation. Subject to <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">OpenAI's Privacy Policy</a>.</li>
-            <li><strong>Polar</strong> — handles payment processing. Subject to <a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">Polar's Privacy Policy</a>.</li>
-            <li><strong>Cloudflare</strong> — hosts the website. Subject to <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare's Privacy Policy</a>.</li>
+            <li><strong>Cloudflare Analytics:</strong> As our hosting provider, Cloudflare may collect anonymous usage data (page views, country, device type, browser). This data does not identify you personally.</li>
+            <li>We do <strong>not</strong> use cookies for tracking or advertising.</li>
+            <li>We do <strong>not</strong> use Google Analytics or any third-party tracking pixels.</li>
           </ul>
 
-          <h2>4. Data Retention</h2>
+          <h2>3. How We Use Your Information</h2>
+          <table className="legal-table">
+            <thead>
+              <tr><th>Data</th><th>Purpose</th><th>Retention</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Uploaded photo</td><td>Generate AI makeup analysis</td><td>Not retained (real-time only)</td></tr>
+              <tr><td>Analysis results</td><td>Display in your browser</td><td>Browser session only (not on server)</td></tr>
+              <tr><td>Payment info</td><td>Process payment via Polar</td><td>Managed by Polar</td></tr>
+              <tr><td>Anonymous analytics</td><td>Improve service quality</td><td>Aggregated, no PII</td></tr>
+            </tbody>
+          </table>
+
+          <h2>4. Third-Party Services</h2>
+          <p>We use the following third-party services. Each has their own privacy policy:</p>
+          <table className="legal-table">
+            <thead>
+              <tr><th>Service</th><th>Purpose</th><th>Privacy Policy</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>OpenAI</strong></td><td>AI image generation & text analysis</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+              <tr><td><strong>Polar</strong></td><td>Payment processing (Merchant of Record)</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
+              <tr><td><strong>Cloudflare</strong></td><td>Website hosting & CDN</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
+            </tbody>
+          </table>
+          <p><strong>Important:</strong> OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. Your photos are not used for AI training by OpenAI or by us.</p>
+
+          <h2>5. Data We Do NOT Collect</h2>
           <ul>
-            <li>Uploaded photos: <strong>Not retained</strong> (processed and discarded).</li>
-            <li>Analysis results: Stored only in your browser session. Not saved on our servers.</li>
-            <li>Payment records: Maintained by Polar per their retention policy.</li>
+            <li>We do not collect your name, email, phone number, or address (unless provided to Polar during payment).</li>
+            <li>We do not create user accounts or profiles.</li>
+            <li>We do not track you across websites.</li>
+            <li>We do not sell, rent, or share your data with advertisers.</li>
+            <li>We do not use your photos for AI model training.</li>
           </ul>
 
-          <h2>5. Your Rights</h2>
-          <p>You have the right to:</p>
+          <h2>6. Data Security</h2>
           <ul>
-            <li>Know what data we collect (described above).</li>
-            <li>Request deletion of any data associated with you.</li>
-            <li>Opt out of any future data collection.</li>
+            <li>All data transmission is encrypted using <strong>HTTPS/TLS</strong>.</li>
+            <li>Photos are transmitted directly from your browser to OpenAI's API via our secure serverless function — no intermediate storage.</li>
+            <li>Our infrastructure runs on <strong>Cloudflare Workers</strong> (serverless), meaning there is no persistent server where data could be stored or accessed.</li>
           </ul>
 
-          <h2>6. Children's Privacy</h2>
-          <p>The Service is not intended for children under 13. We do not knowingly collect information from children under 13.</p>
+          <h2>7. Your Rights</h2>
+          <p>Regardless of your location, you have the right to:</p>
+          <ul>
+            <li><strong>Access:</strong> Know what data we hold about you (effectively none, as described above).</li>
+            <li><strong>Deletion:</strong> Request deletion of any data. Since we don't store photos or personal data, this primarily applies to payment records held by Polar.</li>
+            <li><strong>Portability:</strong> Request your data in a portable format.</li>
+            <li><strong>Objection:</strong> Object to any data processing.</li>
+          </ul>
+          <p>To exercise these rights, contact <strong>support@kisskin.net</strong>.</p>
 
-          <h2>7. Security</h2>
-          <p>All data transmission is encrypted via HTTPS. We implement industry-standard security measures to protect your information.</p>
+          <h2>8. International Users</h2>
+          <ul>
+            <li>kisskin is accessible worldwide. By using the Service, you consent to your photo being processed by OpenAI (based in the United States) and payment being processed by Polar.</li>
+            <li>For <strong>EU/EEA users (GDPR):</strong> Polar acts as data controller for payment data. Our legal basis for processing your photo is your explicit consent when you upload it and initiate analysis.</li>
+            <li>For <strong>California users (CCPA):</strong> We do not sell personal information. You may request disclosure of data collected about you.</li>
+          </ul>
 
-          <h2>8. Changes to This Policy</h2>
-          <p>We may update this Privacy Policy at any time. Changes will be posted on this page with an updated effective date.</p>
+          <h2>9. Children's Privacy</h2>
+          <p>The Service is not intended for children under <strong>13</strong>. We do not knowingly collect data from children under 13. If you believe a child has used our Service, contact us and we will take appropriate action.</p>
 
-          <h2>9. Contact</h2>
-          <p>For privacy-related inquiries, contact us at <strong>support@kisskin.net</strong>.</p>
+          <h2>10. Changes to This Policy</h2>
+          <p>We may update this Privacy Policy from time to time. Material changes will be reflected with an updated effective date at the top of this page. Continued use of the Service after changes constitutes acceptance.</p>
+
+          <h2>11. Contact Us</h2>
+          <p>For privacy-related questions or data requests:</p>
+          <ul>
+            <li>Email: <strong>support@kisskin.net</strong></li>
+            <li>Website: <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a></li>
+          </ul>
         </div>
       </div>
     )

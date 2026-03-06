@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 interface HomePageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy') => void
+  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund') => void
 }
 
 const HERO_IMAGES = [
@@ -525,8 +525,9 @@ function HomePage({ onNavigate }: HomePageProps) {
             <div className="flex flex-col gap-3">
               <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">법적 고지</h5>
               <ul className="flex flex-col gap-2 text-slate-400 text-sm">
-                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('privacy')}>Privacy Policy</a></li>
                 <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('terms')}>Terms of Service</a></li>
+                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('refund')}>Refund Policy</a></li>
+                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('privacy')}>Privacy Policy</a></li>
               </ul>
             </div>
           </div>
