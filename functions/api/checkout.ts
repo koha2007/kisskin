@@ -15,7 +15,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   try {
     const body = await request.json().catch(() => ({})) as { redirect?: boolean }
     const useRedirect = !!body.redirect
-    const origin = request.headers.get('Origin') || 'https://kissinskin.net'
+    const origin = request.headers.get('Origin') || 'https://kisskin.net'
 
     const checkoutBody: Record<string, unknown> = {
       products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],

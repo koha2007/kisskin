@@ -301,7 +301,7 @@ function App() {
     try {
       // 모바일: 분석 데이터를 저장해두고 결제 후 복원 (임베디드 실패 시 리다이렉트 대비)
       if (isMobile) {
-        sessionStorage.setItem('kissinskin_pending', JSON.stringify({ photo, gender, skinType }))
+        sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType }))
       }
 
       // 1. Polar 체크아웃 세션 생성
@@ -344,7 +344,7 @@ function App() {
         paid = true
         embed.close()
         if (isMobile) {
-          sessionStorage.removeItem('kissinskin_pending')
+          sessionStorage.removeItem('kisskin_pending')
         }
         runAnalysis()
       })
@@ -369,9 +369,9 @@ function App() {
     window.history.replaceState({}, '', window.location.pathname)
 
     // 저장된 분석 데이터 복원
-    const pending = sessionStorage.getItem('kissinskin_pending')
+    const pending = sessionStorage.getItem('kisskin_pending')
     if (!pending) return
-    sessionStorage.removeItem('kissinskin_pending')
+    sessionStorage.removeItem('kisskin_pending')
 
     try {
       const data = JSON.parse(pending)
