@@ -90,7 +90,7 @@ export default function Refund({ onNavigate }: RefundProps) {
 
         <h2>10. How to Request a Refund</h2>
         <ol>
-          <li>Email <strong>support@kisskin.net</strong> within <strong>14 days</strong> of your purchase (or within the period required by your local consumer law, whichever is longer).</li>
+          <li>Email <strong>support@kissinskin.net</strong> within <strong>14 days</strong> of your purchase (or within the period required by your local consumer law, whichever is longer).</li>
           <li>Include the following information:
             <ul>
               <li>The email address used for payment</li>
@@ -111,7 +111,7 @@ export default function Refund({ onNavigate }: RefundProps) {
         </ul>
 
         <h2>12. Chargebacks</h2>
-        <p>We encourage you to contact us at <strong>support@kisskin.net</strong> before initiating a chargeback with your bank. We are committed to resolving issues fairly and promptly. Filing a chargeback without contacting us first may result in delays and additional complications.</p>
+        <p>We encourage you to contact us at <strong>support@kissinskin.net</strong> before initiating a chargeback with your bank. We are committed to resolving issues fairly and promptly. Filing a chargeback without contacting us first may result in delays and additional complications.</p>
 
         <h2>13. Pricing & Currency</h2>
         <ul>
@@ -135,7 +135,7 @@ export default function Refund({ onNavigate }: RefundProps) {
         <h2>15. Contact Us</h2>
         <p>For refund requests or billing questions:</p>
         <ul>
-          <li>Email: <strong>support@kisskin.net</strong></li>
+          <li>Email: <strong>support@kissinskin.net</strong></li>
           <li>Response time: Within 3 business days</li>
         </ul>
       </div>

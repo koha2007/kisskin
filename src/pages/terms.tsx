@@ -19,7 +19,7 @@ export default function Terms({ onNavigate }: TermsProps) {
         <p className="legal-date">Effective Date: March 8, 2026</p>
 
         <h2>1. Agreement to Terms</h2>
-        <p>By accessing or using kissinskin (<a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a>), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service. These Terms constitute a legally binding agreement between you and kissinskin.</p>
+        <p>By accessing or using kissinskin (<a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service. These Terms constitute a legally binding agreement between you and kissinskin.</p>
 
         <h2>2. Service Description</h2>
         <p>kissinskin is an AI-powered makeup simulation and beauty recommendation service. When you submit a photo, our AI generates:</p>
@@ -36,7 +36,7 @@ export default function Terms({ onNavigate }: TermsProps) {
           <li>Payment is securely processed by <strong>Polar</strong> (<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>), a Merchant of Record. Polar handles all billing, tax calculation, and payment processing on our behalf.</li>
           <li>Accepted payment methods include credit/debit cards and other methods supported by Polar.</li>
           <li>By completing a purchase, you authorize Polar to charge your selected payment method.</li>
-          <li>Your payment receipt and invoice are provided by Polar. For billing inquiries, you may contact Polar directly or reach us at <strong>support@kisskin.net</strong>.</li>
+          <li>Your payment receipt and invoice are provided by Polar. For billing inquiries, you may contact Polar directly or reach us at <strong>support@kissinskin.net</strong>.</li>
           <li>All prices are displayed in USD. Applicable taxes (VAT, GST, sales tax) may be added at checkout based on your location, as determined by Polar.</li>
         </ul>
 
@@ -159,7 +159,7 @@ export default function Terms({ onNavigate }: TermsProps) {
         </ul>
 
         <h2>18. Accessibility</h2>
-        <p>We are committed to making our Service accessible to all users. If you experience any accessibility barriers, please contact us at <strong>support@kisskin.net</strong> and we will work to address your needs.</p>
+        <p>We are committed to making our Service accessible to all users. If you experience any accessibility barriers, please contact us at <strong>support@kissinskin.net</strong> and we will work to address your needs.</p>
 
         <h2>19. Severability</h2>
         <p>If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable.</p>
@@ -173,8 +173,8 @@ export default function Terms({ onNavigate }: TermsProps) {
         <h2>22. Contact Us</h2>
         <p>For any questions about these Terms:</p>
         <ul>
-          <li>Email: <strong>support@kisskin.net</strong></li>
-          <li>Website: <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a></li>
+          <li>Email: <strong>support@kissinskin.net</strong></li>
+          <li>Website: <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a></li>
         </ul>
       </div>
     </div>

@@ -512,7 +512,7 @@ function App() {
 
       const file = new File([blob], 'kissinskin-makeup.jpg', { type: 'image/jpeg' })
       const imageUrl = URL.createObjectURL(blob)
-      const shareUrl = 'https://kisskin.net'
+      const shareUrl = 'https://kissinskin.net'
       const shareText = 'AI가 추천한 나만의 메이크업 스타일 9종'
 
       if (platform === 'native') {
