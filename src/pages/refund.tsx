@@ -19,7 +19,7 @@ export default function Refund({ onNavigate }: RefundProps) {
         <p className="legal-date">Effective Date: March 8, 2026</p>
 
         <h2>1. Overview</h2>
-        <p>kisskin provides AI-generated makeup analysis results that are delivered <strong>instantly</strong> after payment. Because our product is digital content consumed immediately upon delivery, our refund policy reflects this nature while respecting your statutory consumer rights.</p>
+        <p>kissinskin provides AI-generated makeup analysis results that are delivered <strong>instantly</strong> after payment. Because our product is digital content consumed immediately upon delivery, our refund policy reflects this nature while respecting your statutory consumer rights.</p>
 
         <h2>2. General Policy</h2>
         <p>All purchases are <strong>final</strong> once the AI analysis results have been successfully delivered to your browser. Since results are generated and displayed immediately after payment, we cannot "undo" or "take back" the delivered content.</p>
@@ -116,7 +116,7 @@ export default function Refund({ onNavigate }: RefundProps) {
         <h2>13. Pricing & Currency</h2>
         <ul>
           <li>All prices are listed in <strong>USD ($)</strong>.</li>
-          <li>The final amount charged may vary slightly due to currency conversion fees applied by your bank. kisskin is not responsible for exchange rate differences.</li>
+          <li>The final amount charged may vary slightly due to currency conversion fees applied by your bank. kissinskin is not responsible for exchange rate differences.</li>
           <li>Tax (VAT, GST, sales tax) may be added to your purchase depending on your location, as calculated by Polar in compliance with local tax laws.</li>
         </ul>
 

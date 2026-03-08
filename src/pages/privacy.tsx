@@ -19,13 +19,13 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
         <p className="legal-date">Effective Date: March 8, 2026</p>
 
         <h2>1. Introduction</h2>
-        <p>kisskin ("we", "our", "us") operates the website <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
+        <p>kissinskin ("we", "our", "us") operates the website <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
         <p>We are committed to protecting your privacy and complying with applicable data protection laws worldwide, including the EU General Data Protection Regulation (GDPR), UK GDPR, California Consumer Privacy Act (CCPA/CPRA), Brazil's Lei Geral de Proteção de Dados (LGPD), South Korea's Personal Information Protection Act (PIPA), Canada's Personal Information Protection and Electronic Documents Act (PIPEDA), Japan's Act on the Protection of Personal Information (APPI), and the Australian Privacy Act 1988.</p>
 
         <h2>2. Data Controller</h2>
-        <p>kisskin is the data controller responsible for your personal data processed through the Service. For payment-related data, <strong>Polar</strong> acts as an independent data controller.</p>
+        <p>kissinskin is the data controller responsible for your personal data processed through the Service. For payment-related data, <strong>Polar</strong> acts as an independent data controller.</p>
         <ul>
-          <li>Data Controller: kisskin</li>
+          <li>Data Controller: kissinskin</li>
           <li>Contact: <strong>support@kisskin.net</strong></li>
           <li>Website: <a href="https://kisskin.net" target="_blank" rel="noopener noreferrer">https://kisskin.net</a></li>
         </ul>

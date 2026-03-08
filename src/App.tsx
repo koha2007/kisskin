@@ -510,7 +510,7 @@ function App() {
         return
       }
 
-      const file = new File([blob], 'kisskin-makeup.jpg', { type: 'image/jpeg' })
+      const file = new File([blob], 'kissinskin-makeup.jpg', { type: 'image/jpeg' })
       const imageUrl = URL.createObjectURL(blob)
       const shareUrl = 'https://kisskin.net'
       const shareText = 'AI가 추천한 나만의 메이크업 스타일 9종'
@@ -518,9 +518,9 @@ function App() {
       if (platform === 'native') {
         try {
           if (navigator.canShare?.({ files: [file] })) {
-            await navigator.share({ title: 'kisskin', text: shareText, files: [file] })
+            await navigator.share({ title: 'kissinskin', text: shareText, files: [file] })
           } else {
-            await navigator.share({ title: 'kisskin', text: shareText + '\n' + shareUrl })
+            await navigator.share({ title: 'kissinskin', text: shareText + '\n' + shareUrl })
           }
         } catch (e) {
           if (e instanceof Error && e.name !== 'AbortError') {
@@ -550,7 +550,7 @@ function App() {
       } else if (platform === 'line') {
         window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank')
       } else if (platform === 'email') {
-        window.location.href = `mailto:?subject=${encodeURIComponent('kisskin - AI Makeup Looks')}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`
+        window.location.href = `mailto:?subject=${encodeURIComponent('kissinskin - AI Makeup Looks')}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`
       }
 
       URL.revokeObjectURL(imageUrl)
@@ -641,7 +641,7 @@ function App() {
 
       const link = document.createElement('a')
       link.href = canvas.toDataURL('image/png')
-      link.download = 'kisskin-makeup.png'
+      link.download = 'kissinskin-makeup.png'
       link.click()
     }
     img.src = resultImage
