@@ -288,25 +288,26 @@ function App() {
     }
   }
 
-  const sendReportEmail = async (reportStr: string, image: string | null) => {
-    if (!customerEmail) return
+  const sendReportEmail = async (reportStr: string, _image: string | null, email?: string) => {
+    const targetEmail = email || customerEmail
+    if (!targetEmail) return
     try {
       const structured = parseReport(reportStr)
       await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: customerEmail,
+          email: targetEmail,
           report: structured || { products: [] },
           styles: activeStyles,
-          resultImage: image || '',
+          resultImage: '', // 이미지는 용량 문제로 첨부하지 않음
         }),
       })
       setEmailSent(true)
     } catch { /* 이메일 전송 실패 — 결과는 이미 화면에 표시됨 */ }
   }
 
-  const runAnalysis = async () => {
+  const runAnalysis = async (email?: string) => {
     setLoading(true)
     setError(null)
 
@@ -369,7 +370,7 @@ function App() {
       img.src = data.image
 
       // 분석 성공 → 이메일 자동 전송
-      sendReportEmail(data.report, data.image)
+      sendReportEmail(data.report, data.image, email)
     } catch (e) {
       const msg = e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.'
       // 일반 오류(자동환불이 아직 시도되지 않은 경우)도 환불 시도
@@ -450,6 +451,7 @@ function App() {
         }
         // 결제 확인 → 이메일 획득
         setCheckoutIdRef(embeddedCheckoutId)
+        let verifiedEmail: string | undefined
         try {
           const vRes = await fetch('/api/verify', {
             method: 'POST',
@@ -458,10 +460,11 @@ function App() {
           })
           const vData = await vRes.json()
           if (vData.customerEmail) {
+            verifiedEmail = vData.customerEmail
             setCustomerEmail(vData.customerEmail)
           }
         } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
-        runAnalysis()
+        runAnalysis(verifiedEmail)
       })
 
       embed.addEventListener('close', () => {
@@ -508,7 +511,7 @@ function App() {
             setCustomerEmail(result.customerEmail)
           }
           if (result.status === 'succeeded' || result.status === 'confirmed') {
-            setTimeout(() => runAnalysis(), 100)
+            setTimeout(() => runAnalysis(result.customerEmail), 100)
           } else {
             setError('결제가 완료되지 않았습니다. 다시 시도해주세요.')
           }
