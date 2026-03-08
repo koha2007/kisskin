@@ -191,7 +191,8 @@ function App() {
     const img = new Image()
     img.onload = () => {
       // 모바일 카메라 사진 리사이즈 & 압축 (EXIF 방향도 자동 보정)
-      const MAX = 1536
+      const MAX = 1280
+      const MAX_BYTES = 1.5 * 1024 * 1024 // 1.5MB 이하로 압축
       let w = img.naturalWidth
       let h = img.naturalHeight
       if (w > MAX || h > MAX) {
@@ -209,7 +210,22 @@ function App() {
       const ctx = cvs.getContext('2d')
       if (!ctx) return
       ctx.drawImage(img, 0, 0, w, h)
-      const compressed = cvs.toDataURL('image/jpeg', 0.92)
+
+      // 반복 압축: 용량이 MAX_BYTES 이하가 될 때까지 품질을 낮춤
+      let quality = 0.85
+      let compressed = cvs.toDataURL('image/jpeg', quality)
+      while (compressed.length * 0.75 > MAX_BYTES && quality > 0.3) {
+        quality -= 0.1
+        compressed = cvs.toDataURL('image/jpeg', quality)
+      }
+      // 그래도 크면 해상도 추가 축소
+      if (compressed.length * 0.75 > MAX_BYTES) {
+        const scale = 0.7
+        cvs.width = Math.round(w * scale)
+        cvs.height = Math.round(h * scale)
+        ctx.drawImage(img, 0, 0, cvs.width, cvs.height)
+        compressed = cvs.toDataURL('image/jpeg', 0.7)
+      }
       setPhoto(compressed)
     }
     img.onerror = () => {
