@@ -178,6 +178,7 @@ function App() {
   const [customerEmail, setCustomerEmail] = useState<string | null>(null)
   const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
   const [emailSent, setEmailSent] = useState(false)
+  const [refundFailed, setRefundFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
 
@@ -251,10 +252,10 @@ function App() {
 
   const isComplete = photo && gender && skinType
 
-  const autoRefund = async (reason: string) => {
-    if (!checkoutIdRef) return
+  const autoRefund = async (reason: string): Promise<boolean> => {
+    if (!checkoutIdRef) return false
     try {
-      await fetch('/api/refund', {
+      const res = await fetch('/api/refund', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -263,7 +264,12 @@ function App() {
           comment: reason,
         }),
       })
-    } catch { /* 환불 실패 시 수동 처리 필요 */ }
+      if (!res.ok) return false
+      const data = await res.json()
+      return data.refundId ? true : false
+    } catch {
+      return false
+    }
   }
 
   const sendReportEmail = async (reportStr: string, image: string | null) => {
@@ -304,17 +310,24 @@ function App() {
       }
 
       // 이미지 또는 리포트가 없으면 실패 → 자동 환불
+      const failAndRefund = async (reason: string, userMsg: string) => {
+        const refunded = await autoRefund(reason)
+        if (refunded) {
+          throw new Error(userMsg + ' 결제가 자동으로 환불됩니다.')
+        } else {
+          setRefundFailed(true)
+          throw new Error(userMsg)
+        }
+      }
+
       if (!data.image && !data.report) {
-        await autoRefund('AI 분석 결과 생성 실패 (이미지 및 텍스트 없음)')
-        throw new Error('분석 결과를 생성하지 못했습니다. 결제가 자동으로 환불됩니다.')
+        await failAndRefund('AI 분석 결과 생성 실패 (이미지 및 텍스트 없음)', '분석 결과를 생성하지 못했습니다.')
       }
       if (!data.image) {
-        await autoRefund('AI 이미지 생성 실패')
-        throw new Error('메이크업 이미지를 생성하지 못했습니다. 결제가 자동으로 환불됩니다.')
+        await failAndRefund('AI 이미지 생성 실패', '메이크업 이미지를 생성하지 못했습니다.')
       }
       if (!data.report) {
-        await autoRefund('AI 리포트 생성 실패')
-        throw new Error('분석 리포트를 생성하지 못했습니다. 결제가 자동으로 환불됩니다.')
+        await failAndRefund('AI 리포트 생성 실패', '분석 리포트를 생성하지 못했습니다.')
       }
 
       setResultImage(data.image)
@@ -343,10 +356,15 @@ function App() {
       sendReportEmail(data.report, data.image)
     } catch (e) {
       const msg = e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.'
-      // 일반 오류(자동환불 아닌 경우)도 환불 시도
-      if (!msg.includes('자동으로 환불')) {
-        await autoRefund(`분석 중 오류: ${msg}`)
-        setError(msg + ' 결제가 자동으로 환불됩니다.')
+      // 일반 오류(자동환불이 아직 시도되지 않은 경우)도 환불 시도
+      if (!msg.includes('자동으로 환불') && !msg.includes('생성하지 못했습니다')) {
+        const refunded = await autoRefund(`분석 중 오류: ${msg}`)
+        if (refunded) {
+          setError(msg + ' 결제가 자동으로 환불됩니다.')
+        } else {
+          setRefundFailed(true)
+          setError(msg)
+        }
       } else {
         setError(msg)
       }
@@ -1089,6 +1107,29 @@ function App() {
           <div className="error-msg">
             <span className="material-symbols-outlined">error</span>
             {error}
+          </div>
+        )}
+
+        {refundFailed && (
+          <div className="refund-failed-card">
+            <span className="material-symbols-outlined refund-failed-icon">support_agent</span>
+            <h4>자동 환불에 실패했습니다</h4>
+            <p>분석 결과를 생성하지 못했으나, 자동 환불 처리에 문제가 발생했습니다. 아래 버튼을 눌러 환불을 요청해주세요.</p>
+            <a
+              className="refund-failed-btn"
+              href={`mailto:koha3d77@gmail.com?subject=${encodeURIComponent('[kissinskin] 환불 요청')}&body=${encodeURIComponent(
+                `안녕하세요,\n\n분석 과정에서 오류가 발생하여 환불을 요청합니다.\n\n` +
+                `결제 이메일: ${customerEmail || '(확인 불가)'}\n` +
+                `Checkout ID: ${checkoutIdRef || '(확인 불가)'}\n` +
+                `오류 내용: ${error || '(알 수 없음)'}\n` +
+                `발생 시각: ${new Date().toISOString()}\n\n` +
+                `빠른 처리 부탁드립니다.\n감사합니다.`
+              )}`}
+            >
+              <span className="material-symbols-outlined">mail</span>
+              환불 문의 이메일 보내기
+            </a>
+            <p className="refund-failed-email">koha3d77@gmail.com</p>
           </div>
         )}
       </div>

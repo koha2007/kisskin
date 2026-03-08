@@ -1210,3 +1210,63 @@ img {
   font-size: 13px;
   color: #64748b;
 }
+
+/* ===== Refund Failed Card ===== */
+.refund-failed-card {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.refund-failed-icon {
+  font-size: 40px;
+  color: #ef4444;
+  font-variation-settings: 'FILL' 1;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.refund-failed-card h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.refund-failed-card > p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.refund-failed-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ef4444;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+
+.refund-failed-btn:hover {
+  background: #dc2626;
+}
+
+.refund-failed-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.refund-failed-email {
+  margin: 12px 0 0 !important;
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+}
