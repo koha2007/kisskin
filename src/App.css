@@ -1175,3 +1175,239 @@ img {
     gap: 4px;
   }
 }
+
+/* ===== Email Report Section ===== */
+.email-report-section {
+  padding-top: 20px;
+}
+
+.email-report-card {
+  background: linear-gradient(135deg, #fdf2f8, #f0f0ff);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.email-report-icon {
+  font-size: 36px;
+  color: #ec4899;
+  font-variation-settings: 'FILL' 1;
+}
+
+.email-report-text h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.email-report-text p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.email-report-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.email-report-btn:hover {
+  background: #4f46e5;
+}
+
+.email-report-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* ===== Email Modal ===== */
+.email-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.email-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.email-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  padding: 4px;
+  display: flex;
+}
+
+.email-modal-close:hover {
+  color: #0f172a;
+}
+
+.email-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.email-modal-header .material-symbols-outlined {
+  font-size: 28px;
+  color: #6366f1;
+  font-variation-settings: 'FILL' 1;
+}
+
+.email-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.email-modal-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.email-modal-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
+.email-modal-input:focus {
+  border-color: #6366f1;
+}
+
+.email-modal-input:disabled {
+  opacity: 0.6;
+}
+
+.email-modal-error {
+  color: #ef4444;
+  font-size: 13px;
+  margin: 8px 0 0;
+}
+
+.email-modal-send-btn {
+  width: 100%;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.email-modal-send-btn:hover:not(:disabled) {
+  background: #4f46e5;
+}
+
+.email-modal-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.email-modal-send-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.email-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: email-spin 0.6s linear infinite;
+}
+
+@keyframes email-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success state */
+.email-modal-success {
+  text-align: center;
+  padding: 12px 0;
+}
+
+.email-success-icon {
+  font-size: 56px;
+  color: #22c55e;
+  font-variation-settings: 'FILL' 1;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.email-modal-success h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.email-modal-success p {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.email-modal-done-btn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.email-modal-done-btn:hover {
+  background: #4f46e5;
+}

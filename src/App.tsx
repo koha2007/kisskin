@@ -175,6 +175,11 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
+  const [showEmailModal, setShowEmailModal] = useState(false)
+  const [emailAddress, setEmailAddress] = useState('')
+  const [emailSending, setEmailSending] = useState(false)
+  const [emailSent, setEmailSent] = useState(false)
+  const [emailError, setEmailError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
 
@@ -647,6 +652,42 @@ function App() {
     img.src = resultImage
   }
 
+  const handleSendEmail = async () => {
+    if (!emailAddress || !report) return
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(emailAddress)) {
+      setEmailError('올바른 이메일 주소를 입력해주세요.')
+      return
+    }
+
+    setEmailSending(true)
+    setEmailError(null)
+
+    try {
+      const structured = parseReport(report)
+      const res = await fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: emailAddress,
+          report: structured || { products: [] },
+          styles: activeStyles,
+          resultImage: resultImage || '',
+        }),
+      })
+
+      if (!res.ok) {
+        throw new Error('전송 실패')
+      }
+
+      setEmailSent(true)
+    } catch {
+      setEmailError('이메일 전송에 실패했습니다. 다시 시도해주세요.')
+    } finally {
+      setEmailSending(false)
+    }
+  }
+
   // 이용약관 (Terms of Service)
   if (page === 'terms') {
     return <Terms onNavigate={handleNavigate} />
@@ -862,6 +903,76 @@ function App() {
               </section>
             )
           })()}
+
+          {/* 이메일로 리포트 받기 */}
+          {report && (
+            <section className="report-section email-report-section">
+              <div className="email-report-card">
+                <span className="material-symbols-outlined email-report-icon">forward_to_inbox</span>
+                <div className="email-report-text">
+                  <h4>분석 리포트를 이메일로 받아보세요</h4>
+                  <p>분석 결과와 추천 제품을 이메일로 전송해드립니다.</p>
+                </div>
+                <button
+                  className="email-report-btn"
+                  onClick={() => { setShowEmailModal(true); setEmailSent(false); setEmailError(null) }}
+                >
+                  <span className="material-symbols-outlined">mail</span>
+                  이메일로 받기
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* Email Modal */}
+          {showEmailModal && (
+            <div className="email-modal-overlay" onClick={() => setShowEmailModal(false)}>
+              <div className="email-modal" onClick={e => e.stopPropagation()}>
+                <button className="email-modal-close" onClick={() => setShowEmailModal(false)}>
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+                {emailSent ? (
+                  <div className="email-modal-success">
+                    <span className="material-symbols-outlined email-success-icon">check_circle</span>
+                    <h3>전송 완료!</h3>
+                    <p>{emailAddress}로 리포트를 전송했습니다.</p>
+                    <button className="email-modal-done-btn" onClick={() => setShowEmailModal(false)}>
+                      확인
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="email-modal-header">
+                      <span className="material-symbols-outlined">forward_to_inbox</span>
+                      <h3>이메일로 리포트 받기</h3>
+                    </div>
+                    <p className="email-modal-desc">분석 결과, 메이크업 스타일, 추천 제품 정보를 이메일로 보내드립니다.</p>
+                    <input
+                      type="email"
+                      className="email-modal-input"
+                      placeholder="이메일 주소 입력"
+                      value={emailAddress}
+                      onChange={e => { setEmailAddress(e.target.value); setEmailError(null) }}
+                      onKeyDown={e => e.key === 'Enter' && handleSendEmail()}
+                      disabled={emailSending}
+                    />
+                    {emailError && <p className="email-modal-error">{emailError}</p>}
+                    <button
+                      className="email-modal-send-btn"
+                      onClick={handleSendEmail}
+                      disabled={emailSending || !emailAddress}
+                    >
+                      {emailSending ? (
+                        <><span className="email-spinner" />전송 중...</>
+                      ) : (
+                        <><span className="material-symbols-outlined">send</span>전송하기</>
+                      )}
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Fixed CTA */}
           <div className="fixed-cta-spacer" />
