@@ -175,11 +175,9 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
-  const [showEmailModal, setShowEmailModal] = useState(false)
-  const [emailAddress, setEmailAddress] = useState('')
-  const [emailSending, setEmailSending] = useState(false)
+  const [customerEmail, setCustomerEmail] = useState<string | null>(null)
+  const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
   const [emailSent, setEmailSent] = useState(false)
-  const [emailError, setEmailError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
 
@@ -253,6 +251,39 @@ function App() {
 
   const isComplete = photo && gender && skinType
 
+  const autoRefund = async (reason: string) => {
+    if (!checkoutIdRef) return
+    try {
+      await fetch('/api/refund', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          checkoutId: checkoutIdRef,
+          reason: 'service_disruption',
+          comment: reason,
+        }),
+      })
+    } catch { /* 환불 실패 시 수동 처리 필요 */ }
+  }
+
+  const sendReportEmail = async (reportStr: string, image: string | null) => {
+    if (!customerEmail) return
+    try {
+      const structured = parseReport(reportStr)
+      await fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: customerEmail,
+          report: structured || { products: [] },
+          styles: activeStyles,
+          resultImage: image || '',
+        }),
+      })
+      setEmailSent(true)
+    } catch { /* 이메일 전송 실패 — 결과는 이미 화면에 표시됨 */ }
+  }
+
   const runAnalysis = async () => {
     setLoading(true)
     setError(null)
@@ -272,30 +303,53 @@ function App() {
         throw new Error(data.error || '분석 중 오류가 발생했습니다.')
       }
 
-      if (data.image) {
-        setResultImage(data.image)
-        const img = new Image()
-        img.onload = () => {
-          const cellW = Math.floor(img.width / 3)
-          const cellH = Math.floor(img.height / 3)
-          const cells: string[] = []
-          for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 3; col++) {
-              const cvs = document.createElement('canvas')
-              cvs.width = cellW
-              cvs.height = cellH
-              const ctx = cvs.getContext('2d')!
-              ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
-              cells.push(cvs.toDataURL('image/png'))
-            }
-          }
-          setResultCells(cells)
-        }
-        img.src = data.image
+      // 이미지 또는 리포트가 없으면 실패 → 자동 환불
+      if (!data.image && !data.report) {
+        await autoRefund('AI 분석 결과 생성 실패 (이미지 및 텍스트 없음)')
+        throw new Error('분석 결과를 생성하지 못했습니다. 결제가 자동으로 환불됩니다.')
       }
-      if (data.report) setReport(data.report)
+      if (!data.image) {
+        await autoRefund('AI 이미지 생성 실패')
+        throw new Error('메이크업 이미지를 생성하지 못했습니다. 결제가 자동으로 환불됩니다.')
+      }
+      if (!data.report) {
+        await autoRefund('AI 리포트 생성 실패')
+        throw new Error('분석 리포트를 생성하지 못했습니다. 결제가 자동으로 환불됩니다.')
+      }
+
+      setResultImage(data.image)
+      setReport(data.report)
+
+      const img = new Image()
+      img.onload = () => {
+        const cellW = Math.floor(img.width / 3)
+        const cellH = Math.floor(img.height / 3)
+        const cells: string[] = []
+        for (let row = 0; row < 3; row++) {
+          for (let col = 0; col < 3; col++) {
+            const cvs = document.createElement('canvas')
+            cvs.width = cellW
+            cvs.height = cellH
+            const ctx = cvs.getContext('2d')!
+            ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
+            cells.push(cvs.toDataURL('image/png'))
+          }
+        }
+        setResultCells(cells)
+      }
+      img.src = data.image
+
+      // 분석 성공 → 이메일 자동 전송
+      sendReportEmail(data.report, data.image)
     } catch (e) {
-      setError(e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.')
+      const msg = e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.'
+      // 일반 오류(자동환불 아닌 경우)도 환불 시도
+      if (!msg.includes('자동으로 환불')) {
+        await autoRefund(`분석 중 오류: ${msg}`)
+        setError(msg + ' 결제가 자동으로 환불됩니다.')
+      } else {
+        setError(msg)
+      }
     } finally {
       setLoading(false)
     }
@@ -347,15 +401,32 @@ function App() {
         throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
       }
 
+      // checkoutId 추출 (URL 마지막 경로 세그먼트)
+      const urlParts = new URL(checkoutData.url).pathname.split('/')
+      const embeddedCheckoutId = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2]
+
       let paid = false
       const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
 
-      embed.addEventListener('success', () => {
+      embed.addEventListener('success', async () => {
         paid = true
         embed.close()
         if (isMobile) {
           sessionStorage.removeItem('kisskin_pending')
         }
+        // 결제 확인 → 이메일 획득
+        setCheckoutIdRef(embeddedCheckoutId)
+        try {
+          const vRes = await fetch('/api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ checkoutId: embeddedCheckoutId }),
+          })
+          const vData = await vRes.json()
+          if (vData.customerEmail) {
+            setCustomerEmail(vData.customerEmail)
+          }
+        } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
         runAnalysis()
       })
 
@@ -390,7 +461,8 @@ function App() {
       setSkinType(data.skinType)
       setPage('analysis')
 
-      // 결제 확인 후 분석 시작
+      // 결제 확인 후 이메일 획득 및 분석 시작
+      setCheckoutIdRef(checkoutId)
       fetch('/api/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -398,8 +470,10 @@ function App() {
       })
         .then(res => res.json())
         .then(result => {
+          if (result.customerEmail) {
+            setCustomerEmail(result.customerEmail)
+          }
           if (result.status === 'succeeded' || result.status === 'confirmed') {
-            // 분석 데이터가 세팅된 후 실행되도록 약간 지연
             setTimeout(() => runAnalysis(), 100)
           } else {
             setError('결제가 완료되지 않았습니다. 다시 시도해주세요.')
@@ -652,42 +726,6 @@ function App() {
     img.src = resultImage
   }
 
-  const handleSendEmail = async () => {
-    if (!emailAddress || !report) return
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(emailAddress)) {
-      setEmailError('올바른 이메일 주소를 입력해주세요.')
-      return
-    }
-
-    setEmailSending(true)
-    setEmailError(null)
-
-    try {
-      const structured = parseReport(report)
-      const res = await fetch('/api/send-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: emailAddress,
-          report: structured || { products: [] },
-          styles: activeStyles,
-          resultImage: resultImage || '',
-        }),
-      })
-
-      if (!res.ok) {
-        throw new Error('전송 실패')
-      }
-
-      setEmailSent(true)
-    } catch {
-      setEmailError('이메일 전송에 실패했습니다. 다시 시도해주세요.')
-    } finally {
-      setEmailSending(false)
-    }
-  }
-
   // 이용약관 (Terms of Service)
   if (page === 'terms') {
     return <Terms onNavigate={handleNavigate} />
@@ -904,74 +942,17 @@ function App() {
             )
           })()}
 
-          {/* 이메일로 리포트 받기 */}
-          {report && (
+          {/* 이메일 자동 전송 알림 */}
+          {emailSent && customerEmail && (
             <section className="report-section email-report-section">
-              <div className="email-report-card">
-                <span className="material-symbols-outlined email-report-icon">forward_to_inbox</span>
-                <div className="email-report-text">
-                  <h4>분석 리포트를 이메일로 받아보세요</h4>
-                  <p>분석 결과와 추천 제품을 이메일로 전송해드립니다.</p>
+              <div className="email-sent-card">
+                <span className="material-symbols-outlined email-sent-icon">check_circle</span>
+                <div className="email-sent-text">
+                  <h4>리포트가 이메일로 전송되었습니다</h4>
+                  <p>{customerEmail}</p>
                 </div>
-                <button
-                  className="email-report-btn"
-                  onClick={() => { setShowEmailModal(true); setEmailSent(false); setEmailError(null) }}
-                >
-                  <span className="material-symbols-outlined">mail</span>
-                  이메일로 받기
-                </button>
               </div>
             </section>
-          )}
-
-          {/* Email Modal */}
-          {showEmailModal && (
-            <div className="email-modal-overlay" onClick={() => setShowEmailModal(false)}>
-              <div className="email-modal" onClick={e => e.stopPropagation()}>
-                <button className="email-modal-close" onClick={() => setShowEmailModal(false)}>
-                  <span className="material-symbols-outlined">close</span>
-                </button>
-                {emailSent ? (
-                  <div className="email-modal-success">
-                    <span className="material-symbols-outlined email-success-icon">check_circle</span>
-                    <h3>전송 완료!</h3>
-                    <p>{emailAddress}로 리포트를 전송했습니다.</p>
-                    <button className="email-modal-done-btn" onClick={() => setShowEmailModal(false)}>
-                      확인
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <div className="email-modal-header">
-                      <span className="material-symbols-outlined">forward_to_inbox</span>
-                      <h3>이메일로 리포트 받기</h3>
-                    </div>
-                    <p className="email-modal-desc">분석 결과, 메이크업 스타일, 추천 제품 정보를 이메일로 보내드립니다.</p>
-                    <input
-                      type="email"
-                      className="email-modal-input"
-                      placeholder="이메일 주소 입력"
-                      value={emailAddress}
-                      onChange={e => { setEmailAddress(e.target.value); setEmailError(null) }}
-                      onKeyDown={e => e.key === 'Enter' && handleSendEmail()}
-                      disabled={emailSending}
-                    />
-                    {emailError && <p className="email-modal-error">{emailError}</p>}
-                    <button
-                      className="email-modal-send-btn"
-                      onClick={handleSendEmail}
-                      disabled={emailSending || !emailAddress}
-                    >
-                      {emailSending ? (
-                        <><span className="email-spinner" />전송 중...</>
-                      ) : (
-                        <><span className="material-symbols-outlined">send</span>전송하기</>
-                      )}
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
           )}
 
           {/* Fixed CTA */}

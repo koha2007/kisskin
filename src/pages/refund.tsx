@@ -25,22 +25,31 @@ export default function Refund({ onNavigate }: RefundProps) {
         <p>All purchases are <strong>final</strong> once the AI analysis results have been successfully delivered to your browser. Since results are generated and displayed immediately after payment, we cannot "undo" or "take back" the delivered content.</p>
         <p><strong>Important:</strong> This policy does not affect your statutory consumer rights under applicable law. See Section 10 for jurisdiction-specific rights.</p>
 
-        <h2>3. When You ARE Eligible for a Refund</h2>
-        <p>We will issue a <strong>full refund</strong> in the following cases:</p>
+        <h2>3. Automatic Refund (Service Failure)</h2>
+        <p>If our AI fails to generate results (makeup images or analysis report), a <strong>full refund is automatically processed</strong> without any action required on your part. This includes:</p>
         <ul>
-          <li><strong>Technical failure:</strong> Payment was charged but no analysis results were generated or displayed due to a server error, API failure, or other technical issue on our end.</li>
+          <li><strong>Image generation failure:</strong> The AI failed to generate makeup simulation images.</li>
+          <li><strong>Report generation failure:</strong> The AI failed to generate the skin analysis report.</li>
+          <li><strong>Server/API error:</strong> Any technical error on our end that prevents results from being delivered.</li>
+        </ul>
+        <p>Automatic refunds are processed instantly through Polar. You will receive a confirmation from Polar once the refund is initiated.</p>
+
+        <h2>4. When You ARE Eligible for a Manual Refund</h2>
+        <p>In addition to automatic refunds, we will issue a <strong>full refund</strong> upon request in the following cases:</p>
+        <ul>
           <li><strong>Duplicate charge:</strong> You were accidentally charged more than once for the same analysis.</li>
           <li><strong>Processing error:</strong> The AI returned a completely blank, corrupted, or unrelated result (not merely an unsatisfactory style preference).</li>
           <li><strong>Service not as described:</strong> The Service fundamentally failed to deliver what was described (e.g., no makeup styles generated, no analysis report provided).</li>
         </ul>
 
-        <h2>4. When You Are NOT Eligible for a Refund</h2>
+        <h2>5. When You Are NOT Eligible for a Refund</h2>
         <ul>
           <li>You are <strong>dissatisfied with the AI-generated styles</strong> (style preferences are subjective; AI results vary based on photo quality, lighting, and other factors).</li>
           <li>You <strong>closed the browser</strong> before saving your results. Results exist only in your active browser session.</li>
           <li>You <strong>changed your mind</strong> after seeing the results.</li>
           <li>You <strong>uploaded the wrong photo</strong> or selected incorrect options (gender, skin type).</li>
           <li>Your <strong>device or internet connection</strong> caused issues displaying the results.</li>
+          <li><strong>Incorrect email address:</strong> You provided an incorrect or inaccessible email address during payment. Analysis reports are sent to the email address you enter at checkout. It is your responsibility to ensure the email address is correct. We do not issue refunds for reports sent to an incorrect email address.</li>
         </ul>
 
         <h2>5. EU/EEA Right of Withdrawal</h2>

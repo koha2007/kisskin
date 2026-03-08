@@ -43,8 +43,9 @@ export default function Terms({ onNavigate }: TermsProps) {
         <h2>4. Delivery of Service</h2>
         <ul>
           <li>Results are delivered <strong>immediately</strong> after payment, directly in your browser.</li>
-          <li>No download, account creation, or email is required to receive results.</li>
-          <li>Results are available only during your current browser session. Once you close the page, results cannot be recovered. We recommend using the <strong>Save</strong> or <strong>Share</strong> feature before leaving.</li>
+          <li>A detailed analysis report (including skin analysis, makeup styles, and product recommendations) is <strong>automatically sent via email</strong> to the email address you provided during checkout.</li>
+          <li><strong>Email accuracy:</strong> It is your sole responsibility to provide a valid and accessible email address at checkout. We are not responsible for reports sent to incorrect, misspelled, or inaccessible email addresses. <strong>Refunds will not be issued</strong> for reports delivered to an incorrect email address.</li>
+          <li>Results are also available in your current browser session. Once you close the page, browser results cannot be recovered. We recommend using the <strong>Save</strong> or <strong>Share</strong> feature, or checking your email for the report.</li>
         </ul>
 
         <h2>5. Right of Withdrawal & Digital Content Consent (EU/EEA/UK)</h2>
@@ -58,8 +59,9 @@ export default function Terms({ onNavigate }: TermsProps) {
         <h2>6. Refund Policy</h2>
         <p>Please see our dedicated <a className="legal-link" onClick={() => onNavigate('refund')}>Refund Policy</a> page for full details. In summary:</p>
         <ul>
-          <li>Since results are delivered instantly as digital content, <strong>all sales are generally final</strong>.</li>
-          <li>Full refunds are granted if the Service fails to deliver results due to a technical error on our side.</li>
+          <li>If the AI fails to generate results (images or report), a <strong>full refund is automatically processed</strong> without any action required from you.</li>
+          <li>Since results are delivered instantly as digital content, <strong>all sales are generally final</strong> once results are successfully delivered.</li>
+          <li>Refunds are <strong>not</strong> issued for reports sent to an incorrect email address provided by you at checkout.</li>
           <li>Refund requests are processed through Polar.</li>
           <li><strong>Your statutory consumer rights under applicable local law are not affected.</strong></li>
         </ul>
