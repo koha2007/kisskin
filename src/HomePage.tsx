@@ -355,10 +355,6 @@ function HomePage({ onNavigate }: HomePageProps) {
               <div className="absolute -inset-6 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-slate-900/30 rounded-[3rem] blur-2xl"></div>
               <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
                 <WaveGrid onClick={() => onNavigate('analysis')} />
-                <div className="absolute -bottom-0 right-3 bottom-3 bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-primary/30 flex items-center gap-1.5 z-10">
-                  <span className="material-symbols-outlined text-lg">auto_awesome</span>
-                  AI Powered
-                </div>
               </div>
             </div>
           </div>
