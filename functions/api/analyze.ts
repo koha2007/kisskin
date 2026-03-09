@@ -1,4 +1,4 @@
-// OpenAI Makeup Analysis API
+// OpenAI Makeup Analysis API v2
 interface Env {
   OPENAI_API_KEY: string
 }
