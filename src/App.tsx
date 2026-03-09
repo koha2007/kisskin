@@ -288,11 +288,40 @@ function App() {
     }
   }
 
-  const sendReportEmail = async (reportStr: string, _image: string | null, email?: string) => {
+  const compressImageForEmail = (dataUrl: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        const cvs = document.createElement('canvas')
+        // 이메일용으로 최대 800px로 리사이즈
+        const maxSize = 800
+        let w = img.width, h = img.height
+        if (w > maxSize || h > maxSize) {
+          const ratio = Math.min(maxSize / w, maxSize / h)
+          w = Math.round(w * ratio)
+          h = Math.round(h * ratio)
+        }
+        cvs.width = w
+        cvs.height = h
+        const ctx = cvs.getContext('2d')!
+        ctx.drawImage(img, 0, 0, w, h)
+        resolve(cvs.toDataURL('image/jpeg', 0.75))
+      }
+      img.onerror = () => resolve('')
+      img.src = dataUrl
+    })
+  }
+
+  const sendReportEmail = async (reportStr: string, image: string | null, email?: string) => {
     const targetEmail = email || customerEmail
     if (!targetEmail) return
     try {
       const structured = parseReport(reportStr)
+      // 이미지를 JPEG로 압축하여 전송
+      let compressedImage = ''
+      if (image) {
+        compressedImage = await compressImageForEmail(image)
+      }
       await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -300,7 +329,7 @@ function App() {
           email: targetEmail,
           report: structured || { products: [] },
           styles: activeStyles,
-          resultImage: '', // 이미지는 용량 문제로 첨부하지 않음
+          resultImage: compressedImage,
         }),
       })
       setEmailSent(true)
