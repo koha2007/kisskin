@@ -288,11 +288,38 @@ function App() {
     }
   }
 
-  const sendReportEmail = async (reportStr: string, _image: string | null, email?: string) => {
+  const compressImageForEmail = (dataUrl: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        const cvs = document.createElement('canvas')
+        const maxSize = 800
+        let w = img.width, h = img.height
+        if (w > maxSize || h > maxSize) {
+          const ratio = Math.min(maxSize / w, maxSize / h)
+          w = Math.round(w * ratio)
+          h = Math.round(h * ratio)
+        }
+        cvs.width = w
+        cvs.height = h
+        const ctx = cvs.getContext('2d')!
+        ctx.drawImage(img, 0, 0, w, h)
+        resolve(cvs.toDataURL('image/jpeg', 0.75))
+      }
+      img.onerror = () => resolve('')
+      img.src = dataUrl
+    })
+  }
+
+  const sendReportEmail = async (reportStr: string, image: string | null, email?: string) => {
     const targetEmail = email || customerEmail
     if (!targetEmail) return
     try {
       const structured = parseReport(reportStr)
+      let compressedImage = ''
+      if (image) {
+        compressedImage = await compressImageForEmail(image)
+      }
       await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -300,7 +327,7 @@ function App() {
           email: targetEmail,
           report: structured || { products: [] },
           styles: activeStyles,
-          resultImage: '', // 이미지는 용량 문제로 첨부하지 않음
+          resultImage: compressedImage,
         }),
       })
       setEmailSent(true)
@@ -1133,7 +1160,7 @@ function App() {
           <div className="refund-failed-card">
             <span className="material-symbols-outlined refund-failed-icon">support_agent</span>
             <h4>자동 환불에 실패했습니다</h4>
-            <p>분석 결과를 생성하지 못했으나, 자동 환불 처리에 문제가 발생했습니다. 아래 버튼을 눌러 환불을 요청해주세요.</p>
+            <p>분석 결과를 생성하지 못했으나, 자동 환불 처리에 문제가 발생했습니다. 아래 이메일로 환불을 요청해주세요.</p>
             <a
               className="refund-failed-btn"
               href={`mailto:koha3d77@gmail.com?subject=${encodeURIComponent('[kissinskin] 환불 요청')}&body=${encodeURIComponent(

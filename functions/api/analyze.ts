@@ -115,14 +115,34 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
 
-    const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
+    // 지역 차단 시 재시도하는 fetch wrapper
+    const fetchWithRetry = async (url: string, opts: RequestInit, maxRetries = 2): Promise<Response> => {
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        const res = await fetch(url, opts)
+        if (res.ok || attempt === maxRetries) return res
+        // 지역 차단 에러인지 확인
+        const clone = res.clone()
+        try {
+          const body = await clone.json() as { error?: { code?: string } }
+          if (body?.error?.code === 'unsupported_country_region_territory') {
+            // 잠시 대기 후 재시도 (다른 경로로 라우팅될 수 있음)
+            await new Promise(r => setTimeout(r, 1000 * (attempt + 1)))
+            continue
+          }
+        } catch { /* JSON 파싱 실패 시 원본 응답 반환 */ }
+        return res
+      }
+      return fetch(url, opts) // fallback
+    }
+
+    const imagePromise = fetchWithRetry('https://api.openai.com/v1/images/edits', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
       body: formData,
     })
 
     // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
-    const reportPromise = fetch('https://api.openai.com/v1/responses', {
+    const reportPromise = fetchWithRetry('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -223,8 +243,11 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     if (!imageData && !report) {
       const errBody = !imageRes.ok ? await imageRes.text() : ''
+      // 데이터센터 정보 추가 (진단용)
+      const cf = (request as unknown as { cf?: { colo?: string } }).cf
+      const colo = cf?.colo || 'unknown'
       return new Response(JSON.stringify({
-        error: `API 오류: ${errBody || '이미지와 보고서 모두 생성 실패'}`,
+        error: `API 오류 (${colo}): ${errBody || '이미지와 보고서 모두 생성 실패'}`,
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
