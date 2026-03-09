@@ -1,6 +1,5 @@
 interface Env {
   OPENAI_API_KEY: string
-  AI_GATEWAY_BASE?: string // Cloudflare AI Gateway: https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_name}
 }
 
 interface RequestBody {
@@ -34,11 +33,30 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     // 이미지 생성용: 프론트에서 만든 3x3 타일 그리드 사용 (없으면 원본 사용)
     const imageSource = gridPhoto || photo
+    const mimeMatch = imageSource.match(/^data:(.+?);/)
+    const mimeType = mimeMatch?.[1] || 'image/png'
+    const base64Data = imageSource.split(',')[1]
+    const binaryStr = atob(base64Data)
+    const bytes = new Uint8Array(binaryStr.length)
+    for (let i = 0; i < binaryStr.length; i++) {
+      bytes[i] = binaryStr.charCodeAt(i)
+    }
+    const imageBlob = new Blob([bytes], { type: mimeType })
+    const ext = mimeType === 'image/jpeg' ? 'photo.jpg' : 'photo.png'
 
     // 프론트에서 전달된 그리드 사이즈 사용 (원본 비율 유지)
     const imageSize = gridSize || '1024x1024'
 
     // 1. 이미지 생성 (gpt-image-1.5) - 9가지 메이크업 3x3 그리드
+    const formData = new FormData()
+    formData.append('image', imageBlob, ext)
+    formData.append('model', 'gpt-image-1.5')
+    formData.append('n', '1')
+    formData.append('size', imageSize)
+    formData.append('quality', 'high')
+    formData.append('background', 'auto')
+    formData.append('moderation', 'auto')
+    formData.append('input_fidelity', 'high')
     const skinTypeInstruction = skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'
 
     const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinTypeInstruction} 반영해서 총 9가지 메이크업을 표현해줘.
@@ -96,84 +114,18 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
 핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해! 특히 1번(민낯)과 2번(물광)은 피부 질감으로, 3번은 립 컬러로, 4번과 8번은 아이 메이크업 스타일로, 5번은 통일 컬러로, 6번은 컨투어링으로, 7번은 블루 컬러로 차이를 확실하게 내야 해. 이미지 위에 어떤 글자도 렌더링하지 마.`
 
-    const makeupPrompt = gender === '남성' ? malePrompt : femalePrompt
+    formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
 
-    // AI Gateway base URL (chat/completions 등 지원 확인된 엔드포인트용)
-    const gatewayBase = env.AI_GATEWAY_BASE
-      ? `${env.AI_GATEWAY_BASE}/openai`
-      : null
+    const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
+      body: formData,
+    })
 
-    // ========== 이미지 생성 ==========
-    // FormData를 새로 생성하는 헬퍼 (재시도 시 body 재사용 불가)
-    const mimeMatch = imageSource.match(/^data:(.+?);/)
-    const mimeType = mimeMatch?.[1] || 'image/png'
-    const base64Data = imageSource.split(',')[1]
-    const binaryStr = atob(base64Data)
-    const bytes = new Uint8Array(binaryStr.length)
-    for (let i = 0; i < binaryStr.length; i++) {
-      bytes[i] = binaryStr.charCodeAt(i)
-    }
-    const imageBlob = new Blob([bytes], { type: mimeType })
-    const ext = mimeType === 'image/jpeg' ? 'photo.jpg' : 'photo.png'
-
-    const buildFormData = () => {
-      const fd = new FormData()
-      fd.append('image', imageBlob, ext)
-      fd.append('model', 'gpt-image-1.5')
-      fd.append('n', '1')
-      fd.append('size', imageSize)
-      fd.append('quality', 'high')
-      fd.append('background', 'auto')
-      fd.append('moderation', 'auto')
-      fd.append('input_fidelity', 'high')
-      fd.append('prompt', makeupPrompt)
-      return fd
-    }
-
-    // 이미지: 직접 OpenAI → 실패 시 AI Gateway images/edits
-    const fetchImage = async (): Promise<{ ok: boolean; body: string }> => {
-      // 1차: 직접 호출
-      const res1 = await fetch('https://api.openai.com/v1/images/edits', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
-        body: buildFormData(),
-      })
-      const text1 = await res1.text()
-      if (res1.ok) return { ok: true, body: text1 }
-
-      // 리전 블록이면 AI Gateway 경유 시도
-      if (text1.includes('unsupported_country_region_territory') && gatewayBase) {
-        const res2 = await fetch(`${gatewayBase}/images/edits`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
-          body: buildFormData(),
-        })
-        const text2 = await res2.text()
-        return { ok: res2.ok, body: text2 }
-      }
-
-      return { ok: false, body: text1 }
-    }
-
-    // ========== 텍스트 보고서 (chat/completions 형식) ==========
-    const reportSystemPromptKo = `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
-사용자의 사진과 피부타입을 분석하여 맞춤형 화장품을 추천해주세요.
-
-반드시 아래 JSON 형식으로만 응답하세요. JSON 외의 텍스트는 절대 포함하지 마세요. 코드펜스(\`\`\`)도 쓰지 마세요.
-
-{"analysis":{"gender":"성별","skinType":"피부타입","skinTypeDetail":"피부타입에 대한 상세 설명 2-3문장","tone":"톤 이름 (예: Warm Undertone)","toneDetail":"톤앤톤에 대한 상세 설명. 어울리는 컬러 계열과 피해야 할 컬러 포함. 2-3문장","advice":"종합적인 메이크업 조언 1-2문장"},"products":[{"category":"카테고리","name":"제품명","brand":"브랜드명","price":"$가격","reason":"추천 이유 1문장"}]}
-
-규칙:
-- analysis.skinTypeDetail: 피부타입의 특징, 장단점, 관리 포인트를 설명
-- analysis.toneDetail: 웜톤/쿨톤/뉴트럴 판단 근거, 어울리는 컬러와 피할 컬러를 구체적으로 설명
-- analysis.advice: 이 사람에게 맞는 메이크업 방향을 종합 조언
-- products 배열에 6~8개 제품을 추천하세요
-- category는 반드시 Skin, Eyes, Lips, Cheeks, Base 중 하나
-- 전 세계에서 구매 가능한 글로벌 브랜드 화장품을 추천하세요 (예: MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique 등)
-- 가격은 미국 달러($)로 대략적인 정가를 표기하세요
-- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`
-
-    const reportSystemPromptEn = `You are a professional makeup artist and cosmetics expert.
+    // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
+    const isEn = lang === 'en'
+    const reportSystemPrompt = isEn
+      ? `You are a professional makeup artist and cosmetics expert.
 Analyze the user's photo and skin type, then recommend personalized cosmetics.
 
 Respond ONLY with the JSON format below. Do not include any text outside of JSON. Do not use code fences (\`\`\`).
@@ -190,142 +142,105 @@ Rules:
 - Recommend globally available cosmetics brands (e.g., MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique, etc.)
 - Prices should be approximate retail price in US dollars ($)
 - If skin type is unknown, assess from the photo and recommend accordingly`
+      : `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
+사용자의 사진과 피부타입을 분석하여 맞춤형 화장품을 추천해주세요.
 
-    const reportSystemPrompt = lang === 'en' ? reportSystemPromptEn : reportSystemPromptKo
+반드시 아래 JSON 형식으로만 응답하세요. JSON 외의 텍스트는 절대 포함하지 마세요. 코드펜스(\`\`\`)도 쓰지 마세요.
 
-    // 리포트: chat/completions 형식 (AI Gateway 확실 지원)
-    const reportUrl = gatewayBase
-      ? `${gatewayBase}/chat/completions`
-      : 'https://api.openai.com/v1/chat/completions'
+{"analysis":{"gender":"성별","skinType":"피부타입","skinTypeDetail":"피부타입에 대한 상세 설명 2-3문장","tone":"톤 이름 (예: Warm Undertone)","toneDetail":"톤앤톤에 대한 상세 설명. 어울리는 컬러 계열과 피해야 할 컬러 포함. 2-3문장","advice":"종합적인 메이크업 조언 1-2문장"},"products":[{"category":"카테고리","name":"제품명","brand":"브랜드명","price":"$가격","reason":"추천 이유 1문장"}]}
 
-    const fetchReport = async (): Promise<{ ok: boolean; body: string }> => {
-      const res = await fetch(reportUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4.1',
-          messages: [
-            { role: 'system', content: reportSystemPrompt },
-            {
-              role: 'user',
-              content: [
-                { type: 'image_url', image_url: { url: photo } },
-                { type: 'text', text: `${gender}\n${skinType}` },
-              ],
-            },
-          ],
-          temperature: 1,
-          max_tokens: 2048,
-        }),
-      })
-      const text = await res.text()
+규칙:
+- analysis.skinTypeDetail: 피부타입의 특징, 장단점, 관리 포인트를 설명
+- analysis.toneDetail: 웜톤/쿨톤/뉴트럴 판단 근거, 어울리는 컬러와 피할 컬러를 구체적으로 설명
+- analysis.advice: 이 사람에게 맞는 메이크업 방향을 종합 조언
+- products 배열에 6~8개 제품을 추천하세요
+- category는 반드시 Skin, Eyes, Lips, Cheeks, Base 중 하나
+- 전 세계에서 구매 가능한 글로벌 브랜드 화장품을 추천하세요 (예: MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique 등)
+- 가격은 미국 달러($)로 대략적인 정가를 표기하세요
+- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`
 
-      // 리전 블록 시 직접 호출 시도
-      if (!res.ok && text.includes('unsupported_country_region_territory')) {
-        const res2 = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+    const reportPromise = fetch('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4.1',
+        input: [
+          {
+            role: 'system',
+            content: [{ type: 'input_text', text: reportSystemPrompt }],
           },
-          body: JSON.stringify({
-            model: 'gpt-4.1',
-            messages: [
-              { role: 'system', content: reportSystemPrompt },
-              {
-                role: 'user',
-                content: [
-                  { type: 'image_url', image_url: { url: photo } },
-                  { type: 'text', text: `${gender}\n${skinType}` },
-                ],
-              },
+          {
+            role: 'user',
+            content: [
+              { type: 'input_image', image_url: photo },
+              { type: 'input_text', text: `${gender}\n${skinType}` },
             ],
-            temperature: 1,
-            max_tokens: 2048,
-          }),
-        })
-        const text2 = await res2.text()
-        return { ok: res2.ok, body: text2 }
-      }
-
-      return { ok: res.ok, body: text }
-    }
+          },
+        ],
+        temperature: 1,
+        max_output_tokens: 2048,
+        top_p: 1,
+      }),
+    })
 
     // 병렬 실행
-    const [imageResult, reportResult] = await Promise.all([fetchImage(), fetchReport()])
+    const [imageRes, reportRes] = await Promise.all([imagePromise, reportPromise])
 
     // 이미지 응답 처리
     let imageData = ''
-    let imageError = ''
-    if (imageResult.ok) {
-      try {
-        const imgJson = JSON.parse(imageResult.body) as {
-          data: { b64_json?: string; url?: string }[]
-        }
-        const imgItem = imgJson.data?.[0]
-        if (imgItem?.b64_json) {
-          imageData = `data:image/png;base64,${imgItem.b64_json}`
-        } else if (imgItem?.url) {
-          const imgFetch = await fetch(imgItem.url)
-          const imgBuf = await imgFetch.arrayBuffer()
-          const imgBytes = new Uint8Array(imgBuf)
-          let binary = ''
-          for (let i = 0; i < imgBytes.length; i++) {
-            binary += String.fromCharCode(imgBytes[i])
-          }
-          imageData = `data:image/png;base64,${btoa(binary)}`
-        }
-      } catch (parseErr) {
-        imageError = `Image parse error: ${parseErr}`
+    if (imageRes.ok) {
+      const imgJson = await imageRes.json() as {
+        data: { b64_json?: string; url?: string }[]
       }
-    } else {
-      imageError = imageResult.body.slice(0, 500)
+      const imgResult = imgJson.data?.[0]
+      if (imgResult?.b64_json) {
+        imageData = `data:image/png;base64,${imgResult.b64_json}`
+      } else if (imgResult?.url) {
+        const imgFetch = await fetch(imgResult.url)
+        const imgBuf = await imgFetch.arrayBuffer()
+        const imgBytes = new Uint8Array(imgBuf)
+        let binary = ''
+        for (let i = 0; i < imgBytes.length; i++) {
+          binary += String.fromCharCode(imgBytes[i])
+        }
+        imageData = `data:image/png;base64,${btoa(binary)}`
+      }
     }
 
-    // 보고서 응답 처리 (chat/completions 형식)
+    // 보고서 응답 처리
     let report = ''
-    let reportError = ''
-    if (reportResult.ok) {
-      try {
-        const chatJson = JSON.parse(reportResult.body) as {
-          choices: { message: { content: string } }[]
-        }
-        const rawReport = chatJson.choices?.[0]?.message?.content || ''
-
-        if (rawReport) {
-          // JSON 추출 및 검증
-          const jsonMatch = rawReport.match(/```(?:json)?\s*([\s\S]*?)```/)
-          const jsonStr = jsonMatch ? jsonMatch[1].trim() : rawReport.trim()
-          try {
-            const parsed = JSON.parse(jsonStr)
-            if (parsed && Array.isArray(parsed.products) && (parsed.analysis || typeof parsed.summary === 'string')) {
-              report = JSON.stringify(parsed)
-            } else {
-              report = rawReport
-            }
-          } catch {
-            report = rawReport
-          }
-        }
-      } catch (parseErr) {
-        reportError = `Report parse error: ${parseErr}`
+    if (reportRes.ok) {
+      const reportJson = await reportRes.json() as {
+        output: { type: string; content?: { type: string; text?: string }[] }[]
       }
-    } else {
-      reportError = reportResult.body.slice(0, 500)
+      const msg = reportJson.output?.find((o) => o.type === 'message')
+      const textBlock = msg?.content?.find((c) => c.type === 'output_text')
+      report = textBlock?.text || ''
+
+      // JSON 추출 및 검증
+      if (report) {
+        try {
+          const jsonMatch = report.match(/```(?:json)?\s*([\s\S]*?)```/)
+          const jsonStr = jsonMatch ? jsonMatch[1].trim() : report.trim()
+          const parsed = JSON.parse(jsonStr)
+          if (parsed && Array.isArray(parsed.products) && (parsed.analysis || typeof parsed.summary === 'string')) {
+            report = JSON.stringify(parsed)
+          }
+        } catch {
+          // JSON 파싱 실패 시 원본 텍스트 유지 (마크다운 폴백)
+        }
+      }
     }
 
     if (!imageData && !report) {
+      const errBody = !imageRes.ok ? await imageRes.text() : ''
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
-      const details = [
-        imageError && `이미지: ${imageError}`,
-        reportError && `리포트: ${reportError}`,
-      ].filter(Boolean).join(' | ')
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${details || '이미지와 보고서 모두 생성 실패'}`,
+        error: `API 오류 (${colo}): ${errBody || '이미지와 보고서 모두 생성 실패'}`,
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },

@@ -193,7 +193,6 @@ function App() {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [customerEmail, setCustomerEmail] = useState<string | null>(null)
   const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
-  const [emailSent, setEmailSent] = useState(false)
   const [refundFailed, setRefundFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
@@ -304,91 +303,7 @@ function App() {
     }
   }
 
-  const compressImageForEmail = (dataUrl: string): Promise<string> => {
-    return new Promise((resolve) => {
-      const img = new Image()
-      img.onload = () => {
-        const cvs = document.createElement('canvas')
-        const maxSize = 800
-        let w = img.width, h = img.height
-        if (w > maxSize || h > maxSize) {
-          const ratio = Math.min(maxSize / w, maxSize / h)
-          w = Math.round(w * ratio)
-          h = Math.round(h * ratio)
-        }
-        cvs.width = w
-        cvs.height = h
-        const ctx = cvs.getContext('2d')!
-        ctx.drawImage(img, 0, 0, w, h)
-        resolve(cvs.toDataURL('image/jpeg', 0.75))
-      }
-      img.onerror = () => resolve('')
-      img.src = dataUrl
-    })
-  }
-
-  const [emailError, setEmailError] = useState<string | null>(null)
-
-  const sendReportEmail = async (reportStr: string, image: string | null, email?: string) => {
-    const targetEmail = email || customerEmail
-    if (!targetEmail) {
-      console.warn('[kissinskin] No email to send report to')
-      return
-    }
-    try {
-      setEmailError(null)
-      const structured = parseReport(reportStr)
-      console.log('[kissinskin] Email report data:', {
-        hasStructured: !!structured,
-        hasAnalysis: !!structured?.analysis,
-        productCount: structured?.products?.length || 0,
-        reportStrLen: reportStr?.length || 0,
-        hasImage: !!image,
-        imageLen: image?.length || 0,
-      })
-      let compressedImage = ''
-      if (image) {
-        compressedImage = await compressImageForEmail(image)
-        console.log('[kissinskin] Compressed image size:', compressedImage.length)
-      }
-      // structured가 null이면 reportStr에서 직접 파싱 시도
-      let reportData: { analysis?: AnalysisDetail; summary?: string; products: ProductRecommendation[] }
-      if (structured) {
-        reportData = structured
-      } else {
-        // JSON 파싱이 안 될 경우 빈 구조체 + summary로 원본 텍스트 포함
-        try {
-          const raw = JSON.parse(reportStr)
-          reportData = { analysis: raw.analysis, products: raw.products || [], summary: raw.summary }
-        } catch {
-          reportData = { products: [], summary: reportStr || undefined }
-        }
-      }
-      const res = await fetch('/api/send-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: targetEmail,
-          report: reportData,
-          styles: activeStyles,
-          resultImage: compressedImage,
-          lang: locale,
-        }),
-      })
-      const data = await res.json()
-      if (res.ok && data.success) {
-        setEmailSent(true)
-      } else {
-        console.error('[kissinskin] Email send failed:', data)
-        setEmailError(data.detail || data.error || 'Email send failed')
-      }
-    } catch (err) {
-      console.error('[kissinskin] Email send error:', err)
-      setEmailError(String(err))
-    }
-  }
-
-  const runAnalysis = async (email?: string) => {
+  const runAnalysis = async () => {
     setLoading(true)
     setError(null)
 
@@ -457,9 +372,6 @@ function App() {
         setResultCells(cells)
       }
       img.src = data.image
-
-      // 분석 성공 → 이메일 자동 전송
-      sendReportEmail(data.report, data.image, email)
     } catch (e) {
       const msg = e instanceof Error ? e.message : t('error.analysisError')
       // General error (auto-refund not yet attempted) → try refund
@@ -537,9 +449,7 @@ function App() {
         if (isMobile) {
           sessionStorage.removeItem('kisskin_pending')
         }
-        // 결제 확인 → 이메일 획득
         setCheckoutIdRef(embeddedCheckoutId)
-        let verifiedEmail: string | undefined
         try {
           const vRes = await fetch('/api/verify', {
             method: 'POST',
@@ -548,11 +458,10 @@ function App() {
           })
           const vData = await vRes.json()
           if (vData.customerEmail) {
-            verifiedEmail = vData.customerEmail
             setCustomerEmail(vData.customerEmail)
           }
         } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
-        runAnalysis(verifiedEmail)
+        runAnalysis()
       })
 
       embed.addEventListener('close', () => {
@@ -600,7 +509,7 @@ function App() {
             setCustomerEmail(result.customerEmail)
           }
           if (result.status === 'succeeded' || result.status === 'confirmed') {
-            setTimeout(() => runAnalysis(result.customerEmail), 100)
+            setTimeout(() => runAnalysis(), 100)
           } else {
             setError(t('error.paymentIncomplete'))
           }
@@ -1125,39 +1034,6 @@ function App() {
               </section>
             )
           })()}
-
-          {/* 이메일 전송 상태 */}
-          {emailSent && customerEmail && (
-            <section className="report-section email-report-section">
-              <div className="email-sent-card">
-                <span className="material-symbols-outlined email-sent-icon">check_circle</span>
-                <div className="email-sent-text">
-                  <h4>{t('result.emailSent')}</h4>
-                  <p>{customerEmail}</p>
-                </div>
-              </div>
-            </section>
-          )}
-          {emailError && customerEmail && !emailSent && (
-            <section className="report-section email-report-section">
-              <div className="email-sent-card" style={{ borderColor: '#f87171' }}>
-                <span className="material-symbols-outlined" style={{ color: '#f87171', fontSize: '28px' }}>error</span>
-                <div className="email-sent-text">
-                  <h4>{t('result.emailFailed')}</h4>
-                  <p style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '8px' }}>{emailError}</p>
-                  <button
-                    onClick={() => report && sendReportEmail(report, resultImage, customerEmail!)}
-                    style={{
-                      background: '#6366f1', color: '#fff', border: 'none', borderRadius: '8px',
-                      padding: '8px 16px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                    }}
-                  >
-                    {t('result.retryEmail')}
-                  </button>
-                </div>
-              </div>
-            </section>
-          )}
 
           {/* Fixed CTA */}
           <div className="fixed-cta-spacer" />
