@@ -379,6 +379,14 @@ function App() {
         body: JSON.stringify({ photo, gridPhoto, gridSize, gender: GENDER_MAP[gender!], skinType: SKIN_MAP[skinType!], lang: locale }),
       })
 
+      // 응답이 JSON이 아닌 경우 (Cloudflare HTML 에러 페이지 등) 처리
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('application/json')) {
+        const text = await res.text()
+        console.error('[kissinskin] Non-JSON response:', res.status, text.slice(0, 200))
+        throw new Error(t('error.analysisError'))
+      }
+
       const data = await res.json()
 
       if (!res.ok) {
@@ -1215,28 +1223,6 @@ function App() {
           </div>
         )}
 
-        {refundFailed && (
-          <div className="refund-failed-card">
-            <span className="material-symbols-outlined refund-failed-icon">support_agent</span>
-            <h4>{t('error.refundFailed')}</h4>
-            <p>{t('error.refundFailedDesc')}</p>
-            <a
-              className="refund-failed-btn"
-              href={`mailto:koha3d77@gmail.com?subject=${encodeURIComponent(t('error.refundEmailSubject'))}&body=${encodeURIComponent(
-                `${t('error.refundEmailBody')}\n\n` +
-                `${t('error.refundEmailPayment')}: ${customerEmail || '(N/A)'}\n` +
-                `${t('error.refundEmailCheckout')}: ${checkoutIdRef || '(N/A)'}\n` +
-                `${t('error.refundEmailError')}: ${error || '(N/A)'}\n` +
-                `${t('error.refundEmailTime')}: ${new Date().toISOString()}\n\n` +
-                t('error.refundEmailEnd')
-              )}`}
-            >
-              <span className="material-symbols-outlined">mail</span>
-              {t('error.refundEmail')}
-            </a>
-            <p className="refund-failed-email">koha3d77@gmail.com</p>
-          </div>
-        )}
       </div>
 
       {/* Fixed CTA */}
