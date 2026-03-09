@@ -1,5 +1,6 @@
 interface Env {
   OPENAI_API_KEY: string
+  AI_GATEWAY_BASE?: string // Cloudflare AI Gateway: https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_name}
 }
 
 interface RequestBody {
@@ -116,27 +117,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
 
-    // 지역 차단 시 재시도하는 fetch wrapper
-    const fetchWithRetry = async (url: string, opts: RequestInit, maxRetries = 2): Promise<Response> => {
-      for (let attempt = 0; attempt <= maxRetries; attempt++) {
-        const res = await fetch(url, opts)
-        if (res.ok || attempt === maxRetries) return res
-        // 지역 차단 에러인지 확인
-        const clone = res.clone()
-        try {
-          const body = await clone.json() as { error?: { code?: string } }
-          if (body?.error?.code === 'unsupported_country_region_territory') {
-            // 잠시 대기 후 재시도 (다른 경로로 라우팅될 수 있음)
-            await new Promise(r => setTimeout(r, 1000 * (attempt + 1)))
-            continue
-          }
-        } catch { /* JSON 파싱 실패 시 원본 응답 반환 */ }
-        return res
-      }
-      return fetch(url, opts) // fallback
-    }
+    // Cloudflare AI Gateway 경유 또는 직접 호출
+    const openaiBase = env.AI_GATEWAY_BASE
+      ? `${env.AI_GATEWAY_BASE}/openai`
+      : 'https://api.openai.com/v1'
 
-    const imagePromise = fetchWithRetry('https://api.openai.com/v1/images/edits', {
+    const imagePromise = fetch(`${openaiBase}/images/edits`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
       body: formData,
@@ -180,7 +166,7 @@ Rules:
 
     const reportSystemPrompt = lang === 'en' ? reportSystemPromptEn : reportSystemPromptKo
 
-    const reportPromise = fetchWithRetry('https://api.openai.com/v1/responses', {
+    const reportPromise = fetch(`${openaiBase}/responses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
