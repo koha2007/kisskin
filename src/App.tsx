@@ -1188,6 +1188,7 @@ function App() {
           disabled={!isComplete}
           onClick={handleSubmit}
         >
+          <span className="cta-price">$2.99</span>
           <span>Generate My Looks</span>
           <span className="material-symbols-outlined">auto_awesome</span>
         </button>
