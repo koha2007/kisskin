@@ -4,43 +4,17 @@ interface HomePageProps {
   onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund') => void
 }
 
-const HERO_IMAGES = [
-  // photo2 series
-  ...Array.from({ length: 9 }, (_, i) => `/styles/hero/photo2_${i + 1}.png`),
-  // photo5 series
-  ...[
-    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
-    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
-  ].map(s => `/styles/hero/photo5_${s}.png`),
-  // photo6 series
-  ...[
-    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
-    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
-  ].map(s => `/styles/hero/photo6_${s}.png`),
-  // photo7 series
-  ...[
-    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
-    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
-  ].map(s => `/styles/hero/photo7_${s}.png`),
-  // photo9 series
-  ...Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.png`),
-  // photo10 series
-  ...[
-    'Blood_Lip', 'Blush_Draping_Layering', 'Bold_Lip', 'Cloud_Skin',
-    'Grunge_Makeup', 'Kpop_Idol_Makeup', 'Maximalist_Eye', 'Metallic_Eye', 'Natural_Glow',
-  ].map(s => `/styles/hero/photo10_${s}.png`),
+const STYLE_NAMES = [
+  'Natural_Glow', 'Cloud_Skin', 'Blood_Lip', 'Maximalist_Eye',
+  'Metallic_Eye', 'Bold_Lip', 'Blush_Draping_Layering', 'Grunge_Makeup', 'Kpop_Idol_Makeup',
 ]
 
-const FLOAT_CONFIGS = [
-  { dur: 4.0, x: 6, y: 10 },
-  { dur: 5.2, x: -5, y: 8 },
-  { dur: 4.6, x: 7, y: -9 },
-  { dur: 5.8, x: -6, y: 11 },
-  { dur: 4.3, x: 5, y: -7 },
-  { dur: 5.5, x: -7, y: 9 },
-  { dur: 4.8, x: 8, y: -10 },
-  { dur: 5.0, x: -5, y: 8 },
-  { dur: 4.4, x: 6, y: -8 },
+const IMAGE_SETS = [
+  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo2_${i + 1}.png`),
+  STYLE_NAMES.map(s => `/styles/hero/photo5_${s}.png`),
+  STYLE_NAMES.map(s => `/styles/hero/photo6_${s}.png`),
+  STYLE_NAMES.map(s => `/styles/hero/photo7_${s}.png`),
+  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.png`),
 ]
 
 const WOMEN_STYLES = [
@@ -67,120 +41,162 @@ const MEN_STYLES = [
   { num: 9, name: 'K-팝 아이돌 메이크업', eng: 'K-pop Idol', icon: 'star' },
 ]
 
-function AnimatedGrid({ onClick }: { onClick: () => void }) {
-  const [cells, setCells] = useState(() =>
-    shuffleArray([...HERO_IMAGES]).slice(0, 9).map(img => ({
-      images: [img],
-      key: 0,
-    }))
-  )
-  const cellsRef = useRef(cells)
-  cellsRef.current = cells
-  const busyRef = useRef<Set<number>>(new Set())
+function WaveGrid({ onClick }: { onClick: () => void }) {
+  const [currentSet, setCurrentSet] = useState(0)
+  const [tileStates, setTileStates] = useState<string[]>(Array(9).fill(''))
+  const isAnimatingRef = useRef(false)
+  const currentSetRef = useRef(0)
 
-  const swapCell = useCallback(() => {
-    const current = cellsRef.current
-    const candidates = Array.from({ length: 9 }, (_, i) => i).filter(i => !busyRef.current.has(i))
-    if (candidates.length === 0) return
-    const cellIdx = candidates[Math.floor(Math.random() * candidates.length)]
-    const currentImg = current[cellIdx].images[0]
-    const available = HERO_IMAGES.filter(img => img !== currentImg)
-    const nextImg = available[Math.floor(Math.random() * available.length)]
-    busyRef.current.add(cellIdx)
-    setCells(prev => prev.map((cell, i) =>
-      i === cellIdx ? { images: [nextImg, ...cell.images.slice(0, 1)], key: cell.key + 1 } : cell
-    ))
-    setTimeout(() => {
-      setCells(prev => prev.map((cell, i) =>
-        i === cellIdx ? { ...cell, images: [cell.images[0]] } : cell
-      ))
-      busyRef.current.delete(cellIdx)
-    }, 800)
+  const getWaveDelay = (index: number) => {
+    const row = Math.floor(index / 3)
+    const col = index % 3
+    return (row + col) * 130
+  }
+
+  const playWave = useCallback(() => {
+    for (let i = 0; i < 9; i++) {
+      const delay = getWaveDelay(i)
+      setTimeout(() => {
+        setTileStates(prev => prev.map((s, idx) => idx === i ? 'wave' : s))
+      }, delay)
+      setTimeout(() => {
+        setTileStates(prev => prev.map((s, idx) => idx === i ? '' : s))
+      }, delay + 850)
+    }
   }, [])
 
-  useEffect(() => {
-    const schedule = () => {
-      const delay = 1200 + Math.random() * 800
-      return setTimeout(() => {
-        swapCell()
-        timerRef.current = schedule()
+  const switchSet = useCallback(() => {
+    if (isAnimatingRef.current) return
+    isAnimatingRef.current = true
+
+    // Fade out
+    for (let i = 0; i < 9; i++) {
+      const delay = getWaveDelay(i)
+      setTimeout(() => {
+        setTileStates(prev => prev.map((s, idx) => idx === i ? 'fade-out' : s))
       }, delay)
     }
-    const timerRef = { current: schedule() }
-    return () => clearTimeout(timerRef.current)
-  }, [swapCell])
+
+    // Switch images
+    setTimeout(() => {
+      const nextSet = (currentSetRef.current + 1) % IMAGE_SETS.length
+      currentSetRef.current = nextSet
+      setCurrentSet(nextSet)
+      setTileStates(Array(9).fill('fade-in'))
+
+      // Fade in
+      requestAnimationFrame(() => {
+        for (let i = 0; i < 9; i++) {
+          const delay = getWaveDelay(i) * 0.8
+          setTimeout(() => {
+            setTileStates(prev => prev.map((s, idx) => idx === i ? 'fade-in show' : s))
+          }, delay)
+        }
+      })
+
+      // Clean up and wave
+      setTimeout(() => {
+        setTileStates(Array(9).fill(''))
+        playWave()
+        isAnimatingRef.current = false
+      }, 1300)
+    }, 850)
+  }, [playWave])
+
+  useEffect(() => {
+    // Preload all images
+    IMAGE_SETS.flat().forEach(src => {
+      const img = new Image()
+      img.src = src
+    })
+
+    // Initial wave
+    const waveTimer = setTimeout(() => playWave(), 250)
+
+    // Loop
+    const interval = setInterval(() => switchSet(), 4200)
+
+    return () => {
+      clearTimeout(waveTimer)
+      clearInterval(interval)
+    }
+  }, [playWave, switchSet])
+
+  const images = IMAGE_SETS[currentSet]
 
   return (
     <>
       <style>{`
-        @keyframes heroFloat {
-          0%, 100% { translate: var(--fx) var(--fy); }
-          50% { translate: calc(var(--fx) * -1) calc(var(--fy) * -1); }
+        .wave-scene {
+          perspective: 1200px;
         }
-        @keyframes slideUp {
-          from { translate: 0 100%; }
-          to   { translate: 0 0; }
+        .wave-glow {
+          position: absolute;
+          inset: -8%;
+          background: radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 58%);
+          filter: blur(28px);
+          pointer-events: none;
         }
-        @keyframes slideOut {
-          from { translate: 0 0; }
-          to   { translate: 0 -100%; }
+        .wave-grid {
+          transform-style: preserve-3d;
         }
-        .hero-cell {
-          animation: heroFloat var(--dur) ease-in-out infinite;
+        .wave-tile {
+          position: relative;
+          overflow: hidden;
+          background: #111;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.06);
+          transform-origin: center center;
+          transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), filter 1.1s ease, opacity 1.1s ease;
+          will-change: transform, opacity, filter;
         }
-        .hero-slide-in {
-          animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        .wave-tile img {
+          width: 100%; height: 100%;
+          display: block; object-fit: cover;
+          transform: scale(1.02);
+          transition: transform 1.2s ease, filter 1.1s ease, opacity 1.1s ease;
+          user-select: none; pointer-events: none;
+          -webkit-user-drag: none;
         }
-        .hero-slide-out {
-          animation: slideOut 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        .wave-tile.wave {
+          z-index: 2;
+          transform: translateY(-14px) scale(1.05) rotateX(6deg) rotateY(-4deg);
+          filter: brightness(1.08);
+        }
+        .wave-tile.wave img {
+          transform: scale(1.08);
+          filter: saturate(1.08);
+        }
+        .wave-tile.fade-out {
+          opacity: 0; transform: scale(0.96); filter: blur(4px);
+        }
+        .wave-tile.fade-in {
+          opacity: 0; transform: scale(1.04); filter: blur(4px);
+        }
+        .wave-tile.fade-in.show {
+          opacity: 1; transform: scale(1); filter: blur(0);
+        }
+        @media (max-width: 480px) {
+          .wave-tile.wave {
+            transform: translateY(-8px) scale(1.03) rotateX(3deg) rotateY(-2deg);
+          }
         }
       `}</style>
-      <div className="grid grid-cols-3 gap-1.5 md:gap-2.5 cursor-pointer" onClick={onClick}>
-        {cells.map((cell, i) => {
-          const fc = FLOAT_CONFIGS[i]
-          const isSwapping = cell.images.length > 1
-          return (
+      <div className="wave-scene relative cursor-pointer" onClick={onClick}>
+        <div className="wave-glow"></div>
+        <div className="wave-grid relative z-[1] grid grid-cols-3 gap-[10px] md:gap-3 rounded-2xl overflow-hidden bg-black/90 p-[10px] md:p-3">
+          {images.map((src, i) => (
             <div
-              key={i}
-              className="hero-cell relative overflow-hidden rounded-lg md:rounded-xl"
-              style={{
-                aspectRatio: '3 / 4',
-                '--dur': `${fc.dur}s`,
-                '--fx': `${fc.x}px`,
-                '--fy': `${fc.y}px`,
-                animationDelay: `${i * -0.8}s`,
-              } as React.CSSProperties}
+              key={`${currentSet}-${i}`}
+              className={`wave-tile rounded-xl md:rounded-2xl ${tileStates[i]}`}
+              style={{ aspectRatio: '3 / 4' }}
             >
-              <img
-                key={cell.key}
-                src={cell.images[0]}
-                alt=""
-                className={`absolute inset-0 w-full h-full object-cover ${isSwapping ? 'hero-slide-in' : ''}`}
-                style={{ zIndex: 2 }}
-              />
-              {isSwapping && cell.images[1] && (
-                <img
-                  key={cell.key - 1}
-                  src={cell.images[1]}
-                  alt=""
-                  className="hero-slide-out absolute inset-0 w-full h-full object-cover"
-                  style={{ zIndex: 1 }}
-                />
-              )}
+              <img src={src} alt="" loading="eager" />
             </div>
-          )
-        })}
+          ))}
+        </div>
       </div>
     </>
   )
-}
-
-function shuffleArray<T>(arr: T[]): T[] {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[arr[i], arr[j]] = [arr[j], arr[i]]
-  }
-  return arr
 }
 
 function StyleCard({ style, gender }: { style: typeof WOMEN_STYLES[0], gender: 'women' | 'men' }) {
@@ -336,10 +352,10 @@ function HomePage({ onNavigate }: HomePageProps) {
 
             {/* Hero Visual */}
             <div className="relative order-1 lg:order-2">
-              <div className="absolute -inset-6 bg-gradient-to-br from-pink-200/30 via-rose-100/40 to-purple-100/30 rounded-[3rem] blur-2xl"></div>
-              <div className="relative bg-white/80 backdrop-blur-sm rounded-[2rem] p-3 md:p-5 shadow-2xl border border-pink-100/50">
-                <AnimatedGrid onClick={() => onNavigate('analysis')} />
-                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-primary/30 flex items-center gap-1.5">
+              <div className="absolute -inset-6 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-slate-900/30 rounded-[3rem] blur-2xl"></div>
+              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
+                <WaveGrid onClick={() => onNavigate('analysis')} />
+                <div className="absolute -bottom-0 right-3 bottom-3 bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-primary/30 flex items-center gap-1.5 z-10">
                   <span className="material-symbols-outlined text-lg">auto_awesome</span>
                   AI Powered
                 </div>
