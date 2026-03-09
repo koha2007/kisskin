@@ -4,4 +4,4 @@ compatibility_date = "2026-02-18"
 compatibility_flags = ["nodejs_compat"]
 
 [placement]
-mode = "smart"
+region = "aws:us-east-1"
