@@ -8,6 +8,7 @@ interface RequestBody {
   gridSize?: string
   gender: string
   skinType: string
+  lang?: string
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
@@ -21,7 +22,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { photo, gridPhoto, gridSize, gender, skinType } = (await request.json()) as RequestBody
+    const { photo, gridPhoto, gridSize, gender, skinType, lang } = (await request.json()) as RequestBody
 
     if (!photo || !gender || !skinType) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -142,21 +143,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     })
 
     // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
-    const reportPromise = fetchWithRetry('https://api.openai.com/v1/responses', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4.1',
-        input: [
-          {
-            role: 'system',
-            content: [
-              {
-                type: 'input_text',
-                text: `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
+    const reportSystemPromptKo = `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
 사용자의 사진과 피부타입을 분석하여 맞춤형 화장품을 추천해주세요.
 
 반드시 아래 JSON 형식으로만 응답하세요. JSON 외의 텍스트는 절대 포함하지 마세요. 코드펜스(\`\`\`)도 쓰지 마세요.
@@ -171,7 +158,43 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 - category는 반드시 Skin, Eyes, Lips, Cheeks, Base 중 하나
 - 전 세계에서 구매 가능한 글로벌 브랜드 화장품을 추천하세요 (예: MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique 등)
 - 가격은 미국 달러($)로 대략적인 정가를 표기하세요
-- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`,
+- 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`
+
+    const reportSystemPromptEn = `You are a professional makeup artist and cosmetics expert.
+Analyze the user's photo and skin type, then recommend personalized cosmetics.
+
+Respond ONLY with the JSON format below. Do not include any text outside of JSON. Do not use code fences (\`\`\`).
+
+{"analysis":{"gender":"gender","skinType":"skin type","skinTypeDetail":"Detailed description of skin type in 2-3 sentences","tone":"Tone name (e.g., Warm Undertone)","toneDetail":"Detailed tone analysis including flattering color families and colors to avoid. 2-3 sentences","advice":"Comprehensive makeup advice in 1-2 sentences"},"products":[{"category":"category","name":"product name","brand":"brand name","price":"$price","reason":"recommendation reason in 1 sentence"}]}
+
+Rules:
+- All text fields must be written in English
+- analysis.skinTypeDetail: Describe characteristics, pros/cons, and care tips for this skin type
+- analysis.toneDetail: Explain warm/cool/neutral determination basis, specifically list flattering colors and colors to avoid
+- analysis.advice: Provide comprehensive makeup direction advice for this person
+- Recommend 6-8 products in the products array
+- category must be one of: Skin, Eyes, Lips, Cheeks, Base
+- Recommend globally available cosmetics brands (e.g., MAC, NARS, Charlotte Tilbury, Fenty Beauty, Rare Beauty, Dior, YSL, Clinique, etc.)
+- Prices should be approximate retail price in US dollars ($)
+- If skin type is unknown, assess from the photo and recommend accordingly`
+
+    const reportSystemPrompt = lang === 'en' ? reportSystemPromptEn : reportSystemPromptKo
+
+    const reportPromise = fetchWithRetry('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4.1',
+        input: [
+          {
+            role: 'system',
+            content: [
+              {
+                type: 'input_text',
+                text: reportSystemPrompt,
               },
             ],
           },
@@ -232,7 +255,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
           const jsonMatch = report.match(/```(?:json)?\s*([\s\S]*?)```/)
           const jsonStr = jsonMatch ? jsonMatch[1].trim() : report.trim()
           const parsed = JSON.parse(jsonStr)
-          if (parsed && typeof parsed.summary === 'string' && Array.isArray(parsed.products)) {
+          if (parsed && Array.isArray(parsed.products) && (parsed.analysis || typeof parsed.summary === 'string')) {
             report = JSON.stringify(parsed)
           }
         } catch {

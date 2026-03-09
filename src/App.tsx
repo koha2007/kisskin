@@ -4,6 +4,7 @@ import HomePage from './HomePage'
 import Terms from './pages/terms'
 import Refund from './pages/refund'
 import Privacy from './pages/privacy'
+import { useI18n } from './i18n/context'
 
 declare global {
   interface Window {
@@ -18,8 +19,8 @@ declare global {
   }
 }
 
-type Gender = '여성' | '남성' | null
-type SkinType = '건성' | '지성' | '중성' | '복합성' | '잘 모름' | null
+type Gender = 'female' | 'male' | null
+type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
 type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund'
 
 const FEMALE_MAKEUP_STYLES = [
@@ -47,12 +48,9 @@ const MALE_MAKEUP_STYLES = [
 ]
 
 
-const SKIN_DATA: Record<string, { en: string; icon: string; desc: string }> = {
-  '지성': { en: 'Oily', icon: 'water_drop', desc: '피지 분비가 많은 피부' },
-  '건성': { en: 'Dry', icon: 'dry_cleaning', desc: '수분이 부족한 피부' },
-  '복합성': { en: 'Combination', icon: 'contrast', desc: 'T존 유분, U존 건조' },
-  '중성': { en: 'Normal', icon: 'verified_user', desc: '균형 잡힌 피부' },
-  '잘 모름': { en: 'Not sure', icon: 'help', desc: 'AI가 자동 판별' },
+const GENDER_MAP: Record<string, string> = { female: '여성', male: '남성' }
+const SKIN_MAP: Record<string, string> = {
+  oily: '지성', dry: '건성', combination: '복합성', normal: '중성', not_sure: '잘 모름'
 }
 
 function renderMarkdown(text: string): string {
@@ -165,6 +163,24 @@ function createTiledGrid(photoUrl: string): Promise<{ gridPhoto: string; gridSiz
 }
 
 function App() {
+  const { t, locale, setLocale } = useI18n()
+
+  const SKIN_DATA: Record<string, { icon: string; desc: string }> = {
+    oily: { icon: 'water_drop', desc: t('analysis.oilyDesc') },
+    dry: { icon: 'dry_cleaning', desc: t('analysis.dryDesc') },
+    combination: { icon: 'contrast', desc: t('analysis.combinationDesc') },
+    normal: { icon: 'verified_user', desc: t('analysis.normalDesc') },
+    not_sure: { icon: 'help', desc: t('analysis.notSureDesc') },
+  }
+
+  const SKIN_LABELS: Record<string, string> = {
+    oily: t('analysis.oily'),
+    dry: t('analysis.dry'),
+    combination: t('analysis.combination'),
+    normal: t('analysis.normal'),
+    not_sure: t('analysis.notSure'),
+  }
+
   const [page, setPage] = useState<Page>('home')
   const [photo, setPhoto] = useState<string | null>(null)
   const [gender, setGender] = useState<Gender>(null)
@@ -264,7 +280,7 @@ function App() {
     }
   }
 
-  const activeStyles = gender === '남성' ? MALE_MAKEUP_STYLES : FEMALE_MAKEUP_STYLES
+  const activeStyles = gender === 'male' ? MALE_MAKEUP_STYLES : FEMALE_MAKEUP_STYLES
 
   const isComplete = photo && gender && skinType
 
@@ -328,6 +344,7 @@ function App() {
           report: structured || { products: [] },
           styles: activeStyles,
           resultImage: compressedImage,
+          lang: locale,
         }),
       })
       setEmailSent(true)
@@ -344,7 +361,7 @@ function App() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, gridPhoto, gridSize, gender, skinType }),
+        body: JSON.stringify({ photo, gridPhoto, gridSize, gender: GENDER_MAP[gender!], skinType: SKIN_MAP[skinType!], lang: locale }),
       })
 
       const data = await res.json()
@@ -357,7 +374,7 @@ function App() {
       const failAndRefund = async (reason: string, userMsg: string) => {
         const refunded = await autoRefund(reason)
         if (refunded) {
-          throw new Error(userMsg + ' 결제가 자동으로 환불됩니다.')
+          throw new Error(userMsg + ' ' + t('error.autoRefund'))
         } else {
           setRefundFailed(true)
           throw new Error(userMsg)
@@ -399,12 +416,12 @@ function App() {
       // 분석 성공 → 이메일 자동 전송
       sendReportEmail(data.report, data.image, email)
     } catch (e) {
-      const msg = e instanceof Error ? e.message : '분석 중 오류가 발생했습니다.'
-      // 일반 오류(자동환불이 아직 시도되지 않은 경우)도 환불 시도
-      if (!msg.includes('자동으로 환불') && !msg.includes('생성하지 못했습니다')) {
-        const refunded = await autoRefund(`분석 중 오류: ${msg}`)
+      const msg = e instanceof Error ? e.message : t('error.analysisError')
+      // General error (auto-refund not yet attempted) → try refund
+      if (!msg.includes(t('error.autoRefund')) && !refundFailed) {
+        const refunded = await autoRefund(`Analysis error: ${msg}`)
         if (refunded) {
-          setError(msg + ' 결제가 자동으로 환불됩니다.')
+          setError(msg + ' ' + t('error.autoRefund'))
         } else {
           setRefundFailed(true)
           setError(msg)
@@ -427,7 +444,7 @@ function App() {
     try {
       // 모바일: 분석 데이터를 저장해두고 결제 후 복원 (임베디드 실패 시 리다이렉트 대비)
       if (isMobile) {
-        sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType }))
+        sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale }))
       }
 
       // 1. Polar 체크아웃 세션 생성
@@ -523,6 +540,7 @@ function App() {
       setPhoto(data.photo)
       setGender(data.gender)
       setSkinType(data.skinType)
+      if (data.locale) setLocale(data.locale)
       setPage('analysis')
 
       // 결제 확인 후 이메일 획득 및 분석 시작
@@ -540,7 +558,7 @@ function App() {
           if (result.status === 'succeeded' || result.status === 'confirmed') {
             setTimeout(() => runAnalysis(result.customerEmail), 100)
           } else {
-            setError('결제가 완료되지 않았습니다. 다시 시도해주세요.')
+            setError(t('error.paymentIncomplete'))
           }
         })
         .catch(() => {
@@ -656,7 +674,7 @@ function App() {
       const file = new File([blob], 'kissinskin-makeup.jpg', { type: 'image/jpeg' })
       const imageUrl = URL.createObjectURL(blob)
       const shareUrl = 'https://kissinskin.net'
-      const shareText = 'AI가 추천한 나만의 메이크업 스타일 9종'
+      const shareText = locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles'
 
       if (platform === 'native') {
         try {
@@ -673,7 +691,7 @@ function App() {
       } else if (platform === 'copy') {
         try {
           await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-          alert('이미지가 클립보드에 복사되었습니다!')
+          alert(t('result.copied'))
         } catch {
           try {
             await navigator.clipboard.writeText(shareUrl)
@@ -818,13 +836,13 @@ function App() {
           <button className="top-bar-back" onClick={() => handleNavigate('home')}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <h2 className="top-bar-title">AI 분석 중</h2>
+          <h2 className="top-bar-title">{t('analysis.loading.title')}</h2>
         </div>
         <div className="analysis-body">
           <div className="loading-card">
             <div className="spinner" />
-            <p className="loading-text">AI가 맞춤 메이크업을 분석하고 있어요...</p>
-            <p className="loading-sub">약 30~60초 소요</p>
+            <p className="loading-text">{t('analysis.loading.subtitle')}</p>
+            <p className="loading-sub">{t('analysis.loading.time')}</p>
           </div>
         </div>
       </div>
@@ -839,7 +857,7 @@ function App() {
           <button className="top-bar-back" onClick={() => handleNavigate('home')}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <h2 className="top-bar-title">분석 결과</h2>
+          <h2 className="top-bar-title">{t('result.title')}</h2>
         </div>
         <div className="analysis-body">
           {/* AI 분석 리포트 */}
@@ -866,7 +884,7 @@ function App() {
                         <span className="material-symbols-outlined">dermatology</span>
                       </div>
                       <div className="analysis-card-content">
-                        <h4>피부 타입</h4>
+                        <h4>{t('result.skinType')}</h4>
                         <p>{a.skinTypeDetail}</p>
                       </div>
                     </div>
@@ -876,7 +894,7 @@ function App() {
                         <span className="material-symbols-outlined">palette</span>
                       </div>
                       <div className="analysis-card-content">
-                        <h4>톤 분석</h4>
+                        <h4>{t('result.toneAnalysis')}</h4>
                         <p>{a.toneDetail}</p>
                       </div>
                     </div>
@@ -895,7 +913,7 @@ function App() {
           {/* 메이크업 그리드 */}
           {resultCells.length === 9 && (
             <section className="result-section">
-              <h3 className="section-heading">메이크업 스타일 9종</h3>
+              <h3 className="section-heading">{t('result.makeupStyles')}</h3>
               <div className="makeup-grid">
                 {activeStyles.map((style, i) => (
                   <div key={style} className="makeup-cell">
@@ -907,22 +925,22 @@ function App() {
               <div className="action-btn-row">
                 <button className="download-btn" onClick={handleDownload}>
                   <span className="material-symbols-outlined">download</span>
-                  저장하기
+                  {t('result.save')}
                 </button>
                 <div className="share-wrapper" ref={shareMenuRef}>
                   <button className="download-btn share-btn" onClick={() => setShowShareMenu(!showShareMenu)}>
                     <span className="material-symbols-outlined">share</span>
-                    공유하기
+                    {t('result.share')}
                   </button>
                   {showShareMenu && (
                     <div className="share-menu">
                       {'share' in navigator && (
                         <button className="share-option" onClick={() => handleShare('native')}>
-                          <span className="material-symbols-outlined">phone_iphone</span>기본 공유
+                          <span className="material-symbols-outlined">phone_iphone</span>{t('result.defaultShare')}
                         </button>
                       )}
                       <button className="share-option" onClick={() => handleShare('copy')}>
-                        <span className="material-symbols-outlined">content_copy</span>복사하기
+                        <span className="material-symbols-outlined">content_copy</span>{t('result.copyLink')}
                       </button>
                       <button className="share-option share-x" onClick={() => handleShare('x')}>
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -960,7 +978,7 @@ function App() {
             if (structured) {
               return (
                 <section className="report-section">
-                  <h3 className="section-heading">맞춤 화장품 추천</h3>
+                  <h3 className="section-heading">{t('result.productRec')}</h3>
                   <div className="product-cards">
                     {structured.products.map((p, i) => {
                       const cat = CATEGORY_STYLE[p.category] || { icon: 'cosmetics', bg: '#94a3b8' }
@@ -997,7 +1015,7 @@ function App() {
             }
             return (
               <section className="report-section">
-                <h3 className="section-heading">맞춤 화장품 추천</h3>
+                <h3 className="section-heading">{t('result.productRec')}</h3>
                 <div
                   className="report-content"
                   dangerouslySetInnerHTML={{ __html: renderMarkdown(report) }}
@@ -1012,7 +1030,7 @@ function App() {
               <div className="email-sent-card">
                 <span className="material-symbols-outlined email-sent-icon">check_circle</span>
                 <div className="email-sent-text">
-                  <h4>리포트가 이메일로 전송되었습니다</h4>
+                  <h4>{t('result.emailSent')}</h4>
                   <p>{customerEmail}</p>
                 </div>
               </div>
@@ -1023,7 +1041,7 @@ function App() {
           <div className="fixed-cta-spacer" />
           <div className="fixed-cta">
             <button className="cta-btn" onClick={handleReset}>
-              다시 분석하기
+              {t('common.tryAgain')}
             </button>
           </div>
         </div>
@@ -1040,13 +1058,19 @@ function App() {
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h2 className="top-bar-title">Profile Setup</h2>
+        <button
+          onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
+          style={{ fontSize: '12px', padding: '2px 8px', border: '1px solid #e2e8f0', borderRadius: '6px', background: 'white', color: '#64748b', cursor: 'pointer' }}
+        >
+          {locale === 'ko' ? 'EN' : '한국어'}
+        </button>
       </div>
 
       <div className="analysis-body setup-body">
         {/* Upload Section */}
         <section className="upload-section">
-          <h3 className="upload-heading">사진을 업로드하세요</h3>
-          <p className="upload-sub">밝은 조명에서 촬영하면 AI 분석 정확도가 높아져요</p>
+          <h3 className="upload-heading">{t('analysis.uploadTitle')}</h3>
+          <p className="upload-sub">{t('analysis.uploadHint')}</p>
 
           <div
             className={`avatar-upload ${dragging ? 'dragging' : ''}`}
@@ -1058,16 +1082,16 @@ function App() {
             <div className={`avatar-circle ${photo ? 'has-photo' : ''} ${dragging ? 'dragging' : ''}`}>
               {photo ? (
                 <>
-                  <img src={photo} alt="업로드된 사진" className="avatar-img" />
+                  <img src={photo} alt={t('analysis.changePhoto')} className="avatar-img" />
                   <div className="avatar-hover">
                     <span className="material-symbols-outlined">photo_camera</span>
-                    <span>사진 변경</span>
+                    <span>{t('analysis.changePhoto')}</span>
                   </div>
                 </>
               ) : (
                 <>
                   <span className="material-symbols-outlined avatar-placeholder-icon">add_a_photo</span>
-                  <span className="avatar-placeholder-text">사진 선택</span>
+                  <span className="avatar-placeholder-text">{t('analysis.selectPhoto')}</span>
                 </>
               )}
             </div>
@@ -1088,15 +1112,15 @@ function App() {
 
         {/* Gender Selection */}
         <section className="form-group">
-          <h4 className="section-label">성별</h4>
+          <h4 className="section-label">{t('analysis.gender')}</h4>
           <div className="gender-row">
-            {(['여성', '남성'] as const).map((g) => (
+            {(['female', 'male'] as const).map((g) => (
               <button
                 key={g}
                 className={`gender-btn ${gender === g ? 'selected' : ''}`}
                 onClick={() => setGender(g)}
               >
-                {g}
+                {t(`analysis.${g}`)}
               </button>
             ))}
           </div>
@@ -1105,11 +1129,11 @@ function App() {
         {/* Skin Type Selection */}
         <section className="form-group">
           <div className="section-label-row">
-            <h4 className="section-label">피부 타입</h4>
-            <span className="section-label-hint">하나 선택</span>
+            <h4 className="section-label">{t('analysis.skinType')}</h4>
+            <span className="section-label-hint">{t('analysis.skinTypeSelect')}</span>
           </div>
           <div className="skin-grid">
-            {(['지성', '건성', '복합성', '중성'] as const).map((type) => (
+            {(['oily', 'dry', 'combination', 'normal'] as const).map((type) => (
               <button
                 key={type}
                 className={`skin-card ${skinType === type ? 'selected' : ''}`}
@@ -1119,22 +1143,22 @@ function App() {
                   <span className="material-symbols-outlined skin-card-icon">{SKIN_DATA[type].icon}</span>
                   {skinType === type && <span className="material-symbols-outlined skin-card-check">check_circle</span>}
                 </div>
-                <span className="skin-card-name">{type}</span>
+                <span className="skin-card-name">{SKIN_LABELS[type]}</span>
                 <span className="skin-card-desc">{SKIN_DATA[type].desc}</span>
               </button>
             ))}
             <button
-              className={`skin-card full-width horizontal ${skinType === '잘 모름' ? 'selected' : ''}`}
-              onClick={() => setSkinType('잘 모름')}
+              className={`skin-card full-width horizontal ${skinType === 'not_sure' ? 'selected' : ''}`}
+              onClick={() => setSkinType('not_sure')}
             >
               <div className="skin-card-h-left">
-                <span className="material-symbols-outlined skin-card-icon">{SKIN_DATA['잘 모름'].icon}</span>
+                <span className="material-symbols-outlined skin-card-icon">{SKIN_DATA['not_sure'].icon}</span>
                 <div className="skin-card-h-text">
-                  <span className="skin-card-name">잘 모름</span>
-                  <span className="skin-card-desc">{SKIN_DATA['잘 모름'].desc}</span>
+                  <span className="skin-card-name">{SKIN_LABELS['not_sure']}</span>
+                  <span className="skin-card-desc">{SKIN_DATA['not_sure'].desc}</span>
                 </div>
               </div>
-              {skinType === '잘 모름' ? (
+              {skinType === 'not_sure' ? (
                 <span className="material-symbols-outlined skin-card-check">check_circle</span>
               ) : (
                 <span className="material-symbols-outlined skin-card-chevron">chevron_right</span>
@@ -1146,7 +1170,7 @@ function App() {
         {/* Info Tip */}
         <div className="info-tip">
           <span className="material-symbols-outlined">info</span>
-          <p>AI가 피부 톤과 얼굴 특징을 분석하여 가장 어울리는 메이크업 제품을 추천해드립니다.</p>
+          <p>{t('analysis.infoTip')}</p>
         </div>
 
         {error && (
@@ -1159,21 +1183,21 @@ function App() {
         {refundFailed && (
           <div className="refund-failed-card">
             <span className="material-symbols-outlined refund-failed-icon">support_agent</span>
-            <h4>자동 환불에 실패했습니다</h4>
-            <p>분석 결과를 생성하지 못했으나, 자동 환불 처리에 문제가 발생했습니다. 아래 이메일로 환불을 요청해주세요.</p>
+            <h4>{t('error.refundFailed')}</h4>
+            <p>{t('error.refundFailedDesc')}</p>
             <a
               className="refund-failed-btn"
-              href={`mailto:koha3d77@gmail.com?subject=${encodeURIComponent('[kissinskin] 환불 요청')}&body=${encodeURIComponent(
-                `안녕하세요,\n\n분석 과정에서 오류가 발생하여 환불을 요청합니다.\n\n` +
-                `결제 이메일: ${customerEmail || '(확인 불가)'}\n` +
-                `Checkout ID: ${checkoutIdRef || '(확인 불가)'}\n` +
-                `오류 내용: ${error || '(알 수 없음)'}\n` +
-                `발생 시각: ${new Date().toISOString()}\n\n` +
-                `빠른 처리 부탁드립니다.\n감사합니다.`
+              href={`mailto:koha3d77@gmail.com?subject=${encodeURIComponent(t('error.refundEmailSubject'))}&body=${encodeURIComponent(
+                `${t('error.refundEmailBody')}\n\n` +
+                `${t('error.refundEmailPayment')}: ${customerEmail || '(N/A)'}\n` +
+                `${t('error.refundEmailCheckout')}: ${checkoutIdRef || '(N/A)'}\n` +
+                `${t('error.refundEmailError')}: ${error || '(N/A)'}\n` +
+                `${t('error.refundEmailTime')}: ${new Date().toISOString()}\n\n` +
+                t('error.refundEmailEnd')
               )}`}
             >
               <span className="material-symbols-outlined">mail</span>
-              환불 문의 이메일 보내기
+              {t('error.refundEmail')}
             </a>
             <p className="refund-failed-email">koha3d77@gmail.com</p>
           </div>
@@ -1189,7 +1213,7 @@ function App() {
           onClick={handleSubmit}
         >
           <span className="cta-price">$2.99</span>
-          <span>Generate My Looks</span>
+          <span>{t('common.generateLooks')}</span>
           <span className="material-symbols-outlined">auto_awesome</span>
         </button>
       </div>

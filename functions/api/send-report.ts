@@ -24,6 +24,7 @@ interface RequestBody {
   }
   styles: string[]
   resultImage: string
+  lang?: string
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
@@ -37,7 +38,21 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { email, report, styles, resultImage } = (await request.json()) as RequestBody
+    const { email, report, styles, resultImage, lang } = (await request.json()) as RequestBody
+
+    const isEn = lang === 'en'
+    const labels = {
+      subject: isEn ? '💄 Your AI Makeup Analysis Report - kissinskin' : '💄 AI 메이크업 분석 리포트 - kissinskin',
+      skinAnalysis: isEn ? 'AI Skin Analysis' : 'AI 피부 분석',
+      skinType: isEn ? 'Skin Type' : '피부 타입',
+      toneAnalysis: isEn ? 'Tone Analysis' : '톤 분석',
+      advice: isEn ? 'Personalized Advice' : '맞춤 조언',
+      makeupResult: isEn ? 'Makeup Simulation Result' : '메이크업 시뮬레이션 결과',
+      makeupStyles: isEn ? '9 Makeup Styles' : '메이크업 스타일 9종',
+      productRec: isEn ? 'Personalized Product Recommendations' : '맞춤 화장품 추천',
+      buyNow: isEn ? 'Buy Now →' : 'Buy Now →',
+      reportTitle: isEn ? 'AI Makeup Analysis Report' : 'AI 메이크업 분석 리포트',
+    }
 
     if (!email || !report) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -50,7 +65,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const analysisHtml = a ? `
       <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
         <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">
-          ✨ AI Skin Analysis
+          ✨ ${labels.skinAnalysis}
         </h2>
         <div style="margin-bottom:12px;">
           <span style="display:inline-block;background:#f9a8d4;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.gender}</span>
@@ -58,15 +73,15 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
           <span style="display:inline-block;background:#fbbf24;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;">${a.tone}</span>
         </div>
         <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
-          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🧴 피부 타입</h4>
+          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🧴 ${labels.skinType}</h4>
           <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.skinTypeDetail}</p>
         </div>
         <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
-          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🎨 톤 분석</h4>
+          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🎨 ${labels.toneAnalysis}</h4>
           <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.toneDetail}</p>
         </div>
         <div style="background:#fff;border-radius:8px;padding:16px;">
-          <h4 style="margin:0 0 6px;font-size:14px;color:#f59e0b;">💡 맞춤 조언</h4>
+          <h4 style="margin:0 0 6px;font-size:14px;color:#f59e0b;">💡 ${labels.advice}</h4>
           <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.advice}</p>
         </div>
       </div>
@@ -74,7 +89,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     const stylesHtml = styles.length > 0 ? `
       <div style="margin-bottom:24px;">
-        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">💄 메이크업 스타일 9종</h2>
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">💄 ${labels.makeupStyles}</h2>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
           ${styles.map((s, i) => `<span style="display:inline-block;background:#f1f5f9;border-radius:20px;padding:6px 14px;font-size:13px;color:#334155;">${i + 1}. ${s}</span>`).join('')}
         </div>
@@ -83,7 +98,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     const productsHtml = report.products.length > 0 ? `
       <div style="margin-bottom:24px;">
-        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🛍️ 맞춤 화장품 추천</h2>
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🛍️ ${labels.productRec}</h2>
         ${report.products.map(p => `
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
@@ -94,7 +109,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             <p style="margin:0;font-size:13px;color:#334155;line-height:1.5;">${p.reason}</p>
             <a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(p.brand + ' ' + p.name)}"
                style="display:inline-block;margin-top:10px;background:#6366f1;color:#fff;text-decoration:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;">
-              Buy Now →
+              ${labels.buyNow}
             </a>
           </div>
         `).join('')}
@@ -115,7 +130,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
       imageHtml = `
         <div style="margin-bottom:24px;text-align:center;">
-          <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ 메이크업 시뮬레이션 결과</h2>
+          <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ ${labels.makeupResult}</h2>
           <img src="cid:${filename}" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
         </div>
       `
@@ -128,7 +143,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         <div style="max-width:600px;margin:0 auto;padding:24px 16px;">
           <div style="text-align:center;margin-bottom:32px;">
             <h1 style="margin:0;font-size:24px;color:#ec4899;">kissinskin</h1>
-            <p style="margin:4px 0 0;font-size:14px;color:#94a3b8;">AI Makeup Analysis Report</p>
+            <p style="margin:4px 0 0;font-size:14px;color:#94a3b8;">${labels.reportTitle}</p>
           </div>
           ${analysisHtml}
           ${imageHtml}
@@ -148,7 +163,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const resendBody: Record<string, unknown> = {
       from: 'kissinskin <report@kissinskin.net>',
       to: [email],
-      subject: '💄 Your AI Makeup Analysis Report - kissinskin',
+      subject: labels.subject,
       html,
     }
 

@@ -1,0 +1,148 @@
+export default {
+  // Common
+  'common.startAnalysis': '분석 시작',
+  'common.startAnalysisLong': '분석 시작하기',
+  'common.generateLooks': 'Generate My Looks',
+  'common.tryAgain': '다시 분석하기',
+  'common.styles': 'Styles',
+  'common.howItWorks': 'How it Works',
+
+  // Nav
+  'nav.brand': 'kissinskin',
+
+  // Home Hero
+  'home.hero.badge': 'AI Beauty Technology',
+  'home.hero.title1': '사진 한장으로 완성하는',
+  'home.hero.title2': '9가지 놀라운',
+  'home.hero.title3': '메이크업 룩',
+  'home.hero.subtitle': '셀카 한장이면 충분해요. AI가 당신에게 가장 어울리는',
+  'home.hero.subtitleBold': ' 9가지 프로페셔널 메이크업',
+  'home.hero.subtitleEnd': '을 만들어 드립니다.',
+  'home.hero.productHighlightBold': '피부 특성을 AI가 분석',
+  'home.hero.productHighlight': '하여 어울리는 코스메틱 제품을 추천하고,',
+  'home.hero.productHighlightLink': ' 구매 링크',
+  'home.hero.productHighlightEnd': '도 함께 제공합니다.',
+  'home.hero.viewStyles': '스타일 보기',
+  'home.hero.userCount': '50,000+ 명이 사용 중',
+
+  // Value Props
+  'home.value.title1': '1회 분석',
+  'home.value.desc1': 'AI가 얼굴을 분석하고 60초 안에 9가지 룩 + 맞춤 제품 추천을 제공합니다.',
+  'home.value.title2': '맞춤 추천',
+  'home.value.desc2': 'AI가 어울리는 코스메틱 제품을 추천하고 구매 링크를 제공합니다.',
+  'home.value.title3': '모든 기기 지원',
+  'home.value.desc3': 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.',
+
+  // Styles Section
+  'home.styles.badge': '2026 Makeup Trends',
+  'home.styles.title': '여성과 남성의 ',
+  'home.styles.titleHighlight': '9가지 메이크업 스타일',
+  'home.styles.titleEnd': '은\n이렇게 변화가 이루어져요',
+  'home.styles.subtitle': 'AI가 당신의 얼굴에 맞춰 최신 트렌드 메이크업을 적용합니다',
+  'home.styles.womenTab': '2026 여자 메이크업',
+  'home.styles.menTab': '2026 남자 메이크업',
+  'home.styles.cta': '9가지 스타일 체험하기',
+
+  // Women styles
+  'style.w1': '내추럴 글로우',
+  'style.w2': '클라우드 스킨',
+  'style.w3': '블러드 립',
+  'style.w4': '맥시멀리스트 아이',
+  'style.w5': '메탈릭 아이',
+  'style.w6': '볼드 립',
+  'style.w7': '블러쉬 드레이핑 & 레이어링',
+  'style.w8': '그런지 메이크업',
+  'style.w9': 'K-pop 아이돌 메이크업',
+
+  // Men styles
+  'style.m1': '내추럴 소프트포커스 스킨',
+  'style.m2': '스킨케어 하이브리드 베이스',
+  'style.m3': '디퓨즈드 립',
+  'style.m4': '그런지 / 스모키 아이',
+  'style.m5': '톤인톤 모노크롬 메이크업',
+  'style.m6': '유틸리티 메이크업',
+  'style.m7': '블루 & 컬러 포인트 아이',
+  'style.m8': '뱀파이어 로맨틱',
+  'style.m9': 'K-팝 아이돌 메이크업',
+
+  // How it works
+  'home.how.title': '간단한 3단계',
+  'home.how.badge': 'Simple Process',
+  'home.how.step1': '사진 업로드',
+  'home.how.step1Desc': '셀카를 찍거나 갤러리에서 사진을 선택하세요',
+  'home.how.step2': 'AI 분석',
+  'home.how.step2Desc': '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다',
+  'home.how.step3': '결과 확인',
+  'home.how.step3Desc': '9가지 메이크업 + 맞춤 제품 추천을 받으세요',
+
+  // Final CTA
+  'home.cta.title1': '나에게 어울리는',
+  'home.cta.title2': '메이크업을 찾아보세요',
+  'home.cta.subtitle': '50,000명 이상이 kissinskin AI로 자신만의 시그니처 스타일을 발견했습니다.',
+
+  // Footer
+  'home.footer.desc': 'AI 메이크업 시뮬레이션 및 코스메틱 추천 서비스',
+  'home.footer.service': '서비스',
+  'home.footer.styles': '9가지 스타일',
+  'home.footer.howTo': '이용 방법',
+  'home.footer.legal': '법적 고지',
+
+  // Analysis Page
+  'analysis.back': 'Profile Setup',
+  'analysis.uploadTitle': '사진을 업로드하세요',
+  'analysis.uploadHint': '밝은 조명에서 촬영하면 AI 분석 정확도가 높아져요',
+  'analysis.changePhoto': '사진 변경',
+  'analysis.selectPhoto': '사진 선택',
+  'analysis.noFile': '선택된 파일 없음',
+  'analysis.gender': '성별',
+  'analysis.female': '여성',
+  'analysis.male': '남성',
+  'analysis.skinType': '피부 타입',
+  'analysis.skinTypeSelect': '하나 선택',
+  'analysis.oily': '지성',
+  'analysis.oilyDesc': '피지 분비가 많은 피부',
+  'analysis.dry': '건성',
+  'analysis.dryDesc': '수분이 부족한 피부',
+  'analysis.combination': '복합성',
+  'analysis.combinationDesc': 'T존 유분, U존 건조',
+  'analysis.normal': '중성',
+  'analysis.normalDesc': '균형 잡힌 피부',
+  'analysis.notSure': '잘 모름',
+  'analysis.notSureDesc': 'AI가 자동 판별',
+  'analysis.infoTip': 'AI가 피부 톤과 얼굴 특징을 분석하여 가장 어울리는 메이크업 제품을 추천해드립니다.',
+
+  // Loading
+  'analysis.loading.title': 'AI 분석 중',
+  'analysis.loading.subtitle': 'AI가 맞춤 메이크업을 분석하고 있어요...',
+  'analysis.loading.time': '약 30~60초 소요',
+
+  // Results
+  'result.title': '분석 결과',
+  'result.skinType': '🧴 피부 타입',
+  'result.toneAnalysis': '🎨 톤 분석',
+  'result.advice': '💡 맞춤 조언',
+  'result.makeupStyles': '메이크업 스타일 9종',
+  'result.save': '저장하기',
+  'result.share': '공유하기',
+  'result.defaultShare': '기본 공유',
+  'result.copyLink': '복사하기',
+  'result.copied': '복사 완료!',
+  'result.productRec': '맞춤 화장품 추천',
+  'result.buyNow': 'Buy Now →',
+  'result.emailSent': '리포트가 이메일로 전송되었습니다',
+
+  // Errors
+  'error.refundFailed': '자동 환불에 실패했습니다',
+  'error.refundFailedDesc': '분석 결과를 생성하지 못했으나, 자동 환불 처리에 문제가 발생했습니다. 아래 이메일로 환불을 요청해주세요.',
+  'error.refundEmail': '환불 문의 이메일 보내기',
+  'error.refundEmailSubject': '[kissinskin] 환불 요청',
+  'error.refundEmailBody': '안녕하세요,\n\n분석 과정에서 오류가 발생하여 환불을 요청합니다.\n\n',
+  'error.refundEmailPayment': '결제 이메일: ',
+  'error.refundEmailCheckout': 'Checkout ID: ',
+  'error.refundEmailError': '오류 내용: ',
+  'error.refundEmailTime': '발생 시각: ',
+  'error.refundEmailEnd': '\n\n빠른 처리 부탁드립니다.\n감사합니다.',
+  'error.autoRefund': ' 결제가 자동으로 환불됩니다.',
+  'error.analysisError': '분석 중 오류가 발생했습니다.',
+  'error.paymentIncomplete': '결제가 완료되지 않았습니다. 다시 시도해주세요.',
+} as Record<string, string>

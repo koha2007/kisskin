@@ -1,0 +1,148 @@
+export default {
+  // Common
+  'common.startAnalysis': 'Start',
+  'common.startAnalysisLong': 'Start Analysis',
+  'common.generateLooks': 'Generate My Looks',
+  'common.tryAgain': 'Try Again',
+  'common.styles': 'Styles',
+  'common.howItWorks': 'How it Works',
+
+  // Nav
+  'nav.brand': 'kissinskin',
+
+  // Home Hero
+  'home.hero.badge': 'AI Beauty Technology',
+  'home.hero.title1': 'Get Your Perfect',
+  'home.hero.title2': '9 Stunning',
+  'home.hero.title3': 'Makeup Looks',
+  'home.hero.subtitle': 'Just one selfie is all you need. Our AI creates',
+  'home.hero.subtitleBold': ' 9 professional makeup looks',
+  'home.hero.subtitleEnd': ' tailored just for you.',
+  'home.hero.productHighlightBold': 'AI analyzes your skin',
+  'home.hero.productHighlight': ' to recommend the best cosmetic products with',
+  'home.hero.productHighlightLink': ' buy links',
+  'home.hero.productHighlightEnd': ' included.',
+  'home.hero.viewStyles': 'View Styles',
+  'home.hero.userCount': '50,000+ users worldwide',
+
+  // Value Props
+  'home.value.title1': 'One-Time Analysis',
+  'home.value.desc1': 'AI analyzes your face and delivers 9 looks + personalized product recommendations in 60 seconds.',
+  'home.value.title2': 'Personalized Picks',
+  'home.value.desc2': 'AI recommends cosmetic products that suit you best, with direct purchase links.',
+  'home.value.title3': 'Any Device',
+  'home.value.desc3': 'Use your camera or gallery on Galaxy, iPhone, or PC — anywhere, anytime.',
+
+  // Styles Section
+  'home.styles.badge': '2026 Makeup Trends',
+  'home.styles.title': '',
+  'home.styles.titleHighlight': '9 Makeup Styles',
+  'home.styles.titleEnd': ' for Women & Men\nDiscover the Latest Trends',
+  'home.styles.subtitle': 'AI applies the latest trending makeup looks customized to your face',
+  'home.styles.womenTab': "2026 Women's Makeup",
+  'home.styles.menTab': "2026 Men's Makeup",
+  'home.styles.cta': 'Try 9 Styles Now',
+
+  // Women styles
+  'style.w1': 'Natural Glow',
+  'style.w2': 'Cloud Skin',
+  'style.w3': 'Blood Lip',
+  'style.w4': 'Maximalist Eye',
+  'style.w5': 'Metallic Eye',
+  'style.w6': 'Bold Lip',
+  'style.w7': 'Blush Draping & Layering',
+  'style.w8': 'Grunge Makeup',
+  'style.w9': 'K-pop Idol Makeup',
+
+  // Men styles
+  'style.m1': 'No-Makeup Makeup',
+  'style.m2': 'Skincare Hybrid Base',
+  'style.m3': 'Blurred Lip',
+  'style.m4': 'Grunge Smoky Eye',
+  'style.m5': 'Monochrome Makeup',
+  'style.m6': 'Utility Makeup',
+  'style.m7': 'Color Point Eye',
+  'style.m8': 'Vampire Romantic',
+  'style.m9': 'K-pop Idol Makeup',
+
+  // How it works
+  'home.how.title': '3 Simple Steps',
+  'home.how.badge': 'Simple Process',
+  'home.how.step1': 'Upload Photo',
+  'home.how.step1Desc': 'Take a selfie or choose a photo from your gallery',
+  'home.how.step2': 'AI Analysis',
+  'home.how.step2Desc': 'AI simulates your facial features and skin characteristics',
+  'home.how.step3': 'Get Results',
+  'home.how.step3Desc': 'Receive 9 makeup looks + personalized product recommendations',
+
+  // Final CTA
+  'home.cta.title1': 'Find Your',
+  'home.cta.title2': 'Perfect Makeup Look',
+  'home.cta.subtitle': 'Over 50,000 people have discovered their signature style with kissinskin AI.',
+
+  // Footer
+  'home.footer.desc': 'AI Makeup Simulation & Cosmetic Recommendation Service',
+  'home.footer.service': 'Service',
+  'home.footer.styles': '9 Styles',
+  'home.footer.howTo': 'How to Use',
+  'home.footer.legal': 'Legal',
+
+  // Analysis Page
+  'analysis.back': 'Profile Setup',
+  'analysis.uploadTitle': 'Upload your photo',
+  'analysis.uploadHint': 'Better lighting = better AI accuracy',
+  'analysis.changePhoto': 'Change Photo',
+  'analysis.selectPhoto': 'Select Photo',
+  'analysis.noFile': 'No file selected',
+  'analysis.gender': 'Gender',
+  'analysis.female': 'Female',
+  'analysis.male': 'Male',
+  'analysis.skinType': 'Skin Type',
+  'analysis.skinTypeSelect': 'Select one',
+  'analysis.oily': 'Oily',
+  'analysis.oilyDesc': 'Excess sebum production',
+  'analysis.dry': 'Dry',
+  'analysis.dryDesc': 'Lacks moisture',
+  'analysis.combination': 'Combination',
+  'analysis.combinationDesc': 'Oily T-zone, dry U-zone',
+  'analysis.normal': 'Normal',
+  'analysis.normalDesc': 'Well-balanced skin',
+  'analysis.notSure': 'Not Sure',
+  'analysis.notSureDesc': 'AI will determine',
+  'analysis.infoTip': 'AI analyzes your skin tone and facial features to recommend the best makeup products for you.',
+
+  // Loading
+  'analysis.loading.title': 'AI Analyzing',
+  'analysis.loading.subtitle': 'AI is analyzing your personalized makeup...',
+  'analysis.loading.time': 'Takes about 30-60 seconds',
+
+  // Results
+  'result.title': 'Analysis Results',
+  'result.skinType': '🧴 Skin Type',
+  'result.toneAnalysis': '🎨 Tone Analysis',
+  'result.advice': '💡 Personalized Advice',
+  'result.makeupStyles': '9 Makeup Styles',
+  'result.save': 'Save',
+  'result.share': 'Share',
+  'result.defaultShare': 'Share',
+  'result.copyLink': 'Copy',
+  'result.copied': 'Copied!',
+  'result.productRec': 'Product Recommendations',
+  'result.buyNow': 'Buy Now →',
+  'result.emailSent': 'Report has been sent to your email',
+
+  // Errors
+  'error.refundFailed': 'Auto-refund failed',
+  'error.refundFailedDesc': 'Analysis could not be completed and auto-refund processing encountered an issue. Please request a refund via the email below.',
+  'error.refundEmail': 'Send Refund Request Email',
+  'error.refundEmailSubject': '[kissinskin] Refund Request',
+  'error.refundEmailBody': 'Hello,\n\nAn error occurred during analysis and I would like to request a refund.\n\n',
+  'error.refundEmailPayment': 'Payment email: ',
+  'error.refundEmailCheckout': 'Checkout ID: ',
+  'error.refundEmailError': 'Error: ',
+  'error.refundEmailTime': 'Time: ',
+  'error.refundEmailEnd': '\n\nPlease process this promptly.\nThank you.',
+  'error.autoRefund': ' Your payment will be automatically refunded.',
+  'error.analysisError': 'An error occurred during analysis.',
+  'error.paymentIncomplete': 'Payment was not completed. Please try again.',
+} as Record<string, string>

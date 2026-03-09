@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useI18n } from './i18n/context'
 
 interface HomePageProps {
   onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund') => void
@@ -17,29 +18,12 @@ const IMAGE_SETS = [
   Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.png`),
 ]
 
-const WOMEN_STYLES = [
-  { num: 1, name: '내추럴 글로우', eng: 'Natural Glow', icon: 'wb_sunny' },
-  { num: 2, name: '클라우드 스킨', eng: 'Cloud Skin', icon: 'cloud' },
-  { num: 3, name: '블러드 립', eng: 'Blood Lip', icon: 'favorite' },
-  { num: 4, name: '맥시멀리스트 아이', eng: 'Maximalist Eye', icon: 'visibility' },
-  { num: 5, name: '메탈릭 아이', eng: 'Metallic Eye', icon: 'diamond' },
-  { num: 6, name: '볼드 립', eng: 'Bold Lip', icon: 'local_fire_department' },
-  { num: 7, name: '블러쉬 드레이핑 & 레이어링', eng: 'Blush Draping', icon: 'spa' },
-  { num: 8, name: '그런지 메이크업', eng: 'Grunge Makeup', icon: 'contrast' },
-  { num: 9, name: 'K-pop 아이돌 메이크업', eng: 'K-pop Idol', icon: 'star' },
-]
-
-const MEN_STYLES = [
-  { num: 1, name: '내추럴 소프트포커스 스킨', eng: 'No-Makeup Makeup', icon: 'face' },
-  { num: 2, name: '스킨케어 하이브리드 베이스', eng: 'Skincare Hybrid', icon: 'water_drop' },
-  { num: 3, name: '디퓨즈드 립', eng: 'Blurred Lip', icon: 'blur_on' },
-  { num: 4, name: '그런지 / 스모키 아이', eng: 'Grunge Smoky Eye', icon: 'contrast' },
-  { num: 5, name: '톤인톤 모노크롬 메이크업', eng: 'Monochrome', icon: 'palette' },
-  { num: 6, name: '유틸리티 메이크업', eng: 'Utility Makeup', icon: 'shield' },
-  { num: 7, name: '블루 & 컬러 포인트 아이', eng: 'Color Point Eye', icon: 'colorize' },
-  { num: 8, name: '뱀파이어 로맨틱', eng: 'Vampire Romantic', icon: 'nightlight' },
-  { num: 9, name: 'K-팝 아이돌 메이크업', eng: 'K-pop Idol', icon: 'star' },
-]
+interface StyleData {
+  num: number
+  name: string
+  eng: string
+  icon: string
+}
 
 function WaveGrid({ onClick }: { onClick: () => void }) {
   const [currentSet, setCurrentSet] = useState(0)
@@ -199,7 +183,7 @@ function WaveGrid({ onClick }: { onClick: () => void }) {
   )
 }
 
-function StyleCard({ style, gender }: { style: typeof WOMEN_STYLES[0], gender: 'women' | 'men' }) {
+function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men' }) {
   const bgColor = gender === 'women'
     ? 'bg-gradient-to-br from-pink-50 to-rose-50 border-pink-100 hover:border-pink-300 hover:shadow-pink-100/50'
     : 'bg-gradient-to-br from-slate-50 to-blue-50 border-slate-200 hover:border-blue-300 hover:shadow-blue-100/50'
@@ -223,7 +207,32 @@ function StyleCard({ style, gender }: { style: typeof WOMEN_STYLES[0], gender: '
 }
 
 function HomePage({ onNavigate }: HomePageProps) {
+  const { t, locale, setLocale } = useI18n()
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
+
+  const womenStyles: StyleData[] = [
+    { num: 1, name: t('style.w1'), eng: 'Natural Glow', icon: 'wb_sunny' },
+    { num: 2, name: t('style.w2'), eng: 'Cloud Skin', icon: 'cloud' },
+    { num: 3, name: t('style.w3'), eng: 'Blood Lip', icon: 'favorite' },
+    { num: 4, name: t('style.w4'), eng: 'Maximalist Eye', icon: 'visibility' },
+    { num: 5, name: t('style.w5'), eng: 'Metallic Eye', icon: 'diamond' },
+    { num: 6, name: t('style.w6'), eng: 'Bold Lip', icon: 'local_fire_department' },
+    { num: 7, name: t('style.w7'), eng: 'Blush Draping', icon: 'spa' },
+    { num: 8, name: t('style.w8'), eng: 'Grunge Makeup', icon: 'contrast' },
+    { num: 9, name: t('style.w9'), eng: 'K-pop Idol', icon: 'star' },
+  ]
+
+  const menStyles: StyleData[] = [
+    { num: 1, name: t('style.m1'), eng: 'No-Makeup Makeup', icon: 'face' },
+    { num: 2, name: t('style.m2'), eng: 'Skincare Hybrid', icon: 'water_drop' },
+    { num: 3, name: t('style.m3'), eng: 'Blurred Lip', icon: 'blur_on' },
+    { num: 4, name: t('style.m4'), eng: 'Grunge Smoky Eye', icon: 'contrast' },
+    { num: 5, name: t('style.m5'), eng: 'Monochrome', icon: 'palette' },
+    { num: 6, name: t('style.m6'), eng: 'Utility Makeup', icon: 'shield' },
+    { num: 7, name: t('style.m7'), eng: 'Color Point Eye', icon: 'colorize' },
+    { num: 8, name: t('style.m8'), eng: 'Vampire Romantic', icon: 'nightlight' },
+    { num: 9, name: t('style.m9'), eng: 'K-pop Idol', icon: 'star' },
+  ]
 
   return (
     <div className="font-display bg-background-light text-slate-900 antialiased overflow-x-hidden">
@@ -274,15 +283,23 @@ function HomePage({ onNavigate }: HomePageProps) {
             <span className="text-xl font-bold tracking-tight text-slate-900">kissinskin</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#styles" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">Styles</a>
-            <a href="#how" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">How it Works</a>
+            <a href="#styles" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
+            <a href="#how" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
           </div>
-          <button
-            className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-1.5"
-            onClick={() => onNavigate('analysis')}
-          >
-            분석 시작
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
+              className="text-sm font-medium text-slate-600 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-200"
+            >
+              {locale === 'ko' ? 'EN' : '한국어'}
+            </button>
+            <button
+              className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-1.5"
+              onClick={() => onNavigate('analysis')}
+            >
+              {t('common.startAnalysis')}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -300,26 +317,26 @@ function HomePage({ onNavigate }: HomePageProps) {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                AI Beauty Technology
+                {t('home.hero.badge')}
               </div>
 
               <h1 className="animate-fade-in-up text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold leading-[1.15] tracking-tight text-slate-900">
-                사진 한장으로 완성하는<br />
-                <span className="shimmer-text">9가지 놀라운</span><br />
-                메이크업 룩
+                {t('home.hero.title1')}<br />
+                <span className="shimmer-text">{t('home.hero.title2')}</span><br />
+                {t('home.hero.title3')}
               </h1>
 
               <p className="animate-fade-in-up-delay text-base md:text-lg text-slate-600 max-w-lg leading-relaxed">
-                셀카 한장이면 충분해요. AI가 당신에게 가장 어울리는
-                <strong className="text-primary"> 9가지 프로페셔널 메이크업</strong>을 만들어 드립니다.
+                {t('home.hero.subtitle')}
+                <strong className="text-primary"> {t('home.hero.subtitleBold')}</strong>{t('home.hero.subtitleEnd')}
               </p>
 
               {/* Product recommendation highlight */}
               <div className="animate-fade-in-up-delay flex items-start gap-3 bg-white/80 rounded-2xl p-4 border border-pink-100 shadow-sm max-w-lg backdrop-blur-sm">
                 <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  <strong className="text-slate-800">피부 특성을 AI가 분석</strong>하여 어울리는 코스메틱 제품을 추천하고,
-                  <strong className="text-primary"> 구매 링크</strong>도 함께 제공합니다.
+                  <strong className="text-slate-800">{t('home.hero.productHighlightBold')}</strong>{t('home.hero.productHighlight')}
+                  <strong className="text-primary"> {t('home.hero.productHighlightLink')}</strong>{t('home.hero.productHighlightEnd')}
                 </p>
               </div>
 
@@ -328,7 +345,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                   className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25 group"
                   onClick={() => onNavigate('analysis')}
                 >
-                  분석 시작하기
+                  {t('common.startAnalysisLong')}
                   <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </button>
                 <a
@@ -336,7 +353,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                   className="border border-pink-200 hover:border-primary/30 hover:bg-pink-50 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-700"
                 >
                   <span className="material-symbols-outlined text-primary">grid_view</span>
-                  스타일 보기
+                  {t('home.hero.viewStyles')}
                 </a>
               </div>
 
@@ -346,7 +363,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                     <span key={i} className="material-symbols-outlined text-amber-400 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                   ))}
                 </div>
-                <p className="text-sm text-slate-500"><strong className="text-slate-700">50,000+</strong> 명이 사용 중</p>
+                <p className="text-sm text-slate-500"><strong className="text-slate-700">50,000+</strong> {t('home.hero.userCount')}</p>
               </div>
             </div>
 
@@ -366,9 +383,9 @@ function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: 'bolt', title: '1회 분석', desc: 'AI가 얼굴을 분석하고 60초 안에 9가지 룩 + 맞춤 제품 추천을 제공합니다.', gradient: 'from-amber-400 to-orange-500' },
-              { icon: 'palette', title: '맞춤 추천', desc: 'AI가 어울리는 코스메틱 제품을 추천하고 구매 링크를 제공합니다.', gradient: 'from-pink-400 to-rose-500' },
-              { icon: 'devices', title: '모든 기기 지원', desc: 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.', gradient: 'from-violet-400 to-purple-500' },
+              { icon: 'bolt', title: t('home.value.title1'), desc: t('home.value.desc1'), gradient: 'from-amber-400 to-orange-500' },
+              { icon: 'palette', title: t('home.value.title2'), desc: t('home.value.desc2'), gradient: 'from-pink-400 to-rose-500' },
+              { icon: 'devices', title: t('home.value.title3'), desc: t('home.value.desc3'), gradient: 'from-violet-400 to-purple-500' },
             ].map((item) => (
               <div key={item.title} className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl border border-slate-100 hover:border-pink-200 hover:shadow-xl hover:shadow-pink-50 transition-all group bg-white">
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg`}>
@@ -390,14 +407,13 @@ function HomePage({ onNavigate }: HomePageProps) {
           <div className="text-center mb-12 flex flex-col items-center gap-3">
             <span className="inline-flex items-center gap-2 text-primary text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-              2026 Makeup Trends
+              {t('home.styles.badge')}
             </span>
             <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 mt-2">
-              여성과 남성의 <span className="text-primary">9가지 메이크업 스타일</span>은<br className="hidden sm:block" />
-              이렇게 변화가 이루어져요
+              {t('home.styles.title')} <span className="text-primary">{t('home.styles.titleHighlight')}</span>{t('home.styles.titleEnd')}
             </h2>
             <p className="text-slate-500 max-w-lg text-sm md:text-base">
-              AI가 당신의 얼굴에 맞춰 최신 트렌드 메이크업을 적용합니다
+              {t('home.styles.subtitle')}
             </p>
           </div>
 
@@ -414,7 +430,7 @@ function HomePage({ onNavigate }: HomePageProps) {
               >
                 <span className="flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>female</span>
-                  2026 여자 메이크업
+                  {t('home.styles.womenTab')}
                 </span>
               </button>
               <button
@@ -427,7 +443,7 @@ function HomePage({ onNavigate }: HomePageProps) {
               >
                 <span className="flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>male</span>
-                  2026 남자 메이크업
+                  {t('home.styles.menTab')}
                 </span>
               </button>
             </div>
@@ -435,7 +451,7 @@ function HomePage({ onNavigate }: HomePageProps) {
 
           {/* Style Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {(activeTab === 'women' ? WOMEN_STYLES : MEN_STYLES).map((style) => (
+            {(activeTab === 'women' ? womenStyles : menStyles).map((style) => (
               <StyleCard key={style.num} style={style} gender={activeTab} />
             ))}
           </div>
@@ -449,7 +465,7 @@ function HomePage({ onNavigate }: HomePageProps) {
               } text-white px-10 py-4 rounded-full text-lg font-bold transition-all shadow-xl inline-flex items-center gap-2 hover:scale-[1.02]`}
               onClick={() => onNavigate('analysis')}
             >
-              9가지 스타일 체험하기
+              {t('home.styles.cta')}
               <span className="material-symbols-outlined">arrow_forward</span>
             </button>
           </div>
@@ -460,15 +476,15 @@ function HomePage({ onNavigate }: HomePageProps) {
       <section id="how" className="py-20 bg-white scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">Simple Process</span>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">간단한 3단계</h2>
+            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
+            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('home.how.title')}</h2>
           </div>
           <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
             <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-pink-200 via-primary/30 to-pink-200"></div>
             {[
-              { num: '1', icon: 'photo_camera', title: '사진 업로드', desc: '셀카를 찍거나 갤러리에서 사진을 선택하세요', gradient: 'from-pink-400 to-rose-500' },
-              { num: '2', icon: 'psychology', title: 'AI 분석', desc: '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다', gradient: 'from-violet-400 to-purple-500' },
-              { num: '3', icon: 'auto_awesome', title: '결과 확인', desc: '9가지 메이크업 + 맞춤 제품 추천을 받으세요', gradient: 'from-amber-400 to-orange-500' },
+              { num: '1', icon: 'photo_camera', title: t('home.how.step1'), desc: t('home.how.step1Desc'), gradient: 'from-pink-400 to-rose-500' },
+              { num: '2', icon: 'psychology', title: t('home.how.step2'), desc: t('home.how.step2Desc'), gradient: 'from-violet-400 to-purple-500' },
+              { num: '3', icon: 'auto_awesome', title: t('home.how.step3'), desc: t('home.how.step3Desc'), gradient: 'from-amber-400 to-orange-500' },
             ].map((step) => (
               <div key={step.num} className="flex flex-col items-center text-center gap-5 relative">
                 <div className="relative">
@@ -494,16 +510,16 @@ function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-3xl mx-auto px-4 text-center relative">
           <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
           <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
-            나에게 어울리는<br />메이크업을 찾아보세요
+            {t('home.cta.title1')}<br />{t('home.cta.title2')}
           </h2>
           <p className="text-base text-slate-500 mb-8 max-w-md mx-auto">
-            50,000명 이상이 kissinskin AI로 자신만의 시그니처 스타일을 발견했습니다.
+            {t('home.cta.subtitle')}
           </p>
           <button
             className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-12 py-5 rounded-full text-xl font-extrabold transition-all shadow-2xl shadow-primary/30 inline-flex items-center gap-3 hover:scale-[1.02]"
             onClick={() => onNavigate('analysis')}
           >
-            분석 시작하기
+            {t('common.startAnalysisLong')}
             <span className="material-symbols-outlined text-2xl">arrow_forward</span>
           </button>
         </div>
@@ -519,18 +535,18 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <span className="text-2xl font-bold tracking-tight">kissinskin</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-                AI 메이크업 시뮬레이션 및 코스메틱 추천 서비스
+                {t('home.footer.desc')}
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">서비스</h5>
+              <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">{t('home.footer.service')}</h5>
               <ul className="flex flex-col gap-2 text-slate-400 text-sm">
-                <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">9가지 스타일</a></li>
-                <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">이용 방법</a></li>
+                <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
+                <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
               </ul>
             </div>
             <div className="flex flex-col gap-3">
-              <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">법적 고지</h5>
+              <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">{t('home.footer.legal')}</h5>
               <ul className="flex flex-col gap-2 text-slate-400 text-sm">
                 <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('terms')}>Terms of Service</a></li>
                 <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('refund')}>Refund Policy</a></li>
