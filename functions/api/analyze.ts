@@ -117,16 +117,33 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
 
-    // Cloudflare AI Gateway 경유 또는 직접 호출
-    const openaiBase = env.AI_GATEWAY_BASE
+    // 이미지 API: 직접 OpenAI 호출 (multipart FormData는 AI Gateway에서 지원 안 됨)
+    // 텍스트 API: AI Gateway 경유 (JSON body, 리전 블록 우회)
+    const gatewayBase = env.AI_GATEWAY_BASE
       ? `${env.AI_GATEWAY_BASE}/openai`
       : 'https://api.openai.com/v1'
 
-    const imagePromise = fetch(`${openaiBase}/images/edits`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
-      body: formData,
-    })
+    // 이미지는 직접 호출 + 리전 블록 시 재시도
+    const fetchImageWithRetry = async (retries = 2): Promise<Response> => {
+      for (let i = 0; i <= retries; i++) {
+        const res = await fetch('https://api.openai.com/v1/images/edits', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
+          body: formData,
+        })
+        if (res.ok) return res
+        // 리전 블록이 아닌 에러는 바로 반환
+        const text = await res.text()
+        if (!text.includes('unsupported_country_region_territory') || i === retries) {
+          return new Response(text, { status: res.status, headers: res.headers })
+        }
+        // 재시도 전 짧은 대기
+        await new Promise(r => setTimeout(r, 500))
+      }
+      return new Response('Retry exhausted', { status: 500 })
+    }
+
+    const imagePromise = fetchImageWithRetry()
 
     // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
     const reportSystemPromptKo = `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
@@ -166,7 +183,7 @@ Rules:
 
     const reportSystemPrompt = lang === 'en' ? reportSystemPromptEn : reportSystemPromptKo
 
-    const reportPromise = fetch(`${openaiBase}/responses`, {
+    const reportPromise = fetch(`${gatewayBase}/responses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
