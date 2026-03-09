@@ -47,9 +47,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const data = await res.json() as { url: string }
+    const data = await res.json() as { id: string; url: string; client_secret?: string }
 
-    return new Response(JSON.stringify({ url: data.url }), {
+    return new Response(JSON.stringify({ id: data.id, url: data.url }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (e) {

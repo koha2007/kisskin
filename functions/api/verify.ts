@@ -37,15 +37,27 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const res = await fetch(`https://api.polar.sh/v1/checkouts/${checkoutId}`, {
+    // Polar API: /v1/checkouts/custom/{id} 또는 /v1/checkouts/{id}
+    let res = await fetch(`https://api.polar.sh/v1/checkouts/custom/${checkoutId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}`,
       },
     })
 
+    // custom 경로 실패 시 기본 경로 시도
+    if (!res.ok) {
+      res = await fetch(`https://api.polar.sh/v1/checkouts/${checkoutId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}`,
+        },
+      })
+    }
+
     if (!res.ok) {
       const errText = await res.text()
+      console.log(`[verify] Polar API error for ${checkoutId}:`, res.status, errText)
       return new Response(JSON.stringify({ error: `Polar API error: ${errText}` }), {
         status: res.status,
         headers: { 'Content-Type': 'application/json' },

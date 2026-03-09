@@ -525,9 +525,8 @@ function App() {
         throw new Error(t('error.checkoutModule'))
       }
 
-      // checkoutId 추출 (URL 마지막 경로 세그먼트)
-      const urlParts = new URL(checkoutData.url).pathname.split('/')
-      const embeddedCheckoutId = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2]
+      // checkout ID는 API 응답에서 직접 사용 (URL 파싱 불필요)
+      const embeddedCheckoutId = checkoutData.id
 
       let paid = false
       const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
