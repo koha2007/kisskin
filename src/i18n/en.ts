@@ -130,6 +130,8 @@ export default {
   'result.productRec': 'Product Recommendations',
   'result.buyNow': 'Buy Now →',
   'result.emailSent': 'Report has been sent to your email',
+  'result.emailFailed': 'Failed to send email report',
+  'result.retryEmail': 'Retry',
 
   // Errors
   'error.refundFailed': 'Auto-refund failed',

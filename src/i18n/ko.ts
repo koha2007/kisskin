@@ -130,6 +130,8 @@ export default {
   'result.productRec': '맞춤 화장품 추천',
   'result.buyNow': 'Buy Now →',
   'result.emailSent': '리포트가 이메일로 전송되었습니다',
+  'result.emailFailed': '이메일 전송에 실패했습니다',
+  'result.retryEmail': '다시 보내기',
 
   // Errors
   'error.refundFailed': '자동 환불에 실패했습니다',

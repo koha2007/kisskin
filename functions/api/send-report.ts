@@ -117,16 +117,18 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     ` : ''
 
     // Attach result image as inline
-    const attachments: { filename: string; content: string }[] = []
+    const attachments: { filename: string; content: string; content_type?: string }[] = []
     let imageHtml = ''
     if (resultImage && resultImage.startsWith('data:image')) {
       const base64Data = resultImage.split(',')[1]
       const isJpeg = resultImage.startsWith('data:image/jpeg')
       const ext = isJpeg ? 'jpg' : 'png'
+      const contentType = isJpeg ? 'image/jpeg' : 'image/png'
       const filename = `kissinskin-result.${ext}`
       attachments.push({
         filename,
         content: base64Data,
+        content_type: contentType,
       })
       imageHtml = `
         <div style="margin-bottom:24px;text-align:center;">

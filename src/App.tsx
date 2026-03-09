@@ -327,16 +327,22 @@ function App() {
     })
   }
 
+  const [emailError, setEmailError] = useState<string | null>(null)
+
   const sendReportEmail = async (reportStr: string, image: string | null, email?: string) => {
     const targetEmail = email || customerEmail
-    if (!targetEmail) return
+    if (!targetEmail) {
+      console.warn('[kissinskin] No email to send report to')
+      return
+    }
     try {
+      setEmailError(null)
       const structured = parseReport(reportStr)
       let compressedImage = ''
       if (image) {
         compressedImage = await compressImageForEmail(image)
       }
-      await fetch('/api/send-report', {
+      const res = await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -347,8 +353,17 @@ function App() {
           lang: locale,
         }),
       })
-      setEmailSent(true)
-    } catch { /* 이메일 전송 실패 — 결과는 이미 화면에 표시됨 */ }
+      const data = await res.json()
+      if (res.ok && data.success) {
+        setEmailSent(true)
+      } else {
+        console.error('[kissinskin] Email send failed:', data)
+        setEmailError(data.detail || data.error || 'Email send failed')
+      }
+    } catch (err) {
+      console.error('[kissinskin] Email send error:', err)
+      setEmailError(String(err))
+    }
   }
 
   const runAnalysis = async (email?: string) => {
@@ -1024,7 +1039,7 @@ function App() {
             )
           })()}
 
-          {/* 이메일 자동 전송 알림 */}
+          {/* 이메일 전송 상태 */}
           {emailSent && customerEmail && (
             <section className="report-section email-report-section">
               <div className="email-sent-card">
@@ -1032,6 +1047,26 @@ function App() {
                 <div className="email-sent-text">
                   <h4>{t('result.emailSent')}</h4>
                   <p>{customerEmail}</p>
+                </div>
+              </div>
+            </section>
+          )}
+          {emailError && customerEmail && !emailSent && (
+            <section className="report-section email-report-section">
+              <div className="email-sent-card" style={{ borderColor: '#f87171' }}>
+                <span className="material-symbols-outlined" style={{ color: '#f87171', fontSize: '28px' }}>error</span>
+                <div className="email-sent-text">
+                  <h4>{t('result.emailFailed')}</h4>
+                  <p style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '8px' }}>{emailError}</p>
+                  <button
+                    onClick={() => report && sendReportEmail(report, resultImage, customerEmail!)}
+                    style={{
+                      background: '#6366f1', color: '#fff', border: 'none', borderRadius: '8px',
+                      padding: '8px 16px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                    }}
+                  >
+                    {t('result.retryEmail')}
+                  </button>
                 </div>
               </div>
             </section>
