@@ -49,15 +49,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const imageSize = gridSize || '1024x1024'
 
     // 1. 이미지 생성 (gpt-image-1.5) - 9가지 메이크업 3x3 그리드
-    const formData = new FormData()
-    formData.append('image', imageBlob, ext)
-    formData.append('model', 'gpt-image-1.5')
-    formData.append('n', '1')
-    formData.append('size', imageSize)
-    formData.append('quality', 'high')
-    formData.append('background', 'auto')
-    formData.append('moderation', 'auto')
-    formData.append('input_fidelity', 'high')
     const skinTypeInstruction = skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'
 
     const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinTypeInstruction} 반영해서 총 9가지 메이크업을 표현해줘.
@@ -115,32 +106,45 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
 핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해! 특히 1번(민낯)과 2번(물광)은 피부 질감으로, 3번은 립 컬러로, 4번과 8번은 아이 메이크업 스타일로, 5번은 통일 컬러로, 6번은 컨투어링으로, 7번은 블루 컬러로 차이를 확실하게 내야 해. 이미지 위에 어떤 글자도 렌더링하지 마.`
 
-    formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
-
     // 이미지 API: 직접 OpenAI 호출 (multipart FormData는 AI Gateway에서 지원 안 됨)
     // 텍스트 API: AI Gateway 경유 (JSON body, 리전 블록 우회)
     const gatewayBase = env.AI_GATEWAY_BASE
       ? `${env.AI_GATEWAY_BASE}/openai`
       : 'https://api.openai.com/v1'
 
+    // FormData를 새로 생성하는 헬퍼 (재시도 시 body 재사용 불가 문제 방지)
+    const buildFormData = () => {
+      const fd = new FormData()
+      fd.append('image', imageBlob, ext)
+      fd.append('model', 'gpt-image-1.5')
+      fd.append('n', '1')
+      fd.append('size', imageSize)
+      fd.append('quality', 'high')
+      fd.append('background', 'auto')
+      fd.append('moderation', 'auto')
+      fd.append('input_fidelity', 'high')
+      fd.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
+      return fd
+    }
+
     // 이미지는 직접 호출 + 리전 블록 시 재시도
-    const fetchImageWithRetry = async (retries = 2): Promise<Response> => {
+    const fetchImageWithRetry = async (retries = 2): Promise<{ ok: boolean; body: string }> => {
       for (let i = 0; i <= retries; i++) {
         const res = await fetch('https://api.openai.com/v1/images/edits', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
-          body: formData,
+          body: buildFormData(),
         })
-        if (res.ok) return res
-        // 리전 블록이 아닌 에러는 바로 반환
         const text = await res.text()
+        if (res.ok) return { ok: true, body: text }
+        // 리전 블록이 아닌 에러는 바로 반환
         if (!text.includes('unsupported_country_region_territory') || i === retries) {
-          return new Response(text, { status: res.status, headers: res.headers })
+          return { ok: false, body: text }
         }
         // 재시도 전 짧은 대기
         await new Promise(r => setTimeout(r, 500))
       }
-      return new Response('Retry exhausted', { status: 500 })
+      return { ok: false, body: 'Retry exhausted' }
     }
 
     const imagePromise = fetchImageWithRetry()
@@ -219,27 +223,34 @@ Rules:
     })
 
     // 병렬 실행
-    const [imageRes, reportRes] = await Promise.all([imagePromise, reportPromise])
+    const [imageResult, reportRes] = await Promise.all([imagePromise, reportPromise])
 
     // 이미지 응답 처리
     let imageData = ''
-    if (imageRes.ok) {
-      const imgJson = await imageRes.json() as {
-        data: { b64_json?: string; url?: string }[]
-      }
-      const imgResult = imgJson.data?.[0]
-      if (imgResult?.b64_json) {
-        imageData = `data:image/png;base64,${imgResult.b64_json}`
-      } else if (imgResult?.url) {
-        const imgFetch = await fetch(imgResult.url)
-        const imgBuf = await imgFetch.arrayBuffer()
-        const imgBytes = new Uint8Array(imgBuf)
-        let binary = ''
-        for (let i = 0; i < imgBytes.length; i++) {
-          binary += String.fromCharCode(imgBytes[i])
+    let imageError = ''
+    if (imageResult.ok) {
+      try {
+        const imgJson = JSON.parse(imageResult.body) as {
+          data: { b64_json?: string; url?: string }[]
         }
-        imageData = `data:image/png;base64,${btoa(binary)}`
+        const imgResult = imgJson.data?.[0]
+        if (imgResult?.b64_json) {
+          imageData = `data:image/png;base64,${imgResult.b64_json}`
+        } else if (imgResult?.url) {
+          const imgFetch = await fetch(imgResult.url)
+          const imgBuf = await imgFetch.arrayBuffer()
+          const imgBytes = new Uint8Array(imgBuf)
+          let binary = ''
+          for (let i = 0; i < imgBytes.length; i++) {
+            binary += String.fromCharCode(imgBytes[i])
+          }
+          imageData = `data:image/png;base64,${btoa(binary)}`
+        }
+      } catch (parseErr) {
+        imageError = `Image parse error: ${parseErr}`
       }
+    } else {
+      imageError = imageResult.body
     }
 
     // 보고서 응답 처리
@@ -268,12 +279,11 @@ Rules:
     }
 
     if (!imageData && !report) {
-      const errBody = !imageRes.ok ? await imageRes.text() : ''
       // 데이터센터 정보 추가 (진단용)
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${errBody || '이미지와 보고서 모두 생성 실패'}`,
+        error: `API 오류 (${colo}): ${imageError || '이미지와 보고서 모두 생성 실패'}`,
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
