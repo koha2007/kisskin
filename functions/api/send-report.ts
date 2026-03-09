@@ -106,17 +106,14 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     let imageHtml = ''
     if (resultImage && resultImage.startsWith('data:image')) {
       const base64Data = resultImage.split(',')[1]
-      const isJpeg = resultImage.startsWith('data:image/jpeg')
-      const ext = isJpeg ? 'jpg' : 'png'
-      const filename = `kissinskin-result.${ext}`
       attachments.push({
-        filename,
+        filename: 'kissinskin-result.png',
         content: base64Data,
       })
       imageHtml = `
         <div style="margin-bottom:24px;text-align:center;">
           <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ 메이크업 시뮬레이션 결과</h2>
-          <img src="cid:${filename}" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
+          <img src="cid:kissinskin-result.png" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
         </div>
       `
     }
