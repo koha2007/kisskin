@@ -338,16 +338,38 @@ function App() {
     try {
       setEmailError(null)
       const structured = parseReport(reportStr)
+      console.log('[kissinskin] Email report data:', {
+        hasStructured: !!structured,
+        hasAnalysis: !!structured?.analysis,
+        productCount: structured?.products?.length || 0,
+        reportStrLen: reportStr?.length || 0,
+        hasImage: !!image,
+        imageLen: image?.length || 0,
+      })
       let compressedImage = ''
       if (image) {
         compressedImage = await compressImageForEmail(image)
+        console.log('[kissinskin] Compressed image size:', compressedImage.length)
+      }
+      // structured가 null이면 reportStr에서 직접 파싱 시도
+      let reportData: { analysis?: AnalysisDetail; summary?: string; products: ProductRecommendation[] }
+      if (structured) {
+        reportData = structured
+      } else {
+        // JSON 파싱이 안 될 경우 빈 구조체 + summary로 원본 텍스트 포함
+        try {
+          const raw = JSON.parse(reportStr)
+          reportData = { analysis: raw.analysis, products: raw.products || [], summary: raw.summary }
+        } catch {
+          reportData = { products: [], summary: reportStr || undefined }
+        }
       }
       const res = await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: targetEmail,
-          report: structured || { products: [] },
+          report: reportData,
           styles: activeStyles,
           resultImage: compressedImage,
           lang: locale,

@@ -54,6 +54,16 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       reportTitle: isEn ? 'AI Makeup Analysis Report' : 'AI 메이크업 분석 리포트',
     }
 
+    console.log('[send-report] Data received:', {
+      email,
+      hasAnalysis: !!report?.analysis,
+      hasSummary: !!report?.summary,
+      productCount: report?.products?.length || 0,
+      stylesCount: styles?.length || 0,
+      hasImage: !!resultImage,
+      imageLen: resultImage?.length || 0,
+    })
+
     if (!email || !report) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
@@ -62,6 +72,13 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
 
     const a = report.analysis
+    // summary 폴백 (analysis가 없을 때 텍스트라도 표시)
+    const summaryHtml = (!a && report.summary) ? `
+      <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">✨ ${labels.skinAnalysis}</h2>
+        <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;white-space:pre-wrap;">${report.summary}</p>
+      </div>
+    ` : ''
     const analysisHtml = a ? `
       <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
         <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">
@@ -116,8 +133,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       </div>
     ` : ''
 
-    // Attach result image as inline
-    const attachments: { filename: string; content: string; content_type?: string }[] = []
+    // 결과 이미지를 인라인 첨부 + CID 참조
+    const attachments: { filename: string; content: string; content_type?: string; headers?: Record<string, string> }[] = []
     let imageHtml = ''
     if (resultImage && resultImage.startsWith('data:image')) {
       const base64Data = resultImage.split(',')[1]
@@ -125,15 +142,20 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       const ext = isJpeg ? 'jpg' : 'png'
       const contentType = isJpeg ? 'image/jpeg' : 'image/png'
       const filename = `kissinskin-result.${ext}`
+      const contentId = `result-image@kissinskin.net`
       attachments.push({
         filename,
         content: base64Data,
         content_type: contentType,
+        headers: {
+          'Content-ID': `<${contentId}>`,
+          'Content-Disposition': 'inline',
+        },
       })
       imageHtml = `
         <div style="margin-bottom:24px;text-align:center;">
           <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ ${labels.makeupResult}</h2>
-          <img src="cid:${filename}" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
+          <img src="cid:${contentId}" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
         </div>
       `
     }
@@ -148,6 +170,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
             <p style="margin:4px 0 0;font-size:14px;color:#94a3b8;">${labels.reportTitle}</p>
           </div>
           ${analysisHtml}
+          ${summaryHtml}
           ${imageHtml}
           ${stylesHtml}
           ${productsHtml}
