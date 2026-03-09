@@ -34,16 +34,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     // 이미지 생성용: 프론트에서 만든 3x3 타일 그리드 사용 (없으면 원본 사용)
     const imageSource = gridPhoto || photo
-    const mimeMatch = imageSource.match(/^data:(.+?);/)
-    const mimeType = mimeMatch?.[1] || 'image/png'
-    const base64Data = imageSource.split(',')[1]
-    const binaryStr = atob(base64Data)
-    const bytes = new Uint8Array(binaryStr.length)
-    for (let i = 0; i < binaryStr.length; i++) {
-      bytes[i] = binaryStr.charCodeAt(i)
-    }
-    const imageBlob = new Blob([bytes], { type: mimeType })
-    const ext = mimeType === 'image/jpeg' ? 'photo.jpg' : 'photo.png'
 
     // 프론트에서 전달된 그리드 사이즈 사용 (원본 비율 유지)
     const imageSize = gridSize || '1024x1024'
@@ -106,48 +96,32 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
 핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해! 특히 1번(민낯)과 2번(물광)은 피부 질감으로, 3번은 립 컬러로, 4번과 8번은 아이 메이크업 스타일로, 5번은 통일 컬러로, 6번은 컨투어링으로, 7번은 블루 컬러로 차이를 확실하게 내야 해. 이미지 위에 어떤 글자도 렌더링하지 마.`
 
-    // 이미지 API: 직접 OpenAI 호출 (multipart FormData는 AI Gateway에서 지원 안 됨)
-    // 텍스트 API: AI Gateway 경유 (JSON body, 리전 블록 우회)
-    const gatewayBase = env.AI_GATEWAY_BASE
+    // 모든 API 호출을 AI Gateway 경유 (JSON body, 리전 블록 우회)
+    const openaiBase = env.AI_GATEWAY_BASE
       ? `${env.AI_GATEWAY_BASE}/openai`
       : 'https://api.openai.com/v1'
 
-    // FormData를 새로 생성하는 헬퍼 (재시도 시 body 재사용 불가 문제 방지)
-    const buildFormData = () => {
-      const fd = new FormData()
-      fd.append('image', imageBlob, ext)
-      fd.append('model', 'gpt-image-1.5')
-      fd.append('n', '1')
-      fd.append('size', imageSize)
-      fd.append('quality', 'high')
-      fd.append('background', 'auto')
-      fd.append('moderation', 'auto')
-      fd.append('input_fidelity', 'high')
-      fd.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
-      return fd
-    }
-
-    // 이미지는 직접 호출 + 리전 블록 시 재시도
-    const fetchImageWithRetry = async (retries = 2): Promise<{ ok: boolean; body: string }> => {
-      for (let i = 0; i <= retries; i++) {
-        const res = await fetch('https://api.openai.com/v1/images/edits', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
-          body: buildFormData(),
-        })
-        const text = await res.text()
-        if (res.ok) return { ok: true, body: text }
-        // 리전 블록이 아닌 에러는 바로 반환
-        if (!text.includes('unsupported_country_region_territory') || i === retries) {
-          return { ok: false, body: text }
-        }
-        // 재시도 전 짧은 대기
-        await new Promise(r => setTimeout(r, 500))
-      }
-      return { ok: false, body: 'Retry exhausted' }
-    }
-
-    const imagePromise = fetchImageWithRetry()
+    // 이미지 생성: Responses API + image_generation tool (JSON body → AI Gateway 통과)
+    const imagePromise = fetch(`${openaiBase}/responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-image-1.5',
+        input: [
+          {
+            role: 'user',
+            content: [
+              { type: 'input_image', image_url: imageSource },
+              { type: 'input_text', text: gender === '남성' ? malePrompt : femalePrompt },
+            ],
+          },
+        ],
+        tools: [{ type: 'image_generation', quality: 'high', size: imageSize, input_fidelity: 'high' }],
+      }),
+    })
 
     // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
     const reportSystemPromptKo = `당신은 전문 메이크업 아티스트이자 화장품 전문가입니다.
@@ -187,7 +161,7 @@ Rules:
 
     const reportSystemPrompt = lang === 'en' ? reportSystemPromptEn : reportSystemPromptKo
 
-    const reportPromise = fetch(`${gatewayBase}/responses`, {
+    const reportPromise = fetch(`${openaiBase}/responses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -223,34 +197,26 @@ Rules:
     })
 
     // 병렬 실행
-    const [imageResult, reportRes] = await Promise.all([imagePromise, reportPromise])
+    const [imageRes, reportRes] = await Promise.all([imagePromise, reportPromise])
 
-    // 이미지 응답 처리
+    // 이미지 응답 처리 (Responses API 형식)
     let imageData = ''
     let imageError = ''
-    if (imageResult.ok) {
+    if (imageRes.ok) {
       try {
-        const imgJson = JSON.parse(imageResult.body) as {
-          data: { b64_json?: string; url?: string }[]
+        const imgJson = await imageRes.json() as {
+          output: { type: string; result?: string }[]
         }
-        const imgResult = imgJson.data?.[0]
-        if (imgResult?.b64_json) {
-          imageData = `data:image/png;base64,${imgResult.b64_json}`
-        } else if (imgResult?.url) {
-          const imgFetch = await fetch(imgResult.url)
-          const imgBuf = await imgFetch.arrayBuffer()
-          const imgBytes = new Uint8Array(imgBuf)
-          let binary = ''
-          for (let i = 0; i < imgBytes.length; i++) {
-            binary += String.fromCharCode(imgBytes[i])
-          }
-          imageData = `data:image/png;base64,${btoa(binary)}`
+        // Responses API: output에서 image_generation_call 결과 찾기
+        const imgOutput = imgJson.output?.find((o) => o.type === 'image_generation_call')
+        if (imgOutput?.result) {
+          imageData = `data:image/png;base64,${imgOutput.result}`
         }
       } catch (parseErr) {
         imageError = `Image parse error: ${parseErr}`
       }
     } else {
-      imageError = imageResult.body
+      imageError = await imageRes.text()
     }
 
     // 보고서 응답 처리
