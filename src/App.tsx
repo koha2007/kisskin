@@ -245,7 +245,7 @@ function App() {
       setPhoto(compressed)
     }
     img.onerror = () => {
-      setError('이미지를 불러올 수 없습니다. 다른 사진을 선택해주세요.')
+      setError(t('error.imageLoad'))
     }
     img.src = dataUrl
   }
@@ -254,13 +254,13 @@ function App() {
     const file = e.target.files?.[0]
     if (file) {
       if (!file.type.startsWith('image/')) {
-        setError('이미지 파일만 업로드할 수 있습니다.')
+        setError(t('error.imageOnly'))
         return
       }
       setError(null)
       const reader = new FileReader()
       reader.onloadend = () => loadPhoto(reader.result as string)
-      reader.onerror = () => setError('파일을 읽을 수 없습니다. 다시 시도해주세요.')
+      reader.onerror = () => setError(t('error.fileRead'))
       reader.readAsDataURL(file)
     }
     // Reset input so same file/camera can be re-selected
@@ -367,7 +367,7 @@ function App() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || '분석 중 오류가 발생했습니다.')
+        throw new Error(data.error || t('error.analysisError'))
       }
 
       // 이미지 또는 리포트가 없으면 실패 → 자동 환불
@@ -382,13 +382,13 @@ function App() {
       }
 
       if (!data.image && !data.report) {
-        await failAndRefund('AI 분석 결과 생성 실패 (이미지 및 텍스트 없음)', '분석 결과를 생성하지 못했습니다.')
+        await failAndRefund('AI analysis failed (no image and no text)', t('error.bothGenFailed'))
       }
       if (!data.image) {
-        await failAndRefund('AI 이미지 생성 실패', '메이크업 이미지를 생성하지 못했습니다.')
+        await failAndRefund('AI image generation failed', t('error.imageGenFailed'))
       }
       if (!data.report) {
-        await failAndRefund('AI 리포트 생성 실패', '분석 리포트를 생성하지 못했습니다.')
+        await failAndRefund('AI report generation failed', t('error.reportGenFailed'))
       }
 
       setResultImage(data.image)
@@ -457,7 +457,7 @@ function App() {
       const checkoutData = await checkoutRes.json()
 
       if (!checkoutRes.ok) {
-        throw new Error(checkoutData.error || '결제 세션 생성 실패')
+        throw new Error(checkoutData.error || t('error.checkoutCreate'))
       }
 
       // 임베디드 체크아웃 모달 (PC + 모바일 공통)
@@ -473,11 +473,11 @@ function App() {
           if (redirectRes.ok) {
             window.location.href = redirectData.url
           } else {
-            throw new Error(redirectData.error || '결제 세션 생성 실패')
+            throw new Error(redirectData.error || t('error.checkoutCreate'))
           }
           return
         }
-        throw new Error('결제 모듈을 불러오지 못했습니다. 페이지를 새로고침해주세요.')
+        throw new Error(t('error.checkoutModule'))
       }
 
       // checkoutId 추출 (URL 마지막 경로 세그먼트)
@@ -517,7 +517,7 @@ function App() {
         }
       })
     } catch (e) {
-      setError(e instanceof Error ? e.message : '결제 처리 중 오류가 발생했습니다.')
+      setError(e instanceof Error ? e.message : t('error.checkoutError'))
     }
   }
 
@@ -562,7 +562,7 @@ function App() {
           }
         })
         .catch(() => {
-          setError('결제 확인 중 오류가 발생했습니다.')
+          setError(t('error.verifyError'))
         })
     } catch {
       // 복원 실패
@@ -667,7 +667,7 @@ function App() {
       )
 
       if (!blob) {
-        alert('이미지 생성에 실패했습니다. 저장하기를 이용해주세요.')
+        alert(t('error.shareImageFail'))
         return
       }
 
@@ -685,7 +685,7 @@ function App() {
           }
         } catch (e) {
           if (e instanceof Error && e.name !== 'AbortError') {
-            alert('공유에 실패했습니다.')
+            alert(t('error.shareFail'))
           }
         }
       } else if (platform === 'copy') {
@@ -695,9 +695,9 @@ function App() {
         } catch {
           try {
             await navigator.clipboard.writeText(shareUrl)
-            alert('링크가 클립보드에 복사되었습니다!')
+            alert(t('error.copyLinkDone'))
           } catch {
-            alert('복사에 실패했습니다.')
+            alert(t('error.copyFail'))
           }
         }
       } else if (platform === 'x') {
@@ -718,7 +718,7 @@ function App() {
       setShowShareMenu(false)
     } catch (e) {
       if (e instanceof Error && e.name !== 'AbortError') {
-        alert('공유에 실패했습니다. 저장하기를 이용해주세요.')
+        alert(t('error.shareFallback'))
       }
     }
   }

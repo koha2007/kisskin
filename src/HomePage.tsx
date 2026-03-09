@@ -363,7 +363,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                     <span key={i} className="material-symbols-outlined text-amber-400 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                   ))}
                 </div>
-                <p className="text-sm text-slate-500"><strong className="text-slate-700">50,000+</strong> {t('home.hero.userCount')}</p>
+                <p className="text-sm text-slate-500">{t('home.hero.userCount')}</p>
               </div>
             </div>
 
