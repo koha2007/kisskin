@@ -198,7 +198,7 @@ Rules:
         'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-image-1',
+        model: 'gpt-4o',
         input: [{
           role: 'user',
           content: [
@@ -210,7 +210,6 @@ Rules:
           type: 'image_generation',
           quality: 'high',
           size: imageSize,
-          input_fidelity: 'high',
           background: 'auto',
         }],
       }),
