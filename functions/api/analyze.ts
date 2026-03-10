@@ -160,7 +160,7 @@ Rules:
 - 가격은 미국 달러($)로 대략적인 정가를 표기하세요
 - 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`
 
-    const reportPromise = fetch('https://api.openai.com/v1/responses', {
+    const reportPromise = fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -168,21 +168,21 @@ Rules:
       },
       body: JSON.stringify({
         model: 'gpt-4.1',
-        input: [
+        messages: [
           {
             role: 'system',
-            content: [{ type: 'input_text', text: reportSystemPrompt }],
+            content: reportSystemPrompt,
           },
           {
             role: 'user',
             content: [
-              { type: 'input_image', image_url: photo },
-              { type: 'input_text', text: `${gender}\n${skinType}` },
+              { type: 'image_url', image_url: { url: photo } },
+              { type: 'text', text: `${gender}\n${skinType}` },
             ],
           },
         ],
         temperature: 1,
-        max_output_tokens: 2048,
+        max_tokens: 2048,
         top_p: 1,
       }),
     })
@@ -215,11 +215,9 @@ Rules:
     let report = ''
     if (reportRes.ok) {
       const reportJson = await reportRes.json() as {
-        output: { type: string; content?: { type: string; text?: string }[] }[]
+        choices?: { message?: { content?: string } }[]
       }
-      const msg = reportJson.output?.find((o) => o.type === 'message')
-      const textBlock = msg?.content?.find((c) => c.type === 'output_text')
-      report = textBlock?.text || ''
+      report = reportJson.choices?.[0]?.message?.content || ''
 
       // JSON 추출 및 검증
       if (report) {
