@@ -191,7 +191,7 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
-  const [customerEmail, setCustomerEmail] = useState<string | null>(null)
+  const [_customerEmail, setCustomerEmail] = useState<string | null>(null)
   const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
   const [refundFailed, setRefundFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
