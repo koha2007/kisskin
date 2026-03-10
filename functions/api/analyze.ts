@@ -262,6 +262,7 @@ Rules:
       form.append('size', imageSize)
       form.append('quality', 'auto')
       form.append('input_fidelity', 'high')
+      form.append('moderation', 'auto')
       return form
     }
 
