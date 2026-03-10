@@ -1,10 +1,10 @@
-// OpenAI Makeup Analysis API v3
-// - AI Gateway 프록시로 지역 차단(HKG 등) 완전 우회
-// - 이미지: Responses API (JSON) → Gateway 통과 가능
-// - 리포트: Chat Completions → Gateway 통과 + Gemini 폴백
+// OpenAI Makeup Analysis API v4
+// - AI Gateway 실패 시 직접 OpenAI 폴백
+// - 이미지: gpt-4o + image_generation tool (Responses API)
+// - 리포트: gpt-4.1 Chat Completions + Gemini 폴백
 interface Env {
   OPENAI_API_KEY: string
-  OPENAI_BASE_URL?: string   // AI Gateway URL (예: https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_name}/openai)
+  OPENAI_BASE_URL?: string
   GEMINI_API_KEY?: string
 }
 
@@ -67,6 +67,33 @@ function extractReportJson(raw: string): string {
   return raw
 }
 
+// OpenAI API 호출 헬퍼 - Gateway 실패 시 직접 호출 폴백
+async function fetchOpenAI(
+  env: Env,
+  path: string,
+  body: string,
+): Promise<Response> {
+  const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
+  const directUrl = 'https://api.openai.com'
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+  }
+
+  // AI Gateway가 설정되어 있으면 먼저 시도
+  if (gatewayUrl) {
+    try {
+      const res = await fetch(`${gatewayUrl}${path}`, { method: 'POST', headers, body })
+      if (res.ok) return res
+      // Gateway 에러 (Unauthorized 등) → 직접 호출로 폴백
+      await res.arrayBuffer() // body 소비
+    } catch { /* Gateway 연결 실패 → 폴백 */ }
+  }
+
+  // 직접 OpenAI 호출
+  return fetch(`${directUrl}${path}`, { method: 'POST', headers, body })
+}
+
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
@@ -84,9 +111,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         status: 400, headers: { 'Content-Type': 'application/json' },
       })
     }
-
-    // AI Gateway URL 또는 직접 OpenAI
-    const baseUrl = (env.OPENAI_BASE_URL || 'https://api.openai.com').replace(/\/$/, '')
 
     const imageSource = gridPhoto || photo
     const imageSize = gridSize || '1024x1024'
@@ -189,61 +213,50 @@ Rules:
     const reportUserText = `${gender}\n${skinType}`
 
     // ══════════════════════════════════════════════════════════
-    // 1. 이미지 생성 — Responses API (JSON) → AI Gateway 통과 가능
+    // 1. 이미지 생성 — gpt-4o + image_generation tool (Responses API)
     // ══════════════════════════════════════════════════════════
-    const imagePromise = fetch(`${baseUrl}/v1/responses`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        input: [{
+    const imageBody = JSON.stringify({
+      model: 'gpt-4o',
+      input: [{
+        role: 'user',
+        content: [
+          { type: 'input_image', image_url: imageSource },
+          { type: 'input_text', text: imagePrompt },
+        ],
+      }],
+      tools: [{
+        type: 'image_generation',
+        quality: 'high',
+        size: imageSize,
+        background: 'auto',
+      }],
+    })
+
+    // ══════════════════════════════════════════════════════════
+    // 2. 리포트 생성 — gpt-4.1 Chat Completions
+    // ══════════════════════════════════════════════════════════
+    const reportBody = JSON.stringify({
+      model: 'gpt-4.1',
+      messages: [
+        { role: 'system', content: reportSystemPrompt },
+        {
           role: 'user',
           content: [
-            { type: 'input_image', image_url: imageSource },
-            { type: 'input_text', text: imagePrompt },
+            { type: 'image_url', image_url: { url: photo } },
+            { type: 'text', text: reportUserText },
           ],
-        }],
-        tools: [{
-          type: 'image_generation',
-          quality: 'high',
-          size: imageSize,
-          background: 'auto',
-        }],
-      }),
+        },
+      ],
+      temperature: 1,
+      max_tokens: 2048,
+      top_p: 1,
     })
 
-    // ══════════════════════════════════════════════════════════
-    // 2. 리포트 생성 — Chat Completions → AI Gateway 통과 가능
-    // ══════════════════════════════════════════════════════════
-    const reportPromise = fetch(`${baseUrl}/v1/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4.1',
-        messages: [
-          { role: 'system', content: reportSystemPrompt },
-          {
-            role: 'user',
-            content: [
-              { type: 'image_url', image_url: { url: photo } },
-              { type: 'text', text: reportUserText },
-            ],
-          },
-        ],
-        temperature: 1,
-        max_tokens: 2048,
-        top_p: 1,
-      }),
-    })
-
-    // 병렬 실행
-    const [imageRes, reportRes] = await Promise.all([imagePromise, reportPromise])
+    // 병렬 실행 (Gateway 실패 시 직접 OpenAI 폴백 포함)
+    const [imageRes, reportRes] = await Promise.all([
+      fetchOpenAI(env, '/v1/responses', imageBody),
+      fetchOpenAI(env, '/v1/chat/completions', reportBody),
+    ])
 
     // ── 이미지 응답 처리 (Responses API 형식) ──
     let imageData = ''
@@ -252,11 +265,10 @@ Rules:
       const imgJson = (await imageRes.json()) as {
         output?: {
           type: string
-          result?: string          // image_generation_call → base64
+          result?: string
           content?: { type: string; text?: string }[]
         }[]
       }
-      // image_generation_call에서 base64 이미지 추출
       const imgOutput = imgJson.output?.find((o) => o.type === 'image_generation_call')
       if (imgOutput?.result) {
         imageData = `data:image/png;base64,${imgOutput.result}`
