@@ -1,7 +1,7 @@
-// OpenAI Makeup Analysis API v5
-// - 이미지: gpt-image-1.5 + /v1/images/edits (multipart form)
-// - 리포트: gpt-4.1 Chat Completions + Gemini 폴백
-// - AI Gateway 실패 시 직접 OpenAI 폴백
+// OpenAI Makeup Analysis API v6
+// - 이미지: 직접 gpt-image-1.5 (multipart) → 지역 차단 시 AI Gateway gpt-4o (JSON)
+// - 리포트: 직접 gpt-4.1 → 지역 차단 시 AI Gateway → Gemini 폴백
+// - 모든 지역에서 작동하도록 다중 폴백
 interface Env {
   OPENAI_API_KEY: string
   OPENAI_BASE_URL?: string
@@ -26,6 +26,11 @@ function dataUrlToBlob(dataUrl: string): Blob {
   const bytes = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
   return new Blob([bytes], { type: mime })
+}
+
+// 지역 차단 체크
+function isRegionBlocked(text: string): boolean {
+  return text.includes('unsupported_country_region_territory')
 }
 
 // Gemini API로 리포트 생성 (지역 제한 없음)
@@ -78,59 +83,6 @@ function extractReportJson(raw: string): string {
   return raw
 }
 
-// OpenAI JSON API 호출 (Gateway 폴백 포함)
-async function fetchOpenAIJson(
-  env: Env,
-  path: string,
-  body: string,
-): Promise<Response> {
-  const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
-  const directUrl = 'https://api.openai.com'
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
-  }
-
-  if (gatewayUrl) {
-    try {
-      const res = await fetch(`${gatewayUrl}${path}`, { method: 'POST', headers, body })
-      if (res.ok) return res
-      await res.arrayBuffer()
-    } catch { /* 폴백 */ }
-  }
-
-  return fetch(`${directUrl}${path}`, { method: 'POST', headers, body })
-}
-
-// OpenAI Multipart API 호출 (Gateway 폴백 포함)
-async function fetchOpenAIForm(
-  env: Env,
-  path: string,
-  buildForm: () => FormData,
-): Promise<Response> {
-  const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
-  const directUrl = 'https://api.openai.com'
-  const auth = `Bearer ${env.OPENAI_API_KEY}`
-
-  if (gatewayUrl) {
-    try {
-      const res = await fetch(`${gatewayUrl}${path}`, {
-        method: 'POST',
-        headers: { 'Authorization': auth },
-        body: buildForm(),
-      })
-      if (res.ok) return res
-      await res.arrayBuffer()
-    } catch { /* 폴백 */ }
-  }
-
-  return fetch(`${directUrl}${path}`, {
-    method: 'POST',
-    headers: { 'Authorization': auth },
-    body: buildForm(),
-  })
-}
-
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
@@ -152,6 +104,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const imageSource = gridPhoto || photo
     const imageSize = gridSize || '1024x1024'
     const skinTypeInstruction = skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'
+    const directUrl = 'https://api.openai.com'
+    const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
+    const authHeader = `Bearer ${env.OPENAI_API_KEY}`
 
     const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinTypeInstruction} 반영해서 총 9가지 메이크업을 표현해줘.
 
@@ -250,88 +205,175 @@ Rules:
     const reportUserText = `${gender}\n${skinType}`
 
     // ══════════════════════════════════════════════════════════
-    // 1. 이미지 생성 — gpt-image-1.5 + /v1/images/edits (multipart)
+    // 이미지 생성 함수: 직접 → Gateway 폴백
     // ══════════════════════════════════════════════════════════
-    const imageBlob = dataUrlToBlob(imageSource)
-    const buildImageForm = () => {
-      const form = new FormData()
-      form.append('image', imageBlob, 'photo.jpg')
-      form.append('prompt', imagePrompt)
-      form.append('model', 'gpt-image-1.5')
-      form.append('n', '1')
-      form.append('size', imageSize)
-      form.append('quality', 'auto')
-      form.append('input_fidelity', 'high')
-      form.append('moderation', 'auto')
-      return form
+    async function generateImage(): Promise<{ data: string; error: string }> {
+      // 1차: 직접 OpenAI - gpt-image-1.5 (multipart, 최고 품질)
+      try {
+        const form = new FormData()
+        form.append('image', dataUrlToBlob(imageSource), 'photo.jpg')
+        form.append('prompt', imagePrompt)
+        form.append('model', 'gpt-image-1.5')
+        form.append('n', '1')
+        form.append('size', imageSize)
+        form.append('quality', 'auto')
+        form.append('input_fidelity', 'high')
+        form.append('moderation', 'auto')
+
+        const res = await fetch(`${directUrl}/v1/images/edits`, {
+          method: 'POST',
+          headers: { 'Authorization': authHeader },
+          body: form,
+        })
+
+        if (res.ok) {
+          const json = (await res.json()) as { data?: { b64_json?: string }[] }
+          const b64 = json.data?.[0]?.b64_json
+          if (b64) return { data: `data:image/png;base64,${b64}`, error: '' }
+        }
+
+        const errText = await res.text()
+        // 지역 차단이 아니면 여기서 에러 반환
+        if (!isRegionBlocked(errText)) {
+          return { data: '', error: errText }
+        }
+        // 지역 차단 → Gateway 폴백으로 진행
+      } catch { /* 직접 연결 실패 → 폴백 */ }
+
+      // 2차: AI Gateway - gpt-4o + Responses API (JSON, Gateway 호환)
+      if (gatewayUrl) {
+        try {
+          const body = JSON.stringify({
+            model: 'gpt-4o',
+            input: [{
+              role: 'user',
+              content: [
+                { type: 'input_image', image_url: imageSource },
+                { type: 'input_text', text: imagePrompt },
+              ],
+            }],
+            tools: [{
+              type: 'image_generation',
+              quality: 'high',
+              size: imageSize,
+              background: 'auto',
+            }],
+          })
+
+          const res = await fetch(`${gatewayUrl}/v1/responses`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': authHeader,
+            },
+            body,
+          })
+
+          if (res.ok) {
+            const json = (await res.json()) as {
+              output?: { type: string; result?: string }[]
+            }
+            const imgOutput = json.output?.find((o) => o.type === 'image_generation_call')
+            if (imgOutput?.result) {
+              return { data: `data:image/png;base64,${imgOutput.result}`, error: '' }
+            }
+          }
+          return { data: '', error: await res.text() }
+        } catch (e) {
+          return { data: '', error: e instanceof Error ? e.message : String(e) }
+        }
+      }
+
+      return { data: '', error: 'Region blocked and no AI Gateway configured' }
     }
 
     // ══════════════════════════════════════════════════════════
-    // 2. 리포트 생성 — gpt-4.1 Chat Completions
+    // 리포트 생성 함수: 직접 → Gateway → Gemini 폴백
     // ══════════════════════════════════════════════════════════
-    const reportBody = JSON.stringify({
-      model: 'gpt-4.1',
-      messages: [
-        { role: 'system', content: reportSystemPrompt },
-        {
-          role: 'user',
-          content: [
-            { type: 'image_url', image_url: { url: photo } },
-            { type: 'text', text: reportUserText },
-          ],
-        },
-      ],
-      temperature: 1,
-      max_tokens: 2048,
-      top_p: 1,
-    })
+    async function generateReport(): Promise<string> {
+      const reportBody = JSON.stringify({
+        model: 'gpt-4.1',
+        messages: [
+          { role: 'system', content: reportSystemPrompt },
+          {
+            role: 'user',
+            content: [
+              { type: 'image_url', image_url: { url: photo } },
+              { type: 'text', text: reportUserText },
+            ],
+          },
+        ],
+        temperature: 1,
+        max_tokens: 2048,
+        top_p: 1,
+      })
+      const jsonHeaders = {
+        'Content-Type': 'application/json',
+        'Authorization': authHeader,
+      }
 
-    // 병렬 실행 (Gateway 실패 시 직접 OpenAI 폴백)
-    const [imageRes, reportRes] = await Promise.all([
-      fetchOpenAIForm(env, '/v1/images/edits', buildImageForm),
-      fetchOpenAIJson(env, '/v1/chat/completions', reportBody),
+      // 1차: 직접 OpenAI
+      try {
+        const res = await fetch(`${directUrl}/v1/chat/completions`, {
+          method: 'POST', headers: jsonHeaders, body: reportBody,
+        })
+        if (res.ok) {
+          const json = (await res.json()) as {
+            choices?: { message?: { content?: string } }[]
+          }
+          const content = json.choices?.[0]?.message?.content || ''
+          if (content) return content
+        } else {
+          const errText = await res.text()
+          // 지역 차단이 아니면 여기서 중단
+          if (!isRegionBlocked(errText)) return ''
+        }
+      } catch { /* 폴백 */ }
+
+      // 2차: AI Gateway
+      if (gatewayUrl) {
+        try {
+          const res = await fetch(`${gatewayUrl}/v1/chat/completions`, {
+            method: 'POST', headers: jsonHeaders, body: reportBody,
+          })
+          if (res.ok) {
+            const json = (await res.json()) as {
+              choices?: { message?: { content?: string } }[]
+            }
+            const content = json.choices?.[0]?.message?.content || ''
+            if (content) return content
+          }
+        } catch { /* 폴백 */ }
+      }
+
+      // 3차: Gemini
+      if (env.GEMINI_API_KEY) {
+        return generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText)
+      }
+
+      return ''
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // 병렬 실행
+    // ══════════════════════════════════════════════════════════
+    const [imageResult, reportRaw] = await Promise.all([
+      generateImage(),
+      generateReport(),
     ])
 
-    // ── 이미지 응답 처리 (Images API 형식) ──
-    let imageData = ''
-    let imageError = ''
-    if (imageRes.ok) {
-      const imgJson = (await imageRes.json()) as {
-        data?: { b64_json?: string; url?: string }[]
-      }
-      const b64 = imgJson.data?.[0]?.b64_json
-      if (b64) {
-        imageData = `data:image/png;base64,${b64}`
-      }
-    } else {
-      imageError = await imageRes.text()
-    }
-
-    // ── 리포트 응답 처리 ──
-    let report = ''
-    if (reportRes.ok) {
-      const reportJson = (await reportRes.json()) as {
-        choices?: { message?: { content?: string } }[]
-      }
-      report = reportJson.choices?.[0]?.message?.content || ''
-    }
-
-    // Gemini 폴백 (OpenAI 리포트 실패 시)
-    if (!report && env.GEMINI_API_KEY) {
-      report = await generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText)
-    }
-
-    report = extractReportJson(report)
+    const imageData = imageResult.data
+    const imageError = imageResult.error
+    const report = extractReportJson(reportRaw)
 
     // ══════════════════════════════════════════════════════════
-    // 3. 결과 반환
+    // 결과 반환
     // ══════════════════════════════════════════════════════════
     if (!imageData && !report) {
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
-      const isRegionBlock = imageError.includes('unsupported_country_region_territory')
 
-      if (isRegionBlock) {
+      if (isRegionBlocked(imageError)) {
         return new Response(JSON.stringify({
           error: `서비스 지역 제한 (${colo}): AI Gateway(OPENAI_BASE_URL) 설정이 필요합니다.`,
         }), {
