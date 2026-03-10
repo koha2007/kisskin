@@ -1,6 +1,7 @@
-// OpenAI Makeup Analysis API v2
+// OpenAI Makeup Analysis API v2 + Gemini fallback for region block
 interface Env {
   OPENAI_API_KEY: string
+  GEMINI_API_KEY?: string
 }
 
 interface RequestBody {
@@ -10,6 +11,70 @@ interface RequestBody {
   gender: string
   skinType: string
   lang?: string
+}
+
+// OpenAI 지역 차단 에러 감지
+async function isRegionBlocked(res: Response): Promise<{ blocked: boolean; body?: string }> {
+  if (res.ok) return { blocked: false }
+  const body = await res.text()
+  if (body.includes('unsupported_country_region_territory') || res.status === 403) {
+    return { blocked: true, body }
+  }
+  return { blocked: false, body }
+}
+
+// Gemini API로 리포트 생성 (지역 제한 없음)
+async function generateReportWithGemini(
+  apiKey: string,
+  photoDataUrl: string,
+  systemPrompt: string,
+  userText: string,
+): Promise<string> {
+  const base64 = photoDataUrl.split(',')[1]
+  const mimeMatch = photoDataUrl.match(/^data:(.+?);/)
+  const mimeType = mimeMatch?.[1] || 'image/jpeg'
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              { inline_data: { mime_type: mimeType, data: base64 } },
+              { text: userText },
+            ],
+          },
+        ],
+        generationConfig: { temperature: 1.0, maxOutputTokens: 2048 },
+      }),
+    },
+  )
+
+  if (!res.ok) return ''
+
+  const json = (await res.json()) as {
+    candidates?: { content?: { parts?: { text?: string }[] } }[]
+  }
+  return json.candidates?.[0]?.content?.parts?.[0]?.text || ''
+}
+
+// JSON 추출 및 검증
+function extractReportJson(raw: string): string {
+  if (!raw) return ''
+  try {
+    const jsonMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
+    const jsonStr = jsonMatch ? jsonMatch[1].trim() : raw.trim()
+    const parsed = JSON.parse(jsonStr)
+    if (parsed && Array.isArray(parsed.products) && (parsed.analysis || typeof parsed.summary === 'string')) {
+      return JSON.stringify(parsed)
+    }
+  } catch { /* JSON 파싱 실패 시 원본 텍스트 유지 */ }
+  return raw
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
@@ -48,16 +113,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     // 프론트에서 전달된 그리드 사이즈 사용 (원본 비율 유지)
     const imageSize = gridSize || '1024x1024'
 
-    // 1. 이미지 생성 (gpt-image-1.5) - 9가지 메이크업 3x3 그리드
-    const formData = new FormData()
-    formData.append('image', imageBlob, ext)
-    formData.append('model', 'gpt-image-1.5')
-    formData.append('n', '1')
-    formData.append('size', imageSize)
-    formData.append('quality', 'high')
-    formData.append('background', 'auto')
-    formData.append('moderation', 'auto')
-    formData.append('input_fidelity', 'high')
+    // ── 이미지 생성 FormData (재시도용 함수) ──
     const skinTypeInstruction = skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'
 
     const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 사진은 동일한 얼굴이 3×3 그리드로 배치된 것이야. 이 사람은 ${gender}이고 ${skinTypeInstruction} 반영해서 총 9가지 메이크업을 표현해줘.
@@ -115,15 +171,24 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
 핵심: 9가지 메이크업이 각각 확실히 다르게 보여야 해! 특히 1번(민낯)과 2번(물광)은 피부 질감으로, 3번은 립 컬러로, 4번과 8번은 아이 메이크업 스타일로, 5번은 통일 컬러로, 6번은 컨투어링으로, 7번은 블루 컬러로 차이를 확실하게 내야 해. 이미지 위에 어떤 글자도 렌더링하지 마.`
 
-    formData.append('prompt', gender === '남성' ? malePrompt : femalePrompt)
+    const imagePrompt = gender === '남성' ? malePrompt : femalePrompt
 
-    const imagePromise = fetch('https://api.openai.com/v1/images/edits', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
-      body: formData,
-    })
+    // FormData 생성 함수 (재시도 시 body가 소비되므로 매번 새로 만듦)
+    function buildImageFormData(): FormData {
+      const fd = new FormData()
+      fd.append('image', imageBlob, ext)
+      fd.append('model', 'gpt-image-1.5')
+      fd.append('n', '1')
+      fd.append('size', imageSize)
+      fd.append('quality', 'high')
+      fd.append('background', 'auto')
+      fd.append('moderation', 'auto')
+      fd.append('input_fidelity', 'high')
+      fd.append('prompt', imagePrompt)
+      return fd
+    }
 
-    // 2. 텍스트 보고서 (gpt-4.1) - 화장품 추천
+    // ── 리포트 시스템 프롬프트 ──
     const isEn = lang === 'en'
     const reportSystemPrompt = isEn
       ? `You are a professional makeup artist and cosmetics expert.
@@ -160,7 +225,39 @@ Rules:
 - 가격은 미국 달러($)로 대략적인 정가를 표기하세요
 - 피부타입에서 잘 모름이면 사진을 보고 판단해서 추천하세요`
 
-    const reportPromise = fetch('https://api.openai.com/v1/chat/completions', {
+    const reportUserText = `${gender}\n${skinType}`
+
+    // ══════════════════════════════════════════════
+    // 1. 이미지 생성 (OpenAI gpt-image-1.5) + 지역 차단 재시도
+    // ══════════════════════════════════════════════
+    let imageRes = await fetch('https://api.openai.com/v1/images/edits', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
+      body: buildImageFormData(),
+    })
+
+    const imgCheck = await isRegionBlocked(imageRes)
+    let imageRegionBlocked = imgCheck.blocked
+
+    // 지역 차단 시 1회 재시도 (smart placement가 다른 colo로 라우팅할 수 있음)
+    if (imageRegionBlocked) {
+      imageRes = await fetch('https://api.openai.com/v1/images/edits', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${env.OPENAI_API_KEY}` },
+        body: buildImageFormData(),
+      })
+      const retryCheck = await isRegionBlocked(imageRes)
+      imageRegionBlocked = retryCheck.blocked
+    }
+
+    // ══════════════════════════════════════════════
+    // 2. 리포트 생성: OpenAI → Gemini 폴백
+    // ══════════════════════════════════════════════
+    let report = ''
+    let reportRegionBlocked = false
+
+    // 2a. OpenAI 시도
+    const reportRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -169,15 +266,12 @@ Rules:
       body: JSON.stringify({
         model: 'gpt-4.1',
         messages: [
-          {
-            role: 'system',
-            content: reportSystemPrompt,
-          },
+          { role: 'system', content: reportSystemPrompt },
           {
             role: 'user',
             content: [
               { type: 'image_url', image_url: { url: photo } },
-              { type: 'text', text: `${gender}\n${skinType}` },
+              { type: 'text', text: reportUserText },
             ],
           },
         ],
@@ -187,13 +281,35 @@ Rules:
       }),
     })
 
-    // 병렬 실행
-    const [imageRes, reportRes] = await Promise.all([imagePromise, reportPromise])
+    if (reportRes.ok) {
+      const reportJson = (await reportRes.json()) as {
+        choices?: { message?: { content?: string } }[]
+      }
+      report = reportJson.choices?.[0]?.message?.content || ''
+    } else {
+      const rptCheck = await isRegionBlocked(reportRes)
+      reportRegionBlocked = rptCheck.blocked
+    }
 
-    // 이미지 응답 처리
+    // 2b. OpenAI 실패 + Gemini API 키가 있으면 Gemini로 폴백
+    if (!report && env.GEMINI_API_KEY) {
+      report = await generateReportWithGemini(
+        env.GEMINI_API_KEY,
+        photo,
+        reportSystemPrompt,
+        reportUserText,
+      )
+    }
+
+    // JSON 정제
+    report = extractReportJson(report)
+
+    // ══════════════════════════════════════════════
+    // 3. 이미지 응답 처리
+    // ══════════════════════════════════════════════
     let imageData = ''
     if (imageRes.ok) {
-      const imgJson = await imageRes.json() as {
+      const imgJson = (await imageRes.json()) as {
         data: { b64_json?: string; url?: string }[]
       }
       const imgResult = imgJson.data?.[0]
@@ -211,35 +327,24 @@ Rules:
       }
     }
 
-    // 보고서 응답 처리
-    let report = ''
-    if (reportRes.ok) {
-      const reportJson = await reportRes.json() as {
-        choices?: { message?: { content?: string } }[]
-      }
-      report = reportJson.choices?.[0]?.message?.content || ''
-
-      // JSON 추출 및 검증
-      if (report) {
-        try {
-          const jsonMatch = report.match(/```(?:json)?\s*([\s\S]*?)```/)
-          const jsonStr = jsonMatch ? jsonMatch[1].trim() : report.trim()
-          const parsed = JSON.parse(jsonStr)
-          if (parsed && Array.isArray(parsed.products) && (parsed.analysis || typeof parsed.summary === 'string')) {
-            report = JSON.stringify(parsed)
-          }
-        } catch {
-          // JSON 파싱 실패 시 원본 텍스트 유지 (마크다운 폴백)
-        }
-      }
-    }
-
+    // ══════════════════════════════════════════════
+    // 4. 결과 반환
+    // ══════════════════════════════════════════════
     if (!imageData && !report) {
-      const errBody = !imageRes.ok ? await imageRes.text() : ''
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
+
+      if (imageRegionBlocked || reportRegionBlocked) {
+        return new Response(JSON.stringify({
+          error: `서비스 지역 제한 (${colo}): 현재 서버 위치에서 AI 서비스에 접근할 수 없습니다. 잠시 후 다시 시도해주세요.`,
+        }), {
+          status: 451,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${errBody || '이미지와 보고서 모두 생성 실패'}`,
+        error: `API 오류 (${colo}): 이미지와 보고서 모두 생성 실패`,
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
