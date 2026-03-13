@@ -253,8 +253,9 @@ Rules:
     // ══════════════════════════════════════════════════════════
     // 이미지 생성 함수: 직접 → Gateway 폴백
     // ══════════════════════════════════════════════════════════
-    async function generateImage(): Promise<{ data: string; error: string }> {
+    async function generateImage(): Promise<{ data: string; error: string; debug?: string }> {
       let lastError = ''
+      const debugSteps: string[] = []
 
       // 1차: 직접 OpenAI - gpt-image-1.5 (multipart, 최고 품질)
       try {
@@ -281,8 +282,8 @@ Rules:
         }
 
         lastError = await res.text()
-        // 직접 호출 실패 → 항상 다음 폴백 시도
-      } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
+        debugSteps.push(`1.direct:FAIL(${res.status})`)
+      } catch (e) { lastError = e instanceof Error ? e.message : String(e); debugSteps.push(`1.direct:ERR(${lastError.slice(0,50)})`) }
 
       // 2차: AI Gateway - gpt-4o + Responses API (JSON, Gateway 호환)
       if (gatewayUrl) {
@@ -323,19 +324,26 @@ Rules:
             }
           }
           lastError = await res.text()
-        } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
+          debugSteps.push(`2.gateway:FAIL(${res.status})`)
+        } catch (e) { lastError = e instanceof Error ? e.message : String(e); debugSteps.push(`2.gateway:ERR(${lastError.slice(0,50)})`) }
+      } else {
+        debugSteps.push('2.gateway:SKIP(no URL)')
       }
 
       // 3차: Gemini 이미지 생성 (지역 제한 없음)
       if (env.GEMINI_API_KEY) {
+        debugSteps.push('3.gemini:TRYING')
         try {
           const geminiResult = await generateImageWithGemini(env.GEMINI_API_KEY, imageSource, imagePrompt)
           if (geminiResult) return { data: geminiResult, error: '' }
           lastError = 'Gemini returned empty result'
-        } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
+          debugSteps.push('3.gemini:EMPTY')
+        } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}`; debugSteps.push(`3.gemini:ERR(${lastError.slice(0,80)})`) }
+      } else {
+        debugSteps.push('3.gemini:SKIP(no key)')
       }
 
-      return { data: '', error: lastError || 'All image generation methods failed' }
+      return { data: '', error: lastError || 'All image generation methods failed', debug: debugSteps.join(' → ') }
     }
 
     // ══════════════════════════════════════════════════════════
@@ -412,6 +420,7 @@ Rules:
 
     const imageData = imageResult.data
     const imageError = imageResult.error
+    const imageDebug = imageResult.debug || ''
     const report = extractReportJson(reportRaw)
 
     // ══════════════════════════════════════════════════════════
@@ -430,7 +439,7 @@ Rules:
       }
 
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${imageError.slice(0, 200) || '이미지와 보고서 모두 생성 실패'}`,
+        error: `API 오류 (${colo}): ${imageError.slice(0, 200) || '이미지와 보고서 모두 생성 실패'} [DEBUG: ${imageDebug} | hasGeminiKey:${!!env.GEMINI_API_KEY} | hasGatewayUrl:${!!gatewayUrl}]`,
       }), {
         status: 500, headers: { 'Content-Type': 'application/json' },
       })
