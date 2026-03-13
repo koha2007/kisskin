@@ -69,6 +69,48 @@ async function generateReportWithGemini(
   return json.candidates?.[0]?.content?.parts?.[0]?.text || ''
 }
 
+// Gemini API로 이미지 생성 (지역 제한 없음, 3차 폴백)
+async function generateImageWithGemini(
+  apiKey: string,
+  imageDataUrl: string,
+  prompt: string,
+): Promise<string> {
+  const base64 = imageDataUrl.split(',')[1]
+  const mimeMatch = imageDataUrl.match(/^data:(.+?);/)
+  const mimeType = mimeMatch?.[1] || 'image/jpeg'
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          role: 'user',
+          parts: [
+            { inline_data: { mime_type: mimeType, data: base64 } },
+            { text: prompt },
+          ],
+        }],
+        generationConfig: {
+          responseModalities: ['IMAGE'],
+          responseMimeType: 'image/png',
+        },
+      }),
+    },
+  )
+  if (!res.ok) return ''
+  const json = (await res.json()) as {
+    candidates?: { content?: { parts?: { inline_data?: { mime_type?: string; data?: string } }[] } }[]
+  }
+  const imgPart = json.candidates?.[0]?.content?.parts?.find(p => p.inline_data?.data)
+  if (imgPart?.inline_data?.data) {
+    const mime = imgPart.inline_data.mime_type || 'image/png'
+    return `data:${mime};base64,${imgPart.inline_data.data}`
+  }
+  return ''
+}
+
 // JSON 추출 및 검증
 function extractReportJson(raw: string): string {
   if (!raw) return ''
@@ -281,13 +323,19 @@ Rules:
               return { data: `data:image/png;base64,${imgOutput.result}`, error: '' }
             }
           }
-          return { data: '', error: await res.text() }
-        } catch (e) {
-          return { data: '', error: e instanceof Error ? e.message : String(e) }
-        }
+          // Gateway 실패 → Gemini 폴백으로 진행
+        } catch { /* Gateway 실패 → Gemini 폴백 */ }
       }
 
-      return { data: '', error: 'Region blocked and no AI Gateway configured' }
+      // 3차: Gemini 이미지 생성 (지역 제한 없음)
+      if (env.GEMINI_API_KEY) {
+        try {
+          const geminiResult = await generateImageWithGemini(env.GEMINI_API_KEY, imageSource, imagePrompt)
+          if (geminiResult) return { data: geminiResult, error: '' }
+        } catch { /* Gemini 실패 */ }
+      }
+
+      return { data: '', error: 'All image generation methods failed (direct, gateway, gemini)' }
     }
 
     // ══════════════════════════════════════════════════════════
