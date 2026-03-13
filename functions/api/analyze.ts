@@ -80,7 +80,7 @@ async function generateImageWithGemini(
   const mimeType = mimeMatch?.[1] || 'image/jpeg'
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -253,6 +253,8 @@ Rules:
     // 이미지 생성 함수: 직접 → Gateway 폴백
     // ══════════════════════════════════════════════════════════
     async function generateImage(): Promise<{ data: string; error: string }> {
+      let lastError = ''
+
       // 1차: 직접 OpenAI - gpt-image-1.5 (multipart, 최고 품질)
       try {
         const form = new FormData()
@@ -277,13 +279,9 @@ Rules:
           if (b64) return { data: `data:image/png;base64,${b64}`, error: '' }
         }
 
-        const errText = await res.text()
-        // 지역 차단이 아니면 여기서 에러 반환
-        if (!isRegionBlocked(errText)) {
-          return { data: '', error: errText }
-        }
-        // 지역 차단 → Gateway 폴백으로 진행
-      } catch { /* 직접 연결 실패 → 폴백 */ }
+        lastError = await res.text()
+        // 직접 호출 실패 → 항상 다음 폴백 시도
+      } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
 
       // 2차: AI Gateway - gpt-4o + Responses API (JSON, Gateway 호환)
       if (gatewayUrl) {
@@ -323,8 +321,8 @@ Rules:
               return { data: `data:image/png;base64,${imgOutput.result}`, error: '' }
             }
           }
-          // Gateway 실패 → Gemini 폴백으로 진행
-        } catch { /* Gateway 실패 → Gemini 폴백 */ }
+          lastError = await res.text()
+        } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
       }
 
       // 3차: Gemini 이미지 생성 (지역 제한 없음)
@@ -332,10 +330,11 @@ Rules:
         try {
           const geminiResult = await generateImageWithGemini(env.GEMINI_API_KEY, imageSource, imagePrompt)
           if (geminiResult) return { data: geminiResult, error: '' }
-        } catch { /* Gemini 실패 */ }
+          lastError = 'Gemini returned empty result'
+        } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
       }
 
-      return { data: '', error: 'All image generation methods failed (direct, gateway, gemini)' }
+      return { data: '', error: lastError || 'All image generation methods failed' }
     }
 
     // ══════════════════════════════════════════════════════════
@@ -374,11 +373,8 @@ Rules:
           }
           const content = json.choices?.[0]?.message?.content || ''
           if (content) return content
-        } else {
-          const errText = await res.text()
-          // 지역 차단이 아니면 여기서 중단
-          if (!isRegionBlocked(errText)) return ''
         }
+        // 직접 호출 실패 → 항상 다음 폴백 시도
       } catch { /* 폴백 */ }
 
       // 2차: AI Gateway
