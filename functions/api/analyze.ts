@@ -54,7 +54,7 @@ async function generateReportWithGemini(
         contents: [{
           role: 'user',
           parts: [
-            { inline_data: { mime_type: mimeType, data: base64 } },
+            { inlineData: { mimeType, data: base64 } },
             { text: userText },
           ],
         }],
@@ -88,7 +88,7 @@ async function generateImageWithGemini(
         contents: [{
           role: 'user',
           parts: [
-            { inline_data: { mime_type: mimeType, data: base64 } },
+            { inlineData: { mimeType, data: base64 } },
             { text: prompt },
           ],
         }],
@@ -100,13 +100,14 @@ async function generateImageWithGemini(
     },
   )
   if (!res.ok) return ''
+  // Gemini REST API 응답은 camelCase (inlineData, mimeType)
   const json = (await res.json()) as {
-    candidates?: { content?: { parts?: { inline_data?: { mime_type?: string; data?: string } }[] } }[]
+    candidates?: { content?: { parts?: { inlineData?: { mimeType?: string; data?: string } }[] } }[]
   }
-  const imgPart = json.candidates?.[0]?.content?.parts?.find(p => p.inline_data?.data)
-  if (imgPart?.inline_data?.data) {
-    const mime = imgPart.inline_data.mime_type || 'image/png'
-    return `data:${mime};base64,${imgPart.inline_data.data}`
+  const imgPart = json.candidates?.[0]?.content?.parts?.find(p => p.inlineData?.data)
+  if (imgPart?.inlineData?.data) {
+    const mime = imgPart.inlineData.mimeType || 'image/png'
+    return `data:${mime};base64,${imgPart.inlineData.data}`
   }
   return ''
 }
