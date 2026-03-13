@@ -70,6 +70,7 @@ async function generateReportWithGemini(
 }
 
 // Gemini API로 이미지 생성 (지역 제한 없음, 3차 폴백)
+// gemini-2.0-flash-exp → gemini-2.5-flash-preview-04-17 순서로 시도
 async function generateImageWithGemini(
   apiKey: string,
   imageDataUrl: string,
@@ -79,35 +80,40 @@ async function generateImageWithGemini(
   const mimeMatch = imageDataUrl.match(/^data:(.+?);/)
   const mimeType = mimeMatch?.[1] || 'image/jpeg'
 
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          role: 'user',
-          parts: [
-            { inlineData: { mimeType, data: base64 } },
-            { text: prompt },
-          ],
-        }],
-        generationConfig: {
-          responseModalities: ['IMAGE'],
-          responseMimeType: 'image/png',
+  const models = ['gemini-2.0-flash-exp', 'gemini-2.5-flash-preview-04-17']
+
+  for (const model of models) {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              role: 'user',
+              parts: [
+                { inlineData: { mimeType, data: base64 } },
+                { text: prompt },
+              ],
+            }],
+            generationConfig: {
+              responseModalities: ['IMAGE', 'TEXT'],
+            },
+          }),
         },
-      }),
-    },
-  )
-  if (!res.ok) return ''
-  // Gemini REST API 응답은 camelCase (inlineData, mimeType)
-  const json = (await res.json()) as {
-    candidates?: { content?: { parts?: { inlineData?: { mimeType?: string; data?: string } }[] } }[]
-  }
-  const imgPart = json.candidates?.[0]?.content?.parts?.find(p => p.inlineData?.data)
-  if (imgPart?.inlineData?.data) {
-    const mime = imgPart.inlineData.mimeType || 'image/png'
-    return `data:${mime};base64,${imgPart.inlineData.data}`
+      )
+      if (!res.ok) continue
+      // Gemini REST API 응답은 camelCase (inlineData, mimeType)
+      const json = (await res.json()) as {
+        candidates?: { content?: { parts?: { inlineData?: { mimeType?: string; data?: string } }[] } }[]
+      }
+      const imgPart = json.candidates?.[0]?.content?.parts?.find(p => p.inlineData?.data)
+      if (imgPart?.inlineData?.data) {
+        const mime = imgPart.inlineData.mimeType || 'image/png'
+        return `data:${mime};base64,${imgPart.inlineData.data}`
+      }
+    } catch { /* 다음 모델 시도 */ }
   }
   return ''
 }
@@ -326,12 +332,15 @@ Rules:
       }
 
       // 3차: Gemini 이미지 생성 (지역 제한 없음)
-      if (env.GEMINI_API_KEY) {
+      const geminiKey = env.GEMINI_API_KEY
+      if (geminiKey) {
         try {
-          const geminiResult = await generateImageWithGemini(env.GEMINI_API_KEY, imageSource, imagePrompt)
+          const geminiResult = await generateImageWithGemini(geminiKey, imageSource, imagePrompt)
           if (geminiResult) return { data: geminiResult, error: '' }
-          lastError = 'Gemini returned empty result'
+          lastError = 'Gemini: all models returned empty (image gen not supported or blocked)'
         } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
+      } else {
+        lastError += ' | No GEMINI_API_KEY'
       }
 
       return { data: '', error: lastError || 'All image generation methods failed' }
