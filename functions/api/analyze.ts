@@ -102,8 +102,10 @@ async function generateImageWithGemini(
     ? imageModels.split(',').map(m => m.trim())
     : ['gemini-2.5-flash-image', 'gemini-3.1-flash-image-preview']
 
+  const errors: string[] = []
   for (const model of models) {
     try {
+      console.log(`[kisskin] Trying Gemini image model: ${model}`)
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
         {
@@ -123,19 +125,31 @@ async function generateImageWithGemini(
           }),
         },
       )
-      if (!res.ok) continue
-      // Gemini REST API 응답은 camelCase (inlineData, mimeType)
+      if (!res.ok) {
+        const errText = await res.text()
+        console.error(`[kisskin] Gemini ${model} failed (${res.status}): ${errText.slice(0, 300)}`)
+        errors.push(`${model}:${res.status}:${errText.slice(0, 100)}`)
+        continue
+      }
       const json = (await res.json()) as {
         candidates?: { content?: { parts?: { inlineData?: { mimeType?: string; data?: string } }[] } }[]
       }
       const imgPart = json.candidates?.[0]?.content?.parts?.find(p => p.inlineData?.data)
       if (imgPart?.inlineData?.data) {
         const mime = imgPart.inlineData.mimeType || 'image/png'
+        console.log(`[kisskin] Gemini ${model} success`)
         return `data:${mime};base64,${imgPart.inlineData.data}`
       }
-    } catch { /* 다음 모델 시도 */ }
+      console.warn(`[kisskin] Gemini ${model} returned OK but no image data`)
+      errors.push(`${model}:ok-but-no-image`)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error(`[kisskin] Gemini ${model} exception: ${msg}`)
+      errors.push(`${model}:exception:${msg}`)
+    }
   }
-  return ''
+  // 빈 문자열 대신 에러 정보를 포함하여 디버깅 가능하게
+  return errors.length > 0 ? `__GEMINI_ERROR__:${errors.join('|')}` : ''
 }
 
 // JSON 추출 및 검증
@@ -358,8 +372,11 @@ Rules:
       if (geminiKey) {
         try {
           const geminiResult = await generateImageWithGemini(geminiKey, imageSource, imagePrompt, env.GEMINI_IMAGE_MODELS)
-          if (geminiResult) return { data: geminiResult, error: '' }
-          lastError = 'Gemini: all models returned empty (image gen not supported or blocked)'
+          if (geminiResult && !geminiResult.startsWith('__GEMINI_ERROR__')) {
+            return { data: geminiResult, error: '' }
+          }
+          const detail = geminiResult?.replace('__GEMINI_ERROR__:', '') || 'no data'
+          lastError = `Gemini failed: ${detail}`
         } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
       } else {
         lastError += ' | No GEMINI_API_KEY'
