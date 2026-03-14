@@ -6,6 +6,8 @@ interface Env {
   OPENAI_API_KEY: string
   OPENAI_BASE_URL?: string
   GEMINI_API_KEY?: string
+  GEMINI_IMAGE_MODELS?: string  // 쉼표 구분, 예: "gemini-2.5-flash-image,gemini-3.1-flash-image-preview"
+  GEMINI_REPORT_MODEL?: string  // 예: "gemini-2.5-flash"
 }
 
 interface RequestBody {
@@ -33,15 +35,17 @@ function isRegionBlocked(text: string): boolean {
   return text.includes('unsupported_country_region_territory')
 }
 
-// Gemini 모델 만료일 체크 (콘솔 경고)
-const GEMINI_MODEL_EXPIRY = new Date('2026-06-17')
-function checkModelExpiry() {
+// 기본 모델 만료일 경고 (환경변수로 모델 지정 시 불필요)
+const DEFAULT_MODEL_EXPIRY = new Date('2026-06-17')
+function checkModelExpiry(env: Env) {
+  // 환경변수로 모델을 직접 관리 중이면 경고 스킵
+  if (env.GEMINI_IMAGE_MODELS || env.GEMINI_REPORT_MODEL) return
   const now = new Date()
-  const daysLeft = Math.ceil((GEMINI_MODEL_EXPIRY.getTime() - now.getTime()) / 86400000)
+  const daysLeft = Math.ceil((DEFAULT_MODEL_EXPIRY.getTime() - now.getTime()) / 86400000)
   if (daysLeft <= 14 && daysLeft > 0) {
-    console.warn(`⚠️ [kisskin] Gemini models expire in ${daysLeft} days (2026-06-17). Update model names in analyze.ts!`)
+    console.warn(`⚠️ [kisskin] Default Gemini models expire in ${daysLeft} days. Set GEMINI_IMAGE_MODELS / GEMINI_REPORT_MODEL env vars to override.`)
   } else if (daysLeft <= 0) {
-    console.error(`🚨 [kisskin] Gemini models EXPIRED! Update model names immediately. See: https://ai.google.dev/gemini-api/docs/models`)
+    console.error(`🚨 [kisskin] Default Gemini models EXPIRED! Set GEMINI_IMAGE_MODELS / GEMINI_REPORT_MODEL in Cloudflare env vars. See: https://ai.google.dev/gemini-api/docs/models`)
   }
 }
 
@@ -51,13 +55,15 @@ async function generateReportWithGemini(
   photoDataUrl: string,
   systemPrompt: string,
   userText: string,
+  reportModel?: string,
 ): Promise<string> {
+  const model = reportModel || 'gemini-2.5-flash'
   const base64 = photoDataUrl.split(',')[1]
   const mimeMatch = photoDataUrl.match(/^data:(.+?);/)
   const mimeType = mimeMatch?.[1] || 'image/jpeg'
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -82,17 +88,19 @@ async function generateReportWithGemini(
 }
 
 // Gemini API로 이미지 생성 (지역 제한 없음, 3차 폴백)
-// gemini-2.5-flash-image → gemini-3.1-flash-image-preview 순서로 시도
 async function generateImageWithGemini(
   apiKey: string,
   imageDataUrl: string,
   prompt: string,
+  imageModels?: string,
 ): Promise<string> {
   const base64 = imageDataUrl.split(',')[1]
   const mimeMatch = imageDataUrl.match(/^data:(.+?);/)
   const mimeType = mimeMatch?.[1] || 'image/jpeg'
 
-  const models = ['gemini-2.5-flash-image', 'gemini-3.1-flash-image-preview']
+  const models = imageModels
+    ? imageModels.split(',').map(m => m.trim())
+    : ['gemini-2.5-flash-image', 'gemini-3.1-flash-image-preview']
 
   for (const model of models) {
     try {
@@ -147,7 +155,7 @@ function extractReportJson(raw: string): string {
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
-  checkModelExpiry()
+  checkModelExpiry(env)
 
   if (!env.OPENAI_API_KEY) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), {
@@ -349,7 +357,7 @@ Rules:
       const geminiKey = env.GEMINI_API_KEY
       if (geminiKey) {
         try {
-          const geminiResult = await generateImageWithGemini(geminiKey, imageSource, imagePrompt)
+          const geminiResult = await generateImageWithGemini(geminiKey, imageSource, imagePrompt, env.GEMINI_IMAGE_MODELS)
           if (geminiResult) return { data: geminiResult, error: '' }
           lastError = 'Gemini: all models returned empty (image gen not supported or blocked)'
         } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
@@ -418,7 +426,7 @@ Rules:
 
       // 3차: Gemini
       if (env.GEMINI_API_KEY) {
-        return generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText)
+        return generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText, env.GEMINI_REPORT_MODEL)
       }
 
       return ''
