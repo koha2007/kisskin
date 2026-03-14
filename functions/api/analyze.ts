@@ -70,7 +70,7 @@ async function generateReportWithGemini(
 }
 
 // Gemini API로 이미지 생성 (지역 제한 없음, 3차 폴백)
-// gemini-2.0-flash-exp → gemini-2.5-flash-preview-04-17 순서로 시도
+// gemini-2.5-flash-image → gemini-3.1-flash-image-preview 순서로 시도
 async function generateImageWithGemini(
   apiKey: string,
   imageDataUrl: string,
@@ -80,7 +80,7 @@ async function generateImageWithGemini(
   const mimeMatch = imageDataUrl.match(/^data:(.+?);/)
   const mimeType = mimeMatch?.[1] || 'image/jpeg'
 
-  const models = ['gemini-2.0-flash-exp', 'gemini-2.5-flash-preview-04-17']
+  const models = ['gemini-2.5-flash-image', 'gemini-3.1-flash-image-preview']
 
   for (const model of models) {
     try {
