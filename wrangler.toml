@@ -7,4 +7,4 @@ compatibility_flags = ["nodejs_compat"]
 mode = "smart"
 
 [vars]
-GEMINI_API_KEY = "AIzaSyBde5bogNbPXbG0-4xK0_0U76V-WAlPG58"
+# GEMINI_API_KEY는 Cloudflare 대시보드 Environment variables에서 시크릿으로 관리
