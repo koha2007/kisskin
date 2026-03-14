@@ -1,7 +1,7 @@
-// OpenAI Makeup Analysis API v6
-// - 이미지: 직접 gpt-image-1.5 (multipart) → 지역 차단 시 AI Gateway gpt-4o (JSON)
-// - 리포트: 직접 gpt-4.1 → 지역 차단 시 AI Gateway → Gemini 폴백
-// - 모든 지역에서 작동하도록 다중 폴백
+// Makeup Analysis API v7 — Gemini 우선, OpenAI 폴백 (비용 절감)
+// - 이미지: Gemini (gemini-2.5-flash-image) → OpenAI gpt-image-1.5 → AI Gateway gpt-4o
+// - 리포트: Gemini (gemini-2.5-flash) → OpenAI gpt-4.1 → AI Gateway
+// - 모델명은 환경변수(GEMINI_IMAGE_MODELS, GEMINI_REPORT_MODEL)로 변경 가능
 interface Env {
   OPENAI_API_KEY: string
   OPENAI_BASE_URL?: string
@@ -293,13 +293,32 @@ Rules:
     const reportUserText = `${gender}\n${skinType}`
 
     // ══════════════════════════════════════════════════════════
-    // 이미지 생성 함수: 직접 → Gateway 폴백
+    // 이미지 생성 함수: Gemini 우선 → OpenAI 폴백 (비용 절감)
     // ══════════════════════════════════════════════════════════
     async function generateImage(): Promise<{ data: string; error: string }> {
       let lastError = ''
 
-      // 1차: 직접 OpenAI - gpt-image-1.5 (multipart, 최고 품질)
+      // 1차: Gemini 이미지 생성 (저렴, 지역 제한 없음)
+      const geminiKey = env.GEMINI_API_KEY
+      if (geminiKey) {
+        try {
+          console.log('[kisskin] Trying Gemini image generation (1st)')
+          const geminiResult = await generateImageWithGemini(geminiKey, imageSource, imagePrompt, env.GEMINI_IMAGE_MODELS)
+          if (geminiResult && !geminiResult.startsWith('__GEMINI_ERROR__')) {
+            return { data: geminiResult, error: '' }
+          }
+          const detail = geminiResult?.replace('__GEMINI_ERROR__:', '') || 'no data'
+          lastError = `Gemini: ${detail}`
+          console.warn(`[kisskin] Gemini failed, falling back to OpenAI: ${detail.slice(0, 100)}`)
+        } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
+      } else {
+        console.warn('[kisskin] No GEMINI_API_KEY, skipping Gemini')
+        lastError = 'No GEMINI_API_KEY'
+      }
+
+      // 2차: 직접 OpenAI - gpt-image-1.5 (폴백)
       try {
+        console.log('[kisskin] Trying OpenAI direct (2nd)')
         const form = new FormData()
         form.append('image', dataUrlToBlob(imageSource), 'photo.jpg')
         form.append('prompt', imagePrompt)
@@ -325,9 +344,10 @@ Rules:
         lastError = await res.text()
       } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
 
-      // 2차: AI Gateway - gpt-4o + Responses API (JSON, Gateway 호환)
+      // 3차: AI Gateway - gpt-4o (최후 폴백)
       if (gatewayUrl) {
         try {
+          console.log('[kisskin] Trying OpenAI Gateway (3rd)')
           const body = JSON.stringify({
             model: 'gpt-4o',
             input: [{
@@ -367,28 +387,26 @@ Rules:
         } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
       }
 
-      // 3차: Gemini 이미지 생성 (지역 제한 없음)
-      const geminiKey = env.GEMINI_API_KEY
-      if (geminiKey) {
-        try {
-          const geminiResult = await generateImageWithGemini(geminiKey, imageSource, imagePrompt, env.GEMINI_IMAGE_MODELS)
-          if (geminiResult && !geminiResult.startsWith('__GEMINI_ERROR__')) {
-            return { data: geminiResult, error: '' }
-          }
-          const detail = geminiResult?.replace('__GEMINI_ERROR__:', '') || 'no data'
-          lastError = `Gemini failed: ${detail}`
-        } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
-      } else {
-        lastError += ' | No GEMINI_API_KEY'
-      }
-
       return { data: '', error: lastError || 'All image generation methods failed' }
     }
 
     // ══════════════════════════════════════════════════════════
-    // 리포트 생성 함수: 직접 → Gateway → Gemini 폴백
+    // 리포트 생성 함수: Gemini 우선 → OpenAI 폴백 (비용 절감)
     // ══════════════════════════════════════════════════════════
     async function generateReport(): Promise<string> {
+      // 1차: Gemini (저렴, 지역 제한 없음)
+      if (env.GEMINI_API_KEY) {
+        try {
+          console.log('[kisskin] Trying Gemini report (1st)')
+          const result = await generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText, env.GEMINI_REPORT_MODEL)
+          if (result) return result
+          console.warn('[kisskin] Gemini report empty, falling back to OpenAI')
+        } catch (e) {
+          console.warn(`[kisskin] Gemini report failed: ${e instanceof Error ? e.message : String(e)}`)
+        }
+      }
+
+      // 2차: 직접 OpenAI (폴백)
       const reportBody = JSON.stringify({
         model: 'gpt-4.1',
         messages: [
@@ -410,8 +428,8 @@ Rules:
         'Authorization': authHeader,
       }
 
-      // 1차: 직접 OpenAI
       try {
+        console.log('[kisskin] Trying OpenAI direct report (2nd)')
         const res = await fetch(`${directUrl}/v1/chat/completions`, {
           method: 'POST', headers: jsonHeaders, body: reportBody,
         })
@@ -422,12 +440,12 @@ Rules:
           const content = json.choices?.[0]?.message?.content || ''
           if (content) return content
         }
-        // 직접 호출 실패 → 항상 다음 폴백 시도
       } catch { /* 폴백 */ }
 
-      // 2차: AI Gateway
+      // 3차: AI Gateway (최후 폴백)
       if (gatewayUrl) {
         try {
+          console.log('[kisskin] Trying OpenAI Gateway report (3rd)')
           const res = await fetch(`${gatewayUrl}/v1/chat/completions`, {
             method: 'POST', headers: jsonHeaders, body: reportBody,
           })
@@ -439,11 +457,6 @@ Rules:
             if (content) return content
           }
         } catch { /* 폴백 */ }
-      }
-
-      // 3차: Gemini
-      if (env.GEMINI_API_KEY) {
-        return generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText, env.GEMINI_REPORT_MODEL)
       }
 
       return ''
