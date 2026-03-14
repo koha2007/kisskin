@@ -327,7 +327,9 @@ function App() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || t('error.analysisError'))
+        // 기술적 에러는 콘솔에만 표시, 사용자에게는 친절한 메시지
+        console.error('[kissinskin] API error:', data.error)
+        throw new Error(t('error.analysisError'))
       }
 
       // 이미지 또는 리포트가 없으면 실패 → 자동 환불
