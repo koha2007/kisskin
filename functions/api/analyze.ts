@@ -152,17 +152,37 @@ async function generateImageWithGemini(
   return errors.length > 0 ? `__GEMINI_ERROR__:${errors.join('|')}` : ''
 }
 
-// JSON 추출 및 검증
+// JSON 추출 및 검증 (Gemini/OpenAI 응답 모두 호환)
 function extractReportJson(raw: string): string {
   if (!raw) return ''
-  try {
-    const jsonMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
-    const jsonStr = jsonMatch ? jsonMatch[1].trim() : raw.trim()
-    const parsed = JSON.parse(jsonStr)
-    if (parsed && Array.isArray(parsed.products) && (parsed.analysis || typeof parsed.summary === 'string')) {
-      return JSON.stringify(parsed)
-    }
-  } catch { /* 원본 유지 */ }
+
+  // 여러 패턴으로 JSON 추출 시도
+  const candidates: string[] = []
+
+  // 1. ```json ... ``` 코드펜스
+  const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
+  if (fenceMatch) candidates.push(fenceMatch[1].trim())
+
+  // 2. { ... } 중괄호 블록 직접 추출
+  const braceMatch = raw.match(/\{[\s\S]*\}/)
+  if (braceMatch) candidates.push(braceMatch[0].trim())
+
+  // 3. 원본 그대로
+  candidates.push(raw.trim())
+
+  for (const jsonStr of candidates) {
+    try {
+      const parsed = JSON.parse(jsonStr)
+      if (parsed && Array.isArray(parsed.products)) {
+        // analysis 객체가 있으면 toneDetail 등 확인
+        if (parsed.analysis || typeof parsed.summary === 'string') {
+          return JSON.stringify(parsed)
+        }
+      }
+    } catch { /* 다음 후보 시도 */ }
+  }
+
+  console.warn('[kisskin] Failed to extract JSON from report, returning raw')
   return raw
 }
 
@@ -198,8 +218,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 [가장 중요한 규칙 - 반드시 지켜]
 - 이미지에 글자, 텍스트, 라벨, 숫자, 영어, 한글, 워터마크, 캡션을 절대 절대 절대 넣지 마. 오직 얼굴과 메이크업만 보여줘. 텍스트가 포함되면 실패야.
 
-[절대 규칙]
-- 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해
+[절대 규칙 - 얼굴 보존이 최우선]
+- 사람의 얼굴 형태, 이목구비, 피부색, 얼굴 윤곽, 눈코입 위치와 크기를 절대 절대 변경하지 마. 원본 얼굴과 100% 동일해야 해. 얼굴이 다르게 보이면 완전한 실패야
+- 변경하는 것은 오직 메이크업(아이섀도, 립스틱, 블러셔, 아이라인, 하이라이터 등)뿐이야
 - 9칸 모두 얼굴 위치, 크기, 각도, 표정이 완전히 동일해야 해
 - 이빨이 보이면 깨끗하고 하얗고 고르게 보정해줘
 - 배경, 조명, 옷은 절대 변경하지 마
@@ -227,8 +248,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 [가장 중요한 규칙 - 반드시 지켜]
 - 이미지에 글자, 텍스트, 라벨, 숫자, 영어, 한글, 워터마크, 캡션을 절대 절대 절대 넣지 마. 오직 얼굴과 메이크업만 보여줘. 텍스트가 포함되면 실패야.
 
-[절대 규칙]
-- 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해
+[절대 규칙 - 얼굴 보존이 최우선]
+- 사람의 얼굴 형태, 이목구비, 피부색, 얼굴 윤곽, 눈코입 위치와 크기를 절대 절대 변경하지 마. 원본 얼굴과 100% 동일해야 해. 얼굴이 다르게 보이면 완전한 실패야
+- 변경하는 것은 오직 메이크업(아이섀도, 립스틱, 블러셔, 아이라인, 하이라이터, 컨투어링 등)뿐이야
 - 모든 스타일에서 피부톤을 밝고 화사하게 보정해줘. 깨끗하고 맑은 피부 느낌으로 예쁘게 표현해
 - 9칸 모두 얼굴 위치, 크기, 각도, 표정이 완전히 동일해야 해
 - 이빨이 보이면 깨끗하고 하얗고 고르게 보정해줘
