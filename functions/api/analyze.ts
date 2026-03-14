@@ -33,6 +33,18 @@ function isRegionBlocked(text: string): boolean {
   return text.includes('unsupported_country_region_territory')
 }
 
+// Gemini 모델 만료일 체크 (콘솔 경고)
+const GEMINI_MODEL_EXPIRY = new Date('2026-06-17')
+function checkModelExpiry() {
+  const now = new Date()
+  const daysLeft = Math.ceil((GEMINI_MODEL_EXPIRY.getTime() - now.getTime()) / 86400000)
+  if (daysLeft <= 14 && daysLeft > 0) {
+    console.warn(`⚠️ [kisskin] Gemini models expire in ${daysLeft} days (2026-06-17). Update model names in analyze.ts!`)
+  } else if (daysLeft <= 0) {
+    console.error(`🚨 [kisskin] Gemini models EXPIRED! Update model names immediately. See: https://ai.google.dev/gemini-api/docs/models`)
+  }
+}
+
 // Gemini API로 리포트 생성 (지역 제한 없음)
 async function generateReportWithGemini(
   apiKey: string,
@@ -134,6 +146,8 @@ function extractReportJson(raw: string): string {
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
+
+  checkModelExpiry()
 
   if (!env.OPENAI_API_KEY) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), {
