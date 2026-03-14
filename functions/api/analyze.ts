@@ -296,7 +296,7 @@ Rules:
     // 이미지 생성 함수: Gemini 우선 → OpenAI 폴백 (비용 절감)
     // ══════════════════════════════════════════════════════════
     async function generateImage(): Promise<{ data: string; error: string }> {
-      let lastError = ''
+      const errors: string[] = []
 
       // 1차: Gemini 이미지 생성 (저렴, 지역 제한 없음)
       const geminiKey = env.GEMINI_API_KEY
@@ -308,12 +308,14 @@ Rules:
             return { data: geminiResult, error: '' }
           }
           const detail = geminiResult?.replace('__GEMINI_ERROR__:', '') || 'no data'
-          lastError = `Gemini: ${detail}`
-          console.warn(`[kisskin] Gemini failed, falling back to OpenAI: ${detail.slice(0, 100)}`)
-        } catch (e) { lastError = `Gemini error: ${e instanceof Error ? e.message : String(e)}` }
+          errors.push(`[1.Gemini] ${detail.slice(0, 150)}`)
+          console.warn(`[kisskin] Gemini failed: ${detail.slice(0, 100)}`)
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e)
+          errors.push(`[1.Gemini] exception: ${msg.slice(0, 100)}`)
+        }
       } else {
-        console.warn('[kisskin] No GEMINI_API_KEY, skipping Gemini')
-        lastError = 'No GEMINI_API_KEY'
+        errors.push('[1.Gemini] NO_KEY')
       }
 
       // 2차: 직접 OpenAI - gpt-image-1.5 (폴백)
@@ -341,8 +343,11 @@ Rules:
           if (b64) return { data: `data:image/png;base64,${b64}`, error: '' }
         }
 
-        lastError = await res.text()
-      } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
+        const txt = await res.text()
+        errors.push(`[2.OpenAI] ${res.status}: ${txt.slice(0, 100)}`)
+      } catch (e) {
+        errors.push(`[2.OpenAI] ${e instanceof Error ? e.message : String(e)}`)
+      }
 
       // 3차: AI Gateway - gpt-4o (최후 폴백)
       if (gatewayUrl) {
@@ -383,11 +388,14 @@ Rules:
               return { data: `data:image/png;base64,${imgOutput.result}`, error: '' }
             }
           }
-          lastError = await res.text()
-        } catch (e) { lastError = e instanceof Error ? e.message : String(e) }
+          const txt = await res.text()
+          errors.push(`[3.Gateway] ${res.status}: ${txt.slice(0, 100)}`)
+        } catch (e) {
+          errors.push(`[3.Gateway] ${e instanceof Error ? e.message : String(e)}`)
+        }
       }
 
-      return { data: '', error: lastError || 'All image generation methods failed' }
+      return { data: '', error: errors.join(' | ') || 'All methods failed' }
     }
 
     // ══════════════════════════════════════════════════════════
