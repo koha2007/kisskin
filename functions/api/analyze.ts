@@ -511,17 +511,9 @@ Rules:
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
 
-      if (isRegionBlocked(imageError)) {
-        return new Response(JSON.stringify({
-          error: `서비스 지역 제한 (${colo}): AI Gateway(OPENAI_BASE_URL) 설정이 필요합니다.`,
-        }), {
-          status: 451, headers: { 'Content-Type': 'application/json' },
-        })
-      }
-
       const envDebug = `[GEMINI_KEY:${env.GEMINI_API_KEY ? 'set(' + env.GEMINI_API_KEY.slice(-4) + ')' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${imageError.slice(0, 200) || '이미지와 보고서 모두 생성 실패'} ${envDebug}`,
+        error: `API 오류 (${colo}): ${imageError.slice(0, 300) || '이미지와 보고서 모두 생성 실패'} ${envDebug}`,
       }), {
         status: 500, headers: { 'Content-Type': 'application/json' },
       })
