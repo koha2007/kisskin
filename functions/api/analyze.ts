@@ -1,13 +1,14 @@
-// Makeup Analysis API v7 — Gemini 우선, OpenAI 폴백 (비용 절감)
-// - 이미지: Gemini (gemini-2.5-flash-image) → OpenAI gpt-image-1.5 → AI Gateway gpt-4o
-// - 리포트: Gemini (gemini-2.5-flash) → OpenAI gpt-4.1 → AI Gateway
-// - 모델명은 환경변수(GEMINI_IMAGE_MODELS, GEMINI_REPORT_MODEL)로 변경 가능
+// Makeup Analysis API v8 — Gemini 우선, AI Gateway 폴백 (지역 차단 우회)
+// - 이미지: Gemini → AI Gateway gpt-image-1.5 → AI Gateway gpt-4o
+// - 리포트: Gemini → AI Gateway gpt-4.1 → 직접 OpenAI (폴백)
+// - AI Gateway BYOK: cf-aig-authorization 헤더 사용, 저장된 키 자동 주입
 interface Env {
   OPENAI_API_KEY: string
-  OPENAI_BASE_URL?: string
+  OPENAI_BASE_URL?: string       // AI Gateway URL (예: https://gateway.ai.cloudflare.com/v1/.../openai)
+  CF_AIG_TOKEN?: string           // AI Gateway 인증 토큰
   GEMINI_API_KEY?: string
-  GEMINI_IMAGE_MODELS?: string  // 쉼표 구분, 예: "gemini-2.5-flash-image,gemini-3.1-flash-image-preview"
-  GEMINI_REPORT_MODEL?: string  // 예: "gemini-2.5-flash"
+  GEMINI_IMAGE_MODELS?: string
+  GEMINI_REPORT_MODEL?: string
 }
 
 interface RequestBody {
@@ -342,41 +343,55 @@ Rules:
         errors.push('[1.Gemini] NO_KEY')
       }
 
-      // 2차: 직접 OpenAI - gpt-image-1.5 (폴백)
-      try {
-        console.log('[kisskin] Trying OpenAI direct (2nd)')
-        const form = new FormData()
-        form.append('image', dataUrlToBlob(imageSource), 'photo.jpg')
-        form.append('prompt', imagePrompt)
-        form.append('model', 'gpt-image-1.5')
-        form.append('n', '1')
-        form.append('size', imageSize)
-        form.append('quality', 'auto')
-        form.append('input_fidelity', 'high')
-        form.append('moderation', 'auto')
-
-        const res = await fetch(`${directUrl}/v1/images/edits`, {
-          method: 'POST',
-          headers: { 'Authorization': authHeader },
-          body: form,
-        })
-
-        if (res.ok) {
-          const json = (await res.json()) as { data?: { b64_json?: string }[] }
-          const b64 = json.data?.[0]?.b64_json
-          if (b64) return { data: `data:image/png;base64,${b64}`, error: '' }
-        }
-
-        const txt = await res.text()
-        errors.push(`[2.OpenAI] ${res.status}: ${txt.slice(0, 100)}`)
-      } catch (e) {
-        errors.push(`[2.OpenAI] ${e instanceof Error ? e.message : String(e)}`)
-      }
-
-      // 3차: AI Gateway - gpt-4o (최후 폴백)
+      // 2차: AI Gateway - gpt-image-1.5 (BYOK, 지역 차단 우회)
       if (gatewayUrl) {
         try {
-          console.log('[kisskin] Trying OpenAI Gateway (3rd)')
+          console.log('[kisskin] Trying Gateway gpt-image-1.5 (2nd)')
+          const form = new FormData()
+          form.append('image', dataUrlToBlob(imageSource), 'photo.jpg')
+          form.append('prompt', imagePrompt)
+          form.append('model', 'gpt-image-1.5')
+          form.append('n', '1')
+          form.append('size', imageSize)
+          form.append('quality', 'auto')
+          form.append('input_fidelity', 'high')
+          form.append('moderation', 'auto')
+
+          const gwHeaders: Record<string, string> = {}
+          if (env.CF_AIG_TOKEN) {
+            gwHeaders['cf-aig-authorization'] = `Bearer ${env.CF_AIG_TOKEN}`
+          } else {
+            gwHeaders['Authorization'] = authHeader
+          }
+
+          const res = await fetch(`${gatewayUrl}/v1/images/edits`, {
+            method: 'POST',
+            headers: gwHeaders,
+            body: form,
+          })
+
+          if (res.ok) {
+            const json = (await res.json()) as { data?: { b64_json?: string }[] }
+            const b64 = json.data?.[0]?.b64_json
+            if (b64) return { data: `data:image/png;base64,${b64}`, error: '' }
+          }
+
+          const txt = await res.text()
+          errors.push(`[2.Gateway-img] ${res.status}: ${txt.slice(0, 100)}`)
+        } catch (e) {
+          errors.push(`[2.Gateway-img] ${e instanceof Error ? e.message : String(e)}`)
+        }
+
+        // 3차: AI Gateway - gpt-4o responses API (최후 폴백)
+        try {
+          console.log('[kisskin] Trying Gateway gpt-4o responses (3rd)')
+          const gwHeaders: Record<string, string> = { 'Content-Type': 'application/json' }
+          if (env.CF_AIG_TOKEN) {
+            gwHeaders['cf-aig-authorization'] = `Bearer ${env.CF_AIG_TOKEN}`
+          } else {
+            gwHeaders['Authorization'] = authHeader
+          }
+
           const body = JSON.stringify({
             model: 'gpt-4o',
             input: [{
@@ -396,10 +411,7 @@ Rules:
 
           const res = await fetch(`${gatewayUrl}/v1/responses`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': authHeader,
-            },
+            headers: gwHeaders,
             body,
           })
 
@@ -413,9 +425,39 @@ Rules:
             }
           }
           const txt = await res.text()
-          errors.push(`[3.Gateway] ${res.status}: ${txt.slice(0, 100)}`)
+          errors.push(`[3.Gateway-4o] ${res.status}: ${txt.slice(0, 100)}`)
         } catch (e) {
-          errors.push(`[3.Gateway] ${e instanceof Error ? e.message : String(e)}`)
+          errors.push(`[3.Gateway-4o] ${e instanceof Error ? e.message : String(e)}`)
+        }
+      } else {
+        // Gateway 없으면 직접 OpenAI 시도 (지역 차단될 수 있음)
+        try {
+          console.log('[kisskin] Trying OpenAI direct (2nd, no gateway)')
+          const form = new FormData()
+          form.append('image', dataUrlToBlob(imageSource), 'photo.jpg')
+          form.append('prompt', imagePrompt)
+          form.append('model', 'gpt-image-1.5')
+          form.append('n', '1')
+          form.append('size', imageSize)
+          form.append('quality', 'auto')
+          form.append('input_fidelity', 'high')
+          form.append('moderation', 'auto')
+
+          const res = await fetch(`${directUrl}/v1/images/edits`, {
+            method: 'POST',
+            headers: { 'Authorization': authHeader },
+            body: form,
+          })
+
+          if (res.ok) {
+            const json = (await res.json()) as { data?: { b64_json?: string }[] }
+            const b64 = json.data?.[0]?.b64_json
+            if (b64) return { data: `data:image/png;base64,${b64}`, error: '' }
+          }
+          const txt = await res.text()
+          errors.push(`[2.OpenAI] ${res.status}: ${txt.slice(0, 100)}`)
+        } catch (e) {
+          errors.push(`[2.OpenAI] ${e instanceof Error ? e.message : String(e)}`)
         }
       }
 
@@ -438,7 +480,7 @@ Rules:
         }
       }
 
-      // 2차: 직접 OpenAI (폴백)
+      // 2차: AI Gateway (BYOK, 지역 차단 우회)
       const reportBody = JSON.stringify({
         model: 'gpt-4.1',
         messages: [
@@ -455,31 +497,18 @@ Rules:
         max_tokens: 2048,
         top_p: 1,
       })
-      const jsonHeaders = {
-        'Content-Type': 'application/json',
-        'Authorization': authHeader,
-      }
 
-      try {
-        console.log('[kisskin] Trying OpenAI direct report (2nd)')
-        const res = await fetch(`${directUrl}/v1/chat/completions`, {
-          method: 'POST', headers: jsonHeaders, body: reportBody,
-        })
-        if (res.ok) {
-          const json = (await res.json()) as {
-            choices?: { message?: { content?: string } }[]
-          }
-          const content = json.choices?.[0]?.message?.content || ''
-          if (content) return content
-        }
-      } catch { /* 폴백 */ }
-
-      // 3차: AI Gateway (최후 폴백)
       if (gatewayUrl) {
         try {
-          console.log('[kisskin] Trying OpenAI Gateway report (3rd)')
+          console.log('[kisskin] Trying Gateway report (2nd)')
+          const gwHeaders: Record<string, string> = { 'Content-Type': 'application/json' }
+          if (env.CF_AIG_TOKEN) {
+            gwHeaders['cf-aig-authorization'] = `Bearer ${env.CF_AIG_TOKEN}`
+          } else {
+            gwHeaders['Authorization'] = authHeader
+          }
           const res = await fetch(`${gatewayUrl}/v1/chat/completions`, {
-            method: 'POST', headers: jsonHeaders, body: reportBody,
+            method: 'POST', headers: gwHeaders, body: reportBody,
           })
           if (res.ok) {
             const json = (await res.json()) as {
@@ -490,6 +519,23 @@ Rules:
           }
         } catch { /* 폴백 */ }
       }
+
+      // 3차: 직접 OpenAI (최후 폴백, 지역 차단될 수 있음)
+      try {
+        console.log('[kisskin] Trying OpenAI direct report (3rd)')
+        const res = await fetch(`${directUrl}/v1/chat/completions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': authHeader },
+          body: reportBody,
+        })
+        if (res.ok) {
+          const json = (await res.json()) as {
+            choices?: { message?: { content?: string } }[]
+          }
+          const content = json.choices?.[0]?.message?.content || ''
+          if (content) return content
+        }
+      } catch { /* 폴백 */ }
 
       return ''
     }
@@ -513,7 +559,7 @@ Rules:
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
 
-      const envDebug = `[GEMINI_KEY:${env.GEMINI_API_KEY ? 'set(' + env.GEMINI_API_KEY.slice(-4) + ')' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`
+      const envDebug = `[GEMINI_KEY:${env.GEMINI_API_KEY ? 'set(' + env.GEMINI_API_KEY.slice(-4) + ')' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|AIG_TOKEN:${env.CF_AIG_TOKEN ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`
       return new Response(JSON.stringify({
         error: `API 오류 (${colo}): ${imageError.slice(0, 300) || '이미지와 보고서 모두 생성 실패'} ${envDebug}`,
       }), {
