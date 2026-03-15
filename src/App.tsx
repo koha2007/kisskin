@@ -191,9 +191,9 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
-  const [customerEmail, setCustomerEmail] = useState<string | null>(null)
   const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
   const [refundFailed, setRefundFailed] = useState(false)
+  const customerEmailRef = useRef<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
 
@@ -356,13 +356,13 @@ function App() {
       setReport(data.report)
 
       // 이메일 자동 발송 (백그라운드, UI 블로킹 없음)
-      if (customerEmail && data.image && data.report) {
+      if (customerEmailRef.current && data.image && data.report) {
         const parsed = parseReport(data.report)
         fetch('/api/send-report', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            email: customerEmail,
+            email: customerEmailRef.current,
             report: parsed || { summary: data.report, products: [] },
             styles: activeStyles,
             resultImage: data.image,
@@ -475,7 +475,7 @@ function App() {
           })
           const vData = await vRes.json()
           if (vData.customerEmail) {
-            setCustomerEmail(vData.customerEmail)
+            customerEmailRef.current = vData.customerEmail
           }
         } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
         runAnalysis()
@@ -523,7 +523,7 @@ function App() {
         .then(res => res.json())
         .then(result => {
           if (result.customerEmail) {
-            setCustomerEmail(result.customerEmail)
+            customerEmailRef.current = result.customerEmail
           }
           if (result.status === 'succeeded' || result.status === 'confirmed') {
             setTimeout(() => runAnalysis(), 100)
