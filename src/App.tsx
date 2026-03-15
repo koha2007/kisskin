@@ -191,7 +191,7 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
-  const [_customerEmail, setCustomerEmail] = useState<string | null>(null)
+  const [customerEmail, setCustomerEmail] = useState<string | null>(null)
   const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
   const [refundFailed, setRefundFailed] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -355,6 +355,22 @@ function App() {
 
       setResultImage(data.image)
       setReport(data.report)
+
+      // 이메일 자동 발송 (백그라운드, UI 블로킹 없음)
+      if (customerEmail && data.image && data.report) {
+        const parsed = parseReport(data.report)
+        fetch('/api/send-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: customerEmail,
+            report: parsed || { summary: data.report, products: [] },
+            styles: activeStyles,
+            resultImage: data.image,
+            lang: locale,
+          }),
+        }).catch(err => console.warn('[send-report] email failed:', err))
+      }
 
       const img = new Image()
       img.onload = () => {
