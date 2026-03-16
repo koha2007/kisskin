@@ -355,22 +355,7 @@ function App() {
       setResultImage(data.image)
       setReport(data.report)
 
-      // 이메일 자동 발송 (백그라운드, UI 블로킹 없음)
-      if (customerEmailRef.current && data.image && data.report) {
-        const parsed = parseReport(data.report)
-        fetch('/api/send-report', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: customerEmailRef.current,
-            report: parsed || { summary: data.report, products: [] },
-            styles: activeStyles,
-            resultImage: data.image,
-            lang: locale,
-          }),
-        }).catch(err => console.warn('[send-report] email failed:', err))
-      }
-
+      // 이미지 슬라이싱 → 셀 이미지 생성 후 이메일 발송
       const img = new Image()
       img.onload = () => {
         const cellW = Math.floor(img.width / 3)
@@ -383,10 +368,27 @@ function App() {
             cvs.height = cellH
             const ctx = cvs.getContext('2d')!
             ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
-            cells.push(cvs.toDataURL('image/png'))
+            cells.push(cvs.toDataURL('image/jpeg', 0.85))
           }
         }
         setResultCells(cells)
+
+        // 이메일 자동 발송 (셀 이미지 포함)
+        if (customerEmailRef.current && data.report) {
+          const parsed = parseReport(data.report)
+          fetch('/api/send-report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: customerEmailRef.current,
+              report: parsed || { summary: data.report, products: [] },
+              styles: activeStyles,
+              resultImage: data.image,
+              cellImages: cells,
+              lang: locale,
+            }),
+          }).catch(err => console.warn('[send-report] email failed:', err))
+        }
       }
       img.src = data.image
     } catch (e) {

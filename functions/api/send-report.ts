@@ -24,6 +24,7 @@ interface RequestBody {
   }
   styles: string[]
   resultImage: string
+  cellImages?: string[]
   lang?: string
 }
 
@@ -38,7 +39,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { email, report, styles, resultImage, lang } = (await request.json()) as RequestBody
+    const { email, report, styles, resultImage, cellImages, lang } = (await request.json()) as RequestBody
 
     const isEn = lang === 'en'
     const labels = {
@@ -62,6 +63,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       stylesCount: styles?.length || 0,
       hasImage: !!resultImage,
       imageLen: resultImage?.length || 0,
+      cellImagesCount: cellImages?.length || 0,
     })
 
     if (!email || !report) {
@@ -74,101 +76,114 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const a = report.analysis
     // summary 폴백 (analysis가 없을 때 텍스트라도 표시)
     const summaryHtml = (!a && report.summary) ? `
-      <tr><td style="padding:0 24px 24px;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#fdf2f8,#faf5ff);border-radius:16px;overflow:hidden;">
-          <tr><td style="padding:28px;">
-            <h2 style="margin:0 0 16px;font-size:18px;color:#1e293b;font-weight:700;">✨ ${labels.skinAnalysis}</h2>
-            <p style="margin:0;font-size:14px;color:#475569;line-height:1.7;white-space:pre-wrap;">${report.summary}</p>
-          </td></tr>
-        </table>
-      </td></tr>
+      <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">✨ ${labels.skinAnalysis}</h2>
+        <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;white-space:pre-wrap;">${report.summary}</p>
+      </div>
     ` : ''
-
     const analysisHtml = a ? `
-      <tr><td style="padding:0 24px 24px;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#fdf2f8,#faf5ff);border-radius:16px;overflow:hidden;">
-          <tr><td style="padding:28px;">
-            <h2 style="margin:0 0 18px;font-size:18px;color:#1e293b;font-weight:700;">✨ ${labels.skinAnalysis}</h2>
-            <table cellpadding="0" cellspacing="0" style="margin-bottom:18px;"><tr>
-              <td style="padding-right:6px;"><span style="display:inline-block;background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:0.3px;">${a.gender}</span></td>
-              <td style="padding-right:6px;"><span style="display:inline-block;background:linear-gradient(135deg,#ec4899,#f472b6);color:#fff;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:0.3px;">${a.skinType}</span></td>
-              <td><span style="display:inline-block;background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:0.3px;">${a.tone}</span></td>
-            </tr></table>
-            <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;margin-bottom:10px;">
-              <tr><td style="padding:18px;">
-                <h4 style="margin:0 0 8px;font-size:14px;color:#7c3aed;font-weight:700;">🧴 ${labels.skinType}</h4>
-                <p style="margin:0;font-size:14px;color:#475569;line-height:1.7;">${a.skinTypeDetail}</p>
-              </td></tr>
-            </table>
-            <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;margin-bottom:10px;">
-              <tr><td style="padding:18px;">
-                <h4 style="margin:0 0 8px;font-size:14px;color:#7c3aed;font-weight:700;">🎨 ${labels.toneAnalysis}</h4>
-                <p style="margin:0;font-size:14px;color:#475569;line-height:1.7;">${a.toneDetail}</p>
-              </td></tr>
-            </table>
-            <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;">
-              <tr><td style="padding:18px;">
-                <h4 style="margin:0 0 8px;font-size:14px;color:#e67e22;font-weight:700;">💡 ${labels.advice}</h4>
-                <p style="margin:0;font-size:14px;color:#475569;line-height:1.7;">${a.advice}</p>
-              </td></tr>
-            </table>
-          </td></tr>
-        </table>
-      </td></tr>
+      <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">
+          ✨ ${labels.skinAnalysis}
+        </h2>
+        <div style="margin-bottom:12px;">
+          <span style="display:inline-block;background:#f9a8d4;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.gender}</span>
+          <span style="display:inline-block;background:#f9a8d4;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.skinType}</span>
+          <span style="display:inline-block;background:#fbbf24;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;">${a.tone}</span>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
+          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🧴 ${labels.skinType}</h4>
+          <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.skinTypeDetail}</p>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
+          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🎨 ${labels.toneAnalysis}</h4>
+          <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.toneDetail}</p>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:16px;">
+          <h4 style="margin:0 0 6px;font-size:14px;color:#f59e0b;">💡 ${labels.advice}</h4>
+          <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.advice}</p>
+        </div>
+      </div>
     ` : ''
 
-    const styleColors = ['#ec4899','#8b5cf6','#ef4444','#3b82f6','#6366f1','#e11d48','#f97316','#475569','#06b6d4']
     const stylesHtml = styles.length > 0 ? `
-      <tr><td style="padding:0 24px 24px;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #f1f5f9;">
-          <tr><td style="padding:28px;">
-            <h2 style="margin:0 0 18px;font-size:18px;color:#1e293b;font-weight:700;">💄 ${labels.makeupStyles}</h2>
-            <table cellpadding="0" cellspacing="0">
-              ${styles.map((s, i) => `${i % 3 === 0 ? '<tr>' : ''}<td style="padding:0 6px 8px 0;"><span style="display:inline-block;background:${styleColors[i % styleColors.length]}15;color:${styleColors[i % styleColors.length]};border:1px solid ${styleColors[i % styleColors.length]}30;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap;">${i + 1}. ${s}</span></td>${i % 3 === 2 || i === styles.length - 1 ? '</tr>' : ''}`).join('')}
-            </table>
-          </td></tr>
-        </table>
-      </td></tr>
+      <div style="margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">💄 ${labels.makeupStyles}</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          ${styles.map((s, i) => `<span style="display:inline-block;background:#f1f5f9;border-radius:20px;padding:6px 14px;font-size:13px;color:#334155;">${i + 1}. ${s}</span>`).join('')}
+        </div>
+      </div>
     ` : ''
 
-    const productColors = ['#ec4899','#8b5cf6','#3b82f6','#10b981','#f59e0b','#ef4444']
     const productsHtml = report.products.length > 0 ? `
-      <tr><td style="padding:0 24px 24px;">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr><td style="padding-bottom:18px;">
-            <h2 style="margin:0;font-size:18px;color:#1e293b;font-weight:700;">🛍️ ${labels.productRec}</h2>
-          </td></tr>
-          ${report.products.map((p, i) => {
-            const color = productColors[i % productColors.length]
-            return `
-            <tr><td style="padding-bottom:12px;">
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #f1f5f9;">
-                <tr>
-                  <td style="width:4px;background:${color};"></td>
-                  <td style="padding:18px 20px;">
-                    <table cellpadding="0" cellspacing="0" style="margin-bottom:8px;"><tr>
-                      <td style="padding-right:8px;"><span style="display:inline-block;background:${color}15;color:${color};border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">${p.category}</span></td>
-                    </tr></table>
-                    <p style="margin:0 0 4px;font-size:15px;font-weight:700;color:#1e293b;">${p.name}</p>
-                    <p style="margin:0 0 8px;font-size:13px;color:#94a3b8;font-weight:500;">${p.brand} · ${p.price}</p>
-                    <p style="margin:0 0 14px;font-size:13px;color:#64748b;line-height:1.6;">${p.reason}</p>
-                    <a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(p.brand + ' ' + p.name)}"
-                       style="display:inline-block;background:linear-gradient(135deg,${color},${color}dd);color:#fff;text-decoration:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;letter-spacing:0.3px;">
-                      ${labels.buyNow}
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </td></tr>`
-          }).join('')}
-        </table>
-      </td></tr>
+      <div style="margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🛍️ ${labels.productRec}</h2>
+        ${report.products.map(p => `
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <span style="background:#f0abfc;color:#fff;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;">${p.category}</span>
+              <span style="font-size:14px;font-weight:700;color:#0f172a;">${p.name}</span>
+            </div>
+            <p style="margin:0 0 4px;font-size:13px;color:#64748b;">${p.brand} · ${p.price}</p>
+            <p style="margin:0;font-size:13px;color:#334155;line-height:1.5;">${p.reason}</p>
+            <a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(p.brand + ' ' + p.name)}"
+               style="display:inline-block;margin-top:10px;background:#6366f1;color:#fff;text-decoration:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;">
+              ${labels.buyNow}
+            </a>
+          </div>
+        `).join('')}
+      </div>
     ` : ''
 
     // 결과 이미지를 인라인 첨부 + CID 참조
     const attachments: { filename: string; content: string; content_type?: string; headers?: Record<string, string> }[] = []
     let imageHtml = ''
-    if (resultImage && resultImage.startsWith('data:image')) {
+
+    // 9개 개별 셀 이미지가 있으면 3x3 카드 그리드로 표시
+    if (cellImages && cellImages.length === 9) {
+      cellImages.forEach((dataUrl, i) => {
+        if (!dataUrl.startsWith('data:image')) return
+        const base64Data = dataUrl.split(',')[1]
+        const isJpeg = dataUrl.startsWith('data:image/jpeg')
+        const ext = isJpeg ? 'jpg' : 'png'
+        const contentType = isJpeg ? 'image/jpeg' : 'image/png'
+        const contentId = `cell-${i}@kissinskin.net`
+        attachments.push({
+          filename: `style-${i + 1}.${ext}`,
+          content: base64Data,
+          content_type: contentType,
+          headers: {
+            'Content-ID': `<${contentId}>`,
+            'Content-Disposition': 'inline',
+          },
+        })
+      })
+
+      const rows = [0, 1, 2].map(row => {
+        const cols = [0, 1, 2].map(col => {
+          const i = row * 3 + col
+          const styleName = styles[i] || ''
+          return `
+            <td style="width:33.33%;padding:4px;vertical-align:top;">
+              <div style="background:#fff;border-radius:10px;overflow:hidden;border:1px solid #f0f0f0;">
+                <img src="cid:cell-${i}@kissinskin.net" alt="${styleName}" style="width:100%;display:block;border-radius:10px 10px 0 0;" />
+                <p style="margin:0;padding:10px 4px;text-align:center;font-size:12px;font-weight:600;color:#1e293b;">${styleName}</p>
+              </div>
+            </td>`
+        }).join('')
+        return `<tr>${cols}</tr>`
+      }).join('')
+
+      imageHtml = `
+        <div style="margin-bottom:24px;">
+          <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ ${labels.makeupResult}</h2>
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;">
+            ${rows}
+          </table>
+        </div>
+      `
+    } else if (resultImage && resultImage.startsWith('data:image')) {
+      // 폴백: 기존 단일 그리드 이미지
       const base64Data = resultImage.split(',')[1]
       const isJpeg = resultImage.startsWith('data:image/jpeg')
       const ext = isJpeg ? 'jpg' : 'png'
@@ -185,54 +200,34 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         },
       })
       imageHtml = `
-        <tr><td style="padding:0 24px 24px;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #f1f5f9;">
-            <tr><td style="padding:28px;text-align:center;">
-              <h2 style="margin:0 0 18px;font-size:18px;color:#1e293b;font-weight:700;">🖼️ ${labels.makeupResult}</h2>
-              <img src="cid:${contentId}" alt="Makeup Result" style="max-width:100%;border-radius:12px;border:1px solid #f1f5f9;" />
-            </td></tr>
-          </table>
-        </td></tr>
+        <div style="margin-bottom:24px;text-align:center;">
+          <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ ${labels.makeupResult}</h2>
+          <img src="cid:${contentId}" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
+        </div>
       `
     }
 
     const html = `
       <!DOCTYPE html>
       <html>
-      <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-      <body style="margin:0;padding:0;background:#f4f1ee;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;-webkit-font-smoothing:antialiased;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f1ee;">
-          <tr><td align="center" style="padding:32px 16px;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
-              <!-- Header Banner -->
-              <tr><td style="background:linear-gradient(135deg,#ec4899,#8b5cf6,#6366f1);padding:40px 24px;text-align:center;">
-                <h1 style="margin:0;font-size:28px;color:#ffffff;font-weight:800;letter-spacing:-0.5px;">kissinskin</h1>
-                <p style="margin:8px 0 0;font-size:14px;color:rgba(255,255,255,0.85);font-weight:500;letter-spacing:0.5px;">${labels.reportTitle}</p>
-                <div style="width:40px;height:3px;background:rgba(255,255,255,0.5);border-radius:2px;margin:16px auto 0;"></div>
-              </td></tr>
-              <!-- Spacer -->
-              <tr><td style="height:28px;"></td></tr>
-              <!-- Content -->
-              ${analysisHtml}
-              ${summaryHtml}
-              ${imageHtml}
-              ${stylesHtml}
-              ${productsHtml}
-              <!-- Footer -->
-              <tr><td style="padding:20px 24px 32px;">
-                <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #f1f5f9;">
-                  <tr><td style="padding-top:24px;text-align:center;">
-                    <p style="margin:0 0 8px;font-size:11px;color:#cbd5e1;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Powered by AI</p>
-                    <p style="margin:0 0 4px;font-size:12px;color:#94a3b8;">
-                      &copy; 2026 kissinskin. All rights reserved.
-                    </p>
-                    <a href="https://kissinskin.net" style="font-size:12px;color:#8b5cf6;text-decoration:none;font-weight:600;">kissinskin.net</a>
-                  </td></tr>
-                </table>
-              </td></tr>
-            </table>
-          </td></tr>
-        </table>
+      <body style="margin:0;padding:0;background:#f8f6f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+        <div style="max-width:600px;margin:0 auto;padding:24px 16px;">
+          <div style="text-align:center;margin-bottom:32px;">
+            <h1 style="margin:0;font-size:24px;color:#ec4899;">kissinskin</h1>
+            <p style="margin:4px 0 0;font-size:14px;color:#94a3b8;">${labels.reportTitle}</p>
+          </div>
+          ${analysisHtml}
+          ${summaryHtml}
+          ${imageHtml}
+          ${stylesHtml}
+          ${productsHtml}
+          <div style="text-align:center;padding-top:24px;border-top:1px solid #e2e8f0;">
+            <p style="font-size:12px;color:#94a3b8;margin:0;">
+              © 2026 kissinskin. All rights reserved.<br/>
+              <a href="https://kissinskin.net" style="color:#6366f1;">kissinskin.net</a>
+            </p>
+          </div>
+        </div>
       </body>
       </html>
     `
