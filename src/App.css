@@ -924,6 +924,88 @@ html, body {
   background: #4f46e5;
 }
 
+/* ===== PWA Install Banner ===== */
+.pwa-install-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #f1f5f9;
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 900;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  animation: pwaSlideUp 0.3s ease-out;
+}
+
+@keyframes pwaSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.pwa-install-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.pwa-install-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pwa-install-text strong {
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.pwa-install-text span {
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pwa-install-btn {
+  flex-shrink: 0;
+  background: #eb4763;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pwa-install-btn:active {
+  background: #d63d57;
+}
+
+.pwa-install-close {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #94a3b8;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pwa-install-close .material-symbols-outlined {
+  font-size: 20px;
+}
+
 /* ===== Legal Pages (Terms, Privacy) ===== */
 .legal-page {
   min-height: 100vh;

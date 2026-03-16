@@ -191,11 +191,59 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
+  const [showInstallBanner, setShowInstallBanner] = useState(false)
+  const [isIos, setIsIos] = useState(false)
+  const [showIosGuide, setShowIosGuide] = useState(false)
   const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
   const [refundFailed, setRefundFailed] = useState(false)
   const customerEmailRef = useRef<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
+
+  // PWA 설치 배너 감지
+  useEffect(() => {
+    const ua = navigator.userAgent
+    const ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as unknown as { standalone?: boolean }).standalone
+    setIsIos(ios)
+
+    if (isStandalone) return // 이미 앱으로 실행 중
+
+    if (ios) {
+      // iOS: beforeinstallprompt 없음 → 직접 배너 표시
+      const dismissed = sessionStorage.getItem('pwa-banner-dismissed')
+      if (!dismissed) setShowInstallBanner(true)
+    } else {
+      // Android/Desktop: beforeinstallprompt 이벤트 대기
+      const onAvailable = () => setShowInstallBanner(true)
+      window.addEventListener('pwa-install-available', onAvailable)
+      // 이미 발생한 경우
+      if ((window as unknown as { __pwaInstall?: { deferredPrompt: unknown } }).__pwaInstall?.deferredPrompt) {
+        const dismissed = sessionStorage.getItem('pwa-banner-dismissed')
+        if (!dismissed) setShowInstallBanner(true)
+      }
+      return () => window.removeEventListener('pwa-install-available', onAvailable)
+    }
+  }, [])
+
+  const handleInstallClick = async () => {
+    if (isIos) {
+      setShowIosGuide(true)
+      return
+    }
+    const pwa = (window as unknown as { __pwaInstall?: { deferredPrompt: { prompt: () => void; userChoice: Promise<unknown> } | null } }).__pwaInstall
+    if (pwa?.deferredPrompt) {
+      pwa.deferredPrompt.prompt()
+      await pwa.deferredPrompt.userChoice
+      pwa.deferredPrompt = null
+      setShowInstallBanner(false)
+    }
+  }
+
+  const dismissInstallBanner = () => {
+    setShowInstallBanner(false)
+    sessionStorage.setItem('pwa-banner-dismissed', '1')
+  }
 
   const handleNavigate = (target: Page) => {
     setPage(target)
@@ -1312,6 +1360,56 @@ function App() {
           <span className="material-symbols-outlined">auto_awesome</span>
         </button>
       </div>
+
+      {/* PWA 설치 배너 */}
+      {showInstallBanner && (
+        <div className="pwa-install-banner">
+          <img src="/icons/icon-96x96.png" alt="kissinskin" className="pwa-install-icon" />
+          <div className="pwa-install-text">
+            <strong>kissinskin</strong>
+            <span>{locale === 'ko' ? '홈 화면에 추가하고 빠르게 이용하세요' : 'Add to home screen for quick access'}</span>
+          </div>
+          <button className="pwa-install-btn" onClick={handleInstallClick}>
+            {locale === 'ko' ? '설치' : 'Install'}
+          </button>
+          <button className="pwa-install-close" onClick={dismissInstallBanner}>
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      )}
+
+      {/* iOS 설치 가이드 모달 */}
+      {showIosGuide && (
+        <div className="share-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowIosGuide(false) }}>
+          <div className="share-modal">
+            <div className="share-modal-header">
+              <h3>{locale === 'ko' ? '앱 설치 방법' : 'How to Install'}</h3>
+              <button className="share-modal-close" onClick={() => setShowIosGuide(false)}>
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div style={{ padding: '24px 20px', textAlign: 'center' }}>
+              <img src="/icons/icon-96x96.png" alt="kissinskin" style={{ width: 64, height: 64, borderRadius: 14, margin: '0 auto 16px', display: 'block' }} />
+              <div style={{ fontSize: 14, color: '#475569', lineHeight: 1.8, textAlign: 'left' }}>
+                <p style={{ margin: '0 0 16px', fontWeight: 700, textAlign: 'center', color: '#1e293b' }}>
+                  {locale === 'ko' ? 'Safari에서 홈 화면에 추가하세요' : 'Add to Home Screen from Safari'}
+                </p>
+                <p style={{ margin: '0 0 10px' }}>
+                  <strong>1.</strong> {locale === 'ko' ? ' 하단의 ' : ' Tap the '}
+                  <span className="material-symbols-outlined" style={{ fontSize: 18, verticalAlign: 'middle', color: '#007AFF' }}>ios_share</span>
+                  {locale === 'ko' ? ' 공유 버튼을 탭하세요' : ' share button below'}
+                </p>
+                <p style={{ margin: '0 0 10px' }}>
+                  <strong>2.</strong> {locale === 'ko' ? ' 스크롤 후 "홈 화면에 추가"를 탭하세요' : ' Scroll and tap "Add to Home Screen"'}
+                </p>
+                <p style={{ margin: 0 }}>
+                  <strong>3.</strong> {locale === 'ko' ? ' 오른쪽 상단 "추가"를 탭하세요' : ' Tap "Add" in the top right'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
