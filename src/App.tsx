@@ -355,26 +355,94 @@ function App() {
       setResultImage(data.image)
       setReport(data.report)
 
-      // 이미지 슬라이싱 → 셀 이미지 생성 후 이메일 발송
+      // 이미지 슬라이싱 + 이메일용 합성 이미지 생성
       const img = new Image()
       img.onload = () => {
-        const cellW = Math.floor(img.width / 3)
-        const cellH = Math.floor(img.height / 3)
+        const srcCellW = img.width / 3
+        const srcCellH = img.height / 3
+
+        // 1) 개별 셀 이미지 (웹 표시용)
         const cells: string[] = []
         for (let row = 0; row < 3; row++) {
           for (let col = 0; col < 3; col++) {
             const cvs = document.createElement('canvas')
-            cvs.width = cellW
-            cvs.height = cellH
+            cvs.width = Math.floor(srcCellW)
+            cvs.height = Math.floor(srcCellH)
             const ctx = cvs.getContext('2d')!
-            ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
+            ctx.drawImage(img, col * srcCellW, row * srcCellH, srcCellW, srcCellH, 0, 0, cvs.width, cvs.height)
             cells.push(cvs.toDataURL('image/jpeg', 0.85))
           }
         }
         setResultCells(cells)
 
-        // 이메일 자동 발송 (셀 이미지 포함)
+        // 2) 이메일용 합성 이미지 (다운로드와 동일한 레이아웃)
         if (customerEmailRef.current && data.report) {
+          const gap = Math.round(srcCellW * 0.035)
+          const pad = Math.round(srcCellW * 0.04)
+          const labelH = Math.round(srcCellH * 0.13)
+          const radius = Math.round(srcCellW * 0.045)
+          const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
+
+          const cellW = srcCellW
+          const cellH = srcCellH + labelH
+          const totalW = pad * 2 + cellW * 3 + gap * 2
+          const totalH = pad * 2 + cellH * 3 + gap * 2
+
+          const canvas = document.createElement('canvas')
+          canvas.width = totalW
+          canvas.height = totalH
+          const ctx = canvas.getContext('2d')!
+
+          ctx.fillStyle = '#f8f6f6'
+          ctx.fillRect(0, 0, totalW, totalH)
+
+          const roundRect = (x: number, y: number, w: number, h: number, r: number[]) => {
+            const [tl, tr, br, bl] = r
+            ctx.beginPath()
+            ctx.moveTo(x + tl, y)
+            ctx.lineTo(x + w - tr, y)
+            ctx.arcTo(x + w, y, x + w, y + tr, tr)
+            ctx.lineTo(x + w, y + h - br)
+            ctx.arcTo(x + w, y + h, x + w - br, y + h, br)
+            ctx.lineTo(x + bl, y + h)
+            ctx.arcTo(x, y + h, x, y + h - bl, bl)
+            ctx.lineTo(x, y + tl)
+            ctx.arcTo(x, y, x + tl, y, tl)
+            ctx.closePath()
+          }
+
+          for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+              const i = row * 3 + col
+              const sx = col * srcCellW
+              const sy = row * srcCellH
+              const dx = pad + col * (cellW + gap)
+              const dy = pad + row * (cellH + gap)
+
+              ctx.save()
+              roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
+              ctx.fillStyle = '#ffffff'
+              ctx.shadowColor = 'rgba(0,0,0,0.08)'
+              ctx.shadowBlur = 6
+              ctx.shadowOffsetY = 1
+              ctx.fill()
+              ctx.restore()
+
+              ctx.save()
+              roundRect(dx, dy, cellW, srcCellH, [radius, radius, 0, 0])
+              ctx.clip()
+              ctx.drawImage(img, sx, sy, srcCellW, srcCellH, dx, dy, cellW, srcCellH)
+              ctx.restore()
+
+              ctx.fillStyle = '#0f172a'
+              ctx.font = `700 ${fontSize}px Manrope, sans-serif`
+              ctx.textAlign = 'center'
+              ctx.textBaseline = 'middle'
+              ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
+            }
+          }
+
+          const composedImage = canvas.toDataURL('image/jpeg', 0.85)
           const parsed = parseReport(data.report)
           fetch('/api/send-report', {
             method: 'POST',
@@ -383,8 +451,7 @@ function App() {
               email: customerEmailRef.current,
               report: parsed || { summary: data.report, products: [] },
               styles: activeStyles,
-              resultImage: data.image,
-              cellImages: cells,
+              resultImage: composedImage,
               lang: locale,
             }),
           }).catch(err => console.warn('[send-report] email failed:', err))
