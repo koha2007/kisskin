@@ -774,54 +774,154 @@ html, body {
   background: rgba(99, 102, 241, 0.05);
 }
 
-.share-menu {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-  padding: 8px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  z-index: 100;
-  min-width: 280px;
-  animation: shareMenuIn 0.15s ease-out;
+/* Share Modal Overlay */
+.share-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: shareOverlayIn 0.2s ease-out;
 }
 
-@keyframes shareMenuIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+@keyframes shareOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.share-modal {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px 0 env(safe-area-inset-bottom, 16px);
+  animation: shareModalSlide 0.25s ease-out;
+}
+
+@keyframes shareModalSlide {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 20px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.share-modal-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.share-modal-close {
+  position: absolute;
+  right: 16px;
+  top: -2px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #64748b;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.share-icons-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 6px;
+  padding: 18px 20px 14px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.share-icons-row::-webkit-scrollbar {
+  display: none;
 }
 
 .share-option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 10px 6px;
+  gap: 6px;
   border: none;
   background: none;
-  border-radius: 10px;
   cursor: pointer;
   font-size: 11px;
-  color: #334155;
+  color: #475569;
   white-space: nowrap;
-  transition: background 0.15s;
+  padding: 0;
+  min-width: 64px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.share-option:hover {
-  background: #f1f5f9;
+.share-option:active {
+  opacity: 0.7;
 }
 
-.share-option .material-symbols-outlined {
-  font-size: 22px;
+.share-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.share-option svg {
+.share-icon-circle .material-symbols-outlined {
+  font-size: 24px;
+  color: #fff;
+}
+
+.share-icon-circle svg {
   flex-shrink: 0;
+}
+
+.share-link-bar {
+  margin: 4px 20px 8px;
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 4px 4px 4px 16px;
+  gap: 8px;
+}
+
+.share-link-bar span {
+  flex: 1;
+  font-size: 13px;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.share-link-copy-btn {
+  border: none;
+  background: #6366f1;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.share-link-copy-btn:active {
+  background: #4f46e5;
 }
 
 /* ===== Legal Pages (Terms, Privacy) ===== */
