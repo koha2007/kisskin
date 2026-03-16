@@ -715,21 +715,31 @@ function App() {
       const shareUrl = 'https://kissinskin.net'
       const shareText = locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles'
 
-      if (platform === 'native') {
+      // 네이티브 Share API로 이미지 파일 직접 공유 시도
+      const tryNativeShare = async (): Promise<boolean> => {
         try {
-          if (navigator.canShare?.({ files: [file] })) {
-            await navigator.share({ title: 'kissinskin', text: shareText, files: [file] })
-          } else {
-            await navigator.share({ title: 'kissinskin', text: shareText + '\n' + shareUrl })
+          if (navigator.share && navigator.canShare?.({ files: [file] })) {
+            await navigator.share({ title: 'kissinskin', text: shareText + '\n' + shareUrl, files: [file] })
+            return true
           }
         } catch (e) {
-          if (e instanceof Error && e.name !== 'AbortError') {
-            alert(t('error.shareFail'))
+          if (e instanceof Error && e.name === 'AbortError') return true // 사용자 취소
+        }
+        return false
+      }
+
+      if (platform === 'native') {
+        const shared = await tryNativeShare()
+        if (!shared) {
+          try {
+            await navigator.share?.({ title: 'kissinskin', text: shareText + '\n' + shareUrl })
+          } catch (e) {
+            if (e instanceof Error && e.name !== 'AbortError') alert(t('error.shareFail'))
           }
         }
       } else if (platform === 'copy') {
         try {
-          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+          await navigator.clipboard.write([new ClipboardItem({ 'image/jpeg': blob })])
           alert(t('result.copied'))
         } catch {
           try {
@@ -739,24 +749,33 @@ function App() {
             alert(t('error.copyFail'))
           }
         }
-      } else if (platform === 'kakao') {
-        window.open(`https://story.kakao.com/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank')
-      } else if (platform === 'x') {
-        window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`, '_blank')
-      } else if (platform === 'facebook') {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`, '_blank')
-      } else if (platform === 'whatsapp') {
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`, '_blank')
-      } else if (platform === 'telegram') {
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank')
-      } else if (platform === 'line') {
-        window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank')
-      } else if (platform === 'pinterest') {
-        window.open(`https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&description=${encodeURIComponent(shareText)}&media=${encodeURIComponent(shareUrl + '/og-image.png')}`, '_blank')
-      } else if (platform === 'linkedin') {
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank')
-      } else if (platform === 'email') {
-        window.location.href = `mailto:?subject=${encodeURIComponent('kissinskin - AI Makeup Looks')}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`
+      } else {
+        // 모든 소셜 플랫폼: 네이티브 Share API로 이미지 직접 공유 시도
+        const shared = await tryNativeShare()
+        if (!shared) {
+          // 네이티브 Share 불가 (데스크톱 등): 이미지 다운로드 후 URL 공유
+          const link = document.createElement('a')
+          link.href = imageUrl
+          link.download = 'kissinskin-makeup.jpg'
+          link.click()
+
+          const urlMap: Record<string, string> = {
+            kakao: `https://story.kakao.com/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+            x: `https://x.com/intent/tweet?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
+            whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + '\n' + shareUrl)}`,
+            telegram: `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+            line: `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+            pinterest: `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&description=${encodeURIComponent(shareText)}`,
+            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+            email: `mailto:?subject=${encodeURIComponent('kissinskin - AI Makeup Looks')}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`,
+          }
+          const url = urlMap[platform]
+          if (url) {
+            if (platform === 'email') window.location.href = url
+            else window.open(url, '_blank')
+          }
+        }
       }
 
       URL.revokeObjectURL(imageUrl)
