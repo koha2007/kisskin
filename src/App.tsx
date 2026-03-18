@@ -780,26 +780,68 @@ function App() {
 
       const file = new File([blob], 'kissinskin-makeup.jpg', { type: 'image/jpeg' })
       const shareUrl = 'https://kissinskin.net'
-      const shareText = locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles'
+
+      // 리포트 분석 결과를 공유 텍스트에 포함
+      const structured = report ? parseReport(report) : null
+      const a = structured?.analysis
+      let shareText = ''
+      if (a) {
+        const stylesList = activeStyles.map((s, i) => `${i + 1}. ${s}`).join('\n')
+        if (locale === 'ko') {
+          shareText = `💄 AI 메이크업 분석 리포트 - kissinskin\n\n` +
+            `✨ 피부 분석\n` +
+            `• 피부 타입: ${a.skinType}\n` +
+            `• ${a.skinTypeDetail}\n` +
+            `• 톤: ${a.tone}\n` +
+            `• ${a.toneDetail}\n\n` +
+            `💡 맞춤 조언\n${a.advice}\n\n` +
+            `💄 메이크업 스타일 9종\n${stylesList}\n\n` +
+            (structured.products.length > 0
+              ? `🛍️ 추천 제품\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n`
+              : '') +
+            shareUrl
+        } else {
+          shareText = `💄 AI Makeup Analysis Report - kissinskin\n\n` +
+            `✨ Skin Analysis\n` +
+            `• Skin Type: ${a.skinType}\n` +
+            `• ${a.skinTypeDetail}\n` +
+            `• Tone: ${a.tone}\n` +
+            `• ${a.toneDetail}\n\n` +
+            `💡 Advice\n${a.advice}\n\n` +
+            `💄 9 Makeup Styles\n${stylesList}\n\n` +
+            (structured.products.length > 0
+              ? `🛍️ Recommended Products\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n`
+              : '') +
+            shareUrl
+        }
+      } else {
+        shareText = (locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles') + '\n' + shareUrl
+      }
 
       if (platform === 'native') {
-        // 네이티브 Share API로 이미지 파일 직접 공유
+        // 네이티브 Share API로 이미지 파일 + 분석 결과 공유
         try {
           if (navigator.share && navigator.canShare?.({ files: [file] })) {
-            await navigator.share({ title: 'kissinskin', text: shareText + '\n' + shareUrl, files: [file] })
+            await navigator.share({ title: 'kissinskin', text: shareText, files: [file] })
           } else {
-            await navigator.share?.({ title: 'kissinskin', text: shareText + '\n' + shareUrl })
+            await navigator.share?.({ title: 'kissinskin', text: shareText })
           }
         } catch (e) {
           if (e instanceof Error && e.name !== 'AbortError') alert(t('error.shareFail'))
         }
       } else if (platform === 'copy') {
+        // 이미지 + 분석 결과 텍스트 모두 복사 시도
         try {
-          await navigator.clipboard.write([new ClipboardItem({ 'image/jpeg': blob })])
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'image/jpeg': blob,
+              'text/plain': new Blob([shareText], { type: 'text/plain' }),
+            }),
+          ])
           alert(t('result.copied'))
         } catch {
           try {
-            await navigator.clipboard.writeText(shareUrl)
+            await navigator.clipboard.writeText(shareText)
             alert(t('error.copyLinkDone'))
           } catch {
             alert(t('error.copyFail'))
@@ -1031,8 +1073,19 @@ function App() {
           {/* 공유 모달 — ShareThis custom buttons */}
           {showShareMenu && (() => {
             const shareUrl = 'https://kissinskin.net'
-            const shareTitle = locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles'
             const shareImage = 'https://kissinskin.net/logo.png'
+            // ShareThis 공유 시 분석 결과 요약 포함
+            const sr = report ? parseReport(report) : null
+            const sa = sr?.analysis
+            let shareTitle = ''
+            if (sa) {
+              const topProducts = sr.products.slice(0, 3).map(p => `${p.brand} ${p.name}`).join(', ')
+              shareTitle = locale === 'ko'
+                ? `💄 AI 메이크업 분석 리포트\n✨ ${sa.skinType} | ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ 추천: ${topProducts}` : ''}`
+                : `💄 AI Makeup Analysis\n✨ ${sa.skinType} | ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ Picks: ${topProducts}` : ''}`
+            } else {
+              shareTitle = locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles'
+            }
 
             return (
               <div className="share-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowShareMenu(false) }}>
@@ -1124,7 +1177,12 @@ function App() {
                   </div>
                   <div className="share-link-bar">
                     <span>{shareUrl}</span>
-                    <button className="share-link-copy-btn" onClick={() => { navigator.clipboard.writeText(shareUrl).then(() => alert(t('error.copyLinkDone'))).catch(() => {}) }}>
+                    <button className="share-link-copy-btn" onClick={() => {
+                      const copyText = sa
+                        ? `${shareTitle}\n${shareUrl}`
+                        : shareUrl
+                      navigator.clipboard.writeText(copyText).then(() => alert(t('error.copyLinkDone'))).catch(() => {})
+                    }}>
                       {t('result.copyLink')}
                     </button>
                   </div>
