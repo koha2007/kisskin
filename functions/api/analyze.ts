@@ -77,7 +77,7 @@ async function generateReportWithGemini(
             { text: userText },
           ],
         }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 1024 },
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1280 },
       }),
     },
   )
@@ -271,10 +271,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const isEn = lang === 'en'
     const reportSystemPrompt = isEn
       ? `Makeup artist. Analyze photo+skin type, respond ONLY JSON (no code fences):
-{"analysis":{"gender":"","skinType":"","skinTypeDetail":"1-2 sentences","tone":"e.g. Warm Undertone","toneDetail":"1-2 sentences","advice":"1 sentence"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1 sentence"}]}
+{"analysis":{"gender":"","skinType":"","skinTypeDetail":"2-3 sentences: characteristics, pros/cons, care tips","tone":"e.g. Warm Undertone","toneDetail":"2-3 sentences: determination basis, flattering colors, colors to avoid","advice":"2-3 sentences: comprehensive makeup direction"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1 sentence"}]}
 Rules: 5 products, category=Skin/Eyes/Lips/Cheeks/Base, global brands, USD price, English only. If skin type unknown, assess from photo.`
       : `메이크업 전문가. 사진+피부타입 분석 후 JSON만 응답 (코드펜스 없이):
-{"analysis":{"gender":"","skinType":"","skinTypeDetail":"1-2문장","tone":"예: Warm Undertone","toneDetail":"1-2문장","advice":"1문장"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1문장"}]}
+{"analysis":{"gender":"","skinType":"","skinTypeDetail":"2-3문장: 피부 특징, 장단점, 관리 포인트","tone":"예: Warm Undertone","toneDetail":"2-3문장: 판단 근거, 어울리는 컬러, 피할 컬러","advice":"2-3문장: 종합 메이크업 방향 조언"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1문장"}]}
 규칙: 제품 5개, category=Skin/Eyes/Lips/Cheeks/Base, 글로벌 브랜드, USD 가격. 피부타입 모르면 사진으로 판단.`
 
     const reportUserText = `${gender}\n${skinType}`
@@ -456,7 +456,7 @@ Rules: 5 products, category=Skin/Eyes/Lips/Cheeks/Base, global brands, USD price
           },
         ],
         temperature: 0.7,
-        max_tokens: 1024,
+        max_tokens: 1280,
       })
 
       if (gatewayUrl) {
