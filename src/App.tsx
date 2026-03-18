@@ -4,6 +4,7 @@ import HomePage from './HomePage'
 import Terms from './pages/terms'
 import Refund from './pages/refund'
 import Privacy from './pages/privacy'
+import Contact from './pages/contact'
 import { useI18n } from './i18n/context'
 
 declare global {
@@ -21,7 +22,7 @@ declare global {
 
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
-type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact'
 
 const FEMALE_MAKEUP_STYLES = [
   'Natural Glow',
@@ -956,6 +957,11 @@ function App() {
   // 개인정보처리방침 (Privacy Policy)
   if (page === 'privacy') {
     return <Privacy onNavigate={handleNavigate} />
+  }
+
+  // 문의하기 (Contact Us)
+  if (page === 'contact') {
+    return <Contact onNavigate={handleNavigate} />
   }
 
   // 홈 페이지

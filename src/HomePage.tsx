@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useI18n } from './i18n/context'
 
 interface HomePageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund') => void
+  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact') => void
 }
 
 const STYLE_NAMES = [
@@ -551,6 +551,7 @@ function HomePage({ onNavigate }: HomePageProps) {
                 <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('terms')}>Terms of Service</a></li>
                 <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('refund')}>Refund Policy</a></li>
                 <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('privacy')}>Privacy Policy</a></li>
+                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('contact')}>Contact Us</a></li>
               </ul>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import './policy.css'
 
-type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact'
 
 interface RefundProps {
   onNavigate: (page: Page) => void
