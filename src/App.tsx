@@ -649,7 +649,7 @@ function App() {
       img.src = resultImage
       await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject })
 
-      const canvas = buildCompositeCanvas(img)
+      const canvas = buildCompositeCanvas(img, true)
 
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob((b) => resolve(b), 'image/jpeg', 0.9)
@@ -759,8 +759,9 @@ function App() {
     return curY - y
   }
 
-  // 그리드 + 분석 리포트를 하나의 캔버스로 합성 (화장품 추천 제외)
-  const buildCompositeCanvas = (gridImg: HTMLImageElement): HTMLCanvasElement => {
+  // 그리드 + 분석 리포트를 하나의 캔버스로 합성
+  // includeProducts: true면 화장품 추천도 포함 (공유용)
+  const buildCompositeCanvas = (gridImg: HTMLImageElement, includeProducts = false): HTMLCanvasElement => {
     const srcCellW = gridImg.width / 3
     const srcCellH = gridImg.height / 3
     const gap = Math.round(srcCellW * 0.035)
@@ -813,9 +814,19 @@ function App() {
       reportH += rPad * 2
     }
 
+    // 제품 추천 영역 높이 계산
+    const products = (includeProducts && structured?.products) ? structured.products : []
+    let productsH = 0
+    if (products.length > 0) {
+      const prodTitleH = Math.round(rFontTitle * 2.5)
+      const prodCardH = Math.round(rFontBody * 7) // 카테고리+이름+브랜드가격+이유
+      const prodGap = Math.round(rFontBody * 0.8)
+      productsH = prodTitleH + products.length * (prodCardH + prodGap) + rPad
+    }
+
     // 브랜딩 영역
     const brandH = Math.round(gridW * 0.06)
-    const totalH = gridH + reportH + brandH
+    const totalH = gridH + reportH + productsH + brandH
 
     const canvas = document.createElement('canvas')
     canvas.width = gridW
@@ -933,6 +944,88 @@ function App() {
         ctx.font = `400 ${rFontBody}px Manrope, sans-serif`
         const h = wrapText(ctx, s.text, cardX, cardContentW, y, rLineH)
         y += h + Math.round(rLineH * 0.5)
+      }
+    }
+
+    // 제품 추천 영역 그리기
+    if (products.length > 0) {
+      let py = gridH + reportH + rPad
+
+      // 섹션 헤더
+      ctx.fillStyle = '#eb4763'
+      ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`
+      ctx.textAlign = 'left'
+      ctx.textBaseline = 'top'
+      ctx.fillText(locale === 'ko' ? '🛍️ 맞춤 화장품 추천' : '🛍️ Product Recommendations', rPad, py)
+      py += Math.round(rFontTitle * 2)
+
+      const prodCardH = Math.round(rFontBody * 7)
+      const prodGap = Math.round(rFontBody * 0.8)
+      const catColors: Record<string, string> = {
+        Skin: '#f0abfc', Base: '#fbbf24', Eyes: '#818cf8', Lips: '#fb7185',
+        Cheeks: '#f9a8d4', Brow: '#a78bfa', Primer: '#67e8f9',
+      }
+
+      for (const p of products) {
+        // 카드 배경
+        ctx.save()
+        roundRect(rPad, py, gridW - rPad * 2, prodCardH, [radius, radius, radius, radius])
+        ctx.fillStyle = '#ffffff'
+        ctx.shadowColor = 'rgba(0,0,0,0.05)'
+        ctx.shadowBlur = 4
+        ctx.shadowOffsetY = 1
+        ctx.fill()
+        ctx.restore()
+
+        const cx = rPad + Math.round(rPad * 0.6)
+
+        // 카테고리 뱃지
+        const badgeSize = Math.round(rFontBody * 2.4)
+        const badgeColor = catColors[p.category] || '#94a3b8'
+        ctx.save()
+        roundRect(cx, py + Math.round((prodCardH - badgeSize) / 2), badgeSize, badgeSize, [8, 8, 8, 8])
+        ctx.fillStyle = badgeColor
+        ctx.fill()
+        ctx.restore()
+
+        // 카테고리 텍스트 (뱃지 안)
+        ctx.fillStyle = '#ffffff'
+        ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(p.category.slice(0, 3).toUpperCase(), cx + badgeSize / 2, py + prodCardH / 2)
+
+        const tx = cx + badgeSize + Math.round(rPad * 0.5)
+        ctx.textAlign = 'left'
+
+        // 카테고리 라벨
+        ctx.fillStyle = '#eb4763'
+        ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`
+        ctx.textBaseline = 'top'
+        let ty = py + Math.round(rFontBody * 0.6)
+        ctx.fillText(p.category.toUpperCase(), tx, ty)
+        ty += Math.round(rFontBody * 1.2)
+
+        // 제품명
+        ctx.fillStyle = '#0f172a'
+        ctx.font = `700 ${rFontBody}px Manrope, sans-serif`
+        const nameText = p.name.length > 35 ? p.name.slice(0, 35) + '…' : p.name
+        ctx.fillText(nameText, tx, ty)
+        ty += Math.round(rFontBody * 1.4)
+
+        // 브랜드 · 가격
+        ctx.fillStyle = '#64748b'
+        ctx.font = `500 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`
+        ctx.fillText(`${p.brand} · ${p.price}`, tx, ty)
+        ty += Math.round(rFontBody * 1.3)
+
+        // 이유
+        ctx.fillStyle = '#94a3b8'
+        ctx.font = `400 ${Math.round(rFontBody * 0.85)}px Manrope, sans-serif`
+        const reasonText = p.reason.length > 50 ? p.reason.slice(0, 50) + '…' : p.reason
+        ctx.fillText(reasonText, tx, ty)
+
+        py += prodCardH + prodGap
       }
     }
 
