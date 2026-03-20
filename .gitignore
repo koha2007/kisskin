@@ -1,6 +1,9 @@
 # local env
 .dev.vars
 
+# Cloudflare Wrangler
+.wrangler/
+
 # logs
 Logs
 *.log
@@ -14,7 +17,23 @@ node_modules
 dist
 dist-ssr
 *.local
-.dev.vars
+
+# Test images / screenshots
+*.jpg
+*.png
+!public/**/*.png
+!public/**/*.jpg
+!src/**/*.png
+!src/**/*.jpg
+
+# Misc files
+*.txt
+*.html
+!index.html
+!src/**/*.html
+files/
+h-image/
+h-image2/
 
 # Editor directories and files
 .vscode/*
