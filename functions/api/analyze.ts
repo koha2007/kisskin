@@ -216,54 +216,55 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     const femalePrompt = `메이크업 아티스트. 3×3 그리드 얼굴 사진. ${gender}, ${skinTypeInstruction} 반영해 9가지 메이크업 표현.
 
-[규칙]
+[절대 규칙 - 위반 시 실패]
 - 텍스트/글자/라벨/숫자/워터마크 절대 넣지 마
-- 얼굴(이목구비, 피부색, 윤곽, 비율) 원본과 100% 동일 유지. 다른 사람으로 바뀌면 실패
-- 오직 메이크업만 변경. 배경/조명/옷 변경 금지
-- 머리카락 색 변경은 2번만. 나머지는 원본 유지
-- 9칸 얼굴 위치/크기/각도/표정 동일
+- 얼굴 절대 변경 금지: 이목구비, 피부색, 윤곽, 비율, 얼굴형, 눈 크기/모양, 코, 입술 두께, 턱선 모두 원본 사진과 100% 동일해야 함. 다른 사람처럼 보이면 완전 실패
+- 피부색/밝기 변경 금지. 원본 피부톤 그대로 유지
+- 오직 화장품으로 표현 가능한 메이크업만 변경. 배경/조명/옷/액세서리 변경 금지
+- 머리카락 색 변경은 오직 2번(Cloud Skin)만. 나머지 8칸은 원본 머리색 100% 유지
+- 9칸 얼굴 위치/크기/각도/표정 완전 동일
 - 이빨 보이면 하얗고 깨끗하게 보정
 - 각 스타일 한눈에 구분될 만큼 차이 확실히
 - 그리드 칸 사이 여백/구분선 없이 붙여
 
 [9가지 메이크업 - 좌→우, 위→아래]
-1: 광채 피부, 피치 블러셔, 누드 립
-2: 구름 피부, 깨끗한 베이스, 머리색 애쉬블론드/밀크브라운으로 변경. 옷 원본 유지
-3: 진한 버건디/레드 립, 깔끔한 아이
-4: 컬러 아이섀도(보라/파랑/초록), 굵은 아이라인
-5: 골드/실버 메탈릭 아이섀도, 글로시 눈매
-6: 선명한 빨강/코랄 립
-7: 광대~관자놀이 진한 분홍/코랄 블러셔
-8: 스모키 아이, 다크 베리 립, 매트 피부
-9: 유리알 광택, 그라데이션 핑크 립, 쉬머
+1: Natural Glow - 광채 피부, 피치 블러셔, 누드 립
+2: Cloud Skin - 구름 피부, 깨끗한 베이스, 머리색 애쉬블론드/밀크브라운으로 변경. 옷 원본 유지
+3: Blood Lip - 진한 버건디/레드 립, 깔끔한 아이
+4: Maximalist Eye - 컬러 아이섀도(보라/파랑/초록), 굵은 아이라인
+5: Metallic Eye - 골드/실버 메탈릭 아이섀도, 글로시 눈매
+6: Bold Lip - 선명한 빨강/코랄 립
+7: Blush Draping - 광대~관자놀이 진한 분홍/코랄 블러셔
+8: Grunge Makeup - 스모키 아이, 다크 베리 립, 매트 피부
+9: K-pop Idol - 유리알 광택, 그라데이션 핑크 립, 쉬머
 
-핵심: 얼굴 절대 변경 금지! 메이크업만! 머리색은 2번만! 글자 렌더링 금지!`
+핵심: 얼굴/피부색 절대 변경 금지! 원본 얼굴 그대로! 메이크업만! 머리색은 2번만! 글자 렌더링 금지!`
 
     const malePrompt = `메이크업 아티스트. 3×3 그리드 얼굴 사진. ${gender}, ${skinTypeInstruction} 반영해 남성 트렌드 메이크업 9가지 표현.
 
-[규칙]
+[절대 규칙 - 위반 시 실패]
 - 텍스트/글자/라벨/숫자/워터마크 절대 넣지 마
-- 얼굴(이목구비, 피부색, 인종, 윤곽, 비율) 원본과 100% 동일 유지. 다른 사람으로 바뀌면 실패
-- 피부색 밝기 변경 금지. 액세서리(모자/안경/귀걸이) 원본 유지
-- 오직 메이크업만 변경. 배경/조명/옷 변경 금지
-- 머리카락 색 변경은 9번만. 나머지는 원본 유지
-- 9칸 얼굴 위치/크기/각도/표정 동일. 피부 깨끗하게 보정하되 원본 톤 유지
+- 얼굴 절대 변경 금지: 이목구비, 피부색, 인종, 윤곽, 비율, 얼굴형, 눈 크기/모양, 코, 입술 두께, 턱선 모두 원본 사진과 100% 동일해야 함. 다른 사람처럼 보이면 완전 실패
+- 피부색/밝기 변경 금지. 원본 피부톤 그대로 유지. 액세서리(모자/안경/귀걸이) 원본 유지
+- 오직 화장품으로 표현 가능한 메이크업만 변경. 배경/조명/옷 변경 금지
+- 머리카락 색 변경은 오직 9번(K-pop Idol)만. 나머지 8칸은 원본 머리색 100% 유지
+- 9칸 얼굴 위치/크기/각도/표정 완전 동일. 피부 깨끗하게 보정하되 원본 톤 유지
 - 이빨 보이면 하얗고 깨끗하게 보정
 - 각 스타일 뚜렷하게 구분되되 과하지 않게. 아이라인 얇고 자연스럽게
 - 그리드 칸 사이 여백/구분선 없이 붙여
 
 [9가지 남성 메이크업 - 좌→우, 위→아래]
-1: 내추럴 소프트포커스 - 매트 화사 피부, 눈썹 정리, 투명 보습 입술
-2: 스킨케어 하이브리드 - 촉촉 윤광 피부, 틴티드 모이스처라이저 느낌
-3: 디퓨즈드 립 - 로즈/코랄 그라데이션 립, 깨끗한 피부
-4: 그런지 스모키 - 차콜+카키+다크브라운 블렌딩, 말린 장미 매트 립
-5: 톤인톤 모노크롬 - 테라코타/피치로 아이섀도·블러셔·립 통일
-6: 유틸리티 - 컨실러 커버, 선명 눈썹, 자연 틴트. 비즈니스 느낌
-7: 컬러 포인트 아이 - 블루/네이비 아이섀도 블렌딩, 아이라인 없이
-8: 뱀파이어 로맨틱 - 버건디+로즈 그라데이션, 와인 립
-9: K-팝 아이돌 - 글로우 베이스, 핑크+피치 쉬머, 코랄핑크 립, 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
+1: No-Makeup Makeup - 매트 화사 피부, 눈썹 정리, 투명 보습 입술
+2: Skincare Hybrid Base - 촉촉 윤광 피부, 틴티드 모이스처라이저 느낌
+3: Blurred Lip - 로즈/코랄 그라데이션 립, 깨끗한 피부
+4: Grunge / Smoky Eye - 차콜+카키+다크브라운 블렌딩, 말린 장미 매트 립. 얼굴/피부색 절대 변경 금지
+5: Monochrome - 테라코타/피치로 아이섀도·블러셔·립 통일
+6: Utility Makeup - 컨실러 커버, 선명 눈썹, 자연 틴트. 비즈니스 느낌
+7: Blue & Color Point Eye - 블루/네이비 아이섀도 블렌딩, 아이라인 없이
+8: Vampire Romantic - 버건디+로즈 그라데이션, 와인 립. 얼굴/피부색/머리색 변경 금지
+9: K-pop Idol - 글로우 베이스, 핑크+피치 쉬머, 코랄핑크 립, 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
 
-핵심: 얼굴/피부색/액세서리 절대 변경 금지! 메이크업만! 화사하고 세련되게! 머리색은 9번만! 글자 렌더링 금지!`
+핵심: 얼굴/피부색/액세서리 절대 변경 금지! 원본 얼굴 그대로! 메이크업만! 머리색은 9번만! 글자 렌더링 금지!`
 
     const imagePrompt = gender === '남성' ? malePrompt : femalePrompt
 
@@ -272,10 +273,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const reportSystemPrompt = isEn
       ? `Makeup artist. Analyze photo+skin type, respond ONLY JSON (no code fences):
 {"analysis":{"gender":"","skinType":"","skinTypeDetail":"2-3 sentences: characteristics, pros/cons, care tips","tone":"e.g. Warm Undertone","toneDetail":"2-3 sentences: determination basis, flattering colors, colors to avoid","advice":"2-3 sentences: comprehensive makeup direction"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1 sentence"}]}
-Rules: 5 products, category=Skin/Eyes/Lips/Cheeks/Base, global brands, USD price, English only. If skin type unknown, assess from photo.`
+Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, global brands, USD price, English only. If skin type unknown, assess from photo.`
       : `메이크업 전문가. 사진+피부타입 분석 후 JSON만 응답 (코드펜스 없이):
 {"analysis":{"gender":"","skinType":"","skinTypeDetail":"2-3문장: 피부 특징, 장단점, 관리 포인트","tone":"예: Warm Undertone","toneDetail":"2-3문장: 판단 근거, 어울리는 컬러, 피할 컬러","advice":"2-3문장: 종합 메이크업 방향 조언"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1문장"}]}
-규칙: 제품 5개, category=Skin/Eyes/Lips/Cheeks/Base, 글로벌 브랜드, USD 가격. 피부타입 모르면 사진으로 판단.`
+규칙: 정확히 7개 제품, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, 글로벌 브랜드, USD 가격. 피부타입 모르면 사진으로 판단.`
 
     const reportUserText = `${gender}\n${skinType}`
 

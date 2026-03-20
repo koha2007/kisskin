@@ -89,12 +89,30 @@ interface StructuredReport {
 }
 
 function parseReport(reportStr: string): StructuredReport | null {
-  try {
-    const parsed = JSON.parse(reportStr)
-    if (parsed && Array.isArray(parsed.products) && parsed.products.length > 0) {
-      return parsed as StructuredReport
-    }
-  } catch { /* not JSON */ }
+  if (!reportStr) return null
+
+  // 여러 패턴으로 JSON 추출 시도
+  const candidates: string[] = []
+
+  // 1. 원본 그대로
+  candidates.push(reportStr.trim())
+
+  // 2. ```json ... ``` 코드펜스 제거
+  const fenceMatch = reportStr.match(/```(?:json)?\s*([\s\S]*?)```/)
+  if (fenceMatch) candidates.push(fenceMatch[1].trim())
+
+  // 3. { ... } 중괄호 블록 직접 추출
+  const braceMatch = reportStr.match(/\{[\s\S]*\}/)
+  if (braceMatch) candidates.push(braceMatch[0].trim())
+
+  for (const jsonStr of candidates) {
+    try {
+      const parsed = JSON.parse(jsonStr)
+      if (parsed && Array.isArray(parsed.products)) {
+        return parsed as StructuredReport
+      }
+    } catch { /* 다음 후보 시도 */ }
+  }
   return null
 }
 
@@ -108,6 +126,8 @@ const CATEGORY_STYLE: Record<string, { icon: string; bg: string }> = {
   Eyes: { icon: 'visibility', bg: '#818cf8' },
   Lips: { icon: 'lip_touch', bg: '#fb7185' },
   Cheeks: { icon: 'brush', bg: '#f9a8d4' },
+  Brow: { icon: 'edit', bg: '#a78bfa' },
+  Primer: { icon: 'layers', bg: '#67e8f9' },
 }
 
 // 원본 사진 비율을 유지하며 3x3 타일 그리드 생성
@@ -1238,15 +1258,7 @@ function App() {
                 </section>
               )
             }
-            return (
-              <section className="report-section">
-                <h3 className="section-heading">{t('result.productRec')}</h3>
-                <div
-                  className="report-content"
-                  dangerouslySetInnerHTML={{ __html: renderMarkdown(report) }}
-                />
-              </section>
-            )
+            return null
           })()}
 
           {/* Fixed CTA */}
