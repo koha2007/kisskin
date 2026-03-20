@@ -434,74 +434,10 @@ function App() {
         }
         setResultCells(cells)
 
-        // 2) 이메일용 합성 이미지 (다운로드와 동일한 레이아웃)
+        // 2) 이메일용 합성 이미지 (그리드 + 분석 리포트 포함)
         if (customerEmailRef.current && data.report) {
-          const gap = Math.round(srcCellW * 0.035)
-          const pad = Math.round(srcCellW * 0.04)
-          const labelH = Math.round(srcCellH * 0.13)
-          const radius = Math.round(srcCellW * 0.045)
-          const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
-
-          const cellW = srcCellW
-          const cellH = srcCellH + labelH
-          const totalW = pad * 2 + cellW * 3 + gap * 2
-          const totalH = pad * 2 + cellH * 3 + gap * 2
-
-          const canvas = document.createElement('canvas')
-          canvas.width = totalW
-          canvas.height = totalH
-          const ctx = canvas.getContext('2d')!
-
-          ctx.fillStyle = '#f8f6f6'
-          ctx.fillRect(0, 0, totalW, totalH)
-
-          const roundRect = (x: number, y: number, w: number, h: number, r: number[]) => {
-            const [tl, tr, br, bl] = r
-            ctx.beginPath()
-            ctx.moveTo(x + tl, y)
-            ctx.lineTo(x + w - tr, y)
-            ctx.arcTo(x + w, y, x + w, y + tr, tr)
-            ctx.lineTo(x + w, y + h - br)
-            ctx.arcTo(x + w, y + h, x + w - br, y + h, br)
-            ctx.lineTo(x + bl, y + h)
-            ctx.arcTo(x, y + h, x, y + h - bl, bl)
-            ctx.lineTo(x, y + tl)
-            ctx.arcTo(x, y, x + tl, y, tl)
-            ctx.closePath()
-          }
-
-          for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 3; col++) {
-              const i = row * 3 + col
-              const sx = col * srcCellW
-              const sy = row * srcCellH
-              const dx = pad + col * (cellW + gap)
-              const dy = pad + row * (cellH + gap)
-
-              ctx.save()
-              roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
-              ctx.fillStyle = '#ffffff'
-              ctx.shadowColor = 'rgba(0,0,0,0.08)'
-              ctx.shadowBlur = 6
-              ctx.shadowOffsetY = 1
-              ctx.fill()
-              ctx.restore()
-
-              ctx.save()
-              roundRect(dx, dy, cellW, srcCellH, [radius, radius, 0, 0])
-              ctx.clip()
-              ctx.drawImage(img, sx, sy, srcCellW, srcCellH, dx, dy, cellW, srcCellH)
-              ctx.restore()
-
-              ctx.fillStyle = '#0f172a'
-              ctx.font = `700 ${fontSize}px Manrope, sans-serif`
-              ctx.textAlign = 'center'
-              ctx.textBaseline = 'middle'
-              ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
-            }
-          }
-
-          const composedImage = canvas.toDataURL('image/jpeg', 0.85)
+          const composedCanvas = buildCompositeCanvas(img)
+          const composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
           const parsed = parseReport(data.report)
           fetch('/api/send-report', {
             method: 'POST',
@@ -709,76 +645,11 @@ function App() {
     if (!resultImage) return
 
     try {
-      // 다운로드용 캔버스와 동일한 이미지 생성
       const img = new Image()
       img.src = resultImage
       await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject })
 
-      const srcCellW = img.width / 3
-      const srcCellH = img.height / 3
-      const gap = Math.round(srcCellW * 0.035)
-      const pad = Math.round(srcCellW * 0.04)
-      const labelH = Math.round(srcCellH * 0.13)
-      const radius = Math.round(srcCellW * 0.045)
-      const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
-      const cellW = srcCellW
-      const cellH = srcCellH + labelH
-      const totalW = pad * 2 + cellW * 3 + gap * 2
-      const totalH = pad * 2 + cellH * 3 + gap * 2
-
-      const canvas = document.createElement('canvas')
-      canvas.width = totalW
-      canvas.height = totalH
-      const ctx = canvas.getContext('2d')!
-
-      ctx.fillStyle = '#f8f6f6'
-      ctx.fillRect(0, 0, totalW, totalH)
-
-      const roundRect = (x: number, y: number, w: number, h: number, r: number[]) => {
-        const [tl, tr, br, bl] = r
-        ctx.beginPath()
-        ctx.moveTo(x + tl, y)
-        ctx.lineTo(x + w - tr, y)
-        ctx.arcTo(x + w, y, x + w, y + tr, tr)
-        ctx.lineTo(x + w, y + h - br)
-        ctx.arcTo(x + w, y + h, x + w - br, y + h, br)
-        ctx.lineTo(x + bl, y + h)
-        ctx.arcTo(x, y + h, x, y + h - bl, bl)
-        ctx.lineTo(x, y + tl)
-        ctx.arcTo(x, y, x + tl, y, tl)
-        ctx.closePath()
-      }
-
-      for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
-          const i = row * 3 + col
-          const sx = col * srcCellW
-          const sy = row * srcCellH
-          const dx = pad + col * (cellW + gap)
-          const dy = pad + row * (cellH + gap)
-
-          ctx.save()
-          roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
-          ctx.fillStyle = '#ffffff'
-          ctx.shadowColor = 'rgba(0,0,0,0.08)'
-          ctx.shadowBlur = 6
-          ctx.shadowOffsetY = 1
-          ctx.fill()
-          ctx.restore()
-
-          ctx.save()
-          roundRect(dx, dy, cellW, srcCellH, [radius, radius, 0, 0])
-          ctx.clip()
-          ctx.drawImage(img, sx, sy, srcCellW, srcCellH, dx, dy, cellW, srcCellH)
-          ctx.restore()
-
-          ctx.fillStyle = '#0f172a'
-          ctx.font = `700 ${fontSize}px Manrope, sans-serif`
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
-        }
-      }
+      const canvas = buildCompositeCanvas(img)
 
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob((b) => resolve(b), 'image/jpeg', 0.9)
@@ -869,83 +740,218 @@ function App() {
     }
   }
 
+  // 캔버스에 텍스트를 줄바꿈하며 그리기 (반환: 실제 그린 높이)
+  const wrapText = (ctx: CanvasRenderingContext2D, text: string, x: number, maxW: number, y: number, lineH: number): number => {
+    const words = text.split(' ')
+    let line = ''
+    let curY = y
+    for (const word of words) {
+      const test = line ? line + ' ' + word : word
+      if (ctx.measureText(test).width > maxW && line) {
+        ctx.fillText(line, x, curY)
+        line = word
+        curY += lineH
+      } else {
+        line = test
+      }
+    }
+    if (line) { ctx.fillText(line, x, curY); curY += lineH }
+    return curY - y
+  }
+
+  // 그리드 + 분석 리포트를 하나의 캔버스로 합성 (화장품 추천 제외)
+  const buildCompositeCanvas = (gridImg: HTMLImageElement): HTMLCanvasElement => {
+    const srcCellW = gridImg.width / 3
+    const srcCellH = gridImg.height / 3
+    const gap = Math.round(srcCellW * 0.035)
+    const pad = Math.round(srcCellW * 0.04)
+    const labelH = Math.round(srcCellH * 0.13)
+    const radius = Math.round(srcCellW * 0.045)
+    const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
+
+    const cellW = srcCellW
+    const cellH = srcCellH + labelH
+    const gridW = pad * 2 + cellW * 3 + gap * 2
+    const gridH = pad * 2 + cellH * 3 + gap * 2
+
+    // 분석 리포트 파싱
+    const structured = report ? parseReport(report) : null
+    const a = structured?.analysis
+
+    // 리포트 영역 높이 계산 (임시 캔버스)
+    const tmpCvs = document.createElement('canvas')
+    tmpCvs.width = gridW
+    const tmpCtx = tmpCvs.getContext('2d')!
+    const rPad = Math.round(gridW * 0.05)
+    const rContentW = gridW - rPad * 2
+    const rFontTitle = Math.max(16, Math.round(gridW * 0.04))
+    const rFontBody = Math.max(13, Math.round(gridW * 0.032))
+    const rLineH = Math.round(rFontBody * 1.6)
+
+    let reportH = 0
+    if (a) {
+      reportH = Math.round(rFontTitle * 2.5) // 헤더
+      reportH += Math.round(rFontBody * 2) // 뱃지
+      const sections = [
+        { label: locale === 'ko' ? '피부 타입' : 'Skin Type', text: a.skinTypeDetail },
+        { label: locale === 'ko' ? '톤 분석' : 'Tone Analysis', text: a.toneDetail },
+        { label: locale === 'ko' ? '맞춤 조언' : 'Advice', text: a.advice },
+      ]
+      for (const s of sections) {
+        reportH += Math.round(rFontBody * 2.2) // 섹션 제목
+        tmpCtx.font = `400 ${rFontBody}px Manrope, sans-serif`
+        const words = s.text.split(' ')
+        let line = ''
+        for (const word of words) {
+          const test = line ? line + ' ' + word : word
+          if (tmpCtx.measureText(test).width > rContentW - 20 && line) { reportH += rLineH; line = word }
+          else line = test
+        }
+        if (line) reportH += rLineH
+        reportH += Math.round(rLineH * 0.5) // gap
+      }
+      reportH += rPad * 2
+    }
+
+    // 브랜딩 영역
+    const brandH = Math.round(gridW * 0.06)
+    const totalH = gridH + reportH + brandH
+
+    const canvas = document.createElement('canvas')
+    canvas.width = gridW
+    canvas.height = totalH
+    const ctx = canvas.getContext('2d')!
+
+    // 배경
+    ctx.fillStyle = '#f8f6f6'
+    ctx.fillRect(0, 0, gridW, totalH)
+
+    const roundRect = (x: number, y: number, w: number, h: number, r: number[]) => {
+      const [tl, tr, br, bl] = r
+      ctx.beginPath()
+      ctx.moveTo(x + tl, y)
+      ctx.lineTo(x + w - tr, y)
+      ctx.arcTo(x + w, y, x + w, y + tr, tr)
+      ctx.lineTo(x + w, y + h - br)
+      ctx.arcTo(x + w, y + h, x + w - br, y + h, br)
+      ctx.lineTo(x + bl, y + h)
+      ctx.arcTo(x, y + h, x, y + h - bl, bl)
+      ctx.lineTo(x, y + tl)
+      ctx.arcTo(x, y, x + tl, y, tl)
+      ctx.closePath()
+    }
+
+    // 그리드 그리기
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        const i = row * 3 + col
+        const sx = col * srcCellW
+        const sy = row * srcCellH
+        const dx = pad + col * (cellW + gap)
+        const dy = pad + row * (cellH + gap)
+
+        ctx.save()
+        roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
+        ctx.fillStyle = '#ffffff'
+        ctx.shadowColor = 'rgba(0,0,0,0.08)'
+        ctx.shadowBlur = 6
+        ctx.shadowOffsetY = 1
+        ctx.fill()
+        ctx.restore()
+
+        ctx.save()
+        roundRect(dx, dy, cellW, srcCellH, [radius, radius, 0, 0])
+        ctx.clip()
+        ctx.drawImage(gridImg, sx, sy, srcCellW, srcCellH, dx, dy, cellW, srcCellH)
+        ctx.restore()
+
+        ctx.fillStyle = '#0f172a'
+        ctx.font = `700 ${fontSize}px Manrope, sans-serif`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
+      }
+    }
+
+    // 리포트 영역 그리기
+    if (a) {
+      let y = gridH + rPad
+
+      // 리포트 배경 카드
+      ctx.save()
+      roundRect(rPad, gridH + Math.round(rPad * 0.5), gridW - rPad * 2, reportH - rPad, [radius * 2, radius * 2, radius * 2, radius * 2])
+      ctx.fillStyle = '#ffffff'
+      ctx.shadowColor = 'rgba(0,0,0,0.06)'
+      ctx.shadowBlur = 8
+      ctx.shadowOffsetY = 2
+      ctx.fill()
+      ctx.restore()
+
+      const cardX = rPad + Math.round(rPad * 0.6)
+      const cardContentW = rContentW - Math.round(rPad * 1.2)
+
+      // 헤더
+      ctx.fillStyle = '#eb4763'
+      ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`
+      ctx.textAlign = 'left'
+      ctx.textBaseline = 'top'
+      ctx.fillText('✨ AI Skin Analysis', cardX, y)
+      y += Math.round(rFontTitle * 1.8)
+
+      // 뱃지
+      const badges = [a.gender, a.skinType, a.tone].filter(Boolean)
+      let bx = cardX
+      for (const badge of badges) {
+        ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`
+        const bw = ctx.measureText(badge).width + 20
+        ctx.save()
+        roundRect(bx, y, bw, Math.round(rFontBody * 1.8), [10, 10, 10, 10])
+        ctx.fillStyle = 'rgba(235,71,99,0.08)'
+        ctx.fill()
+        ctx.restore()
+        ctx.fillStyle = '#eb4763'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(badge, bx + 10, y + Math.round(rFontBody * 0.9))
+        bx += bw + 8
+      }
+      y += Math.round(rFontBody * 3)
+
+      // 섹션들
+      const sections = [
+        { label: locale === 'ko' ? '🧴 피부 타입' : '🧴 Skin Type', text: a.skinTypeDetail },
+        { label: locale === 'ko' ? '🎨 톤 분석' : '🎨 Tone Analysis', text: a.toneDetail },
+        { label: locale === 'ko' ? '💡 맞춤 조언' : '💡 Advice', text: a.advice },
+      ]
+      for (const s of sections) {
+        ctx.fillStyle = '#0f172a'
+        ctx.font = `700 ${rFontBody}px Manrope, sans-serif`
+        ctx.textBaseline = 'top'
+        ctx.fillText(s.label, cardX, y)
+        y += Math.round(rFontBody * 1.6)
+
+        ctx.fillStyle = '#475569'
+        ctx.font = `400 ${rFontBody}px Manrope, sans-serif`
+        const h = wrapText(ctx, s.text, cardX, cardContentW, y, rLineH)
+        y += h + Math.round(rLineH * 0.5)
+      }
+    }
+
+    // 브랜딩
+    ctx.fillStyle = '#94a3b8'
+    ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.022))}px Manrope, sans-serif`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText('kissinskin.net', gridW / 2, totalH - brandH / 2)
+
+    return canvas
+  }
+
   const handleDownload = () => {
     if (!resultImage) return
 
     const img = new Image()
     img.onload = () => {
-      const srcCellW = img.width / 3
-      const srcCellH = img.height / 3
-
-      const gap = Math.round(srcCellW * 0.035)
-      const pad = Math.round(srcCellW * 0.04)
-      const labelH = Math.round(srcCellH * 0.13)
-      const radius = Math.round(srcCellW * 0.045)
-      const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
-
-      const cellW = srcCellW
-      const cellH = srcCellH + labelH
-      const totalW = pad * 2 + cellW * 3 + gap * 2
-      const totalH = pad * 2 + cellH * 3 + gap * 2
-
-      const canvas = document.createElement('canvas')
-      canvas.width = totalW
-      canvas.height = totalH
-      const ctx = canvas.getContext('2d')!
-
-      // Background
-      ctx.fillStyle = '#f8f6f6'
-      ctx.fillRect(0, 0, totalW, totalH)
-
-      const roundRect = (x: number, y: number, w: number, h: number, r: number[]) => {
-        const [tl, tr, br, bl] = r
-        ctx.beginPath()
-        ctx.moveTo(x + tl, y)
-        ctx.lineTo(x + w - tr, y)
-        ctx.arcTo(x + w, y, x + w, y + tr, tr)
-        ctx.lineTo(x + w, y + h - br)
-        ctx.arcTo(x + w, y + h, x + w - br, y + h, br)
-        ctx.lineTo(x + bl, y + h)
-        ctx.arcTo(x, y + h, x, y + h - bl, bl)
-        ctx.lineTo(x, y + tl)
-        ctx.arcTo(x, y, x + tl, y, tl)
-        ctx.closePath()
-      }
-
-      for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
-          const i = row * 3 + col
-          const sx = col * srcCellW
-          const sy = row * srcCellH
-          const dx = pad + col * (cellW + gap)
-          const dy = pad + row * (cellH + gap)
-
-          // Cell background (white, fully rounded)
-          ctx.save()
-          roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
-          ctx.fillStyle = '#ffffff'
-          ctx.shadowColor = 'rgba(0,0,0,0.08)'
-          ctx.shadowBlur = 6
-          ctx.shadowOffsetY = 1
-          ctx.fill()
-          ctx.restore()
-
-          // Image with rounded top corners
-          ctx.save()
-          roundRect(dx, dy, cellW, srcCellH, [radius, radius, 0, 0])
-          ctx.clip()
-          ctx.drawImage(img, sx, sy, srcCellW, srcCellH, dx, dy, cellW, srcCellH)
-          ctx.restore()
-
-          // Label text
-          ctx.fillStyle = '#0f172a'
-          ctx.font = `700 ${fontSize}px Manrope, sans-serif`
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
-        }
-      }
-
+      const canvas = buildCompositeCanvas(img)
       const link = document.createElement('a')
       link.href = canvas.toDataURL('image/png')
       link.download = 'kissinskin-makeup.png'
