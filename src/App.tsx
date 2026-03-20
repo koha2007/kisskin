@@ -98,7 +98,9 @@ function parseReport(reportStr: string): StructuredReport | null {
   for (const jsonStr of candidates) {
     try {
       const parsed = JSON.parse(jsonStr)
-      if (parsed && Array.isArray(parsed.products)) {
+      if (parsed && typeof parsed === 'object' && (Array.isArray(parsed.products) || parsed.analysis)) {
+        // products가 없으면 빈 배열로 보정
+        if (!Array.isArray(parsed.products)) parsed.products = []
         return parsed as StructuredReport
       }
     } catch { /* 다음 후보 시도 */ }

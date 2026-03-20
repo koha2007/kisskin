@@ -77,7 +77,7 @@ async function generateReportWithGemini(
             { text: userText },
           ],
         }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 1280 },
+        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
       }),
     },
   )
@@ -174,9 +174,9 @@ function extractReportJson(raw: string): string {
   for (const jsonStr of candidates) {
     try {
       const parsed = JSON.parse(jsonStr)
-      if (parsed && Array.isArray(parsed.products)) {
-        // analysis 객체가 있으면 toneDetail 등 확인
-        if (parsed.analysis || typeof parsed.summary === 'string') {
+      if (parsed && typeof parsed === 'object') {
+        // products 배열이 있거나 analysis 객체가 있으면 유효
+        if (Array.isArray(parsed.products) || parsed.analysis) {
           return JSON.stringify(parsed)
         }
       }
@@ -214,18 +214,18 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
     const authHeader = `Bearer ${env.OPENAI_API_KEY}`
 
-    const femalePrompt = `메이크업 아티스트. 3×3 그리드 얼굴 사진. ${gender}, ${skinTypeInstruction} 반영해 9가지 메이크업 표현.
+    const femalePrompt = `Professional makeup artist. Apply 9 different makeup styles to the SAME face in a 3×3 grid. ${gender}, ${skinTypeInstruction} 반영.
 
-[절대 규칙 - 위반 시 실패]
-- 텍스트/글자/라벨/숫자/워터마크 절대 넣지 마
-- 얼굴 절대 변경 금지: 이목구비, 피부색, 윤곽, 비율, 얼굴형, 눈 크기/모양, 코, 입술 두께, 턱선 모두 원본 사진과 100% 동일해야 함. 다른 사람처럼 보이면 완전 실패
-- 피부색/밝기 변경 금지. 원본 피부톤 그대로 유지
-- 오직 화장품으로 표현 가능한 메이크업만 변경. 배경/조명/옷/액세서리 변경 금지
-- 머리카락 색 변경은 오직 2번(Cloud Skin)만. 나머지 8칸은 원본 머리색 100% 유지
-- 9칸 얼굴 위치/크기/각도/표정 완전 동일
-- 이빨 보이면 하얗고 깨끗하게 보정
-- 각 스타일 한눈에 구분될 만큼 차이 확실히
-- 그리드 칸 사이 여백/구분선 없이 붙여
+[ABSOLUTE RULES - VIOLATION = FAILURE]
+- NO text/labels/numbers/watermarks anywhere
+- FACE MUST BE 100% IDENTICAL in all 9 cells: same eyes, nose, lips, jawline, skin color, face shape, facial proportions. The person must look like the EXACT SAME person in every cell. If the face looks different, it is a complete failure
+- DO NOT change skin color or brightness. Keep original skin tone exactly
+- ONLY change makeup (cosmetics). DO NOT change background, lighting, clothes, accessories
+- Hair color change ONLY in cell 2 (Cloud Skin). All other 8 cells keep original hair color
+- All 9 cells must have identical face position, size, angle, expression
+- If teeth are visible, make them white and clean
+- Each style must be clearly distinguishable at a glance
+- No gaps or grid lines between cells
 
 [9가지 메이크업 - 좌→우, 위→아래]
 1: Natural Glow - 광채 피부, 피치 블러셔, 누드 립
@@ -238,20 +238,20 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 8: Grunge Makeup - 스모키 아이, 다크 베리 립, 매트 피부
 9: K-pop Idol - 유리알 광택, 그라데이션 핑크 립, 쉬머
 
-핵심: 얼굴/피부색 절대 변경 금지! 원본 얼굴 그대로! 메이크업만! 머리색은 2번만! 글자 렌더링 금지!`
+CRITICAL: The face must be IDENTICAL in all 9 cells - same person! Only makeup changes! Hair color only in cell 2! No text!`
 
-    const malePrompt = `메이크업 아티스트. 3×3 그리드 얼굴 사진. ${gender}, ${skinTypeInstruction} 반영해 남성 메이크업 9가지 표현.
+    const malePrompt = `Professional makeup artist. Apply 9 different male makeup styles to the SAME face in a 3×3 grid. ${gender}, ${skinTypeInstruction} 반영.
 
-[절대 규칙 - 위반 시 실패]
-- 텍스트/글자/라벨/숫자/워터마크 절대 넣지 마
-- 얼굴 절대 변경 금지: 이목구비, 피부색, 인종, 윤곽, 비율, 얼굴형, 눈 크기/모양, 코, 입술 두께, 턱선 모두 원본 사진과 100% 동일해야 함. 다른 사람처럼 보이면 완전 실패
-- 피부색/밝기 변경 금지. 원본 피부톤 그대로 유지. 액세서리(모자/안경/귀걸이) 원본 유지
-- 오직 화장품으로 표현 가능한 메이크업만 변경. 배경/조명/옷 변경 금지
-- 머리카락 색 변경은 오직 9번(K-pop Idol)만. 나머지 8칸은 원본 머리색 100% 유지
-- 9칸 얼굴 위치/크기/각도/표정 완전 동일. 피부 깨끗하게 보정하되 원본 톤 유지
-- 이빨 보이면 하얗고 깨끗하게 보정
-- 9가지 스타일이 한눈에 확실히 구분되어야 함! 밋밋하면 실패. 립 컬러, 아이섀도, 블러셔 등 각 스타일의 포인트가 확실하게 보여야 함
-- 그리드 칸 사이 여백/구분선 없이 붙여
+[ABSOLUTE RULES - VIOLATION = FAILURE]
+- NO text/labels/numbers/watermarks anywhere
+- FACE MUST BE 100% IDENTICAL in all 9 cells: same eyes, nose, lips, jawline, skin color, ethnicity, face shape, facial proportions. The person must look like the EXACT SAME person in every cell. If the face looks different, it is a complete failure
+- DO NOT change skin color or brightness. Keep original skin tone exactly. Keep accessories (hat/glasses/earrings)
+- ONLY change makeup (cosmetics). DO NOT change background, lighting, clothes
+- Hair color change ONLY in cell 9 (K-pop Idol). All other 8 cells keep original hair color
+- All 9 cells must have identical face position, size, angle, expression. Clean skin but keep original tone
+- If teeth are visible, make them white and clean
+- Each of the 9 styles MUST be clearly distinguishable! Lip color, eyeshadow, blush must be visible. Subtle/bland = failure
+- No gaps or grid lines between cells
 
 [9가지 남성 메이크업 - 좌→우, 위→아래]
 1: No-Makeup Makeup - 깨끗한 매트 피부, 눈썹 정돈, 투명 보습 립밤. 가장 자연스러운 룩
@@ -264,7 +264,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 8: Vampire Romantic - 눈 주위 버건디+로즈골드 그라데이션 아이섀도를 진하게. 짙은 와인/다크레드 립. 드라마틱하고 강렬한 무드
 9: K-pop Idol - 글로우 베이스, 핑크+피치 쉬머 아이섀도, 선명한 코랄핑크 립, 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
 
-핵심: 얼굴/피부색 절대 변경 금지! 원본 얼굴 그대로! 메이크업만! 머리색은 9번만! 글자 렌더링 금지! 각 스타일 차이 확실하게!`
+CRITICAL: The face must be IDENTICAL in all 9 cells - same person! Only makeup changes! Hair color only in cell 9! No text! Each style must be visually distinct!`
 
     const imagePrompt = gender === '남성' ? malePrompt : femalePrompt
 
@@ -457,7 +457,7 @@ Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, glob
           },
         ],
         temperature: 0.7,
-        max_tokens: 1280,
+        max_tokens: 2048,
       })
 
       if (gatewayUrl) {
