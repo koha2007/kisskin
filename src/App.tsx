@@ -54,16 +54,6 @@ const SKIN_MAP: Record<string, string> = {
   oily: '지성', dry: '건성', combination: '복합성', normal: '중성', not_sure: '잘 모름'
 }
 
-function renderMarkdown(text: string): string {
-  return text
-    .replace(/^### (.+)$/gm, '<h3 class="report-h3">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h3 class="report-h3">$1</h3>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-    .replace(/\n{2,}/g, '<br /><br />')
-    .replace(/\n/g, '<br />')
-}
 
 interface ProductRecommendation {
   category: string
