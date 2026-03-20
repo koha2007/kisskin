@@ -416,7 +416,7 @@ function App() {
 
       // 이미지 슬라이싱 + 이메일용 합성 이미지 생성
       const img = new Image()
-      img.onload = () => {
+      img.onload = async () => {
         const srcCellW = img.width / 3
         const srcCellH = img.height / 3
 
@@ -434,9 +434,9 @@ function App() {
         }
         setResultCells(cells)
 
-        // 2) 이메일용 합성 이미지 (그리드 + 분석 리포트 포함)
+        // 2) 이메일용 합성 이미지 (그리드 + 분석 리포트 + 제품 포함)
         if (customerEmailRef.current && data.report) {
-          const composedCanvas = buildCompositeCanvas(img)
+          const composedCanvas = await buildCompositeCanvas(img, true)
           const composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
           const parsed = parseReport(data.report)
           fetch('/api/send-report', {
@@ -649,7 +649,7 @@ function App() {
       img.src = resultImage
       await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject })
 
-      const canvas = buildCompositeCanvas(img, true)
+      const canvas = await buildCompositeCanvas(img, true)
 
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob((b) => resolve(b), 'image/jpeg', 0.9)
@@ -761,7 +761,7 @@ function App() {
 
   // 그리드 + 분석 리포트를 하나의 캔버스로 합성
   // includeProducts: true면 화장품 추천도 포함 (공유용)
-  const buildCompositeCanvas = (gridImg: HTMLImageElement, includeProducts = false): HTMLCanvasElement => {
+  const buildCompositeCanvas = async (gridImg: HTMLImageElement, includeProducts = false): Promise<HTMLCanvasElement> => {
     const srcCellW = gridImg.width / 3
     const srcCellH = gridImg.height / 3
     const gap = Math.round(srcCellW * 0.035)
@@ -824,8 +824,8 @@ function App() {
       productsH = prodTitleH + products.length * (prodCardH + prodGap) + rPad
     }
 
-    // 브랜딩 영역
-    const brandH = Math.round(gridW * 0.06)
+    // 브랜딩 영역 (로고 + 이름 + URL)
+    const brandH = Math.round(gridW * 0.14)
     const totalH = gridH + reportH + productsH + brandH
 
     const canvas = document.createElement('canvas')
@@ -1029,12 +1029,54 @@ function App() {
       }
     }
 
-    // 브랜딩
-    ctx.fillStyle = '#94a3b8'
-    ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.022))}px Manrope, sans-serif`
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('kissinskin.net', gridW / 2, totalH - brandH / 2)
+    // 브랜딩 (로고 + 이름 + URL)
+    const brandY = totalH - brandH
+    // 구분선
+    ctx.strokeStyle = '#e2e8f0'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(rPad, brandY + Math.round(brandH * 0.1))
+    ctx.lineTo(gridW - rPad, brandY + Math.round(brandH * 0.1))
+    ctx.stroke()
+
+    // 로고 이미지 로드
+    try {
+      const logoImg = new Image()
+      logoImg.crossOrigin = 'anonymous'
+      logoImg.src = '/logo.png'
+      await new Promise<void>((resolve) => {
+        logoImg.onload = () => resolve()
+        logoImg.onerror = () => resolve() // 실패해도 계속 진행
+      })
+      if (logoImg.complete && logoImg.naturalWidth > 0) {
+        const logoSize = Math.round(brandH * 0.45)
+        const logoX = gridW / 2 - Math.round(gridW * 0.18)
+        const logoY = brandY + Math.round((brandH - logoSize) / 2)
+        ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize)
+
+        // 이름 + URL (로고 오른쪽)
+        const textX = logoX + logoSize + Math.round(gridW * 0.02)
+        ctx.fillStyle = '#0f172a'
+        ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+        ctx.textAlign = 'left'
+        ctx.textBaseline = 'middle'
+        ctx.fillText('kissinskin', textX, brandY + brandH * 0.4)
+
+        ctx.fillStyle = '#eb4763'
+        ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
+        ctx.fillText('kissinskin.net', textX, brandY + brandH * 0.65)
+      }
+    } catch {
+      // 로고 로드 실패 시 텍스트만
+      ctx.fillStyle = '#0f172a'
+      ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText('kissinskin', gridW / 2, brandY + brandH * 0.4)
+      ctx.fillStyle = '#eb4763'
+      ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
+      ctx.fillText('kissinskin.net', gridW / 2, brandY + brandH * 0.65)
+    }
 
     return canvas
   }
@@ -1043,8 +1085,8 @@ function App() {
     if (!resultImage) return
 
     const img = new Image()
-    img.onload = () => {
-      const canvas = buildCompositeCanvas(img)
+    img.onload = async () => {
+      const canvas = await buildCompositeCanvas(img)
       const link = document.createElement('a')
       link.href = canvas.toDataURL('image/png')
       link.download = 'kissinskin-makeup.png'
