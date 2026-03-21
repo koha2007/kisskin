@@ -276,20 +276,20 @@ function HomePage({ onNavigate }: HomePageProps) {
       `}</style>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 w-full glass-card border-b border-pink-100/50">
+      <nav className="sticky top-0 z-50 w-full bg-slate-900 border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/logo.png" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
-            <span className="text-xl font-bold tracking-tight text-slate-900">kissinskin</span>
+            <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#styles" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
-            <a href="#how" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
+            <a href="#styles" className="text-sm font-medium text-slate-300 hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
+            <a href="#how" className="text-sm font-medium text-slate-300 hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
-              className="text-sm font-medium text-slate-600 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-200"
+              className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-600"
             >
               {locale === 'ko' ? 'EN' : '한국어'}
             </button>
