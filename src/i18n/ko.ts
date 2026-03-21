@@ -162,4 +162,19 @@ export default {
   'error.shareFallback': '공유에 실패했습니다. 저장하기를 이용해주세요.',
   'error.copyLinkDone': '링크가 클립보드에 복사되었습니다!',
   'error.copyFail': '복사에 실패했습니다.',
+
+  // Auth
+  'auth.login': '로그인',
+  'auth.signup': '회원가입',
+  'auth.loginBtn': '로그인',
+  'auth.signupBtn': '가입하기',
+  'auth.email': '이메일',
+  'auth.password': '비밀번호',
+  'auth.confirmPassword': '비밀번호 확인',
+  'auth.fillAll': '이메일과 비밀번호를 입력해주세요.',
+  'auth.passwordMismatch': '비밀번호가 일치하지 않습니다.',
+  'auth.passwordMin': '비밀번호는 6자 이상이어야 합니다.',
+  'auth.signupSuccess': '가입 확인 이메일을 보냈습니다. 이메일을 확인해주세요.',
+  'auth.logout': '로그아웃',
+  'auth.mypage': '마이페이지',
 } as Record<string, string>

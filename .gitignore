@@ -1,5 +1,6 @@
 # local env
 .dev.vars
+.env
 
 # Cloudflare Wrangler
 .wrangler/

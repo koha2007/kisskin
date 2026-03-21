@@ -5,7 +5,10 @@ import Terms from './pages/terms'
 import Refund from './pages/refund'
 import Privacy from './pages/privacy'
 import Contact from './pages/contact'
+import AuthPage from './pages/AuthPage'
 import { useI18n } from './i18n/context'
+import { supabase } from './lib/supabase'
+import type { User } from '@supabase/supabase-js'
 
 declare global {
   interface Window {
@@ -22,7 +25,7 @@ declare global {
 
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
-type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth'
 
 const FEMALE_MAKEUP_STYLES = [
   'Natural Glow',
@@ -193,6 +196,18 @@ function App() {
     normal: t('analysis.normal'),
     not_sure: t('analysis.notSure'),
   }
+
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   const [page, setPage] = useState<Page>('home')
   const [photo, setPhoto] = useState<string | null>(null)
@@ -1117,9 +1132,14 @@ function App() {
     return <Contact onNavigate={handleNavigate} />
   }
 
+  // 로그인/회원가입
+  if (page === 'auth') {
+    return <AuthPage onNavigate={handleNavigate} />
+  }
+
   // 홈 페이지
   if (page === 'home') {
-    return <HomePage onNavigate={handleNavigate} />
+    return <HomePage onNavigate={handleNavigate} user={user} onLogout={async () => { await supabase.auth.signOut({ scope: 'local' }); setUser(null) }} />
   }
 
   // 로딩 화면

@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useI18n } from './i18n/context'
 
 interface HomePageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact') => void
+  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
+  user?: { email?: string } | null
+  onLogout?: () => void
 }
 
 const STYLE_NAMES = [
@@ -206,7 +208,7 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
   )
 }
 
-function HomePage({ onNavigate }: HomePageProps) {
+function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
   const { t, locale, setLocale } = useI18n()
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
 
@@ -293,6 +295,24 @@ function HomePage({ onNavigate }: HomePageProps) {
             >
               {locale === 'ko' ? 'EN' : '한국어'}
             </button>
+            {user ? (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-300 hidden sm:inline max-w-[120px] truncate">{user.email}</span>
+                <button
+                  onClick={onLogout}
+                  className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-600"
+                >
+                  {t('auth.logout')}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => onNavigate('auth')}
+                className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-600"
+              >
+                {t('auth.login')}
+              </button>
+            )}
             <button
               className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-1.5"
               onClick={() => onNavigate('analysis')}

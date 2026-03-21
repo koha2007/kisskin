@@ -162,4 +162,19 @@ export default {
   'error.shareFallback': 'Sharing failed. Please use Save instead.',
   'error.copyLinkDone': 'Link copied to clipboard!',
   'error.copyFail': 'Copy failed.',
+
+  // Auth
+  'auth.login': 'Login',
+  'auth.signup': 'Sign Up',
+  'auth.loginBtn': 'Login',
+  'auth.signupBtn': 'Sign Up',
+  'auth.email': 'Email',
+  'auth.password': 'Password',
+  'auth.confirmPassword': 'Confirm Password',
+  'auth.fillAll': 'Please enter email and password.',
+  'auth.passwordMismatch': 'Passwords do not match.',
+  'auth.passwordMin': 'Password must be at least 6 characters.',
+  'auth.signupSuccess': 'Confirmation email sent. Please check your inbox.',
+  'auth.logout': 'Logout',
+  'auth.mypage': 'My Page',
 } as Record<string, string>
