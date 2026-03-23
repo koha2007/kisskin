@@ -199,7 +199,7 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
           {style.num}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-slate-800 text-sm leading-tight">{style.name}</p>
+          <p className="font-bold text-navy-mid text-sm leading-tight">{style.name}</p>
           <p className="text-[0.65rem] text-slate-400 mt-0.5">{style.eng}</p>
         </div>
         <span className={`material-symbols-outlined ${iconColor} text-xl flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity`} style={{ fontVariationSettings: "'FILL' 1" }}>{style.icon}</span>
@@ -237,7 +237,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
   ]
 
   return (
-    <div className="font-display bg-background-light text-slate-900 antialiased overflow-x-hidden">
+    <div className="font-display bg-background-light text-navy antialiased overflow-x-hidden">
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(20px); }
@@ -278,7 +278,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
       `}</style>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 w-full bg-slate-900 border-b border-slate-700/50">
+      <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/logo.png" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
@@ -340,7 +340,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                 {t('home.hero.badge')}
               </div>
 
-              <h1 className="animate-fade-in-up text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold leading-[1.15] tracking-tight text-slate-900">
+              <h1 className="animate-fade-in-up text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold leading-[1.15] tracking-tight text-navy">
                 {t('home.hero.title1')}<br />
                 <span className="shimmer-text">{t('home.hero.title2')}</span><br />
                 {t('home.hero.title3')}
@@ -355,7 +355,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               <div className="animate-fade-in-up-delay flex items-start gap-3 bg-white/80 rounded-2xl p-4 border border-pink-100 shadow-sm max-w-lg backdrop-blur-sm">
                 <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  <strong className="text-slate-800">{t('home.hero.productHighlightBold')}</strong>{t('home.hero.productHighlight')}
+                  <strong className="text-navy-mid">{t('home.hero.productHighlightBold')}</strong>{t('home.hero.productHighlight')}
                   <strong className="text-primary"> {t('home.hero.productHighlightLink')}</strong>{t('home.hero.productHighlightEnd')}
                 </p>
               </div>
@@ -389,7 +389,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
 
             {/* Hero Visual */}
             <div className="relative order-1 lg:order-2">
-              <div className="absolute -inset-6 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-slate-900/30 rounded-[3rem] blur-2xl"></div>
+              <div className="absolute -inset-6 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-navy/30 rounded-[3rem] blur-2xl"></div>
               <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
                 <WaveGrid onClick={() => onNavigate('analysis')} />
               </div>
@@ -411,7 +411,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg`}>
                   <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-800">{item.title}</h3>
+                <h3 className="text-lg font-bold text-navy-mid">{item.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -429,7 +429,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               {t('home.styles.badge')}
             </span>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 mt-2">
+            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mt-2">
               {t('home.styles.title')} <span className="text-primary">{t('home.styles.titleHighlight')}</span>{t('home.styles.titleEnd')}
             </h2>
             <p className="text-slate-500 max-w-lg text-sm md:text-base">
@@ -513,7 +513,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                   </div>
                   <div className={`absolute -top-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br ${step.gradient} text-white flex items-center justify-center font-extrabold text-sm shadow-lg`}>{step.num}</div>
                 </div>
-                <h4 className="text-xl font-bold text-slate-800">{step.title}</h4>
+                <h4 className="text-xl font-bold text-navy-mid">{step.title}</h4>
                 <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
@@ -529,7 +529,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
 
         <div className="max-w-3xl mx-auto px-4 text-center relative">
           <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-          <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
+          <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 text-navy">
             {t('home.cta.title1')}<br />{t('home.cta.title2')}
           </h2>
           <p className="text-base text-slate-500 mb-8 max-w-md mx-auto">
@@ -546,7 +546,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white pt-14 pb-8">
+      <footer className="bg-navy text-white pt-14 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-10 mb-10">
             <div className="flex flex-col gap-4">
@@ -575,7 +575,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
             <p className="text-slate-600 text-xs">Powered by AI</p>
           </div>

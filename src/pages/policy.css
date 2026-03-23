@@ -19,7 +19,7 @@
 .legal-header h1 {
   font-size: 18px;
   font-weight: 700;
-  color: #0f172a;
+  color: #070953;
   margin: 0;
 }
 
@@ -28,7 +28,7 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-  color: #0f172a;
+  color: #070953;
   display: flex;
   align-items: center;
 }
@@ -37,7 +37,7 @@
   max-width: 720px;
   margin: 0 auto;
   padding: 24px 20px 60px;
-  color: #334155;
+  color: #2a2d8a;
   line-height: 1.7;
   font-size: 14px;
 }
@@ -51,14 +51,14 @@
 .legal-content h2 {
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a;
+  color: #070953;
   margin: 28px 0 10px;
 }
 
 .legal-content h3 {
   font-size: 14px;
   font-weight: 600;
-  color: #1e293b;
+  color: #121570;
   margin: 16px 0 6px;
 }
 
@@ -103,11 +103,11 @@
 .legal-table th {
   background: #f1f5f9;
   font-weight: 600;
-  color: #0f172a;
+  color: #070953;
 }
 
 .legal-table td {
-  color: #334155;
+  color: #2a2d8a;
 }
 
 .legal-link {

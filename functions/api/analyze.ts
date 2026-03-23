@@ -214,57 +214,61 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
     const authHeader = `Bearer ${env.OPENAI_API_KEY}`
 
-    const femalePrompt = `Professional makeup artist. Apply 9 different makeup styles to the SAME face in a 3×3 grid. ${gender}, ${skinTypeInstruction} 반영.
+    const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 여성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 여성 메이크업으로 표현해줘.
 
-[ABSOLUTE RULES - VIOLATION = FAILURE]
-- NO text/labels/numbers/watermarks anywhere
-- FACE MUST BE 100% IDENTICAL in all 9 cells: same eyes, nose, lips, jawline, skin color, face shape, facial proportions. The person must look like the EXACT SAME person in every cell. If the face looks different, it is a complete failure
-- DO NOT change skin color or brightness. Keep original skin tone exactly
-- ONLY change makeup (cosmetics). DO NOT change background, lighting, clothes, accessories
-- Hair color change ONLY in cell 2 (Cloud Skin). All other 8 cells keep original hair color
-- All 9 cells must have identical face position, size, angle, expression
-- If teeth are visible, make them white and clean
-- Each style must be clearly distinguishable at a glance
-- No gaps or grid lines between cells
+[절대 규칙 - 위반 시 실패]
+- 사람의 얼굴은 절대 바꾸지 마. 메이크업만 확실하게 분별할 수 있게 표현해
+- 9개 셀 모두 동일한 얼굴: 같은 눈, 코, 입, 턱선, 피부색, 얼굴형, 비율. 다른 사람처럼 보이면 실패
+- 피부색, 밝기 절대 변경 금지. 원래 피부톤 그대로 유지
+- 메이크업(화장품)만 변경. 배경, 조명, 옷, 악세서리 변경 금지
+- 2번(Cloud Skin)만 머리색 변경 허용. 나머지 8개는 원본 머리색 유지
+- 9개 셀 모두 동일한 얼굴 위치, 크기, 각도, 표정
+- 이빨이 보이면 하얗고 깨끗하게
+- 폰트/글자/숫자/워터마크 절대 넣지 마
+- 그리드 라인 넣지 마. 셀 사이 간격 없이 꽉 채워
+- 메이크업 차별성을 확실히 줘. 각 스타일이 한눈에 구별되어야 함
+- 화장법을 자연스럽고 이쁘게 해줘
 
-[9가지 메이크업 - 좌→우, 위→아래]
-1: Natural Glow - 광채 피부, 피치 블러셔, 누드 립
-2: Cloud Skin - 구름 피부, 깨끗한 베이스, 머리색 애쉬블론드/밀크브라운으로 변경. 옷 원본 유지
-3: Blood Lip - 진한 버건디/레드 립, 깔끔한 아이
-4: Maximalist Eye - 컬러 아이섀도(보라/파랑/초록), 굵은 아이라인
-5: Metallic Eye - 골드/실버 메탈릭 아이섀도, 글로시 눈매
-6: Bold Lip - 선명한 빨강/코랄 립
-7: Blush Draping - 광대~관자놀이 진한 분홍/코랄 블러셔
-8: Grunge Makeup - 스모키 아이, 다크 베리 립, 매트 피부
-9: K-pop Idol - 유리알 광택, 그라데이션 핑크 립, 쉬머
+[9가지 여성 메이크업 - 좌→우, 위→아래]
+1: 내추럴 글로우 - 광채 피부, 피치 블러셔, 누드 립. 자연스러운 건강미
+2: 클라우드 스킨 - 구름처럼 뽀얀 피부, 깨끗한 베이스, 머리색 애쉬블론드/밀크브라운으로 변경. 옷 원본 유지
+3: 블러드 립 - 진한 버건디/레드 립을 확실하게, 깔끔한 아이 메이크업
+4: 맥시멀리스트 아이 - 컬러 아이섀도(보라/파랑/초록), 굵은 아이라인. 눈매가 화려해야 함
+5: 메탈릭 아이 - 골드/실버 메탈릭 아이섀도, 글로시 눈매. 반짝임이 확실해야 함
+6: 볼드 립 - 선명한 빨강/코랄 립. 입술 색이 확실히 눈에 띄어야 함
+7: 블러쉬 드레이핑 & 레이어링 - 광대~관자놀이 진한 분홍/코랄 블러셔. 볼 색이 확실히 보여야 함
+8: 그런지 메이크업 - 스모키 아이, 다크 베리 립, 매트 피부. 강렬한 무드
+9: K-pop 아이돌 메이크업 - 유리알 광택, 그라데이션 핑크 립, 쉬머 하이라이트
 
-CRITICAL: The face must be IDENTICAL in all 9 cells - same person! Only makeup changes! Hair color only in cell 2! No text!`
+이 사진을 인스타그램 9분할 그리드용으로 변환해줘. 비율에 맞게 크롭할지 여백을 추가할지 자동으로 판단해서 최대한 사진이 잘리지 않게 해줘. 전체를 3x3 그리드로 균등하게 9등분해줘. 총 9가지 메이크업 스타일 확실하고 정확하게 자연스럽게 표현해줘. 사진 해상도 높여줘.`
 
-    const malePrompt = `Professional makeup artist. Apply 9 different male makeup styles to the SAME face in a 3×3 grid. ${gender}, ${skinTypeInstruction} 반영.
+    const malePrompt = `너는 최고의 메이크업 아티스트야. 이 남성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 남성 메이크업으로 표현해줘.
 
-[ABSOLUTE RULES - VIOLATION = FAILURE]
-- NO text/labels/numbers/watermarks anywhere
-- FACE MUST BE 100% IDENTICAL in all 9 cells: same eyes, nose, lips, jawline, skin color, ethnicity, face shape, facial proportions. The person must look like the EXACT SAME person in every cell. If the face looks different, it is a complete failure
-- DO NOT change skin color or brightness. Keep original skin tone exactly. Keep accessories (hat/glasses/earrings)
-- ONLY change makeup (cosmetics). DO NOT change background, lighting, clothes
-- Hair color change ONLY in cell 9 (K-pop Idol). All other 8 cells keep original hair color
-- All 9 cells must have identical face position, size, angle, expression. Clean skin but keep original tone
-- If teeth are visible, make them white and clean
-- Each of the 9 styles MUST be clearly distinguishable! Lip color, eyeshadow, blush must be visible. Subtle/bland = failure
-- No gaps or grid lines between cells
+[절대 규칙 - 위반 시 실패]
+- 사람의 얼굴은 절대 바꾸지 마. 메이크업만 확실하게 분별할 수 있게 표현해
+- 9개 셀 모두 동일한 얼굴: 같은 눈, 코, 입, 턱선, 피부색, 얼굴형, 비율. 다른 사람처럼 보이면 실패
+- 피부색, 밝기 절대 변경 금지. 원래 피부톤 그대로 유지
+- 메이크업(화장품)만 변경. 배경, 조명, 옷, 악세서리(모자/안경/귀걸이) 변경 금지
+- 9번(K-pop Idol)만 머리색 변경 허용. 나머지 8개는 원본 머리색 유지
+- 9개 셀 모두 동일한 얼굴 위치, 크기, 각도, 표정
+- 이빨이 보이면 하얗고 깨끗하게
+- 폰트/글자/숫자/워터마크 절대 넣지 마
+- 그리드 라인 넣지 마. 셀 사이 간격 없이 꽉 채워
+- 메이크업 차별성을 확실히 줘. 각 스타일이 한눈에 구별되어야 함
+- 화장법을 자연스럽고 이쁘게 해줘
 
 [9가지 남성 메이크업 - 좌→우, 위→아래]
-1: No-Makeup Makeup - 깨끗한 매트 피부, 눈썹 정돈, 투명 보습 립밤. 가장 자연스러운 룩
-2: Skincare Hybrid Base - 촉촉한 윤광 글로우 피부, 이슬 맺힌 듯한 광채. 1번보다 확연히 빛나는 피부
-3: Blurred Lip - 선명한 로즈/코랄 립 컬러를 확실하게 바르기. 입술 색이 눈에 확 띄어야 함. 깨끗한 피부
-4: Grunge / Smoky Eye - 눈 주위에 차콜+카키+다크브라운 아이섀도를 넓고 진하게 블렌딩. 다크 베리 매트 립. 눈매가 강렬해야 함
-5: Monochrome - 테라코타/피치 한 가지 톤으로 아이섀도·블러셔·립을 통일. 세 부위 모두 컬러가 확실히 보여야 함
-6: Utility Makeup - 완벽한 컨실러 커버, 또렷한 눈썹, 자연스러운 코랄 틴트 립. 깔끔한 비즈니스 룩
-7: Blue & Color Point Eye - 눈두덩에 선명한 블루/네이비 아이섀도를 확실하게 바르기. 파란색이 눈에 확 띄어야 함
-8: Vampire Romantic - 눈 주위 버건디+로즈골드 그라데이션 아이섀도를 진하게. 짙은 와인/다크레드 립. 드라마틱하고 강렬한 무드
-9: K-pop Idol - 글로우 베이스, 핑크+피치 쉬머 아이섀도, 선명한 코랄핑크 립, 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
+1: 내추럴 소프트포커스 스킨 (No-Makeup Makeup) - 깨끗한 매트 피부, 눈썹 자연스럽게 정돈, 투명 보습 립밤. 가장 자연스러운 룩
+2: 스킨케어 하이브리드 베이스 - 촉촉한 윤광 글로우 피부, 이슬 맺힌 듯한 광채. 1번보다 확연히 빛나는 피부
+3: 디퓨즈드 립 (Blurred Lip) - 선명한 로즈/코랄 립 컬러를 자연스럽지만 확실하게. 입술 색이 눈에 띄어야 함. 깨끗한 피부
+4: 그런지 / 스모키 아이 - 눈 주위에 차콜+카키+다크브라운 아이섀도를 자연스럽게 블렌딩. 다크 베리 매트 립. 눈매가 강렬하되 과하지 않게
+5: 톤인톤 모노크롬 메이크업 - 테라코타/피치 한 가지 톤으로 아이섀도·블러셔·립을 통일. 세 부위 모두 컬러가 자연스럽게 보여야 함
+6: 유틸리티 메이크업 (기능성 남성 전용) - 완벽한 컨실러 커버, 또렷한 눈썹, 자연스러운 코랄 틴트 립. 깔끔한 비즈니스 룩
+7: 블루 & 컬러 포인트 아이 - 눈두덩에 선명한 블루/네이비 아이섀도를 확실하게 바르되 자연스럽게. 파란색이 눈에 띄어야 함
+8: 뱀파이어 로맨틱 - 눈 주위 버건디+로즈골드 그라데이션 아이섀도. 짙은 와인/다크레드 립. 드라마틱하되 남성스러운 무드
+9: K-팝 아이돌 메이크업 - 글로우 베이스, 핑크+피치 쉬머 아이섀도, 선명한 코랄핑크 립, 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
 
-CRITICAL: The face must be IDENTICAL in all 9 cells - same person! Only makeup changes! Hair color only in cell 9! No text! Each style must be visually distinct!`
+이 사진을 인스타그램 9분할 그리드용으로 변환해줘. 비율에 맞게 크롭할지 여백을 추가할지 자동으로 판단해서 최대한 사진이 잘리지 않게 해줘. 전체를 3x3 그리드로 균등하게 9등분해줘. 총 9가지 메이크업 스타일 확실하고 정확하게 자연스럽게 표현해줘. 사진 해상도 높여줘.`
 
     const imagePrompt = gender === '남성' ? malePrompt : femalePrompt
 

@@ -57,13 +57,13 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
 
   return (
     <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
+      minHeight: '100dvh',
+      background: 'linear-gradient(135deg, #070953 0%, #121570 50%, #070953 100%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '20px',
+      padding: '20px 16px',
     }}>
       {/* Logo */}
       <div
@@ -76,10 +76,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
 
       {/* Auth Card */}
       <div style={{
-        background: 'rgba(30, 41, 59, 0.8)',
+        background: 'rgba(18, 21, 112, 0.8)',
         backdropFilter: 'blur(20px)',
         borderRadius: '16px',
-        padding: '32px',
+        padding: 'clamp(20px, 5vw, 32px)',
         width: '100%',
         maxWidth: '400px',
         border: '1px solid rgba(148, 163, 184, 0.2)',
@@ -87,7 +87,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         {/* Tab Toggle */}
         <div style={{
           display: 'flex',
-          background: 'rgba(15, 23, 42, 0.6)',
+          background: 'rgba(7, 9, 83, 0.6)',
           borderRadius: '10px',
           padding: '4px',
           marginBottom: '24px',
@@ -144,7 +144,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 padding: '12px 14px',
                 borderRadius: '10px',
                 border: '1px solid rgba(148, 163, 184, 0.3)',
-                background: 'rgba(15, 23, 42, 0.6)',
+                background: 'rgba(7, 9, 83, 0.6)',
                 color: '#fff',
                 fontSize: '14px',
                 outline: 'none',
@@ -167,7 +167,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 padding: '12px 14px',
                 borderRadius: '10px',
                 border: '1px solid rgba(148, 163, 184, 0.3)',
-                background: 'rgba(15, 23, 42, 0.6)',
+                background: 'rgba(7, 9, 83, 0.6)',
                 color: '#fff',
                 fontSize: '14px',
                 outline: 'none',
@@ -191,7 +191,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                   padding: '12px 14px',
                   borderRadius: '10px',
                   border: '1px solid rgba(148, 163, 184, 0.3)',
-                  background: 'rgba(15, 23, 42, 0.6)',
+                  background: 'rgba(7, 9, 83, 0.6)',
                   color: '#fff',
                   fontSize: '14px',
                   outline: 'none',
