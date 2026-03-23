@@ -135,6 +135,7 @@ function createTiledGrid(photoUrl: string): Promise<{ gridPhoto: string; gridSiz
       const ratio = w / h
 
       // 원본 비율에 맞는 그리드 사이즈 선택 (OpenAI 지원 사이즈)
+      // 3으로 나누어 떨어지는 크기 사용 (셀 경계 정밀도)
       let gridW: number, gridH: number, gridSize: string
       if (ratio < 0.85) {
         gridW = 1024; gridH = 1536; gridSize = '1024x1536' // 세로 사진
@@ -144,8 +145,12 @@ function createTiledGrid(photoUrl: string): Promise<{ gridPhoto: string; gridSiz
         gridW = 1024; gridH = 1024; gridSize = '1024x1024' // 정사각형
       }
 
-      const cellW = Math.floor(gridW / 3)
-      const cellH = Math.floor(gridH / 3)
+      // 그리드 크기를 3의 배수로 조정 (부동소수점 방지)
+      gridW = Math.floor(gridW / 3) * 3
+      gridH = Math.floor(gridH / 3) * 3
+
+      const cellW = gridW / 3
+      const cellH = gridH / 3
       const cellRatio = cellW / cellH
 
       const cvs = document.createElement('canvas')
@@ -434,18 +439,18 @@ function App() {
       // 이미지 슬라이싱 + 이메일용 합성 이미지 생성
       const img = new Image()
       img.onload = async () => {
-        const srcCellW = img.width / 3
-        const srcCellH = img.height / 3
+        const srcCellW = Math.floor(img.width / 3)
+        const srcCellH = Math.floor(img.height / 3)
 
         // 1) 개별 셀 이미지 (웹 표시용)
         const cells: string[] = []
         for (let row = 0; row < 3; row++) {
           for (let col = 0; col < 3; col++) {
             const cvs = document.createElement('canvas')
-            cvs.width = Math.floor(srcCellW)
-            cvs.height = Math.floor(srcCellH)
+            cvs.width = srcCellW
+            cvs.height = srcCellH
             const ctx = cvs.getContext('2d')!
-            ctx.drawImage(img, col * srcCellW, row * srcCellH, srcCellW, srcCellH, 0, 0, cvs.width, cvs.height)
+            ctx.drawImage(img, col * srcCellW, row * srcCellH, srcCellW, srcCellH, 0, 0, srcCellW, srcCellH)
             cells.push(cvs.toDataURL('image/jpeg', 0.85))
           }
         }
@@ -779,8 +784,8 @@ function App() {
   // 그리드 + 분석 리포트를 하나의 캔버스로 합성
   // includeProducts: true면 화장품 추천도 포함 (공유용)
   const buildCompositeCanvas = async (gridImg: HTMLImageElement, includeProducts = false): Promise<HTMLCanvasElement> => {
-    const srcCellW = gridImg.width / 3
-    const srcCellH = gridImg.height / 3
+    const srcCellW = Math.floor(gridImg.width / 3)
+    const srcCellH = Math.floor(gridImg.height / 3)
     const gap = Math.round(srcCellW * 0.035)
     const pad = Math.round(srcCellW * 0.04)
     const labelH = Math.round(srcCellH * 0.13)
@@ -789,8 +794,8 @@ function App() {
 
     const cellW = srcCellW
     const cellH = srcCellH + labelH
-    const gridW = pad * 2 + cellW * 3 + gap * 2
-    const gridH = pad * 2 + cellH * 3 + gap * 2
+    const gridW = Math.round(pad * 2 + cellW * 3 + gap * 2)
+    const gridH = Math.round(pad * 2 + cellH * 3 + gap * 2)
 
     // 분석 리포트 파싱
     const structured = report ? parseReport(report) : null
@@ -873,10 +878,10 @@ function App() {
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
         const i = row * 3 + col
-        const sx = col * srcCellW
-        const sy = row * srcCellH
-        const dx = pad + col * (cellW + gap)
-        const dy = pad + row * (cellH + gap)
+        const sx = Math.round(col * srcCellW)
+        const sy = Math.round(row * srcCellH)
+        const dx = Math.round(pad + col * (cellW + gap))
+        const dy = Math.round(pad + row * (cellH + gap))
 
         ctx.save()
         roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
