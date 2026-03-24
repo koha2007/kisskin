@@ -21,19 +21,12 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
     setError(null)
     setSuccess(null)
 
-    if (!email || !password) {
-      setError(t('auth.fillAll'))
-      return
-    }
-
-    if (mode === 'signup' && password !== confirmPassword) {
-      setError(t('auth.passwordMismatch'))
-      return
-    }
-
-    if (password.length < 6) {
-      setError(t('auth.passwordMin'))
-      return
+    if (mode === 'forgot') {
+      if (!email) { setError(t('auth.fillAll')); return }
+    } else {
+      if (!email || !password) { setError(t('auth.fillAll')); return }
+      if (mode === 'signup' && password !== confirmPassword) { setError(t('auth.passwordMismatch')); return }
+      if (password.length < 6) { setError(t('auth.passwordMin')); return }
     }
 
     setLoading(true)
