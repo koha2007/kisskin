@@ -27,6 +27,24 @@ type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
 type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth'
 
+const PAGE_PATHS: Record<Page, string> = {
+  home: '/',
+  analysis: '/analysis',
+  terms: '/terms',
+  privacy: '/privacy',
+  refund: '/refund',
+  contact: '/contact',
+  auth: '/auth',
+}
+
+const PATH_TO_PAGE: Record<string, Page> = Object.fromEntries(
+  Object.entries(PAGE_PATHS).map(([page, path]) => [path, page as Page])
+) as Record<string, Page>
+
+function getPageFromPath(): Page {
+  return PATH_TO_PAGE[window.location.pathname] || 'home'
+}
+
 const FEMALE_MAKEUP_STYLES = [
   'Natural Glow',
   'Cloud Skin',
@@ -218,7 +236,7 @@ function App() {
     return () => subscription.unsubscribe()
   }, [])
 
-  const [page, setPage] = useState<Page>('home')
+  const [page, setPage] = useState<Page>(getPageFromPath())
   const [photo, setPhoto] = useState<string | null>(null)
   const [gender, setGender] = useState<Gender>(null)
   const [skinType, setSkinType] = useState<SkinType>(null)
@@ -284,8 +302,21 @@ function App() {
 
   const handleNavigate = (target: Page) => {
     setPage(target)
+    const path = PAGE_PATHS[target]
+    if (window.location.pathname !== path) {
+      window.history.pushState({ page: target }, '', path)
+    }
     window.scrollTo(0, 0)
   }
+
+  // 브라우저 뒤로가기/앞으로가기 처리
+  useEffect(() => {
+    const onPopState = () => {
+      setPage(getPageFromPath())
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
 
   const loadPhoto = (dataUrl: string) => {
     const img = new Image()
