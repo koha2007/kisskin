@@ -499,6 +499,16 @@ function App() {
         }
         setResultCells(cells)
 
+        // 자동 저장 → URL을 /result/{id}로 변경 (공유 가능)
+        if (data.image && data.report && gender) {
+          saveSharedResult(data.image, data.report, gender, activeStyles)
+            .then(id => {
+              setShareId(id)
+              window.history.replaceState({ page: 'result' }, '', `/result/${id}`)
+            })
+            .catch(err => console.warn('[auto-save] Failed:', err))
+        }
+
         // 2) 이메일용 합성 이미지 (그리드 + 분석 리포트 + 제품 포함)
         if (customerEmailRef.current && data.report) {
           const composedCanvas = await buildCompositeCanvas(img, true)
