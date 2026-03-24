@@ -6,8 +6,10 @@ import Refund from './pages/refund'
 import Privacy from './pages/privacy'
 import Contact from './pages/contact'
 import AuthPage from './pages/AuthPage'
+import ResultPage from './pages/ResultPage'
 import { useI18n } from './i18n/context'
 import { supabase } from './lib/supabase'
+import { saveSharedResult } from './lib/shareResult'
 import type { User } from '@supabase/supabase-js'
 
 declare global {
@@ -25,7 +27,7 @@ declare global {
 
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
-type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'result'
 
 const PAGE_PATHS: Record<Page, string> = {
   home: '/',
@@ -35,6 +37,7 @@ const PAGE_PATHS: Record<Page, string> = {
   refund: '/refund',
   contact: '/contact',
   auth: '/auth',
+  result: '/result',
 }
 
 const PATH_TO_PAGE: Record<string, Page> = Object.fromEntries(
@@ -42,7 +45,9 @@ const PATH_TO_PAGE: Record<string, Page> = Object.fromEntries(
 ) as Record<string, Page>
 
 function getPageFromPath(): Page {
-  return PATH_TO_PAGE[window.location.pathname] || 'home'
+  const path = window.location.pathname
+  if (path.startsWith('/result/')) return 'result'
+  return PATH_TO_PAGE[path] || 'home'
 }
 
 const FEMALE_MAKEUP_STYLES = [
@@ -246,6 +251,7 @@ function App() {
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
+  const [shareId, setShareId] = useState<string | null>(null)
   const [showInstallBanner, setShowInstallBanner] = useState(false)
   const [isIos, setIsIos] = useState(false)
   const [showIosGuide, setShowIosGuide] = useState(false)
@@ -665,6 +671,7 @@ function App() {
     setResultCells([])
     setReport(null)
     setError(null)
+    setShareId(null)
   }
 
   // 공유 메뉴 외부 클릭 시 닫기
@@ -702,6 +709,17 @@ function App() {
     if (!resultImage) return
 
     try {
+      // Save result to Supabase and get shareable URL
+      let currentShareId = shareId
+      if (!currentShareId && resultImage && report && gender) {
+        try {
+          currentShareId = await saveSharedResult(resultImage, report, gender, activeStyles)
+          setShareId(currentShareId)
+        } catch (e) {
+          console.warn('[share] Failed to save result:', e)
+        }
+      }
+
       const img = new Image()
       img.src = resultImage
       await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject })
@@ -718,7 +736,7 @@ function App() {
       }
 
       const file = new File([blob], 'kissinskin-makeup.jpg', { type: 'image/jpeg' })
-      const shareUrl = 'https://kissinskin.net'
+      const shareUrl = currentShareId ? `https://kissinskin.net/result/${currentShareId}` : 'https://kissinskin.net'
 
       // 리포트 분석 결과를 공유 텍스트에 포함
       const structured = report ? parseReport(report) : null
@@ -1152,6 +1170,11 @@ function App() {
     img.src = resultImage
   }
 
+  // 공유된 결과 페이지
+  if (page === 'result') {
+    return <ResultPage onNavigate={handleNavigate} />
+  }
+
   // 이용약관 (Terms of Service)
   if (page === 'terms') {
     return <Terms onNavigate={handleNavigate} />
@@ -1291,7 +1314,7 @@ function App() {
 
           {/* 공유 모달 — 네이티브 공유 + 직접 소셜 링크 */}
           {showShareMenu && (() => {
-            const shareUrl = 'https://kissinskin.net'
+            const shareUrl = shareId ? `https://kissinskin.net/result/${shareId}` : 'https://kissinskin.net'
             // 분석 결과 요약 텍스트
             const sr = report ? parseReport(report) : null
             const sa = sr?.analysis
