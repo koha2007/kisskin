@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kisskin-cache-v1';
+const CACHE_NAME = 'kisskin-cache-v2';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_ASSETS = [
@@ -37,6 +37,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // SPA 라우팅: navigate 요청은 index.html로 폴백
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(async () => {
+          const cached = await caches.match('/');
+          if (cached) return cached;
+          return caches.match(OFFLINE_URL);
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
@@ -49,7 +62,6 @@ self.addEventListener('fetch', (event) => {
       .catch(async () => {
         const cached = await caches.match(event.request);
         if (cached) return cached;
-        if (event.request.mode === 'navigate') return caches.match(OFFLINE_URL);
         return new Response('오프라인', { status: 503 });
       })
   );
