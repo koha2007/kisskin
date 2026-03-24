@@ -25,10 +25,15 @@ export async function saveSharedResult(
 
   if (uploadError) throw new Error(`Image upload failed: ${uploadError.message}`)
 
-  // 2. Insert metadata
+  // 2. Insert metadata - report가 중첩 JSON 문자열일 수 있으므로 완전히 풀기
   let reportJson: object
   try {
-    reportJson = JSON.parse(report)
+    let parsed = JSON.parse(report)
+    // 이중 stringify된 경우 한번 더 파싱
+    if (typeof parsed === 'string') {
+      try { parsed = JSON.parse(parsed) } catch { /* keep as-is */ }
+    }
+    reportJson = parsed && typeof parsed === 'object' ? parsed : { raw: report }
   } catch {
     reportJson = { raw: report }
   }
@@ -68,9 +73,15 @@ export async function loadSharedResult(id: string): Promise<SharedResultData | n
     .from('results')
     .getPublicUrl(data.image_path)
 
+  // report가 문자열로 저장된 경우 파싱
+  let report = data.report
+  if (typeof report === 'string') {
+    try { report = JSON.parse(report) } catch { /* keep as-is */ }
+  }
+
   return {
     imageUrl: urlData.publicUrl,
-    report: data.report,
+    report,
     gender: data.gender,
     styles: data.styles as string[],
   }

@@ -83,8 +83,13 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
 
   if (!data) return null
 
-  const a = data.report?.analysis
-  const products = data.report?.products || []
+  // report가 여전히 문자열일 수 있으므로 방어 처리
+  let reportObj = data.report
+  if (typeof reportObj === 'string') {
+    try { reportObj = JSON.parse(reportObj) } catch { reportObj = {} }
+  }
+  const a = reportObj?.analysis
+  const products = reportObj?.products || []
 
   return (
     <div className="analysis-page">
