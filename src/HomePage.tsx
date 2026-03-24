@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useI18n } from './i18n/context'
 
 interface HomePageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
+  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage') => void
   user?: { email?: string } | null
   onLogout?: () => void
 }
@@ -208,7 +208,7 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
   )
 }
 
-function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
+function HomePage({ onNavigate, user }: HomePageProps) {
   const { t, locale, setLocale } = useI18n()
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
 
@@ -296,15 +296,13 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               {locale === 'ko' ? 'EN' : '한국어'}
             </button>
             {user ? (
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-300 hidden sm:inline max-w-[120px] truncate">{user.email}</span>
-                <button
-                  onClick={onLogout}
-                  className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-600"
-                >
-                  {t('auth.logout')}
-                </button>
-              </div>
+              <button
+                onClick={() => onNavigate('mypage')}
+                className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-600 flex items-center gap-1.5"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
+                <span className="hidden sm:inline">{t('auth.mypage')}</span>
+              </button>
             ) : (
               <button
                 onClick={() => onNavigate('auth')}

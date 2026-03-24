@@ -177,4 +177,21 @@ export default {
   'auth.signupSuccess': '가입 확인 이메일을 보냈습니다. 이메일을 확인해주세요.',
   'auth.logout': '로그아웃',
   'auth.mypage': '마이페이지',
+
+  // MyPage
+  'mypage.title': '마이페이지',
+  'mypage.info': '내 정보',
+  'mypage.loginMethod': '로그인 방식',
+  'mypage.emailLogin': '이메일 로그인',
+  'mypage.changePassword': '비밀번호 변경',
+  'mypage.newPassword': '새 비밀번호',
+  'mypage.confirmNewPassword': '새 비밀번호 확인',
+  'mypage.changePasswordBtn': '비밀번호 변경',
+  'mypage.passwordChanged': '비밀번호가 변경되었습니다.',
+  'mypage.deleteAccount': '회원 탈퇴',
+  'mypage.deleteWarning': '탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.',
+  'mypage.deleteAccountBtn': '회원 탈퇴하기',
+  'mypage.deleteConfirm': '정말 탈퇴하시겠습니까?',
+  'mypage.deleteConfirmBtn': '탈퇴',
+  'mypage.cancel': '취소',
 } as Record<string, string>

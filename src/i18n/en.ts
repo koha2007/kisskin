@@ -177,4 +177,21 @@ export default {
   'auth.signupSuccess': 'Confirmation email sent. Please check your inbox.',
   'auth.logout': 'Logout',
   'auth.mypage': 'My Page',
+
+  // MyPage
+  'mypage.title': 'My Page',
+  'mypage.info': 'My Info',
+  'mypage.loginMethod': 'Login Method',
+  'mypage.emailLogin': 'Email Login',
+  'mypage.changePassword': 'Change Password',
+  'mypage.newPassword': 'New Password',
+  'mypage.confirmNewPassword': 'Confirm New Password',
+  'mypage.changePasswordBtn': 'Change Password',
+  'mypage.passwordChanged': 'Password changed successfully.',
+  'mypage.deleteAccount': 'Delete Account',
+  'mypage.deleteWarning': 'All data will be permanently deleted and cannot be recovered.',
+  'mypage.deleteAccountBtn': 'Delete Account',
+  'mypage.deleteConfirm': 'Are you sure you want to delete your account?',
+  'mypage.deleteConfirmBtn': 'Delete',
+  'mypage.cancel': 'Cancel',
 } as Record<string, string>

@@ -7,6 +7,7 @@ import Privacy from './pages/privacy'
 import Contact from './pages/contact'
 import AuthPage from './pages/AuthPage'
 import ResultPage from './pages/ResultPage'
+import MyPage from './pages/MyPage'
 import { useI18n } from './i18n/context'
 import { supabase } from './lib/supabase'
 import { saveSharedResult } from './lib/shareResult'
@@ -27,7 +28,7 @@ declare global {
 
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
-type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'result'
+type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'result' | 'mypage'
 
 const PAGE_PATHS: Record<Page, string> = {
   home: '/',
@@ -38,6 +39,7 @@ const PAGE_PATHS: Record<Page, string> = {
   contact: '/contact',
   auth: '/auth',
   result: '/result',
+  mypage: '/mypage',
 }
 
 const PATH_TO_PAGE: Record<string, Page> = Object.fromEntries(
@@ -1198,6 +1200,12 @@ function App() {
   // 로그인/회원가입
   if (page === 'auth') {
     return <AuthPage onNavigate={handleNavigate} />
+  }
+
+  // 마이페이지
+  if (page === 'mypage') {
+    if (!user) { handleNavigate('auth'); return null }
+    return <MyPage onNavigate={handleNavigate} user={user} onLogout={async () => { await supabase.auth.signOut({ scope: 'local' }); setUser(null) }} />
   }
 
   // 홈 페이지
