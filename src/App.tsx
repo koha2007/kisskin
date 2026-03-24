@@ -1304,7 +1304,17 @@ function App() {
                   <span className="material-symbols-outlined">download</span>
                   {t('result.save')}
                 </button>
-                <button className="download-btn share-btn" onClick={() => setShowShareMenu(true)}>
+                <button className="download-btn share-btn" onClick={async () => {
+                    if (!shareId && resultImage && report && gender) {
+                      try {
+                        const id = await saveSharedResult(resultImage, report, gender, activeStyles)
+                        setShareId(id)
+                      } catch (e) {
+                        console.warn('[share] Failed to save result:', e)
+                      }
+                    }
+                    setShowShareMenu(true)
+                  }}>
                     <span className="material-symbols-outlined">share</span>
                     {t('result.share')}
                   </button>
