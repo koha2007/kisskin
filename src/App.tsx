@@ -208,8 +208,12 @@ function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
     })
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null)
+      // 이메일 확인 후 리다이렉트 시 홈으로 이동
+      if (event === 'SIGNED_IN' && session) {
+        setPage('home')
+      }
     })
     return () => subscription.unsubscribe()
   }, [])

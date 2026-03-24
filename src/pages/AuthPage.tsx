@@ -39,9 +39,24 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
     setLoading(true)
     try {
       if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({ email, password })
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+          },
+        })
         if (error) throw error
-        setSuccess(t('auth.signupSuccess'))
+        // Supabase는 이미 존재하는 이메일에 에러 없이 빈 session을 반환할 수 있음
+        if (data.user && !data.session) {
+          // 이메일 확인이 필요한 경우
+          setSuccess(t('auth.signupSuccess'))
+        } else if (data.session) {
+          // 이메일 확인 없이 바로 로그인된 경우
+          onNavigate('home')
+        } else {
+          setError(t('auth.fillAll'))
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
