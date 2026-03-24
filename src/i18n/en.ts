@@ -175,6 +175,10 @@ export default {
   'auth.passwordMismatch': 'Passwords do not match.',
   'auth.passwordMin': 'Password must be at least 6 characters.',
   'auth.signupSuccess': 'Confirmation email sent. Please check your inbox.',
+  'auth.forgotPassword': 'Forgot your password?',
+  'auth.resetBtn': 'Send Reset Link',
+  'auth.resetEmailSent': 'Password reset email sent. Please check your inbox.',
+  'auth.backToLogin': '← Back to Login',
   'auth.logout': 'Logout',
   'auth.mypage': 'My Page',
 

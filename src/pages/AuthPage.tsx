@@ -8,7 +8,7 @@ interface AuthPageProps {
 
 export default function AuthPage({ onNavigate }: AuthPageProps) {
   const { t } = useI18n()
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -38,6 +38,20 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
 
     setLoading(true)
     try {
+      if (mode === 'forgot') {
+        if (!email) {
+          setError(t('auth.fillAll'))
+          setLoading(false)
+          return
+        }
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/mypage`,
+        })
+        if (error) throw error
+        setSuccess(t('auth.resetEmailSent'))
+        setLoading(false)
+        return
+      }
       if (mode === 'signup') {
         const { data, error } = await supabase.auth.signUp({
           email,
@@ -168,28 +182,30 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             />
           </div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px', fontWeight: 500 }}>
-              {t('auth.password')}
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="••••••••"
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                borderRadius: '10px',
-                border: '1px solid rgba(148, 163, 184, 0.3)',
-                background: 'rgba(7, 9, 83, 0.6)',
-                color: '#fff',
-                fontSize: '14px',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
-            />
-          </div>
+          {mode !== 'forgot' && (
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px', fontWeight: 500 }}>
+                {t('auth.password')}
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: '100%',
+                  padding: '12px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(148, 163, 184, 0.3)',
+                  background: 'rgba(7, 9, 83, 0.6)',
+                  color: '#fff',
+                  fontSize: '14px',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+          )}
 
           {mode === 'signup' && (
             <div style={{ marginBottom: '16px' }}>
@@ -260,12 +276,50 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               transition: 'all 0.2s',
             }}
           >
-            {loading ? '...' : mode === 'login' ? t('auth.loginBtn') : t('auth.signupBtn')}
+            {loading ? '...' : mode === 'forgot' ? t('auth.resetBtn') : mode === 'login' ? t('auth.loginBtn') : t('auth.signupBtn')}
           </button>
+
+          {/* 비밀번호 찾기 / 로그인으로 돌아가기 */}
+          {mode === 'login' && (
+            <button
+              type="button"
+              onClick={() => { setMode('forgot'); setError(null); setSuccess(null) }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#94a3b8',
+                fontSize: '13px',
+                cursor: 'pointer',
+                marginTop: '12px',
+                width: '100%',
+                textAlign: 'center',
+              }}
+            >
+              {t('auth.forgotPassword')}
+            </button>
+          )}
+          {mode === 'forgot' && (
+            <button
+              type="button"
+              onClick={() => { setMode('login'); setError(null); setSuccess(null) }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#94a3b8',
+                fontSize: '13px',
+                cursor: 'pointer',
+                marginTop: '12px',
+                width: '100%',
+                textAlign: 'center',
+              }}
+            >
+              {t('auth.backToLogin')}
+            </button>
+          )}
         </form>
 
-        {/* Divider */}
-        <div style={{
+        {/* Divider - 비밀번호 찾기 모드에서는 숨김 */}
+        {mode !== 'forgot' && <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
@@ -274,10 +328,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           <div style={{ flex: 1, height: '1px', background: 'rgba(148, 163, 184, 0.3)' }} />
           <span style={{ fontSize: '12px', color: '#94a3b8' }}>OR</span>
           <div style={{ flex: 1, height: '1px', background: 'rgba(148, 163, 184, 0.3)' }} />
-        </div>
+        </div>}
 
-        {/* Google Login */}
-        <button
+        {/* Google Login - 비밀번호 찾기 모드에서는 숨김 */}
+        {mode !== 'forgot' && <button
           onClick={async () => {
             setError(null)
             const { error } = await supabase.auth.signInWithOAuth({
@@ -312,7 +366,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
           </svg>
           Google {mode === 'login' ? t('auth.login') : t('auth.signup')}
-        </button>
+        </button>}
       </div>
     </div>
   )

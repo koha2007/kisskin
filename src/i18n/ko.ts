@@ -175,6 +175,10 @@ export default {
   'auth.passwordMismatch': '비밀번호가 일치하지 않습니다.',
   'auth.passwordMin': '비밀번호는 6자 이상이어야 합니다.',
   'auth.signupSuccess': '가입 확인 이메일을 보냈습니다. 이메일을 확인해주세요.',
+  'auth.forgotPassword': '비밀번호를 잊으셨나요?',
+  'auth.resetBtn': '비밀번호 재설정 링크 보내기',
+  'auth.resetEmailSent': '비밀번호 재설정 이메일을 보냈습니다. 이메일을 확인해주세요.',
+  'auth.backToLogin': '← 로그인으로 돌아가기',
   'auth.logout': '로그아웃',
   'auth.mypage': '마이페이지',
 
