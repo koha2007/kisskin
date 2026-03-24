@@ -843,12 +843,14 @@ function App() {
     const srcCellH = Math.floor(gridImg.height / 3)
     const gap = Math.round(srcCellW * 0.035)
     const pad = Math.round(srcCellW * 0.04)
-    const labelH = Math.round(srcCellH * 0.13)
     const radius = Math.round(srcCellW * 0.045)
     const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
 
+    // 셀 이미지를 4:5 비율로 통일 (cover 크롭)
     const cellW = srcCellW
-    const cellH = srcCellH + labelH
+    const displayImgH = Math.round(cellW * 1.25) // 4:5 비율
+    const labelH = Math.round(fontSize * 2.2)
+    const cellH = displayImgH + labelH
     const gridW = Math.round(pad * 2 + cellW * 3 + gap * 2)
     const gridH = Math.round(pad * 2 + cellH * 3 + gap * 2)
 
@@ -947,17 +949,31 @@ function App() {
         ctx.fill()
         ctx.restore()
 
+        // Cover 크롭: 소스 셀에서 4:5 비율로 중앙 크롭
+        const targetRatio = cellW / displayImgH
+        const srcRatio = srcCellW / srcCellH
+        let cropX = sx, cropY = sy, cropW = srcCellW, cropH = srcCellH
+        if (srcRatio > targetRatio) {
+          // 소스가 더 넓음 → 좌우 크롭
+          cropW = Math.round(srcCellH * targetRatio)
+          cropX = sx + Math.round((srcCellW - cropW) / 2)
+        } else {
+          // 소스가 더 높음 → 상하 크롭 (상단 기준으로 얼굴 보존)
+          cropH = Math.round(srcCellW / targetRatio)
+          cropY = sy // 상단 기준
+        }
+
         ctx.save()
-        roundRect(dx, dy, cellW, srcCellH, [radius, radius, 0, 0])
+        roundRect(dx, dy, cellW, displayImgH, [radius, radius, 0, 0])
         ctx.clip()
-        ctx.drawImage(gridImg, sx, sy, srcCellW, srcCellH, dx, dy, cellW, srcCellH)
+        ctx.drawImage(gridImg, cropX, cropY, cropW, cropH, dx, dy, cellW, displayImgH)
         ctx.restore()
 
         ctx.fillStyle = '#070953'
         ctx.font = `700 ${fontSize}px Manrope, sans-serif`
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        ctx.fillText(activeStyles[i], dx + cellW / 2, dy + srcCellH + labelH / 2)
+        ctx.fillText(activeStyles[i], dx + cellW / 2, dy + displayImgH + labelH / 2)
       }
     }
 
