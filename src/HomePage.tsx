@@ -314,7 +314,7 @@ function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               </button>
             )}
             <button
-              className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 flex items-center gap-1.5"
+              className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
               onClick={() => onNavigate('analysis')}
             >
               {t('common.startAnalysis')}
