@@ -29,9 +29,12 @@ dist-ssr
 
 # Misc files
 *.txt
+!public/robots.txt
 *.html
 !index.html
 !src/**/*.html
+*.xml
+!public/sitemap.xml
 files/
 h-image/
 h-image2/

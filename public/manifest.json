@@ -1,7 +1,7 @@
 {
-  "name": "kissinskin - AI Makeup Artist",
+  "name": "kissinskin - AI K-뷰티 메이크업 시뮬레이션",
   "short_name": "kissinskin",
-  "description": "Professional AI Makeup Artist - 나만의 AI 메이크업 아티스트",
+  "description": "셀카 한 장으로 AI K-뷰티 메이크업 9종 체험! 퍼스널컬러 진단, 피부 분석, 맞춤 화장품 추천",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8f6f6",
