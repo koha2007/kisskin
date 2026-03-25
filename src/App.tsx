@@ -1786,7 +1786,7 @@ function App() {
               <span>{t('sub.subscribeGenerate')}</span>
               <span className="material-symbols-outlined">all_inclusive</span>
             </button>
-            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{t('sub.ctaSubTrial')}</span>
+            <span style={{ fontSize: 11, color: '#a78bfa', marginTop: 3, fontWeight: 500 }}>{t('sub.ctaSubTrial')}</span>
           </>
         )}
       </div>
