@@ -269,7 +269,7 @@ function App() {
     trialEndsAt?: string | null
     checked: boolean
   }>({ active: false, usage: 0, limit: 0, checked: false })
-  const [subChecking, setSubChecking] = useState(false)
+  const [, setSubChecking] = useState(false)
 
   // Check subscription status when user is logged in and on analysis page
   const checkSubscription = async () => {
@@ -556,8 +556,8 @@ function App() {
 
   const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
-  // Open Polar checkout for subscription
-  const openSubscriptionCheckout = async () => {
+  // Open Polar checkout (per-analysis or subscription)
+  const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
     try {
       if (isMobile) {
         sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale }))
@@ -566,7 +566,11 @@ function App() {
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile: isMobile, email: user?.email }),
+        body: JSON.stringify({
+          mobile: isMobile,
+          email: user?.email,
+          type,
+        }),
       })
       const checkoutData = await checkoutRes.json()
 
@@ -579,7 +583,7 @@ function App() {
           const redirectRes = await fetch('/api/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile: true, redirect: true, email: user?.email }),
+            body: JSON.stringify({ mobile: true, redirect: true, email: user?.email, type }),
           })
           const redirectData = await redirectRes.json()
           if (redirectRes.ok) {
@@ -592,18 +596,41 @@ function App() {
         throw new Error(t('error.checkoutModule'))
       }
 
+      const embeddedCheckoutId = checkoutData.id
+      let paid = false
       const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
 
       embed.addEventListener('success', async () => {
+        paid = true
         embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
-        // Re-check subscription after successful checkout
-        await checkSubscription()
+
+        if (type === 'subscription') {
+          // Subscription checkout → re-check subscription status
+          await checkSubscription()
+        } else {
+          // Per-analysis checkout → verify payment and run analysis
+          try {
+            const vRes = await fetch('/api/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ checkoutId: embeddedCheckoutId }),
+            })
+            const vData = await vRes.json()
+            if (vData.customerEmail) {
+              customerEmailRef.current = vData.customerEmail
+            }
+          } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
+          runAnalysis()
+        }
       })
 
       embed.addEventListener('close', () => {
-        // User closed without completing — just re-check
-        checkSubscription()
+        if (!paid) {
+          if (type !== 'subscription') {
+            setError(t('error.paymentIncomplete'))
+          }
+        }
       })
     } catch (e) {
       setError(e instanceof Error ? e.message : t('error.checkoutError'))
@@ -614,42 +641,33 @@ function App() {
     if (!isComplete) return
     setError(null)
 
-    // 1. Require login
-    if (!user) {
-      setError(t('sub.loginRequired'))
-      return
+    // 1. If logged in, check subscription first
+    if (user?.email) {
+      if (!subStatus.checked) {
+        await checkSubscription()
+      }
+
+      // Active subscription + within limits → run directly (no payment)
+      if (subStatus.active) {
+        if (subStatus.limit !== -1 && subStatus.usage >= subStatus.limit) {
+          setError(t('sub.usageLimitReached'))
+          return
+        }
+        customerEmailRef.current = user.email
+        runAnalysis()
+        // Track usage in background
+        fetch('/api/track-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email }),
+        }).catch(() => {})
+        setSubStatus(prev => ({ ...prev, usage: prev.usage + 1 }))
+        return
+      }
     }
 
-    // 2. Check subscription (re-check if not yet checked)
-    if (!subStatus.checked) {
-      await checkSubscription()
-    }
-
-    // 3. No active subscription → open checkout
-    if (!subStatus.active) {
-      await openSubscriptionCheckout()
-      return
-    }
-
-    // 4. Check usage limit (limit === -1 means unlimited)
-    if (subStatus.limit !== -1 && subStatus.usage >= subStatus.limit) {
-      setError(t('sub.usageLimitReached'))
-      return
-    }
-
-    // 5. Run analysis directly (subscription active + within limits)
-    customerEmailRef.current = user.email || null
-    runAnalysis()
-
-    // 6. Track usage in background
-    fetch('/api/track-usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user.email }),
-    }).catch(() => {})
-
-    // Update local usage count
-    setSubStatus(prev => ({ ...prev, usage: prev.usage + 1 }))
+    // 2. Default: per-analysis checkout ($2.99)
+    await openCheckout('one-time')
   }
 
   // 모바일 결제 완료 후 복귀 처리 (subscription checkout redirect)
@@ -674,15 +692,26 @@ function App() {
       if (data.locale) setLocale(data.locale)
       setPage('analysis')
 
-      // Re-check subscription after mobile checkout redirect
-      // The subscription should now be active
-      if (user?.email) {
-        customerEmailRef.current = user.email
-        checkSubscription().then(() => {
-          // After subscription check, auto-run analysis if active
-          setTimeout(() => runAnalysis(), 100)
+      // 결제 확인 후 이메일 획득 및 분석 시작
+      fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ checkoutId }),
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.customerEmail) {
+            customerEmailRef.current = result.customerEmail
+          }
+          if (result.status === 'succeeded' || result.status === 'confirmed') {
+            setTimeout(() => runAnalysis(), 100)
+          } else {
+            setError(t('error.paymentIncomplete'))
+          }
         })
-      }
+        .catch(() => {
+          setError(t('error.verifyError'))
+        })
     } catch {
       // 복원 실패
     }
@@ -1690,7 +1719,7 @@ function App() {
 
       </div>
 
-      {/* Subscription Status Badge */}
+      {/* Subscription Status Badge (logged in + active subscription) */}
       {user && subStatus.checked && subStatus.active && (
         <div style={{ margin: '0 16px 8px', padding: '10px 14px', background: subStatus.status === 'trialing' ? '#fef3c7' : '#ecfdf5', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -1709,27 +1738,35 @@ function App() {
         </div>
       )}
 
+      {/* Subscription promo (logged in but no subscription) */}
+      {user && subStatus.checked && !subStatus.active && (
+        <div style={{ margin: '0 16px 8px', padding: '10px 14px', background: 'linear-gradient(135deg, #ede9fe, #fce7f3)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13 }}>
+          <span style={{ color: '#6d28d9' }}>{t('sub.promoText')}</span>
+          <button
+            onClick={() => openCheckout('subscription')}
+            style={{ background: '#6d28d9', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+          >
+            {t('sub.trialBtn')}
+          </button>
+        </div>
+      )}
+
       {/* Fixed CTA */}
       <div className="fixed-cta-spacer" />
       <div className="fixed-cta gradient">
-        {!user ? (
-          <button className="cta-btn" onClick={() => handleNavigate('auth')}>
-            <span className="material-symbols-outlined">login</span>
-            <span>{t('sub.loginBtn')}</span>
-          </button>
-        ) : subChecking ? (
-          <button className="cta-btn disabled" disabled>
-            <span>{t('sub.checking')}</span>
-          </button>
-        ) : subStatus.checked && !subStatus.active ? (
-          <button className="cta-btn" onClick={openSubscriptionCheckout}>
-            <span>{t('sub.trialBtn')}</span>
-            <span className="material-symbols-outlined">auto_awesome</span>
-          </button>
-        ) : subStatus.checked && subStatus.active && subStatus.limit !== -1 && subStatus.usage >= subStatus.limit ? (
-          <button className="cta-btn" onClick={openSubscriptionCheckout}>
+        {user && subStatus.active && subStatus.limit !== -1 && subStatus.usage >= subStatus.limit ? (
+          <button className="cta-btn" onClick={() => openCheckout('subscription')}>
             <span>{t('sub.upgradeBtn')}</span>
             <span className="material-symbols-outlined">upgrade</span>
+          </button>
+        ) : user && subStatus.active ? (
+          <button
+            className={`cta-btn ${!isComplete ? 'disabled' : ''}`}
+            disabled={!isComplete}
+            onClick={handleSubmit}
+          >
+            <span>{t('common.generateLooks')}</span>
+            <span className="material-symbols-outlined">auto_awesome</span>
           </button>
         ) : (
           <button
@@ -1737,6 +1774,7 @@ function App() {
             disabled={!isComplete}
             onClick={handleSubmit}
           >
+            <span className="cta-price">$2.99</span>
             <span>{t('common.generateLooks')}</span>
             <span className="material-symbols-outlined">auto_awesome</span>
           </button>

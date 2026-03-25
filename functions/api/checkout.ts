@@ -1,13 +1,14 @@
 // Checkout API — supports both subscription and one-time product checkout
 // POLAR_PRODUCT_ID env var determines which product to use (subscription or one-time)
 
+// Checkout API — supports per-analysis (default) and subscription checkout
 interface Env {
   POLAR_ACCESS_TOKEN: string
-  POLAR_PRODUCT_ID?: string  // Subscription product ID (set in Cloudflare env)
+  POLAR_PRODUCT_ID?: string       // Subscription product ID (set in Cloudflare env)
 }
 
-// Fallback: original one-time product ID
-const DEFAULT_PRODUCT_ID = 'e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'
+// Per-analysis one-time product
+const ONE_TIME_PRODUCT_ID = 'e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
@@ -20,10 +21,14 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string }
+    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string; type?: string }
     const useRedirect = !!body.redirect
     const origin = request.headers.get('Origin') || 'https://kissinskin.net'
-    const productId = env.POLAR_PRODUCT_ID || DEFAULT_PRODUCT_ID
+
+    // type=subscription → use subscription product, otherwise one-time
+    const productId = body.type === 'subscription'
+      ? (env.POLAR_PRODUCT_ID || ONE_TIME_PRODUCT_ID)
+      : ONE_TIME_PRODUCT_ID
 
     const checkoutBody: Record<string, unknown> = {
       products: [productId],

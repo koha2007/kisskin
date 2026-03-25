@@ -216,4 +216,5 @@ export default {
   'sub.unlimited': 'Unlimited',
   'sub.trialEnds': 'Trial ends',
   'sub.checking': 'Checking subscription...',
+  'sub.promoText': 'Unlimited analyses for $9.89/mo — 7-day free trial',
 } as Record<string, string>
