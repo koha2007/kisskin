@@ -219,4 +219,5 @@ export default {
   'sub.promoText': 'Unlimited analyses for $9.89/mo — 7-day free trial',
   'sub.orSubscribe': 'or subscribe',
   'sub.monthlyBtn': '$9.89/mo Subscribe',
+  'sub.ctaSubText': 'or $9.89/mo unlimited · 7-day free trial →',
 } as Record<string, string>

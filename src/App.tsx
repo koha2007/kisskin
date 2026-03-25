@@ -1768,31 +1768,14 @@ function App() {
           </button>
         )}
 
-        {/* Subscription options below CTA (only when no active subscription) */}
+        {/* Subscription link below CTA (only when no active subscription) */}
         {!(user && subStatus.active) && (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, marginTop: 10, paddingBottom: 2 }}>
-            <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
-              <span style={{ fontSize: 11, color: '#94a3b8', whiteSpace: 'nowrap' }}>{t('sub.orSubscribe')}</span>
-              <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
-            </div>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }}>
-              <button
-                onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
-                style={{ flex: 1, padding: '10px 0', background: '#fff', border: '1.5px solid #6d28d9', borderRadius: 10, color: '#6d28d9', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>star</span>
-                {t('sub.trialBtn')}
-              </button>
-              <button
-                onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
-                style={{ flex: 1, padding: '10px 0', background: 'linear-gradient(135deg, #6d28d9, #a855f7)', border: 'none', borderRadius: 10, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>all_inclusive</span>
-                {t('sub.monthlyBtn')}
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
+            style={{ marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
+          >
+            <span style={{ fontSize: 12, color: '#94a3b8' }}>{t('sub.ctaSubText')}</span>
+          </button>
         )}
       </div>
 

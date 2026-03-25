@@ -219,4 +219,5 @@ export default {
   'sub.promoText': '월 $9.89로 무제한 분석 — 7일 무료 체험',
   'sub.orSubscribe': '또는 구독으로 이용',
   'sub.monthlyBtn': '$9.89/월 구독',
+  'sub.ctaSubText': '또는 $9.89/월 무제한 구독 · 7일 무료 체험 →',
 } as Record<string, string>
