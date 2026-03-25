@@ -257,9 +257,48 @@ function App() {
   const [showInstallBanner, setShowInstallBanner] = useState(false)
   const [isIos, setIsIos] = useState(false)
   const [showIosGuide, setShowIosGuide] = useState(false)
-  const [checkoutIdRef, setCheckoutIdRef] = useState<string | null>(null)
-  const [refundFailed, setRefundFailed] = useState(false)
   const customerEmailRef = useRef<string | null>(null)
+
+  // Subscription state
+  const [subStatus, setSubStatus] = useState<{
+    active: boolean
+    status?: string
+    tier?: string | null
+    usage: number
+    limit: number
+    trialEndsAt?: string | null
+    checked: boolean
+  }>({ active: false, usage: 0, limit: 0, checked: false })
+  const [subChecking, setSubChecking] = useState(false)
+
+  // Check subscription status when user is logged in and on analysis page
+  const checkSubscription = async () => {
+    if (!user?.email) return
+    setSubChecking(true)
+    try {
+      const res = await fetch('/api/subscription-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setSubStatus({ ...data, checked: true })
+        // Set customer email for report sending
+        customerEmailRef.current = user.email
+      }
+    } catch (e) {
+      console.warn('[subscription] check failed:', e)
+    } finally {
+      setSubChecking(false)
+    }
+  }
+
+  useEffect(() => {
+    if (user && page === 'analysis') {
+      checkSubscription()
+    }
+  }, [user, page]) // eslint-disable-line react-hooks/exhaustive-deps
   const fileInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
 
@@ -407,24 +446,9 @@ function App() {
 
   const isComplete = photo && gender && skinType
 
-  const autoRefund = async (reason: string): Promise<boolean> => {
-    if (!checkoutIdRef) return false
-    try {
-      const res = await fetch('/api/refund', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          checkoutId: checkoutIdRef,
-          reason: 'service_disruption',
-          comment: reason,
-        }),
-      })
-      if (!res.ok) return false
-      const data = await res.json()
-      return data.refundId ? true : false
-    } catch {
-      return false
-    }
+  // On analysis failure, reverse usage count so user isn't penalized
+  const reverseUsage = () => {
+    setSubStatus(prev => ({ ...prev, usage: Math.max(0, prev.usage - 1) }))
   }
 
   const runAnalysis = async () => {
@@ -455,25 +479,18 @@ function App() {
         throw new Error(`${t('error.analysisError')} ${data.error ? `[${String(data.error).slice(0, 150)}]` : `[${res.status}]`}`)
       }
 
-      // 이미지 또는 리포트가 없으면 실패 → 자동 환불
-      const failAndRefund = async (reason: string, userMsg: string) => {
-        const refunded = await autoRefund(reason)
-        if (refunded) {
-          throw new Error(userMsg + ' ' + t('error.autoRefund'))
-        } else {
-          setRefundFailed(true)
-          throw new Error(userMsg)
-        }
-      }
-
+      // 이미지 또는 리포트가 없으면 실패 → 사용량 복구
       if (!data.image && !data.report) {
-        await failAndRefund('AI analysis failed (no image and no text)', t('error.bothGenFailed'))
+        reverseUsage()
+        throw new Error(t('error.bothGenFailed'))
       }
       if (!data.image) {
-        await failAndRefund('AI image generation failed', t('error.imageGenFailed'))
+        reverseUsage()
+        throw new Error(t('error.imageGenFailed'))
       }
       if (!data.report) {
-        await failAndRefund('AI report generation failed', t('error.reportGenFailed'))
+        reverseUsage()
+        throw new Error(t('error.reportGenFailed'))
       }
 
       setResultImage(data.image)
@@ -530,18 +547,8 @@ function App() {
       img.src = data.image
     } catch (e) {
       const msg = e instanceof Error ? e.message : t('error.analysisError')
-      // General error (auto-refund not yet attempted) → try refund
-      if (!msg.includes(t('error.autoRefund')) && !refundFailed) {
-        const refunded = await autoRefund(`Analysis error: ${msg}`)
-        if (refunded) {
-          setError(msg + ' ' + t('error.autoRefund'))
-        } else {
-          setRefundFailed(true)
-          setError(msg)
-        }
-      } else {
-        setError(msg)
-      }
+      reverseUsage()
+      setError(msg)
     } finally {
       setLoading(false)
     }
@@ -549,38 +556,30 @@ function App() {
 
   const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
-  const handleSubmit = async () => {
-    if (!isComplete) return
-
-    setError(null)
-
+  // Open Polar checkout for subscription
+  const openSubscriptionCheckout = async () => {
     try {
-      // 모바일: 분석 데이터를 저장해두고 결제 후 복원 (임베디드 실패 시 리다이렉트 대비)
       if (isMobile) {
         sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale }))
       }
 
-      // 1. Polar 체크아웃 세션 생성
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile: isMobile }),
+        body: JSON.stringify({ mobile: isMobile, email: user?.email }),
       })
-
       const checkoutData = await checkoutRes.json()
 
       if (!checkoutRes.ok) {
         throw new Error(checkoutData.error || t('error.checkoutCreate'))
       }
 
-      // 임베디드 체크아웃 모달 (PC + 모바일 공통)
       if (!window.Polar?.EmbedCheckout) {
         if (isMobile) {
-          // 임베디드 SDK 로드 실패 → 리다이렉트용 세션 새로 생성
           const redirectRes = await fetch('/api/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile: true, redirect: true }),
+            body: JSON.stringify({ mobile: true, redirect: true, email: user?.email }),
           })
           const redirectData = await redirectRes.json()
           if (redirectRes.ok) {
@@ -593,44 +592,67 @@ function App() {
         throw new Error(t('error.checkoutModule'))
       }
 
-      // checkout ID는 API 응답에서 직접 사용 (URL 파싱 불필요)
-      const embeddedCheckoutId = checkoutData.id
-
-      let paid = false
       const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
 
       embed.addEventListener('success', async () => {
-        paid = true
         embed.close()
-        if (isMobile) {
-          sessionStorage.removeItem('kisskin_pending')
-        }
-        setCheckoutIdRef(embeddedCheckoutId)
-        try {
-          const vRes = await fetch('/api/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ checkoutId: embeddedCheckoutId }),
-          })
-          const vData = await vRes.json()
-          if (vData.customerEmail) {
-            customerEmailRef.current = vData.customerEmail
-          }
-        } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
-        runAnalysis()
+        if (isMobile) sessionStorage.removeItem('kisskin_pending')
+        // Re-check subscription after successful checkout
+        await checkSubscription()
       })
 
       embed.addEventListener('close', () => {
-        if (!paid) {
-          setError(t('error.paymentIncomplete'))
-        }
+        // User closed without completing — just re-check
+        checkSubscription()
       })
     } catch (e) {
       setError(e instanceof Error ? e.message : t('error.checkoutError'))
     }
   }
 
-  // 모바일 결제 완료 후 복귀 처리
+  const handleSubmit = async () => {
+    if (!isComplete) return
+    setError(null)
+
+    // 1. Require login
+    if (!user) {
+      setError(t('sub.loginRequired'))
+      return
+    }
+
+    // 2. Check subscription (re-check if not yet checked)
+    if (!subStatus.checked) {
+      await checkSubscription()
+    }
+
+    // 3. No active subscription → open checkout
+    if (!subStatus.active) {
+      await openSubscriptionCheckout()
+      return
+    }
+
+    // 4. Check usage limit (limit === -1 means unlimited)
+    if (subStatus.limit !== -1 && subStatus.usage >= subStatus.limit) {
+      setError(t('sub.usageLimitReached'))
+      return
+    }
+
+    // 5. Run analysis directly (subscription active + within limits)
+    customerEmailRef.current = user.email || null
+    runAnalysis()
+
+    // 6. Track usage in background
+    fetch('/api/track-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: user.email }),
+    }).catch(() => {})
+
+    // Update local usage count
+    setSubStatus(prev => ({ ...prev, usage: prev.usage + 1 }))
+  }
+
+  // 모바일 결제 완료 후 복귀 처리 (subscription checkout redirect)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const checkoutId = params.get('checkout_id')
@@ -652,27 +674,15 @@ function App() {
       if (data.locale) setLocale(data.locale)
       setPage('analysis')
 
-      // 결제 확인 후 이메일 획득 및 분석 시작
-      setCheckoutIdRef(checkoutId)
-      fetch('/api/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ checkoutId }),
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.customerEmail) {
-            customerEmailRef.current = result.customerEmail
-          }
-          if (result.status === 'succeeded' || result.status === 'confirmed') {
-            setTimeout(() => runAnalysis(), 100)
-          } else {
-            setError(t('error.paymentIncomplete'))
-          }
+      // Re-check subscription after mobile checkout redirect
+      // The subscription should now be active
+      if (user?.email) {
+        customerEmailRef.current = user.email
+        checkSubscription().then(() => {
+          // After subscription check, auto-run analysis if active
+          setTimeout(() => runAnalysis(), 100)
         })
-        .catch(() => {
-          setError(t('error.verifyError'))
-        })
+      }
     } catch {
       // 복원 실패
     }
@@ -1680,18 +1690,57 @@ function App() {
 
       </div>
 
+      {/* Subscription Status Badge */}
+      {user && subStatus.checked && subStatus.active && (
+        <div style={{ margin: '0 16px 8px', padding: '10px 14px', background: subStatus.status === 'trialing' ? '#fef3c7' : '#ecfdf5', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ background: subStatus.status === 'trialing' ? '#f59e0b' : '#10b981', color: '#fff', padding: '2px 8px', borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
+              {subStatus.status === 'trialing' ? t('sub.trialBadge') : t('sub.proBadge')}
+            </span>
+            <span style={{ color: '#64748b' }}>
+              {t('sub.usage')}: {subStatus.usage}{subStatus.limit === -1 ? ` / ${t('sub.unlimited')}` : ` / ${subStatus.limit}`}
+            </span>
+          </div>
+          {subStatus.trialEndsAt && (
+            <span style={{ color: '#92400e', fontSize: 11 }}>
+              {t('sub.trialEnds')}: {new Date(subStatus.trialEndsAt).toLocaleDateString()}
+            </span>
+          )}
+        </div>
+      )}
+
       {/* Fixed CTA */}
       <div className="fixed-cta-spacer" />
       <div className="fixed-cta gradient">
-        <button
-          className={`cta-btn ${!isComplete ? 'disabled' : ''}`}
-          disabled={!isComplete}
-          onClick={handleSubmit}
-        >
-          <span className="cta-price">$2.99</span>
-          <span>{t('common.generateLooks')}</span>
-          <span className="material-symbols-outlined">auto_awesome</span>
-        </button>
+        {!user ? (
+          <button className="cta-btn" onClick={() => handleNavigate('auth')}>
+            <span className="material-symbols-outlined">login</span>
+            <span>{t('sub.loginBtn')}</span>
+          </button>
+        ) : subChecking ? (
+          <button className="cta-btn disabled" disabled>
+            <span>{t('sub.checking')}</span>
+          </button>
+        ) : subStatus.checked && !subStatus.active ? (
+          <button className="cta-btn" onClick={openSubscriptionCheckout}>
+            <span>{t('sub.trialBtn')}</span>
+            <span className="material-symbols-outlined">auto_awesome</span>
+          </button>
+        ) : subStatus.checked && subStatus.active && subStatus.limit !== -1 && subStatus.usage >= subStatus.limit ? (
+          <button className="cta-btn" onClick={openSubscriptionCheckout}>
+            <span>{t('sub.upgradeBtn')}</span>
+            <span className="material-symbols-outlined">upgrade</span>
+          </button>
+        ) : (
+          <button
+            className={`cta-btn ${!isComplete ? 'disabled' : ''}`}
+            disabled={!isComplete}
+            onClick={handleSubmit}
+          >
+            <span>{t('common.generateLooks')}</span>
+            <span className="material-symbols-outlined">auto_awesome</span>
+          </button>
+        )}
       </div>
 
       {/* PWA 설치 배너 */}

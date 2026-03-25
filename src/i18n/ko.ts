@@ -198,4 +198,22 @@ export default {
   'mypage.deleteConfirm': '정말 탈퇴하시겠습니까?',
   'mypage.deleteConfirmBtn': '탈퇴',
   'mypage.cancel': '취소',
+
+  // Subscription
+  'sub.loginRequired': '로그인이 필요합니다',
+  'sub.loginRequiredDesc': '메이크업 분석을 이용하려면 먼저 로그인해주세요.',
+  'sub.loginBtn': '로그인하기',
+  'sub.noSubscription': '구독이 필요합니다',
+  'sub.noSubscriptionDesc': 'KisSkin Pro를 구독하고 AI 메이크업 분석을 시작하세요.',
+  'sub.subscribeBtn': '구독하기 — $9.89/월',
+  'sub.trialBtn': '7일 무료 체험 시작',
+  'sub.usageLimitReached': '이번 달 사용량을 초과했습니다',
+  'sub.usageLimitDesc': '트라이얼 기간에는 최대 5회까지 분석할 수 있습니다. Pro 구독으로 업그레이드하면 무제한으로 이용 가능합니다.',
+  'sub.upgradeBtn': 'Pro로 업그레이드',
+  'sub.trialBadge': '무료 체험',
+  'sub.proBadge': 'Pro',
+  'sub.usage': '사용량',
+  'sub.unlimited': '무제한',
+  'sub.trialEnds': '체험 종료',
+  'sub.checking': '구독 확인 중...',
 } as Record<string, string>

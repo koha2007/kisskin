@@ -198,4 +198,22 @@ export default {
   'mypage.deleteConfirm': 'Are you sure you want to delete your account?',
   'mypage.deleteConfirmBtn': 'Delete',
   'mypage.cancel': 'Cancel',
+
+  // Subscription
+  'sub.loginRequired': 'Login Required',
+  'sub.loginRequiredDesc': 'Please log in to use makeup analysis.',
+  'sub.loginBtn': 'Log In',
+  'sub.noSubscription': 'Subscription Required',
+  'sub.noSubscriptionDesc': 'Subscribe to KisSkin Pro and start your AI makeup analysis.',
+  'sub.subscribeBtn': 'Subscribe — $9.89/mo',
+  'sub.trialBtn': 'Start 7-Day Free Trial',
+  'sub.usageLimitReached': 'Monthly limit reached',
+  'sub.usageLimitDesc': 'Trial allows up to 5 analyses per month. Upgrade to Pro for unlimited access.',
+  'sub.upgradeBtn': 'Upgrade to Pro',
+  'sub.trialBadge': 'Free Trial',
+  'sub.proBadge': 'Pro',
+  'sub.usage': 'Usage',
+  'sub.unlimited': 'Unlimited',
+  'sub.trialEnds': 'Trial ends',
+  'sub.checking': 'Checking subscription...',
 } as Record<string, string>

@@ -1,6 +1,13 @@
+// Checkout API — supports both subscription and one-time product checkout
+// POLAR_PRODUCT_ID env var determines which product to use (subscription or one-time)
+
 interface Env {
   POLAR_ACCESS_TOKEN: string
+  POLAR_PRODUCT_ID?: string  // Subscription product ID (set in Cloudflare env)
 }
+
+// Fallback: original one-time product ID
+const DEFAULT_PRODUCT_ID = 'e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
@@ -13,20 +20,24 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const body = await request.json().catch(() => ({})) as { redirect?: boolean }
+    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string }
     const useRedirect = !!body.redirect
     const origin = request.headers.get('Origin') || 'https://kissinskin.net'
+    const productId = env.POLAR_PRODUCT_ID || DEFAULT_PRODUCT_ID
 
     const checkoutBody: Record<string, unknown> = {
-      products: ['e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'],
+      products: [productId],
       allow_discount_codes: true,
     }
 
+    // Pre-fill customer email if provided (for subscription linking)
+    if (body.email) {
+      checkoutBody.customer_email = body.email
+    }
+
     if (useRedirect) {
-      // 임베디드 불가 시 리다이렉트 fallback
       checkoutBody.success_url = `${origin}/?checkout_id={CHECKOUT_ID}`
     } else {
-      // 임베디드 모드 (success_url 없어야 success 이벤트 정상 발생)
       checkoutBody.embed_origin = origin
     }
 
