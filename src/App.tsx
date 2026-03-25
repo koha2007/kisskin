@@ -1772,9 +1772,12 @@ function App() {
         {!(user && subStatus.active) && (
           <button
             onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
-            style={{ marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
+            style={{ marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
           >
-            <span style={{ fontSize: 12, color: '#94a3b8' }}>{t('sub.ctaSubText')}</span>
+            <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#a78bfa' }}>all_inclusive</span>
+            <span style={{ fontSize: 12, color: '#94a3b8' }}>{t('sub.ctaSubPrice')}</span>
+            <span style={{ fontSize: 10, color: '#c4b5fd', background: '#f5f3ff', padding: '1px 6px', borderRadius: 4, fontWeight: 600 }}>{t('sub.ctaSubTrial')}</span>
+            <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#c4b5fd' }}>chevron_right</span>
           </button>
         )}
       </div>
