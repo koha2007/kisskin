@@ -1738,22 +1738,10 @@ function App() {
         </div>
       )}
 
-      {/* Subscription promo (logged in but no subscription) */}
-      {user && subStatus.checked && !subStatus.active && (
-        <div style={{ margin: '0 16px 8px', padding: '10px 14px', background: 'linear-gradient(135deg, #ede9fe, #fce7f3)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13 }}>
-          <span style={{ color: '#6d28d9' }}>{t('sub.promoText')}</span>
-          <button
-            onClick={() => openCheckout('subscription')}
-            style={{ background: '#6d28d9', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
-          >
-            {t('sub.trialBtn')}
-          </button>
-        </div>
-      )}
-
-      {/* Fixed CTA */}
+      {/* Fixed CTA Area */}
       <div className="fixed-cta-spacer" />
       <div className="fixed-cta gradient">
+        {/* Main CTA button */}
         {user && subStatus.active && subStatus.limit !== -1 && subStatus.usage >= subStatus.limit ? (
           <button className="cta-btn" onClick={() => openCheckout('subscription')}>
             <span>{t('sub.upgradeBtn')}</span>
@@ -1778,6 +1766,33 @@ function App() {
             <span>{t('common.generateLooks')}</span>
             <span className="material-symbols-outlined">auto_awesome</span>
           </button>
+        )}
+
+        {/* Subscription options below CTA (only when no active subscription) */}
+        {!(user && subStatus.active) && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, marginTop: 10, paddingBottom: 2 }}>
+            <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+              <span style={{ fontSize: 11, color: '#94a3b8', whiteSpace: 'nowrap' }}>{t('sub.orSubscribe')}</span>
+              <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+            </div>
+            <div style={{ display: 'flex', gap: 8, width: '100%' }}>
+              <button
+                onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
+                style={{ flex: 1, padding: '10px 0', background: '#fff', border: '1.5px solid #6d28d9', borderRadius: 10, color: '#6d28d9', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>star</span>
+                {t('sub.trialBtn')}
+              </button>
+              <button
+                onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
+                style={{ flex: 1, padding: '10px 0', background: 'linear-gradient(135deg, #6d28d9, #a855f7)', border: 'none', borderRadius: 10, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>all_inclusive</span>
+                {t('sub.monthlyBtn')}
+              </button>
+            </div>
+          </div>
         )}
       </div>
 

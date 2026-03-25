@@ -217,4 +217,6 @@ export default {
   'sub.trialEnds': '체험 종료',
   'sub.checking': '구독 확인 중...',
   'sub.promoText': '월 $9.89로 무제한 분석 — 7일 무료 체험',
+  'sub.orSubscribe': '또는 구독으로 이용',
+  'sub.monthlyBtn': '$9.89/월 구독',
 } as Record<string, string>
