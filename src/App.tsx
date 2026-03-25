@@ -1768,17 +1768,26 @@ function App() {
           </button>
         )}
 
-        {/* Subscription link below CTA (only when no active subscription) */}
+        {/* Subscription CTA below (only when no active subscription) */}
         {!(user && subStatus.active) && (
-          <button
-            onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
-            style={{ marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#a78bfa' }}>all_inclusive</span>
-            <span style={{ fontSize: 12, color: '#94a3b8' }}>{t('sub.ctaSubPrice')}</span>
-            <span style={{ fontSize: 10, color: '#c4b5fd', background: '#f5f3ff', padding: '1px 6px', borderRadius: 4, fontWeight: 600 }}>{t('sub.ctaSubTrial')}</span>
-            <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#c4b5fd' }}>chevron_right</span>
-          </button>
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '8px 0 6px', width: '100%' }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>or</span>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+            </div>
+            <button
+              className={`cta-btn ${!isComplete ? 'disabled' : ''}`}
+              disabled={!isComplete}
+              onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
+              style={{ background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.3)' }}
+            >
+              <span className="cta-price">$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
+              <span>{t('sub.subscribeGenerate')}</span>
+              <span className="material-symbols-outlined">all_inclusive</span>
+            </button>
+            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{t('sub.ctaSubTrial')}</span>
+          </>
         )}
       </div>
 

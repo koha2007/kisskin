@@ -23,7 +23,7 @@ export default {
   'home.hero.productHighlightLink': ' buy links',
   'home.hero.productHighlightEnd': ' included.',
   'home.hero.viewStyles': 'View Styles',
-  'home.hero.userCount': '50,000+ users worldwide',
+  'home.hero.userCount': 'AI Personal Color · Makeup Simulation · Beauty Picks',
 
   // Value Props
   'home.value.title1': 'One-Time Analysis',
@@ -78,7 +78,7 @@ export default {
   // Final CTA
   'home.cta.title1': 'Find Your',
   'home.cta.title2': 'Perfect Makeup Look',
-  'home.cta.subtitle': 'Over 50,000 people have discovered their signature style with kissinskin AI.',
+  'home.cta.subtitle': 'Personal color analysis, AI makeup simulation, and skin diagnosis — all in one.',
 
   // Footer
   'home.footer.desc': 'AI Makeup Simulation & Cosmetic Recommendation Service',
@@ -221,5 +221,6 @@ export default {
   'sub.monthlyBtn': '$9.88/mo Subscribe',
   'sub.ctaSubText': 'or $9.88/mo unlimited · 7-day free trial →',
   'sub.ctaSubPrice': '$9.88/mo Unlimited',
-  'sub.ctaSubTrial': '7-day free',
+  'sub.ctaSubTrial': '7-day free trial · Cancel anytime',
+  'sub.subscribeGenerate': 'Unlimited Analysis',
 } as Record<string, string>

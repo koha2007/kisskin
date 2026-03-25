@@ -23,7 +23,7 @@ export default {
   'home.hero.productHighlightLink': ' 구매 링크',
   'home.hero.productHighlightEnd': '도 함께 제공합니다.',
   'home.hero.viewStyles': '스타일 보기',
-  'home.hero.userCount': '50,000+ 명이 사용 중',
+  'home.hero.userCount': 'AI 퍼스널컬러 · 메이크업 시뮬레이션 · 뷰티 추천',
 
   // Value Props
   'home.value.title1': '1회 분석',
@@ -78,7 +78,7 @@ export default {
   // Final CTA
   'home.cta.title1': '나에게 어울리는',
   'home.cta.title2': '메이크업을 찾아보세요',
-  'home.cta.subtitle': '50,000명 이상이 kissinskin AI로 자신만의 시그니처 스타일을 발견했습니다.',
+  'home.cta.subtitle': '퍼스널컬러 진단, AI 메이크업 시뮬레이션, 피부 분석까지 한 번에.',
 
   // Footer
   'home.footer.desc': 'AI 메이크업 시뮬레이션 및 코스메틱 추천 서비스',
@@ -221,5 +221,6 @@ export default {
   'sub.monthlyBtn': '$9.88/월 구독',
   'sub.ctaSubText': '또는 $9.88/월 무제한 구독 · 7일 무료 체험 →',
   'sub.ctaSubPrice': '$9.88/월 무제한 구독',
-  'sub.ctaSubTrial': '7일 무료',
+  'sub.ctaSubTrial': '7일 무료 체험 · 언제든 해지 가능',
+  'sub.subscribeGenerate': '무제한 분석하기',
 } as Record<string, string>
