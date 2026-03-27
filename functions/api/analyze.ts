@@ -83,9 +83,20 @@ async function generateReportWithGemini(
   )
   if (!res.ok) return ''
   const json = (await res.json()) as {
-    candidates?: { content?: { parts?: { text?: string }[] } }[]
+    candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[]
   }
-  return json.candidates?.[0]?.content?.parts?.[0]?.text || ''
+  const parts = json.candidates?.[0]?.content?.parts || []
+  // Gemini 2.5 모델은 thinking part를 먼저 반환할 수 있음 → 모든 non-thought part에서 JSON 찾기
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const text = parts[i].text
+    if (!text) continue
+    // thought part 건너뛰기
+    if (parts[i].thought) continue
+    // JSON이 포함된 part 우선 반환
+    if (text.includes('{')) return text
+  }
+  // 폴백: 아무 텍스트나 반환
+  return parts.find(p => p.text)?.text || ''
 }
 
 // Gemini API로 이미지 생성 (지역 제한 없음, 3차 폴백)
@@ -183,8 +194,9 @@ function extractReportJson(raw: string): string {
     } catch { /* 다음 후보 시도 */ }
   }
 
-  console.warn('[kisskin] Failed to extract JSON from report, returning raw')
-  return raw
+  console.warn('[kisskin] Failed to extract JSON from report. Raw:', raw.slice(0, 300))
+  // JSON 추출 실패 시 빈 문자열 반환 → 프론트엔드에서 에러 처리
+  return ''
 }
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
