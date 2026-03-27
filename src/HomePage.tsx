@@ -176,7 +176,7 @@ function WaveGrid({ onClick }: { onClick: () => void }) {
               className={`wave-tile rounded-xl md:rounded-2xl ${tileStates[i]}`}
               style={{ aspectRatio: '3 / 4' }}
             >
-              <img src={src} alt="" loading="eager" />
+              <img src={src} alt={`K-beauty makeup look ${i + 1} - AI generated Korean makeup style`} loading="eager" />
             </div>
           ))}
         </div>
