@@ -721,7 +721,8 @@ html, body {
 .makeup-cell-img {
   width: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f0f0f0;
 }
 
 .makeup-cell-label {
