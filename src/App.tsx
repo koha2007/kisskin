@@ -1771,22 +1771,22 @@ function App() {
         {/* Subscription CTA below (only when no active subscription) */}
         {!(user && subStatus.active) && (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '8px 0 6px', width: '100%' }}>
-              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>or</span>
-              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '10px 0 8px', width: '100%' }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} />
+              <span style={{ fontSize: 11, color: 'rgba(7,9,83,0.35)', fontWeight: 500 }}>or</span>
+              <div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} />
             </div>
             <button
               className={`cta-btn ${!isComplete ? 'disabled' : ''}`}
               disabled={!isComplete}
               onClick={() => { if (!user) { handleNavigate('auth'); return }; openCheckout('subscription') }}
-              style={{ background: 'rgba(255,255,255,0.15)', border: '1.5px solid rgba(255,255,255,0.3)' }}
+              style={{ background: '#fff', border: '1.5px solid #eb4763', color: '#eb4763', boxShadow: '0 4px 16px rgba(235,71,99,0.1)' }}
             >
-              <span className="cta-price">$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
+              <span className="cta-price" style={{ background: 'rgba(235,71,99,0.1)', color: '#eb4763' }}>$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
               <span>{t('sub.subscribeGenerate')}</span>
               <span className="material-symbols-outlined">all_inclusive</span>
             </button>
-            <span style={{ fontSize: 11, color: '#a78bfa', marginTop: 3, fontWeight: 500 }}>{t('sub.ctaSubTrial')}</span>
+            <span style={{ fontSize: 11, color: '#eb4763', marginTop: 4, fontWeight: 500, opacity: 0.7 }}>{t('sub.ctaSubTrial')}</span>
           </>
         )}
       </div>

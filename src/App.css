@@ -452,7 +452,7 @@ html, body {
 
 /* ===== Fixed CTA ===== */
 .fixed-cta-spacer {
-  height: 100px;
+  height: 180px;
 }
 
 .fixed-cta {
@@ -461,15 +461,18 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  padding: 24px;
-  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  padding: 20px 24px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   max-width: 448px;
   z-index: 50;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .fixed-cta.gradient {
-  background: linear-gradient(to top, #f8f6f6, rgba(248, 246, 246, 0.95) 60%, transparent);
+  background: linear-gradient(to top, #f8f6f6 70%, rgba(248, 246, 246, 0.95) 85%, transparent);
 }
 
 .cta-btn {
