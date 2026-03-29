@@ -281,10 +281,11 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),
       })
-      const ct = res.headers.get('content-type') || ''
-      if (res.ok && ct.includes('application/json')) {
-        const data = await res.json()
-        setSubStatus({ ...data, checked: true })
+      if (res.ok) {
+        try {
+          const data = await res.json()
+          setSubStatus({ ...data, checked: true })
+        } catch { /* JSON 파싱 실패 시 무시 */ }
         // Set customer email for report sending
         customerEmailRef.current = user.email
       }
@@ -584,11 +585,12 @@ function App() {
         }),
       })
 
-      const checkoutCt = checkoutRes.headers.get('content-type') || ''
-      if (!checkoutCt.includes('application/json')) {
+      let checkoutData: { id?: string; url?: string; error?: string }
+      try {
+        checkoutData = await checkoutRes.json()
+      } catch {
         throw new Error(`${t('error.checkoutError')} [${checkoutRes.status}]`)
       }
-      const checkoutData = await checkoutRes.json()
 
       if (!checkoutRes.ok) {
         throw new Error(checkoutData.error || t('error.checkoutCreate'))
@@ -601,12 +603,13 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ mobile: true, redirect: true, email: user?.email, type }),
           })
-          const redirectCt = redirectRes.headers.get('content-type') || ''
-          if (!redirectCt.includes('application/json')) {
+          let redirectData: { url?: string; error?: string }
+          try {
+            redirectData = await redirectRes.json()
+          } catch {
             throw new Error(`${t('error.checkoutError')} [${redirectRes.status}]`)
           }
-          const redirectData = await redirectRes.json()
-          if (redirectRes.ok) {
+          if (redirectRes.ok && redirectData.url) {
             window.location.href = redirectData.url
           } else {
             throw new Error(redirectData.error || t('error.checkoutCreate'))
@@ -616,9 +619,9 @@ function App() {
         throw new Error(t('error.checkoutModule'))
       }
 
-      const embeddedCheckoutId = checkoutData.id
+      const embeddedCheckoutId = checkoutData.id!
       let paid = false
-      const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
+      const embed = await window.Polar.EmbedCheckout.create(checkoutData.url!, { theme: 'light' })
 
       const onCheckoutComplete = async () => {
         if (paid) return // 이미 처리됨
@@ -741,11 +744,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ checkoutId }),
       })
-        .then(res => {
-          const ct = res.headers.get('content-type') || ''
-          if (!ct.includes('application/json')) throw new Error(`Non-JSON [${res.status}]`)
-          return res.json()
-        })
+        .then(res => res.json())
         .then(result => {
           if (result.customerEmail) {
             customerEmailRef.current = result.customerEmail
