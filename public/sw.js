@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kisskin-cache-v2';
+const CACHE_NAME = 'kisskin-cache-v3';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_ASSETS = [
@@ -26,14 +26,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // API 요청은 서비스 워커가 개입하지 않음 — Cloudflare Pages Functions로 직접 전달
   if (event.request.url.includes('/api/')) {
-    event.respondWith(
-      fetch(event.request).catch(() =>
-        new Response(JSON.stringify({ error: '오프라인 상태입니다' }), {
-          headers: { 'Content-Type': 'application/json' },
-        })
-      )
-    );
     return;
   }
 
