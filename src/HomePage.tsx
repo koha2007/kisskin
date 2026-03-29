@@ -519,6 +519,66 @@ function HomePage({ onNavigate, user }: HomePageProps) {
         </div>
       </section>
 
+      {/* Pricing */}
+      <section id="pricing" className="py-20 bg-white scroll-mt-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14 flex flex-col items-center gap-3">
+            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('pricing.badge')}</span>
+            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('pricing.title')}</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            {/* Per-analysis */}
+            <div className="relative rounded-2xl border border-slate-200 bg-white p-8 flex flex-col gap-5">
+              <h3 className="text-lg font-bold text-navy">{t('pricing.perAnalysis')}</h3>
+              <div className="flex items-end gap-1">
+                <span className="text-4xl font-extrabold text-navy">{t('pricing.perAnalysisPrice')}</span>
+                <span className="text-slate-400 text-sm mb-1">{t('pricing.perAnalysisUnit')}</span>
+              </div>
+              <p className="text-slate-500 text-sm">{t('pricing.perAnalysisDesc')}</p>
+              <ul className="flex flex-col gap-2.5 text-sm text-slate-600 mt-2">
+                {['perAnalysisF1', 'perAnalysisF2', 'perAnalysisF3'].map(k => (
+                  <li key={k} className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-green-500 text-base">check_circle</span>
+                    {t(`pricing.${k}`)}
+                  </li>
+                ))}
+              </ul>
+              <button
+                className="mt-auto w-full py-3.5 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-pink-50 transition-colors"
+                onClick={() => onNavigate('analysis')}
+              >
+                {t('pricing.startBtn')}
+              </button>
+            </div>
+            {/* Subscription */}
+            <div className="relative rounded-2xl border-2 border-primary bg-white p-8 flex flex-col gap-5 shadow-lg shadow-primary/10">
+              <span className="absolute -top-3 right-6 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">{t('pricing.popular')}</span>
+              <h3 className="text-lg font-bold text-navy">{t('pricing.subscription')}</h3>
+              <div className="flex items-end gap-1">
+                <span className="text-4xl font-extrabold text-primary">{t('pricing.subscriptionPrice')}</span>
+                <span className="text-slate-400 text-sm mb-1">{t('pricing.subscriptionUnit')}</span>
+              </div>
+              <p className="text-slate-500 text-sm">{t('pricing.subscriptionDesc')}</p>
+              <ul className="flex flex-col gap-2.5 text-sm text-slate-600 mt-2">
+                {['subscriptionF1', 'subscriptionF2', 'subscriptionF3', 'subscriptionF4', 'subscriptionF5'].map(k => (
+                  <li key={k} className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-green-500 text-base">check_circle</span>
+                    {t(`pricing.${k}`)}
+                  </li>
+                ))}
+              </ul>
+              <button
+                className="mt-auto w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-pink-500 text-white font-bold text-sm hover:from-primary/90 hover:to-pink-500/90 transition-all shadow-md shadow-primary/20"
+                onClick={() => onNavigate('analysis')}
+              >
+                {t('pricing.startBtn')}
+              </button>
+            </div>
+          </div>
+          <p className="text-center text-xs text-slate-400 mt-6">{t('pricing.trialNote')}</p>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50"></div>
@@ -561,6 +621,7 @@ function HomePage({ onNavigate, user }: HomePageProps) {
               <ul className="flex flex-col gap-2 text-slate-400 text-sm">
                 <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
+                <li><a href="#pricing" className="hover:text-primary transition-colors cursor-pointer">{t('pricing.badge')}</a></li>
               </ul>
             </div>
             <div className="flex flex-col gap-3">
