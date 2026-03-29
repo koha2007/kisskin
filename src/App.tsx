@@ -597,11 +597,15 @@ function App() {
           email: user?.email,
           type,
         }),
-      }).catch(() => { throw new Error(`${t('error.checkoutError')}`) })
+      }).catch((err) => { throw new Error(`${t('error.checkoutError')} [API:${err?.message || 'unknown'}]`) })
       const checkoutData = checkoutRaw as { id?: string; url?: string; error?: string }
 
       if (!checkoutRes.ok) {
-        throw new Error(checkoutData.error || t('error.checkoutCreate'))
+        throw new Error(checkoutData.error || `${t('error.checkoutCreate')} [${checkoutRes.status}]`)
+      }
+
+      if (!checkoutData.url) {
+        throw new Error(`${t('error.checkoutError')} [NO_URL]`)
       }
 
       if (!window.Polar?.EmbedCheckout) {
@@ -624,7 +628,12 @@ function App() {
 
       const embeddedCheckoutId = checkoutData.id!
       let paid = false
-      const embed = await window.Polar.EmbedCheckout.create(checkoutData.url!, { theme: 'light' })
+      let embed: Awaited<ReturnType<typeof window.Polar.EmbedCheckout.create>>
+      try {
+        embed = await window.Polar!.EmbedCheckout.create(checkoutData.url!, { theme: 'light' })
+      } catch (embedErr) {
+        throw new Error(`${t('error.checkoutError')} [EMBED:${embedErr instanceof Error ? embedErr.message : String(embedErr)}]`)
+      }
 
       const onCheckoutComplete = async () => {
         if (paid) return // 이미 처리됨
@@ -682,7 +691,9 @@ function App() {
         }
       })
     } catch (e) {
-      setError(e instanceof Error ? e.message : t('error.checkoutError'))
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error('[checkout] error:', msg, e)
+      setError(msg || t('error.checkoutError'))
     }
   }
 
