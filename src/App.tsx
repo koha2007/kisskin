@@ -46,6 +46,24 @@ const PATH_TO_PAGE: Record<string, Page> = Object.fromEntries(
   Object.entries(PAGE_PATHS).map(([page, path]) => [path, page as Page])
 ) as Record<string, Page>
 
+// Fetch with JSON retry — Cloudflare Pages may intermittently serve SPA HTML instead of Function response
+async function fetchJsonWithRetry(url: string, options: RequestInit, retries = 2): Promise<{ res: Response; data: Record<string, unknown> }> {
+  for (let i = 0; i <= retries; i++) {
+    const res = await fetch(url, options)
+    try {
+      const data = await res.json()
+      return { res, data }
+    } catch {
+      if (i < retries) {
+        await new Promise(r => setTimeout(r, 500 * (i + 1)))
+        continue
+      }
+      throw new Error(`[${res.status}]`)
+    }
+  }
+  throw new Error('Unreachable')
+}
+
 function getPageFromPath(): Page {
   const path = window.location.pathname
   if (path.startsWith('/result/')) return 'result'
@@ -276,17 +294,13 @@ function App() {
     if (!user?.email) return
     setSubChecking(true)
     try {
-      const res = await fetch('/api/subscription-status', {
+      const { res, data } = await fetchJsonWithRetry('/api/subscription-status', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),
       })
       if (res.ok) {
-        try {
-          const data = await res.json()
-          setSubStatus({ ...data, checked: true })
-        } catch { /* JSON 파싱 실패 시 무시 */ }
-        // Set customer email for report sending
+        setSubStatus({ ...data, checked: true } as typeof subStatus)
         customerEmailRef.current = user.email
       }
     } catch (e) {
@@ -575,7 +589,7 @@ function App() {
         sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale }))
       }
 
-      const checkoutRes = await fetch('/api/checkout', {
+      const { res: checkoutRes, data: checkoutRaw } = await fetchJsonWithRetry('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -583,14 +597,8 @@ function App() {
           email: user?.email,
           type,
         }),
-      })
-
-      let checkoutData: { id?: string; url?: string; error?: string }
-      try {
-        checkoutData = await checkoutRes.json()
-      } catch {
-        throw new Error(`${t('error.checkoutError')} [${checkoutRes.status}]`)
-      }
+      }).catch(() => { throw new Error(`${t('error.checkoutError')}`) })
+      const checkoutData = checkoutRaw as { id?: string; url?: string; error?: string }
 
       if (!checkoutRes.ok) {
         throw new Error(checkoutData.error || t('error.checkoutCreate'))
@@ -598,17 +606,12 @@ function App() {
 
       if (!window.Polar?.EmbedCheckout) {
         if (isMobile) {
-          const redirectRes = await fetch('/api/checkout', {
+          const { res: redirectRes, data: redirectRaw } = await fetchJsonWithRetry('/api/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ mobile: true, redirect: true, email: user?.email, type }),
-          })
-          let redirectData: { url?: string; error?: string }
-          try {
-            redirectData = await redirectRes.json()
-          } catch {
-            throw new Error(`${t('error.checkoutError')} [${redirectRes.status}]`)
-          }
+          }).catch(() => { throw new Error(`${t('error.checkoutError')}`) })
+          const redirectData = redirectRaw as { url?: string; error?: string }
           if (redirectRes.ok && redirectData.url) {
             window.location.href = redirectData.url
           } else {
@@ -739,14 +742,13 @@ function App() {
       setPage('analysis')
 
       // 결제 확인 후 이메일 획득 및 분석 시작
-      fetch('/api/verify', {
+      fetchJsonWithRetry('/api/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ checkoutId }),
       })
-        .then(res => res.json())
-        .then(result => {
-          if (result.customerEmail) {
+        .then(({ data: result }) => {
+          if (result.customerEmail && typeof result.customerEmail === 'string') {
             customerEmailRef.current = result.customerEmail
           }
           if (result.status === 'succeeded' || result.status === 'confirmed') {
