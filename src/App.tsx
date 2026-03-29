@@ -365,6 +365,17 @@ function App() {
     return () => window.removeEventListener('popstate', onPopState)
   }, [])
 
+  // 화면 꺼짐/탭 전환 시 URL을 홈으로 복원 → 재진입 시 메인 화면 표시
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden' && (resultImage || report)) {
+        window.history.replaceState({ page: 'home' }, '', '/')
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange)
+  }, [resultImage, report])
+
   const loadPhoto = (dataUrl: string) => {
     const img = new Image()
     img.onload = () => {
@@ -516,12 +527,11 @@ function App() {
         }
         setResultCells(cells)
 
-        // 자동 저장 → URL을 /result/{id}로 변경 (공유 가능)
+        // 자동 저장 (공유용 ID만 저장, URL은 변경하지 않음 — 창 닫기/화면 끄기 후 재진입 시 홈으로 이동)
         if (data.image && data.report && gender) {
           saveSharedResult(data.image, data.report, gender, activeStyles)
             .then(id => {
               setShareId(id)
-              window.history.replaceState({ page: 'result' }, '', `/result/${id}`)
             })
             .catch(err => console.warn('[auto-save] Failed:', err))
         }
@@ -600,16 +610,15 @@ function App() {
       let paid = false
       const embed = await window.Polar.EmbedCheckout.create(checkoutData.url, { theme: 'light' })
 
-      embed.addEventListener('success', async () => {
+      const onCheckoutComplete = async () => {
+        if (paid) return // 이미 처리됨
         paid = true
         embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
 
         if (type === 'subscription') {
-          // Subscription checkout → re-check subscription status
           await checkSubscription()
         } else {
-          // Per-analysis checkout → verify payment and run analysis
           try {
             const vRes = await fetch('/api/verify', {
               method: 'POST',
@@ -623,10 +632,34 @@ function App() {
           } catch { /* 이메일 획득 실패해도 분석은 진행 */ }
           runAnalysis()
         }
-      })
+      }
 
-      embed.addEventListener('close', () => {
+      embed.addEventListener('success', onCheckoutComplete)
+      embed.addEventListener('confirmed', onCheckoutComplete)
+
+      embed.addEventListener('close', async () => {
         if (!paid) {
+          // 100% 할인 등으로 success 이벤트 없이 닫힌 경우 → 결제 상태 재확인
+          try {
+            const vRes = await fetch('/api/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ checkoutId: embeddedCheckoutId }),
+            })
+            const vData = await vRes.json()
+            if (vData.status === 'succeeded' || vData.status === 'confirmed') {
+              if (vData.customerEmail) {
+                customerEmailRef.current = vData.customerEmail
+              }
+              paid = true
+              if (type === 'subscription') {
+                await checkSubscription()
+              } else {
+                runAnalysis()
+              }
+              return
+            }
+          } catch { /* verify 실패 시 아래 에러 표시 */ }
           if (type !== 'subscription') {
             setError(t('error.paymentIncomplete'))
           }
