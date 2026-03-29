@@ -281,7 +281,8 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),
       })
-      if (res.ok) {
+      const ct = res.headers.get('content-type') || ''
+      if (res.ok && ct.includes('application/json')) {
         const data = await res.json()
         setSubStatus({ ...data, checked: true })
         // Set customer email for report sending
@@ -582,6 +583,11 @@ function App() {
           type,
         }),
       })
+
+      const checkoutCt = checkoutRes.headers.get('content-type') || ''
+      if (!checkoutCt.includes('application/json')) {
+        throw new Error(`${t('error.checkoutError')} [${checkoutRes.status}]`)
+      }
       const checkoutData = await checkoutRes.json()
 
       if (!checkoutRes.ok) {
@@ -595,6 +601,10 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ mobile: true, redirect: true, email: user?.email, type }),
           })
+          const redirectCt = redirectRes.headers.get('content-type') || ''
+          if (!redirectCt.includes('application/json')) {
+            throw new Error(`${t('error.checkoutError')} [${redirectRes.status}]`)
+          }
           const redirectData = await redirectRes.json()
           if (redirectRes.ok) {
             window.location.href = redirectData.url
@@ -731,7 +741,11 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ checkoutId }),
       })
-        .then(res => res.json())
+        .then(res => {
+          const ct = res.headers.get('content-type') || ''
+          if (!ct.includes('application/json')) throw new Error(`Non-JSON [${res.status}]`)
+          return res.json()
+        })
         .then(result => {
           if (result.customerEmail) {
             customerEmailRef.current = result.customerEmail
