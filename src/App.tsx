@@ -71,7 +71,7 @@ const MALE_MAKEUP_STYLES = [
   'Grunge / Smoky Eye',
   'Monochrome',
   'Utility Makeup',
-  'Blue & Color Point Eye',
+  'Blue Point Eye',
   'Vampire Romantic',
   'K-pop Idol Makeup',
 ]
