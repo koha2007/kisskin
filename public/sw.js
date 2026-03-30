@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kisskin-cache-v3';
+const CACHE_NAME = 'kisskin-cache-v4';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_ASSETS = [
@@ -26,6 +26,14 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // kisskin.pages.dev → kissinskin.net 리다이렉트 (서비스워커 레벨)
+  const url = new URL(event.request.url);
+  if (url.hostname === 'kisskin.pages.dev' && !url.pathname.startsWith('/api/')) {
+    url.hostname = 'kissinskin.net';
+    event.respondWith(Response.redirect(url.toString(), 301));
+    return;
+  }
+
   // API 요청은 서비스 워커가 개입하지 않음 — Cloudflare Pages Functions로 직접 전달
   if (event.request.url.includes('/api/')) {
     return;
