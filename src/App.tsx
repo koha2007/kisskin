@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
+
+// ── Google Analytics helper ──────────────────────────────────────
+declare global {
+  interface Window { gtag?: (...args: unknown[]) => void }
+}
+function gtagEvent(name: string, params?: Record<string, unknown>) {
+  window.gtag?.('event', name, params)
+}
 import HomePage from './HomePage'
 import Terms from './pages/terms'
 import Refund from './pages/refund'
@@ -255,6 +263,7 @@ function App() {
       setUser(session?.user ?? null)
       // 이메일 확인 후 리다이렉트 시 홈으로 이동
       if (event === 'SIGNED_IN' && session) {
+        gtagEvent('login', { method: session.user.app_metadata?.provider || 'email' })
         setPage('home')
       }
     })
@@ -370,6 +379,8 @@ function App() {
       window.history.pushState({ page: target }, '', path)
     }
     window.scrollTo(0, 0)
+    // GA: 페이지 이동 추적
+    if (target === 'analysis') gtagEvent('begin_analysis_setup', { page: 'analysis' })
   }
 
   // 브라우저 뒤로가기/앞으로가기 처리
@@ -432,6 +443,7 @@ function App() {
         compressed = cvs.toDataURL('image/jpeg', 0.7)
       }
       setPhoto(compressed)
+      gtagEvent('photo_uploaded')
     }
     img.onerror = () => {
       setError(t('error.imageLoad'))
@@ -481,6 +493,7 @@ function App() {
   const runAnalysis = async () => {
     setLoading(true)
     setError(null)
+    gtagEvent('analysis_start', { gender: gender, skin_type: skinType })
 
     try {
       const { gridPhoto, gridSize } = await createTiledGrid(photo!)
@@ -522,6 +535,7 @@ function App() {
 
       setResultImage(data.image)
       setReport(data.report)
+      gtagEvent('analysis_complete', { gender: gender, skin_type: skinType, has_report: !!data.report, has_image: !!data.image })
 
       // 이미지 슬라이싱 + 이메일용 합성 이미지 생성
       const img = new Image()
@@ -563,6 +577,7 @@ function App() {
               console.warn('[send-report] canvas failed, sending email without image:', canvasErr)
             }
             const parsed = parseReport(data.report)
+            gtagEvent('email_report_sent', { email_domain: customerEmailRef.current?.split('@')[1] })
             fetch('/api/send-report', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -586,6 +601,7 @@ function App() {
       const msg = e instanceof Error ? e.message : t('error.analysisError')
       reverseUsage()
       setError(msg)
+      gtagEvent('analysis_error', { error_message: msg.slice(0, 100) })
     } finally {
       setLoading(false)
     }
@@ -595,6 +611,7 @@ function App() {
 
   // Open Polar checkout (per-analysis or subscription)
   const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
+    gtagEvent('begin_checkout', { checkout_type: type, value: type === 'subscription' ? 9.88 : 2.99, currency: 'USD' })
     try {
       if (isMobile) {
         sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale }))
@@ -651,6 +668,7 @@ function App() {
         paid = true
         embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
+        gtagEvent('purchase', { transaction_id: embeddedCheckoutId, value: type === 'subscription' ? 9.88 : 2.99, currency: 'USD', checkout_type: type })
 
         if (type === 'subscription') {
           await checkSubscription()
@@ -711,6 +729,7 @@ function App() {
   const handleSubmit = async () => {
     if (!isComplete) return
     setError(null)
+    gtagEvent('submit_analysis', { gender: gender, skin_type: skinType, logged_in: !!user })
 
     // 1. If logged in, check subscription first
     if (user?.email) {
@@ -828,6 +847,7 @@ function App() {
 
   const handleShare = async (platform: string) => {
     if (!resultImage) return
+    gtagEvent('share', { method: platform, content_type: 'analysis_result' })
 
     try {
       // Save result to Supabase and get shareable URL
@@ -1631,6 +1651,7 @@ function App() {
                             href={buildBuyLink(p.brand, p.name)}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => gtagEvent('select_item', { item_brand: p.brand, item_name: p.name, item_category: p.category, price: p.price })}
                           >
                             {t('result.buyNow')}
                           </a>
