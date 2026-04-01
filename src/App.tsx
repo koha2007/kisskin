@@ -1340,7 +1340,7 @@ function App() {
   // 마이페이지
   if (page === 'mypage') {
     if (!user) { handleNavigate('auth'); return null }
-    return <MyPage onNavigate={handleNavigate} user={user} onLogout={async () => { await supabase.auth.signOut({ scope: 'local' }); setUser(null) }} />
+    return <MyPage onNavigate={handleNavigate} user={user} onLogout={async () => { await supabase.auth.signOut({ scope: 'local' }); setUser(null) }} subStatus={subStatus} onCheckout={openCheckout} />
   }
 
   // 홈 페이지
