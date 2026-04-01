@@ -478,17 +478,24 @@ Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, glob
     // ══════════════════════════════════════════════════════════
     // 리포트 생성 함수: Gemini 우선 → OpenAI 폴백 (비용 절감)
     // ══════════════════════════════════════════════════════════
-    async function generateReport(): Promise<string> {
+    async function generateReport(): Promise<{ data: string; error: string }> {
+      const errors: string[] = []
+
       // 1차: Gemini (저렴, 지역 제한 없음)
       if (env.GEMINI_API_KEY) {
         try {
           console.log('[kisskin] Trying Gemini report (1st)')
           const result = await generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText, env.GEMINI_REPORT_MODEL)
-          if (result) return result
+          if (result) return { data: result, error: '' }
+          errors.push('[1.Gemini] empty response')
           console.warn('[kisskin] Gemini report empty, falling back to OpenAI')
         } catch (e) {
-          console.warn(`[kisskin] Gemini report failed: ${e instanceof Error ? e.message : String(e)}`)
+          const msg = e instanceof Error ? e.message : String(e)
+          errors.push(`[1.Gemini] ${msg}`)
+          console.warn(`[kisskin] Gemini report failed: ${msg}`)
         }
+      } else {
+        errors.push('[1.Gemini] GEMINI_API_KEY not set')
       }
 
       // 2차: AI Gateway (BYOK, 지역 차단 우회)
@@ -525,9 +532,17 @@ Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, glob
               choices?: { message?: { content?: string } }[]
             }
             const content = json.choices?.[0]?.message?.content || ''
-            if (content) return content
+            if (content) return { data: content, error: '' }
+            errors.push('[2.Gateway] empty content')
+          } else {
+            const errText = await res.text().catch(() => '')
+            errors.push(`[2.Gateway] ${res.status}:${errText.slice(0, 100)}`)
           }
-        } catch { /* 폴백 */ }
+        } catch (e) {
+          errors.push(`[2.Gateway] ${e instanceof Error ? e.message : String(e)}`)
+        }
+      } else {
+        errors.push('[2.Gateway] no gatewayUrl')
       }
 
       // 3차: 직접 OpenAI (최후 폴백, 지역 차단될 수 있음)
@@ -543,24 +558,31 @@ Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, glob
             choices?: { message?: { content?: string } }[]
           }
           const content = json.choices?.[0]?.message?.content || ''
-          if (content) return content
+          if (content) return { data: content, error: '' }
+          errors.push('[3.OpenAI] empty content')
+        } else {
+          const errText = await res.text().catch(() => '')
+          errors.push(`[3.OpenAI] ${res.status}:${errText.slice(0, 100)}`)
         }
-      } catch { /* 폴백 */ }
+      } catch (e) {
+        errors.push(`[3.OpenAI] ${e instanceof Error ? e.message : String(e)}`)
+      }
 
-      return ''
+      return { data: '', error: errors.join(' | ') || 'All report methods failed' }
     }
 
     // ══════════════════════════════════════════════════════════
     // 병렬 실행
     // ══════════════════════════════════════════════════════════
-    const [imageResult, reportRaw] = await Promise.all([
+    const [imageResult, reportResult] = await Promise.all([
       generateImage(),
       generateReport(),
     ])
 
     const imageData = imageResult.data
     const imageError = imageResult.error
-    const report = extractReportJson(reportRaw)
+    const reportError = reportResult.error
+    const report = extractReportJson(reportResult.data)
 
     // ══════════════════════════════════════════════════════════
     // 결과 반환
@@ -569,9 +591,10 @@ Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, glob
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
 
+      const allErrors = [imageError, reportError].filter(Boolean).join(' || ')
       const envDebug = `[GEMINI_KEY:${env.GEMINI_API_KEY ? 'set(' + env.GEMINI_API_KEY.slice(-4) + ')' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|AIG_TOKEN:${env.CF_AIG_TOKEN ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${imageError.slice(0, 300) || '이미지와 보고서 모두 생성 실패'} ${envDebug}`,
+        error: `API 오류 (${colo}): ${allErrors.slice(0, 400) || '이미지와 보고서 모두 생성 실패'} ${envDebug}`,
       }), {
         status: 500, headers: { 'Content-Type': 'application/json' },
       })

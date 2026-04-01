@@ -554,20 +554,31 @@ function App() {
 
         // 2) 이메일용 합성 이미지 (그리드 + 분석 리포트 + 제품 포함)
         if (customerEmailRef.current && data.report) {
-          const composedCanvas = await buildCompositeCanvas(img, true)
-          const composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
-          const parsed = parseReport(data.report)
-          fetch('/api/send-report', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: customerEmailRef.current,
-              report: parsed || { summary: data.report, products: [] },
-              styles: activeStyles,
-              resultImage: composedImage,
-              lang: locale,
-            }),
-          }).catch(err => console.warn('[send-report] email failed:', err))
+          try {
+            let composedImage = ''
+            try {
+              const composedCanvas = await buildCompositeCanvas(img, true)
+              composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
+            } catch (canvasErr) {
+              console.warn('[send-report] canvas failed, sending email without image:', canvasErr)
+            }
+            const parsed = parseReport(data.report)
+            fetch('/api/send-report', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: customerEmailRef.current,
+                report: parsed || { summary: data.report, products: [] },
+                styles: activeStyles,
+                resultImage: composedImage,
+                lang: locale,
+              }),
+            }).catch(err => console.warn('[send-report] email failed:', err))
+          } catch (emailErr) {
+            console.warn('[send-report] email preparation failed:', emailErr)
+          }
+        } else {
+          console.warn('[send-report] skipped: email=', customerEmailRef.current, 'hasReport=', !!data.report)
         }
       }
       img.src = data.image
