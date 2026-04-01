@@ -42,7 +42,6 @@ export default function MyPage({ onNavigate, user, onLogout, subStatus, onChecko
   const [deleteError, setDeleteError] = useState<string | null>(null)
   const [orders, setOrders] = useState<OrderRow[]>([])
   const [ordersLoading, setOrdersLoading] = useState(false)
-  const [showCancelConfirm, setShowCancelConfirm] = useState(false)
 
   const isOAuth = user?.app_metadata?.provider && user.app_metadata.provider !== 'email'
   const isKo = locale === 'ko'
@@ -330,74 +329,35 @@ export default function MyPage({ onNavigate, user, onLogout, subStatus, onChecko
           </button>
         )}
 
-        {subStatus.active && !subStatus.cancelAtPeriodEnd && (
+        {subStatus.active && (
           <>
-            {!showCancelConfirm ? (
-              <button
-                onClick={() => setShowCancelConfirm(true)}
-                style={{
-                  width: '100%', padding: '10px', borderRadius: '10px',
-                  border: '1px solid rgba(148, 163, 184, 0.3)',
-                  background: 'transparent', color: '#94a3b8',
-                  fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                }}
-              >
-                {isKo ? '구독 해지' : 'Cancel Subscription'}
-              </button>
-            ) : (
+            <button
+              onClick={() => window.open('https://polar.sh/kisskin-makeup7/portal', '_blank')}
+              style={{
+                width: '100%', padding: '12px', borderRadius: '10px',
+                border: '1px solid rgba(148, 163, 184, 0.3)',
+                background: 'transparent', color: '#e2e8f0',
+                fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>open_in_new</span>
+              {isKo ? '구독 관리 (결제·해지·변경)' : 'Manage Subscription'}
+            </button>
+            {subStatus.cancelAtPeriodEnd && (
               <div style={{
-                background: 'rgba(239, 68, 68, 0.08)',
-                borderRadius: '12px', padding: '16px',
-                border: '1px solid rgba(239, 68, 68, 0.2)',
+                background: 'rgba(251, 191, 36, 0.1)', borderRadius: '10px',
+                padding: '12px 14px', border: '1px solid rgba(251, 191, 36, 0.2)',
+                marginTop: '12px',
               }}>
-                <p style={{ fontSize: '13px', color: '#fca5a5', marginBottom: '12px', lineHeight: 1.5 }}>
+                <p style={{ fontSize: '13px', color: '#fbbf24', margin: 0, lineHeight: 1.5 }}>
                   {isKo
-                    ? `구독을 해지하면 ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''} 이후 서비스를 이용할 수 없습니다. 그때까지는 정상 이용 가능합니다.`
-                    : `After cancellation, your access will end on ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''}. You can continue using the service until then.`}
+                    ? `구독이 ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''} 에 만료됩니다. 포털에서 다시 구독할 수 있습니다.`
+                    : `Your subscription expires on ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''}. You can resubscribe from the portal.`}
                 </p>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button
-                    onClick={() => setShowCancelConfirm(false)}
-                    style={{
-                      flex: 1, padding: '10px', borderRadius: '10px',
-                      border: '1px solid rgba(148, 163, 184, 0.3)',
-                      background: 'transparent', color: '#94a3b8',
-                      fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                    }}
-                  >
-                    {t('mypage.cancel')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      // Polar customer portal for cancellation
-                      window.open('https://polar.sh/kissinskin/portal', '_blank')
-                      setShowCancelConfirm(false)
-                    }}
-                    style={{
-                      flex: 1, padding: '10px', borderRadius: '10px',
-                      border: 'none', background: '#ef4444', color: '#fff',
-                      fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                    }}
-                  >
-                    {isKo ? '해지하기' : 'Cancel'}
-                  </button>
-                </div>
               </div>
             )}
           </>
-        )}
-
-        {subStatus.active && subStatus.cancelAtPeriodEnd && (
-          <div style={{
-            background: 'rgba(251, 191, 36, 0.1)', borderRadius: '10px',
-            padding: '12px 14px', border: '1px solid rgba(251, 191, 36, 0.2)',
-          }}>
-            <p style={{ fontSize: '13px', color: '#fbbf24', margin: 0, lineHeight: 1.5 }}>
-              {isKo
-                ? `구독이 ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''} 에 만료됩니다. 그 전에 다시 구독하시면 연속으로 이용 가능합니다.`
-                : `Your subscription expires on ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''}. Resubscribe before then to continue.`}
-            </p>
-          </div>
         )}
       </div>
 
