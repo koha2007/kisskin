@@ -1,5 +1,6 @@
 // Subscription status check API
-// - Checks Polar for active subscription by customer email
+// - Primary: reads from Supabase (synced via Polar webhook)
+// - Fallback: calls Polar API directly (for backfill gap)
 // - Checks Supabase for monthly usage count
 // - Returns: { active, tier, usage, limit, trialEndsAt }
 
@@ -7,6 +8,17 @@ interface Env {
   POLAR_ACCESS_TOKEN: string
   SUPABASE_SERVICE_ROLE_KEY: string
   VITE_SUPABASE_URL?: string
+}
+
+interface SubscriptionRow {
+  polar_subscription_id: string
+  email: string
+  status: string
+  tier: string
+  monthly_limit: number
+  trial_limit: number
+  current_period_end: string | null
+  cancel_at_period_end: boolean
 }
 
 interface PolarSubscription {
@@ -32,8 +44,8 @@ interface PolarListResponse {
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
-  if (!env.POLAR_ACCESS_TOKEN) {
-    return new Response(JSON.stringify({ error: 'Payment not configured' }), {
+  if (!env.SUPABASE_SERVICE_ROLE_KEY) {
+    return new Response(JSON.stringify({ error: 'Database not configured' }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     })
   }
@@ -47,28 +59,15 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    // 1. Check Polar for active subscriptions by customer email
-    const subsRes = await fetch(
-      `https://api.polar.sh/v1/subscriptions/?customer_email=${encodeURIComponent(email)}&active=true&limit=10`,
-      {
-        headers: { 'Authorization': `Bearer ${env.POLAR_ACCESS_TOKEN}` },
-      },
-    )
+    const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vrcltmhhbgnsmdeoxlck.supabase.co'
 
-    if (!subsRes.ok) {
-      const errText = await subsRes.text()
-      console.error('[subscription-status] Polar API error:', subsRes.status, errText)
-      return new Response(JSON.stringify({ error: 'Failed to check subscription' }), {
-        status: 500, headers: { 'Content-Type': 'application/json' },
-      })
+    // 1. Check Supabase for active subscription (synced via webhook)
+    let activeSub = await getSubFromSupabase(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, email)
+
+    // 2. Fallback: if not found in Supabase, check Polar API directly
+    if (!activeSub && env.POLAR_ACCESS_TOKEN) {
+      activeSub = await getSubFromPolar(env.POLAR_ACCESS_TOKEN, email)
     }
-
-    const subsData = (await subsRes.json()) as PolarListResponse
-
-    // Find active or trialing subscription
-    const activeSub = subsData.items.find(
-      s => s.status === 'active' || s.status === 'trialing',
-    )
 
     if (!activeSub) {
       return new Response(JSON.stringify({
@@ -82,16 +81,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    // 2. Determine tier and limits from product metadata
-    const metadata = activeSub.product.metadata || {}
-    const tier = metadata.tier || 'pro'
-    const monthlyLimit = parseInt(metadata.monthly_limit || '-1', 10)
-    const trialLimit = parseInt(metadata.trial_limit || '5', 10)
-    const isTrial = activeSub.status === 'trialing'
-    const effectiveLimit = isTrial ? trialLimit : monthlyLimit
-
     // 3. Get current month usage from Supabase
-    const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vrcltmhhbgnsmdeoxlck.supabase.co'
     const now = new Date()
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
@@ -109,7 +99,6 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     let usage = 0
     if (usageRes.ok) {
       const countHeader = usageRes.headers.get('content-range')
-      // Format: "0-N/total" or "*/total"
       if (countHeader) {
         const match = countHeader.match(/\/(\d+)/)
         if (match) usage = parseInt(match[1], 10)
@@ -119,12 +108,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     return new Response(JSON.stringify({
       active: true,
       status: activeSub.status,
-      tier,
+      tier: activeSub.tier,
       usage,
-      limit: effectiveLimit,
-      trialEndsAt: isTrial ? activeSub.current_period_end : null,
-      periodEnd: activeSub.current_period_end,
-      cancelAtPeriodEnd: activeSub.cancel_at_period_end,
+      limit: activeSub.effectiveLimit,
+      trialEndsAt: activeSub.status === 'trialing' ? activeSub.periodEnd : null,
+      periodEnd: activeSub.periodEnd,
+      cancelAtPeriodEnd: activeSub.cancelAtPeriodEnd,
     }), {
       headers: { 'Content-Type': 'application/json' },
     })
@@ -134,5 +123,86 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     })
+  }
+}
+
+// ── Supabase lookup ──────────────────────────────────────────────
+
+interface SubResult {
+  status: string
+  tier: string
+  effectiveLimit: number
+  periodEnd: string | null
+  cancelAtPeriodEnd: boolean
+}
+
+async function getSubFromSupabase(
+  supabaseUrl: string,
+  serviceKey: string,
+  email: string,
+): Promise<SubResult | null> {
+  const res = await fetch(
+    `${supabaseUrl}/rest/v1/subscriptions?email=eq.${encodeURIComponent(email)}&status=in.(active,trialing)&order=updated_at.desc&limit=1`,
+    {
+      headers: {
+        'apikey': serviceKey,
+        'Authorization': `Bearer ${serviceKey}`,
+      },
+    },
+  )
+
+  if (!res.ok) return null
+
+  const rows = (await res.json()) as SubscriptionRow[]
+  if (rows.length === 0) return null
+
+  const row = rows[0]
+  const isTrial = row.status === 'trialing'
+
+  return {
+    status: row.status,
+    tier: row.tier,
+    effectiveLimit: isTrial ? row.trial_limit : row.monthly_limit,
+    periodEnd: row.current_period_end,
+    cancelAtPeriodEnd: row.cancel_at_period_end,
+  }
+}
+
+// ── Polar API fallback ───────────────────────────────────────────
+
+async function getSubFromPolar(
+  accessToken: string,
+  email: string,
+): Promise<SubResult | null> {
+  try {
+    const res = await fetch(
+      `https://api.polar.sh/v1/subscriptions/?customer_email=${encodeURIComponent(email)}&active=true&limit=10`,
+      { headers: { 'Authorization': `Bearer ${accessToken}` } },
+    )
+
+    if (!res.ok) return null
+
+    const data = (await res.json()) as PolarListResponse
+    const activeSub = data.items.find(
+      s => s.status === 'active' || s.status === 'trialing',
+    )
+
+    if (!activeSub) return null
+
+    const metadata = activeSub.product.metadata || {}
+    const tier = metadata.tier || 'pro'
+    const monthlyLimit = parseInt(metadata.monthly_limit || '-1', 10)
+    const trialLimit = parseInt(metadata.trial_limit || '5', 10)
+    const isTrial = activeSub.status === 'trialing'
+
+    return {
+      status: activeSub.status,
+      tier,
+      effectiveLimit: isTrial ? trialLimit : monthlyLimit,
+      periodEnd: activeSub.current_period_end,
+      cancelAtPeriodEnd: activeSub.cancel_at_period_end,
+    }
+  } catch {
+    return null
   }
 }
