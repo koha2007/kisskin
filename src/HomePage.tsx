@@ -132,7 +132,7 @@ function WaveGrid({ onClick }: { onClick: () => void }) {
         }
         .wave-glow {
           position: absolute;
-          inset: -8%;
+          inset: 0;
           background: radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 58%);
           filter: blur(28px);
           pointer-events: none;
