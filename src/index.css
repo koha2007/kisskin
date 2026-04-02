@@ -1,23 +1,4 @@
-@import "tailwindcss" layer(base, components, utilities);
-
-@layer base {
-  img, video {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-  a {
-    text-decoration: inherit;
-    color: inherit;
-  }
-  button {
-    cursor: pointer;
-    background: none;
-    border: none;
-    font: inherit;
-    color: inherit;
-  }
-}
+@import "tailwindcss";
 
 @theme {
   --color-primary: #eb4763;
@@ -45,12 +26,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 html {
