@@ -17,7 +17,10 @@ const I18nContext = createContext<I18nContextType>({
   t: (key) => key,
 })
 
+const isClient = typeof window !== 'undefined'
+
 function detectLocale(): Locale {
+  if (!isClient) return 'ko'
   const saved = localStorage.getItem('kisskin_locale') as Locale | null
   if (saved && (saved === 'ko' || saved === 'en')) return saved
   const lang = navigator.language || ''
@@ -29,7 +32,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const setLocale = (l: Locale) => {
     setLocaleState(l)
-    localStorage.setItem('kisskin_locale', l)
+    if (isClient) localStorage.setItem('kisskin_locale', l)
   }
 
   useEffect(() => {

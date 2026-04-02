@@ -3,14 +3,20 @@ import './policy.css'
 type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact'
 
 interface TermsProps {
-  onNavigate: (page: Page) => void
+  onNavigate?: (page: Page) => void
 }
 
 export default function Terms({ onNavigate }: TermsProps) {
+  const nav = (page: string) => {
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    if (onNavigate) onNavigate(page as Page)
+    else window.location.href = paths[page] || '/'
+  }
+
   return (
     <div className="legal-page">
       <div className="legal-header">
-        <button className="legal-back" onClick={() => onNavigate('home')}>
+        <button className="legal-back" onClick={() => nav('home')}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1>Terms of Service</h1>
@@ -57,7 +63,7 @@ export default function Terms({ onNavigate }: TermsProps) {
         <p>This consent is obtained at the point of purchase. If the Service fails to deliver results due to a technical error, your statutory rights (including refund rights) remain fully protected.</p>
 
         <h2>6. Refund Policy</h2>
-        <p>Please see our dedicated <a className="legal-link" onClick={() => onNavigate('refund')}>Refund Policy</a> page for full details. In summary:</p>
+        <p>Please see our dedicated <a className="legal-link" href="/refund">Refund Policy</a> page for full details. In summary:</p>
         <ul>
           <li>If the AI fails to generate results (images or report), a <strong>full refund is automatically processed</strong> without any action required from you.</li>
           <li>Since results are delivered instantly as digital content, <strong>all sales are generally final</strong> once results are successfully delivered.</li>
@@ -167,7 +173,7 @@ export default function Terms({ onNavigate }: TermsProps) {
         <p>If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable.</p>
 
         <h2>20. Entire Agreement</h2>
-        <p>These Terms, together with our <a className="legal-link" onClick={() => onNavigate('privacy')}>Privacy Policy</a> and <a className="legal-link" onClick={() => onNavigate('refund')}>Refund Policy</a>, constitute the entire agreement between you and kissinskin regarding the use of the Service. Any prior agreements, communications, or understandings are superseded.</p>
+        <p>These Terms, together with our <a className="legal-link" href="/privacy">Privacy Policy</a> and <a className="legal-link" href="/refund">Refund Policy</a>, constitute the entire agreement between you and kissinskin regarding the use of the Service. Any prior agreements, communications, or understandings are superseded.</p>
 
         <h2>21. Changes to Terms</h2>
         <p>We may update these Terms at any time. Material changes will be posted on this page with an updated effective date. Where required by law, we will notify you of material changes before they take effect. Your continued use of the Service after changes constitutes acceptance. If you do not agree with the updated Terms, you should discontinue use of the Service.</p>

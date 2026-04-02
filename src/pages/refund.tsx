@@ -3,14 +3,20 @@ import './policy.css'
 type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact'
 
 interface RefundProps {
-  onNavigate: (page: Page) => void
+  onNavigate?: (page: Page) => void
 }
 
 export default function Refund({ onNavigate }: RefundProps) {
+  const nav = (page: string) => {
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    if (onNavigate) onNavigate(page as Page)
+    else window.location.href = paths[page] || '/'
+  }
+
   return (
     <div className="legal-page">
       <div className="legal-header">
-        <button className="legal-back" onClick={() => onNavigate('home')}>
+        <button className="legal-back" onClick={() => nav('home')}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1>Refund Policy</h1>

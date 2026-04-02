@@ -24,7 +24,7 @@ interface OrderRow {
 }
 
 interface MyPageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage') => void
+  onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage') => void
   user: { id?: string; email?: string; app_metadata?: { provider?: string } } | null
   onLogout: () => void
   subStatus: SubStatus
@@ -32,6 +32,11 @@ interface MyPageProps {
 }
 
 export default function MyPage({ onNavigate, user, onLogout, subStatus, onCheckout }: MyPageProps) {
+  const nav = (page: string) => {
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage')
+    else window.location.href = paths[page] || '/'
+  }
   const { t, locale } = useI18n()
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
@@ -123,7 +128,7 @@ export default function MyPage({ onNavigate, user, onLogout, subStatus, onChecko
       }
       await supabase.auth.signOut({ scope: 'local' })
       onLogout()
-      onNavigate('home')
+      nav('home')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
       setDeleteError(message)
@@ -196,7 +201,7 @@ export default function MyPage({ onNavigate, user, onLogout, subStatus, onChecko
       {/* Header */}
       <div style={{ width: '100%', maxWidth: '440px', display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
         <button
-          onClick={() => onNavigate('home')}
+          onClick={() => nav('home')}
           style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: '4px' }}
         >
           <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>arrow_back</span>
@@ -475,7 +480,7 @@ export default function MyPage({ onNavigate, user, onLogout, subStatus, onChecko
       {/* 로그아웃 */}
       <div style={cardStyle}>
         <button
-          onClick={() => { onLogout(); onNavigate('home') }}
+          onClick={() => { onLogout(); nav('home') }}
           style={{
             width: '100%',
             padding: '12px',

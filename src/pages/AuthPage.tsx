@@ -9,10 +9,16 @@ function isInAppBrowser(): boolean {
 }
 
 interface AuthPageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
+  onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
 }
 
 export default function AuthPage({ onNavigate }: AuthPageProps) {
+  const nav = (page: string) => {
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth')
+    else window.location.href = paths[page] || '/'
+  }
+
   const { t } = useI18n()
   const inApp = useMemo(() => isInAppBrowser(), [])
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login')
@@ -67,14 +73,14 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           setSuccess(t('auth.signupSuccess'))
         } else if (data.session) {
           // 이메일 확인 없이 바로 로그인된 경우
-          onNavigate('home')
+          nav('home')
         } else {
           setError(t('auth.fillAll'))
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
-        onNavigate('home')
+        nav('home')
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
@@ -97,7 +103,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
       {/* Logo */}
       <div
         style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px', cursor: 'pointer' }}
-        onClick={() => onNavigate('home')}
+        onClick={() => nav('home')}
       >
         <img src="/logo.png" alt="kissinskin" style={{ width: 40, height: 40, borderRadius: '50%' }} />
         <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#fff' }}>kissinskin</span>

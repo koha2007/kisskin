@@ -1,8 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useI18n } from './i18n/context'
 
+const PAGE_PATHS: Record<string, string> = {
+  home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy',
+  refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage',
+}
+
 interface HomePageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage') => void
+  onNavigate?: (page: string) => void
   user?: { email?: string } | null
   onLogout?: () => void
 }
@@ -217,7 +222,13 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
   )
 }
 
-function HomePage({ onNavigate, user }: HomePageProps) {
+function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
+  const onNavigate = (page: string) => {
+    if (onNavigateProp) { onNavigateProp(page); return }
+    const path = PAGE_PATHS[page] || '/'
+    window.location.href = path
+  }
+
   const { t, locale, setLocale } = useI18n()
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
 
@@ -636,10 +647,10 @@ function HomePage({ onNavigate, user }: HomePageProps) {
             <div className="flex flex-col gap-3">
               <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">{t('home.footer.legal')}</h5>
               <ul className="flex flex-col gap-2 text-slate-400 text-sm">
-                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('terms')}>Terms of Service</a></li>
-                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('refund')}>Refund Policy</a></li>
-                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('privacy')}>Privacy Policy</a></li>
-                <li><a className="hover:text-primary transition-colors cursor-pointer" onClick={() => onNavigate('contact')}>Contact Us</a></li>
+                <li><a href="/terms" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
+                <li><a href="/refund" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
+                <li><a href="/privacy" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</a></li>
+                <li><a href="/contact" className="hover:text-primary transition-colors cursor-pointer">Contact Us</a></li>
               </ul>
             </div>
           </div>

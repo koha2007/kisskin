@@ -3,14 +3,20 @@ import './policy.css'
 type Page = 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact'
 
 interface ContactProps {
-  onNavigate: (page: Page) => void
+  onNavigate?: (page: Page) => void
 }
 
 export default function Contact({ onNavigate }: ContactProps) {
+  const nav = (page: string) => {
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    if (onNavigate) onNavigate(page as Page)
+    else window.location.href = paths[page] || '/'
+  }
+
   return (
     <div className="legal-page">
       <div className="legal-header">
-        <button className="legal-back" onClick={() => onNavigate('home')}>
+        <button className="legal-back" onClick={() => nav('home')}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1>Contact Us</h1>
@@ -31,12 +37,12 @@ export default function Contact({ onNavigate }: ContactProps) {
         <p>For payment issues, refund requests, or billing questions:</p>
         <p><strong>Email:</strong> <a href="mailto:support@kissinskin.net">support@kissinskin.net</a></p>
         <p>Payments are processed by <a href="https://polar.sh" target="_blank" rel="noopener noreferrer">Polar</a>. For billing-specific inquiries, you may also contact Polar directly through your purchase receipt.</p>
-        <p>For full details, see our <a className="legal-link" onClick={() => onNavigate('refund')}>Refund Policy</a>.</p>
+        <p>For full details, see our <a className="legal-link" href="/refund">Refund Policy</a>.</p>
 
         <h2>Privacy & Data Requests</h2>
         <p>To request data deletion, access your personal data, or ask privacy-related questions:</p>
         <p><strong>Email:</strong> <a href="mailto:privacy@kissinskin.net">privacy@kissinskin.net</a></p>
-        <p>We process data requests within 30 days as required by applicable privacy laws (GDPR, CCPA, PIPA). See our <a className="legal-link" onClick={() => onNavigate('privacy')}>Privacy Policy</a> for details.</p>
+        <p>We process data requests within 30 days as required by applicable privacy laws (GDPR, CCPA, PIPA). See our <a className="legal-link" href="/privacy">Privacy Policy</a> for details.</p>
 
         <h2>Business & Partnerships</h2>
         <p>For business inquiries, collaborations, or partnership proposals:</p>

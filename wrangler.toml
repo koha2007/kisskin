@@ -1,5 +1,5 @@
 name = "kisskin"
-pages_build_output_dir = "dist"
+pages_build_output_dir = "dist/client"
 compatibility_date = "2026-02-18"
 compatibility_flags = ["nodejs_compat"]
 

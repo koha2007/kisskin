@@ -3,7 +3,7 @@ import { loadSharedResult, type SharedResultData } from '../lib/shareResult'
 import { useI18n } from '../i18n/context'
 
 interface ResultPageProps {
-  onNavigate: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
+  onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
 }
 
 const CATEGORY_STYLE: Record<string, { icon: string; bg: string }> = {
@@ -21,6 +21,11 @@ function buildBuyLink(brand: string, name: string): string {
 }
 
 export default function ResultPage({ onNavigate }: ResultPageProps) {
+  const nav = (page: string) => {
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth')
+    else window.location.href = paths[page] || '/'
+  }
   const { t } = useI18n()
   const [data, setData] = useState<SharedResultData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -30,7 +35,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
   useEffect(() => {
     const id = window.location.pathname.split('/result/')[1]
     if (!id) {
-      onNavigate('home')
+      nav('home')
       return
     }
     loadSharedResult(id)
@@ -84,7 +89,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
     return (
       <div className="analysis-page">
         <div className="top-bar">
-          <button className="top-bar-back" onClick={() => onNavigate('home')}>
+          <button className="top-bar-back" onClick={() => nav('home')}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <h2 className="top-bar-title">{t('result.title')}</h2>
@@ -102,7 +107,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
     return (
       <div className="analysis-page">
         <div className="top-bar">
-          <button className="top-bar-back" onClick={() => onNavigate('home')}>
+          <button className="top-bar-back" onClick={() => nav('home')}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <h2 className="top-bar-title">{t('result.title')}</h2>
@@ -113,7 +118,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
             <p style={{ marginTop: 16, color: '#6b7280', fontSize: 14 }}>
               {error || 'Result not found'}
             </p>
-            <button className="cta-btn" style={{ marginTop: 24, maxWidth: 240 }} onClick={() => onNavigate('analysis')}>
+            <button className="cta-btn" style={{ marginTop: 24, maxWidth: 240 }} onClick={() => nav('analysis')}>
               {t('common.startAnalysisLong')}
             </button>
           </div>
@@ -133,7 +138,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
   return (
     <div className="analysis-page">
       <div className="top-bar">
-        <button className="top-bar-back" onClick={() => onNavigate('home')}>
+        <button className="top-bar-back" onClick={() => nav('home')}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h2 className="top-bar-title">{t('result.title')}</h2>
@@ -245,7 +250,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
         {/* CTA */}
         <div className="fixed-cta-spacer" />
         <div className="fixed-cta">
-          <button className="cta-btn" onClick={() => onNavigate('analysis')}>
+          <button className="cta-btn" onClick={() => nav('analysis')}>
             {t('common.startAnalysisLong')}
           </button>
         </div>

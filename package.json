@@ -5,14 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vike prerender && cp dist/client/index.html dist/client/404.html",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.99.3",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "vike": "^0.4.256",
+    "vike-react": "^0.6.21"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260218.0",
