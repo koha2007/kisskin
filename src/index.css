@@ -1,3 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #eb4763;
+  --color-background-light: #f8f6f6;
+  --color-background-dark: #211114;
+  --color-navy: #070953;
+  --color-navy-mid: #121570;
+  --color-navy-light: #2a2d8a;
+  --font-display: "Manrope", sans-serif;
+  --radius: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   font-family: 'Pretendard', system-ui, -apple-system, 'Segoe UI', sans-serif;
   line-height: 1.5;

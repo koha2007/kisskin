@@ -13,11 +13,11 @@ const STYLE_NAMES = [
 ]
 
 const IMAGE_SETS = [
-  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo2_${i + 1}.png`),
-  STYLE_NAMES.map(s => `/styles/hero/photo5_${s}.png`),
-  STYLE_NAMES.map(s => `/styles/hero/photo6_${s}.png`),
-  STYLE_NAMES.map(s => `/styles/hero/photo7_${s}.png`),
-  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.png`),
+  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo2_${i + 1}.webp`),
+  STYLE_NAMES.map(s => `/styles/hero/photo5_${s}.webp`),
+  STYLE_NAMES.map(s => `/styles/hero/photo6_${s}.webp`),
+  STYLE_NAMES.map(s => `/styles/hero/photo7_${s}.webp`),
+  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.webp`),
 ]
 
 interface StyleData {
@@ -90,11 +90,19 @@ function WaveGrid({ onClick }: { onClick: () => void }) {
   }, [playWave])
 
   useEffect(() => {
-    // Preload all images
-    IMAGE_SETS.flat().forEach(src => {
+    // Preload only the first set immediately
+    IMAGE_SETS[0].forEach(src => {
       const img = new Image()
       img.src = src
     })
+
+    // Preload remaining sets after initial render
+    const preloadTimer = setTimeout(() => {
+      IMAGE_SETS.slice(1).flat().forEach(src => {
+        const img = new Image()
+        img.src = src
+      })
+    }, 2000)
 
     // Initial wave
     const waveTimer = setTimeout(() => playWave(), 250)
@@ -103,6 +111,7 @@ function WaveGrid({ onClick }: { onClick: () => void }) {
     const interval = setInterval(() => switchSet(), 4200)
 
     return () => {
+      clearTimeout(preloadTimer)
       clearTimeout(waveTimer)
       clearInterval(interval)
     }

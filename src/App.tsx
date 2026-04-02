@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import './App.css'
 
 // ── Google Analytics helper ──────────────────────────────────────
@@ -9,13 +9,13 @@ function gtagEvent(name: string, params?: Record<string, unknown>) {
   window.gtag?.('event', name, params)
 }
 import HomePage from './HomePage'
-import Terms from './pages/terms'
-import Refund from './pages/refund'
-import Privacy from './pages/privacy'
-import Contact from './pages/contact'
-import AuthPage from './pages/AuthPage'
-import ResultPage from './pages/ResultPage'
-import MyPage from './pages/MyPage'
+const Terms = lazy(() => import('./pages/terms'))
+const Refund = lazy(() => import('./pages/refund'))
+const Privacy = lazy(() => import('./pages/privacy'))
+const Contact = lazy(() => import('./pages/contact'))
+const AuthPage = lazy(() => import('./pages/AuthPage'))
+const ResultPage = lazy(() => import('./pages/ResultPage'))
+const MyPage = lazy(() => import('./pages/MyPage'))
 import { useI18n } from './i18n/context'
 import { supabase } from './lib/supabase'
 import { saveSharedResult } from './lib/shareResult'
@@ -1329,38 +1329,38 @@ function App() {
 
   // 공유된 결과 페이지
   if (page === 'result') {
-    return <ResultPage onNavigate={handleNavigate} />
+    return <Suspense fallback={null}><ResultPage onNavigate={handleNavigate} /></Suspense>
   }
 
   // 이용약관 (Terms of Service)
   if (page === 'terms') {
-    return <Terms onNavigate={handleNavigate} />
+    return <Suspense fallback={null}><Terms onNavigate={handleNavigate} /></Suspense>
   }
 
   // 환불 규정 (Refund Policy)
   if (page === 'refund') {
-    return <Refund onNavigate={handleNavigate} />
+    return <Suspense fallback={null}><Refund onNavigate={handleNavigate} /></Suspense>
   }
 
   // 개인정보처리방침 (Privacy Policy)
   if (page === 'privacy') {
-    return <Privacy onNavigate={handleNavigate} />
+    return <Suspense fallback={null}><Privacy onNavigate={handleNavigate} /></Suspense>
   }
 
   // 문의하기 (Contact Us)
   if (page === 'contact') {
-    return <Contact onNavigate={handleNavigate} />
+    return <Suspense fallback={null}><Contact onNavigate={handleNavigate} /></Suspense>
   }
 
   // 로그인/회원가입
   if (page === 'auth') {
-    return <AuthPage onNavigate={handleNavigate} />
+    return <Suspense fallback={null}><AuthPage onNavigate={handleNavigate} /></Suspense>
   }
 
   // 마이페이지
   if (page === 'mypage') {
     if (!user) { handleNavigate('auth'); return null }
-    return <MyPage onNavigate={handleNavigate} user={user} onLogout={async () => { await supabase.auth.signOut({ scope: 'local' }); setUser(null) }} subStatus={subStatus} onCheckout={openCheckout} />
+    return <Suspense fallback={null}><MyPage onNavigate={handleNavigate} user={user} onLogout={async () => { await supabase.auth.signOut({ scope: 'local' }); setUser(null) }} subStatus={subStatus} onCheckout={openCheckout} /></Suspense>
   }
 
   // 홈 페이지
