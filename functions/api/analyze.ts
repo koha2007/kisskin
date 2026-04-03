@@ -31,6 +31,37 @@ function dataUrlToBlob(dataUrl: string): Blob {
   return new Blob([bytes], { type: mime })
 }
 
+// 지연 함수
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+// Exponential backoff retry가 포함된 fetch 래퍼
+// 429(Rate Limit), 503(Service Unavailable) 에러 시 자동 재시도
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit,
+  maxRetries = 3,
+  baseDelay = 1000,
+): Promise<Response> {
+  let lastResponse: Response | null = null
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const res = await fetch(url, options)
+    if (res.status !== 429 && res.status !== 503) return res
+    lastResponse = res
+    if (attempt < maxRetries) {
+      // Retry-After 헤더가 있으면 사용, 없으면 exponential backoff
+      const retryAfter = res.headers.get('Retry-After')
+      const delay = retryAfter
+        ? Math.min(parseInt(retryAfter, 10) * 1000 || baseDelay, 30000)
+        : baseDelay * Math.pow(2, attempt) + Math.random() * 500
+      console.warn(`[kisskin] ${res.status} retry ${attempt + 1}/${maxRetries}, waiting ${Math.round(delay)}ms`)
+      await sleep(delay)
+    }
+  }
+  return lastResponse!
+}
+
 // 지역 차단 체크
 function isRegionBlocked(text: string): boolean {
   return text.includes('unsupported_country_region_territory')
@@ -63,7 +94,7 @@ async function generateReportWithGemini(
   const mimeMatch = photoDataUrl.match(/^data:(.+?);/)
   const mimeType = mimeMatch?.[1] || 'image/jpeg'
 
-  const res = await fetch(
+  const res = await fetchWithRetry(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
     {
       method: 'POST',
@@ -81,7 +112,11 @@ async function generateReportWithGemini(
       }),
     },
   )
-  if (!res.ok) return ''
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '')
+    console.error(`[kisskin] Gemini report ${model} failed (${res.status}): ${errText.slice(0, 200)}`)
+    return ''
+  }
   const json = (await res.json()) as {
     candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[]
   }
@@ -118,7 +153,7 @@ async function generateImageWithGemini(
   for (const model of models) {
     try {
       console.log(`[kisskin] Trying Gemini image model: ${model}`)
-      const res = await fetch(
+      const res = await fetchWithRetry(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
@@ -136,6 +171,8 @@ async function generateImageWithGemini(
             },
           }),
         },
+        2,   // 이미지 생성은 maxRetries=2 (시간 절약)
+        2000, // 이미지 모델은 기본 대기 2초
       )
       if (!res.ok) {
         const errText = await res.text()
@@ -215,6 +252,15 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     if (!photo || !gender || !skinType) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+        status: 400, headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    // base64 이미지 크기 검증 (20MB 초과 시 거부 → Gemini 400 에러 방지)
+    const photoBase64 = photo.split(',')[1] || ''
+    const estimatedBytes = photoBase64.length * 0.75
+    if (estimatedBytes > 20 * 1024 * 1024) {
+      return new Response(JSON.stringify({ error: '이미지가 너무 큽니다 (20MB 이하로 줄여주세요)' }), {
         status: 400, headers: { 'Content-Type': 'application/json' },
       })
     }
