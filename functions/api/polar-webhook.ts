@@ -20,9 +20,9 @@ async function verifySignature(
   const now = Math.floor(Date.now() / 1000)
   if (Math.abs(now - ts) > 300) return false
 
-  // secret has "whsec_" prefix, remainder is base64
-  const secretBase64 = secret.startsWith('whsec_') ? secret.slice(6) : secret
-  const secretBytes = Uint8Array.from(atob(secretBase64), c => c.charCodeAt(0))
+  // Polar SDK uses the secret as raw UTF-8 bytes for HMAC key
+  // (internally: base64(utf8(secret)) → passed to standardwebhooks which base64-decodes it back)
+  const secretBytes = new TextEncoder().encode(secret)
 
   const key = await crypto.subtle.importKey(
     'raw', secretBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
