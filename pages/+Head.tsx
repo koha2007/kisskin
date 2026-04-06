@@ -2,7 +2,6 @@ export default function Head() {
   return (
     <>
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
-      <meta name="naver-site-verification" content="naver-site-verification-placeholder" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5109067049933124" crossOrigin="anonymous"></script>
       <meta name="theme-color" content="#eb4763" />
@@ -11,7 +10,7 @@ export default function Head() {
       <meta name="apple-mobile-web-app-title" content="Kissinskin" />
       <link rel="manifest" href="/manifest.json" />
       <link rel="icon" href="/favicon.ico" sizes="any" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96x96.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
       <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       <meta name="format-detection" content="telephone=no" />

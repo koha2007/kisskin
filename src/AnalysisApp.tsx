@@ -640,22 +640,6 @@ export default function AnalysisApp() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [showShareMenu])
 
-  useEffect(() => {
-    if (document.getElementById('sharethis-script')) return
-    const script = document.createElement('script'); script.id = 'sharethis-script'
-    script.src = 'https://platform-api.sharethis.com/js/sharethis.js#product=custom-share-buttons'; script.async = true
-    document.head.appendChild(script)
-  }, [])
-
-  useEffect(() => {
-    if (!showShareMenu) return
-    const timer = setTimeout(() => {
-      const st = (window as unknown as Record<string, unknown>).__sharethis__ as { initialize?: () => void } | undefined
-      st?.initialize?.()
-    }, 100)
-    return () => clearTimeout(timer)
-  }, [showShareMenu])
-
   const handleShare = async (platform: string) => {
     if (!resultImage) return
     gtagEvent('share', { method: platform, content_type: 'analysis_result' })
