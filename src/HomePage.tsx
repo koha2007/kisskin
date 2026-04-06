@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useI18n } from './i18n/context'
 
 const PAGE_PATHS: Record<string, string> = {
@@ -12,17 +12,49 @@ interface HomePageProps {
   onLogout?: () => void
 }
 
-const STYLE_NAMES = [
-  'Natural_Glow', 'Cloud_Skin', 'Blood_Lip', 'Maximalist_Eye',
-  'Metallic_Eye', 'Bold_Lip', 'Blush_Draping_Layering', 'Grunge_Makeup', 'Kpop_Idol_Makeup',
+const STYLE_LABELS = [
+  'Natural Glow', 'Cloud Skin', 'Blood Lip', 'Maximalist Eye',
+  'Metallic Eye', 'Bold Lip', 'Blush Draping', 'Grunge Makeup', 'K-pop Idol',
 ]
 
-const IMAGE_SETS = [
-  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo2_${i + 1}.webp`),
-  STYLE_NAMES.map(s => `/styles/hero/photo5_${s}.webp`),
-  STYLE_NAMES.map(s => `/styles/hero/photo6_${s}.webp`),
-  STYLE_NAMES.map(s => `/styles/hero/photo7_${s}.webp`),
-  Array.from({ length: 9 }, (_, i) => `/styles/hero/photo9_${String(i + 1).padStart(2, '0')}.webp`),
+// 9 models — each has 9 style images
+const MARQUEE_MODELS: { folder: string; images: string[]; label: string }[] = [
+  {
+    folder: 'files-01', label: 'Model 1',
+    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+  },
+  {
+    folder: 'files-02', label: 'Model 2',
+    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+  },
+  {
+    folder: 'files-04', label: 'Model 3',
+    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+  },
+  {
+    folder: 'files-12', label: 'Model 4',
+    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+  },
+  {
+    folder: 'files-13', label: 'Model 5',
+    images: ['photo7_Natural_Glow.png', 'photo7_Cloud_Skin.png', 'photo7_Blood_Lip.png', 'photo7_Maximalist_Eye.png', 'photo7_Metallic_Eye.png', 'photo7_Bold_Lip.png', 'photo7_Blush_Draping_Layering.png', 'photo7_Grunge_Makeup.png', 'photo7_Kpop_Idol_Makeup.png'],
+  },
+  {
+    folder: 'files-09', label: 'Model 6',
+    images: ['photo2_1.png', 'photo2_2.png', 'photo2_3.png', 'photo2_4.png', 'photo2_5.png', 'photo2_6.png', 'photo2_7.png', 'photo2_8.png', 'photo2_9.png'],
+  },
+  {
+    folder: 'files-11', label: 'Model 7',
+    images: ['photo9_01.png', 'photo9_02.png', 'photo9_03.png', 'photo9_04.png', 'photo9_05.png', 'photo9_06.png', 'photo9_07.png', 'photo9_08.png', 'photo9_09.png'],
+  },
+  {
+    folder: 'files-05', label: 'Model 8',
+    images: ['01_No-Makeup_Makeup.jpg', '02_Skincare_Hybrid_Base.jpg', '03_Blurred_Lip.jpg', '04_Grunge_Smoky_Eye.jpg', '05_Monochrome.jpg', '06_Utility_Makeup.jpg', '07_Blue_Point_Eye.jpg', '08_Vampire_Romantic.jpg', '09_Kpop_Idol_Makeup.jpg'],
+  },
+  {
+    folder: 'files-06', label: 'Model 9',
+    images: ['01_No-Makeup_Makeup.jpg', '02_Skincare_Hybrid_Base.jpg', '03_Blurred_Lip.jpg', '04_Grunge_Smoky_Eye.jpg', '05_Monochrome.jpg', '06_Utility_Makeup.jpg', '07_Blue_Point_Eye.jpg', '08_Vampire_Romantic.jpg', '09_Kpop_Idol_Makeup.jpg'],
+  },
 ]
 
 interface StyleData {
@@ -32,167 +64,153 @@ interface StyleData {
   icon: string
 }
 
-function WaveGrid({ onClick }: { onClick: () => void }) {
-  const [currentSet, setCurrentSet] = useState(0)
-  const [tileStates, setTileStates] = useState<string[]>(Array(9).fill(''))
-  const isAnimatingRef = useRef(false)
-  const currentSetRef = useRef(0)
+function MarqueeHero({ onClick }: { onClick: () => void }) {
+  const [styleIndices, setStyleIndices] = useState<number[]>(
+    MARQUEE_MODELS.map((_, i) => i % 9) // stagger initial styles
+  )
+  const trackRef = useRef<HTMLDivElement>(null)
 
-  const getWaveDelay = (index: number) => {
-    const row = Math.floor(index / 3)
-    const col = index % 3
-    return (row + col) * 130
-  }
-
-  const playWave = useCallback(() => {
-    for (let i = 0; i < 9; i++) {
-      const delay = getWaveDelay(i)
-      setTimeout(() => {
-        setTileStates(prev => prev.map((s, idx) => idx === i ? 'wave' : s))
-      }, delay)
-      setTimeout(() => {
-        setTileStates(prev => prev.map((s, idx) => idx === i ? '' : s))
-      }, delay + 850)
-    }
+  // Rotate styles every 3.5s with crossfade
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStyleIndices(prev => prev.map((idx) => (idx + 1) % 9))
+    }, 3500)
+    return () => clearInterval(interval)
   }, [])
 
-  const switchSet = useCallback(() => {
-    if (isAnimatingRef.current) return
-    isAnimatingRef.current = true
-
-    // Fade out
-    for (let i = 0; i < 9; i++) {
-      const delay = getWaveDelay(i)
-      setTimeout(() => {
-        setTileStates(prev => prev.map((s, idx) => idx === i ? 'fade-out' : s))
-      }, delay)
-    }
-
-    // Switch images
-    setTimeout(() => {
-      const nextSet = (currentSetRef.current + 1) % IMAGE_SETS.length
-      currentSetRef.current = nextSet
-      setCurrentSet(nextSet)
-      setTileStates(Array(9).fill('fade-in'))
-
-      // Fade in
-      requestAnimationFrame(() => {
-        for (let i = 0; i < 9; i++) {
-          const delay = getWaveDelay(i) * 0.8
-          setTimeout(() => {
-            setTileStates(prev => prev.map((s, idx) => idx === i ? 'fade-in show' : s))
-          }, delay)
-        }
-      })
-
-      // Clean up and wave
-      setTimeout(() => {
-        setTileStates(Array(9).fill(''))
-        playWave()
-        isAnimatingRef.current = false
-      }, 1300)
-    }, 850)
-  }, [playWave])
-
+  // Clone cards for seamless loop
   useEffect(() => {
-    // Preload only the first set immediately
-    IMAGE_SETS[0].forEach(src => {
-      const img = new Image()
-      img.src = src
+    const track = trackRef.current
+    if (!track || track.dataset.cloned) return
+    track.dataset.cloned = 'true'
+    const originals = Array.from(track.children)
+    originals.forEach(card => {
+      const clone = card.cloneNode(true) as HTMLElement
+      clone.setAttribute('aria-hidden', 'true')
+      track.appendChild(clone)
     })
+  }, [])
 
-    // Preload remaining sets after initial render
-    const preloadTimer = setTimeout(() => {
-      IMAGE_SETS.slice(1).flat().forEach(src => {
-        const img = new Image()
-        img.src = src
-      })
-    }, 2000)
-
-    // Initial wave
-    const waveTimer = setTimeout(() => playWave(), 250)
-
-    // Loop
-    const interval = setInterval(() => switchSet(), 4200)
-
-    return () => {
-      clearTimeout(preloadTimer)
-      clearTimeout(waveTimer)
-      clearInterval(interval)
-    }
-  }, [playWave, switchSet])
-
-  const images = IMAGE_SETS[currentSet]
+  // Preload first image of each model
+  useEffect(() => {
+    MARQUEE_MODELS.forEach(m => {
+      const img = new Image()
+      img.src = `/styles/marquee/${m.folder}_${m.images[0]}`
+    })
+  }, [])
 
   return (
     <>
       <style>{`
-        .wave-scene {
-          perspective: 1200px;
+        .ks-hero-wrap {
+          position: relative;
+          width: 100vw;
+          margin-left: calc(-50vw + 50%);
+          overflow: hidden;
+          padding: 20px 0;
         }
-        .wave-glow {
+        .ks-hero-wrap::before,
+        .ks-hero-wrap::after {
+          content: '';
           position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 58%);
-          filter: blur(28px);
+          top: 0;
+          width: 120px;
+          height: 100%;
+          z-index: 2;
           pointer-events: none;
         }
-        .wave-grid {
-          transform-style: preserve-3d;
+        .ks-hero-wrap::before {
+          left: 0;
+          background: linear-gradient(to right, var(--bg, #faf9f8) 0%, transparent 100%);
         }
-        .wave-tile {
+        .ks-hero-wrap::after {
+          right: 0;
+          background: linear-gradient(to left, var(--bg, #faf9f8) 0%, transparent 100%);
+        }
+        .ks-marquee-track {
+          display: flex;
+          gap: 14px;
+          width: max-content;
+          animation: ks-scroll 28s linear infinite;
+          will-change: transform;
+        }
+        .ks-marquee-track:hover {
+          animation-play-state: paused;
+        }
+        @keyframes ks-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ks-card {
           position: relative;
+          width: 200px;
+          height: 280px;
+          border-radius: 16px;
           overflow: hidden;
+          flex-shrink: 0;
+          cursor: pointer;
+          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                      box-shadow 0.35s ease;
           background: #111;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.06);
-          transform-origin: center center;
-          transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), filter 1.1s ease, opacity 1.1s ease;
-          will-change: transform, opacity, filter;
         }
-        .wave-tile img {
-          width: 100%; height: 100%;
-          display: block; object-fit: cover;
-          transform: scale(1.02);
-          transition: transform 1.2s ease, filter 1.1s ease, opacity 1.1s ease;
-          user-select: none; pointer-events: none;
-          -webkit-user-drag: none;
+        .ks-card:hover {
+          transform: translateY(-10px) scale(1.03);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
-        .wave-tile.wave {
-          z-index: 2;
-          transform: translateY(-14px) scale(1.05) rotateX(6deg) rotateY(-4deg);
-          filter: brightness(1.08);
+        .ks-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: opacity 0.8s ease, transform 0.5s ease;
         }
-        .wave-tile.wave img {
-          transform: scale(1.08);
-          filter: saturate(1.08);
+        .ks-card:hover img {
+          transform: scale(1.06);
         }
-        .wave-tile.fade-out {
-          opacity: 0; transform: scale(0.96); filter: blur(4px);
+        .ks-card-label {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 28px 14px 12px;
+          background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+          color: #fff;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          transition: opacity 0.8s ease;
         }
-        .wave-tile.fade-in {
-          opacity: 0; transform: scale(1.04); filter: blur(4px);
-        }
-        .wave-tile.fade-in.show {
-          opacity: 1; transform: scale(1); filter: blur(0);
-        }
-        @media (max-width: 480px) {
-          .wave-tile.wave {
-            transform: translateY(-8px) scale(1.03) rotateX(3deg) rotateY(-2deg);
+        @media (max-width: 768px) {
+          .ks-card {
+            width: 155px;
+            height: 220px;
+          }
+          .ks-hero-wrap::before,
+          .ks-hero-wrap::after {
+            width: 50px;
+          }
+          .ks-marquee-track {
+            gap: 10px;
+            animation-duration: 20s;
           }
         }
       `}</style>
-      <div className="wave-scene relative cursor-pointer" onClick={onClick}>
-        <div className="wave-glow"></div>
-        <div className="wave-grid relative z-[1] grid grid-cols-3 gap-[10px] md:gap-3 rounded-2xl overflow-hidden bg-black/90 p-[10px] md:p-3">
-          {images.map((src, i) => (
-            <div
-              key={`${currentSet}-${i}`}
-              className={`wave-tile rounded-xl md:rounded-2xl ${tileStates[i]}`}
-              style={{ aspectRatio: '3 / 4' }}
-            >
-              <img src={src} alt={`K-beauty makeup look ${i + 1} - AI generated Korean makeup style`} loading="eager" />
-            </div>
-          ))}
+      <div className="ks-hero-wrap">
+        <div className="ks-marquee-track" ref={trackRef}>
+          {MARQUEE_MODELS.map((model, mi) => {
+            const imgFile = model.images[styleIndices[mi]]
+            const src = `/styles/marquee/${model.folder}_${imgFile}`
+            return (
+              <div key={model.folder} className="ks-card" onClick={onClick}>
+                <img
+                  src={src}
+                  alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
+                  loading="eager"
+                />
+                <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </>
@@ -348,8 +366,8 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-amber-100/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" style={{ animation: 'pulse-soft 4s ease-in-out infinite' }}></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="flex flex-col gap-6 order-2 lg:order-1">
+          <div className="flex flex-col items-center gap-10">
+            <div className="flex flex-col gap-6 items-center text-center max-w-2xl">
               <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -370,7 +388,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               </p>
 
               {/* Product recommendation highlight */}
-              <div className="animate-fade-in-up-delay flex items-start gap-3 bg-white/80 rounded-2xl p-4 border border-pink-100 shadow-sm max-w-lg backdrop-blur-sm">
+              <div className="animate-fade-in-up-delay flex items-start gap-3 bg-white/80 rounded-2xl p-4 border border-pink-100 shadow-sm max-w-lg backdrop-blur-sm text-left">
                 <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
                 <p className="text-sm text-slate-600 leading-relaxed">
                   <strong className="text-navy-mid">{t('home.hero.productHighlightBold')}</strong>{t('home.hero.productHighlight')}
@@ -405,14 +423,10 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               </div>
             </div>
 
-            {/* Hero Visual */}
-            <div className="relative order-1 lg:order-2">
-              <div className="absolute -inset-6 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-navy/30 rounded-[3rem] blur-2xl"></div>
-              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
-                <WaveGrid onClick={() => onNavigate('analysis')} />
-              </div>
-            </div>
           </div>
+
+          {/* Marquee Hero — 9 models with cycling styles */}
+          <MarqueeHero onClick={() => onNavigate('analysis')} />
         </div>
       </section>
 
