@@ -15,6 +15,8 @@ export default function Head() {
       <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
       <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       <meta name="format-detection" content="telephone=no" />
+      <meta name="author" content="kissinskin" />
+      <meta name="date" content="2026-04-06" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

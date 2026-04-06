@@ -318,7 +318,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       `}</style>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50">
+      <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50" role="navigation" aria-label="주요 메뉴">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
@@ -362,7 +362,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </nav>
 
       {/* Hero */}
-      <section className="relative py-14 lg:py-24 overflow-hidden">
+      <section className="relative py-14 lg:py-24 overflow-hidden" aria-labelledby="hero-title">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-pink-200/40 via-rose-100/30 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-purple-200/20 via-pink-100/30 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"></div>
         <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-amber-100/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" style={{ animation: 'pulse-soft 4s ease-in-out infinite' }}></div>
@@ -378,7 +378,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 {t('home.hero.badge')}
               </div>
 
-              <h1 className="animate-fade-in-up text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold leading-[1.15] tracking-tight text-navy">
+              <h1 id="hero-title" className="animate-fade-in-up text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold leading-[1.15] tracking-tight text-navy">
                 {t('home.hero.title1')}<br />
                 <span className="shimmer-text">{t('home.hero.title2')}</span><br />
                 {t('home.hero.title3')}
@@ -433,7 +433,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Value Props */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white" aria-label="핵심 기능">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -454,7 +454,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Makeup Styles Section */}
-      <section id="styles" className="py-20 scroll-mt-16 relative overflow-hidden">
+      <section id="styles" className="py-20 scroll-mt-16 relative overflow-hidden" aria-labelledby="styles-title">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-background-light via-pink-50/30 to-background-light"></div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -463,7 +463,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               {t('home.styles.badge')}
             </span>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mt-2">
+            <h2 id="styles-title" className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mt-2">
               {t('home.styles.title')} <span className="text-primary">{t('home.styles.titleHighlight')}</span>{t('home.styles.titleEnd')}
             </h2>
             <p className="text-slate-500 max-w-lg text-sm md:text-base">
@@ -527,11 +527,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* How it Works */}
-      <section id="how" className="py-20 bg-white scroll-mt-16">
+      <section id="how" className="py-20 bg-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
             <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('home.how.title')}</h2>
+            <h2 id="how-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('home.how.title')}</h2>
           </div>
           <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
             <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-pink-200 via-primary/30 to-pink-200"></div>
@@ -556,11 +556,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20 bg-white scroll-mt-16">
+      <section id="pricing" className="py-20 bg-white scroll-mt-16" aria-labelledby="pricing-title">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
             <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('pricing.badge')}</span>
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('pricing.title')}</h2>
+            <h2 id="pricing-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('pricing.title')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {/* Per-analysis */}
@@ -640,7 +640,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Footer */}
-      <footer className="bg-navy text-white pt-14 pb-8">
+      <footer className="bg-navy text-white pt-14 pb-8" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-10 mb-10">
             <div className="flex flex-col gap-4">
@@ -672,7 +672,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-            <p className="text-slate-600 text-xs">Powered by AI</p>
+            <p className="text-slate-600 text-xs">Powered by AI · <time dateTime="2026-04-06">2026년 4월 기준</time></p>
           </div>
         </div>
       </footer>
