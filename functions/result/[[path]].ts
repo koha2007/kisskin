@@ -19,9 +19,12 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
   if (!BOT_UA.test(ua)) {
     // Serve the SPA fallback — context.next() returns 404 with SPA HTML body
     const spaRes = await context.next()
+    // Clone headers to avoid immutable headers issue
+    const headers = new Headers(spaRes.headers)
+    headers.set('Content-Type', 'text/html;charset=utf-8')
     return new Response(spaRes.body, {
       status: 200,
-      headers: spaRes.headers,
+      headers,
     })
   }
 
@@ -49,20 +52,36 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
 
     let report = data.report
     if (typeof report === 'string') {
-      try { report = JSON.parse(report) } catch { /* keep */ }
+      try {
+        report = JSON.parse(report)
+        // Handle double-stringified case
+        if (typeof report === 'string') {
+          try { report = JSON.parse(report) } catch { /* keep */ }
+        }
+      } catch { /* keep */ }
     }
     const a = (report as { analysis?: { skinType?: string; tone?: string; skinTypeDetail?: string; toneDetail?: string; advice?: string } })?.analysis
     const styles = data.styles || []
 
+    // Detect if analysis is in Korean (check for Korean characters)
+    const isKo = a ? /[가-힣]/.test(`${a.skinType}${a.tone}${a.advice || ''}`) : false
+
     const title = a
-      ? escHtml(`AI Makeup: ${a.skinType} · ${a.tone} - kissinskin`)
-      : 'AI Makeup Analysis Result - kissinskin'
+      ? escHtml(isKo
+        ? `💄 AI 메이크업 분석: ${a.skinType} · ${a.tone} - kissinskin`
+        : `💄 AI Makeup: ${a.skinType} · ${a.tone} - kissinskin`)
+      : (isKo ? '💄 AI 메이크업 분석 결과 - kissinskin' : '💄 AI Makeup Analysis Result - kissinskin')
     const description = a
       ? escHtml(`${a.skinTypeDetail || ''} ${a.toneDetail || ''} ${a.advice || ''}`.trim().slice(0, 200))
-      : escHtml(`AI-powered ${styles.length} personalized K-beauty makeup looks and product recommendations.`)
+      : escHtml(isKo
+        ? `AI가 분석한 ${styles.length}가지 맞춤 K-뷰티 메이크업 룩과 제품 추천`
+        : `AI-powered ${styles.length} personalized K-beauty makeup looks and product recommendations.`)
+    const lang = isKo ? 'ko' : 'en'
+    const ogLocale = isKo ? 'ko_KR' : 'en_US'
+    const ogLocaleAlt = isKo ? 'en_US' : 'ko_KR'
 
     const html = `<!DOCTYPE html>
-<html lang="en" prefix="og: https://ogp.me/ns#">
+<html lang="${lang}" prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="utf-8"/>
 <title>${title}</title>
@@ -75,8 +94,8 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
 <meta property="og:image:width" content="1024"/>
 <meta property="og:image:height" content="1024"/>
 <meta property="og:site_name" content="kissinskin"/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:locale:alternate" content="ko_KR"/>
+<meta property="og:locale" content="${ogLocale}"/>
+<meta property="og:locale:alternate" content="${ogLocaleAlt}"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="${title}"/>
 <meta name="twitter:description" content="${description}"/>

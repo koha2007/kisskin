@@ -35,7 +35,8 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    const id = window.location.pathname.split('/result/')[1]
+    const rawId = window.location.pathname.split('/result/')[1]
+    const id = rawId?.split('/')[0]?.split('?')[0]?.trim()
     if (!id) {
       nav('home')
       return
@@ -135,7 +136,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
     )
   }
 
-  const shareId = window.location.pathname.split('/result/')[1]
+  const shareId = window.location.pathname.split('/result/')[1]?.split('/')[0]?.split('?')[0]?.trim()
   const shareUrl = `https://kissinskin.net/result/${shareId}`
 
   const getShareText = () => {

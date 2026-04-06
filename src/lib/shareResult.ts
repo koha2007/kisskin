@@ -73,10 +73,16 @@ export async function loadSharedResult(id: string): Promise<SharedResultData | n
     .from('results')
     .getPublicUrl(data.image_path)
 
-  // report가 문자열로 저장된 경우 파싱
+  // report가 문자열로 저장된 경우 파싱 (이중 stringify 가능성 처리)
   let report = data.report
   if (typeof report === 'string') {
-    try { report = JSON.parse(report) } catch { /* keep as-is */ }
+    try {
+      report = JSON.parse(report)
+      // Handle double-stringified case
+      if (typeof report === 'string') {
+        try { report = JSON.parse(report) } catch { /* keep as-is */ }
+      }
+    } catch { /* keep as-is */ }
   }
 
   return {

@@ -487,7 +487,16 @@ export default function AnalysisApp() {
         setResultCells(cells)
         if (data.image && data.report && gender) {
           saveSharedResult(data.image, data.report, gender, activeStyles)
-            .then(id => setShareId(id)).catch(err => console.warn('[auto-save] Failed:', err))
+            .then(id => setShareId(id))
+            .catch(err => {
+              console.warn('[auto-save] Failed:', err)
+              // Retry once after 3 seconds
+              setTimeout(() => {
+                saveSharedResult(data.image, data.report, gender, activeStyles)
+                  .then(id => setShareId(id))
+                  .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
+              }, 3000)
+            })
         }
         if (customerEmailRef.current && data.report) {
           try {
@@ -648,7 +657,10 @@ export default function AnalysisApp() {
       let currentShareId = shareId
       if (!currentShareId && resultImage && report && gender) {
         try { currentShareId = await saveSharedResult(resultImage, report, gender, activeStyles); setShareId(currentShareId) }
-        catch (e) { console.warn('[share] Failed to save result:', e) }
+        catch (e) {
+          console.warn('[share] Failed to save result:', e)
+          // Still proceed with share — URL will point to homepage as fallback
+        }
       }
       const img = new Image(); img.src = resultImage
       await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject })
@@ -750,7 +762,13 @@ export default function AnalysisApp() {
               <div className="action-btn-row">
                 <button className="download-btn" onClick={handleDownload}><span className="material-symbols-outlined">download</span>{t('result.save')}</button>
                 <button className="download-btn share-btn" onClick={async () => {
-                  if (!shareId && resultImage && report && gender) { try { const id = await saveSharedResult(resultImage, report, gender, activeStyles); setShareId(id) } catch (e) { console.warn('[share] Failed:', e) } }
+                  if (!shareId && resultImage && report && gender) {
+                    try { const id = await saveSharedResult(resultImage, report, gender, activeStyles); setShareId(id) }
+                    catch (e) {
+                      console.warn('[share] Failed to save:', e)
+                      setEmailWarning(locale === 'ko' ? '공유 링크 생성에 실패했습니다. 다시 시도해 주��요.' : 'Failed to generate share link. Please try again.')
+                    }
+                  }
                   setShowShareMenu(true)
                 }}><span className="material-symbols-outlined">share</span>{t('result.share')}</button>
               </div>
