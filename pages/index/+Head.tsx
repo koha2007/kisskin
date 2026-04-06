@@ -11,16 +11,17 @@ export default function Head() {
       <meta property="og:url" content="https://kissinskin.net/" />
       <meta property="og:title" content="kissinskin - AI K-Beauty Makeup: Try 9 Korean Looks on Your Selfie" />
       <meta property="og:description" content="Upload a selfie and get 9 personalized K-beauty makeup looks instantly. AI skin analysis + personal color diagnosis + product recommendations with buy links." />
-      <meta property="og:image" content="https://kissinskin.net/logo.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:locale:alternate" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="kissinskin - AI K-Beauty Makeup Simulator" />
       <meta name="twitter:description" content="Try 9 K-beauty makeup looks on your selfie. AI personal color analysis + skin diagnosis + Korean cosmetics recommendations." />
-      <meta name="twitter:image" content="https://kissinskin.net/logo.png" />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "WebApplication",
         "name": "kissinskin - AI K-Beauty Makeup Simulator", "alternateName": "kissinskin",

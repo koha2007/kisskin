@@ -11,7 +11,7 @@ export default function Head() {
       <meta property="og:url" content="https://kissinskin.net/contact" />
       <meta property="og:title" content="Contact Us | kissinskin" />
       <meta property="og:description" content="Contact kissinskin for support, questions, or feedback about our AI K-beauty makeup simulator." />
-      <meta property="og:image" content="https://kissinskin.net/logo.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="en_US" />
       <meta name="twitter:card" content="summary" />

@@ -11,7 +11,7 @@ export default function Head() {
       <meta property="og:url" content="https://kissinskin.net/refund" />
       <meta property="og:title" content="Refund Policy | kissinskin" />
       <meta property="og:description" content="Refund Policy for kissinskin AI K-beauty makeup simulator." />
-      <meta property="og:image" content="https://kissinskin.net/logo.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="en_US" />
       <meta name="twitter:card" content="summary" />

@@ -24,7 +24,7 @@ export default function Head() {
         "@type": "Organization",
         "name": "kissinskin",
         "url": "https://kissinskin.net",
-        "logo": "https://kissinskin.net/logo.png",
+        "logo": "https://kissinskin.net/og-image.png",
         "sameAs": [],
         "contactPoint": {
           "@type": "ContactPoint",
