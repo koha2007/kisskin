@@ -71,6 +71,15 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return new Response(JSON.stringify({ error: 'Invalid email address' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
     const a = report.analysis
     // summary 폴백 (analysis가 없을 때 텍스트라도 표시)
     const summaryHtml = (!a && report.summary) ? `

@@ -57,8 +57,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     if (!res.ok) {
       const errText = await res.text()
-      console.log(`[verify] Polar API error for ${checkoutId}:`, res.status, errText)
-      return new Response(JSON.stringify({ error: `Polar API error: ${errText}` }), {
+      console.error(`[verify] Polar API error for ${checkoutId}:`, res.status, errText)
+      return new Response(JSON.stringify({ error: 'Payment verification failed. Please try again.' }), {
         status: res.status,
         headers: { 'Content-Type': 'application/json' },
       })

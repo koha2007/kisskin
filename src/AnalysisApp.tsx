@@ -498,20 +498,26 @@ export default function AnalysisApp() {
               }, 3000)
             })
         }
-        if (customerEmailRef.current && data.report) {
-          try {
-            let composedImage = ''
-            try { const composedCanvas = await buildCompositeCanvas(img, true); composedImage = composedCanvas.toDataURL('image/jpeg', 0.85) }
-            catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
-            const parsed = parseReport(data.report)
-            gtagEvent('email_report_sent', { email_domain: customerEmailRef.current?.split('@')[1] })
-            fetch('/api/send-report', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: customerEmailRef.current, report: parsed || { summary: data.report, products: [] }, styles: activeStyles, resultImage: composedImage, lang: locale }),
-            }).then(res => {
-              if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
-            }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
-          } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr); setEmailWarning(locale === 'ko' ? '이메일 리포트 준비에 실패했습니다.' : 'Failed to prepare email report.') }
+        if (data.report) {
+          const targetEmail = customerEmailRef.current
+          if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(targetEmail)) {
+            console.warn('[send-report] No valid email available, skipping email report')
+            setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
+          } else {
+            try {
+              let composedImage = ''
+              try { const composedCanvas = await buildCompositeCanvas(img, true); composedImage = composedCanvas.toDataURL('image/jpeg', 0.85) }
+              catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
+              const parsed = parseReport(data.report)
+              gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1] })
+              fetch('/api/send-report', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: targetEmail, report: parsed || { summary: data.report, products: [] }, styles: activeStyles, resultImage: composedImage, lang: locale }),
+              }).then(res => {
+                if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
+              }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
+            } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr); setEmailWarning(locale === 'ko' ? '이메일 리포트 준비에 실패했습니다.' : 'Failed to prepare email report.') }
+          }
         }
       }
       img.src = data.image
