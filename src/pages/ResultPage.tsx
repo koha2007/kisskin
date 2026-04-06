@@ -315,6 +315,21 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
             <span className="material-symbols-outlined">share</span>{t('result.share')}
           </button>
         </div>
+        {/* AddToAny Share Buttons */}
+        <div className="a2a_kit a2a_kit_size_32 a2a_default_style" style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '12px' }}
+          data-a2a-url={shareUrl}
+          data-a2a-title={locale === 'ko' ? 'AI 메이크업 분석 결과 - kissinskin' : 'AI Makeup Analysis - kissinskin'}>
+          <a className="a2a_button_facebook"></a>
+          <a className="a2a_button_kakao"></a>
+          <a className="a2a_button_facebook_messenger"></a>
+          <a className="a2a_button_threads"></a>
+          <a className="a2a_button_linkedin"></a>
+          <a className="a2a_button_reddit"></a>
+          <a className="a2a_button_sms"></a>
+          <a className="a2a_button_pinterest"></a>
+          <a className="a2a_button_email"></a>
+          <a className="a2a_dd" href="https://www.addtoany.com/share"></a>
+        </div>
 
         {/* Share Modal */}
         {showShareMenu && (() => {
