@@ -1,8 +1,8 @@
 export default function Head() {
   return (
     <>
-      <title>kissinskin - AI K-Beauty Makeup Simulator | Try 9 Korean Makeup Looks with AI</title>
-      <meta name="description" content="Try K-beauty makeup looks on your selfie with AI. Get 9 personalized Korean makeup styles, skin tone analysis, personal color diagnosis, and product recommendations. The best AI makeup simulator for K-beauty fans worldwide." />
+      <title>kissinskin - AI K-Beauty Makeup Simulator | 9 Looks</title>
+      <meta name="description" content="Try K-beauty makeup on your selfie with AI. Get 9 personalized Korean makeup styles, skin tone analysis, personal color diagnosis, and product recommendations." />
       <link rel="canonical" href="https://kissinskin.net/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/" />

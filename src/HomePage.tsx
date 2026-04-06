@@ -21,39 +21,39 @@ const STYLE_LABELS = [
 const MARQUEE_MODELS: { folder: string; images: string[]; label: string }[] = [
   {
     folder: 'files-01', label: 'Model 1',
-    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
   },
   {
     folder: 'files-02', label: 'Model 2',
-    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
   },
   {
     folder: 'files-04', label: 'Model 3',
-    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
   },
   {
     folder: 'files-12', label: 'Model 4',
-    images: ['01_Natural_Glow.jpg', '02_Cloud_Skin.jpg', '03_Blood_Lip.jpg', '04_Maximalist_Eye.jpg', '05_Metallic_Eye.jpg', '06_Bold_Lip.jpg', '07_Blush_Draping_Layering.jpg', '08_Grunge_Makeup.jpg', '09_Kpop_Idol_Makeup.jpg'],
+    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
   },
   {
     folder: 'files-13', label: 'Model 5',
-    images: ['photo7_Natural_Glow.png', 'photo7_Cloud_Skin.png', 'photo7_Blood_Lip.png', 'photo7_Maximalist_Eye.png', 'photo7_Metallic_Eye.png', 'photo7_Bold_Lip.png', 'photo7_Blush_Draping_Layering.png', 'photo7_Grunge_Makeup.png', 'photo7_Kpop_Idol_Makeup.png'],
+    images: ['photo7_Natural_Glow.webp', 'photo7_Cloud_Skin.webp', 'photo7_Blood_Lip.webp', 'photo7_Maximalist_Eye.webp', 'photo7_Metallic_Eye.webp', 'photo7_Bold_Lip.webp', 'photo7_Blush_Draping_Layering.webp', 'photo7_Grunge_Makeup.webp', 'photo7_Kpop_Idol_Makeup.webp'],
   },
   {
     folder: 'files-09', label: 'Model 6',
-    images: ['photo2_1.png', 'photo2_2.png', 'photo2_3.png', 'photo2_4.png', 'photo2_5.png', 'photo2_6.png', 'photo2_7.png', 'photo2_8.png', 'photo2_9.png'],
+    images: ['photo2_1.webp', 'photo2_2.webp', 'photo2_3.webp', 'photo2_4.webp', 'photo2_5.webp', 'photo2_6.webp', 'photo2_7.webp', 'photo2_8.webp', 'photo2_9.webp'],
   },
   {
     folder: 'files-11', label: 'Model 7',
-    images: ['photo9_01.png', 'photo9_02.png', 'photo9_03.png', 'photo9_04.png', 'photo9_05.png', 'photo9_06.png', 'photo9_07.png', 'photo9_08.png', 'photo9_09.png'],
+    images: ['photo9_01.webp', 'photo9_02.webp', 'photo9_03.webp', 'photo9_04.webp', 'photo9_05.webp', 'photo9_06.webp', 'photo9_07.webp', 'photo9_08.webp', 'photo9_09.webp'],
   },
   {
     folder: 'files-05', label: 'Model 8',
-    images: ['01_No-Makeup_Makeup.jpg', '02_Skincare_Hybrid_Base.jpg', '03_Blurred_Lip.jpg', '04_Grunge_Smoky_Eye.jpg', '05_Monochrome.jpg', '06_Utility_Makeup.jpg', '07_Blue_Point_Eye.jpg', '08_Vampire_Romantic.jpg', '09_Kpop_Idol_Makeup.jpg'],
+    images: ['01_No-Makeup_Makeup.webp', '02_Skincare_Hybrid_Base.webp', '03_Blurred_Lip.webp', '04_Grunge_Smoky_Eye.webp', '05_Monochrome.webp', '06_Utility_Makeup.webp', '07_Blue_Point_Eye.webp', '08_Vampire_Romantic.webp', '09_Kpop_Idol_Makeup.webp'],
   },
   {
     folder: 'files-06', label: 'Model 9',
-    images: ['01_No-Makeup_Makeup.jpg', '02_Skincare_Hybrid_Base.jpg', '03_Blurred_Lip.jpg', '04_Grunge_Smoky_Eye.jpg', '05_Monochrome.jpg', '06_Utility_Makeup.jpg', '07_Blue_Point_Eye.jpg', '08_Vampire_Romantic.jpg', '09_Kpop_Idol_Makeup.jpg'],
+    images: ['01_No-Makeup_Makeup.webp', '02_Skincare_Hybrid_Base.webp', '03_Blurred_Lip.webp', '04_Grunge_Smoky_Eye.webp', '05_Monochrome.webp', '06_Utility_Makeup.webp', '07_Blue_Point_Eye.webp', '08_Vampire_Romantic.webp', '09_Kpop_Idol_Makeup.webp'],
   },
 ]
 
@@ -205,7 +205,9 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
                 <img
                   src={src}
                   alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
-                  loading="eager"
+                  width={200}
+                  height={280}
+                  loading={mi < 5 ? "eager" : "lazy"}
                 />
                 <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
               </div>
@@ -319,7 +321,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
+            <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
@@ -643,7 +645,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
           <div className="grid md:grid-cols-3 gap-10 mb-10">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2">
-                <img src="/logo.png" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
+                <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
                 <span className="text-2xl font-bold tracking-tight">kissinskin</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
