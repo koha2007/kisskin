@@ -114,12 +114,17 @@ export default function MyPage({ onNavigate, user, onLogout, subStatus, onChecko
   }
 
   const handleDeleteAccount = async () => {
+    if (!showDeleteConfirm) return // safety guard: must go through confirmation step
     setDeleteError(null)
     setDeleteLoading(true)
     try {
+      const { data: { session } } = await supabase.auth.getSession()
       const res = await fetch('/api/delete-account', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({ userId: user?.id }),
       })
       if (!res.ok) {

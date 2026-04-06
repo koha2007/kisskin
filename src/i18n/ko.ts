@@ -2,10 +2,10 @@ export default {
   // Common
   'common.startAnalysis': '분석 시작',
   'common.startAnalysisLong': '분석 시작하기',
-  'common.generateLooks': 'Generate My Looks',
+  'common.generateLooks': '나만의 룩 만들기',
   'common.tryAgain': '다시 분석하기',
-  'common.styles': 'Styles',
-  'common.howItWorks': 'How it Works',
+  'common.styles': '스타일',
+  'common.howItWorks': '이용 방법',
 
   // Nav
   'nav.brand': 'kissinskin',
@@ -67,7 +67,7 @@ export default {
 
   // How it works
   'home.how.title': '간단한 3단계',
-  'home.how.badge': 'Simple Process',
+  'home.how.badge': '간단한 프로세스',
   'home.how.step1': '사진 업로드',
   'home.how.step1Desc': '셀카를 찍거나 갤러리에서 사진을 선택하세요',
   'home.how.step2': 'AI 분석',
@@ -88,7 +88,7 @@ export default {
   'home.footer.legal': '법적 고지',
 
   // Analysis Page
-  'analysis.back': 'Profile Setup',
+  'analysis.back': '프로필 설정',
   'analysis.uploadTitle': '사진을 업로드하세요',
   'analysis.uploadHint': '밝은 조명에서 촬영하면 AI 분석 정확도가 높아져요',
   'analysis.changePhoto': '사진 변경',

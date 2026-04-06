@@ -19,7 +19,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
     else window.location.href = paths[page] || '/'
   }
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const inApp = useMemo(() => isInAppBrowser(), [])
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login')
   const [email, setEmail] = useState('')
@@ -34,10 +34,14 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
     setError(null)
     setSuccess(null)
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
     if (mode === 'forgot') {
       if (!email) { setError(t('auth.fillAll')); return }
+      if (!emailRegex.test(email)) { setError(locale === 'ko' ? '올바른 이메일 형식을 입력해 주세요.' : 'Please enter a valid email address.'); return }
     } else {
       if (!email || !password) { setError(t('auth.fillAll')); return }
+      if (!emailRegex.test(email)) { setError(locale === 'ko' ? '올바른 이메일 형식을 입력해 주세요.' : 'Please enter a valid email address.'); return }
       if (mode === 'signup' && password !== confirmPassword) { setError(t('auth.passwordMismatch')); return }
       if (password.length < 6) { setError(t('auth.passwordMin')); return }
     }

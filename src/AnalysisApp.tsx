@@ -159,6 +159,7 @@ export default function AnalysisApp() {
   const [resultCells, setResultCells] = useState<string[]>([])
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [emailWarning, setEmailWarning] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [shareId, setShareId] = useState<string | null>(null)
   const [showInstallBanner, setShowInstallBanner] = useState(false)
@@ -259,6 +260,7 @@ export default function AnalysisApp() {
     const file = e.target.files?.[0]
     if (file) {
       if (!file.type.startsWith('image/')) { setError(t('error.imageOnly')); return }
+      if (file.size > 50 * 1024 * 1024) { setError(locale === 'ko' ? '파일 크기는 50MB 이하만 가능합니다.' : 'File must be under 50MB.'); return }
       setError(null)
       const reader = new FileReader()
       reader.onloadend = () => loadPhoto(reader.result as string)
@@ -272,6 +274,7 @@ export default function AnalysisApp() {
     e.preventDefault(); setDragging(false)
     const file = e.dataTransfer.files[0]
     if (file && file.type.startsWith('image/')) {
+      if (file.size > 50 * 1024 * 1024) { setError(locale === 'ko' ? '파일 크기는 50MB 이하만 가능합니다.' : 'File must be under 50MB.'); return }
       const reader = new FileReader()
       reader.onloadend = () => loadPhoto(reader.result as string)
       reader.readAsDataURL(file)
@@ -449,10 +452,14 @@ export default function AnalysisApp() {
     gtagEvent('analysis_start', { gender, skin_type: skinType })
     try {
       const { gridPhoto, gridSize } = await createTiledGrid(photo!)
+      const abortCtrl = new AbortController()
+      const timeoutId = setTimeout(() => abortCtrl.abort(), 120_000) // 2 min client timeout
       const res = await fetch('/api/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ photo, gridPhoto, gridSize, gender: GENDER_MAP[gender!], skinType: SKIN_MAP[skinType!], lang: locale }),
+        signal: abortCtrl.signal,
       })
+      clearTimeout(timeoutId)
       const contentType = res.headers.get('content-type') || ''
       if (!contentType.includes('application/json')) {
         const text = await res.text(); console.error('[kissinskin] Non-JSON response:', res.status, text.slice(0, 200))
@@ -492,13 +499,17 @@ export default function AnalysisApp() {
             fetch('/api/send-report', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: customerEmailRef.current, report: parsed || { summary: data.report, products: [] }, styles: activeStyles, resultImage: composedImage, lang: locale }),
-            }).catch(err => console.warn('[send-report] email failed:', err))
-          } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr) }
+            }).then(res => {
+              if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
+            }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
+          } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr); setEmailWarning(locale === 'ko' ? '이메일 리포트 준비에 실패했습니다.' : 'Failed to prepare email report.') }
         }
       }
       img.src = data.image
     } catch (e) {
-      const msg = e instanceof Error ? e.message : t('error.analysisError')
+      const msg = e instanceof DOMException && e.name === 'AbortError'
+        ? (locale === 'ko' ? '분석 시간이 초과되었습니다. 다시 시도해 주세요.' : 'Analysis timed out. Please try again.')
+        : e instanceof Error ? e.message : t('error.analysisError')
       reverseUsage(); setError(msg)
       gtagEvent('analysis_error', { error_message: msg.slice(0, 100) })
     } finally { setLoading(false) }
@@ -571,9 +582,13 @@ export default function AnalysisApp() {
       if (!subStatus.checked) await checkSubscription()
       if (subStatus.active) {
         if (subStatus.limit !== -1 && subStatus.usage >= subStatus.limit) { setError(t('sub.usageLimitReached')); return }
-        customerEmailRef.current = user.email; runAnalysis()
-        fetch('/api/track-usage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email }) }).catch(() => {})
-        setSubStatus(prev => ({ ...prev, usage: prev.usage + 1 })); return
+        customerEmailRef.current = user.email
+        // Track usage synchronously before starting analysis to prevent race conditions
+        try {
+          await fetch('/api/track-usage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email }) })
+        } catch { /* proceed even if tracking fails */ }
+        setSubStatus(prev => ({ ...prev, usage: prev.usage + 1 }))
+        runAnalysis(); return
       }
     }
     await openCheckout('one-time')
@@ -860,6 +875,7 @@ export default function AnalysisApp() {
         </section>
         <div className="info-tip"><span className="material-symbols-outlined">info</span><p>{t('analysis.infoTip')}</p></div>
         {error && (<div className="error-msg"><span className="material-symbols-outlined">error</span>{error}</div>)}
+        {emailWarning && (<div className="error-msg" style={{ background: '#fef3c7', color: '#92400e', borderColor: '#f59e0b' }}><span className="material-symbols-outlined">warning</span>{emailWarning}</div>)}
       </div>
       {user && subStatus.checked && subStatus.active && (
         <div style={{ margin: '0 16px 8px', padding: '10px 14px', background: subStatus.status === 'trialing' ? '#fef3c7' : '#ecfdf5', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13 }}>

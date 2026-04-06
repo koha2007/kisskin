@@ -74,9 +74,15 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
           setLoading(false)
         }
         img.onerror = () => {
-          console.warn('[ResultPage] Image load failed, trying without CORS')
-          // CORS 실패 시 crossOrigin 없이 재시도 (캔버스 슬라이싱 불가하지만 전체 이미지 표시 가능)
-          setLoading(false)
+          console.warn('[ResultPage] Image load failed (CORS), retrying without crossOrigin')
+          // Retry without crossOrigin — canvas slicing won't work but full image will display
+          const fallbackImg = new Image()
+          fallbackImg.onload = () => setLoading(false)
+          fallbackImg.onerror = () => {
+            setError(locale === 'ko' ? '이미지를 불러올 수 없습니다.' : 'Failed to load image.')
+            setLoading(false)
+          }
+          fallbackImg.src = result.imageUrl
         }
         img.src = result.imageUrl
       })

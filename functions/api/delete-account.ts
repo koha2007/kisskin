@@ -17,11 +17,45 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
+    // Verify the caller's identity via Supabase Auth token
+    const authHeader = request.headers.get('Authorization')
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized: missing auth token' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    const accessToken = authHeader.replace('Bearer ', '')
+    const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'apikey': serviceRoleKey,
+      },
+    })
+
+    if (!userRes.ok) {
+      return new Response(JSON.stringify({ error: 'Unauthorized: invalid token' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    const authenticatedUser = (await userRes.json()) as { id: string }
+
     const { userId } = (await request.json()) as { userId?: string }
 
     if (!userId) {
       return new Response(JSON.stringify({ error: 'Missing userId' }), {
         status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Ensure the caller can only delete their own account
+    if (authenticatedUser.id !== userId) {
+      return new Response(JSON.stringify({ error: 'Forbidden: cannot delete another user' }), {
+        status: 403,
         headers: { 'Content-Type': 'application/json' },
       })
     }

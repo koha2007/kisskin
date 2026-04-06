@@ -609,10 +609,16 @@ Rules: exactly 7 products, category=Skin/Eyes/Lips/Cheeks/Base/Brow/Primer, glob
     // ══════════════════════════════════════════════════════════
     // 병렬 실행
     // ══════════════════════════════════════════════════════════
-    const [imageResult, reportResult] = await Promise.all([
-      generateImage(),
-      generateReport(),
-    ])
+    // 90-second timeout to prevent indefinite hangs
+    const TIMEOUT_MS = 90_000
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Analysis timed out. Please try again.')), TIMEOUT_MS),
+    )
+
+    const [imageResult, reportResult] = await Promise.race([
+      Promise.all([generateImage(), generateReport()]),
+      timeoutPromise,
+    ]) as [Awaited<ReturnType<typeof generateImage>>, Awaited<ReturnType<typeof generateReport>>]
 
     const imageData = imageResult.data
     const imageError = imageResult.error

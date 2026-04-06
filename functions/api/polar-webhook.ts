@@ -96,39 +96,35 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     console.log(`[polar-webhook] Event: ${event.type}, ID: ${webhookId}`)
 
-    // 4. Idempotency check
-    const existsRes = await supabaseRequest(
-      supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY,
-      `webhook_events?event_id=eq.${encodeURIComponent(webhookId)}&select=id`,
-      'GET',
-    )
-    if (existsRes.ok) {
-      const existing = await existsRes.json() as unknown[]
-      if (existing.length > 0) {
-        console.log(`[polar-webhook] Duplicate event ${webhookId}, skipping`)
-        return new Response(JSON.stringify({ received: true, duplicate: true }), {
-          headers: { 'Content-Type': 'application/json' },
-        })
-      }
-    }
-
-    // 5. Process event
+    // 4. Atomic idempotency: insert first (unique constraint on event_id), skip if duplicate
     const d = event.data
     const type = event.type
 
-    if (type.startsWith('subscription.')) {
-      await handleSubscriptionEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
-    } else if (type.startsWith('order.')) {
-      await handleOrderEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
-    }
-
-    // 6. Record event for idempotency
-    await supabaseRequest(
+    const insertRes = await supabaseRequest(
       supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY,
       'webhook_events', 'POST',
       { event_id: webhookId, event_type: type },
       { 'Prefer': 'return=minimal' },
     )
+
+    if (!insertRes.ok) {
+      const errText = await insertRes.text()
+      // 409 Conflict or 23505 unique_violation = duplicate event
+      if (insertRes.status === 409 || errText.includes('23505') || errText.includes('duplicate')) {
+        console.log(`[polar-webhook] Duplicate event ${webhookId}, skipping`)
+        return new Response(JSON.stringify({ received: true, duplicate: true }), {
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+      console.error(`[polar-webhook] Failed to record event: ${insertRes.status} ${errText}`)
+    }
+
+    // 5. Process event (only runs if insert succeeded — no duplicate)
+    if (type.startsWith('subscription.')) {
+      await handleSubscriptionEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
+    } else if (type.startsWith('order.')) {
+      await handleOrderEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
+    }
 
     return new Response(JSON.stringify({ received: true }), {
       headers: { 'Content-Type': 'application/json' },
