@@ -7,7 +7,7 @@ interface Env {
   VITE_SUPABASE_ANON_KEY?: string
 }
 
-const BOT_UA = /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|TelegramBot|Pinterest|Discordbot|WhatsApp|Line|Googlebot|bot|crawl|spider|preview/i
+const BOT_UA = /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|TelegramBot|Pinterest|Discordbot|WhatsApp|Line|Googlebot|Yeti|Bingbot|DaumOA|bot|crawl|spider|preview/i
 
 function escHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -101,6 +101,15 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
 <meta name="twitter:description" content="${description}"/>
 <meta name="twitter:image" content="${escHtml(imageUrl)}"/>
 <link rel="canonical" href="https://kissinskin.net/result/${escHtml(id)}"/>
+<meta name="robots" content="index, follow, max-image-preview:large"/>
+<script type="application/ld+json">${JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&lt;/g,'<').replace(/&gt;/g,'>'),
+  "image": imageUrl,
+  "publisher": { "@type": "Organization", "name": "kissinskin", "logo": { "@type": "ImageObject", "url": "https://kissinskin.net/logo.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": `https://kissinskin.net/result/${id}` }
+})}</script>
 </head>
 <body>
 <h1>${title}</h1>

@@ -1,5 +1,20 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+
+User-agent: Yeti
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+Crawl-delay: 2
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
 
 Sitemap: https://kissinskin.net/sitemap.xml
