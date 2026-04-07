@@ -11,25 +11,25 @@ export default {
   'nav.brand': 'kissinskin',
 
   // Home Hero
-  'home.hero.badge': 'AI Beauty Technology',
+  'home.hero.badge': 'AI K-뷰티 Technology',
   'home.hero.title1': '사진 한장으로 완성하는',
   'home.hero.title2': '9가지 놀라운',
   'home.hero.title3': '메이크업 룩',
   'home.hero.subtitle': '셀카 한장이면 충분해요. AI가 당신에게 가장 어울리는',
-  'home.hero.subtitleBold': ' 9가지 프로페셔널 메이크업',
+  'home.hero.subtitleBold': ' 9가지 K-뷰티 메이크업',
   'home.hero.subtitleEnd': '을 만들어 드립니다.',
   'home.hero.productHighlightBold': '피부 특성을 AI가 분석',
   'home.hero.productHighlight': '하여 어울리는 코스메틱 제품을 추천하고,',
   'home.hero.productHighlightLink': ' 구매 링크',
   'home.hero.productHighlightEnd': '도 함께 제공합니다.',
   'home.hero.viewStyles': '스타일 보기',
-  'home.hero.userCount': 'AI 퍼스널컬러 · 메이크업 시뮬레이션 · 뷰티 추천',
+  'home.hero.userCount': 'AI 퍼스널컬러 · K-뷰티 메이크업 시뮬레이션 · 제품 추천',
 
   // Value Props
   'home.value.title1': '1회 분석',
-  'home.value.desc1': 'AI가 얼굴을 분석하고 60초 안에 9가지 룩 + 맞춤 제품 추천을 제공합니다.',
+  'home.value.desc1': 'AI가 얼굴을 분석하고 60초 안에 9가지 K-뷰티 룩 + 맞춤 제품 추천을 제공합니다.',
   'home.value.title2': '맞춤 추천',
-  'home.value.desc2': 'AI가 어울리는 코스메틱 제품을 추천하고 구매 링크를 제공합니다.',
+  'home.value.desc2': 'AI가 어울리는 K-뷰티 코스메틱 제품을 추천하고 구매 링크를 제공합니다.',
   'home.value.title3': '모든 기기 지원',
   'home.value.desc3': 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.',
 
@@ -38,7 +38,7 @@ export default {
   'home.styles.title': '여성과 남성의 ',
   'home.styles.titleHighlight': '9가지 메이크업 스타일',
   'home.styles.titleEnd': '은\n이렇게 변화가 이루어져요',
-  'home.styles.subtitle': 'AI가 당신의 얼굴에 맞춰 최신 트렌드 메이크업을 적용합니다',
+  'home.styles.subtitle': 'AI가 당신의 얼굴에 맞춰 최신 K-뷰티 트렌드 메이크업을 적용합니다',
   'home.styles.womenTab': '2026 여자 메이크업',
   'home.styles.menTab': '2026 남자 메이크업',
   'home.styles.cta': '9가지 스타일 체험하기',
@@ -73,15 +73,15 @@ export default {
   'home.how.step2': 'AI 분석',
   'home.how.step2Desc': '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다',
   'home.how.step3': '결과 확인',
-  'home.how.step3Desc': '9가지 메이크업 + 맞춤 제품 추천을 받으세요',
+  'home.how.step3Desc': '9가지 K-뷰티 메이크업 + 맞춤 제품 추천을 받으세요',
 
   // Final CTA
   'home.cta.title1': '나에게 어울리는',
   'home.cta.title2': '메이크업을 찾아보세요',
-  'home.cta.subtitle': '퍼스널컬러 진단, AI 메이크업 시뮬레이션, 피부 분석까지 한 번에.',
+  'home.cta.subtitle': 'K-뷰티 퍼스널컬러 진단, AI 메이크업 시뮬레이션, 피부 분석까지 한 번에.',
 
   // Footer
-  'home.footer.desc': 'AI 메이크업 시뮬레이션 및 코스메틱 추천 서비스',
+  'home.footer.desc': 'AI K-뷰티 메이크업 시뮬레이션 및 코스메틱 추천 서비스',
   'home.footer.service': '서비스',
   'home.footer.styles': '9가지 스타일',
   'home.footer.howTo': '이용 방법',

@@ -28,6 +28,7 @@ export default function Head() {
         "name": "kissinskin",
         "url": "https://kissinskin.net",
         "logo": "https://kissinskin.net/og-image.png",
+        "description": "AI-powered K-beauty makeup simulator. Upload a selfie, get 9 personalized K-beauty looks with skin analysis and Korean cosmetics recommendations.",
         "sameAs": [],
         "contactPoint": {
           "@type": "ContactPoint",
@@ -40,7 +41,7 @@ export default function Head() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "kissinskin",
-        "alternateName": "키스인스킨",
+        "alternateName": ["키스인스킨", "K-beauty AI Makeup Simulator", "K-뷰티 AI 메이크업"],
         "url": "https://kissinskin.net",
         "inLanguage": ["en", "ko"],
         "potentialAction": {
