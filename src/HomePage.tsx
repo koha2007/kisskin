@@ -469,7 +469,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12 flex flex-col items-center gap-3">
-            <span className="inline-flex items-center gap-2 text-primary text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
+            <span className="inline-flex items-center gap-2 text-primary-dark text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               {t('home.styles.badge')}
             </span>
@@ -540,7 +540,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       <section id="how" className="py-20 bg-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
+            <span className="text-primary-dark text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
             <h2 id="how-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('home.how.title')}</h2>
           </div>
           <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
@@ -569,7 +569,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       <section id="pricing" className="py-20 bg-white scroll-mt-16" aria-labelledby="pricing-title">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('pricing.badge')}</span>
+            <span className="text-primary-dark text-sm font-bold uppercase tracking-widest">{t('pricing.badge')}</span>
             <h2 id="pricing-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('pricing.title')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -578,7 +578,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               <h3 className="text-lg font-bold text-navy">{t('pricing.perAnalysis')}</h3>
               <div className="flex items-end gap-1">
                 <span className="text-4xl font-extrabold text-navy">{t('pricing.perAnalysisPrice')}</span>
-                <span className="text-slate-400 text-sm mb-1">{t('pricing.perAnalysisUnit')}</span>
+                <span className="text-slate-500 text-sm mb-1">{t('pricing.perAnalysisUnit')}</span>
               </div>
               <p className="text-slate-500 text-sm">{t('pricing.perAnalysisDesc')}</p>
               <ul className="flex flex-col gap-2.5 text-sm text-slate-600 mt-2">
@@ -590,7 +590,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 ))}
               </ul>
               <button
-                className="mt-auto w-full py-3.5 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-pink-50 transition-colors"
+                className="mt-auto w-full py-3.5 rounded-xl border-2 border-primary-dark text-primary-dark font-bold text-sm hover:bg-pink-50 transition-colors"
                 onClick={() => onNavigate('analysis')}
               >
                 {t('pricing.startBtn')}
@@ -598,11 +598,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             </div>
             {/* Subscription */}
             <div className="relative rounded-2xl border-2 border-primary bg-white p-8 flex flex-col gap-5 shadow-lg shadow-primary/10">
-              <span className="absolute -top-3 right-6 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">{t('pricing.popular')}</span>
+              <span className="absolute -top-3 right-6 bg-primary-dark text-white text-xs font-bold px-3 py-1 rounded-full">{t('pricing.popular')}</span>
               <h3 className="text-lg font-bold text-navy">{t('pricing.subscription')}</h3>
               <div className="flex items-end gap-1">
                 <span className="text-4xl font-extrabold text-primary">{t('pricing.subscriptionPrice')}</span>
-                <span className="text-slate-400 text-sm mb-1">{t('pricing.subscriptionUnit')}</span>
+                <span className="text-slate-500 text-sm mb-1">{t('pricing.subscriptionUnit')}</span>
               </div>
               <p className="text-slate-500 text-sm">{t('pricing.subscriptionDesc')}</p>
               <ul className="flex flex-col gap-2.5 text-sm text-slate-600 mt-2">
@@ -621,7 +621,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               </button>
             </div>
           </div>
-          <p className="text-center text-xs text-slate-400 mt-6">{t('pricing.trialNote')}</p>
+          <p className="text-center text-xs text-slate-500 mt-6">{t('pricing.trialNote')}</p>
         </div>
       </section>
 
@@ -665,7 +665,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <h4 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.service')}</h4>
+              <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.service')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
                 <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
@@ -673,7 +673,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               </ul>
             </div>
             <div className="flex flex-col gap-3">
-              <h4 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.legal')}</h4>
+              <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.legal')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
                 <li><a href="/terms" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
                 <li><a href="/refund" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
