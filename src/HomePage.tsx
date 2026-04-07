@@ -334,20 +334,20 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#styles" className="text-sm font-medium text-slate-300 hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
-            <a href="#how" className="text-sm font-medium text-slate-300 hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
+            <a href="#styles" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
+            <a href="#how" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
-              className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-600"
+              className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-500"
             >
               {locale === 'ko' ? 'EN' : '한국어'}
             </button>
             {user ? (
               <button
                 onClick={() => onNavigate('mypage')}
-                className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-600 flex items-center gap-1.5"
+                className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500 flex items-center gap-1.5"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
                 <span className="hidden sm:inline">{t('auth.mypage')}</span>
@@ -355,7 +355,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             ) : (
               <button
                 onClick={() => onNavigate('auth')}
-                className="text-sm font-medium text-slate-300 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-600"
+                className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500"
               >
                 {t('auth.login')}
               </button>
@@ -370,6 +370,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         </div>
       </nav>
 
+      <main>
       {/* Hero */}
       <section className="relative py-14 lg:py-24 overflow-hidden" aria-labelledby="hero-title">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-pink-200/40 via-rose-100/30 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
@@ -454,7 +455,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg`}>
                   <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
-                <h3 className="text-lg font-bold text-navy-mid">{item.title}</h3>
+                <h2 className="text-lg font-bold text-navy-mid">{item.title}</h2>
                 <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -556,7 +557,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                   </div>
                   <div className={`absolute -top-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br ${step.gradient} text-white flex items-center justify-center font-extrabold text-sm shadow-lg`}>{step.num}</div>
                 </div>
-                <h4 className="text-xl font-bold text-navy-mid">{step.title}</h4>
+                <h3 className="text-xl font-bold text-navy-mid">{step.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
@@ -648,6 +649,8 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         </div>
       </section>
 
+      </main>
+
       {/* Footer */}
       <footer className="bg-navy text-white pt-14 pb-8" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -657,21 +660,21 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
                 <span className="text-2xl font-bold tracking-tight">kissinskin</span>
               </div>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
+              <p className="text-slate-300 text-sm leading-relaxed max-w-xs">
                 {t('home.footer.desc')}
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">{t('home.footer.service')}</h5>
-              <ul className="flex flex-col gap-2 text-slate-400 text-sm">
+              <h4 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.service')}</h4>
+              <ul className="flex flex-col gap-2 text-slate-300 text-sm">
                 <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
                 <li><a href="#pricing" className="hover:text-primary transition-colors cursor-pointer">{t('pricing.badge')}</a></li>
               </ul>
             </div>
             <div className="flex flex-col gap-3">
-              <h5 className="font-bold text-sm uppercase tracking-wider text-slate-300">{t('home.footer.legal')}</h5>
-              <ul className="flex flex-col gap-2 text-slate-400 text-sm">
+              <h4 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.legal')}</h4>
+              <ul className="flex flex-col gap-2 text-slate-300 text-sm">
                 <li><a href="/terms" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
                 <li><a href="/refund" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
                 <li><a href="/privacy" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</a></li>
@@ -680,8 +683,8 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             </div>
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-slate-500 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-            <p className="text-slate-600 text-xs">Powered by AI · <time dateTime="2026-04-06">2026년 4월 기준</time></p>
+            <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
+            <p className="text-slate-400 text-xs">Powered by AI · <time dateTime="2026-04-06">2026년 4월 기준</time></p>
           </div>
         </div>
       </footer>
