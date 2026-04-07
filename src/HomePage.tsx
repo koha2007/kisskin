@@ -108,6 +108,8 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           margin-left: calc(-50vw + 50%);
           overflow: hidden;
           padding: 20px 0;
+          min-height: 320px;
+          contain: layout style;
         }
         .ks-hero-wrap::before,
         .ks-hero-wrap::after {
@@ -133,6 +135,8 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           width: max-content;
           animation: ks-scroll 28s linear infinite;
           will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
         .ks-marquee-track:hover {
           animation-play-state: paused;
@@ -145,6 +149,7 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           position: relative;
           width: 200px;
           height: 280px;
+          aspect-ratio: 200 / 280;
           border-radius: 16px;
           overflow: hidden;
           flex-shrink: 0;
@@ -152,6 +157,7 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
                       box-shadow 0.35s ease;
           background: #111;
+          contain: layout style paint;
         }
         .ks-card:hover {
           transform: translateY(-10px) scale(1.03);
@@ -184,6 +190,7 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           .ks-card {
             width: 155px;
             height: 220px;
+            aspect-ratio: 155 / 220;
           }
           .ks-hero-wrap::before,
           .ks-hero-wrap::after {
@@ -208,6 +215,8 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
                   width={200}
                   height={280}
                   loading={mi < 5 ? "eager" : "lazy"}
+                  decoding={mi < 5 ? "sync" : "async"}
+                  fetchPriority={mi < 3 ? "high" : "low"}
                 />
                 <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
               </div>
@@ -321,7 +330,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50" role="navigation" aria-label="주요 메뉴">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" />
+            <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
