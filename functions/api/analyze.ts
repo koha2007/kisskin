@@ -68,7 +68,7 @@ function isRegionBlocked(text: string): boolean {
 }
 
 // 기본 모델 만료일 경고 (환경변수로 모델 지정 시 불필요)
-const DEFAULT_MODEL_EXPIRY = new Date('2026-06-17')
+const DEFAULT_MODEL_EXPIRY = new Date('2026-09-30')
 function checkModelExpiry(env: Env) {
   // 환경변수로 모델을 직접 관리 중이면 경고 스킵
   if (env.GEMINI_IMAGE_MODELS || env.GEMINI_REPORT_MODEL) return

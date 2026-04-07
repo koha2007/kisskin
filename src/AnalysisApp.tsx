@@ -174,19 +174,15 @@ export default function AnalysisApp() {
     active: boolean; status?: string; tier?: string | null
     usage: number; limit: number; trialEndsAt?: string | null; checked: boolean
   }>({ active: false, usage: 0, limit: 0, checked: false })
-  const [, setSubChecking] = useState(false)
-
   const checkSubscription = async () => {
     if (!user?.email) return
-    setSubChecking(true)
     try {
       const { res, data } = await fetchJsonWithRetry('/api/subscription-status', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),
       })
       if (res.ok) { setSubStatus({ ...data, checked: true } as typeof subStatus); customerEmailRef.current = user.email }
-    } catch (e) { console.warn('[subscription] check failed:', e) }
-    finally { setSubChecking(false) }
+    } catch { /* subscription check failed - will fall through to checkout */ }
   }
 
   useEffect(() => {
@@ -500,7 +496,7 @@ export default function AnalysisApp() {
         }
         if (data.report) {
           const targetEmail = customerEmailRef.current
-          if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(targetEmail)) {
+          if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(targetEmail)) {
             console.warn('[send-report] No valid email available, skipping email report')
             setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
           } else {
@@ -533,7 +529,7 @@ export default function AnalysisApp() {
   const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
     gtagEvent('begin_checkout', { checkout_type: type, value: type === 'subscription' ? 9.88 : 2.99, currency: 'USD' })
     try {
-      if (isMobile) sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale }))
+      if (isMobile) try { sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale })) } catch { /* storage full or unavailable */ }
       const { res: checkoutRes, data: checkoutRaw } = await fetchJsonWithRetry('/api/checkout', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobile: isMobile, email: user?.email, type }),
@@ -563,8 +559,8 @@ export default function AnalysisApp() {
         gtagEvent('purchase', { transaction_id: embeddedCheckoutId, value: type === 'subscription' ? 9.88 : 2.99, currency: 'USD', checkout_type: type })
         if (type === 'subscription') { await checkSubscription() }
         else {
-          try { const vRes = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId: embeddedCheckoutId }) }); const vData = await vRes.json(); if (vData.customerEmail) customerEmailRef.current = vData.customerEmail }
-          catch { /* ok */ }
+          try { const vRes = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId: embeddedCheckoutId }) }); if (vRes.ok) { const vData = await vRes.json(); if (vData.customerEmail) customerEmailRef.current = vData.customerEmail } }
+          catch { /* ok - proceed without email */ }
           runAnalysis()
         }
       }
@@ -573,6 +569,7 @@ export default function AnalysisApp() {
         if (!paid) {
           try {
             const vRes = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId: embeddedCheckoutId }) })
+            if (!vRes.ok) throw new Error('verify failed')
             const vData = await vRes.json()
             if (vData.status === 'succeeded' || vData.status === 'confirmed') {
               if (vData.customerEmail) customerEmailRef.current = vData.customerEmail
@@ -795,7 +792,7 @@ export default function AnalysisApp() {
             return (
               <div className="share-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowShareMenu(false) }}>
                 <div className="share-modal">
-                  <div className="share-modal-header"><h3>{t('result.share')}</h3><button className="share-modal-close" onClick={() => setShowShareMenu(false)}><span className="material-symbols-outlined">close</span></button></div>
+                  <div className="share-modal-header"><h3>{t('result.share')}</h3><button className="share-modal-close" onClick={() => setShowShareMenu(false)} aria-label="Close"><span className="material-symbols-outlined">close</span></button></div>
                   <div className="share-icons-row">
                     {'share' in navigator && (<button className="share-option" onClick={() => handleShare('native')}><div className="share-icon-circle" style={{ background: '#2a2d8a' }}><span className="material-symbols-outlined">phone_iphone</span></div>{t('result.defaultShare')}</button>)}
                     <button className="share-option" onClick={() => handleShare('copy')}><div className="share-icon-circle" style={{ background: '#8b5cf6' }}><span className="material-symbols-outlined">content_copy</span></div>{t('result.copyLink')}</button>
@@ -810,7 +807,7 @@ export default function AnalysisApp() {
                     <button className="share-option" onClick={() => { window.open(`https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`, '_blank', 'width=600,height=400') }}><div className="share-icon-circle" style={{ background: '#FF4500' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.884-7.003 4.884-3.874 0-7.004-2.19-7.004-4.884 0-.18.015-.36.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 000-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"/></svg></div>Reddit</button>
                     <button className="share-option" onClick={() => { window.location.href = `mailto:?subject=${encodedTitle}&body=${encodedText}` }}><div className="share-icon-circle" style={{ background: '#64748b' }}><span className="material-symbols-outlined">mail</span></div>Email</button>
                   </div>
-                  <div className="share-link-bar"><span>{shareUrl}</span><button className="share-link-copy-btn" onClick={() => { navigator.clipboard.writeText(shareTextFull).then(() => alert(t('error.copyLinkDone'))).catch(() => {}) }}>{t('result.copyLink')}</button></div>
+                  <div className="share-link-bar"><span>{shareUrl}</span><button className="share-link-copy-btn" onClick={() => { navigator.clipboard.writeText(shareTextFull).then(() => alert(t('error.copyLinkDone'))).catch(() => alert(t('error.copyFail'))) }}>{t('result.copyLink')}</button></div>
                 </div>
               </div>
             )
