@@ -64,7 +64,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     })
   }
 
-  const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vrcltmhhbgnsmdeoxlck.supabase.co'
+  const supabaseUrl = env.VITE_SUPABASE_URL
+  if (!supabaseUrl) {
+    return new Response(JSON.stringify({ error: 'Supabase URL not configured' }), {
+      status: 500, headers: { 'Content-Type': 'application/json' },
+    })
+  }
 
   try {
     // 1. Read raw body for signature verification
@@ -89,9 +94,13 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
 
     // 3. Parse event
-    const event = JSON.parse(rawBody) as {
-      type: string
-      data: Record<string, unknown>
+    let event: { type: string; data: Record<string, unknown> }
+    try {
+      event = JSON.parse(rawBody)
+    } catch {
+      return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+        status: 400, headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     console.log(`[polar-webhook] Event: ${event.type}, ID: ${webhookId}`)
@@ -117,6 +126,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         })
       }
       console.error(`[polar-webhook] Failed to record event: ${insertRes.status} ${errText}`)
+      return new Response(JSON.stringify({ error: 'Failed to record event' }), {
+        status: 500, headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     // 5. Process event (only runs if insert succeeded — no duplicate)

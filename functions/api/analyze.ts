@@ -280,6 +280,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 - 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율, 주름/점/흉터
 - 피부색/밝기/톤 변경 금지 (2번 클라우드 스킨의 베이스 효과 제외). 원래 피부톤 그대로
 - 얼굴 위치, 크기, 각도, 표정 모두 원본과 동일
+- 모자/헤어밴드/머리띠 등 머리 위 착용물이 있으면 원본 그대로 유지. 색상, 형태, 위치 변경 금지. 모자를 제거하거나 얼굴처럼 변형하지 마
 
 ⚠️ 텍스트 금지: 이미지에 글자, 숫자, 라벨, 스타일명, 워터마크 등 어떤 텍스트도 절대 넣지 마. 스타일 이름을 이미지 위에 쓰지 마.
 
@@ -319,6 +320,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 - 피부색/밝기/톤 변경 금지 (2번 스킨케어 베이스의 윤광 효과 제외). 원래 피부톤 그대로
 - 얼굴 위치, 크기, 각도, 표정 모두 원본과 동일
 - 수염/턱수염이 있으면 그대로 유지
+- 모자/캡/헤어밴드 등 머리 위 착용물이 있으면 원본 그대로 유지. 색상, 형태, 위치 변경 금지. 모자를 제거하거나 얼굴처럼 변형하지 마
 
 ⚠️ 텍스트 금지: 이미지에 글자, 숫자, 라벨, 스타일명, 워터마크 등 어떤 텍스트도 절대 넣지 마. 스타일 이름을 이미지 위에 쓰지 마.
 
@@ -701,9 +703,9 @@ JSON만 응답 (코드펜스, 마크다운 없이):
       const colo = cf?.colo || 'unknown'
 
       const allErrors = [imageError, reportError].filter(Boolean).join(' || ')
-      const envDebug = `[GEMINI_KEY:${env.GEMINI_API_KEY ? 'set(' + env.GEMINI_API_KEY.slice(-4) + ')' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|AIG_TOKEN:${env.CF_AIG_TOKEN ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`
+      console.error(`[analyze] Failed (${colo}): ${allErrors} [GEMINI_KEY:${env.GEMINI_API_KEY ? 'set' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|AIG_TOKEN:${env.CF_AIG_TOKEN ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`)
       return new Response(JSON.stringify({
-        error: `API 오류 (${colo}): ${allErrors.slice(0, 400) || '이미지와 보고서 모두 생성 실패'} ${envDebug}`,
+        error: `API 오류 (${colo}): ${allErrors.slice(0, 400) || '이미지와 보고서 모두 생성 실패'}`,
       }), {
         status: 500, headers: { 'Content-Type': 'application/json' },
       })

@@ -34,8 +34,8 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
   if (!id || id.length < 10) return context.next()
 
   try {
-    const supabaseUrl = context.env.VITE_SUPABASE_URL || 'https://vrcltmhhbgnsmdeoxlck.supabase.co'
-    const key = context.env.VITE_SUPABASE_ANON_KEY || context.env.SUPABASE_SERVICE_ROLE_KEY
+    const supabaseUrl = context.env.VITE_SUPABASE_URL
+    const key = context.env.VITE_SUPABASE_ANON_KEY
     if (!key) return context.next()
 
     const res = await fetch(

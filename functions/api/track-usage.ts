@@ -24,7 +24,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vrcltmhhbgnsmdeoxlck.supabase.co'
+    const supabaseUrl = env.VITE_SUPABASE_URL
+    if (!supabaseUrl) {
+      return new Response(JSON.stringify({ error: 'Supabase URL not configured' }), {
+        status: 500, headers: { 'Content-Type': 'application/json' },
+      })
+    }
 
     // Insert usage record
     const res = await fetch(`${supabaseUrl}/rest/v1/usage_tracking`, {

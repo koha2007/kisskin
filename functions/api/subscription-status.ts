@@ -59,7 +59,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vrcltmhhbgnsmdeoxlck.supabase.co'
+    const supabaseUrl = env.VITE_SUPABASE_URL
+    if (!supabaseUrl) {
+      return new Response(JSON.stringify({ error: 'Supabase URL not configured' }), {
+        status: 500, headers: { 'Content-Type': 'application/json' },
+      })
+    }
 
     // 1. Check Supabase for active subscription (synced via webhook)
     let activeSub = await getSubFromSupabase(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, email)
