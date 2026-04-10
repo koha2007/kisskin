@@ -66,12 +66,13 @@ export async function onRequest(context: { request: Request; next: () => Promise
 
   const response = await context.next()
 
-  // Add security headers to all responses
-  response.headers.set('X-Content-Type-Options', 'nosniff')
-  response.headers.set('X-Frame-Options', 'DENY')
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-  response.headers.set('Permissions-Policy', 'camera=(self), microphone=()')
-  response.headers.set('X-XSS-Protection', '1; mode=block')
+  // Clone response to get mutable headers (context.next() may return immutable headers)
+  const newResponse = new Response(response.body, response)
+  newResponse.headers.set('X-Content-Type-Options', 'nosniff')
+  newResponse.headers.set('X-Frame-Options', 'DENY')
+  newResponse.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  newResponse.headers.set('Permissions-Policy', 'camera=(self), microphone=()')
+  newResponse.headers.set('X-XSS-Protection', '1; mode=block')
 
-  return response
+  return newResponse
 }

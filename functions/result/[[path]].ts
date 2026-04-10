@@ -31,21 +31,30 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
   const url = new URL(context.request.url)
   const segments = url.pathname.split('/result/')
   const id = segments[1]?.split('/')[0]
-  if (!id || id.length < 10) return context.next()
+  if (!id || id.length < 10) return serveFallbackOg(url.pathname)
 
   try {
     const supabaseUrl = context.env.VITE_SUPABASE_URL
     const key = context.env.VITE_SUPABASE_ANON_KEY
-    if (!key) return context.next()
+    if (!supabaseUrl || !key) {
+      console.error('[result-og] Missing env: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY')
+      return serveFallbackOg(url.pathname)
+    }
 
     const res = await fetch(
       `${supabaseUrl}/rest/v1/shared_results?id=eq.${encodeURIComponent(id)}&select=image_path,report,gender,styles`,
       { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } },
     )
-    if (!res.ok) return context.next()
+    if (!res.ok) {
+      console.error('[result-og] Supabase error:', res.status, await res.text().catch(() => ''))
+      return serveFallbackOg(url.pathname)
+    }
 
     const results = await res.json() as { image_path: string; report: unknown; gender: string; styles: string[] }[]
-    if (!results.length) return context.next()
+    if (!results.length) {
+      console.error('[result-og] No result found for id:', id)
+      return serveFallbackOg(url.pathname)
+    }
 
     const data = results[0]
     const imageUrl = `${supabaseUrl}/storage/v1/object/public/results/${data.image_path}`
@@ -128,6 +137,43 @@ ${styles.length > 0 ? `<ul>${styles.map(s => `<li>${escHtml(s)}</li>`).join('')}
     })
   } catch (e) {
     console.error('[result-og] Error:', e)
-    return context.next()
+    return serveFallbackOg(url.pathname)
   }
+}
+
+/** Fallback OG HTML for bots when Supabase data is unavailable */
+function serveFallbackOg(pathname: string) {
+  const canonical = `https://kissinskin.net${pathname}`
+  const html = `<!DOCTYPE html>
+<html lang="ko" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8"/>
+<title>💄 AI 메이크업 분석 결과 - kissinskin</title>
+<meta name="description" content="AI가 분석한 맞춤 K-뷰티 메이크업 룩과 제품 추천 결과를 확인하세요."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="${escHtml(canonical)}"/>
+<meta property="og:title" content="💄 AI 메이크업 분석 결과 - kissinskin"/>
+<meta property="og:description" content="AI가 분석한 맞춤 K-뷰티 메이크업 룩과 제품 추천 결과를 확인하세요."/>
+<meta property="og:image" content="https://kissinskin.net/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:site_name" content="kissinskin"/>
+<meta property="og:locale" content="ko_KR"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="💄 AI 메이크업 분석 결과 - kissinskin"/>
+<meta name="twitter:description" content="AI가 분석한 맞춤 K-뷰티 메이크업 룩과 제품 추천 결과를 확인하세요."/>
+<meta name="twitter:image" content="https://kissinskin.net/og-image.png"/>
+<link rel="canonical" href="${escHtml(canonical)}"/>
+</head>
+<body>
+<h1>AI 메이크업 분석 결과</h1>
+<p><a href="${escHtml(canonical)}">kissinskin에서 결과 보기</a></p>
+</body>
+</html>`
+  return new Response(html, {
+    headers: {
+      'Content-Type': 'text/html;charset=utf-8',
+      'Cache-Control': 'public, max-age=300',
+    },
+  })
 }
