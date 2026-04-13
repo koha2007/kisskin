@@ -778,52 +778,6 @@ export default function AnalysisApp() {
                   setShowShareMenu(true)
                 }}><span className="material-symbols-outlined">share</span>{t('result.share')}</button>
               </div>
-              {/* Share preview card — chat-app style preview of how the share link will look */}
-              {(() => {
-                const pr = report ? parseReport(report) : null
-                const pa = pr?.analysis
-                const previewTitle = pa
-                  ? (locale === 'ko' ? `💄 AI 메이크업 분석: ${pa.skinType} · ${pa.tone}` : `💄 AI Makeup: ${pa.skinType} · ${pa.tone}`)
-                  : (locale === 'ko' ? '💄 AI 메이크업 분석 결과 - kissinskin' : '💄 AI Makeup Analysis Result - kissinskin')
-                const previewDesc = pa
-                  ? `${pa.skinTypeDetail || ''} ${pa.toneDetail || ''} ${pa.advice || ''}`.trim().slice(0, 140)
-                  : (locale === 'ko' ? 'AI가 분석한 9가지 맞춤 K-뷰티 메이크업 룩' : 'AI-powered 9 personalized K-beauty makeup looks')
-                return (
-                  <div style={{ marginTop: '20px' }}>
-                    <h4 style={{ fontSize: '14px', color: '#64748b', fontWeight: 600, marginBottom: '8px', textAlign: 'center' }}>
-                      {locale === 'ko' ? '공유 미리보기' : 'Share preview'}
-                    </h4>
-                    <div style={{
-                      maxWidth: '420px',
-                      margin: '0 auto',
-                      borderRadius: '14px',
-                      overflow: 'hidden',
-                      border: '1px solid #e2e8f0',
-                      boxShadow: '0 4px 14px rgba(15, 23, 42, 0.08)',
-                      background: '#ffffff',
-                    }}>
-                      <div style={{ width: '100%', aspectRatio: '1 / 1', background: '#f1f5f9', overflow: 'hidden' }}>
-                        <img src={resultImage} alt="share preview" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      </div>
-                      <div style={{ padding: '12px 14px 14px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-                          <img src="/logo-sm.webp" alt="kissinskin" width={16} height={16} style={{ borderRadius: '4px' }} />
-                          <span style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>kissinskin.net</span>
-                        </div>
-                        <p style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', margin: '0 0 6px', lineHeight: 1.35, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                          {previewTitle}
-                        </p>
-                        <p style={{ fontSize: '13px', color: '#475569', margin: 0, lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                          {previewDesc}
-                        </p>
-                      </div>
-                    </div>
-                    <p style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', marginTop: '8px' }}>
-                      {locale === 'ko' ? '카카오톡·페이스북·디스코드 등에서 이렇게 보입니다' : 'Looks like this on KakaoTalk, Facebook, Discord, etc.'}
-                    </p>
-                  </div>
-                )
-              })()}
               {/* AddToAny Share Buttons */}
               <div className="a2a_kit a2a_kit_size_32 a2a_default_style" style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '12px' }}
                 data-a2a-url={shareId ? `https://kissinskin.net/result/${shareId}` : 'https://kissinskin.net'}
