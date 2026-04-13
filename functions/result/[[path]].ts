@@ -25,8 +25,8 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
     const id = url.pathname.split('/result/')[1]?.split('/')[0]?.split('?')[0] || ''
     const body = await spaRes.text()
     const patched = body.replace(
-      /<script id="pageContext" type="application\/json">[\s\S]*?<\/script>/,
-      `<script id="pageContext" type="application/json">${JSON.stringify({ pageId: '/pages/result/@id', routeParams: { id } })}</script>`,
+      /<script id="vike_pageContext" type="application\/json">[\s\S]*?<\/script>/,
+      `<script id="vike_pageContext" type="application/json">${JSON.stringify({ pageId: '/pages/result/@id', routeParams: { id } })}</script>`,
     )
     const headers = new Headers(spaRes.headers)
     headers.set('Content-Type', 'text/html;charset=utf-8')
