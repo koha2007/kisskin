@@ -167,8 +167,11 @@ function serveFallbackOg(pathname: string) {
 <meta property="og:title" content="💄 AI 메이크업 분석 결과 - kissinskin"/>
 <meta property="og:description" content="AI가 분석한 맞춤 K-뷰티 메이크업 룩과 제품 추천 결과를 확인하세요."/>
 <meta property="og:image" content="https://kissinskin.net/og-image.png"/>
+<meta property="og:image:secure_url" content="https://kissinskin.net/og-image.png"/>
+<meta property="og:image:type" content="image/png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="AI 메이크업 분석 결과 - kissinskin"/>
 <meta property="og:site_name" content="kissinskin"/>
 <meta property="og:locale" content="ko_KR"/>
 <meta name="twitter:card" content="summary_large_image"/>
