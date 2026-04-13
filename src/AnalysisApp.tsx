@@ -468,31 +468,39 @@ export default function AnalysisApp() {
       if (!data.report) { reverseUsage(); throw new Error(t('error.reportGenFailed')) }
       setResultImage(data.image); setReport(data.report)
       gtagEvent('analysis_complete', { gender, skin_type: skinType, has_report: !!data.report, has_image: !!data.image })
+      if (data.image && data.report && gender) {
+        saveSharedResult(data.image, data.report, gender, activeStyles)
+          .then(id => setShareId(id))
+          .catch(err => {
+            console.warn('[auto-save] Failed:', err)
+            setTimeout(() => {
+              saveSharedResult(data.image, data.report, gender, activeStyles)
+                .then(id => setShareId(id))
+                .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
+            }, 3000)
+          })
+      }
       const img = new Image()
+      img.onerror = (e) => {
+        console.warn('[analysis] grid image failed to load for slicing, showing full grid fallback', e)
+        setResultCells([])
+      }
       img.onload = async () => {
-        const srcCellW = Math.floor(img.width / 3); const srcCellH = Math.floor(img.height / 3)
-        const cells: string[] = []
-        for (let row = 0; row < 3; row++) {
-          for (let col = 0; col < 3; col++) {
-            const cvs = document.createElement('canvas'); cvs.width = srcCellW; cvs.height = srcCellH
-            const ctx = cvs.getContext('2d')!
-            ctx.drawImage(img, col * srcCellW, row * srcCellH, srcCellW, srcCellH, 0, 0, srcCellW, srcCellH)
-            cells.push(cvs.toDataURL('image/jpeg', 0.85))
+        try {
+          const srcCellW = Math.floor(img.width / 3); const srcCellH = Math.floor(img.height / 3)
+          const cells: string[] = []
+          for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+              const cvs = document.createElement('canvas'); cvs.width = srcCellW; cvs.height = srcCellH
+              const ctx = cvs.getContext('2d')!
+              ctx.drawImage(img, col * srcCellW, row * srcCellH, srcCellW, srcCellH, 0, 0, srcCellW, srcCellH)
+              cells.push(cvs.toDataURL('image/jpeg', 0.85))
+            }
           }
-        }
-        setResultCells(cells)
-        if (data.image && data.report && gender) {
-          saveSharedResult(data.image, data.report, gender, activeStyles)
-            .then(id => setShareId(id))
-            .catch(err => {
-              console.warn('[auto-save] Failed:', err)
-              // Retry once after 3 seconds
-              setTimeout(() => {
-                saveSharedResult(data.image, data.report, gender, activeStyles)
-                  .then(id => setShareId(id))
-                  .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
-              }, 3000)
-            })
+          setResultCells(cells)
+        } catch (sliceErr) {
+          console.warn('[analysis] canvas slicing failed, showing full grid fallback', sliceErr)
+          setResultCells([])
         }
         if (data.report) {
           const targetEmail = customerEmailRef.current
@@ -697,7 +705,7 @@ export default function AnalysisApp() {
     return (
       <div className="analysis-page">
         <div className="top-bar">
-          <button className="top-bar-back" onClick={() => navigate('/')}>
+          <button className="top-bar-back" onClick={() => navigate('/')} aria-label="Go back">
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <h2 className="top-bar-title">{t('analysis.loading.title')}</h2>
@@ -718,7 +726,7 @@ export default function AnalysisApp() {
     return (
       <div className="analysis-page">
         <div className="top-bar">
-          <button className="top-bar-back" onClick={() => navigate('/')}>
+          <button className="top-bar-back" onClick={() => navigate('/')} aria-label="Go back">
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <h2 className="top-bar-title">{t('result.title')}</h2>
@@ -740,12 +748,18 @@ export default function AnalysisApp() {
               )
             }; return null
           })()}
-          {resultCells.length === 9 && (
+          {resultImage && (
             <section className="result-section">
               <h3 className="section-heading">{t('result.makeupStyles')}</h3>
-              <div className="makeup-grid">
-                {activeStyles.map((style, i) => (<div key={style} className="makeup-cell"><img src={resultCells[i]} alt={style} className="makeup-cell-img" /><p className="makeup-cell-label">{style}</p></div>))}
-              </div>
+              {resultCells.length === 9 ? (
+                <div className="makeup-grid">
+                  {activeStyles.map((style, i) => (<div key={style} className="makeup-cell"><img src={resultCells[i]} alt={style} className="makeup-cell-img" /><p className="makeup-cell-label">{style}</p></div>))}
+                </div>
+              ) : (
+                <div className="makeup-grid-fallback" style={{ display: 'flex', justifyContent: 'center' }}>
+                  <img src={resultImage} alt="makeup grid" style={{ maxWidth: '100%', height: 'auto', borderRadius: '12px' }} />
+                </div>
+              )}
               <div className="action-btn-row">
                 <button className="download-btn" onClick={handleDownload}><span className="material-symbols-outlined">download</span>{t('result.save')}</button>
                 <button className="download-btn share-btn" onClick={async () => {
@@ -796,7 +810,7 @@ export default function AnalysisApp() {
                   <div className="share-icons-row">
                     {'share' in navigator && (<button className="share-option" onClick={() => handleShare('native')}><div className="share-icon-circle" style={{ background: '#2a2d8a' }}><span className="material-symbols-outlined">phone_iphone</span></div>{t('result.defaultShare')}</button>)}
                     <button className="share-option" onClick={() => handleShare('copy')}><div className="share-icon-circle" style={{ background: '#8b5cf6' }}><span className="material-symbols-outlined">content_copy</span></div>{t('result.copyLink')}</button>
-                    <button className="share-option" onClick={() => { window.open(`https://story.kakao.com/share?url=${encodedUrl}&text=${encodedText}`, '_blank', 'width=600,height=400') }}><div className="share-icon-circle" style={{ background: '#FFE812' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#3C1E1E"><path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.726 1.802 5.113 4.508 6.463-.144.509-.926 3.281-.962 3.503 0 0-.019.162.085.224.104.062.227.029.227.029.3-.042 3.472-2.275 4.022-2.652.37.052.748.079 1.12.079 5.523 0 10-3.463 10-7.646C22 6.463 17.523 3 12 3z"/></svg></div>KakaoTalk</button>
+                    <button className="share-option" onClick={() => { navigator.clipboard.writeText(shareUrl).then(() => alert(locale === 'ko' ? '링크가 복사되었습니다.\n카카오톡에 붙여넣기 해주세요!' : 'Link copied!\nPaste it in KakaoTalk.')).catch(() => alert(locale === 'ko' ? '링크 복사에 실패했습니다.' : 'Failed to copy link.')) }}><div className="share-icon-circle" style={{ background: '#FFE812' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#3C1E1E"><path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.726 1.802 5.113 4.508 6.463-.144.509-.926 3.281-.962 3.503 0 0-.019.162.085.224.104.062.227.029.227.029.3-.042 3.472-2.275 4.022-2.652.37.052.748.079 1.12.079 5.523 0 10-3.463 10-7.646C22 6.463 17.523 3 12 3z"/></svg></div>KakaoTalk</button>
                     <button className="share-option" onClick={() => { window.open(`https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encodedText}`, '_blank', 'width=600,height=400') }}><div className="share-icon-circle" style={{ background: '#00B900' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></div>LINE</button>
                     <button className="share-option" onClick={() => { window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank') }}><div className="share-icon-circle" style={{ background: '#25D366' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>WhatsApp</button>
                     <button className="share-option" onClick={() => { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`, '_blank', 'width=600,height=400') }}><div className="share-icon-circle" style={{ background: '#1877F2' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>Facebook</button>
@@ -849,7 +863,7 @@ export default function AnalysisApp() {
   return (
     <div className="analysis-page">
       <div className="top-bar">
-        <button className="top-bar-back" onClick={() => navigate('/')}>
+        <button className="top-bar-back" onClick={() => navigate('/')} aria-label="Go back">
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h2 className="top-bar-title">{t('analysis.back')}</h2>
@@ -933,13 +947,13 @@ export default function AnalysisApp() {
           <img src="/icons/icon-96x96.png" alt="kissinskin" className="pwa-install-icon" />
           <div className="pwa-install-text"><strong>kissinskin</strong><span>{locale === 'ko' ? '홈 화면에 추가하고 빠르게 이용하세요' : 'Add to home screen for quick access'}</span></div>
           <button className="pwa-install-btn" onClick={handleInstallClick}>{locale === 'ko' ? '설치' : 'Install'}</button>
-          <button className="pwa-install-close" onClick={dismissInstallBanner}><span className="material-symbols-outlined">close</span></button>
+          <button className="pwa-install-close" onClick={dismissInstallBanner} aria-label="Close"><span className="material-symbols-outlined">close</span></button>
         </div>
       )}
       {showIosGuide && (
         <div className="share-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowIosGuide(false) }}>
           <div className="share-modal">
-            <div className="share-modal-header"><h3>{locale === 'ko' ? '앱 설치 방법' : 'How to Install'}</h3><button className="share-modal-close" onClick={() => setShowIosGuide(false)}><span className="material-symbols-outlined">close</span></button></div>
+            <div className="share-modal-header"><h3>{locale === 'ko' ? '앱 설치 방법' : 'How to Install'}</h3><button className="share-modal-close" onClick={() => setShowIosGuide(false)} aria-label="Close"><span className="material-symbols-outlined">close</span></button></div>
             <div style={{ padding: '24px 20px', textAlign: 'center' }}>
               <img src="/icons/icon-96x96.png" alt="kissinskin" style={{ width: 64, height: 64, borderRadius: 14, margin: '0 auto 16px', display: 'block' }} />
               <div style={{ fontSize: 14, color: '#475569', lineHeight: 1.8, textAlign: 'left' }}>
