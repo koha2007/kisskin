@@ -775,7 +775,6 @@ export default function AnalysisApp() {
               </div>
               {/* Share preview card — chat-app style preview of how the share link will look */}
               {(() => {
-                const previewUrl = shareId ? `https://kissinskin.net/result/${shareId}` : 'https://kissinskin.net'
                 const pr = report ? parseReport(report) : null
                 const pa = pr?.analysis
                 const previewTitle = pa
