@@ -109,8 +109,11 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
 <meta property="og:title" content="${title}"/>
 <meta property="og:description" content="${description}"/>
 <meta property="og:image" content="${escHtml(imageUrl)}"/>
+<meta property="og:image:secure_url" content="${escHtml(imageUrl)}"/>
+<meta property="og:image:type" content="image/jpeg"/>
 <meta property="og:image:width" content="1024"/>
 <meta property="og:image:height" content="1024"/>
+<meta property="og:image:alt" content="${title}"/>
 <meta property="og:site_name" content="kissinskin"/>
 <meta property="og:locale" content="${ogLocale}"/>
 <meta property="og:locale:alternate" content="${ogLocaleAlt}"/>
