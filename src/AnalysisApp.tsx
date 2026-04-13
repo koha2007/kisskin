@@ -676,16 +676,21 @@ export default function AnalysisApp() {
             (structured.products.length > 0 ? `🛍️ Recommended Products\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n` : '') + shareUrl
         }
       } else { shareText = (locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles') + '\n' + shareUrl }
+      // Void unused var warning while still keeping long-form text available for future platforms
+      void shareText
       if (platform === 'native') {
+        // Pass URL only — chat apps (KakaoTalk, iMessage, Discord, WhatsApp) then scrape OG meta
+        // and render a proper preview card with thumbnail, like YouTube.
         try {
-          if (navigator.share && navigator.canShare?.({ files: [file] })) await navigator.share({ title: 'kissinskin', text: shareText, files: [file] })
-          else await navigator.share?.({ title: 'kissinskin', text: shareText })
+          if (navigator.share && navigator.canShare?.({ files: [file] })) await navigator.share({ title: 'kissinskin', url: shareUrl, files: [file] })
+          else await navigator.share?.({ title: 'kissinskin', url: shareUrl })
         } catch (e) { if (e instanceof Error && e.name !== 'AbortError') alert(t('error.shareFail')) }
       } else if (platform === 'copy') {
+        // Copy only the bare URL so pasting into any chat app triggers a rich OG preview.
         try {
-          await navigator.clipboard.write([new ClipboardItem({ 'image/jpeg': blob, 'text/plain': new Blob([shareText], { type: 'text/plain' }) })])
-          alert(t('result.copied'))
-        } catch { try { await navigator.clipboard.writeText(shareText); alert(t('error.copyLinkDone')) } catch { alert(t('error.copyFail')) } }
+          await navigator.clipboard.writeText(shareUrl)
+          alert(t('error.copyLinkDone'))
+        } catch { alert(t('error.copyFail')) }
       }
       setShowShareMenu(false)
     } catch (e) { if (e instanceof Error && e.name !== 'AbortError') alert(t('error.shareFallback')) }
@@ -867,7 +872,7 @@ export default function AnalysisApp() {
                     <button className="share-option" onClick={() => { window.open(`https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`, '_blank', 'width=600,height=400') }}><div className="share-icon-circle" style={{ background: '#FF4500' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.884-7.003 4.884-3.874 0-7.004-2.19-7.004-4.884 0-.18.015-.36.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 000-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"/></svg></div>Reddit</button>
                     <button className="share-option" onClick={() => { window.location.href = `mailto:?subject=${encodedTitle}&body=${encodedText}` }}><div className="share-icon-circle" style={{ background: '#64748b' }}><span className="material-symbols-outlined">mail</span></div>Email</button>
                   </div>
-                  <div className="share-link-bar"><span>{shareUrl}</span><button className="share-link-copy-btn" onClick={() => { navigator.clipboard.writeText(shareTextFull).then(() => alert(t('error.copyLinkDone'))).catch(() => alert(t('error.copyFail'))) }}>{t('result.copyLink')}</button></div>
+                  <div className="share-link-bar"><span>{shareUrl}</span><button className="share-link-copy-btn" onClick={() => { navigator.clipboard.writeText(shareUrl).then(() => alert(t('error.copyLinkDone'))).catch(() => alert(t('error.copyFail'))) }}>{t('result.copyLink')}</button></div>
                 </div>
               </div>
             )
