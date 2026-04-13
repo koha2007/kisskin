@@ -26,6 +26,7 @@ dist-ssr
 !public/**/*.jpg
 !src/**/*.png
 !src/**/*.jpg
+!kisskin-app/assets/*.png
 
 # Misc files
 *.txt
