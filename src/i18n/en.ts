@@ -74,6 +74,8 @@ export default {
   'home.how.step2Desc': 'AI simulates your facial features and skin characteristics',
   'home.how.step3': 'Get Results',
   'home.how.step3Desc': 'Receive 9 K-beauty makeup looks + personalized Korean cosmetics recommendations',
+  'home.how.tipTitle': 'Pro Tip for Best Results',
+  'home.how.tipDesc': 'For 100% accuracy, use a well-lit front-facing solo photo (like an ID photo) with no shadows on your face — the clearer your face, the better the AI results.',
 
   // Final CTA
   'home.cta.title1': 'Find Your Perfect',
@@ -109,7 +111,7 @@ export default {
   'analysis.normalDesc': 'Well-balanced skin',
   'analysis.notSure': 'Not Sure',
   'analysis.notSureDesc': 'AI will determine',
-  'analysis.infoTip': 'AI analyzes your skin tone and facial features to recommend the best makeup products for you.',
+  'analysis.infoTip': 'For best results, use a well-lit photo with only one person facing the camera. AI analyzes your skin tone and features to recommend personalized makeup.',
 
   // Loading
   'analysis.loading.title': 'AI Analyzing',

@@ -74,6 +74,8 @@ export default {
   'home.how.step2Desc': '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다',
   'home.how.step3': '결과 확인',
   'home.how.step3Desc': '9가지 K-뷰티 메이크업 + 맞춤 제품 추천을 받으세요',
+  'home.how.tipTitle': '100% 활용 꿀팁',
+  'home.how.tipDesc': '증명사진처럼 밝은 곳에서 찍은 정면 독사진, 얼굴에 그림자가 없는 사진일수록 더 정확한 결과가 나옵니다.',
 
   // Final CTA
   'home.cta.title1': '나에게 어울리는',
@@ -109,7 +111,7 @@ export default {
   'analysis.normalDesc': '균형 잡힌 피부',
   'analysis.notSure': '잘 모름',
   'analysis.notSureDesc': 'AI가 자동 판별',
-  'analysis.infoTip': 'AI가 피부 톤과 얼굴 특징을 분석하여 가장 어울리는 메이크업 제품을 추천해드립니다.',
+  'analysis.infoTip': '한 사람만 나온 밝은 곳의 정면 사진이 가장 정확한 결과를 만들어요. AI가 피부 톤과 얼굴 특징을 분석하여 맞춤 메이크업을 추천합니다.',
 
   // Loading
   'analysis.loading.title': 'AI 분석 중',
