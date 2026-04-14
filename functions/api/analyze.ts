@@ -274,10 +274,11 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 여성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 여성 메이크업으로 표현해줘.
 
-🚨🚨🚨 최우선 규칙 — 얼굴 보존 (절대 위반 불가) 🚨🚨🚨
-- 9개 셀 모두 100% 동일한 사람이어야 함. 원본 사진과 완전히 같은 사람
-- 원본 사진의 얼굴을 그대로 두고 그 위에 화장품만 덧입혀라. 얼굴을 새로 생성하거나 변형하지 마
-- 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율, 주름/점/흉터
+🔒🔒🔒 ABSOLUTE FACE LOCK — HIGHEST PRIORITY 🔒🔒🔒
+[EN] DO NOT generate a new face. DO NOT re-draw the face. Use the EXACT pixels of the original face as-is and composite makeup ON TOP as an overlay. Identity, bone structure, eye shape, eye size, nose shape, mouth shape, jawline, cheekbones, forehead, hairline, ears, face width, face length, skin texture, moles, freckles, scars, wrinkles, asymmetry — ALL MUST BE 100% IDENTICAL to the source photo in every one of the 9 cells. No face slimming. No face beautification. No skin smoothing that alters features. No eye enlargement. No nose reshaping. No jaw softening. The person in all 9 cells must be recognizable as the EXACT same individual as the source photo — not a similar-looking person.
+[KO] 얼굴을 새로 그리지 마. 원본 사진의 얼굴 픽셀을 그대로 두고 그 위에 화장품만 레이어로 올려. 9개 셀 모두 원본과 100% 동일 인물 — 비슷한 사람이 아니라 정확히 같은 사람이어야 함
+- 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율/폭/길이, 피부질감, 주름/점/주근깨/흉터/비대칭
+- 얼굴 슬리밍 금지, 얼굴 미화 금지, 눈 확대 금지, 코 축소 금지, 턱 부드럽게 만들기 금지
 - 피부색/밝기/톤 변경 금지 (2번 클라우드 스킨의 베이스 효과 제외). 원래 피부톤 그대로
 - 얼굴 위치, 크기, 각도, 표정 모두 원본과 동일
 - 모자/헤어밴드/머리띠 등 머리 위 착용물이 있으면 원본 그대로 유지. 색상, 형태, 위치 변경 금지. 모자를 제거하거나 얼굴처럼 변형하지 마
@@ -309,17 +310,24 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 8: 그런지 메이크업 - 스모키 아이, 다크 베리 립, 매트 피부. 강렬한 무드
 9: K-pop 아이돌 메이크업 - 유리알 광택, 그라데이션 핑크 립, 쉬머 하이라이트
 
-이 사진을 3x3 그리드로 균등하게 9등분해줘. 사진 해상도 높여줘. 다시 한번 강조: 텍스트 절대 금지. 9개 셀 모두 반드시 원본과 100% 동일한 얼굴 — 메이크업만 다르게.`
+이 사진을 3x3 그리드로 균등하게 9등분해줘. 다시 한번 강조: 텍스트 절대 금지. 9개 셀 모두 반드시 원본과 100% 동일한 얼굴 — 메이크업만 다르게. 얼굴은 원본 픽셀 그대로, 메이크업은 레이어로 덧입힌다는 마인드로 작업해.`
 
-    const malePrompt = `너는 최고의 메이크업 아티스트야. 이 남성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 남성 메이크업으로 표현해줘.
+    const malePrompt = `너는 최고의 남성 그루밍 전문가야. 이 남성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 남성 메이크업으로 표현해줘.
 
-🚨🚨🚨 최우선 규칙 — 얼굴 보존 (절대 위반 불가) 🚨🚨🚨
-- 9개 셀 모두 100% 동일한 사람이어야 함. 원본 사진과 완전히 같은 사람
-- 원본 사진의 얼굴을 그대로 두고 그 위에 화장품만 덧입혀라. 얼굴을 새로 생성하거나 변형하지 마
-- 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율, 주름/점/흉터/수염
+🔒🔒🔒 ABSOLUTE FACE LOCK — HIGHEST PRIORITY (MALE IDENTITY PRESERVATION) 🔒🔒🔒
+[EN] DO NOT generate a new face. DO NOT re-draw the face. Use the EXACT pixels of the original male face as-is and composite makeup/grooming ON TOP as an overlay.
+- The person in all 9 cells MUST be recognizable as the EXACT same individual as the source photo — not a similar-looking person, not an idealized version, not a younger version, not a more handsome version.
+- DO NOT feminize the face. DO NOT soften masculine features. DO NOT make jaw more narrow. DO NOT enlarge eyes. DO NOT make lips fuller. DO NOT smooth skin in a way that removes male skin texture (pores, stubble shadow, beard growth).
+- Preserve: eye shape/size, nose shape, mouth width, jawline angle, cheekbones, forehead shape, hairline, ears, face width, face length, skin texture, stubble, beard, moles, scars, wrinkles, Adam's apple, masculine bone structure.
+- Keep all 9 cells as the SAME MAN. A male user must not see a different/prettier/more feminine face in the result.
+[KO] 남성의 얼굴을 절대 새로 그리지 마. 원본 사진 픽셀을 그대로 두고 그 위에 메이크업만 레이어로 올려.
+- 9개 셀 모두 원본과 100% 동일 인물. 비슷한 남자가 아니라 정확히 같은 남자여야 함. 더 잘생기게 하거나 어려보이게 하거나 이상화하지 마
+- 여성화 금지: 턱선 좁게 만들지 마, 눈 크게 만들지 마, 입술 두껍게 만들지 마, 얼굴 각지지 않게 부드럽게 만들지 마
+- 남성 피부 질감 유지: 모공, 수염 자국, 턱수염, 면도 그림자 모두 원본 그대로
+- 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율/폭/길이, 주름/점/흉터/수염/턱수염, 목젖, 뼈대
 - 피부색/밝기/톤 변경 금지 (2번 스킨케어 베이스의 윤광 효과 제외). 원래 피부톤 그대로
 - 얼굴 위치, 크기, 각도, 표정 모두 원본과 동일
-- 수염/턱수염이 있으면 그대로 유지
+- 수염/턱수염/콧수염/구레나룻이 있으면 **반드시** 그대로 유지. 제거하거나 변형 금지
 - 모자/캡/헤어밴드 등 머리 위 착용물이 있으면 원본 그대로 유지. 색상, 형태, 위치 변경 금지. 모자를 제거하거나 얼굴처럼 변형하지 마
 
 ⚠️ 텍스트 금지: 이미지에 글자, 숫자, 라벨, 스타일명, 워터마크 등 어떤 텍스트도 절대 넣지 마. 스타일 이름을 이미지 위에 쓰지 마.
@@ -336,20 +344,20 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 - 이빨이 보이면 하얗고 깨끗하게
 - 그리드 라인 넣지 마. 셀 사이 간격 없이 꽉 채워
 - 9개 스타일이 썸네일에서도 즉시 구별되어야 함. 각 스타일 간 차이가 확실하고 눈에 띄게
-- 화장법을 자연스럽고 이쁘게 해줘
+- 화장법을 자연스럽게 해줘 (남성이므로 과장하지 말 것)
 
 [9가지 남성 메이크업 - 좌→우, 위→아래]
-1: 내추럴 소프트포커스 스킨 (No-Makeup Makeup) - 피부결을 매끄럽고 깨끗하게 보정. 눈썹 자연스럽게 정돈. 투명 립밤만. 모공·잡티가 소프트하게 보정된 "원래 피부 좋은 사람" 느낌
+1: 내추럴 소프트포커스 스킨 (No-Makeup Makeup) - 원본 피부 위에 가벼운 소프트 필터 느낌의 베이스만 얹은 것. 피부결/모공/수염 자국은 원본 그대로 유지. 얼굴 형태 변경 금지. 눈썹도 원본 그대로. 투명 립밤만. "원래 피부 좋은 사람" 느낌
 2: 스킨케어 하이브리드 베이스 - 촉촉한 윤광 피부. 이마·코끝·광대에 건강한 수분 광택. 1번과 확실히 다르게 피부가 촉촉하게 빛나야 함. 립은 무색 립밤
 3: 디퓨즈드 립 (Blurred Lip) - 입술에 자연스러운 코랄/로즈 틴트를 확실하게 표현. 입술 안쪽이 진하고 바깥으로 갈수록 흐려지는 그라데이션. 입술 색이 사진에서 확실히 눈에 띄어야 함. 피부는 깨끗한 세미매트
 4: 그런지 / 스모키 아이 - 눈두덩에 브라운+다크카키를 블렌딩해서 눈매에 깊이감. 눈 아래 언더라인도 살짝 스모키하게. 립은 자연스러운 누드톤. 강렬한 눈매가 포인트
 5: 톤인톤 모노크롬 메이크업 - 테라코타/피치 한 가지 톤으로 눈두덩·볼·입술을 통일감 있게. 각 부위에 같은 컬러가 확실히 보여야 함. 따뜻한 톤이 얼굴 전체에 감도는 무드
-6: 유틸리티 메이크업 (기능성 남성 전용) - 잡티·다크서클 완벽 커버. 눈썹을 또렷하고 선명하게 정돈. 입술은 건강한 코랄 틴트. 면접/비즈니스에 적합한 깔끔하고 신뢰감 있는 룩
+6: 유틸리티 메이크업 (기능성 남성 전용) - 잡티·다크서클을 컨실러로 커버 (얼굴 형태 변경 금지). 눈썹은 원본 형태 그대로, 브로우 젤만 바른 듯 가지런히 정돈 (눈썹 모양/굵기/위치 변경 금지). 입술은 건강한 코랄 틴트. 면접/비즈니스에 적합한 깔끔하고 신뢰감 있는 룩
 7: 블루 & 컬러 포인트 아이 - 눈두덩에 네이비/블루 컬러를 확실하게 포인트로. 파란색이 눈에 띄어야 함. 다른 스타일과 확연히 다른 컬러감. 립은 자연스러운 누드
 8: 뱀파이어 로맨틱 - 눈두덩에 버건디/와인 컬러. 입술은 진한 로제/다크레드 틴트. 전체적으로 어둡고 붉은 무드. 창백한 피부 위에 붉은 색감이 대비되는 세련된 다크 로맨틱
 9: K-팝 아이돌 메이크업 - 유리알 글로우 베이스. 눈두덩에 핑크+피치 쉬머를 확실하게. 코랄핑크 립 틴트. 쉬머 하이라이트. 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
 
-이 사진을 3x3 그리드로 균등하게 9등분해줘. 사진 해상도 높여줘. 다시 한번 강조: 텍스트 절대 금지. 사람의 얼굴은 절대 바꾸지 말고 메이크업만 확실하게 분별할 수 있게 표현해줘. 총 9가지 메이크업 스타일 확실하고 정확하게 자연스럽게 표현해줘.`
+이 사진을 3x3 그리드로 균등하게 9등분해줘. 다시 한번 강조: 텍스트 절대 금지. **남성의 얼굴은 원본 픽셀 그대로, 1픽셀도 바꾸지 마**. 얼굴 형태/비율/뼈대/질감 모두 원본과 동일. 메이크업만 레이어로 덧입혀서 9가지 스타일을 확실하게 분별할 수 있게 표현해줘. 결과물을 본 사용자가 "이건 내 얼굴이 아니야"라고 느끼면 실패한 것.`
 
     const imagePrompt = gender === '남성' ? malePrompt : femalePrompt
 
