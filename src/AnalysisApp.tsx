@@ -167,6 +167,7 @@ export default function AnalysisApp() {
   const [showIosGuide, setShowIosGuide] = useState(false)
   const customerEmailRef = useRef<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const cameraInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
   const [dragging, setDragging] = useState(false)
 
@@ -696,11 +697,44 @@ export default function AnalysisApp() {
     } catch (e) { if (e instanceof Error && e.name !== 'AbortError') alert(t('error.shareFallback')) }
   }
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!resultImage) return
-    const img = new Image()
-    img.onload = async () => { const canvas = await buildCompositeCanvas(img); const link = document.createElement('a'); link.href = canvas.toDataURL('image/png'); link.download = 'kissinskin-makeup.png'; link.click() }
-    img.src = resultImage
+    try {
+      const img = new Image()
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve()
+        img.onerror = () => reject(new Error('image load failed'))
+        img.src = resultImage
+      })
+      const canvas = await buildCompositeCanvas(img)
+      const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/png'))
+      if (!blob) throw new Error('canvas toBlob failed')
+      const file = new File([blob], 'kissinskin-makeup.png', { type: 'image/png' })
+      // Web Share API with files — works in Android WebView (Chrome 89+) and iOS Safari,
+      // letting the user save to Photos/Gallery via the system sheet.
+      if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: 'kissinskin' })
+          return
+        } catch (e) {
+          if (e instanceof Error && e.name === 'AbortError') return
+          // fall through to anchor download
+        }
+      }
+      // Fallback: anchor download (desktop browsers and older WebViews)
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'kissinskin-makeup.png'
+      link.rel = 'noopener'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      setTimeout(() => URL.revokeObjectURL(url), 2000)
+    } catch (e) {
+      console.warn('[download] Failed:', e)
+      alert(t('error.shareImageFail'))
+    }
   }
 
   // ── RENDER ──
@@ -889,7 +923,18 @@ export default function AnalysisApp() {
             </div>
             {photo && (<div className="avatar-edit-badge"><span className="material-symbols-outlined">edit</span></div>)}
           </div>
+          <div className="upload-actions">
+            <button type="button" className="upload-action-btn" onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click() }}>
+              <span className="material-symbols-outlined">photo_library</span>
+              {locale === 'ko' ? '갤러리' : 'Gallery'}
+            </button>
+            <button type="button" className="upload-action-btn camera" onClick={(e) => { e.stopPropagation(); cameraInputRef.current?.click() }}>
+              <span className="material-symbols-outlined">photo_camera</span>
+              {locale === 'ko' ? '카메라' : 'Camera'}
+            </button>
+          </div>
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} style={{ position: 'absolute', width: 0, height: 0, opacity: 0, overflow: 'hidden' }} />
+          <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={handlePhotoUpload} style={{ position: 'absolute', width: 0, height: 0, opacity: 0, overflow: 'hidden' }} />
         </section>
         <section className="form-group">
           <h4 className="section-label">{t('analysis.gender')}</h4>
