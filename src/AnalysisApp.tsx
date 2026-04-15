@@ -265,6 +265,10 @@ export default function AnalysisApp() {
   // causes Android WebView's file chooser to get stuck after the first dismiss,
   // and the `capture` attribute is more reliably honoured when set before the
   // element enters the DOM.
+  //
+  // IMPORTANT: the click() MUST run synchronously within the user gesture.
+  // Any microtask/rAF/setTimeout delay before click() makes the browser
+  // (and Android WebView) silently block the file chooser as non-user-initiated.
   const openPicker = (mode: 'gallery' | 'camera') => {
     const input = document.createElement('input')
     input.type = 'file'
@@ -279,11 +283,13 @@ export default function AnalysisApp() {
     input.onchange = () => {
       const file = input.files?.[0]
       if (file) processPickedFile(file)
-      try { document.body.removeChild(input) } catch { /* already removed */ }
+      // Defer removal so the change event fully settles first.
+      setTimeout(() => {
+        try { document.body.removeChild(input) } catch { /* already removed */ }
+      }, 0)
     }
     document.body.appendChild(input)
-    // Delay click one frame so WebView finishes appending before dispatching.
-    requestAnimationFrame(() => input.click())
+    input.click()
   }
 
   const handleDrop = (e: React.DragEvent) => {
