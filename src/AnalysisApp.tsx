@@ -166,8 +166,6 @@ export default function AnalysisApp() {
   const [isIos, setIsIos] = useState(false)
   const [showIosGuide, setShowIosGuide] = useState(false)
   const customerEmailRef = useRef<string | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const cameraInputRef = useRef<HTMLInputElement>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
   const [dragging, setDragging] = useState(false)
 
@@ -253,18 +251,39 @@ export default function AnalysisApp() {
     img.src = dataUrl
   }
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      if (!file.type.startsWith('image/')) { setError(t('error.imageOnly')); return }
-      if (file.size > 50 * 1024 * 1024) { setError(locale === 'ko' ? '파일 크기는 50MB 이하만 가능합니다.' : 'File must be under 50MB.'); return }
-      setError(null)
-      const reader = new FileReader()
-      reader.onloadend = () => loadPhoto(reader.result as string)
-      reader.onerror = () => setError(t('error.fileRead'))
-      reader.readAsDataURL(file)
+  const processPickedFile = (file: File) => {
+    if (!file.type.startsWith('image/')) { setError(t('error.imageOnly')); return }
+    if (file.size > 50 * 1024 * 1024) { setError(locale === 'ko' ? '파일 크기는 50MB 이하만 가능합니다.' : 'File must be under 50MB.'); return }
+    setError(null)
+    const reader = new FileReader()
+    reader.onloadend = () => loadPhoto(reader.result as string)
+    reader.onerror = () => setError(t('error.fileRead'))
+    reader.readAsDataURL(file)
+  }
+
+  // Build and click a *fresh* <input> each call. Reusing a single hidden input
+  // causes Android WebView's file chooser to get stuck after the first dismiss,
+  // and the `capture` attribute is more reliably honoured when set before the
+  // element enters the DOM.
+  const openPicker = (mode: 'gallery' | 'camera') => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    if (mode === 'camera') {
+      input.setAttribute('capture', 'environment')
     }
-    e.target.value = ''
+    input.style.position = 'fixed'
+    input.style.left = '-9999px'
+    input.style.top = '0'
+    input.style.opacity = '0'
+    input.onchange = () => {
+      const file = input.files?.[0]
+      if (file) processPickedFile(file)
+      try { document.body.removeChild(input) } catch { /* already removed */ }
+    }
+    document.body.appendChild(input)
+    // Delay click one frame so WebView finishes appending before dispatching.
+    requestAnimationFrame(() => input.click())
   }
 
   const handleDrop = (e: React.DragEvent) => {
@@ -915,7 +934,7 @@ export default function AnalysisApp() {
         <section className="upload-section">
           <h3 className="upload-heading">{t('analysis.uploadTitle')}</h3>
           <p className="upload-sub">{t('analysis.uploadHint')}</p>
-          <div className={`avatar-upload ${dragging ? 'dragging' : ''}`} onClick={() => fileInputRef.current?.click()}
+          <div className={`avatar-upload ${dragging ? 'dragging' : ''}`} onClick={() => openPicker('gallery')}
             onDragOver={(e) => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)} onDrop={handleDrop}>
             <div className={`avatar-circle ${photo ? 'has-photo' : ''} ${dragging ? 'dragging' : ''}`}>
               {photo ? (<><img src={photo} alt={t('analysis.changePhoto')} className="avatar-img" /><div className="avatar-hover"><span className="material-symbols-outlined">photo_camera</span><span>{t('analysis.changePhoto')}</span></div></>)
@@ -924,17 +943,15 @@ export default function AnalysisApp() {
             {photo && (<div className="avatar-edit-badge"><span className="material-symbols-outlined">edit</span></div>)}
           </div>
           <div className="upload-actions">
-            <button type="button" className="upload-action-btn" onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click() }}>
+            <button type="button" className="upload-action-btn" onClick={(e) => { e.stopPropagation(); openPicker('gallery') }}>
               <span className="material-symbols-outlined">photo_library</span>
               {locale === 'ko' ? '갤러리' : 'Gallery'}
             </button>
-            <button type="button" className="upload-action-btn camera" onClick={(e) => { e.stopPropagation(); cameraInputRef.current?.click() }}>
+            <button type="button" className="upload-action-btn camera" onClick={(e) => { e.stopPropagation(); openPicker('camera') }}>
               <span className="material-symbols-outlined">photo_camera</span>
               {locale === 'ko' ? '카메라' : 'Camera'}
             </button>
           </div>
-          <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} style={{ position: 'absolute', width: 0, height: 0, opacity: 0, overflow: 'hidden' }} />
-          <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={handlePhotoUpload} style={{ position: 'absolute', width: 0, height: 0, opacity: 0, overflow: 'hidden' }} />
         </section>
         <section className="form-group">
           <h4 className="section-label">{t('analysis.gender')}</h4>
