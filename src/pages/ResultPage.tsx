@@ -2,6 +2,31 @@ import { useState, useEffect } from 'react'
 import { loadSharedResult, type SharedResultData } from '../lib/shareResult'
 import { useI18n } from '../i18n/context'
 
+// Kakao JavaScript SDK (loaded globally via <script> in pages/+Head.tsx)
+declare global {
+  interface Window {
+    Kakao?: {
+      isInitialized: () => boolean
+      init: (key: string) => void
+      Share: {
+        sendDefault: (settings: Record<string, unknown>) => void
+      }
+    }
+  }
+}
+
+const KAKAO_JS_KEY = (import.meta.env.VITE_KAKAO_JS_KEY as string | undefined) || ''
+
+function ensureKakaoReady(): boolean {
+  if (typeof window === 'undefined') return false
+  const k = window.Kakao
+  if (!k || !KAKAO_JS_KEY) return false
+  if (!k.isInitialized()) {
+    try { k.init(KAKAO_JS_KEY) } catch { return false }
+  }
+  return k.isInitialized()
+}
+
 interface ResultPageProps {
   onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
 }
@@ -170,7 +195,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
       catch { alert(t('error.copyFail')) }
     } else {
       const urls: Record<string, string> = {
-        kakao: `https://story.kakao.com/share?url=${encodedUrl}&text=${encodedText}`,
+        kakao: '',  // handled separately below
         line: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encodedText}`,
         whatsapp: `https://api.whatsapp.com/send?text=${encodedText}`,
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
@@ -181,7 +206,53 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
         reddit: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
         email: `mailto:?subject=${encodedTitle}&body=${encodedText}`,
       }
-      if (urls[platform]) {
+      if (platform === 'kakao') {
+        // Kakao JavaScript SDK — rich card share to KakaoTalk for all users worldwide
+        if (ensureKakaoReady()) {
+          try {
+            let reportObj = data.report
+            if (typeof reportObj === 'string') {
+              try { reportObj = JSON.parse(reportObj) } catch { reportObj = {} }
+            }
+            const a = reportObj?.analysis
+            const description = a
+              ? (locale === 'ko'
+                  ? `피부 ${a.skinType} · ${a.tone} — ${data.styles.length}가지 메이크업 스타일`
+                  : `${a.skinType} · ${a.tone} — ${data.styles.length} makeup styles`)
+              : (locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일' : 'My AI-recommended makeup styles')
+            const imageUrl = data.imageUrl?.startsWith('http')
+              ? data.imageUrl
+              : 'https://kissinskin.net/og-image.png'
+            window.Kakao!.Share.sendDefault({
+              objectType: 'feed',
+              content: {
+                title: shareTitle,
+                description,
+                imageUrl,
+                link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
+              },
+              buttons: [
+                {
+                  title: locale === 'ko' ? '결과 보기' : 'View result',
+                  link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
+                },
+                {
+                  title: locale === 'ko' ? '나도 분석하기' : 'Try it myself',
+                  link: { mobileWebUrl: 'https://kissinskin.net/analysis', webUrl: 'https://kissinskin.net/analysis' },
+                },
+              ],
+            })
+          } catch (e) {
+            console.warn('[ResultPage] Kakao share failed, falling back to clipboard:', e)
+            try { await navigator.clipboard.writeText(shareUrl); alert(locale === 'ko' ? '링크가 복사되었습니다.\n카카오톡에 붙여넣기 해주세요!' : 'Link copied!\nPaste it in KakaoTalk.') }
+            catch { alert(locale === 'ko' ? '링크 복사에 실패했습니다.' : 'Failed to copy link.') }
+          }
+        } else {
+          // SDK not loaded or key not configured — fall back to clipboard copy
+          try { await navigator.clipboard.writeText(shareUrl); alert(locale === 'ko' ? '링크가 복사되었습니다.\n카카오톡에 붙여넣기 해주세요!' : 'Link copied!\nPaste it in KakaoTalk.') }
+          catch { alert(locale === 'ko' ? '링크 복사에 실패했습니다.' : 'Failed to copy link.') }
+        }
+      } else if (urls[platform]) {
         if (platform === 'email') window.location.href = urls[platform]
         else window.open(urls[platform], '_blank', 'width=600,height=400')
       }
@@ -320,7 +391,6 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
           data-a2a-url={shareUrl}
           data-a2a-title={locale === 'ko' ? 'AI 메이크업 분석 결과 - kissinskin' : 'AI Makeup Analysis - kissinskin'}>
           <a className="a2a_button_facebook"></a>
-          <a className="a2a_button_kakao"></a>
           <a className="a2a_button_facebook_messenger"></a>
           <a className="a2a_button_threads"></a>
           <a className="a2a_button_linkedin"></a>
