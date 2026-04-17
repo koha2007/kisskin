@@ -117,6 +117,9 @@ export default {
   'analysis.notSure': '잘 모름',
   'analysis.notSureDesc': 'AI가 자동 판별',
   'analysis.infoTip': '한 사람만 나온 밝은 곳의 정면 사진이 가장 정확한 결과를 만들어요. AI가 피부 톤과 얼굴 특징을 분석하여 맞춤 메이크업을 추천합니다.',
+  'analysis.needPhoto': '사진을 먼저 업로드해 주세요.',
+  'analysis.needGender': '성별을 선택해 주세요.',
+  'analysis.needSkinType': '피부 타입을 선택해 주세요.',
 
   // Loading
   'analysis.loading.title': 'AI 분석 중',

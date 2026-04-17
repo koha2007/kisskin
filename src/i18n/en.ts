@@ -117,6 +117,9 @@ export default {
   'analysis.notSure': 'Not Sure',
   'analysis.notSureDesc': 'AI will determine',
   'analysis.infoTip': 'For best results, use a well-lit photo with only one person facing the camera. AI analyzes your skin tone and features to recommend personalized makeup.',
+  'analysis.needPhoto': 'Please upload a photo first.',
+  'analysis.needGender': 'Please select your gender.',
+  'analysis.needSkinType': 'Please select your skin type.',
 
   // Loading
   'analysis.loading.title': 'AI Analyzing',

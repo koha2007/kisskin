@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useI18n } from './i18n/context'
+import { useI18n } from './i18n/I18nContext'
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy',

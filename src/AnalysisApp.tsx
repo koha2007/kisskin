@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import { navigate } from 'vike/client/router'
-import { useI18n } from './i18n/context'
+import { useI18n } from './i18n/I18nContext'
 import { supabase } from './lib/supabase'
 import { saveSharedResult } from './lib/shareResult'
 import type { User } from '@supabase/supabase-js'
@@ -230,7 +230,10 @@ export default function AnalysisApp() {
 
   const loadPhoto = (dataUrl: string) => {
     const img = new Image()
-    img.onload = () => {
+    // toBlob is async and lets the browser interleave paints between encode
+    // attempts — avoids the main-thread stall the previous toDataURL loop
+    // caused on large iPhone photos.
+    img.onload = async () => {
       const MAX = 1280; const MAX_BYTES = 1.5 * 1024 * 1024
       let w = img.naturalWidth; let h = img.naturalHeight
       if (w > MAX || h > MAX) {
@@ -239,13 +242,23 @@ export default function AnalysisApp() {
       const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h
       const ctx = cvs.getContext('2d'); if (!ctx) return
       ctx.drawImage(img, 0, 0, w, h)
-      let quality = 0.85; let compressed = cvs.toDataURL('image/jpeg', quality)
-      while (compressed.length * 0.75 > MAX_BYTES && quality > 0.3) { quality -= 0.1; compressed = cvs.toDataURL('image/jpeg', quality) }
-      if (compressed.length * 0.75 > MAX_BYTES) {
-        const scale = 0.7; cvs.width = Math.round(w * scale); cvs.height = Math.round(h * scale)
-        ctx.drawImage(img, 0, 0, cvs.width, cvs.height); compressed = cvs.toDataURL('image/jpeg', 0.7)
+      const toBlob = (q: number) => new Promise<Blob | null>((r) => cvs.toBlob((b) => r(b), 'image/jpeg', q))
+      let quality = 0.85
+      let blob = await toBlob(quality)
+      while (blob && blob.size > MAX_BYTES && quality > 0.3) {
+        quality -= 0.1
+        blob = await toBlob(quality)
       }
-      setPhoto(compressed); gtagEvent('photo_uploaded')
+      if (blob && blob.size > MAX_BYTES) {
+        const scale = 0.7; cvs.width = Math.round(w * scale); cvs.height = Math.round(h * scale)
+        ctx.drawImage(img, 0, 0, cvs.width, cvs.height)
+        blob = await toBlob(0.7)
+      }
+      if (!blob) { setError(t('error.imageLoad')); return }
+      const reader = new FileReader()
+      reader.onload = () => { setPhoto(reader.result as string); gtagEvent('photo_uploaded') }
+      reader.onerror = () => setError(t('error.imageLoad'))
+      reader.readAsDataURL(blob)
     }
     img.onerror = () => setError(t('error.imageLoad'))
     img.src = dataUrl
@@ -387,6 +400,10 @@ export default function AnalysisApp() {
       ctx.arcTo(x, y + h, x, y + h - bl, bl); ctx.lineTo(x, y + tl)
       ctx.arcTo(x, y, x + tl, y, tl); ctx.closePath()
     }
+    // Yield to the main thread between major render chunks so interactions
+    // remain responsive while this composite is built (helps INP).
+    const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0))
+
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
         const i = row * 3 + col; const sx = Math.round(col * srcCellW); const sy = Math.round(row * srcCellH)
@@ -403,6 +420,7 @@ export default function AnalysisApp() {
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(activeStyles[i], dx + cellW / 2, dy + displayImgH + labelH / 2)
       }
+      await yieldToMain()
     }
     if (a) {
       let y = gridH + rPad
@@ -431,6 +449,7 @@ export default function AnalysisApp() {
         ctx.fillStyle = '#475569'; ctx.font = `400 ${rFontBody}px Manrope, sans-serif`
         const h = wrapText(ctx, s.text, cardX, cardContentW, y, rLineH); y += h + Math.round(rLineH * 0.5)
       }
+      await yieldToMain()
     }
     if (products.length > 0) {
       let py = gridH + reportH + rPad
@@ -439,7 +458,8 @@ export default function AnalysisApp() {
       py += Math.round(rFontTitle * 2)
       const prodCardH = Math.round(rFontBody * 7); const prodGap = Math.round(rFontBody * 0.8)
       const catColors: Record<string, string> = { Skin: '#f0abfc', Base: '#fbbf24', Eyes: '#818cf8', Lips: '#fb7185', Cheeks: '#f9a8d4', Brow: '#a78bfa', Primer: '#67e8f9' }
-      for (const p of products) {
+      for (let pi = 0; pi < products.length; pi++) {
+        const p = products[pi]
         ctx.save(); roundRect(rPad, py, gridW - rPad * 2, prodCardH, [radius, radius, radius, radius])
         ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.05)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 1; ctx.fill(); ctx.restore()
         const cx = rPad + Math.round(rPad * 0.6)
@@ -459,6 +479,8 @@ export default function AnalysisApp() {
         ctx.fillStyle = '#94a3b8'; ctx.font = `400 ${Math.round(rFontBody * 0.85)}px Manrope, sans-serif`
         ctx.fillText(p.reason.length > 50 ? p.reason.slice(0, 50) + '…' : p.reason, tx, ty)
         py += prodCardH + prodGap
+        // Yield every 3 product cards to keep the UI responsive
+        if ((pi + 1) % 3 === 0 && pi < products.length - 1) await yieldToMain()
       }
     }
     const brandY = totalH - brandH
@@ -609,6 +631,10 @@ export default function AnalysisApp() {
         gtagEvent('purchase', { transaction_id: embeddedCheckoutId, value: type === 'subscription' ? 9.88 : 2.99, currency: 'USD', checkout_type: type })
         if (type === 'subscription') { await checkSubscription() }
         else {
+          // Show the analysis loader immediately — runAnalysis sets it too,
+          // but there's a visible gap while /api/verify resolves during which
+          // the form would otherwise flash back interactive.
+          setLoading(true)
           try { const vRes = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId: embeddedCheckoutId }) }); if (vRes.ok) { const vData = await vRes.json(); if (vData.customerEmail) customerEmailRef.current = vData.customerEmail } }
           catch { /* ok - proceed without email */ }
           runAnalysis()
@@ -624,7 +650,8 @@ export default function AnalysisApp() {
             if (vData.status === 'succeeded' || vData.status === 'confirmed') {
               if (vData.customerEmail) customerEmailRef.current = vData.customerEmail
               paid = true
-              if (type === 'subscription') await checkSubscription(); else runAnalysis()
+              if (type === 'subscription') await checkSubscription()
+              else { setLoading(true); runAnalysis() }
               return
             }
           } catch { /* ok */ }
@@ -637,8 +664,24 @@ export default function AnalysisApp() {
     }
   }
 
+  // Scroll to the first missing field and surface a specific message. Returns
+  // true if the form is incomplete (so callers can abort).
+  const flagMissingField = (): boolean => {
+    let missingId: string | null = null
+    let msg = ''
+    if (!photo) { missingId = 'section-photo'; msg = t('analysis.needPhoto') }
+    else if (!gender) { missingId = 'section-gender'; msg = t('analysis.needGender') }
+    else if (!skinType) { missingId = 'section-skin'; msg = t('analysis.needSkinType') }
+    if (!missingId) return false
+    setError(msg)
+    const el = document.getElementById(missingId)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    return true
+  }
+
   const handleSubmit = async () => {
-    if (!isComplete) return; setError(null)
+    if (flagMissingField()) return
+    setError(null)
     gtagEvent('submit_analysis', { gender, skin_type: skinType, logged_in: !!user })
     if (user?.email) {
       if (!subStatus.checked) await checkSubscription()
@@ -663,18 +706,38 @@ export default function AnalysisApp() {
     if (!checkoutId) return
     window.history.replaceState({}, '', window.location.pathname)
     const pending = sessionStorage.getItem('kisskin_pending')
-    if (!pending) return; sessionStorage.removeItem('kisskin_pending')
+    if (!pending) return
+    sessionStorage.removeItem('kisskin_pending')
+    let data: { photo?: string; gender?: 'female' | 'male'; skinType?: typeof skinType; locale?: 'ko' | 'en' }
     try {
-      const data = JSON.parse(pending)
-      setPhoto(data.photo); setGender(data.gender); setSkinType(data.skinType)
-      if (data.locale) setLocale(data.locale)
-      fetchJsonWithRetry('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId }) })
-        .then(({ data: result }) => {
-          if (result.customerEmail && typeof result.customerEmail === 'string') customerEmailRef.current = result.customerEmail
-          if (result.status === 'succeeded' || result.status === 'confirmed') setTimeout(() => runAnalysis(), 100)
-          else setError(t('error.paymentIncomplete'))
-        }).catch(() => setError(t('error.verifyError')))
-    } catch { /* ok */ }
+      data = JSON.parse(pending)
+    } catch (parseErr) {
+      console.error('[resume] corrupted pending data:', parseErr)
+      setError(t('error.verifyError'))
+      return
+    }
+    if (!data.photo || !data.gender || !data.skinType) {
+      setError(t('error.verifyError'))
+      return
+    }
+    setPhoto(data.photo); setGender(data.gender); setSkinType(data.skinType)
+    if (data.locale) setLocale(data.locale)
+    // Show the loader immediately so user doesn't see a blank interactive form
+    // between payment-return and runAnalysis kicking in.
+    setLoading(true)
+    fetchJsonWithRetry('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId }) })
+      .then(({ data: result }) => {
+        if (result.customerEmail && typeof result.customerEmail === 'string') customerEmailRef.current = result.customerEmail
+        if (result.status === 'succeeded' || result.status === 'confirmed') {
+          setTimeout(() => runAnalysis(), 100)
+        } else {
+          setLoading(false)
+          setError(t('error.paymentIncomplete'))
+        }
+      }).catch(() => {
+        setLoading(false)
+        setError(t('error.verifyError'))
+      })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleReset = () => { setResultImage(null); setResultCells([]); setReport(null); setError(null); setShareId(null) }
@@ -740,6 +803,7 @@ export default function AnalysisApp() {
 
   const handleDownload = async () => {
     if (!resultImage) return
+    let objectUrl: string | null = null
     try {
       const img = new Image()
       await new Promise<void>((resolve, reject) => {
@@ -748,8 +812,10 @@ export default function AnalysisApp() {
         img.src = resultImage
       })
       const canvas = await buildCompositeCanvas(img)
-      const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/png'))
-      if (!blob) throw new Error('canvas toBlob failed')
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        try { canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob null')), 'image/png') }
+        catch (err) { reject(err instanceof Error ? err : new Error(String(err))) }
+      })
       const file = new File([blob], 'kissinskin-makeup.png', { type: 'image/png' })
       // Web Share API with files — works in Android WebView (Chrome 89+) and iOS Safari,
       // letting the user save to Photos/Gallery via the system sheet.
@@ -763,18 +829,22 @@ export default function AnalysisApp() {
         }
       }
       // Fallback: anchor download (desktop browsers and older WebViews)
-      const url = URL.createObjectURL(blob)
+      objectUrl = URL.createObjectURL(blob)
       const link = document.createElement('a')
-      link.href = url
+      link.href = objectUrl
       link.download = 'kissinskin-makeup.png'
       link.rel = 'noopener'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      setTimeout(() => URL.revokeObjectURL(url), 2000)
     } catch (e) {
       console.warn('[download] Failed:', e)
       alert(t('error.shareImageFail'))
+    } finally {
+      if (objectUrl) {
+        const toRevoke = objectUrl
+        setTimeout(() => URL.revokeObjectURL(toRevoke), 2000)
+      }
     }
   }
 
@@ -953,7 +1023,7 @@ export default function AnalysisApp() {
         </button>
       </div>
       <div className="analysis-body setup-body">
-        <section className="upload-section">
+        <section id="section-photo" className="upload-section">
           <h3 className="upload-heading">{t('analysis.uploadTitle')}</h3>
           <p className="upload-sub">{t('analysis.uploadHint')}</p>
           <div className={`avatar-upload ${dragging ? 'dragging' : ''}`} onClick={() => openPicker('gallery')}
@@ -975,13 +1045,13 @@ export default function AnalysisApp() {
             </button>
           </div>
         </section>
-        <section className="form-group">
+        <section id="section-gender" className="form-group">
           <h4 className="section-label">{t('analysis.gender')}</h4>
           <div className="gender-row">
             {(['female', 'male'] as const).map((g) => (<button key={g} className={`gender-btn ${gender === g ? 'selected' : ''}`} onClick={() => setGender(g)}>{t(`analysis.${g}`)}</button>))}
           </div>
         </section>
-        <section className="form-group">
+        <section id="section-skin" className="form-group">
           <div className="section-label-row"><h4 className="section-label">{t('analysis.skinType')}</h4><span className="section-label-hint">{t('analysis.skinTypeSelect')}</span></div>
           <div className="skin-grid">
             {(['oily', 'dry', 'combination', 'normal'] as const).map((type) => (
@@ -1014,15 +1084,15 @@ export default function AnalysisApp() {
         {user && subStatus.active && subStatus.limit !== -1 && subStatus.usage >= subStatus.limit ? (
           <button className="cta-btn" onClick={() => openCheckout('subscription')}><span>{t('sub.upgradeBtn')}</span><span className="material-symbols-outlined">upgrade</span></button>
         ) : user && subStatus.active ? (
-          <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} disabled={!isComplete} onClick={handleSubmit}><span>{t('common.generateLooks')}</span><span className="material-symbols-outlined">auto_awesome</span></button>
+          <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete} onClick={handleSubmit}><span>{t('common.generateLooks')}</span><span className="material-symbols-outlined">auto_awesome</span></button>
         ) : (
-          <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} disabled={!isComplete} onClick={handleSubmit}><span className="cta-price">$2.99</span><span>{t('common.generateLooks')}</span><span className="material-symbols-outlined">auto_awesome</span></button>
+          <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete} onClick={handleSubmit}><span className="cta-price">$2.99</span><span>{t('common.generateLooks')}</span><span className="material-symbols-outlined">auto_awesome</span></button>
         )}
         {!(user && subStatus.active) && (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '10px 0 8px', width: '100%' }}><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /><span style={{ fontSize: 11, color: 'rgba(7,9,83,0.35)', fontWeight: 500 }}>or</span><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /></div>
-            <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} disabled={!isComplete}
-              onClick={() => { if (!user) { navigate('/auth'); return }; openCheckout('subscription') }}
+            <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete}
+              onClick={() => { if (flagMissingField()) return; if (!user) { navigate('/auth'); return }; openCheckout('subscription') }}
               style={{ background: '#fff', border: '1.5px solid #eb4763', color: '#eb4763', boxShadow: '0 4px 16px rgba(235,71,99,0.1)' }}>
               <span className="cta-price" style={{ background: 'rgba(235,71,99,0.1)', color: '#eb4763' }}>$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
               <span>{t('sub.subscribeGenerate')}</span><span className="material-symbols-outlined">all_inclusive</span>

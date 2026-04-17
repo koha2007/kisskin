@@ -1,59 +1,53 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { useSyncExternalStore, useEffect, useCallback, type ReactNode } from 'react'
 import type { Locale } from './types'
 import ko from './ko'
 import en from './en'
+import { I18nContext } from './I18nContext'
 
 const dictionaries: Record<Locale, Record<string, string>> = { ko, en }
+const LOCALE_EVENT = 'kisskin:locale-change'
 
-interface I18nContextType {
-  locale: Locale
-  setLocale: (l: Locale) => void
-  t: (key: string) => string
+function readLocale(): Locale {
+  try {
+    const saved = localStorage.getItem('kisskin_locale') as Locale | null
+    if (saved === 'ko' || saved === 'en') return saved
+    const lang = navigator.language || ''
+    return lang.startsWith('ko') ? 'ko' : 'en'
+  } catch {
+    return 'ko'
+  }
 }
 
-const I18nContext = createContext<I18nContextType>({
-  locale: 'ko',
-  setLocale: () => {},
-  t: (key) => key,
-})
+function subscribe(cb: () => void): () => void {
+  window.addEventListener(LOCALE_EVENT, cb)
+  return () => window.removeEventListener(LOCALE_EVENT, cb)
+}
 
-const isClient = typeof window !== 'undefined'
-
-function detectLocale(): Locale {
-  const saved = localStorage.getItem('kisskin_locale') as Locale | null
-  if (saved && (saved === 'ko' || saved === 'en')) return saved
-  const lang = navigator.language || ''
-  return lang.startsWith('ko') ? 'ko' : 'en'
+// SSR/pre-render fallback — must match the initial client render when no
+// saved preference exists. If a user had 'en' saved, the store will swap
+// locally after hydration; React accepts a one-time subscription refresh.
+function getServerSnapshot(): Locale {
+  return 'ko'
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('ko')
+  const locale = useSyncExternalStore(subscribe, readLocale, getServerSnapshot)
 
-  const setLocale = (l: Locale) => {
-    setLocaleState(l)
-    if (isClient) localStorage.setItem('kisskin_locale', l)
-  }
-
-  useEffect(() => {
-    const detected = detectLocale()
-    if (detected !== locale) setLocaleState(detected)
+  const setLocale = useCallback((l: Locale) => {
+    try { localStorage.setItem('kisskin_locale', l) } catch { /* quota / unavailable */ }
+    window.dispatchEvent(new Event(LOCALE_EVENT))
   }, [])
 
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])
 
-  const t = (key: string): string => {
-    return dictionaries[locale][key] || dictionaries['ko'][key] || key
-  }
+  const t = (key: string): string =>
+    dictionaries[locale][key] || dictionaries['ko'][key] || key
 
   return (
     <I18nContext.Provider value={{ locale, setLocale, t }}>
       {children}
     </I18nContext.Provider>
   )
-}
-
-export function useI18n() {
-  return useContext(I18nContext)
 }

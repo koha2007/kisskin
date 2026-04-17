@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { loadSharedResult, type SharedResultData } from '../lib/shareResult'
-import { useI18n } from '../i18n/context'
+import { useI18n } from '../i18n/I18nContext'
 
 // Kakao JavaScript SDK (loaded globally via <script> in pages/+Head.tsx)
 declare global {

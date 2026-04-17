@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { supabase } from '../lib/supabase'
-import { useI18n } from '../i18n/context'
+import { useI18n } from '../i18n/I18nContext'
 
 function isInAppBrowser(): boolean {
   const ua = navigator.userAgent || navigator.vendor || ''
