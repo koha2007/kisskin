@@ -167,6 +167,35 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           </button>
         </div>
 
+        {/* Important email notice */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '10px',
+          background: 'rgba(251, 191, 36, 0.12)',
+          border: '1px solid rgba(251, 191, 36, 0.45)',
+          borderRadius: '10px',
+          padding: '12px 14px',
+          marginBottom: '20px',
+        }}>
+          <span
+            className="material-symbols-outlined"
+            style={{ color: '#fbbf24', fontSize: '20px', lineHeight: 1.2, marginTop: '1px', flexShrink: 0 }}
+            aria-hidden="true"
+          >
+            warning
+          </span>
+          <p style={{
+            margin: 0,
+            fontSize: '12.5px',
+            lineHeight: 1.55,
+            color: '#fde68a',
+            fontWeight: 500,
+          }}>
+            {t('auth.emailNotice')}
+          </p>
+        </div>
+
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '16px' }}>

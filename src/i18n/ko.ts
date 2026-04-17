@@ -176,6 +176,7 @@ export default {
   'auth.loginBtn': '로그인',
   'auth.signupBtn': '가입하기',
   'auth.email': '이메일',
+  'auth.emailNotice': '중요: 이메일 주소를 정확히 입력해 주세요. 입력하신 이메일로 분석 결과 리포트가 전송되므로, 오타가 있으면 결과를 받으실 수 없습니다.',
   'auth.password': '비밀번호',
   'auth.confirmPassword': '비밀번호 확인',
   'auth.fillAll': '이메일과 비밀번호를 입력해주세요.',
