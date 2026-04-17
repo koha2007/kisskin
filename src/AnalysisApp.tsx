@@ -261,18 +261,35 @@ export default function AnalysisApp() {
     reader.readAsDataURL(file)
   }
 
-  // Build and click a *fresh* <input> each call. Reusing a single hidden input
-  // causes Android WebView's file chooser to get stuck after the first dismiss,
-  // and the `capture` attribute is more reliably honoured when set before the
-  // element enters the DOM.
-  //
-  // IMPORTANT: the click() MUST run synchronously within the user gesture.
-  // Any microtask/rAF/setTimeout delay before click() makes the browser
-  // (and Android WebView) silently block the file chooser as non-user-initiated.
+  // Inside the Expo WebView wrapper we route picks through a native bridge
+  // (expo-image-picker). This sidesteps Android's system chooser which mixes
+  // camera + gallery options when we only set accept="image/*".
+  // Outside the app (regular browser) we fall back to a fresh <input type="file">
+  // per click — reusing a hidden input causes the Android WebView chooser to
+  // freeze after the first dismiss, and `click()` must stay inside the user
+  // gesture or the browser silently blocks it.
   const openPicker = (mode: 'gallery' | 'camera') => {
+    const rn = (window as unknown as { ReactNativeWebView?: { postMessage: (s: string) => void } }).ReactNativeWebView
+    if (rn && typeof rn.postMessage === 'function') {
+      const onResult = (e: Event) => {
+        window.removeEventListener('nativePickResult', onResult)
+        const detail = (e as CustomEvent<{ canceled: boolean; dataUrl: string | null }>).detail
+        if (!detail || detail.canceled || !detail.dataUrl) return
+        loadPhoto(detail.dataUrl)
+      }
+      window.addEventListener('nativePickResult', onResult)
+      rn.postMessage(JSON.stringify({ type: mode === 'camera' ? 'pickCamera' : 'pickGallery' }))
+      return
+    }
+
     const input = document.createElement('input')
     input.type = 'file'
-    input.accept = 'image/*'
+    // Gallery: narrow accept list — some Android browsers treat plain
+    // "image/*" as an invitation to surface the camera intent alongside
+    // gallery picks; an explicit extension list avoids that on most.
+    input.accept = mode === 'camera'
+      ? 'image/*'
+      : 'image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif'
     if (mode === 'camera') {
       input.setAttribute('capture', 'environment')
     }
@@ -283,7 +300,6 @@ export default function AnalysisApp() {
     input.onchange = () => {
       const file = input.files?.[0]
       if (file) processPickedFile(file)
-      // Defer removal so the change event fully settles first.
       setTimeout(() => {
         try { document.body.removeChild(input) } catch { /* already removed */ }
       }, 0)
