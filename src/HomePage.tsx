@@ -543,6 +543,75 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <span className="text-primary-dark text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
             <h2 id="how-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('home.how.title')}</h2>
           </div>
+
+          {/* Example Preview: input photo → 9-style result grid */}
+          <div className="max-w-5xl mx-auto mb-16">
+            <div className="text-center mb-8 flex flex-col items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 text-primary-dark text-xs font-bold uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full border border-pink-100">
+                <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>visibility</span>
+                {t('home.how.exampleBadge')}
+              </span>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy tracking-tight mt-1">
+                {t('home.how.exampleTitle')}
+              </h3>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+              {/* Input photo */}
+              <figure className="flex flex-col items-center gap-3 w-full md:w-auto">
+                <div className="relative rounded-2xl overflow-hidden border-2 border-pink-100 shadow-lg shadow-pink-100/50 bg-white">
+                  <img
+                    src="/example-input.webp"
+                    alt={t('home.how.exampleInputLabel')}
+                    width={240}
+                    height={320}
+                    loading="lazy"
+                    decoding="async"
+                    className="block w-[200px] h-[267px] md:w-[240px] md:h-[320px] object-cover"
+                  />
+                  <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-[0.65rem] font-bold text-slate-600 border border-pink-100">
+                    {t('home.how.exampleInputLabel')}
+                  </div>
+                </div>
+              </figure>
+
+              {/* Arrow */}
+              <div className="flex items-center justify-center shrink-0" aria-hidden="true">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center shadow-lg shadow-primary/30">
+                  <span className="material-symbols-outlined text-white text-2xl rotate-90 md:rotate-0">arrow_forward</span>
+                </div>
+              </div>
+
+              {/* Result grid */}
+              <figure className="flex flex-col items-center gap-3 w-full md:w-auto">
+                <div className="relative rounded-2xl overflow-hidden border-2 border-primary/20 shadow-xl shadow-primary/10 bg-white">
+                  <img
+                    src="/example-result.webp"
+                    alt={t('home.how.exampleResultLabel')}
+                    width={360}
+                    height={540}
+                    loading="lazy"
+                    decoding="async"
+                    className="block w-[260px] h-[390px] md:w-[360px] md:h-[540px] object-cover"
+                  />
+                  <div className="absolute top-2 left-2 bg-gradient-to-r from-primary to-pink-500 px-2.5 py-1 rounded-full text-[0.65rem] font-bold text-white shadow-md">
+                    {t('home.how.exampleResultLabel')}
+                  </div>
+                </div>
+              </figure>
+            </div>
+
+            {/* Highlight tip */}
+            <div className="mt-8 max-w-2xl mx-auto rounded-2xl border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-rose-50 p-4 sm:p-5 flex items-start gap-3">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md shadow-primary/30">
+                <span className="material-symbols-outlined text-white text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>lightbulb</span>
+              </div>
+              <p className="text-sm md:text-base text-navy-mid leading-relaxed font-semibold pt-1">
+                {t('home.how.exampleTipHighlight')}
+              </p>
+            </div>
+          </div>
+
           <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
             <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-pink-200 via-primary/30 to-pink-200"></div>
             {[

@@ -76,6 +76,11 @@ export default {
   'home.how.step3Desc': '9가지 K-뷰티 메이크업 + 맞춤 제품 추천을 받으세요',
   'home.how.tipTitle': '100% 활용 꿀팁',
   'home.how.tipDesc': '증명사진처럼 밝은 곳에서 찍은 정면 독사진, 얼굴에 그림자가 없는 사진일수록 더 정확한 결과가 나옵니다.',
+  'home.how.exampleBadge': '실제 분석 예시',
+  'home.how.exampleTitle': '이런 사진을 올리면 이런 결과가 나와요',
+  'home.how.exampleInputLabel': '내가 올리는 사진',
+  'home.how.exampleResultLabel': '9가지 K-뷰티 메이크업 결과',
+  'home.how.exampleTipHighlight': '증명사진 또는 얼굴에 그림자 없는 사진이 가장 잘 나와요',
 
   // Final CTA
   'home.cta.title1': '나에게 어울리는',

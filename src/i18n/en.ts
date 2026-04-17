@@ -76,6 +76,11 @@ export default {
   'home.how.step3Desc': 'Receive 9 K-beauty makeup looks + personalized Korean cosmetics recommendations',
   'home.how.tipTitle': 'Pro Tip for Best Results',
   'home.how.tipDesc': 'For 100% accuracy, use a well-lit front-facing solo photo (like an ID photo) with no shadows on your face — the clearer your face, the better the AI results.',
+  'home.how.exampleBadge': 'Real Analysis Example',
+  'home.how.exampleTitle': 'Upload a photo like this, get results like this',
+  'home.how.exampleInputLabel': 'Your photo',
+  'home.how.exampleResultLabel': '9 K-beauty makeup styles',
+  'home.how.exampleTipHighlight': 'ID photos or shadow-free face photos work best',
 
   // Final CTA
   'home.cta.title1': 'Find Your Perfect',
