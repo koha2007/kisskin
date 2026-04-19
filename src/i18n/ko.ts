@@ -33,6 +33,12 @@ export default {
   'home.value.title3': '모든 기기 지원',
   'home.value.desc3': 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.',
 
+  // Makeup MBTI Promo
+  'home.mbti.title': '나의 메이크업 MBTI는? 10문항으로 체크',
+  'home.mbti.desc': 'MBTI 4가지 축을 메이크업 성향에 맞게 재해석했어요. 16가지 유형별로 어울리는 K-뷰티 스타일과 시그니처 룩 공식을 알려드립니다.',
+  'home.mbti.cta': '무료 테스트 시작',
+  'home.mbti.allTools': '전체 도구 보기',
+
   // Styles Section
   'home.styles.badge': '2026 Makeup Trends',
   'home.styles.title': '여성과 남성의 ',

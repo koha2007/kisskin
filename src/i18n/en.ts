@@ -33,6 +33,12 @@ export default {
   'home.value.title3': 'Any Device',
   'home.value.desc3': 'Try K-beauty makeup on Galaxy, iPhone, or PC — anywhere, anytime.',
 
+  // Makeup MBTI Promo
+  'home.mbti.title': "What's your Makeup MBTI? 10 questions",
+  'home.mbti.desc': 'Discover your makeup personality across 16 types. Each type comes with matched K-beauty styles and a signature look formula.',
+  'home.mbti.cta': 'Start Free Quiz',
+  'home.mbti.allTools': 'All Tools',
+
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
   'home.styles.title': '',

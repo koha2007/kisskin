@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && vike prerender && cp dist/client/index.html dist/client/404.html && node -e \"const f='dist/client/_routes.json';const r=JSON.parse(require('fs').readFileSync(f));if(!r.include.includes('/result/*'))r.include.push('/result/*');require('fs').writeFileSync(f,JSON.stringify(r,null,2))\"",
+    "build": "tsc -b && vite build && vike prerender && node -e \"const f='dist/client/_routes.json';const r=JSON.parse(require('fs').readFileSync(f));if(!r.include.includes('/result/*'))r.include.push('/result/*');require('fs').writeFileSync(f,JSON.stringify(r,null,2))\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },

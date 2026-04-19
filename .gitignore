@@ -34,6 +34,7 @@ dist-ssr
 *.html
 !index.html
 !src/**/*.html
+!public/**/*.html
 *.xml
 !public/sitemap.xml
 files/

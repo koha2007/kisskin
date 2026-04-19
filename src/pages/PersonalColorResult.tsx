@@ -1,0 +1,183 @@
+import { PERSONAL_COLOR_TYPES, SEASON_ORDER, type SeasonCode } from '../lib/personal-color/types'
+import { ToolNav, ToolFooter } from './PersonalColorQuiz'
+
+interface Props { code: SeasonCode }
+
+export default function PersonalColorResult({ code }: Props) {
+  const t = PERSONAL_COLOR_TYPES[code]
+
+  return (
+    <div className="font-display bg-background-light min-h-screen">
+      <ToolNav />
+
+      <main>
+
+      {/* Hero */}
+      <section className="relative py-16 md:py-24 overflow-hidden" style={{ background: `linear-gradient(135deg, ${t.primaryColor}10 0%, ${t.accentColor}18 100%)` }}>
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <div className="text-6xl md:text-7xl mb-3">{t.emoji}</div>
+          <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-navy tracking-tight mb-3 leading-tight">{t.koName}</h1>
+          <p className="text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">{t.tagline}</p>
+          <div className="flex flex-wrap gap-2 justify-center mt-6">
+            {t.keywords.map(k => (
+              <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>#{k}</span>
+            ))}
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
+            <a href="/tools/personal-color/" className="bg-white border-2 border-amber-100 hover:border-amber-500 px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid flex items-center justify-center gap-2">
+              <span className="material-symbols-outlined">refresh</span> 다시 진단
+            </a>
+            <a href="/analysis" className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
+              <span className="material-symbols-outlined">auto_awesome</span> 내 얼굴에 적용해보기
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Traits */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">이 시즌의 신체 특징</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { icon: 'face', label: '피부', v: t.traits.skin },
+              { icon: 'cut', label: '모발', v: t.traits.hair },
+              { icon: 'visibility', label: '눈동자', v: t.traits.eye },
+              { icon: 'mood', label: '인상', v: t.traits.vibe },
+            ].map(it => (
+              <div key={it.label} className="bg-white border border-pink-100 rounded-2xl p-4 md:p-5">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white mb-3" style={{ background: t.primaryColor }}>
+                  <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{it.icon}</span>
+                </div>
+                <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-1">{it.label}</div>
+                <p className="text-sm text-slate-600 leading-relaxed">{it.v}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Detail SEO */}
+      <section className="py-14 md:py-20 bg-gradient-to-b from-background-light to-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-3 tracking-tight">{t.koName} 상세 가이드</h2>
+          <p className="text-center text-slate-500 text-sm mb-10">Carole Jackson의 4계절 시스템과 한국형 퍼스널 컬러 연구를 종합한 해석입니다.</p>
+          <div className="prose max-w-none text-slate-600 leading-relaxed space-y-5 text-[15px] md:text-base">
+            {t.detailParagraphs.map((p, i) => <p key={i}>{p}</p>)}
+          </div>
+        </div>
+      </section>
+
+      {/* Best / Avoid Colors */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">어울리는 색 · 피해야 할 색</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="rounded-3xl p-6 border-2" style={{ borderColor: `${t.primaryColor}40`, background: `${t.primaryColor}08` }}>
+              <h3 className="font-extrabold text-navy-mid mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined" style={{ color: t.primaryColor }}>check_circle</span>
+                어울리는 컬러
+              </h3>
+              <div className="flex flex-wrap gap-2 mb-5">
+                {t.bestColors.clothing.map(c => (
+                  <span key={c} className="px-3 py-1 bg-white rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}30` }}>{c}</span>
+                ))}
+              </div>
+              <ul className="space-y-2 text-sm text-slate-600">
+                <li><strong className="text-navy-mid">베이스:</strong> {t.bestColors.makeup.foundation}</li>
+                <li><strong className="text-navy-mid">립:</strong> {t.bestColors.makeup.lip}</li>
+                <li><strong className="text-navy-mid">아이:</strong> {t.bestColors.makeup.eye}</li>
+                <li><strong className="text-navy-mid">블러쉬:</strong> {t.bestColors.makeup.blush}</li>
+                <li><strong className="text-navy-mid">액세서리:</strong> {t.bestColors.accessory}</li>
+                <li><strong className="text-navy-mid">헤어:</strong> {t.bestColors.hair}</li>
+              </ul>
+            </div>
+            <div className="rounded-3xl p-6 border-2 border-slate-200 bg-slate-50/60">
+              <h3 className="font-extrabold text-navy-mid mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined text-slate-400">do_not_disturb_on</span>
+                피해야 할 컬러
+              </h3>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {t.avoidColors.map(c => (
+                  <span key={c} className="px-3 py-1 bg-white rounded-full text-xs font-bold text-slate-500 border border-slate-200 line-through">{c}</span>
+                ))}
+              </div>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                위 컬러들은 {t.koName}의 얼굴을 칙칙하거나 부자연스럽게 보이게 할 수 있습니다. 의류·메이크업·액세서리 모두에서 의식적으로 피하는 것이 좋습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Shopping Tips */}
+      <section className="py-12 md:py-16 bg-gradient-to-b from-background-light to-pink-50/30">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">실전 쇼핑 팁 {t.shoppingTips.length}가지</h2>
+          <div className="grid md:grid-cols-2 gap-3">
+            {t.shoppingTips.map((tip, i) => (
+              <div key={i} className="bg-white rounded-2xl p-5 border border-pink-100 flex gap-4">
+                <div className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white font-extrabold text-sm" style={{ background: t.primaryColor }}>{i + 1}</div>
+                <p className="text-sm text-slate-600 leading-relaxed pt-0.5">{tip}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* kissinskin crossell */}
+      <section className="py-14 md:py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <span className="inline-flex items-center gap-2 text-primary-dark text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100 mb-4">
+            <span className="material-symbols-outlined text-base">recommend</span>
+            추천 K-뷰티 스타일
+          </span>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-3">
+            {t.koName}에게 어울리는 kissinskin 룩
+          </h2>
+          <p className="text-slate-500 text-sm md:text-base mb-8">{t.kissinskinStyles.reason}</p>
+          <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+            <div className="bg-pink-50/50 rounded-2xl p-6 border border-pink-100">
+              <span className="material-symbols-outlined text-primary text-3xl mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>female</span>
+              <h3 className="font-extrabold text-navy-mid mb-1">여성</h3>
+              <p className="text-xl font-bold text-primary">{t.kissinskinStyles.women}</p>
+            </div>
+            <div className="bg-blue-50/50 rounded-2xl p-6 border border-blue-100">
+              <span className="material-symbols-outlined text-blue-500 text-3xl mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>male</span>
+              <h3 className="font-extrabold text-navy-mid mb-1">남성</h3>
+              <p className="text-xl font-bold text-blue-500">{t.kissinskinStyles.men}</p>
+            </div>
+          </div>
+          <a href="/analysis" className="mt-8 bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
+            AI 메이크업 시뮬레이션
+            <span className="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
+      </section>
+
+      {/* Other seasons */}
+      <section className="py-14 bg-gradient-to-b from-white to-background-light">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">4가지 시즌 전체 보기</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {SEASON_ORDER.map(c => {
+              const s = PERSONAL_COLOR_TYPES[c]
+              const isMe = s.code === t.code
+              return (
+                <a key={c} href={`/tools/personal-color/${s.slug}/`} className={`rounded-2xl p-5 border transition-all ${isMe ? 'ring-2' : 'hover:shadow-md'}`} style={{ background: isMe ? `${s.primaryColor}10` : 'white', borderColor: `${s.primaryColor}30` }}>
+                  <div className="text-3xl mb-1.5">{s.emoji}</div>
+                  <div className="text-[0.65rem] font-mono mb-0.5" style={{ color: s.primaryColor }}>{s.tone}{isMe ? ' · 나' : ''}</div>
+                  <div className="text-sm font-bold text-navy-mid">{s.koName}</div>
+                </a>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      </main>
+      <ToolFooter />
+    </div>
+  )
+}

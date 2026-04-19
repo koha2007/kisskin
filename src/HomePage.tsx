@@ -463,6 +463,53 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         </div>
       </section>
 
+      {/* Makeup MBTI Promo — links to /tools/makeup-mbti/ */}
+      <section className="py-14 md:py-16 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 scroll-mt-16" aria-labelledby="mbti-promo-title">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-3xl bg-white border border-pink-100 shadow-lg shadow-pink-100/50 p-6 md:p-10">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-violet-200/40 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr from-pink-200/40 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
+            <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
+              <div className="flex-1 text-center md:text-left">
+                <span className="inline-flex items-center gap-2 text-purple-600 text-xs font-bold uppercase tracking-widest bg-purple-50 px-3 py-1 rounded-full border border-purple-100 mb-4">
+                  <span className="material-symbols-outlined text-sm">auto_awesome</span>
+                  NEW · 무료 테스트
+                </span>
+                <h2 id="mbti-promo-title" className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy mb-3 leading-tight">
+                  {t('home.mbti.title')}
+                </h2>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-5 max-w-xl">
+                  {t('home.mbti.desc')}
+                </p>
+                <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                  <a
+                    href="/tools/makeup-mbti/"
+                    className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-7 py-3 rounded-full font-bold text-sm md:text-base shadow-lg shadow-purple-500/25 inline-flex items-center gap-2 transition-all"
+                  >
+                    {t('home.mbti.cta')}
+                    <span className="material-symbols-outlined">arrow_forward</span>
+                  </a>
+                  <a
+                    href="/tools/"
+                    className="border border-pink-200 hover:border-primary/30 hover:bg-pink-50 px-7 py-3 rounded-full font-bold text-sm md:text-base text-slate-700 inline-flex items-center gap-2 transition-all"
+                  >
+                    <span className="material-symbols-outlined text-primary">grid_view</span>
+                    {t('home.mbti.allTools')}
+                  </a>
+                </div>
+              </div>
+              <div className="shrink-0 grid grid-cols-4 gap-2 md:gap-2.5 max-w-[280px] md:max-w-[320px]">
+                {['🖤','🧪','♠️','⚡','🌙','✨','🌸','🎨','🌿','🌷','🍷','🌟','⚙️','🍃','🔥','💎'].map((e, i) => (
+                  <div key={i} className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-white to-pink-50 border border-pink-100 rounded-xl flex items-center justify-center text-2xl md:text-3xl shadow-sm">
+                    {e}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Makeup Styles Section */}
       <section id="styles" className="py-20 scroll-mt-16 relative overflow-hidden" aria-labelledby="styles-title">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-background-light via-pink-50/30 to-background-light"></div>
@@ -739,6 +786,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
                 <li><a href="#pricing" className="hover:text-primary transition-colors cursor-pointer">{t('pricing.badge')}</a></li>
+                <li><a href="/tools/" className="hover:text-primary transition-colors cursor-pointer">무료 도구 모음</a></li>
+                <li><a href="/tools/makeup-mbti/" className="hover:text-primary transition-colors cursor-pointer">메이크업 MBTI</a></li>
+                <li><a href="/tools/personal-color/" className="hover:text-primary transition-colors cursor-pointer">퍼스널 컬러 진단</a></li>
+                <li><a href="/tools/face-shape/" className="hover:text-primary transition-colors cursor-pointer">얼굴형 진단</a></li>
+                <li><a href="/about-makeup-ai/" className="hover:text-primary transition-colors cursor-pointer">K-뷰티 가이드</a></li>
               </ul>
             </div>
             <div className="flex flex-col gap-3">

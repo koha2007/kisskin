@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kissinskin.net/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/" />
@@ -12,13 +12,82 @@
   </url>
   <url>
     <loc>https://kissinskin.net/analysis/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/analysis/" />
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/analysis/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/analysis/" />
   </url>
+
+  <!-- Tools Hub -->
+  <url>
+    <loc>https://kissinskin.net/tools/</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Makeup MBTI Quiz -->
+  <url>
+    <loc>https://kissinskin.net/tools/makeup-mbti/</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Makeup MBTI: 16 Type Result Pages -->
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/intj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/intp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/entj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/entp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/infj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/infp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/enfj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/enfp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/istj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/isfj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/estj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/esfj/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/istp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/isfp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/estp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/esfp/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Personal Color Tool -->
+  <url>
+    <loc>https://kissinskin.net/tools/personal-color/</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url><loc>https://kissinskin.net/tools/personal-color/spring-warm/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/summer-cool/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/autumn-warm/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/winter-cool/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
+  <!-- Face Shape Tool -->
+  <url>
+    <loc>https://kissinskin.net/tools/face-shape/</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url><loc>https://kissinskin.net/tools/face-shape/oval/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/round/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/square/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/oblong/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/heart/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
+  <!-- Long-form Guide -->
+  <url>
+    <loc>https://kissinskin.net/about-makeup-ai/</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Legal -->
   <url>
     <loc>https://kissinskin.net/terms/</loc>
     <lastmod>2026-04-13</lastmod>
