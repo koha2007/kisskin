@@ -6,6 +6,8 @@ export default {
   'common.tryAgain': '다시 분석하기',
   'common.styles': '스타일',
   'common.howItWorks': '이용 방법',
+  'common.freeTools': '무료 도구',
+  'common.guide': '가이드',
 
   // Nav
   'nav.brand': 'kissinskin',
@@ -33,11 +35,28 @@ export default {
   'home.value.title3': '모든 기기 지원',
   'home.value.desc3': 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.',
 
-  // Makeup MBTI Promo
-  'home.mbti.title': '나의 메이크업 MBTI는? 10문항으로 체크',
-  'home.mbti.desc': 'MBTI 4가지 축을 메이크업 성향에 맞게 재해석했어요. 16가지 유형별로 어울리는 K-뷰티 스타일과 시그니처 룩 공식을 알려드립니다.',
-  'home.mbti.cta': '무료 테스트 시작',
-  'home.mbti.allTools': '전체 도구 보기',
+  // Tools Showcase Section
+  'home.toolsShowcase.title1': '이런 무료 도구들이',
+  'home.toolsShowcase.title2': 'kissinskin에 있어요',
+  'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단, 그리고 심화 가이드까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
+  'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',
+  'home.toolsShowcase.mainTitle': 'AI 메이크업 시뮬레이터',
+  'home.toolsShowcase.mainDesc': '셀카 한 장으로 9가지 K-뷰티 메이크업 룩을 30초 만에 생성. 여성·남성 각각 9가지 스타일 지원.',
+  'home.toolsShowcase.mainCta': '지금 바로 체험',
+  'home.toolsShowcase.cardCta': '시작하기',
+  'home.toolsShowcase.seeAllTools': '전체 도구 모음 보기',
+  'home.toolsShowcase.t1Tag': '16가지 유형',
+  'home.toolsShowcase.t1Title': '메이크업 MBTI',
+  'home.toolsShowcase.t1Desc': '10문항으로 성향 분석 → 16유형별 맞춤 K-뷰티 스타일 추천',
+  'home.toolsShowcase.t2Tag': '봄웜·여름쿨·가을웜·겨울쿨',
+  'home.toolsShowcase.t2Title': '퍼스널 컬러 진단',
+  'home.toolsShowcase.t2Desc': '10문항 자가 진단 → 4가지 시즌별 어울리는 컬러·메이크업 가이드',
+  'home.toolsShowcase.t3Tag': '5가지 얼굴형',
+  'home.toolsShowcase.t3Title': '얼굴형 진단',
+  'home.toolsShowcase.t3Desc': '8문항으로 얼굴형 판정 → 맞춤 컨투어링·헤어·안경 가이드',
+  'home.toolsShowcase.t4Tag': '3,000단어 심화',
+  'home.toolsShowcase.t4Title': 'K-뷰티 가이드',
+  'home.toolsShowcase.t4Desc': '한국 메이크업의 역사·18가지 스타일·AI 시뮬레이션 원리 완전 가이드',
 
   // Styles Section
   'home.styles.badge': '2026 Makeup Trends',

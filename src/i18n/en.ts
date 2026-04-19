@@ -6,6 +6,8 @@ export default {
   'common.tryAgain': 'Try Again',
   'common.styles': 'Styles',
   'common.howItWorks': 'How it Works',
+  'common.freeTools': 'Free Tools',
+  'common.guide': 'Guide',
 
   // Nav
   'nav.brand': 'kissinskin',
@@ -33,11 +35,28 @@ export default {
   'home.value.title3': 'Any Device',
   'home.value.desc3': 'Try K-beauty makeup on Galaxy, iPhone, or PC — anywhere, anytime.',
 
-  // Makeup MBTI Promo
-  'home.mbti.title': "What's your Makeup MBTI? 10 questions",
-  'home.mbti.desc': 'Discover your makeup personality across 16 types. Each type comes with matched K-beauty styles and a signature look formula.',
-  'home.mbti.cta': 'Start Free Quiz',
-  'home.mbti.allTools': 'All Tools',
+  // Tools Showcase Section
+  'home.toolsShowcase.title1': 'Free K-Beauty AI Tools',
+  'home.toolsShowcase.title2': 'all in kissinskin',
+  'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color & face shape diagnosis, and in-depth guide — all free, no signup required.',
+  'home.toolsShowcase.signatureBadge': 'kissinskin signature',
+  'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
+  'home.toolsShowcase.mainDesc': 'Upload one selfie, get 9 K-beauty makeup looks in 30 seconds. Supports 9 styles each for women and men.',
+  'home.toolsShowcase.mainCta': 'Try now',
+  'home.toolsShowcase.cardCta': 'Start',
+  'home.toolsShowcase.seeAllTools': 'See all tools',
+  'home.toolsShowcase.t1Tag': '16 Types',
+  'home.toolsShowcase.t1Title': 'Makeup MBTI',
+  'home.toolsShowcase.t1Desc': '10-question personality quiz → matched K-beauty style for your type',
+  'home.toolsShowcase.t2Tag': '4 Seasons',
+  'home.toolsShowcase.t2Title': 'Personal Color',
+  'home.toolsShowcase.t2Desc': '10-question self-diagnosis → Spring / Summer / Autumn / Winter color guide',
+  'home.toolsShowcase.t3Tag': '5 Face Shapes',
+  'home.toolsShowcase.t3Title': 'Face Shape Quiz',
+  'home.toolsShowcase.t3Desc': '8-question quiz → custom contouring, hair, and eyewear guide',
+  'home.toolsShowcase.t4Tag': '3,000-word deep dive',
+  'home.toolsShowcase.t4Title': 'K-Beauty Guide',
+  'home.toolsShowcase.t4Desc': 'History of Korean makeup, 18 styles, AI simulation principles, and photo tips',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',

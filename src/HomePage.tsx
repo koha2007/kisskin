@@ -333,11 +333,20 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-7">
             <a href="#styles" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
             <a href="#how" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
+            <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
+            <a href="/about-makeup-ai/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.guide')}</a>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
+            <a
+              href="#tools-showcase"
+              className="md:hidden text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 transition-all px-2.5 py-1.5 rounded-full flex items-center gap-1 shadow-sm"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>grid_view</span>
+              {t('common.freeTools')}
+            </a>
             <button
               onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
               className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-500"
@@ -463,49 +472,134 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         </div>
       </section>
 
-      {/* Makeup MBTI Promo — links to /tools/makeup-mbti/ */}
-      <section className="py-14 md:py-16 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 scroll-mt-16" aria-labelledby="mbti-promo-title">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-white border border-pink-100 shadow-lg shadow-pink-100/50 p-6 md:p-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-violet-200/40 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr from-pink-200/40 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
-            <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
-              <div className="flex-1 text-center md:text-left">
-                <span className="inline-flex items-center gap-2 text-purple-600 text-xs font-bold uppercase tracking-widest bg-purple-50 px-3 py-1 rounded-full border border-purple-100 mb-4">
-                  <span className="material-symbols-outlined text-sm">auto_awesome</span>
-                  NEW · 무료 테스트
-                </span>
-                <h2 id="mbti-promo-title" className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy mb-3 leading-tight">
-                  {t('home.mbti.title')}
-                </h2>
-                <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-5 max-w-xl">
-                  {t('home.mbti.desc')}
-                </p>
-                <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                  <a
-                    href="/tools/makeup-mbti/"
-                    className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-7 py-3 rounded-full font-bold text-sm md:text-base shadow-lg shadow-purple-500/25 inline-flex items-center gap-2 transition-all"
-                  >
-                    {t('home.mbti.cta')}
+      {/* Free Tools Showcase — Big, prominent section for all tools */}
+      <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 relative overflow-hidden" aria-labelledby="tools-title">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-violet-200/40 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/4 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-pink-200/30 to-transparent rounded-full blur-3xl translate-y-1/4 -translate-x-1/4 pointer-events-none" />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Big Heading */}
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-purple-200 text-purple-700 text-xs font-bold uppercase tracking-wider mb-5">
+              <span className="text-base">💄</span>
+              ALL FREE · 로그인 불필요
+            </div>
+            <h2 id="tools-title" className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-[1.15] mb-4">
+              {t('home.toolsShowcase.title1')}<br />
+              <span className="bg-gradient-to-r from-primary via-pink-500 to-purple-600 bg-clip-text text-transparent">{t('home.toolsShowcase.title2')}</span>
+            </h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              {t('home.toolsShowcase.subtitle')}
+            </p>
+          </div>
+
+          {/* Featured: AI Makeup (main product) */}
+          <div className="mb-6">
+            <a
+              href="/analysis"
+              className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-pink-500 to-rose-400 p-6 md:p-10 text-white shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
+                <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-6xl md:text-7xl shadow-inner">
+                  💄
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest mb-3">
+                    <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                    {t('home.toolsShowcase.signatureBadge')}
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-extrabold mb-2 leading-tight">
+                    {t('home.toolsShowcase.mainTitle')}
+                  </h3>
+                  <p className="text-white/90 text-sm md:text-base mb-5 max-w-xl">
+                    {t('home.toolsShowcase.mainDesc')}
+                  </p>
+                  <div className="inline-flex items-center gap-2 font-bold text-sm md:text-base bg-white text-primary px-6 py-3 rounded-full shadow-lg group-hover:gap-3 transition-all">
+                    {t('home.toolsShowcase.mainCta')}
                     <span className="material-symbols-outlined">arrow_forward</span>
-                  </a>
-                  <a
-                    href="/tools/"
-                    className="border border-pink-200 hover:border-primary/30 hover:bg-pink-50 px-7 py-3 rounded-full font-bold text-sm md:text-base text-slate-700 inline-flex items-center gap-2 transition-all"
-                  >
-                    <span className="material-symbols-outlined text-primary">grid_view</span>
-                    {t('home.mbti.allTools')}
-                  </a>
+                  </div>
                 </div>
               </div>
-              <div className="shrink-0 grid grid-cols-4 gap-2 md:gap-2.5 max-w-[280px] md:max-w-[320px]">
-                {['🖤','🧪','♠️','⚡','🌙','✨','🌸','🎨','🌿','🌷','🍷','🌟','⚙️','🍃','🔥','💎'].map((e, i) => (
-                  <div key={i} className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-white to-pink-50 border border-pink-100 rounded-xl flex items-center justify-center text-2xl md:text-3xl shadow-sm">
-                    {e}
-                  </div>
-                ))}
-              </div>
-            </div>
+            </a>
+          </div>
+
+          {/* 4 Tool Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+            {[
+              {
+                href: '/tools/makeup-mbti/',
+                emoji: '💫',
+                title: t('home.toolsShowcase.t1Title'),
+                desc: t('home.toolsShowcase.t1Desc'),
+                gradient: 'from-violet-500 to-purple-600',
+                bgGradient: 'from-violet-50 to-purple-50',
+                tag: t('home.toolsShowcase.t1Tag'),
+              },
+              {
+                href: '/tools/personal-color/',
+                emoji: '🎨',
+                title: t('home.toolsShowcase.t2Title'),
+                desc: t('home.toolsShowcase.t2Desc'),
+                gradient: 'from-amber-500 to-orange-500',
+                bgGradient: 'from-amber-50 to-orange-50',
+                tag: t('home.toolsShowcase.t2Tag'),
+              },
+              {
+                href: '/tools/face-shape/',
+                emoji: '🌟',
+                title: t('home.toolsShowcase.t3Title'),
+                desc: t('home.toolsShowcase.t3Desc'),
+                gradient: 'from-emerald-500 to-teal-500',
+                bgGradient: 'from-emerald-50 to-teal-50',
+                tag: t('home.toolsShowcase.t3Tag'),
+              },
+              {
+                href: '/about-makeup-ai/',
+                emoji: '📖',
+                title: t('home.toolsShowcase.t4Title'),
+                desc: t('home.toolsShowcase.t4Desc'),
+                gradient: 'from-rose-500 to-pink-500',
+                bgGradient: 'from-rose-50 to-pink-50',
+                tag: t('home.toolsShowcase.t4Tag'),
+              },
+            ].map(tool => (
+              <a
+                key={tool.title}
+                href={tool.href}
+                className="group bg-white rounded-3xl p-5 md:p-6 border border-white hover:border-primary/30 shadow-md hover:shadow-xl hover:shadow-pink-100 transition-all hover:-translate-y-1 flex flex-col"
+              >
+                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${tool.bgGradient} border border-white flex items-center justify-center text-3xl md:text-4xl mb-4 shadow-sm`}>
+                  {tool.emoji}
+                </div>
+                <div className={`inline-block self-start text-[0.65rem] uppercase tracking-widest font-bold bg-gradient-to-r ${tool.gradient} bg-clip-text text-transparent mb-1`}>
+                  {tool.tag}
+                </div>
+                <h3 className="text-base md:text-lg font-extrabold text-navy mb-2 leading-tight">
+                  {tool.title}
+                </h3>
+                <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-4 flex-1">
+                  {tool.desc}
+                </p>
+                <div className={`inline-flex items-center gap-1 text-sm font-bold bg-gradient-to-r ${tool.gradient} bg-clip-text text-transparent group-hover:gap-2 transition-all`}>
+                  {t('home.toolsShowcase.cardCta')}
+                  <span className={`material-symbols-outlined bg-gradient-to-r ${tool.gradient} bg-clip-text text-transparent`} style={{ WebkitBackgroundClip: 'text', color: 'transparent' }}>arrow_forward</span>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="text-center mt-10 md:mt-12">
+            <a
+              href="/tools/"
+              className="inline-flex items-center gap-2 bg-white hover:bg-pink-50 border border-pink-200 hover:border-primary/40 text-slate-700 hover:text-primary px-8 py-3.5 rounded-full font-bold text-sm md:text-base shadow-sm transition-all"
+            >
+              <span className="material-symbols-outlined">grid_view</span>
+              {t('home.toolsShowcase.seeAllTools')}
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
