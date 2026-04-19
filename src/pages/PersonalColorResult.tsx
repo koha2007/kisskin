@@ -1,5 +1,7 @@
 import { PERSONAL_COLOR_TYPES, SEASON_ORDER, type SeasonCode } from '../lib/personal-color/types'
 import { ToolNav, ToolFooter } from './PersonalColorQuiz'
+import { PC_RECOMMENDATIONS } from '../lib/recommendations/personal-color'
+import RecommendedProducts from '../components/RecommendedProducts'
 
 interface Props { code: SeasonCode }
 
@@ -125,6 +127,15 @@ export default function PersonalColorResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Recommended Products */}
+      <RecommendedProducts
+        items={PC_RECOMMENDATIONS[t.code]}
+        accentColor={t.primaryColor}
+        accentGradient="from-amber-500 to-orange-500"
+        headingEmoji="🛍️"
+        subtitle={`${t.koName}에게 어울리는 제품 카테고리입니다. 쇼핑 시 꼭 확인할 특징과 참고 브랜드를 정리했습니다.`}
+      />
 
       {/* kissinskin crossell */}
       <section className="py-14 md:py-20 bg-white">

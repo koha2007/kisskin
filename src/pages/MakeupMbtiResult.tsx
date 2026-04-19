@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode, type MakeupMbtiType } from '../lib/makeup-mbti/types'
+import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
+import RecommendedProducts from '../components/RecommendedProducts'
 
 interface Props {
   code: MbtiCode
@@ -235,6 +237,15 @@ export default function MakeupMbtiResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Recommended Products */}
+      <RecommendedProducts
+        items={MBTI_RECOMMENDATIONS[type.code]}
+        accentColor={type.primaryColor}
+        accentGradient="from-primary to-pink-500"
+        headingEmoji="🛍️"
+        subtitle={`${type.koName} (${type.code}) 유형에 어울리는 제품 카테고리입니다. 시그니처 룩을 완성할 때 참고하세요.`}
+      />
 
       {/* Tips */}
       <section className="py-12 md:py-16 bg-white">

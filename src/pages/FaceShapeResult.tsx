@@ -1,5 +1,7 @@
 import { FACE_SHAPE_TYPES, FACE_SHAPE_ORDER, type FaceShapeCode } from '../lib/face-shape/types'
 import { ToolNav, ToolFooter } from './PersonalColorQuiz'
+import { FS_RECOMMENDATIONS } from '../lib/recommendations/face-shape'
+import RecommendedProducts from '../components/RecommendedProducts'
 
 interface Props { code: FaceShapeCode }
 
@@ -123,6 +125,15 @@ export default function FaceShapeResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Recommended Products */}
+      <RecommendedProducts
+        items={FS_RECOMMENDATIONS[t.code]}
+        accentColor={t.primaryColor}
+        accentGradient="from-emerald-500 to-teal-500"
+        headingEmoji="🛍️"
+        subtitle={`${t.koName} 얼굴형에 추천하는 제품 카테고리입니다. 맞춤 컨투어와 스타일을 완성할 때 참고하세요.`}
+      />
 
       {/* kissinskin CTA */}
       <section className="py-14 md:py-20 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/40">
