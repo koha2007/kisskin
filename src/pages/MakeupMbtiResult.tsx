@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode, type MakeupMbtiType } from '../lib/makeup-mbti/types'
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
 import RecommendedProducts from '../components/RecommendedProducts'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
   code: MbtiCode
 }
 
 export default function MakeupMbtiResult({ code }: Props) {
+  const { t: i18n } = useI18n()
   const type = MAKEUP_MBTI_TYPES[code]
   const good = MAKEUP_MBTI_TYPES[type.goodMatch]
   const opp = MAKEUP_MBTI_TYPES[type.opposite]
@@ -47,23 +50,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       <style>{styles}</style>
       {confetti && <ConfettiBurst />}
 
-      {/* Nav */}
-      <nav className="sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2">
-            <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
-            <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
-          </a>
-          <div className="flex items-center gap-3">
-            <a href="/tools/makeup-mbti/" className="text-sm font-medium text-slate-200 hover:text-primary px-3 py-1.5 rounded-md border border-slate-500">
-              다시 테스트
-            </a>
-            <a href="/analysis" className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 text-white px-5 py-2 rounded-full text-sm font-bold items-center gap-1.5">
-              AI 메이크업 체험
-            </a>
-          </div>
-        </div>
-      </nav>
+      <ToolsNav />
 
       <main>
 
@@ -111,14 +98,14 @@ export default function MakeupMbtiResult({ code }: Props) {
               className="bg-white border-2 border-pink-100 hover:border-primary hover:shadow-lg px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid hover:text-primary transition-all flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined">share</span>
-              {copied ? '링크 복사 완료!' : '친구에게 공유'}
+              {copied ? i18n('tools.common.copiedLink') : i18n('tools.common.shareToFriend')}
             </button>
             <a
               href="/analysis"
               className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined">auto_awesome</span>
-              내 얼굴에 적용해보기
+              {i18n('tools.common.applyToMyFace')}
             </a>
           </div>
         </div>
@@ -195,7 +182,7 @@ export default function MakeupMbtiResult({ code }: Props) {
             <div className="bg-white rounded-3xl p-6 md:p-8 border border-pink-100 shadow-sm">
               <div className="flex items-center gap-2 mb-4">
                 <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>female</span>
-                <h3 className="font-extrabold text-navy-mid">여성 추천</h3>
+                <h3 className="font-extrabold text-navy-mid">{i18n('tools.common.female')}</h3>
               </div>
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-2xl font-extrabold text-primary">{type.recommended.women.primary}</span>
@@ -217,7 +204,7 @@ export default function MakeupMbtiResult({ code }: Props) {
             <div className="bg-white rounded-3xl p-6 md:p-8 border border-blue-100 shadow-sm">
               <div className="flex items-center gap-2 mb-4">
                 <span className="material-symbols-outlined text-blue-500" style={{ fontVariationSettings: "'FILL' 1" }}>male</span>
-                <h3 className="font-extrabold text-navy-mid">남성 추천</h3>
+                <h3 className="font-extrabold text-navy-mid">{i18n('tools.common.male')}</h3>
               </div>
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-2xl font-extrabold text-blue-500">{type.recommended.men.primary}</span>
@@ -339,7 +326,7 @@ export default function MakeupMbtiResult({ code }: Props) {
             href="/analysis"
             className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2"
           >
-            AI 메이크업 시작
+            {i18n('tools.common.aiMakeupStart')}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
         </div>
@@ -347,41 +334,7 @@ export default function MakeupMbtiResult({ code }: Props) {
 
       </main>
 
-      {/* Footer */}
-      <footer className="bg-navy text-white pt-14 pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-10 mb-10">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
-                <span className="text-2xl font-bold tracking-tight">kissinskin</span>
-              </div>
-              <p className="text-slate-300 text-sm leading-relaxed max-w-xs">
-                AI 기반 K-뷰티 메이크업 시뮬레이터.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">도구</h3>
-              <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-                <li><a href="/analysis" className="hover:text-primary">AI 메이크업 분석</a></li>
-                <li><a href="/tools/makeup-mbti/" className="hover:text-primary">메이크업 MBTI</a></li>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-3">
-              <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">Legal</h3>
-              <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-                <li><a href="/terms" className="hover:text-primary">Terms of Service</a></li>
-                <li><a href="/privacy" className="hover:text-primary">Privacy Policy</a></li>
-                <li><a href="/refund" className="hover:text-primary">Refund Policy</a></li>
-                <li><a href="/contact" className="hover:text-primary">Contact Us</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-navy-mid text-center">
-            <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <ToolsFooter />
     </div>
   )
 }

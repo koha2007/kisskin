@@ -1,9 +1,11 @@
-import { ToolNav, ToolFooter } from './PersonalColorQuiz'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
 
 export default function AboutMakeupAi() {
+  const { t } = useI18n()
   return (
     <div className="font-display bg-background-light min-h-screen">
-      <ToolNav />
+      <ToolsNav />
       <main>
 
       {/* Hero */}
@@ -137,7 +139,7 @@ export default function AboutMakeupAi() {
               <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-3">이론은 충분히 이해하셨나요?</h2>
               <p className="text-slate-600 mb-6 max-w-lg mx-auto text-sm md:text-base">직접 본인 얼굴에 9가지 스타일을 시뮬레이션해 보세요. 무엇이 가장 잘 어울리는지 바로 확인할 수 있습니다.</p>
               <a href="/analysis" className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
-                AI 메이크업 시작
+                {t('tools.common.aiMakeupStart')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </a>
             </div>
@@ -147,7 +149,7 @@ export default function AboutMakeupAi() {
       </article>
 
       </main>
-      <ToolFooter />
+      <ToolsFooter />
     </div>
   )
 }

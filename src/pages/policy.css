@@ -21,6 +21,7 @@
   font-weight: 700;
   color: #070953;
   margin: 0;
+  flex: 1;
 }
 
 .legal-back {
@@ -31,6 +32,22 @@
   color: #070953;
   display: flex;
   align-items: center;
+}
+
+.legal-lang {
+  background: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #070953;
+  cursor: pointer;
+}
+
+.legal-lang:hover {
+  border-color: #6366f1;
+  color: #6366f1;
 }
 
 .legal-content {

@@ -1,11 +1,13 @@
 import { useState, useEffect, useMemo } from 'react'
 import { FS_QUESTIONS, computeFaceShape, type FSAnswer } from '../lib/face-shape/questions'
 import { FACE_SHAPE_TYPES, FACE_SHAPE_ORDER } from '../lib/face-shape/types'
-import { ToolNav, ToolFooter } from './PersonalColorQuiz'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
 export default function FaceShapeQuiz() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>('intro')
   const [idx, setIdx] = useState(0)
   const [answers, setAnswers] = useState<FSAnswer[]>([])
@@ -44,7 +46,7 @@ export default function FaceShapeQuiz() {
     return (
       <div className="font-display bg-background-light min-h-screen">
         <style>{fsStyles}</style>
-        <ToolNav />
+        <ToolsNav />
         <main>
 
         <section className="relative py-12 md:py-20 overflow-hidden">
@@ -53,7 +55,7 @@ export default function FaceShapeQuiz() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-6">
               <span className="material-symbols-outlined text-sm">face</span>
-              얼굴형 자가 진단 · 2026
+              {t('tools.fs.badge')}
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-navy mb-4">
               나의 얼굴형은?
@@ -64,17 +66,17 @@ export default function FaceShapeQuiz() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
               <button onClick={() => setPhase('quiz')} className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-10 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/25">
-                진단 시작하기
+                {t('tools.common.startDiagnosis')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
               <a href="#shapes-preview" className="border border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 px-10 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 text-slate-700">
                 <span className="material-symbols-outlined text-emerald-600">grid_view</span>
-                5가지 얼굴형 보기
+                {t('tools.fs.previewCta')}
               </a>
             </div>
             <div className="flex items-center justify-center gap-6 text-sm text-slate-500 flex-wrap">
-              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">schedule</span> 약 2분</span>
-              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">lock</span> 무료·로그인 불필요</span>
+              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">schedule</span> {t('tools.common.about2min')}</span>
+              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">lock</span> {t('tools.common.freeNoLogin')}</span>
             </div>
           </div>
         </section>
@@ -110,7 +112,7 @@ export default function FaceShapeQuiz() {
             </div>
             <div className="text-center mt-10">
               <button onClick={() => setPhase('quiz')} className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-emerald-500/25 inline-flex items-center gap-2">
-                진단 시작하기
+                {t('tools.common.startDiagnosis')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
             </div>
@@ -118,7 +120,7 @@ export default function FaceShapeQuiz() {
         </section>
 
         </main>
-        <ToolFooter />
+        <ToolsFooter />
       </div>
     )
   }
@@ -128,7 +130,7 @@ export default function FaceShapeQuiz() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-background-light gap-4">
         <style>{fsStyles}</style>
         <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-600 text-sm">얼굴형을 분석하고 있어요…</p>
+        <p className="text-slate-600 text-sm">{t('tools.common.analyzing')}</p>
       </div>
     )
   }
@@ -138,12 +140,12 @@ export default function FaceShapeQuiz() {
       <style>{fsStyles}</style>
       <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-emerald-100">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
-          <button onClick={onBack} className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-emerald-50 text-slate-500 hover:text-emerald-600" aria-label="이전">
+          <button onClick={onBack} className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-emerald-50 text-slate-500 hover:text-emerald-600" aria-label={t('tools.common.previousQuestion')}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div className="flex-1">
             <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-              <span className="text-emerald-600">질문 {idx + 1} / {FS_QUESTIONS.length}</span>
+              <span className="text-emerald-600">Q {idx + 1} / {FS_QUESTIONS.length}</span>
               <span className="text-slate-400">{Math.round(progress)}%</span>
             </div>
             <div className="h-1.5 bg-emerald-100 rounded-full overflow-hidden">

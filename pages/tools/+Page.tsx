@@ -1,4 +1,5 @@
 import { MBTI_ORDER, MAKEUP_MBTI_TYPES } from '../../src/lib/makeup-mbti/types'
+import { ToolsNav, ToolsFooter } from '../../src/components/ToolsLayout'
 
 interface Tool {
   href: string
@@ -67,20 +68,7 @@ const TOOLS: Tool[] = [
 export default function ToolsHub() {
   return (
     <div className="font-display bg-background-light min-h-screen">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2">
-            <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
-            <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
-          </a>
-          <div className="flex items-center gap-3">
-            <a href="/analysis" className="bg-gradient-to-r from-primary to-pink-500 text-white px-5 py-2 rounded-full text-sm font-bold">
-              AI 메이크업
-            </a>
-          </div>
-        </div>
-      </nav>
+      <ToolsNav />
 
       <main>
       {/* Hero */}
@@ -159,32 +147,7 @@ export default function ToolsHub() {
 
       </main>
 
-      <footer className="bg-navy text-white pt-14 pb-8 mt-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-10 mb-10">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
-                <span className="text-2xl font-bold tracking-tight">kissinskin</span>
-              </div>
-              <p className="text-slate-300 text-sm max-w-xs">AI 기반 K-뷰티 메이크업 시뮬레이터.</p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">Legal</h3>
-              <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-                <li><a href="/terms" className="hover:text-primary">Terms of Service</a></li>
-                <li><a href="/privacy" className="hover:text-primary">Privacy Policy</a></li>
-                <li><a href="/refund" className="hover:text-primary">Refund Policy</a></li>
-                <li><a href="/contact" className="hover:text-primary">Contact Us</a></li>
-              </ul>
-            </div>
-            <div></div>
-          </div>
-          <div className="pt-8 border-t border-navy-mid text-center">
-            <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <ToolsFooter />
     </div>
   )
 }

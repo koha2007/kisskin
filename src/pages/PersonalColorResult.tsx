@@ -1,16 +1,18 @@
 import { PERSONAL_COLOR_TYPES, SEASON_ORDER, type SeasonCode } from '../lib/personal-color/types'
-import { ToolNav, ToolFooter } from './PersonalColorQuiz'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { PC_RECOMMENDATIONS } from '../lib/recommendations/personal-color'
 import RecommendedProducts from '../components/RecommendedProducts'
+import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: SeasonCode }
 
 export default function PersonalColorResult({ code }: Props) {
   const t = PERSONAL_COLOR_TYPES[code]
+  const { t: i18n } = useI18n()
 
   return (
     <div className="font-display bg-background-light min-h-screen">
-      <ToolNav />
+      <ToolsNav />
 
       <main>
 
@@ -28,10 +30,10 @@ export default function PersonalColorResult({ code }: Props) {
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a href="/tools/personal-color/" className="bg-white border-2 border-amber-100 hover:border-amber-500 px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined">refresh</span> 다시 진단
+              <span className="material-symbols-outlined">refresh</span> {i18n('tools.common.retakeDiagnosis')}
             </a>
             <a href="/analysis" className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
-              <span className="material-symbols-outlined">auto_awesome</span> 내 얼굴에 적용해보기
+              <span className="material-symbols-outlined">auto_awesome</span> {i18n('tools.common.applyToMyFace')}
             </a>
           </div>
         </div>
@@ -151,17 +153,17 @@ export default function PersonalColorResult({ code }: Props) {
           <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
             <div className="bg-pink-50/50 rounded-2xl p-6 border border-pink-100">
               <span className="material-symbols-outlined text-primary text-3xl mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>female</span>
-              <h3 className="font-extrabold text-navy-mid mb-1">여성</h3>
+              <h3 className="font-extrabold text-navy-mid mb-1">{i18n('tools.common.female')}</h3>
               <p className="text-xl font-bold text-primary">{t.kissinskinStyles.women}</p>
             </div>
             <div className="bg-blue-50/50 rounded-2xl p-6 border border-blue-100">
               <span className="material-symbols-outlined text-blue-500 text-3xl mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>male</span>
-              <h3 className="font-extrabold text-navy-mid mb-1">남성</h3>
+              <h3 className="font-extrabold text-navy-mid mb-1">{i18n('tools.common.male')}</h3>
               <p className="text-xl font-bold text-blue-500">{t.kissinskinStyles.men}</p>
             </div>
           </div>
           <a href="/analysis" className="mt-8 bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
-            AI 메이크업 시뮬레이션
+            {i18n('tools.common.aiSimulation')}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
         </div>
@@ -188,7 +190,7 @@ export default function PersonalColorResult({ code }: Props) {
       </section>
 
       </main>
-      <ToolFooter />
+      <ToolsFooter />
     </div>
   )
 }

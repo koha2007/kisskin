@@ -1,12 +1,13 @@
 import type { ProductRec } from '../lib/recommendations/types'
 import { AFFILIATE_ENABLED, buildSearchLink } from '../lib/recommendations/types'
+import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
   items: ProductRec[]
-  accentColor?: string         // 테마 색 (각 도구별 기본 색)
-  accentGradient?: string      // 그라디언트 (예: "from-amber-500 to-orange-500")
-  headingEmoji?: string        // 섹션 아이콘
-  subtitle?: string            // 섹션 서브타이틀
+  accentColor?: string
+  accentGradient?: string
+  headingEmoji?: string
+  subtitle?: string
 }
 
 export default function RecommendedProducts({
@@ -14,23 +15,24 @@ export default function RecommendedProducts({
   accentColor = '#eb4763',
   accentGradient = 'from-primary to-pink-500',
   headingEmoji = '🛍️',
-  subtitle = '이 유형에 어울리는 제품 카테고리와 꼭 확인해야 할 특징을 정리했습니다. 쇼핑 시 참고하세요.',
+  subtitle,
 }: Props) {
+  const { t } = useI18n()
   if (!items.length) return null
 
   return (
-    <section className="py-12 md:py-16 bg-white" aria-label="추천 제품 카테고리">
+    <section className="py-12 md:py-16 bg-white" aria-label={t('recProducts.aria')}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-3 flex flex-col items-center gap-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-slate-50 border border-slate-200 text-slate-600">
             <span>{headingEmoji}</span>
-            추천 쇼핑 가이드
+            {t('recProducts.badge')}
           </div>
           <h2 className="text-xl md:text-2xl font-extrabold text-navy tracking-tight">
-            이런 제품을 찾아보세요
+            {t('recProducts.heading')}
           </h2>
-          <p className="text-sm text-slate-500 max-w-xl leading-relaxed">{subtitle}</p>
+          <p className="text-sm text-slate-500 max-w-xl leading-relaxed">{subtitle || t('recProducts.defaultSubtitle')}</p>
         </div>
 
         {/* Grid */}
@@ -71,7 +73,7 @@ export default function RecommendedProducts({
               {/* Features checklist */}
               <div className="mb-4">
                 <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2">
-                  꼭 확인할 특징
+                  {t('recProducts.featuresLabel')}
                 </div>
                 <ul className="flex flex-col gap-1.5">
                   {item.features.map((f, fi) => (
@@ -91,7 +93,7 @@ export default function RecommendedProducts({
               {/* Brand examples */}
               <div className="mb-4">
                 <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2">
-                  검색에 참고할 브랜드
+                  {t('recProducts.brandsLabel')}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {item.brandExamples.map((b, bi) => (
@@ -113,7 +115,7 @@ export default function RecommendedProducts({
                   rel="sponsored noopener noreferrer"
                   className={`inline-flex items-center gap-1.5 text-sm font-bold bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent group-hover:gap-2 transition-all`}
                 >
-                  제품 찾아보기
+                  {t('recProducts.findProducts')}
                   <span
                     className="material-symbols-outlined text-base"
                     style={{ color: accentColor }}
@@ -124,7 +126,7 @@ export default function RecommendedProducts({
               ) : (
                 <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
                   <span className="material-symbols-outlined text-sm">schedule</span>
-                  구매 링크 준비 중
+                  {t('recProducts.comingSoon')}
                 </div>
               )}
             </article>
@@ -134,8 +136,7 @@ export default function RecommendedProducts({
         {/* Disclosure — only when affiliate enabled */}
         {AFFILIATE_ENABLED && (
           <p className="mt-8 text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            이 페이지는 제휴 링크를 포함할 수 있으며, 구매 발생 시 당사가 소정의 수수료를 받을 수 있습니다.
-            수수료는 제품 가격에 영향을 주지 않으며, 추천은 유형별 특성 분석을 기반으로 이뤄집니다.
+            {t('recProducts.disclosure')}
           </p>
         )}
       </div>

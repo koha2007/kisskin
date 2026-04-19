@@ -1,10 +1,16 @@
 import { useState, useEffect, useMemo } from 'react'
 import { PC_QUESTIONS, computeSeason, type PCAnswer } from '../lib/personal-color/questions'
 import { PERSONAL_COLOR_TYPES, SEASON_ORDER } from '../lib/personal-color/types'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
+
+// Back-compat re-exports (FaceShape pages import these names from this file)
+export { ToolsNav as ToolNav, ToolsFooter as ToolFooter } from '../components/ToolsLayout'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
 export default function PersonalColorQuiz() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>('intro')
   const [idx, setIdx] = useState(0)
   const [answers, setAnswers] = useState<PCAnswer[]>([])
@@ -43,7 +49,7 @@ export default function PersonalColorQuiz() {
     return (
       <div className="font-display bg-background-light min-h-screen">
         <style>{quizStyles}</style>
-        <ToolNav />
+        <ToolsNav />
         <main>
 
         <section className="relative py-12 md:py-20 overflow-hidden">
@@ -52,7 +58,7 @@ export default function PersonalColorQuiz() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-700 text-xs font-bold uppercase tracking-wider mb-6">
               <span className="material-symbols-outlined text-sm">palette</span>
-              퍼스널 컬러 자가진단 · 2026
+              {t('tools.pc.badge')}
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-navy mb-4">
               나의 퍼스널 컬러는?
@@ -63,18 +69,18 @@ export default function PersonalColorQuiz() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
               <button onClick={() => setPhase('quiz')} className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-10 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 shadow-xl shadow-amber-500/25">
-                진단 시작하기
+                {t('tools.common.startDiagnosis')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
               <a href="#seasons-preview" className="border border-amber-200 hover:border-amber-400 hover:bg-amber-50 px-10 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 text-slate-700">
                 <span className="material-symbols-outlined text-amber-600">grid_view</span>
-                4가지 타입 미리 보기
+                {t('tools.pc.previewCta')}
               </a>
             </div>
             <div className="flex items-center justify-center gap-6 text-sm text-slate-500 flex-wrap">
-              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">schedule</span> 약 2분</span>
-              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">lock</span> 무료·로그인 불필요</span>
-              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">share</span> 결과 공유 가능</span>
+              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">schedule</span> {t('tools.common.about2min')}</span>
+              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">lock</span> {t('tools.common.freeNoLogin')}</span>
+              <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base">share</span> {t('tools.common.shareable')}</span>
             </div>
           </div>
         </section>
@@ -115,7 +121,7 @@ export default function PersonalColorQuiz() {
             </div>
             <div className="text-center mt-10">
               <button onClick={() => setPhase('quiz')} className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-amber-500/25 inline-flex items-center gap-2">
-                진단 시작하기
+                {t('tools.common.startDiagnosis')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
             </div>
@@ -123,7 +129,7 @@ export default function PersonalColorQuiz() {
         </section>
 
         </main>
-        <ToolFooter />
+        <ToolsFooter />
       </div>
     )
   }
@@ -133,7 +139,7 @@ export default function PersonalColorQuiz() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-background-light gap-4">
         <style>{quizStyles}</style>
         <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-600 text-sm">진단 결과를 계산하고 있어요…</p>
+        <p className="text-slate-600 text-sm">{t('tools.common.analyzing')}</p>
       </div>
     )
   }
@@ -143,12 +149,12 @@ export default function PersonalColorQuiz() {
       <style>{quizStyles}</style>
       <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-amber-100">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
-          <button onClick={onBack} className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-amber-50 text-slate-500 hover:text-amber-600" aria-label="이전">
+          <button onClick={onBack} className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-amber-50 text-slate-500 hover:text-amber-600" aria-label={t('tools.common.previousQuestion')}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div className="flex-1">
             <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-              <span className="text-amber-600">질문 {idx + 1} / {PC_QUESTIONS.length}</span>
+              <span className="text-amber-600">Q {idx + 1} / {PC_QUESTIONS.length}</span>
               <span className="text-slate-400">{Math.round(progress)}%</span>
             </div>
             <div className="h-1.5 bg-amber-100 rounded-full overflow-hidden">
@@ -175,62 +181,6 @@ export default function PersonalColorQuiz() {
         </div>
       </main>
     </div>
-  )
-}
-
-export function ToolNav() {
-  return (
-    <nav className="sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
-          <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
-        </a>
-        <div className="flex items-center gap-3">
-          <a href="/tools/" className="text-sm font-medium text-slate-200 hover:text-primary px-3 py-1.5 rounded-md border border-slate-500">도구 모음</a>
-          <a href="/analysis" className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 text-white px-5 py-2 rounded-full text-sm font-bold items-center gap-1.5">AI 메이크업</a>
-        </div>
-      </div>
-    </nav>
-  )
-}
-
-export function ToolFooter() {
-  return (
-    <footer className="bg-navy text-white pt-14 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-3 gap-10 mb-10">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
-              <span className="text-2xl font-bold tracking-tight">kissinskin</span>
-            </div>
-            <p className="text-slate-300 text-sm max-w-xs">AI 기반 K-뷰티 메이크업 시뮬레이터.</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">도구</h3>
-            <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-              <li><a href="/analysis" className="hover:text-primary">AI 메이크업</a></li>
-              <li><a href="/tools/makeup-mbti/" className="hover:text-primary">메이크업 MBTI</a></li>
-              <li><a href="/tools/personal-color/" className="hover:text-primary">퍼스널 컬러</a></li>
-              <li><a href="/tools/face-shape/" className="hover:text-primary">얼굴형 진단</a></li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">Legal</h3>
-            <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-              <li><a href="/terms" className="hover:text-primary">Terms of Service</a></li>
-              <li><a href="/privacy" className="hover:text-primary">Privacy Policy</a></li>
-              <li><a href="/refund" className="hover:text-primary">Refund Policy</a></li>
-              <li><a href="/contact" className="hover:text-primary">Contact Us</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="pt-8 border-t border-navy-mid text-center">
-          <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
   )
 }
 

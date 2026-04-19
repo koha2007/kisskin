@@ -1,10 +1,13 @@
 import { useState, useEffect, useMemo } from 'react'
 import { QUESTIONS, computeMbti, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
 export default function MakeupMbtiQuiz() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>('intro')
   const [currentIdx, setCurrentIdx] = useState(0)
   const [answers, setAnswers] = useState<QuizOption['letter'][]>([])
@@ -56,7 +59,7 @@ export default function MakeupMbtiQuiz() {
         <style>{styles}</style>
 
         {/* Nav */}
-        <QuizNav />
+        <ToolsNav />
 
         <main>
         {/* Hero */}
@@ -69,7 +72,7 @@ export default function MakeupMbtiQuiz() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              메이크업 성향 테스트 · 2026
+              {t('tools.mbti.badge')}
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-navy mb-4">
               나의 메이크업 MBTI는?
@@ -84,7 +87,7 @@ export default function MakeupMbtiQuiz() {
                 onClick={() => setPhase('quiz')}
                 className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-10 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25"
               >
-                테스트 시작하기
+                {t('tools.common.startQuiz')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
               <a
@@ -92,22 +95,22 @@ export default function MakeupMbtiQuiz() {
                 className="border border-pink-200 hover:border-primary/30 hover:bg-pink-50 px-10 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 text-slate-700"
               >
                 <span className="material-symbols-outlined text-primary">grid_view</span>
-                16가지 유형 먼저 보기
+                {t('tools.mbti.previewCta')}
               </a>
             </div>
 
             <div className="flex items-center justify-center gap-6 text-sm text-slate-500">
               <span className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-base">schedule</span>
-                약 2분
+                {t('tools.common.about2min')}
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-base">lock</span>
-                무료·로그인 불필요
+                {t('tools.common.freeNoLogin')}
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-base">share</span>
-                결과 공유 가능
+                {t('tools.common.shareable')}
               </span>
             </div>
           </div>
@@ -193,7 +196,7 @@ export default function MakeupMbtiQuiz() {
                 onClick={() => setPhase('quiz')}
                 className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2"
               >
-                테스트 시작하기
+                {t('tools.common.startQuiz')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
             </div>
@@ -201,7 +204,7 @@ export default function MakeupMbtiQuiz() {
         </section>
 
         </main>
-        <QuizFooter />
+        <ToolsFooter />
       </div>
     )
   }
@@ -212,7 +215,7 @@ export default function MakeupMbtiQuiz() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-background-light gap-4">
         <style>{styles}</style>
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-600 text-sm">결과를 분석하고 있어요…</p>
+        <p className="text-slate-600 text-sm">{t('tools.common.analyzing')}</p>
       </div>
     )
   }
@@ -228,13 +231,13 @@ export default function MakeupMbtiQuiz() {
           <button
             onClick={onBack}
             className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-pink-50 text-slate-500 hover:text-primary transition-colors"
-            aria-label="이전 질문으로"
+            aria-label={t('tools.common.previousQuestion')}
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div className="flex-1">
             <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-              <span className="text-primary">질문 {currentIdx + 1} / {QUESTIONS.length}</span>
+              <span className="text-primary">Q {currentIdx + 1} / {QUESTIONS.length}</span>
               <span className="text-slate-400">{Math.round(progress)}%</span>
             </div>
             <div className="h-1.5 bg-pink-100 rounded-full overflow-hidden">
@@ -284,68 +287,6 @@ export default function MakeupMbtiQuiz() {
         </div>
       </main>
     </div>
-  )
-}
-
-/* ---------- Shared nav + footer for quiz page (SEO-friendly, matches main site) ---------- */
-function QuizNav() {
-  return (
-    <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50" role="navigation" aria-label="주요 메뉴">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
-          <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
-        </a>
-        <div className="flex items-center gap-3">
-          <a href="/tools/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500">
-            도구 모음
-          </a>
-          <a href="/analysis" className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 text-white px-5 py-2 rounded-full text-sm font-bold items-center gap-1.5">
-            AI 메이크업
-          </a>
-        </div>
-      </div>
-    </nav>
-  )
-}
-
-function QuizFooter() {
-  return (
-    <footer className="bg-navy text-white pt-14 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-3 gap-10 mb-10">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
-              <span className="text-2xl font-bold tracking-tight">kissinskin</span>
-            </div>
-            <p className="text-slate-300 text-sm leading-relaxed max-w-xs">
-              AI 기반 K-뷰티 메이크업 시뮬레이터. 셀카 한 장으로 9가지 스타일을 체험하세요.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">도구</h3>
-            <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-              <li><a href="/analysis" className="hover:text-primary transition-colors">AI 메이크업 분석</a></li>
-              <li><a href="/tools/makeup-mbti/" className="hover:text-primary transition-colors">메이크업 MBTI</a></li>
-              <li><a href="/tools/" className="hover:text-primary transition-colors">전체 도구</a></li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">Legal</h3>
-            <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-              <li><a href="/terms" className="hover:text-primary transition-colors">Terms of Service</a></li>
-              <li><a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-              <li><a href="/refund" className="hover:text-primary transition-colors">Refund Policy</a></li>
-              <li><a href="/contact" className="hover:text-primary transition-colors">Contact Us</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="pt-8 border-t border-navy-mid text-center">
-          <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
   )
 }
 
