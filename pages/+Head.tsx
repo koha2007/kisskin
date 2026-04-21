@@ -3,6 +3,11 @@ export default function Head() {
     <>
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5109067049933124"
+        crossOrigin="anonymous"
+      />
       <meta name="theme-color" content="#eb4763" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
