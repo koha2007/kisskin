@@ -2,6 +2,7 @@ export default function Head() {
   return (
     <>
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
+      <meta name="naver-site-verification" content="efbca87df560d16f2ce20199b681b86319b65e56" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
       <script
         async
