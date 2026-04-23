@@ -3,12 +3,14 @@ Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /cdn-cgi/
 
 User-agent: Yeti
 Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /cdn-cgi/
 Crawl-delay: 2
 
 User-agent: Googlebot
