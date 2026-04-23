@@ -1,6 +1,6 @@
 export default function Head() {
-  const title = 'K-뷰티 AI 도구 모음 | 메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 - kissinskin'
-  const desc = '메이크업 시뮬레이터, 메이크업 MBTI, 퍼스널 컬러 진단, 얼굴형 진단 — kissinskin의 무료 K-뷰티 AI 도구를 한 곳에서. 로그인 없이 바로 이용 가능합니다.'
+  const title = 'K-뷰티 AI 도구 모음 | kissinskin'
+  const desc = '메이크업 시뮬레이터·MBTI·퍼스널 컬러·얼굴형 진단 — 무료 K-뷰티 AI 도구 모음.'
   const keywords = 'K-뷰티 AI 도구, 메이크업 AI, 메이크업 MBTI, 퍼스널 컬러 진단, 얼굴형 진단, 무료 뷰티 테스트, 한국 메이크업, personal color test, kissinskin'
   return (
     <>

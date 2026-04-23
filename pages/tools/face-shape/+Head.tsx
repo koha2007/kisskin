@@ -1,6 +1,6 @@
 export default function Head() {
-  const title = '얼굴형 진단 | 계란형·둥근형·각진형·긴형·하트형 — kissinskin'
-  const desc = '8문항 무료 얼굴형 자가 진단. 5가지 얼굴형별 맞춤 컨투어링·메이크업·헤어·안경 가이드를 한 번에 확인하세요.'
+  const title = '얼굴형 진단 테스트 | kissinskin'
+  const desc = '8문항 무료 얼굴형 진단. 5가지 얼굴형별 맞춤 컨투어링·메이크업·헤어 가이드.'
   return (
     <>
       <title>{title}</title>

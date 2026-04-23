@@ -7,8 +7,8 @@ export default function Head() {
   const type = getMbtiTypeBySlug(slug)
   if (!type) return null
 
-  const title = `${type.koName} (${type.code}) — 메이크업 MBTI 결과 | kissinskin`
-  const desc = `${type.koName} 유형의 메이크업 성향 — ${type.tagline}. 추천 K-뷰티 스타일과 시그니처 룩 공식을 지금 확인하세요.`
+  const title = `${type.koName} (${type.code}) 메이크업 MBTI | kissinskin`
+  const desc = `${type.koName} 유형 메이크업 성향 — ${type.tagline}.`
   const url = `https://kissinskin.net/tools/makeup-mbti/${type.slug}/`
 
   return (

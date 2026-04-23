@@ -2,8 +2,8 @@ export default function Head() {
   return (
     <>
       {/* GEO #1 - Korean-focused meta for AI citation */}
-      <title>kissinskin — AI K-뷰티 메이크업 시뮬레이터 | 셀카로 9가지 룩</title>
-      <meta name="description" content="셀카 한 장을 올리면 AI가 60초 안에 9가지 한국 메이크업 룩을 시뮬레이션하고, 피부 타입에 맞는 K-뷰티 제품과 구매 링크를 추천합니다. 퍼스널컬러 진단 포함." />
+      <title>AI K-뷰티 메이크업 시뮬레이터 | kissinskin</title>
+      <meta name="description" content="셀카로 60초 AI K-뷰티 메이크업 9가지 + 퍼스널컬러 진단·맞춤 화장품 추천." />
 
       {/* Canonical + hreflang */}
       <link rel="canonical" href="https://kissinskin.net/" />
@@ -14,8 +14,8 @@ export default function Head() {
       {/* GEO #2 - Open Graph for AI sharing/citation */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="kissinskin" />
-      <meta property="og:title" content="AI K-뷰티 메이크업 시뮬레이터 — kissinskin" />
-      <meta property="og:description" content="셀카 한 장으로 9가지 K-뷰티 메이크업을 AI가 시뮬레이션. 퍼스널컬러 진단·피부 분석·제품 추천까지 60초 완성." />
+      <meta property="og:title" content="AI K-뷰티 메이크업 시뮬레이터 | kissinskin" />
+      <meta property="og:description" content="셀카로 60초 AI K-뷰티 메이크업 9가지 + 퍼스널컬러 진단·맞춤 화장품 추천." />
       <meta property="og:url" content="https://kissinskin.net/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:image:width" content="1200" />
@@ -26,8 +26,8 @@ export default function Head() {
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="AI K-뷰티 메이크업 시뮬레이터 — kissinskin" />
-      <meta name="twitter:description" content="셀카 한 장으로 9가지 K-뷰티 메이크업을 AI가 시뮬레이션합니다." />
+      <meta name="twitter:title" content="AI K-뷰티 메이크업 시뮬레이터 | kissinskin" />
+      <meta name="twitter:description" content="셀카로 60초 AI K-뷰티 메이크업 9가지 + 퍼스널컬러 진단·맞춤 화장품 추천." />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
 
       {/* GEO #3 - WebApplication Schema with featureList + multiple offers */}

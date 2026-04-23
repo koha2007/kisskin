@@ -1,27 +1,29 @@
 export default function Head() {
   return (
     <>
-      <title>Terms of Service | kissinskin - AI K-Beauty Makeup Simulator</title>
-      <meta name="description" content="Read the Terms of Service for kissinskin, the AI-powered K-beauty makeup simulator. Learn about usage terms, payment policies, and user responsibilities." />
+      <title>이용약관 | kissinskin</title>
+      <meta name="description" content="kissinskin AI K-뷰티 메이크업 시뮬레이터 이용약관 — 서비스 이용 조건·결제·사용자 책임 안내." />
       <link rel="canonical" href="https://kissinskin.net/terms/" />
-      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/terms/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/terms/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/terms/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/terms/" />
       <meta property="og:type" content="article" />
       <meta property="og:url" content="https://kissinskin.net/terms/" />
-      <meta property="og:title" content="Terms of Service | kissinskin" />
-      <meta property="og:description" content="Terms of Service for kissinskin AI K-beauty makeup simulator." />
+      <meta property="og:title" content="이용약관 | kissinskin" />
+      <meta property="og:description" content="kissinskin AI K-뷰티 메이크업 시뮬레이터 이용약관 — 서비스 이용 조건·결제 안내." />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:site_name" content="kissinskin" />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale" content="ko_KR" />
+      <meta property="og:locale:alternate" content="en_US" />
       <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Terms of Service | kissinskin" />
-      <meta name="twitter:description" content="Terms of Service for kissinskin AI K-beauty makeup simulator." />
+      <meta name="twitter:title" content="이용약관 | kissinskin" />
+      <meta name="twitter:description" content="kissinskin AI K-뷰티 메이크업 시뮬레이터 이용약관." />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kissinskin.net/" },
-          { "@type": "ListItem", "position": 2, "name": "Terms of Service", "item": "https://kissinskin.net/terms/" }
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://kissinskin.net/" },
+          { "@type": "ListItem", "position": 2, "name": "이용약관", "item": "https://kissinskin.net/terms/" }
         ]
       }) }} />
     </>

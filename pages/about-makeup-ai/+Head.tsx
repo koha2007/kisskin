@@ -1,6 +1,6 @@
 export default function Head() {
-  const title = 'K-뷰티 메이크업 완전 가이드 | 역사·18가지 스타일·AI 원리 — kissinskin'
-  const desc = 'K-뷰티 메이크업의 역사, 9가지 여성·9가지 남성 스타일 상세 설명, AI 메이크업 시뮬레이션의 원리, 사진 촬영 팁까지. 3,000단어 심화 가이드.'
+  const title = 'K-뷰티 메이크업 완전 가이드 | kissinskin'
+  const desc = 'K-뷰티 역사·18가지 스타일·AI 메이크업 원리 심화 가이드. 3,000단어.'
   return (
     <>
       <title>{title}</title>

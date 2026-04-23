@@ -1,6 +1,6 @@
 export default function Head() {
-  const title = '메이크업 MBTI 테스트 | 16가지 K-뷰티 성향 분석 — kissinskin'
-  const desc = '10문항으로 알아보는 나의 메이크업 MBTI. 16가지 유형별 맞춤 K-뷰티 스타일과 시그니처 룩 공식을 무료로 확인하세요. 로그인 불필요.'
+  const title = '메이크업 MBTI 테스트 | kissinskin'
+  const desc = '10문항 무료 메이크업 MBTI. 16가지 유형별 K-뷰티 스타일과 시그니처 룩 공식.'
   return (
     <>
       <title>{title}</title>

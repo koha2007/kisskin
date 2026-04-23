@@ -6,8 +6,8 @@ export default function Head() {
   const slug = (ctx.routeParams?.type ?? '').toString()
   const t = getFaceShapeBySlug(slug)
   if (!t) return null
-  const title = `${t.koName} 얼굴형 메이크업·컨투어링 가이드 | kissinskin`
-  const desc = `${t.koName} (${t.enName}) 특징과 맞춤 컨투어링·메이크업·헤어·안경 가이드. ${t.tagline}`
+  const title = `${t.koName} 얼굴형 메이크업 가이드 | kissinskin`
+  const desc = `${t.koName} 얼굴형 맞춤 컨투어링·메이크업·헤어 가이드.`
   const url = `https://kissinskin.net/tools/face-shape/${t.slug}/`
   return (
     <>
