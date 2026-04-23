@@ -12,8 +12,12 @@ export default function Head() {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={desc} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={desc} />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "Article",
         "headline": "K-뷰티 메이크업 완전 가이드", "description": desc,
@@ -26,8 +30,8 @@ export default function Head() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kissinskin.net/" },
-          { "@type": "ListItem", "position": 2, "name": "Guide", "item": "https://kissinskin.net/about-makeup-ai/" }
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://kissinskin.net/" },
+          { "@type": "ListItem", "position": 2, "name": "K-뷰티 메이크업 가이드", "item": "https://kissinskin.net/about-makeup-ai/" }
         ]
       }) }} />
     </>

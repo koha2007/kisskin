@@ -12,8 +12,12 @@ export default function Head() {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={desc} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={desc} />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "Quiz",
         "name": "얼굴형 자가 진단", "description": desc,
@@ -22,9 +26,9 @@ export default function Head() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kissinskin.net/" },
-          { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kissinskin.net/tools/" },
-          { "@type": "ListItem", "position": 3, "name": "Face Shape", "item": "https://kissinskin.net/tools/face-shape/" }
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://kissinskin.net/" },
+          { "@type": "ListItem", "position": 2, "name": "AI 도구", "item": "https://kissinskin.net/tools/" },
+          { "@type": "ListItem", "position": 3, "name": "얼굴형 진단", "item": "https://kissinskin.net/tools/face-shape/" }
         ]
       }) }} />
     </>

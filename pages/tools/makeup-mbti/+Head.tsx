@@ -34,9 +34,9 @@ export default function Head() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kissinskin.net/" },
-          { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kissinskin.net/tools/" },
-          { "@type": "ListItem", "position": 3, "name": "Makeup MBTI", "item": "https://kissinskin.net/tools/makeup-mbti/" }
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://kissinskin.net/" },
+          { "@type": "ListItem", "position": 2, "name": "AI 도구", "item": "https://kissinskin.net/tools/" },
+          { "@type": "ListItem", "position": 3, "name": "메이크업 MBTI 테스트", "item": "https://kissinskin.net/tools/makeup-mbti/" }
         ]
       }) }} />
     </>

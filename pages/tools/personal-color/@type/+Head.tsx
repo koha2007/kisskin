@@ -20,8 +20,12 @@ export default function Head() {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={desc} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={desc} />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "Article",
         "headline": `${t.koName} — 퍼스널 컬러 완전 가이드`,
@@ -29,6 +33,15 @@ export default function Head() {
         "author": { "@type": "Organization", "name": "kissinskin" },
         "publisher": { "@type": "Organization", "name": "kissinskin" },
         "mainEntityOfPage": { "@type": "WebPage", "@id": url }
+      }) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://kissinskin.net/" },
+          { "@type": "ListItem", "position": 2, "name": "AI 도구", "item": "https://kissinskin.net/tools/" },
+          { "@type": "ListItem", "position": 3, "name": "퍼스널 컬러 진단", "item": "https://kissinskin.net/tools/personal-color/" },
+          { "@type": "ListItem", "position": 4, "name": t.koName, "item": url }
+        ]
       }) }} />
     </>
   )
