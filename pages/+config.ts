@@ -29,6 +29,9 @@ export default {
     <script defer src="https://static.addtoany.com/menu/page.js"></script>
     <script>
       window.addEventListener('load', function() {
+        var h = location.hostname;
+        var isKissinskin = h === 'kissinskin.net' || h === 'www.kissinskin.net' || h === 'localhost' || h === '127.0.0.1';
+        if (!isKissinskin) return;
         var gs = document.createElement('script');
         gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-JJ7G39W5T3';
         gs.async = true;
