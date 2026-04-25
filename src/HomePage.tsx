@@ -408,14 +408,44 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 <strong className="text-primary"> {t('home.hero.subtitleBold')}</strong>{t('home.hero.subtitleEnd')}
               </p>
 
-              {/* Product recommendation highlight */}
-              <div className="animate-fade-in-up-delay flex items-start gap-3 bg-white/80 rounded-2xl p-4 border border-pink-100 shadow-sm max-w-lg backdrop-blur-sm text-left">
-                <span className="material-symbols-outlined text-primary text-2xl flex-shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_bag</span>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  <strong className="text-navy-mid">{t('home.hero.productHighlightBold')}</strong>{t('home.hero.productHighlight')}
-                  <strong className="text-primary"> {t('home.hero.productHighlightLink')}</strong>{t('home.hero.productHighlightEnd')}
-                </p>
-              </div>
+              {/* Compact Before → After Visual Proof */}
+              <a
+                href="#how"
+                className="animate-fade-in-up-delay flex items-center gap-2 sm:gap-3 bg-white/80 rounded-2xl p-2.5 sm:p-3 border border-pink-100 shadow-sm backdrop-blur-sm hover:border-primary/30 hover:shadow-md transition-all"
+                aria-label={t('home.hero.viewStyles')}
+              >
+                <div className="relative rounded-xl overflow-hidden border border-pink-100 shrink-0">
+                  <img
+                    src="/example-input.webp"
+                    alt={t('home.hero.previewLabel')}
+                    width={64}
+                    height={84}
+                    loading="eager"
+                    decoding="sync"
+                    fetchPriority="high"
+                    className="block w-14 h-[72px] sm:w-16 sm:h-[84px] object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent text-white text-[0.6rem] font-bold px-1.5 py-0.5 leading-tight">
+                    {t('home.hero.previewLabel')}
+                  </div>
+                </div>
+                <span className="material-symbols-outlined text-primary text-xl shrink-0">arrow_forward</span>
+                <div className="relative rounded-xl overflow-hidden border-2 border-primary/30 shrink-0">
+                  <img
+                    src="/example-result.webp"
+                    alt={t('home.hero.previewResultLabel')}
+                    width={108}
+                    height={84}
+                    loading="eager"
+                    decoding="sync"
+                    fetchPriority="high"
+                    className="block w-[96px] h-[72px] sm:w-[108px] sm:h-[84px] object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent text-white text-[0.6rem] font-bold px-1.5 py-0.5 leading-tight">
+                    {t('home.hero.previewResultLabel')}
+                  </div>
+                </div>
+              </a>
 
               <div className="animate-fade-in-up-delay2 flex flex-col sm:flex-row gap-3 pt-2">
                 <button
@@ -434,13 +464,17 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 </a>
               </div>
 
-              <div className="animate-fade-in-up-delay2 flex items-center gap-6 pt-1">
-                <div className="flex items-center gap-0.5">
-                  {[1,2,3,4,5].map(i => (
-                    <span key={i} className="material-symbols-outlined text-amber-400 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                  ))}
-                </div>
-                <p className="text-sm text-slate-500">{t('home.hero.userCount')}</p>
+              <div className="animate-fade-in-up-delay2 flex flex-wrap items-center justify-center gap-2 pt-1">
+                {[
+                  { icon: 'bolt', text: t('home.hero.trust1') },
+                  { icon: 'lock_open', text: t('home.hero.trust2') },
+                  { icon: 'visibility', text: t('home.hero.trust3') },
+                ].map(chip => (
+                  <span key={chip.text} className="inline-flex items-center gap-1 bg-white/70 backdrop-blur-sm border border-pink-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
+                    <span className="material-symbols-outlined text-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>{chip.icon}</span>
+                    {chip.text}
+                  </span>
+                ))}
               </div>
             </div>
 
