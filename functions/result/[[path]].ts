@@ -5,6 +5,7 @@ interface Env {
   SUPABASE_SERVICE_ROLE_KEY: string
   VITE_SUPABASE_URL?: string
   VITE_SUPABASE_ANON_KEY?: string
+  ASSETS?: { fetch: (req: Request | URL | string) => Promise<Response> }
 }
 
 const BOT_UA = /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|TelegramBot|Pinterest|Discordbot|WhatsApp|Line|Googlebot|Yeti|Bingbot|DaumOA|bot|crawl|spider|preview/i
@@ -17,12 +18,14 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
   const ua = context.request.headers.get('user-agent') || ''
 
   if (!BOT_UA.test(ua)) {
-    // Serve the SPA fallback — context.next() returns 404.html (home page HTML).
-    // We must rewrite the inlined Vike pageContext so the client router hydrates
-    // to the result page instead of the home page.
-    const spaRes = await context.next()
+    // Fetch the SPA shell (index.html) directly. context.next() returns the
+    // custom 404.html, which has no vike_pageContext to patch.
     const url = new URL(context.request.url)
     const id = url.pathname.split('/result/')[1]?.split('/')[0]?.split('?')[0] || ''
+    const indexUrl = new URL('/index.html', context.request.url)
+    const spaRes = context.env.ASSETS
+      ? await context.env.ASSETS.fetch(indexUrl)
+      : await fetch(indexUrl.toString())
     const body = await spaRes.text()
     const patched = body.replace(
       /<script id="vike_pageContext" type="application\/json">[\s\S]*?<\/script>/,
