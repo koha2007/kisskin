@@ -10,8 +10,14 @@ export function ToolsNav() {
           <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
         </a>
         <div className="flex items-center gap-2 sm:gap-3">
-          <a href="/tools/" className="text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 sm:px-3 py-1.5 rounded-md border border-slate-500">
+          <a href="/tools/" className="hidden sm:inline-flex text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 sm:px-3 py-1.5 rounded-md border border-slate-500">
             {t('tools.nav.toolsLink')}
+          </a>
+          <a href="/news/" className="hidden sm:inline-flex text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 sm:px-3 py-1.5 rounded-md border border-slate-500">
+            뉴스
+          </a>
+          <a href="/blog/" className="hidden sm:inline-flex text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 sm:px-3 py-1.5 rounded-md border border-slate-500">
+            블로그
           </a>
           <button
             onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
@@ -49,6 +55,9 @@ export function ToolsFooter() {
               <li><a href="/tools/makeup-mbti/" className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
               <li><a href="/tools/personal-color/" className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href="/tools/face-shape/" className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>
+              <li><a href="/news/" className="hover:text-primary">뉴스</a></li>
+              <li><a href="/blog/" className="hover:text-primary">블로그</a></li>
+              <li><a href="/about-makeup-ai/" className="hover:text-primary">K-뷰티 가이드</a></li>
             </ul>
           </div>
           <div className="flex flex-col gap-3">

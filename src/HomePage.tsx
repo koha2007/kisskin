@@ -333,10 +333,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden md:flex items-center gap-6">
             <a href="#styles" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.styles')}</a>
-            <a href="#how" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.howItWorks')}</a>
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
+            <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">뉴스</a>
+            <a href="/blog/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">블로그</a>
             <a href="/about-makeup-ai/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.guide')}</a>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
@@ -1096,6 +1097,8 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 <li><a href="/tools/makeup-mbti/" className="hover:text-primary transition-colors cursor-pointer">메이크업 MBTI</a></li>
                 <li><a href="/tools/personal-color/" className="hover:text-primary transition-colors cursor-pointer">퍼스널 컬러 진단</a></li>
                 <li><a href="/tools/face-shape/" className="hover:text-primary transition-colors cursor-pointer">얼굴형 진단</a></li>
+                <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">뉴스</a></li>
+                <li><a href="/blog/" className="hover:text-primary transition-colors cursor-pointer">블로그</a></li>
                 <li><a href="/about-makeup-ai/" className="hover:text-primary transition-colors cursor-pointer">K-뷰티 가이드</a></li>
               </ul>
             </div>
