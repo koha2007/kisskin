@@ -3,6 +3,24 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { NEWS_ITEMS, getFeaturedNews } from '../lib/news/items'
 import { NEWS_CATEGORIES, type NewsCategory, getCategoryMeta } from '../lib/news/types'
 
+function relativeDate(iso: string): string {
+  const d = new Date(iso)
+  const now = new Date()
+  const diffMs = now.getTime() - d.getTime()
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  if (diffDays < 0) return formatAbsoluteDate(iso)
+  if (diffDays === 0) return '오늘'
+  if (diffDays === 1) return '어제'
+  if (diffDays < 7) return `${diffDays}일 전`
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`
+  return formatAbsoluteDate(iso)
+}
+
+function formatAbsoluteDate(iso: string): string {
+  const d = new Date(iso)
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
+}
+
 export default function NewsHub() {
   const [activeCategory, setActiveCategory] = useState<NewsCategory | 'all'>('all')
 
@@ -12,8 +30,12 @@ export default function NewsHub() {
       activeCategory === 'all'
         ? NEWS_ITEMS
         : NEWS_ITEMS.filter((n) => n.category === activeCategory)
-    return filteredItems.filter((n) => !n.featured || activeCategory !== 'all')
+    const items = filteredItems.filter((n) => !n.featured || activeCategory !== 'all')
+    return [...items].sort((a, b) => (a.date < b.date ? 1 : -1))
   }, [activeCategory])
+
+  const sideRail = useMemo(() => filtered.slice(0, 5), [filtered])
+  const mainGrid = useMemo(() => filtered.slice(5), [filtered])
 
   const categoryCounts = useMemo(() => {
     const counts = new Map<string, number>()
@@ -24,88 +46,114 @@ export default function NewsHub() {
     return counts
   }, [])
 
-  const formatDate = (iso: string) => {
-    const d = new Date(iso)
-    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
-  }
-
   return (
-    <div className="font-display bg-background-light min-h-screen">
+    <div className="font-display bg-white min-h-screen">
       <ToolsNav />
 
       <main>
-        {/* Hero */}
-        <section className="relative py-12 md:py-16 overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-pink-200/40 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/4 pointer-events-none" />
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <span className="inline-flex items-center gap-2 text-primary-dark text-xs font-bold uppercase tracking-widest bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-pink-200 mb-4">
-                <span className="material-symbols-outlined text-base">campaign</span>
-                kissinskin News
-              </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy mb-3 leading-[1.15]">
-                K-뷰티 · 글로벌 화장품<br className="md:hidden" /> 트렌드 뉴스
-              </h1>
-              <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto">
-                매주 업데이트되는 화장품·메이크업·스킨케어 산업 인사이트. 카테고리별로 필요한 정보만 골라 보세요.
-              </p>
+        {/* Newsroom masthead */}
+        <section className="border-b-2 border-navy bg-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-7 md:py-10">
+            <div className="flex items-end justify-between flex-wrap gap-3">
+              <div>
+                <div className="flex items-center gap-2 text-[0.65rem] font-mono uppercase tracking-[0.3em] text-rose-600 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-rose-600 animate-pulse" />
+                  Live · Beauty Newsroom
+                </div>
+                <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-[1.05]" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+                  kissinskin News
+                </h1>
+                <p className="text-slate-600 text-sm md:text-base mt-2 max-w-2xl">
+                  K-뷰티 · 글로벌 화장품 산업의 트렌드, 신제품, 시장 데이터를 매주 업데이트합니다.
+                </p>
+              </div>
+              <div className="text-xs text-slate-500 font-mono">
+                {new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Featured */}
+        {/* Featured + Latest sidebar — TechCrunch hero+rail layout */}
         {featured && activeCategory === 'all' && (
-          <section className="py-8 md:py-10 bg-white">
+          <section className="py-8 md:py-10 border-b border-slate-200">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <a
-                href={`/news/${featured.slug}/`}
-                className="group block rounded-3xl overflow-hidden bg-gradient-to-br from-navy via-navy-mid to-purple-900 text-white p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5 relative"
-              >
-                <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-                <div className="relative">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-                    <span>{getCategoryMeta(featured.category).emoji}</span>
-                    <span>FEATURED · {getCategoryMeta(featured.category).koLabel}</span>
-                  </div>
-                  <h2 className="text-2xl md:text-4xl font-extrabold mb-4 leading-[1.2] group-hover:text-pink-100 transition-colors">
-                    {featured.title}
-                  </h2>
-                  <p className="text-slate-200 text-sm md:text-base leading-relaxed mb-6 max-w-3xl">
-                    {featured.summary}
-                  </p>
-                  <div className="flex items-center gap-4 text-xs md:text-sm text-slate-300">
-                    <span>{formatDate(featured.date)}</span>
-                    <span>·</span>
-                    <span>{featured.readMinutes}분 읽기</span>
-                    <span className="ml-auto inline-flex items-center gap-1 font-bold text-white group-hover:gap-2 transition-all">
-                      자세히 보기
-                      <span className="material-symbols-outlined">arrow_forward</span>
+              <div className="grid lg:grid-cols-3 gap-7 lg:gap-10">
+                {/* Lead story */}
+                <a
+                  href={`/news/${featured.slug}/`}
+                  className="lg:col-span-2 group block"
+                >
+                  <div
+                    className="aspect-[16/9] md:aspect-[2/1] rounded-lg flex items-center justify-center text-7xl md:text-9xl mb-5 overflow-hidden relative"
+                    style={{ background: `linear-gradient(135deg, ${getCategoryMeta(featured.category).color}25, ${getCategoryMeta(featured.category).color}05)` }}
+                  >
+                    {getCategoryMeta(featured.category).emoji}
+                    <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-rose-600 text-white px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em] rounded-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      Top Story
                     </span>
                   </div>
-                </div>
-              </a>
+                  <div className="flex items-center gap-3 mb-2 text-[0.7rem]">
+                    <span className="font-bold uppercase tracking-widest" style={{ color: getCategoryMeta(featured.category).color }}>
+                      {getCategoryMeta(featured.category).koLabel}
+                    </span>
+                    <span className="text-slate-300">·</span>
+                    <span className="text-slate-500 font-mono">{relativeDate(featured.date)}</span>
+                  </div>
+                  <h2 className="text-xl md:text-3xl lg:text-4xl font-extrabold mb-3 leading-tight text-navy group-hover:text-rose-700 transition-colors" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+                    {featured.title}
+                  </h2>
+                  <p className="text-slate-600 text-sm md:text-base leading-relaxed line-clamp-3">
+                    {featured.summary}
+                  </p>
+                </a>
+
+                {/* Latest rail */}
+                <aside className="lg:border-l lg:border-slate-200 lg:pl-7">
+                  <div className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-slate-500 mb-4 pb-2 border-b border-slate-200">
+                    Latest
+                  </div>
+                  <ul className="divide-y divide-slate-200">
+                    {sideRail.map((item) => {
+                      const meta = getCategoryMeta(item.category)
+                      return (
+                        <li key={item.slug}>
+                          <a href={`/news/${item.slug}/`} className="group block py-3.5">
+                            <div className="flex items-center gap-2 mb-1 text-[0.65rem]">
+                              <span className="font-bold uppercase tracking-widest" style={{ color: meta.color }}>{meta.koLabel}</span>
+                              <span className="text-slate-300">·</span>
+                              <span className="text-slate-500 font-mono">{relativeDate(item.date)}</span>
+                            </div>
+                            <h3 className="text-sm md:text-base font-bold text-navy leading-snug group-hover:text-rose-700 transition-colors line-clamp-2">
+                              {item.title}
+                            </h3>
+                          </a>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </aside>
+              </div>
             </div>
           </section>
         )}
 
-        {/* Category Filter */}
-        <section className="sticky top-16 z-30 bg-background-light/80 backdrop-blur-md border-b border-pink-100 py-3">
+        {/* Category filter */}
+        <section className="sticky top-16 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 py-3">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
-              <CategoryChip
+              <CategoryTab
                 active={activeCategory === 'all'}
                 label="전체"
-                emoji="📰"
                 count={categoryCounts.get('all') || 0}
                 onClick={() => setActiveCategory('all')}
-                color="#eb4763"
               />
               {NEWS_CATEGORIES.map((cat) => (
-                <CategoryChip
+                <CategoryTab
                   key={cat.code}
                   active={activeCategory === cat.code}
                   label={cat.koLabel}
-                  emoji={cat.emoji}
                   count={categoryCounts.get(cat.code) || 0}
                   onClick={() => setActiveCategory(cat.code)}
                   color={cat.color}
@@ -115,76 +163,62 @@ export default function NewsHub() {
           </div>
         </section>
 
-        {/* News Grid */}
-        <section className="py-8 md:py-12">
+        {/* Main feed */}
+        <section className="py-10 md:py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            {filtered.length === 0 ? (
+            {(activeCategory === 'all' ? mainGrid : filtered).length === 0 ? (
               <p className="text-center text-slate-500 py-12">이 카테고리에는 아직 기사가 없습니다.</p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-                {filtered.map((item) => {
-                  const meta = getCategoryMeta(item.category)
-                  return (
-                    <a
-                      key={item.slug}
-                      href={`/news/${item.slug}/`}
-                      className="group block bg-white rounded-2xl p-5 md:p-6 border border-pink-100 hover:border-primary/30 shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5"
-                    >
-                      <div className="flex items-center gap-2 mb-3">
-                        <span
-                          className="inline-flex items-center gap-1 text-[0.65rem] font-bold uppercase tracking-widest px-2 py-1 rounded-full"
-                          style={{ background: `${meta.color}15`, color: meta.color }}
-                        >
-                          <span>{meta.emoji}</span>
-                          {meta.koLabel}
-                        </span>
-                        <span className="text-[0.65rem] text-slate-400">{formatDate(item.date)}</span>
-                      </div>
-                      <h3 className="text-base md:text-lg font-extrabold text-navy mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-3">
-                        {item.title}
-                      </h3>
-                      <p className="text-slate-600 text-xs md:text-sm leading-relaxed line-clamp-3 mb-3">
-                        {item.summary}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[0.7rem] text-slate-400">{item.readMinutes}분 읽기</span>
-                        <span className="material-symbols-outlined text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all text-base">
-                          arrow_forward
-                        </span>
-                      </div>
-                    </a>
-                  )
-                })}
-              </div>
+              <>
+                <div className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-slate-500 mb-5 pb-2 border-b border-slate-200">
+                  {activeCategory === 'all' ? 'More Stories' : getCategoryMeta(activeCategory).koLabel + ' News'}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-9">
+                  {(activeCategory === 'all' ? mainGrid : filtered).map((item) => {
+                    const meta = getCategoryMeta(item.category)
+                    return (
+                      <a
+                        key={item.slug}
+                        href={`/news/${item.slug}/`}
+                        className="group block border-l-4 pl-4 py-1 hover:-translate-y-0.5 transition-transform"
+                        style={{ borderColor: meta.color }}
+                      >
+                        <div className="flex items-center gap-2 mb-2 text-[0.65rem]">
+                          <span className="font-bold uppercase tracking-widest" style={{ color: meta.color }}>{meta.koLabel}</span>
+                          <span className="text-slate-300">·</span>
+                          <span className="text-slate-500 font-mono">{relativeDate(item.date)}</span>
+                          <span className="text-slate-300">·</span>
+                          <span className="text-slate-500">{item.readMinutes}분</span>
+                        </div>
+                        <h3 className="text-base md:text-lg font-extrabold text-navy mb-2 leading-snug group-hover:text-rose-700 transition-colors line-clamp-3" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+                          {item.title}
+                        </h3>
+                        <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">
+                          {item.summary}
+                        </p>
+                      </a>
+                    )
+                  })}
+                </div>
+              </>
             )}
           </div>
         </section>
 
-        {/* Sidebar-like Categories Block (mobile-friendly) */}
-        <section className="py-12 bg-white border-t border-pink-100">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">
-              카테고리별 뉴스 둘러보기
+        {/* Newsletter signup band */}
+        <section className="py-12 bg-navy text-white">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-rose-300 mb-3">Stay updated</div>
+            <h2 className="text-2xl md:text-3xl font-extrabold mb-3 tracking-tight" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+              매주 K-뷰티 트렌드를 가장 먼저
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              {NEWS_CATEGORIES.map((cat) => (
-                <button
-                  key={cat.code}
-                  onClick={() => {
-                    setActiveCategory(cat.code)
-                    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
-                  }}
-                  className="group p-5 rounded-2xl border bg-white hover:shadow-lg transition-all text-left"
-                  style={{ borderColor: `${cat.color}30` }}
-                >
-                  <div className="text-3xl mb-2">{cat.emoji}</div>
-                  <div className="text-sm font-extrabold text-navy mb-0.5">{cat.koLabel}</div>
-                  <div className="text-[0.7rem] text-slate-400">
-                    기사 {categoryCounts.get(cat.code) || 0}개
-                  </div>
-                </button>
-              ))}
-            </div>
+            <p className="text-slate-300 text-sm md:text-base mb-6 max-w-xl mx-auto">
+              주요 신제품, 시장 데이터, 글로벌 트렌드를 한 페이지로 정리해 매주 화요일 발송합니다.
+            </p>
+            <a href="/blog/" className="inline-flex items-center gap-2 bg-white text-navy px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-100 transition-all">
+              인사이트 더 읽기
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
           </div>
         </section>
       </main>
@@ -194,34 +228,31 @@ export default function NewsHub() {
   )
 }
 
-function CategoryChip({
+function CategoryTab({
   active,
   label,
-  emoji,
   count,
   onClick,
   color,
 }: {
   active: boolean
   label: string
-  emoji: string
   count: number
   onClick: () => void
-  color: string
+  color?: string
 }) {
   return (
     <button
       onClick={onClick}
-      className="shrink-0 px-3.5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 border-2"
-      style={{
-        background: active ? color : 'white',
-        color: active ? 'white' : '#475569',
-        borderColor: active ? color : '#fce7f3',
-      }}
+      className={`shrink-0 px-3.5 py-1.5 text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 border-b-2 ${
+        active
+          ? 'text-navy border-navy'
+          : 'text-slate-500 border-transparent hover:text-navy'
+      }`}
+      style={active && color ? { borderColor: color, color } : undefined}
     >
-      <span>{emoji}</span>
       {label}
-      <span className="text-[0.65rem] opacity-70">{count}</span>
+      <span className="text-[0.65rem] opacity-70 font-mono">{count}</span>
     </button>
   )
 }

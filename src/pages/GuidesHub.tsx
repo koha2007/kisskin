@@ -3,6 +3,35 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { GUIDE_POSTS, getFeaturedGuide } from '../lib/guides/posts'
 import { GUIDE_CATEGORIES, type GuideCategory, getGuideCategoryMeta } from '../lib/guides/types'
 
+type Difficulty = 'easy' | 'medium' | 'pro'
+
+function getDifficulty(readMinutes: number): Difficulty {
+  if (readMinutes <= 4) return 'easy'
+  if (readMinutes <= 7) return 'medium'
+  return 'pro'
+}
+
+const DIFFICULTY_LABEL: Record<Difficulty, string> = {
+  easy: '입문',
+  medium: '중급',
+  pro: '심화',
+}
+
+function DifficultyDots({ level }: { level: Difficulty }) {
+  const filled = level === 'easy' ? 1 : level === 'medium' ? 2 : 3
+  return (
+    <span className="inline-flex items-center gap-0.5" aria-label={`난이도 ${DIFFICULTY_LABEL[level]}`}>
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-1.5 h-1.5 rounded-full"
+          style={{ background: i < filled ? '#0f766e' : '#d1d5db' }}
+        />
+      ))}
+    </span>
+  )
+}
+
 export default function GuidesHub() {
   const [activeCategory, setActiveCategory] = useState<GuideCategory | 'all'>('all')
 
@@ -30,59 +59,72 @@ export default function GuidesHub() {
   }
 
   return (
-    <div className="font-display bg-background-light min-h-screen">
+    <div className="font-display bg-[#fdfcf8] min-h-screen">
       <ToolsNav />
 
       <main>
-        {/* Hero */}
-        <section className="relative py-12 md:py-20 overflow-hidden bg-gradient-to-br from-emerald-50 via-cyan-50 to-pink-50">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-emerald-200/30 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-pink-200/30 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" />
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <span className="inline-flex items-center gap-2 text-emerald-700 text-xs font-bold uppercase tracking-widest bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-emerald-200 mb-4">
-                <span className="material-symbols-outlined text-base">tips_and_updates</span>
-                kissinskin Guides
-              </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy mb-4 leading-[1.15]">
-                바로 따라할 수 있는<br className="md:hidden" /> 메이크업 실전 가이드
-              </h1>
-              <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-                립스틱 지속력부터 안경 메이크업까지. 글로벌 메이크업 아티스트들이 매일 사용하는 기술과 비법을 단계별로 정리했습니다.
-              </p>
+        {/* Hero — Healthline-inspired editorial header, cream + serif accent */}
+        <section className="bg-white border-b border-slate-200">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.25em] text-emerald-700 mb-4">
+              <span className="material-symbols-outlined text-base">menu_book</span>
+              <span>The Guides Library</span>
+              <span className="text-slate-300">·</span>
+              <span className="text-slate-500">{GUIDE_POSTS.length} how-tos</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-[1.1] mb-4 max-w-3xl" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+              메이크업, 단계별로<br className="md:hidden" /> 정확하게.
+            </h1>
+            <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl">
+              립스틱 지속력부터 안경 메이크업까지 — 글로벌 아티스트가 매일 쓰는 기술을, 따라할 수 있는 단계로 정리했습니다.
+            </p>
+            {/* Difficulty legend */}
+            <div className="mt-7 inline-flex items-center gap-5 text-xs text-slate-500 bg-slate-50 px-4 py-2 rounded-lg border border-slate-200">
+              <span className="font-semibold text-slate-700">난이도</span>
+              <span className="flex items-center gap-1.5"><DifficultyDots level="easy" /> 입문</span>
+              <span className="flex items-center gap-1.5"><DifficultyDots level="medium" /> 중급</span>
+              <span className="flex items-center gap-1.5"><DifficultyDots level="pro" /> 심화</span>
             </div>
           </div>
         </section>
 
-        {/* Featured */}
+        {/* Featured — Editor's pick row */}
         {featured && activeCategory === 'all' && (
-          <section className="py-8 md:py-10 -mt-8 md:-mt-12 relative z-10">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-10 md:py-12">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-emerald-700 mb-3">Editor's Pick</div>
               <a
                 href={`/guides/${featured.slug}/`}
-                className="group block rounded-3xl overflow-hidden bg-white p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5 border border-emerald-100"
+                className="group block bg-white rounded-2xl border border-slate-200 hover:border-emerald-600 hover:shadow-lg transition-all p-7 md:p-10"
               >
-                <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                  <div
+                    className="w-full md:w-48 h-32 md:h-40 rounded-xl flex items-center justify-center text-6xl shrink-0"
+                    style={{ background: `${getGuideCategoryMeta(featured.category).color}15`, border: `1px solid ${getGuideCategoryMeta(featured.category).color}30` }}
+                  >
+                    {getGuideCategoryMeta(featured.category).emoji}
+                  </div>
                   <div className="flex-1">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full text-xs font-bold uppercase tracking-widest mb-4 shadow-md">
-                      <span>{getGuideCategoryMeta(featured.category).emoji}</span>
-                      <span>FEATURED · {getGuideCategoryMeta(featured.category).koLabel}</span>
+                    <div className="flex items-center gap-3 mb-3 text-xs">
+                      <span className="font-bold uppercase tracking-widest" style={{ color: getGuideCategoryMeta(featured.category).color }}>
+                        {getGuideCategoryMeta(featured.category).koLabel}
+                      </span>
+                      <span className="text-slate-300">·</span>
+                      <DifficultyDots level={getDifficulty(featured.readMinutes)} />
+                      <span className="text-slate-500">{DIFFICULTY_LABEL[getDifficulty(featured.readMinutes)]}</span>
+                      <span className="text-slate-300">·</span>
+                      <span className="text-slate-500">{featured.readMinutes}분</span>
                     </div>
-                    <h2 className="text-2xl md:text-4xl font-extrabold mb-4 leading-[1.2] text-navy group-hover:text-emerald-600 transition-colors">
+                    <h2 className="text-xl md:text-3xl font-extrabold mb-3 leading-snug text-navy group-hover:text-emerald-700 transition-colors" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
                       {featured.title}
                     </h2>
-                    <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
+                    <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-4">
                       {featured.summary}
                     </p>
-                    <div className="flex items-center gap-4 text-xs md:text-sm text-slate-500">
-                      <span>{formatDate(featured.date)}</span>
-                      <span>·</span>
-                      <span>{featured.readMinutes}분 읽기</span>
-                      <span className="ml-auto inline-flex items-center gap-1 font-bold text-emerald-600 group-hover:gap-2 transition-all">
-                        가이드 보기
-                        <span className="material-symbols-outlined">arrow_forward</span>
-                      </span>
-                    </div>
+                    <span className="inline-flex items-center gap-1 text-sm font-bold text-emerald-700 group-hover:gap-2 transition-all">
+                      가이드 읽기
+                      <span className="material-symbols-outlined">arrow_forward</span>
+                    </span>
                   </div>
                 </div>
               </a>
@@ -90,78 +132,76 @@ export default function GuidesHub() {
           </section>
         )}
 
-        {/* Category Filter */}
-        <section className="sticky top-16 z-30 bg-background-light/80 backdrop-blur-md border-b border-emerald-100 py-3 mt-4">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Filter — categories as text pills, library catalog feel */}
+        <section className="sticky top-16 z-30 bg-[#fdfcf8]/95 backdrop-blur-md border-y border-slate-200 py-3">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
-              <CategoryChip
+              <CategoryPill
                 active={activeCategory === 'all'}
                 label="전체"
-                emoji="📚"
                 count={categoryCounts.get('all') || 0}
                 onClick={() => setActiveCategory('all')}
-                color="#10b981"
               />
               {GUIDE_CATEGORIES.map((cat) => (
-                <CategoryChip
+                <CategoryPill
                   key={cat.code}
                   active={activeCategory === cat.code}
                   label={cat.koLabel}
-                  emoji={cat.emoji}
                   count={categoryCounts.get(cat.code) || 0}
                   onClick={() => setActiveCategory(cat.code)}
-                  color={cat.color}
                 />
               ))}
             </div>
           </div>
         </section>
 
-        {/* Posts Grid */}
-        <section className="py-8 md:py-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Posts list — Healthline-inspired list-row layout (not card grid) */}
+        <section className="py-10 md:py-14">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             {filtered.length === 0 ? (
               <p className="text-center text-slate-500 py-12">이 카테고리에는 아직 가이드가 없습니다.</p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+              <div className="divide-y divide-slate-200 border-y border-slate-200">
                 {filtered.map((post) => {
                   const meta = getGuideCategoryMeta(post.category)
+                  const difficulty = getDifficulty(post.readMinutes)
                   return (
                     <a
                       key={post.slug}
                       href={`/guides/${post.slug}/`}
-                      className="group block bg-white rounded-2xl overflow-hidden border border-emerald-100 hover:border-emerald-300 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+                      className="group flex items-start gap-5 md:gap-7 py-6 md:py-7 hover:bg-white transition-colors -mx-4 md:-mx-6 px-4 md:px-6 rounded-lg"
                     >
                       <div
-                        className="h-40 md:h-48 flex items-center justify-center relative overflow-hidden"
-                        style={{
-                          background: `linear-gradient(135deg, ${meta.color}25 0%, ${meta.color}05 100%)`,
-                        }}
+                        className="w-14 h-14 md:w-20 md:h-20 rounded-xl flex items-center justify-center text-2xl md:text-4xl shrink-0"
+                        style={{ background: `${meta.color}12`, border: `1px solid ${meta.color}25` }}
                       >
-                        <div className="text-7xl md:text-8xl opacity-90 group-hover:scale-110 transition-transform duration-500">
-                          {meta.emoji}
-                        </div>
-                        <div className="absolute top-3 left-3">
-                          <span
-                            className="inline-flex items-center gap-1 text-[0.65rem] font-bold uppercase tracking-widest px-2 py-1 rounded-full backdrop-blur-sm"
-                            style={{ background: `${meta.color}30`, color: meta.color }}
-                          >
+                        {meta.emoji}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mb-1.5 text-[0.7rem] md:text-xs">
+                          <span className="font-bold uppercase tracking-widest" style={{ color: meta.color }}>
                             {meta.koLabel}
                           </span>
+                          <span className="text-slate-300">·</span>
+                          <span className="inline-flex items-center gap-1.5 text-slate-500">
+                            <DifficultyDots level={difficulty} />
+                            {DIFFICULTY_LABEL[difficulty]}
+                          </span>
+                          <span className="text-slate-300">·</span>
+                          <span className="text-slate-500">{post.readMinutes}분</span>
+                          <span className="text-slate-300 hidden md:inline">·</span>
+                          <span className="text-slate-400 hidden md:inline">{formatDate(post.date)}</span>
                         </div>
-                      </div>
-                      <div className="p-5 md:p-6">
-                        <h3 className="text-base md:text-lg font-extrabold text-navy mb-2 leading-snug group-hover:text-emerald-600 transition-colors line-clamp-3">
+                        <h3 className="text-base md:text-xl font-extrabold text-navy mb-1.5 leading-snug group-hover:text-emerald-700 transition-colors" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
                           {post.title}
                         </h3>
-                        <p className="text-slate-600 text-xs md:text-sm leading-relaxed line-clamp-3 mb-3">
+                        <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">
                           {post.summary}
                         </p>
-                        <div className="flex items-center justify-between text-[0.7rem] text-slate-400">
-                          <span>{formatDate(post.date)}</span>
-                          <span>{post.readMinutes}분 읽기</span>
-                        </div>
                       </div>
+                      <span className="material-symbols-outlined text-slate-300 group-hover:text-emerald-700 group-hover:translate-x-1 transition-all hidden md:block self-center">
+                        arrow_forward
+                      </span>
                     </a>
                   )
                 })}
@@ -176,34 +216,28 @@ export default function GuidesHub() {
   )
 }
 
-function CategoryChip({
+function CategoryPill({
   active,
   label,
-  emoji,
   count,
   onClick,
-  color,
 }: {
   active: boolean
   label: string
-  emoji: string
   count: number
   onClick: () => void
-  color: string
 }) {
   return (
     <button
       onClick={onClick}
-      className="shrink-0 px-3.5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 border-2"
-      style={{
-        background: active ? color : 'white',
-        color: active ? 'white' : '#475569',
-        borderColor: active ? color : '#a7f3d0',
-      }}
+      className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all flex items-center gap-1.5 border ${
+        active
+          ? 'bg-navy text-white border-navy'
+          : 'bg-white text-slate-700 border-slate-300 hover:border-navy hover:text-navy'
+      }`}
     >
-      <span>{emoji}</span>
       {label}
-      <span className="text-[0.65rem] opacity-70">{count}</span>
+      <span className={`text-[0.65rem] ${active ? 'opacity-70' : 'text-slate-400'}`}>{count}</span>
     </button>
   )
 }

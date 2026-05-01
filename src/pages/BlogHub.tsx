@@ -12,7 +12,8 @@ export default function BlogHub() {
       activeCategory === 'all'
         ? BLOG_POSTS
         : BLOG_POSTS.filter((p) => p.category === activeCategory)
-    return items.filter((p) => !p.featured || activeCategory !== 'all')
+    const list = items.filter((p) => !p.featured || activeCategory !== 'all')
+    return [...list].sort((a, b) => (a.date < b.date ? 1 : -1))
   }, [activeCategory])
 
   const categoryCounts = useMemo(() => {
@@ -26,178 +27,131 @@ export default function BlogHub() {
 
   const formatDate = (iso: string) => {
     const d = new Date(iso)
-    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
   }
 
   return (
-    <div className="font-display bg-background-light min-h-screen">
+    <div className="font-display bg-[#faf8f4] min-h-screen">
       <ToolsNav />
 
       <main>
-        {/* Hero */}
-        <section className="relative py-12 md:py-20 overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-amber-50">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-200/30 to-transparent rounded-full blur-3xl -translate-y-1/2 -translate-x-1/4 pointer-events-none" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gradient-to-tl from-pink-200/30 to-transparent rounded-full blur-3xl translate-y-1/3 translate-x-1/4 pointer-events-none" />
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <span className="inline-flex items-center gap-2 text-purple-700 text-xs font-bold uppercase tracking-widest bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-purple-200 mb-4">
-                <span className="material-symbols-outlined text-base">menu_book</span>
-                kissinskin Blog
-              </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy mb-4 leading-[1.15]">
-                뷰티의 호기심을 풀어주는<br className="md:hidden" /> 데이터 기반 인사이트
-              </h1>
-              <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-                K-뷰티 · 글로벌 화장품 · 메이크업 사이언스 · 데이터 분석. 뷰티 산업의 진짜 이야기를 깊이 있게 풀어 드립니다.
-              </p>
+        {/* Hero — Stripe Press inspired: minimal, big serif, generous whitespace */}
+        <section className="bg-[#faf8f4]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            <div className="text-[0.7rem] font-mono uppercase tracking-[0.3em] text-purple-700 mb-6">
+              kissinskin · Insights
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-navy leading-[0.95] mb-7" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+              뷰티의 진짜 이야기.
+            </h1>
+            <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl">
+              K-뷰티의 시장 데이터, 메디코스메틱 성분의 과학, 100년 화장품의 역사까지 — 단순한 트렌드 너머의 깊이.
+            </p>
+            <div className="mt-8 flex items-center gap-5 text-sm text-slate-500">
+              <span className="font-mono">{BLOG_POSTS.length} essays</span>
+              <span className="text-slate-300">·</span>
+              <span>매주 업데이트</span>
             </div>
           </div>
         </section>
 
-        {/* Featured */}
+        {/* Featured — magazine-cover style spread */}
         {featured && activeCategory === 'all' && (
-          <section className="py-8 md:py-10 -mt-8 md:-mt-12 relative z-10">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <a
-                href={`/blog/${featured.slug}/`}
-                className="group block rounded-3xl overflow-hidden bg-white p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5 border border-purple-100"
-              >
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="flex-1">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-xs font-bold uppercase tracking-widest mb-4 shadow-md">
-                      <span>{getBlogCategoryMeta(featured.category).emoji}</span>
-                      <span>FEATURED · {getBlogCategoryMeta(featured.category).koLabel}</span>
-                    </div>
-                    <h2 className="text-2xl md:text-4xl font-extrabold mb-4 leading-[1.2] text-navy group-hover:text-primary transition-colors">
-                      {featured.title}
-                    </h2>
-                    <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
-                      {featured.summary}
-                    </p>
-                    <div className="flex items-center gap-4 text-xs md:text-sm text-slate-500">
-                      <span>{formatDate(featured.date)}</span>
-                      <span>·</span>
-                      <span>{featured.readMinutes}분 읽기</span>
-                      <span className="ml-auto inline-flex items-center gap-1 font-bold text-primary group-hover:gap-2 transition-all">
-                        읽어보기
-                        <span className="material-symbols-outlined">arrow_forward</span>
-                      </span>
-                    </div>
-                  </div>
+          <section className="bg-white border-y border-slate-200">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+              <div className="text-[0.7rem] font-mono uppercase tracking-[0.3em] text-purple-700 mb-5">
+                Featured Reading · {getBlogCategoryMeta(featured.category).koLabel}
+              </div>
+              <a href={`/blog/${featured.slug}/`} className="group block">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-[1.05] text-navy group-hover:text-purple-800 transition-colors max-w-3xl" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
+                  {featured.title}
+                </h2>
+                <p className="text-slate-700 text-lg md:text-xl leading-relaxed mb-7 max-w-2xl">
+                  {featured.summary}
+                </p>
+                <div className="flex items-center gap-4 text-sm text-slate-500 pt-5 border-t border-slate-200">
+                  <span className="font-mono">{formatDate(featured.date)}</span>
+                  <span className="text-slate-300">·</span>
+                  <span>{featured.readMinutes}분 읽기</span>
+                  <span className="ml-auto inline-flex items-center gap-1 font-bold text-navy group-hover:text-purple-800 group-hover:gap-2 transition-all">
+                    Read essay <span className="material-symbols-outlined">arrow_forward</span>
+                  </span>
                 </div>
               </a>
             </div>
           </section>
         )}
 
-        {/* Category Filter */}
-        <section className="sticky top-16 z-30 bg-background-light/80 backdrop-blur-md border-b border-purple-100 py-3 mt-4">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
-              <CategoryChip
+        {/* Category filter — minimal text-only links */}
+        <section className="sticky top-16 z-30 bg-[#faf8f4]/95 backdrop-blur-md border-b border-slate-300 py-3.5">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex gap-1 overflow-x-auto hide-scrollbar pb-1 text-xs md:text-sm">
+              <CategoryLink
                 active={activeCategory === 'all'}
-                label="전체"
-                emoji="📚"
+                label="All"
                 count={categoryCounts.get('all') || 0}
                 onClick={() => setActiveCategory('all')}
-                color="#a855f7"
               />
               {BLOG_CATEGORIES.map((cat) => (
-                <CategoryChip
+                <CategoryLink
                   key={cat.code}
                   active={activeCategory === cat.code}
                   label={cat.koLabel}
-                  emoji={cat.emoji}
                   count={categoryCounts.get(cat.code) || 0}
                   onClick={() => setActiveCategory(cat.code)}
-                  color={cat.color}
                 />
               ))}
             </div>
           </div>
         </section>
 
-        {/* Posts Grid */}
-        <section className="py-8 md:py-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Posts — Linear blog inspired list, type-driven, no decorative emoji blocks */}
+        <section className="py-12 md:py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             {filtered.length === 0 ? (
               <p className="text-center text-slate-500 py-12">이 카테고리에는 아직 글이 없습니다.</p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+              <ul className="divide-y divide-slate-300">
                 {filtered.map((post) => {
                   const meta = getBlogCategoryMeta(post.category)
                   return (
-                    <a
-                      key={post.slug}
-                      href={`/blog/${post.slug}/`}
-                      className="group block bg-white rounded-2xl overflow-hidden border border-purple-100 hover:border-purple-300 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
-                    >
-                      {/* Visual top */}
-                      <div
-                        className="h-40 md:h-48 flex items-center justify-center relative overflow-hidden"
-                        style={{
-                          background: `linear-gradient(135deg, ${meta.color}25 0%, ${meta.color}05 100%)`,
-                        }}
+                    <li key={post.slug}>
+                      <a
+                        href={`/blog/${post.slug}/`}
+                        className="group block py-7 md:py-9 -mx-4 md:-mx-6 px-4 md:px-6 hover:bg-white rounded-lg transition-colors"
                       >
-                        <div className="text-7xl md:text-8xl opacity-90 group-hover:scale-110 transition-transform duration-500">
-                          {meta.emoji}
-                        </div>
-                        <div className="absolute top-3 left-3">
-                          <span
-                            className="inline-flex items-center gap-1 text-[0.65rem] font-bold uppercase tracking-widest px-2 py-1 rounded-full backdrop-blur-sm"
-                            style={{ background: `${meta.color}30`, color: meta.color }}
-                          >
+                        <div className="flex items-center gap-3 mb-3 text-[0.7rem] md:text-xs">
+                          <span className="font-bold uppercase tracking-[0.2em]" style={{ color: meta.color }}>
                             {meta.koLabel}
                           </span>
+                          <span className="text-slate-300">·</span>
+                          <span className="text-slate-500 font-mono">{formatDate(post.date)}</span>
+                          <span className="text-slate-300">·</span>
+                          <span className="text-slate-500">{post.readMinutes} min read</span>
                         </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-5 md:p-6">
-                        <h3 className="text-base md:text-lg font-extrabold text-navy mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                        <h3 className="text-2xl md:text-3xl font-extrabold text-navy mb-3 leading-tight group-hover:text-purple-800 transition-colors max-w-3xl" style={{ fontFamily: '"Playfair Display", Georgia, serif' }}>
                           {post.title}
                         </h3>
-                        <p className="text-slate-600 text-xs md:text-sm leading-relaxed line-clamp-3 mb-3">
+                        <p className="text-slate-600 text-base md:text-lg leading-relaxed line-clamp-2 max-w-3xl">
                           {post.summary}
                         </p>
-                        <div className="flex items-center justify-between text-[0.7rem] text-slate-400">
-                          <span>{formatDate(post.date)}</span>
-                          <span>{post.readMinutes}분 읽기</span>
-                        </div>
-                      </div>
-                    </a>
+                      </a>
+                    </li>
                   )
                 })}
-              </div>
+              </ul>
             )}
           </div>
         </section>
 
-        {/* Categories block */}
-        <section className="py-12 bg-white border-t border-purple-100">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">
-              카테고리별로 읽기
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {BLOG_CATEGORIES.map((cat) => (
-                <button
-                  key={cat.code}
-                  onClick={() => {
-                    setActiveCategory(cat.code)
-                    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
-                  }}
-                  className="group p-5 rounded-2xl border bg-white hover:shadow-lg transition-all text-left"
-                  style={{ borderColor: `${cat.color}30` }}
-                >
-                  <div className="text-3xl mb-2">{cat.emoji}</div>
-                  <div className="text-sm font-extrabold text-navy mb-0.5">{cat.koLabel}</div>
-                  <div className="text-[0.7rem] text-slate-400">
-                    글 {categoryCounts.get(cat.code) || 0}개
-                  </div>
-                </button>
-              ))}
-            </div>
+        {/* Closing band — Stripe Press style attribution-feel */}
+        <section className="py-14 bg-white border-t border-slate-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="text-[0.7rem] font-mono uppercase tracking-[0.3em] text-purple-700 mb-3">Editor's note</div>
+            <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: '"Playfair Display", Georgia, serif', fontStyle: 'italic' }}>
+              "메이크업은 표면이지만, 그 뒤에는 100년의 산업, 수억 명의 소비자, 끊임없이 진화하는 과학이 있다. 그 깊이를 한 편의 글로 풀어 드립니다."
+            </p>
           </div>
         </section>
       </main>
@@ -207,34 +161,28 @@ export default function BlogHub() {
   )
 }
 
-function CategoryChip({
+function CategoryLink({
   active,
   label,
-  emoji,
   count,
   onClick,
-  color,
 }: {
   active: boolean
   label: string
-  emoji: string
   count: number
   onClick: () => void
-  color: string
 }) {
   return (
     <button
       onClick={onClick}
-      className="shrink-0 px-3.5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 border-2"
-      style={{
-        background: active ? color : 'white',
-        color: active ? 'white' : '#475569',
-        borderColor: active ? color : '#e9d5ff',
-      }}
+      className={`shrink-0 px-3 py-1.5 font-semibold transition-all flex items-center gap-1.5 ${
+        active
+          ? 'text-navy border-b-2 border-navy'
+          : 'text-slate-500 border-b-2 border-transparent hover:text-navy'
+      }`}
     >
-      <span>{emoji}</span>
       {label}
-      <span className="text-[0.65rem] opacity-70">{count}</span>
+      <span className="text-[0.65rem] opacity-60 font-mono">{count}</span>
     </button>
   )
 }
