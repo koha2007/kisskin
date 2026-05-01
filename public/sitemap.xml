@@ -135,6 +135,56 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Guides Hub -->
+  <url>
+    <loc>https://kissinskin.net/guides/</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Guides Articles -->
+  <url><loc>https://kissinskin.net/guides/10-minute-daily-makeup-routine/</loc><lastmod>2026-04-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/lipstick-stay-all-day-7-tips/</loc><lastmod>2026-04-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/mascara-no-smudge-techniques/</loc><lastmod>2026-04-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/cushion-foundation-no-cakiness-5-steps/</loc><lastmod>2026-04-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/eyeliner-one-stroke-techniques/</loc><lastmod>2026-04-26</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/concealer-dark-circles-perfect-cover/</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/glasses-makeup-complete-guide/</loc><lastmod>2026-04-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/wedding-interview-date-tpo-makeup/</loc><lastmod>2026-04-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/monolid-hooded-eye-makeup-techniques/</loc><lastmod>2026-04-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/lip-shape-corrective-makeup/</loc><lastmod>2026-04-21</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/face-contour-by-shape/</loc><lastmod>2026-04-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/acne-skin-makeup-safe/</loc><lastmod>2026-04-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/travel-makeup-mini-kit/</loc><lastmod>2026-04-18</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/oily-skin-makeup-no-shine/</loc><lastmod>2026-04-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/dry-skin-glow-makeup/</loc><lastmod>2026-04-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/pregnant-safe-cosmetics/</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/no-tools-finger-makeup/</loc><lastmod>2026-04-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/how-to-clean-makeup-brushes/</loc><lastmod>2026-04-13</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/natural-no-makeup-makeup/</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/guides/mens-grooming-basic-routine/</loc><lastmod>2026-04-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Reviews Hub -->
+  <url>
+    <loc>https://kissinskin.net/reviews/</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Reviews Articles -->
+  <url><loc>https://kissinskin.net/reviews/global-bestseller-lipstick-top-10/</loc><lastmod>2026-04-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/k-beauty-skincare-bestsellers-comparison/</loc><lastmod>2026-04-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/vegan-cosmetics-best-brands-2026/</loc><lastmod>2026-04-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/sensitive-skin-cosmetics-comparison/</loc><lastmod>2026-04-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/budget-cosmetics-under-30000-won/</loc><lastmod>2026-04-26</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/anti-aging-cosmetics-comparison/</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/mens-cosmetics-essential-5/</loc><lastmod>2026-04-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/eye-products-mascara-eyeliner-comparison/</loc><lastmod>2026-04-23</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/cushion-foundation-comparison-best-5/</loc><lastmod>2026-04-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/reviews/makeup-brushes-tools-essential/</loc><lastmod>2026-04-21</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <!-- Blog Articles -->
   <url><loc>https://kissinskin.net/blog/k-beauty-market-252-billion-2033/</loc><lastmod>2026-04-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kissinskin.net/blog/pdrn-exosome-medicosmetic-explained/</loc><lastmod>2026-04-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
