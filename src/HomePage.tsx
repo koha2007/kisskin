@@ -809,6 +809,184 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         </div>
       </section>
 
+      {/* In-depth Guide — content-rich section for SEO + AdSense quality */}
+      <section id="guide" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="guide-title">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 text-primary-dark text-xs font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100 mb-4">
+              <span className="material-symbols-outlined text-base">menu_book</span>
+              kissinskin 가이드
+            </span>
+            <h2 id="guide-title" className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mb-3 leading-tight">
+              AI 메이크업 시뮬레이터를<br className="hidden md:block" /> 똑똑하게 활용하는 법
+            </h2>
+            <p className="text-slate-500 text-sm md:text-base max-w-xl mx-auto">
+              실패 없는 메이크업 변신, 시간과 화장품 비용을 아끼는 가장 빠른 방법.
+            </p>
+          </div>
+
+          <div className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base space-y-10">
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">AI 메이크업 시뮬레이션이 필요한 이유</h3>
+              <p>
+                새로운 메이크업 룩에 도전할 때 가장 큰 부담은 <strong className="text-primary">"내 얼굴에 어울릴까?"</strong>라는 의문과
+                실패할 경우 발생하는 시간·비용 손실입니다. 매장에서 일일이 발색하기에는 매장 동선이 부담스럽고,
+                온라인 색조 화장품을 구매한 뒤에는 환불이 까다롭거나 사실상 불가능한 경우도 많습니다.
+                kissinskin은 셀카 한 장으로 9가지 K-뷰티 시그니처 룩을 즉시 시뮬레이션해
+                실제 발색과 인상 변화를 미리 확인할 수 있게 해 줍니다.
+              </p>
+              <p>
+                AI 모델은 사용자의 얼굴 윤곽·이목구비·피부 톤을 인식해 메이크업을 자연스럽게 합성합니다.
+                포토샵 합성과 다른 점은 빛의 방향, 피부 결, 얼굴 굴곡을 그대로 유지하면서
+                립·아이·블러쉬·하이라이터의 위치만 정밀하게 더한다는 것입니다.
+                덕분에 결과 이미지는 "내가 실제로 화장한 모습"에 가깝고, 마음에 든 룩은 곧바로 따라할 수 있습니다.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">kissinskin이 일반 필터와 다른 점</h3>
+              <p>
+                틱톡·인스타그램의 메이크업 필터는 화면 위에 일률적으로 입혀지기 때문에 얼굴형이나 피부톤과 무관하게
+                같은 색이 적용됩니다. 반면 kissinskin은 K-뷰티 메이크업 아티스트의 노하우를 학습한 AI가
+                <strong> 사용자의 피부 톤·얼굴형·이목구비 비율을 분석해 각 스타일을 어떻게 변형할지 자동으로 결정</strong>합니다.
+                예를 들어 같은 "Bold Lip" 스타일이라도 쿨톤 사용자에게는 푸른빛이 도는 레드를,
+                웜톤 사용자에게는 코랄 베이스의 레드를 적용해 인상이 더 살아나도록 합니다.
+              </p>
+              <p>
+                또한 kissinskin은 단순 필터에 그치지 않고 "왜 이 룩이 어울리는지"에 대한 분석 코멘트와
+                메이크업 단계별 가이드, 추천 제품 카테고리(립스틱·아이섀도우 팔레트·블러쉬 등)까지 제공합니다.
+                실제 화장대 앞에서 따라 할 수 있도록 한 결과물이라는 점이 가장 큰 차별점입니다.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">9가지 K-뷰티 시그니처 룩, 한눈에</h3>
+              <p>
+                kissinskin은 한국 메이크업 트렌드를 대표하는 9가지 룩을 큐레이션했습니다.
+                <strong> Natural Glow</strong>는 한국 광채 메이크업의 정수로, 안에서 빛나는 듯한 글로우가 핵심입니다.
+                <strong> Cloud Skin</strong>은 매트와 글로우의 중간 결, 누구에게나 무난한 데일리 룩이고,
+                <strong> Blood Lip</strong>은 깊고 진한 레드로 시선을 사로잡는 시그니처 립이 특징입니다.
+                강한 인상을 원한다면 <strong>Maximalist Eye</strong>·<strong>Metallic Eye</strong>·<strong>Bold Lip</strong>을,
+                포인트 메이크업이 처음이라면 <strong>Blush Draping</strong>으로 부드럽게 시작해 보세요.
+                <strong> Grunge Makeup</strong>과 <strong>K-pop Idol Makeup</strong>은 무대 위 아이돌 같은 강렬한 룩을 원할 때 어울립니다.
+              </p>
+              <p>
+                남성 사용자를 위해서는 No-Makeup Makeup, Skincare Hybrid Base, Blurred Lip,
+                Grunge Smoky Eye, Monochrome, Utility Makeup, Color Point Eye, Vampire Romantic, K-pop Idol을 별도 큐레이션합니다.
+                "남자도 메이크업을 한다고?"라는 의문은 이미 K-팝과 글로벌 K-뷰티 트렌드가 깬 지 오래입니다.
+                자연스러운 베이스부터 무대 메이크업까지 단계적으로 시도할 수 있도록 9가지를 단계별로 배치했습니다.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단의 활용</h3>
+              <p>
+                AI 시뮬레이션 결과를 더 정확하게 해석하려면 자신의 메이크업 성향을 알아야 합니다.
+                <strong> 메이크업 MBTI</strong>는 10문항 퀴즈로 16가지 메이크업 성향을 진단하고,
+                각 유형에 어울리는 시그니처 컬러·텍스처·아이코닉 룩을 알려 줍니다.
+                <strong> 퍼스널 컬러 진단</strong>은 봄웜·여름쿨·가을웜·겨울쿨 4계절을 판별해
+                평소 잘 어울리는 색을 미리 찾을 수 있게 해 줍니다.
+                <strong> 얼굴형 진단</strong>은 oval·round·square·oblong·heart 5가지 형태별로
+                컨투어링·헤어·안경 추천까지 묶어 줍니다.
+              </p>
+              <p>
+                3가지 진단을 모두 마치면 "내 메이크업 MBTI는 ENFP-자연계, 봄웜, 둥근 얼굴형이라
+                립은 코랄·블러쉬는 핑크·아이라이너는 너무 길게 빼지 않는 쪽이 좋다"라는 식으로
+                구체적인 메이크업 가이드라인이 만들어집니다. 이 결과를 들고 AI 시뮬레이션으로 돌아오면
+                "왜 이 룩이 나에게 어울리는지" 한층 더 명확해집니다.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">개인정보 보호와 AI의 정확도</h3>
+              <p>
+                업로드된 셀카는 AI 분석에 사용된 후 지체 없이 처리·삭제되며, 학습 데이터로 재사용되지 않습니다.
+                결과 이미지는 본인이 명시적으로 저장·공유하지 않는 한 외부에 노출되지 않습니다.
+                kissinskin은 사용자가 동의한 범위 내에서만 데이터를 처리하며,
+                자세한 내용은 <a href="/privacy" className="text-primary font-semibold hover:underline">개인정보처리방침</a> 페이지에서 확인할 수 있습니다.
+              </p>
+              <p>
+                AI 메이크업 합성은 매우 정확하지만 완벽하지는 않습니다.
+                얼굴이 측면으로 너무 기울거나, 조명이 한쪽에 강하게 치우치거나,
+                마스크·안경 등 가림이 큰 사진은 일부 룩에서 결과가 어색할 수 있습니다.
+                정면을 향한 자연광 셀카가 가장 자연스러운 결과를 만들며,
+                결과가 마음에 들지 않으면 다른 사진으로 다시 시도하는 것을 권장합니다.
+                실제 메이크업 직전, 한 번 더 색조 발색만 매장에서 확인하면 실패 확률을 크게 줄일 수 있습니다.
+              </p>
+            </article>
+          </div>
+
+          {/* FAQ */}
+          <div className="mt-16">
+            <h3 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">자주 묻는 질문</h3>
+            <div className="space-y-3">
+              {[
+                {
+                  q: '셀카 업로드 후 사진은 어떻게 처리되나요?',
+                  a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.',
+                },
+                {
+                  q: '결과가 실제 메이크업과 얼마나 비슷한가요?',
+                  a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 다만 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있어, 마음에 드는 룩은 매장에서 한 번 더 발색을 확인한 뒤 구매하는 것을 권장합니다.',
+                },
+                {
+                  q: '회원가입 없이도 사용할 수 있나요?',
+                  a: '메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 도구는 모두 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 1회 사용권 또는 구독 형태로 제공됩니다.',
+                },
+                {
+                  q: '환불은 가능한가요?',
+                  a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 이미 사용했거나 결과 이미지를 다운로드한 이후에는 디지털 콘텐츠 특성상 환불이 제한됩니다. 자세한 조건은 환불 정책 페이지에서 확인할 수 있습니다.',
+                },
+                {
+                  q: '추천된 화장품은 어디서 살 수 있나요?',
+                  a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.',
+                },
+                {
+                  q: '남성도 사용할 수 있나요?',
+                  a: '네. 남성 전용 9가지 룩(No-Makeup, Skincare Hybrid, Blurred Lip 등)을 별도 큐레이션해 제공합니다. 그루밍 단계의 자연스러운 베이스부터 K-팝 무대 메이크업까지 모두 시뮬레이션 가능합니다.',
+                },
+              ].map((item, i) => (
+                <details
+                  key={i}
+                  className="group bg-white rounded-2xl border border-pink-100 hover:border-primary/30 transition-colors"
+                >
+                  <summary className="cursor-pointer list-none p-5 flex items-start gap-3">
+                    <span className="material-symbols-outlined text-primary shrink-0 mt-0.5 group-open:rotate-180 transition-transform">expand_more</span>
+                    <span className="font-bold text-navy-mid text-sm md:text-base flex-1">{item.q}</span>
+                  </summary>
+                  <div className="px-5 pb-5 pl-14 text-slate-600 text-sm md:text-[15px] leading-relaxed">
+                    {item.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          {/* JSON-LD FAQPage */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: [
+                  { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
+                  { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있습니다.' },
+                  { q: '회원가입 없이도 사용할 수 있나요?', a: '메이크업 MBTI, 퍼스널 컬러, 얼굴형 진단은 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 사용 가능합니다.' },
+                  { q: '환불은 가능한가요?', a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 사용한 후에는 디지털 콘텐츠 특성상 환불이 제한됩니다.' },
+                  { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천을 제공하며 올리브영, 세포라, 쿠팡, 아마존 등에서 검색해 비교 구매할 수 있습니다.' },
+                  { q: '남성도 사용할 수 있나요?', a: '네. 남성 전용 9가지 룩을 별도 큐레이션해 제공합니다.' },
+                ].map((x) => ({
+                  '@type': 'Question',
+                  name: x.q,
+                  acceptedAnswer: { '@type': 'Answer', text: x.a },
+                })),
+              }),
+            }}
+          />
+        </div>
+      </section>
+
       {/* Pricing */}
       <section id="pricing" className="py-20 bg-white scroll-mt-16" aria-labelledby="pricing-title">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

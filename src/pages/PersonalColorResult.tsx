@@ -2,6 +2,7 @@ import { PERSONAL_COLOR_TYPES, SEASON_ORDER, type SeasonCode } from '../lib/pers
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { PC_RECOMMENDATIONS } from '../lib/recommendations/personal-color'
 import RecommendedProducts from '../components/RecommendedProducts'
+import ToolFaq, { PERSONAL_COLOR_FAQ_BASE } from '../components/ToolFaq'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: SeasonCode }
@@ -168,6 +169,49 @@ export default function PersonalColorResult({ code }: Props) {
           </a>
         </div>
       </section>
+
+      {/* In-depth context */}
+      <section className="py-14 md:py-20 bg-gradient-to-b from-amber-50/40 to-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">{t.koName}에 대해 더 알아두면 좋은 점</h2>
+          <div className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base space-y-5">
+            <p>
+              퍼스널 컬러는 1980년대 미국·일본을 거쳐 한국에서 대중화된 컬러 분석 시스템입니다.
+              피부의 언더톤(웜·쿨)과 명도·채도 선호를 종합해 봄·여름·가을·겨울 4계절로 큰 분류를 만들고,
+              그 안에서 라이트·딥·뮤트·비비드 등 세부 톤으로 다시 나눕니다.
+              {t.koName}은 큰 4계절 분류 중 한 가지에 해당하며, 가장 어울리는 컬러군을 일러 줍니다.
+            </p>
+            <p>
+              결과를 가장 정확하게 활용하는 방법은 <strong>"내 시즌 컬러를 매일 입는다"</strong>가 아니라
+              <strong>"내 시즌 컬러를 얼굴 가까이에 둔다"</strong>입니다.
+              상의·스카프·이너·립·블러쉬처럼 얼굴과 가까운 면적에 시즌 컬러를 두면 인상이 가장 또렷해지고,
+              하의나 가방처럼 얼굴에서 먼 부분은 시즌과 무관하게 자유롭게 매치해도 무방합니다.
+              이 원칙만 기억해도 옷장에 있는 옷을 그대로 두고도 인상을 크게 바꿀 수 있습니다.
+            </p>
+            <p>
+              온라인 진단의 한계도 알아 두세요.
+              조명·카메라·디스플레이의 색온도 차이로 사진 속 피부톤이 실제와 다르게 보일 수 있습니다.
+              결과가 애매하다면 자연광 아래에서 흰색 천을 얼굴 가까이 대 보세요.
+              피부가 누렇게 떠 보이면 웜톤, 푸르게 식어 보이면 쿨톤일 가능성이 높습니다.
+              그래도 헷갈리면 인접 시즌(예: 봄웜·가을웜) 컬러군 모두를 시도해 보고
+              사진을 찍어 비교하는 것이 가장 확실한 검증법입니다.
+            </p>
+            <p>
+              메이크업에서는 <a href="/tools/makeup-mbti/" className="text-primary font-semibold hover:underline">메이크업 MBTI</a>의
+              컬러 추천과 퍼스널 컬러를 함께 보면 더 정확합니다.
+              메이크업 MBTI는 좋아하는 컬러군을, 퍼스널 컬러는 어울리는 컬러군을 알려 주기 때문에
+              두 결과의 교집합이 자신만의 베스트 컬러가 됩니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <ToolFaq
+        title={`${t.koName} FAQ`}
+        items={PERSONAL_COLOR_FAQ_BASE}
+        accentColor={t.primaryColor}
+      />
 
       {/* Other seasons */}
       <section className="py-14 bg-gradient-to-b from-white to-background-light">

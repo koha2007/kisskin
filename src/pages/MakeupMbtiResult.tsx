@@ -3,6 +3,7 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode, type MakeupMbtiType } fro
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
 import RecommendedProducts from '../components/RecommendedProducts'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import ToolFaq, { MBTI_FAQ_BASE } from '../components/ToolFaq'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
@@ -275,6 +276,43 @@ export default function MakeupMbtiResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* In-depth context */}
+      <section className="py-14 md:py-20 bg-gradient-to-b from-pink-50/30 to-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">{type.koName} 유형 깊이 보기</h2>
+          <div className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base space-y-5">
+            <p>
+              메이크업 MBTI는 <strong>성격 진단이 아닌 메이크업 성향 진단</strong>입니다.
+              평소에 어떤 컬러·텍스처·마무리감을 선호하는지, 일상 메이크업과 특별한 자리 메이크업의 차이를 어떻게 두는지 등
+              4축의 답변을 종합해 16가지 유형 중 하나로 분류합니다.
+              {type.koName}({type.code}) 유형은 위 그래프에서 본 것처럼 4축에서 뚜렷한 경향성을 가지며,
+              자신만의 시그니처 컬러와 텍스처가 분명한 편입니다.
+            </p>
+            <p>
+              결과를 가장 잘 활용하는 방법은 <strong>화장대 정리에 적용</strong>해 보는 것입니다.
+              {type.koName} 유형이 자주 손이 가는 컬러군과 텍스처를 인지한 뒤,
+              지금 가지고 있는 화장품 중 비슷한 카테고리에 중복되어 있는 제품을 정리하고
+              부족한 카테고리를 1~2개씩 채워 넣으면 사용 빈도가 높은 효율적인 화장대가 됩니다.
+              매번 트렌드 제품을 사는 대신 자신의 유형에 맞는 카테고리만 우선 갖추는 것이 가장 빠른 절약법입니다.
+            </p>
+            <p>
+              메이크업 MBTI 결과만으로 부족하다고 느낄 수 있습니다.
+              그럴 땐 <a href="/tools/personal-color/" className="text-primary font-semibold hover:underline">퍼스널 컬러</a>와
+              <a href="/tools/face-shape/" className="text-primary font-semibold hover:underline"> 얼굴형</a> 진단을 함께 받아 보세요.
+              "메이크업 MBTI는 무엇을 좋아하느냐", "퍼스널 컬러는 어떤 색이 어울리느냐", "얼굴형은 어디를 강조해야 하느냐"를
+              각각 다른 각도에서 알려 주기 때문에, 셋을 합치면 자신만의 메이크업 매뉴얼이 완성됩니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <ToolFaq
+        title={`${type.koName} 유형 FAQ`}
+        items={MBTI_FAQ_BASE}
+        accentColor={type.primaryColor}
+      />
 
       {/* All 16 types grid (SEO internal linking) */}
       <section className="py-14 md:py-20 bg-white">

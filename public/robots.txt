@@ -3,6 +3,7 @@ Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /result/
 Disallow: /cdn-cgi/
 
 User-agent: Yeti
@@ -10,13 +11,22 @@ Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /result/
 Disallow: /cdn-cgi/
 Crawl-delay: 2
 
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+Disallow: /result/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+Disallow: /result/
 
 Sitemap: https://kissinskin.net/sitemap.xml

@@ -27,10 +27,12 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
       ? await context.env.ASSETS.fetch(indexUrl)
       : await fetch(indexUrl.toString())
     const body = await spaRes.text()
-    const patched = body.replace(
-      /<script id="vike_pageContext" type="application\/json">[\s\S]*?<\/script>/,
-      `<script id="vike_pageContext" type="application/json">${JSON.stringify({ pageId: '/pages/result/@id', routeParams: { id } })}</script>`,
-    )
+    const patched = body
+      .replace(
+        /<script id="vike_pageContext" type="application\/json">[\s\S]*?<\/script>/,
+        `<script id="vike_pageContext" type="application/json">${JSON.stringify({ pageId: '/pages/result/@id', routeParams: { id } })}</script>`,
+      )
+      .replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n<meta name="robots" content="noindex, nofollow"/>`)
     const headers = new Headers(spaRes.headers)
     headers.set('Content-Type', 'text/html;charset=utf-8')
     headers.delete('Content-Length')
@@ -125,7 +127,7 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
 <meta name="twitter:description" content="${description}"/>
 <meta name="twitter:image" content="${escHtml(imageUrl)}"/>
 <link rel="canonical" href="https://kissinskin.net/result/${escHtml(id)}"/>
-<meta name="robots" content="index, follow, max-image-preview:large"/>
+<meta name="robots" content="noindex, nofollow"/>
 <script type="application/ld+json">${JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Article",
@@ -182,6 +184,7 @@ function serveFallbackOg(pathname: string) {
 <meta name="twitter:description" content="AI가 분석한 맞춤 K-뷰티 메이크업 룩과 제품 추천 결과를 확인하세요."/>
 <meta name="twitter:image" content="https://kissinskin.net/og-image.png"/>
 <link rel="canonical" href="${escHtml(canonical)}"/>
+<meta name="robots" content="noindex, nofollow"/>
 </head>
 <body>
 <h1>AI 메이크업 분석 결과</h1>
