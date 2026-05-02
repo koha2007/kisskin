@@ -41,7 +41,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
 function PrivacyKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일</p>
+      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 5월 2일</p>
 
       <h2>1. 서문</h2>
       <p>kissinskin("당사")은 <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a> 웹사이트를 운영합니다. 본 개인정보처리방침은 AI 메이크업 분석 서비스("서비스") 이용 시 이용자의 정보를 어떻게 수집, 이용, 보호, 공개하는지 설명합니다.</p>
@@ -74,13 +74,47 @@ function PrivacyKo() {
         <li>당사는 Polar로부터 거래 확인, 주문 금액, 고객 지원용 참조 ID를 전달받을 수 있습니다.</li>
       </ul>
 
-      <h3>3.3 자동 수집 데이터</h3>
-      <ul>
-        <li><strong>Cloudflare 분석:</strong> 호스팅 제공자 Cloudflare는 익명 사용 데이터(페이지 조회, 국가, 기기 종류, 브라우저)를 수집할 수 있습니다. 이 데이터는 개인을 식별하지 않습니다.</li>
-        <li>당사는 추적 또는 광고 목적으로 <strong>쿠키를 사용하지 않습니다</strong>.</li>
-        <li>당사는 Google Analytics 또는 기타 제3자 추적 픽셀을 <strong>사용하지 않습니다</strong>.</li>
-        <li>당사는 일체의 자체 또는 제3자 쿠키를 사용하지 않습니다. Cloudflare는 보안 목적(봇 방지 등)으로 엄격히 필요한 기술 쿠키를 사용할 수 있습니다.</li>
-      </ul>
+      <h3>3.3 자동 수집 데이터 · 쿠키 · 광고</h3>
+      <p>당사는 사이트 운영, 측정, 광고 게재를 위해 다음 제3자 서비스의 쿠키와 유사 기술(localStorage, 픽셀)을 사용합니다. EU/EEA·영국 이용자에게는 <strong>Google Consent Mode v2</strong>가 적용되어, 쿠키 배너에서 "모두 동의"를 선택하기 전까지 광고/분석 쿠키는 비활성 상태로 유지됩니다.</p>
+      <table className="legal-table">
+        <thead>
+          <tr><th>서비스</th><th>목적</th><th>쿠키/저장소</th><th>보관 기간</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Google AdSense</strong> (ca-pub-5109067049933124)</td>
+            <td>본 사이트의 무료 콘텐츠 운영 비용 충당을 위한 광고 게재 및 측정</td>
+            <td>제3자 쿠키 (`__gads`, `__gpi`, `IDE`, `ANID` 등) — google.com / doubleclick.net 도메인 발행</td>
+            <td>최대 13개월</td>
+          </tr>
+          <tr>
+            <td><strong>Google Analytics 4</strong> (G-JJ7G39W5T3)</td>
+            <td>익명 트래픽 분석 및 사이트 개선</td>
+            <td>자체 쿠키 (`_ga`, `_ga_*`) — kissinskin.net 도메인</td>
+            <td>최대 14개월</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft Clarity</strong> (w5fx3z4rfg)</td>
+            <td>익명 사용성 분석 (히트맵·스크롤 패턴). 텍스트는 마스킹되어 전송</td>
+            <td>자체 + 제3자 쿠키 (`_clck`, `_clsk`, `MUID` 등)</td>
+            <td>최대 1년</td>
+          </tr>
+          <tr>
+            <td><strong>Cloudflare</strong></td>
+            <td>호스팅·CDN·보안(봇 방지)</td>
+            <td>엄격히 필요한 기술 쿠키 (`__cf_bm` 등)</td>
+            <td>세션 또는 30분</td>
+          </tr>
+          <tr>
+            <td><strong>kissinskin (자체)</strong></td>
+            <td>쿠키 동의 결정·언어 설정 저장</td>
+            <td>localStorage (`kissinskin_cookie_consent`, `kissinskin_locale`)</td>
+            <td>이용자가 삭제할 때까지</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Google AdSense 광고:</strong> 본 사이트는 제3자 공급업체인 Google이 본 사이트와 다른 사이트에서의 이용자의 방문 정보에 기반해 광고를 게재할 수 있도록 허용합니다. Google은 광고 쿠키를 통해 광고를 게재합니다. 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 맞춤 광고를 거부할 수 있으며, <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a> 또는 <a href="https://youronlinechoices.eu" target="_blank" rel="noopener noreferrer">youronlinechoices.eu</a>(EU)에서 일부 제3자 공급업체의 맞춤 광고를 거부할 수 있습니다.</p>
+      <p><strong>동의 변경:</strong> 쿠키 동의는 브라우저 저장소를 비우거나 사이트 데이터를 삭제하면 다시 표시됩니다. EU/EEA·영국 이용자는 동의 전까지 Google AdSense가 비개인화(non-personalized) 광고만 게재하도록 설정되어 있습니다.</p>
 
       <h2>4. 처리의 법적 근거 (GDPR 제6조)</h2>
       <p>EU/EEA 및 영국 이용자에 대해 당사는 다음 법적 근거에 따라 데이터를 처리합니다.</p>
@@ -147,13 +181,11 @@ function PrivacyKo() {
 
       <h2>9. 수집하지 않는 데이터</h2>
       <ul>
-        <li>이름, 이메일, 전화번호, 주소를 수집하지 않습니다(결제 시 Polar에 제공되는 경우 제외).</li>
-        <li>사용자 계정이나 프로필을 생성하지 않습니다.</li>
-        <li>다른 웹사이트에서 이용자를 추적하지 않습니다.</li>
-        <li>광고, 마케팅 또는 여타 상업적 목적으로 개인정보를 <strong>판매, 대여, 공유하지 않습니다</strong>.</li>
-        <li>사진을 AI 모델 학습에 이용하지 않습니다.</li>
-        <li>교차 사이트 행태 기반 광고에 관여하지 않습니다.</li>
-        <li>생체 식별자 또는 생체 템플릿을 생성하거나 저장하지 않습니다.</li>
+        <li>이름, 전화번호, 주소를 직접 수집하지 않습니다(결제 시 Polar에 제공되는 경우, 분석 리포트 발송용 이메일 입력 시 제외).</li>
+        <li>사용자 계정이나 프로필을 강제 생성하지 않습니다.</li>
+        <li>업로드한 사진을 AI 모델 학습에 이용하지 않습니다 — OpenAI API 사용 시 학습 비활용 옵션이 적용됩니다.</li>
+        <li>생체 식별자(얼굴 임베딩 벡터·해시·템플릿)를 생성하거나 저장하지 않습니다.</li>
+        <li>당사 자체적으로는 개인정보를 판매·대여하지 않습니다. 다만 Google AdSense를 통해 게재되는 광고는 Google이 자체 정책에 따라 이용자의 일반 인구 통계 추정치를 활용할 수 있으며, 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 거부할 수 있습니다.</li>
       </ul>
 
       <h2>10. 데이터 보안</h2>
@@ -271,7 +303,7 @@ function PrivacyKo() {
 function PrivacyEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026</p>
+      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: May 2, 2026</p>
 
       <h2>1. Introduction</h2>
       <p>kissinskin ("we", "our", "us") operates the website <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
@@ -304,13 +336,47 @@ function PrivacyEn() {
         <li>We may receive from Polar: transaction confirmation, order amount, and a reference ID for customer support purposes.</li>
       </ul>
 
-      <h3>3.3 Automatically Collected Data</h3>
-      <ul>
-        <li><strong>Cloudflare Analytics:</strong> As our hosting provider, Cloudflare may collect anonymous usage data (page views, country, device type, browser). This data does not identify you personally.</li>
-        <li>We do <strong>not</strong> use cookies for tracking or advertising.</li>
-        <li>We do <strong>not</strong> use Google Analytics or any third-party tracking pixels.</li>
-        <li>We do <strong>not</strong> use any first-party or third-party cookies. Cloudflare may use strictly necessary technical cookies for security purposes (e.g., bot protection).</li>
-      </ul>
+      <h3>3.3 Automatically Collected Data, Cookies, and Advertising</h3>
+      <p>We use the following third-party services with cookies and similar technologies (localStorage, pixels) to operate the site, measure traffic, and serve ads. EU/EEA and UK visitors are protected by <strong>Google Consent Mode v2</strong>: advertising and analytics cookies remain disabled until you click "Accept all" on the cookie banner.</p>
+      <table className="legal-table">
+        <thead>
+          <tr><th>Service</th><th>Purpose</th><th>Cookies / Storage</th><th>Retention</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Google AdSense</strong> (ca-pub-5109067049933124)</td>
+            <td>Ads that fund the free content on this site, plus related measurement</td>
+            <td>Third-party cookies (`__gads`, `__gpi`, `IDE`, `ANID`, etc.) issued by google.com / doubleclick.net</td>
+            <td>Up to 13 months</td>
+          </tr>
+          <tr>
+            <td><strong>Google Analytics 4</strong> (G-JJ7G39W5T3)</td>
+            <td>Anonymous traffic analysis to improve the site</td>
+            <td>First-party cookies (`_ga`, `_ga_*`) on kissinskin.net</td>
+            <td>Up to 14 months</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft Clarity</strong> (w5fx3z4rfg)</td>
+            <td>Anonymous usability analysis (heatmaps, scroll patterns); text content is masked before transmission</td>
+            <td>First- and third-party cookies (`_clck`, `_clsk`, `MUID`, etc.)</td>
+            <td>Up to 1 year</td>
+          </tr>
+          <tr>
+            <td><strong>Cloudflare</strong></td>
+            <td>Hosting, CDN, security (bot protection)</td>
+            <td>Strictly necessary technical cookies (`__cf_bm`, etc.)</td>
+            <td>Session or 30 minutes</td>
+          </tr>
+          <tr>
+            <td><strong>kissinskin (first-party)</strong></td>
+            <td>Stores cookie-consent decision and language preference</td>
+            <td>localStorage (`kissinskin_cookie_consent`, `kissinskin_locale`)</td>
+            <td>Until you clear it</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Google AdSense advertising:</strong> We allow Google, as a third-party vendor, to serve ads based on your visit to this site and other sites using advertising cookies. You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>, and you can opt out of some third-party vendors at <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a> or, in the EU, at <a href="https://youronlinechoices.eu" target="_blank" rel="noopener noreferrer">youronlinechoices.eu</a>.</p>
+      <p><strong>Changing your consent:</strong> Clearing your browser storage or site data will re-show the cookie banner. EU/EEA and UK visitors see only non-personalized AdSense ads until they consent.</p>
 
       <h2>4. Legal Basis for Processing (GDPR Article 6)</h2>
       <p>For users in the EU/EEA and UK, we process your data based on the following legal grounds:</p>
@@ -377,13 +443,11 @@ function PrivacyEn() {
 
       <h2>9. Data We Do NOT Collect</h2>
       <ul>
-        <li>We do not collect your name, email, phone number, or address (unless provided to Polar during payment).</li>
-        <li>We do not create user accounts or profiles.</li>
-        <li>We do not track you across websites.</li>
-        <li>We do <strong>not sell, rent, or share your personal information</strong> with third parties for advertising, marketing, or any commercial purpose.</li>
-        <li>We do not use your photos for AI model training.</li>
-        <li>We do not engage in cross-context behavioral advertising.</li>
-        <li>We do not create or store biometric identifiers or biometric templates.</li>
+        <li>We do not directly collect your name, phone number, or address (except information you provide to Polar during payment, or the email you enter to receive your analysis report).</li>
+        <li>We do not force you to create user accounts or profiles.</li>
+        <li>We do not use your uploaded photos for AI model training — we use OpenAI's API with the no-training option enabled.</li>
+        <li>We do not create or store biometric identifiers (face embeddings, hashes, or templates).</li>
+        <li>We do not sell or rent your personal information ourselves. Note: ads served via Google AdSense may use Google's general demographic estimates; you can opt out at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>.</li>
       </ul>
 
       <h2>10. Data Security</h2>

@@ -88,9 +88,15 @@ export default function ArticleShell({
             <h1 className="text-2xl md:text-[36px] font-bold text-navy leading-[1.2] tracking-tight mb-4">
               {title}
             </h1>
-            <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+            <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6">
               {summary}
             </p>
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <span>작성</span>
+              <a href="/about" className="font-semibold text-slate-700 hover:text-navy underline">
+                kissinskin Editorial · Yonghun Kim
+              </a>
+            </div>
           </div>
         </section>
 

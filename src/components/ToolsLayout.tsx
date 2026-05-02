@@ -25,6 +25,9 @@ export function ToolsNav() {
           <a href="/blog/" className="hidden sm:inline-flex text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 sm:px-3 py-1.5 rounded-md border border-slate-500">
             블로그
           </a>
+          <a href="/about/" className="hidden lg:inline-flex text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 sm:px-3 py-1.5 rounded-md border border-slate-500">
+            소개
+          </a>
           <button
             onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
             className="text-xs sm:text-sm font-medium text-slate-200 hover:text-primary px-2 py-1 rounded-md border border-slate-500"
@@ -71,6 +74,7 @@ export function ToolsFooter() {
           <div className="flex flex-col gap-3">
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('tools.footer.legal')}</h3>
             <ul className="flex flex-col gap-2 text-slate-300 text-sm">
+              <li><a href="/about" className="hover:text-primary">소개 · 운영자</a></li>
               <li><a href="/terms" className="hover:text-primary">{t('tools.footer.terms')}</a></li>
               <li><a href="/privacy" className="hover:text-primary">{t('tools.footer.privacy')}</a></li>
               <li><a href="/refund" className="hover:text-primary">{t('tools.footer.refund')}</a></li>
@@ -78,8 +82,9 @@ export function ToolsFooter() {
             </ul>
           </div>
         </div>
-        <div className="pt-8 border-t border-navy-mid text-center">
-          <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
+        <div className="pt-8 border-t border-navy-mid text-center text-slate-400 text-xs space-y-1">
+          <p>&copy; 2026 kissinskin · 운영자: Yonghun Kim · 대한민국 소재 1인 인디 프로젝트</p>
+          <p>문의: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
         </div>
       </div>
     </footer>

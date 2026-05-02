@@ -1107,16 +1107,17 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <div className="flex flex-col gap-3">
               <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.legal')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
+                <li><a href="/about" className="hover:text-primary transition-colors cursor-pointer">About · 운영자 소개</a></li>
                 <li><a href="/terms" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
                 <li><a href="/refund" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
-                <li><a href="/privacy" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy</a></li>
+                <li><a href="/privacy" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy · Cookies</a></li>
                 <li><a href="/contact" className="hover:text-primary transition-colors cursor-pointer">Contact Us</a></li>
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-slate-400 text-xs">&copy; 2026 kissinskin. All rights reserved.</p>
-            <p className="text-slate-400 text-xs">Powered by AI · <time dateTime="2026-04-06">2026년 4월 기준</time></p>
+          <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
+            <p>&copy; 2026 kissinskin · Operated by <a href="/about" className="hover:text-primary">Yonghun Kim</a> · 대한민국 1인 인디 프로젝트</p>
+            <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-05-02">2026년 5월 기준</time></p>
           </div>
         </div>
       </footer>

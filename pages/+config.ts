@@ -32,6 +32,8 @@ export default {
         var h = location.hostname;
         var isKissinskin = h === 'kissinskin.net' || h === 'www.kissinskin.net' || h === 'localhost' || h === '127.0.0.1';
         if (!isKissinskin) return;
+        // Load tags. Consent Mode v2 (initialized in <head>) gates cookie storage
+        // until the user accepts via the cookie banner.
         var gs = document.createElement('script');
         gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-JJ7G39W5T3';
         gs.async = true;

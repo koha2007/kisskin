@@ -4,6 +4,12 @@ export default function Head() {
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
       <meta name="naver-site-verification" content="efbca87df560d16f2ce20199b681b86319b65e56" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
+      {/* Google Consent Mode v2 — default deny until the cookie banner records a choice. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
+        }}
+      />
       <script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5109067049933124"

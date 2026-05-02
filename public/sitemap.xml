@@ -225,8 +225,17 @@
   </url>
   <url>
     <loc>https://kissinskin.net/contact/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://kissinskin.net/about/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/about/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/about/" />
   </url>
 </urlset>

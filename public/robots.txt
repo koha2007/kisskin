@@ -6,6 +6,40 @@ Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/
 
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+Disallow: /result/
+
+# Google AdSense crawler — required for ad serving and policy review
+User-agent: Mediapartners-Google
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+
+# Google AdsBot — landing-page quality crawler
+User-agent: AdsBot-Google
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /auth
+Disallow: /mypage
+Disallow: /result/
+
 User-agent: Yeti
 Allow: /
 Disallow: /api/
@@ -14,19 +48,5 @@ Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/
 Crawl-delay: 2
-
-User-agent: Googlebot
-Allow: /
-Disallow: /api/
-Disallow: /auth
-Disallow: /mypage
-Disallow: /result/
-
-User-agent: Bingbot
-Allow: /
-Disallow: /api/
-Disallow: /auth
-Disallow: /mypage
-Disallow: /result/
 
 Sitemap: https://kissinskin.net/sitemap.xml
