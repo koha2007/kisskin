@@ -1072,6 +1072,43 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
         </div>
       </section>
 
+      {/* About this site — operator transparency block for E-E-A-T */}
+      <section id="about-this-site" className="py-16 bg-white border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-3">
+            About this site
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-navy tracking-tight mb-4 leading-snug">
+            누가 만들고, 어떻게 운영되는가
+          </h2>
+          <p className="text-slate-600 text-base leading-relaxed mb-4">
+            kissinskin은 대한민국에 거주하는 1인 운영자 <strong>김용헌(Yonghun Kim)</strong>이
+            직접 코드·콘텐츠·디자인을 만들고 운영하는 인디 사이트입니다.
+            모든 가이드·블로그·뉴스·리뷰는 직접 기획·작성하며, 산업 데이터를
+            인용할 때는 BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를
+            본문에 명시합니다.
+          </p>
+          <p className="text-slate-600 text-base leading-relaxed mb-4">
+            AI는 도구 기능(이미지 시뮬레이션·진단)에만 사용되며, 본문 텍스트는
+            사람이 직접 씁니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
+            Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
+            저장되지 않습니다. 사이트 운영비는 사용자 결제와 Google AdSense
+            광고 수익으로 충당하며, 외부 투자나 광고주 제휴는 없습니다.
+          </p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm pt-3">
+            <a href="/about" className="text-navy font-semibold underline hover:text-primary">
+              운영자·편집 원칙 자세히 보기 →
+            </a>
+            <a href="/privacy" className="text-slate-600 hover:text-navy underline">
+              개인정보·쿠키 정책
+            </a>
+            <a href="/contact" className="text-slate-600 hover:text-navy underline">
+              문의 채널
+            </a>
+          </div>
+        </div>
+      </section>
+
       </main>
 
       {/* Footer */}
