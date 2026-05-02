@@ -154,6 +154,28 @@ export default function HubShell({
             )}
           </div>
         </section>
+
+        {/* CTA — content visitors → AI tool. Closes the funnel that GA shows broken. */}
+        <section className="border-t border-slate-200 bg-slate-50">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-3">
+              kissinskin · AI tool
+            </div>
+            <h2 className="text-lg md:text-xl font-bold text-navy mb-2 tracking-tight">
+              읽기만 하지 말고, 셀카로 직접 시뮬레이션해 보세요
+            </h2>
+            <p className="text-slate-600 text-sm mb-5">
+              30초 안에 9가지 K-뷰티 메이크업이 본인 얼굴에 적용된 결과를 확인합니다.
+            </p>
+            <a
+              href="/analysis"
+              className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-navy-mid transition-colors"
+            >
+              AI 메이크업 시작
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
+        </section>
       </main>
 
       <ToolsFooter />

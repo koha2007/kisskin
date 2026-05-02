@@ -148,6 +148,13 @@ export default function AnalysisApp() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
+    // GA4 e-commerce funnel signal so /analysis arrival is countable independently
+    // of the photo-upload step (the previous funnel started at photo_uploaded only).
+    gtagEvent('view_item', {
+      currency: 'USD',
+      value: 2.99,
+      items: [{ item_id: 'analysis_per_use', item_name: 'AI Makeup Analysis (per-use)', price: 2.99 }],
+    })
     return () => subscription.unsubscribe()
   }, [])
 

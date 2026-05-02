@@ -35,7 +35,10 @@ export function ToolsNav() {
           >
             {locale === 'ko' ? 'EN' : '한국어'}
           </button>
-          <a href="/analysis" className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold items-center gap-1.5">
+          <a
+            href="/analysis"
+            className="flex bg-gradient-to-r from-primary to-pink-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold items-center gap-1.5"
+          >
             {t('tools.nav.aiMakeup')}
           </a>
         </div>
