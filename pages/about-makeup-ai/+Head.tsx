@@ -7,6 +7,9 @@ export default function Head() {
       <meta name="description" content={desc} />
       <meta name="keywords" content="K-뷰티, 메이크업 가이드, 한국 메이크업, 쿠션 파운데이션, 블러드 립, 클라우드 스킨, 메이크업 역사, AI 메이크업" />
       <link rel="canonical" href="https://kissinskin.net/about-makeup-ai/" />
+      <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/about-makeup-ai/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/about-makeup-ai/" />
+      <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/about-makeup-ai/" />
       <meta property="og:type" content="article" />
       <meta property="og:url" content="https://kissinskin.net/about-makeup-ai/" />
       <meta property="og:title" content={title} />

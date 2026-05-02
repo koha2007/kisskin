@@ -1,8 +1,28 @@
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { useI18n } from '../i18n/I18nContext'
+import AboutMakeupAiBodyEn, { ABOUT_MAKEUP_AI_HERO_EN } from './AboutMakeupAiBodyEn'
+
+const HERO_KO = {
+  badge: 'K-뷰티 메이크업 완전 가이드',
+  title: 'K-뷰티 메이크업의 모든 것',
+  subtitle:
+    '역사·9가지 여성 스타일·9가지 남성 스타일·AI 시뮬레이션의 원리·사진 촬영 팁까지. K-뷰티 메이크업을 시작하는 사람부터 현직 뷰티 에디터까지 참고할 수 있는 3,000단어 분량의 심화 가이드입니다.',
+  toc: [
+    ['#history', '1. K-뷰티 메이크업의 역사'],
+    ['#philosophy', '2. K-뷰티 메이크업의 미학 — 왜 세계가 주목하는가'],
+    ['#women-styles', '3. 여성을 위한 9가지 K-뷰티 스타일'],
+    ['#men-styles', '4. 남성을 위한 9가지 K-뷰티 스타일'],
+    ['#ai-principle', '5. AI 메이크업 시뮬레이션의 원리'],
+    ['#photo-tips', '6. 정확도를 높이는 사진 촬영 팁'],
+    ['#faq', '7. 자주 묻는 질문'],
+  ] as const,
+  tocLabel: '목차',
+}
 
 export default function AboutMakeupAi() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const isEn = locale === 'en'
+  const hero = isEn ? ABOUT_MAKEUP_AI_HERO_EN : HERO_KO
   return (
     <div className="font-display bg-background-light min-h-screen">
       <ToolsNav />
@@ -14,14 +34,13 @@ export default function AboutMakeupAi() {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider mb-6">
             <span className="material-symbols-outlined text-sm">menu_book</span>
-            K-뷰티 메이크업 완전 가이드
+            {hero.badge}
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-navy mb-4">
-            K-뷰티 메이크업의 모든 것
+            {hero.title}
           </h1>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            역사·9가지 여성 스타일·9가지 남성 스타일·AI 시뮬레이션의 원리·사진 촬영 팁까지.
-            K-뷰티 메이크업을 시작하는 사람부터 현직 뷰티 에디터까지 참고할 수 있는 3,000단어 분량의 심화 가이드입니다.
+            {hero.subtitle}
           </p>
         </div>
       </section>
@@ -29,22 +48,26 @@ export default function AboutMakeupAi() {
       {/* TOC */}
       <section className="py-10 bg-white border-y border-pink-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-sm font-extrabold text-slate-400 uppercase tracking-widest mb-4">목차</h2>
+          <h2 className="text-sm font-extrabold text-slate-400 uppercase tracking-widest mb-4">{hero.tocLabel}</h2>
           <ol className="grid md:grid-cols-2 gap-y-2 gap-x-6 text-sm">
-            {[
-              ['#history', '1. K-뷰티 메이크업의 역사'],
-              ['#philosophy', '2. K-뷰티 메이크업의 미학 — 왜 세계가 주목하는가'],
-              ['#women-styles', '3. 여성을 위한 9가지 K-뷰티 스타일'],
-              ['#men-styles', '4. 남성을 위한 9가지 K-뷰티 스타일'],
-              ['#ai-principle', '5. AI 메이크업 시뮬레이션의 원리'],
-              ['#photo-tips', '6. 정확도를 높이는 사진 촬영 팁'],
-              ['#faq', '7. 자주 묻는 질문'],
-            ].map(([href, label]) => (
+            {hero.toc.map(([href, label]) => (
               <li key={href}><a href={href} className="text-primary hover:underline">{label}</a></li>
             ))}
           </ol>
         </div>
       </section>
+
+      {isEn ? <AboutMakeupAiBodyEn /> : <AboutMakeupAiBodyKo t={t} />}
+
+      </main>
+      <ToolsFooter />
+    </div>
+  )
+}
+
+function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
+  return (
+    <>
 
       {/* Body */}
       <article className="py-14 md:py-20">
@@ -147,10 +170,7 @@ export default function AboutMakeupAi() {
 
         </div>
       </article>
-
-      </main>
-      <ToolsFooter />
-    </div>
+    </>
   )
 }
 
