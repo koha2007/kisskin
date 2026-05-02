@@ -5,7 +5,7 @@ export default function Head() {
       <meta name="description" content="kissinskin 고객 문의 — AI K-뷰티 메이크업 시뮬레이터 지원 및 피드백 안내." />
       <link rel="canonical" href="https://kissinskin.net/contact/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/contact/" />
-      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/contact/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/contact/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/contact/" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://kissinskin.net/contact/" />

@@ -5,7 +5,7 @@ export default function Head() {
       <meta name="description" content="kissinskin AI K-뷰티 메이크업 시뮬레이터 환불 정책 — 환불 절차·조건 안내." />
       <link rel="canonical" href="https://kissinskin.net/refund/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/refund/" />
-      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/refund/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/refund/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/refund/" />
       <meta property="og:type" content="article" />
       <meta property="og:url" content="https://kissinskin.net/refund/" />

@@ -8,7 +8,7 @@ export default function Head() {
       {/* Canonical + hreflang */}
       <link rel="canonical" href="https://kissinskin.net/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/" />
-      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/" />
 
       {/* GEO #2 - Open Graph for AI sharing/citation */}

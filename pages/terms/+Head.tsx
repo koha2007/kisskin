@@ -5,7 +5,7 @@ export default function Head() {
       <meta name="description" content="kissinskin AI K-뷰티 메이크업 시뮬레이터 이용약관 — 서비스 이용 조건·결제·사용자 책임 안내." />
       <link rel="canonical" href="https://kissinskin.net/terms/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/terms/" />
-      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/terms/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/terms/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/terms/" />
       <meta property="og:type" content="article" />
       <meta property="og:url" content="https://kissinskin.net/terms/" />
