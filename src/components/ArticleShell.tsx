@@ -67,13 +67,17 @@ export default function ArticleShell({
               {hubLabel}
             </a>
             <div className="flex items-center gap-2 mb-5 text-[11px] text-slate-500 flex-wrap">
-              <span className="inline-flex items-center gap-1.5">
+              <a
+                href={hubPath}
+                className="inline-flex items-center gap-1.5 hover:text-navy transition-colors"
+                aria-label={`${categoryLabel} 카테고리 글 더 보기`}
+              >
                 <span
                   className="inline-block w-1.5 h-1.5 rounded-full"
                   style={{ background: categoryColor }}
                 />
-                <span className="font-semibold text-slate-700">{categoryLabel}</span>
-              </span>
+                <span className="font-semibold text-slate-700 hover:text-navy">{categoryLabel}</span>
+              </a>
               <span className="text-slate-300">·</span>
               <span>{formatDate(date)}</span>
               <span className="text-slate-300">·</span>
@@ -110,9 +114,13 @@ export default function ArticleShell({
                 <div className="flex items-center gap-2 flex-wrap text-xs text-slate-500">
                   <span className="font-semibold text-slate-700">태그</span>
                   {tags.map((tag) => (
-                    <span key={tag} className="text-slate-500">
+                    <a
+                      key={tag}
+                      href={hubPath}
+                      className="text-slate-500 hover:text-navy hover:bg-slate-100 px-2 py-0.5 rounded-full transition-colors"
+                    >
                       #{tag}
-                    </span>
+                    </a>
                   ))}
                 </div>
               </div>
