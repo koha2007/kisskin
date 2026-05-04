@@ -56,9 +56,14 @@ export default function ArticleShell({
       <ToolsNav />
 
       <main>
-        {/* Header — clean, no gradient */}
-        <section className="border-b border-slate-200">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-9 md:py-14">
+        {/* Header — subtle category-tinted gradient (Vercel-blog style accent) */}
+        <section
+          className="relative border-b border-slate-200 overflow-hidden"
+          style={{
+            background: `linear-gradient(180deg, ${categoryColor}08 0%, transparent 100%)`,
+          }}
+        >
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-9 md:py-14 relative">
             <a
               href={hubPath}
               className="inline-flex items-center gap-1 text-slate-500 hover:text-navy text-xs font-medium mb-5"
