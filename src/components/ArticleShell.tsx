@@ -58,15 +58,15 @@ export default function ArticleShell({
       <main>
         {/* Header — clean, no gradient */}
         <section className="border-b border-slate-200">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-9 md:py-14">
             <a
               href={hubPath}
-              className="inline-flex items-center gap-1 text-slate-500 hover:text-navy text-xs font-medium mb-6"
+              className="inline-flex items-center gap-1 text-slate-500 hover:text-navy text-xs font-medium mb-5"
             >
               <span className="material-symbols-outlined text-sm">arrow_back</span>
               {hubLabel}
             </a>
-            <div className="flex items-center gap-2 mb-5 text-[11px] text-slate-500 flex-wrap">
+            <div className="flex items-center gap-2 mb-4 text-[11px] text-slate-500 flex-wrap">
               <a
                 href={hubPath}
                 className="inline-flex items-center gap-1.5 hover:text-navy transition-colors"
@@ -89,10 +89,10 @@ export default function ArticleShell({
                 </>
               )}
             </div>
-            <h1 className="text-2xl md:text-[36px] font-bold text-navy leading-[1.2] tracking-tight mb-4">
+            <h1 className="text-[26px] md:text-[38px] font-bold text-navy leading-[1.22] tracking-tight mb-4">
               {title}
             </h1>
-            <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-lg text-slate-600 leading-relaxed mb-5">
               {summary}
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
@@ -105,7 +105,7 @@ export default function ArticleShell({
         </section>
 
         {/* Body */}
-        <section className="py-12 md:py-16">
+        <section className="py-10 md:py-14">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {children}
 

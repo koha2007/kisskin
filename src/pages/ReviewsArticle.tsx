@@ -57,8 +57,8 @@ export default function ReviewsArticle({ slug }: Props) {
       relatedLabel={`${meta.koLabel} 카테고리 다른 리뷰`}
       relatedBasePath="/reviews"
     >
-      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base mb-10">
-        <p>{post.intro}</p>
+      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] mb-10">
+        <p className="text-[17px] md:text-[19px] text-slate-800 font-medium">{post.intro}</p>
       </article>
 
       <ol className="space-y-8 list-none p-0">
@@ -115,7 +115,7 @@ export default function ReviewsArticle({ slug }: Props) {
         ))}
       </ol>
 
-      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base mt-12 space-y-5 border-t border-slate-200 pt-10">
+      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] mt-12 space-y-6 border-t border-slate-200 pt-10">
         {post.outro.map((p, i) => (
           <p key={i}>{p}</p>
         ))}

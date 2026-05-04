@@ -70,17 +70,17 @@ export default function HubShell({
       <main>
         {/* Header — minimal, no decoration */}
         <section className="border-b border-slate-200">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-4">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-3">
               {eyebrow}
             </div>
-            <h1 className="text-[28px] md:text-[40px] font-bold text-navy leading-[1.15] tracking-tight mb-4">
+            <h1 className="text-[26px] md:text-[40px] font-bold text-navy leading-[1.2] tracking-tight mb-3">
               {title}
             </h1>
-            <p className="text-slate-600 text-base md:text-lg leading-relaxed">
+            <p className="text-slate-600 text-[15px] md:text-lg leading-relaxed">
               {subtitle}
             </p>
-            <div className="mt-6 text-xs text-slate-500">
+            <div className="mt-5 text-xs text-slate-500">
               {totalLabel ?? `${items.length}편`}
             </div>
           </div>
@@ -122,15 +122,19 @@ export default function HubShell({
                   <li>
                     <a
                       href={`${basePath}/${featured.slug}/`}
-                      className="group block py-8 md:py-10"
+                      className="group block py-7 md:py-10 active:bg-slate-50"
                     >
                       <ItemMeta item={featured} />
-                      <h2 className="text-xl md:text-3xl font-bold text-navy leading-snug mb-3 group-hover:text-primary transition-colors">
+                      <h2 className="text-[22px] md:text-[32px] font-bold text-navy leading-[1.25] mb-2.5 group-hover:text-primary transition-colors">
                         {featured.title}
                       </h2>
-                      <p className="text-slate-600 text-base leading-relaxed line-clamp-2">
+                      <p className="text-slate-600 text-[15px] md:text-base leading-relaxed line-clamp-2">
                         {featured.summary}
                       </p>
+                      <span className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
+                        읽기
+                        <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                      </span>
                     </a>
                   </li>
                 )}
@@ -138,13 +142,13 @@ export default function HubShell({
                   <li key={item.slug}>
                     <a
                       href={`${basePath}/${item.slug}/`}
-                      className="group block py-6 md:py-7"
+                      className="group block py-5 md:py-7 active:bg-slate-50"
                     >
                       <ItemMeta item={item} />
-                      <h3 className="text-lg md:text-xl font-semibold text-navy leading-snug mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="text-[17px] md:text-xl font-semibold text-navy leading-[1.3] mb-1.5 group-hover:text-primary transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-slate-600 text-sm md:text-base leading-relaxed line-clamp-2">
+                      <p className="text-slate-600 text-[14px] md:text-base leading-relaxed line-clamp-2">
                         {item.summary}
                       </p>
                     </a>
