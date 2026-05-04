@@ -80,39 +80,6 @@ export default function Head() {
         }
       }) }} />
 
-      {/* GEO - Korean FAQ Schema for AI Q&A citation */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "kissinskin은 어떤 서비스인가요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "kissinskin은 AI가 셀카 한 장을 분석해 9가지 K-뷰티 메이크업 룩을 시뮬레이션하는 서비스입니다. 퍼스널컬러 진단, 피부 분석, 맞춤 코스메틱 제품 추천까지 60초 안에 제공합니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "어떤 메이크업 스타일을 체험할 수 있나요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "내추럴 글로우, 클라우드 스킨, 블러드 립, 맥시멀리스트 아이, 메탈릭 아이, 볼드 립, 블러쉬 드레이핑, 그런지 메이크업, K-pop 아이돌 메이크업 등 2026년 최신 트렌드 9가지 스타일을 AI로 체험할 수 있습니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "무료로 사용할 수 있나요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "월 구독 플랜($9.88/월)은 7일 무료 체험이 제공됩니다. 건별 분석은 $2.99에 가입 없이 즉시 이용 가능합니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "어떤 기기에서 사용할 수 있나요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Galaxy, iPhone 등 스마트폰은 물론 PC에서도 사용 가능합니다. 카메라로 직접 촬영하거나 갤러리에서 사진을 업로드하는 방식 모두 지원합니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "AI 메이크업 시뮬레이션 결과는 얼마나 정확한가요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "kissinskin의 AI는 얼굴 구조, 피부톤, 피부 특성을 분석해 각 사용자에게 맞춤화된 메이크업 룩을 생성합니다. 단순한 필터가 아닌 퍼스널컬러와 피부 타입을 반영한 결과를 제공합니다." }
-          }
-        ]
-      }) }} />
-
       {/* GEO - HowTo Schema for AI step-by-step citation */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
