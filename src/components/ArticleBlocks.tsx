@@ -2,51 +2,38 @@ import type { ReactNode } from 'react'
 
 type CalloutType = 'key' | 'warn' | 'data' | 'tip'
 
-const CALLOUT_STYLES: Record<CalloutType, { bg: string; border: string; iconColor: string; icon: string; label: string }> = {
+const CALLOUT_STYLES: Record<CalloutType, { border: string; label: string; labelColor: string }> = {
   key: {
-    bg: 'bg-rose-50',
-    border: 'border-rose-200',
-    iconColor: 'text-rose-500',
-    icon: 'lightbulb',
+    border: 'border-rose-400',
     label: '핵심',
+    labelColor: 'text-rose-500',
   },
   warn: {
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    iconColor: 'text-amber-600',
-    icon: 'warning',
+    border: 'border-amber-500',
     label: '주의',
+    labelColor: 'text-amber-600',
   },
   data: {
-    bg: 'bg-sky-50',
-    border: 'border-sky-200',
-    iconColor: 'text-sky-600',
-    icon: 'insights',
+    border: 'border-slate-400',
     label: '데이터',
+    labelColor: 'text-slate-500',
   },
   tip: {
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
-    iconColor: 'text-emerald-600',
-    icon: 'tips_and_updates',
+    border: 'border-emerald-500',
     label: '팁',
+    labelColor: 'text-emerald-600',
   },
 }
 
 export function Callout({ type = 'key', children }: { type?: CalloutType; children: ReactNode }) {
   const s = CALLOUT_STYLES[type]
   return (
-    <aside className={`not-prose my-7 p-5 md:p-6 ${s.bg} border ${s.border} rounded-xl flex gap-4`}>
-      <span className={`material-symbols-outlined ${s.iconColor} text-2xl shrink-0 mt-0.5`} style={{ fontVariationSettings: "'FILL' 1" }}>
-        {s.icon}
-      </span>
-      <div className="flex-1 min-w-0">
-        <div className={`text-[11px] font-bold uppercase tracking-[0.18em] ${s.iconColor} mb-1.5`}>
-          {s.label}
-        </div>
-        <div className="text-[15px] md:text-base text-slate-700 leading-relaxed">
-          {children}
-        </div>
+    <aside className={`not-prose my-7 border-l-2 ${s.border} pl-5 py-1`}>
+      <div className={`text-[10px] font-bold uppercase tracking-[0.22em] ${s.labelColor} mb-2`}>
+        {s.label}
+      </div>
+      <div className="text-[15px] md:text-[16px] text-slate-700 leading-[1.7]">
+        {children}
       </div>
     </aside>
   )
@@ -54,17 +41,15 @@ export function Callout({ type = 'key', children }: { type?: CalloutType; childr
 
 export function PullQuote({ text, source }: { text: string; source?: string }) {
   return (
-    <blockquote className="not-prose my-9 md:my-10 px-2 md:px-0">
-      <div className="border-l-4 border-primary pl-5 md:pl-6 py-1">
-        <p className="text-[20px] md:text-[26px] font-bold text-navy leading-[1.35] tracking-tight">
-          “{text}”
-        </p>
-        {source && (
-          <div className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-            {source}
-          </div>
-        )}
-      </div>
+    <blockquote className="not-prose my-9 md:my-12 px-2 md:px-0">
+      <p className="text-[19px] md:text-[24px] font-semibold text-navy leading-[1.4] tracking-tight">
+        {text}
+      </p>
+      {source && (
+        <div className="mt-3 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">
+          — {source}
+        </div>
+      )}
     </blockquote>
   )
 }
@@ -79,19 +64,19 @@ export function DataTable({
   rows: string[][]
 }) {
   return (
-    <figure className="not-prose my-7 overflow-x-auto rounded-xl border border-slate-200">
+    <figure className="not-prose my-8 overflow-x-auto">
       {caption && (
-        <figcaption className="px-4 md:px-5 py-3 bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
+        <figcaption className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">
           {caption}
         </figcaption>
       )}
-      <table className="w-full text-sm">
+      <table className="w-full text-sm border-t border-b border-slate-300">
         <thead>
-          <tr className="bg-slate-50/50">
+          <tr>
             {headers.map((h, i) => (
               <th
                 key={i}
-                className="px-4 md:px-5 py-3 text-left text-[12px] font-bold text-navy border-b border-slate-200 whitespace-nowrap"
+                className="px-3 md:px-4 py-3 text-left text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 border-b border-slate-200 whitespace-nowrap"
               >
                 {h}
               </th>
@@ -100,11 +85,11 @@ export function DataTable({
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50/40">
+            <tr key={i} className="border-b border-slate-100 last:border-b-0">
               {row.map((cell, j) => (
                 <td
                   key={j}
-                  className={`px-4 md:px-5 py-3 align-top text-slate-700 ${j === 0 ? 'font-semibold text-navy' : ''}`}
+                  className={`px-3 md:px-4 py-3 align-top text-[14px] text-slate-700 ${j === 0 ? 'font-semibold text-navy' : ''}`}
                 >
                   {cell}
                 </td>
@@ -125,22 +110,15 @@ export interface StepItem {
 
 export function StepList({ items }: { items: StepItem[] }) {
   return (
-    <ol className="not-prose my-8 space-y-4">
+    <ol className="not-prose my-8 space-y-5">
       {items.map((item, i) => (
-        <li key={i} className="flex gap-4 p-5 bg-white border border-slate-200 rounded-xl hover:border-primary/40 transition-colors">
-          <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-pink-500 text-white flex items-center justify-center font-bold text-sm">
+        <li key={i} className="flex gap-4">
+          <div className="shrink-0 w-7 h-7 rounded-full border border-slate-300 text-slate-500 flex items-center justify-center font-bold text-[13px] mt-0.5">
             {i + 1}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
-              {item.icon && (
-                <span className="material-symbols-outlined text-lg text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  {item.icon}
-                </span>
-              )}
-              <h3 className="text-[15px] md:text-base font-bold text-navy">{item.title}</h3>
-            </div>
-            <p className="text-[14px] md:text-[15px] text-slate-600 leading-relaxed">{item.desc}</p>
+            <h3 className="text-[15px] md:text-[16px] font-bold text-navy mb-1">{item.title}</h3>
+            <p className="text-[14px] md:text-[15px] text-slate-600 leading-[1.7]">{item.desc}</p>
           </div>
         </li>
       ))}
@@ -150,17 +128,15 @@ export function StepList({ items }: { items: StepItem[] }) {
 
 /**
  * Body block parser — interpret special string prefixes inside body[] arrays.
- * Returns React nodes ordered the same way.
  *
  * Markers:
- *   `> KEY: ...`         -> <Callout type="key">
- *   `> WARN: ...`        -> <Callout type="warn">
- *   `> DATA: ...`        -> <Callout type="data">
- *   `> TIP: ...`         -> <Callout type="tip">
- *   `> QUOTE: text`      -> <PullQuote>
- *   `> QUOTE: text | src`-> <PullQuote source=src>
- *   `## Heading`         -> <h2>
- *   plain string         -> <p>
+ *   `> KEY: ...`         -> Callout type="key"
+ *   `> WARN: ...`        -> Callout type="warn"
+ *   `> DATA: ...`        -> Callout type="data"
+ *   `> TIP: ...`         -> Callout type="tip"
+ *   `> QUOTE: text`      -> PullQuote
+ *   `> QUOTE: text | src`-> PullQuote source=src
+ *   `## Heading`         -> h2
  */
 export function renderBody(body: string[]): ReactNode[] {
   return body.map((p, i) => {
