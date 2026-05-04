@@ -109,8 +109,31 @@ export default function ArticleShell({
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {children}
 
+            {/* Editorial transparency disclosure — AdSense policy: original content provenance */}
+            <div className="mt-12 p-5 md:p-6 bg-slate-50 border border-slate-200 rounded-xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-2">
+                이 글에 대해
+              </div>
+              <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
+                kissinskin은 1인 인디 프로젝트로, 모든 글은 운영자{' '}
+                <a href="/about" className="font-semibold text-navy underline hover:text-primary">
+                  Yonghun Kim
+                </a>
+                이 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
+                데이터 등 공개 출처를 교차 참조합니다.
+              </p>
+              <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
+                개인 의견과 일반화된 가이드는 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
+                오류 제보·의견은{' '}
+                <a href="/contact" className="font-semibold text-navy underline hover:text-primary">
+                  문의 페이지
+                </a>
+                를 통해 받습니다.
+              </p>
+            </div>
+
             {tags && tags.length > 0 && (
-              <div className="mt-12 pt-6 border-t border-slate-200">
+              <div className="mt-8 pt-6 border-t border-slate-200">
                 <div className="flex items-center gap-2 flex-wrap text-xs text-slate-500">
                   <span className="font-semibold text-slate-700">태그</span>
                   {tags.map((tag) => (
@@ -125,6 +148,56 @@ export default function ArticleShell({
                 </div>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Related AI tools — content → tool funnel + internal link density */}
+        <section className="border-t border-slate-200 bg-white">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-2 text-center">
+              kissinskin · 무료 AI 진단
+            </div>
+            <h2 className="text-lg md:text-xl font-bold text-navy text-center mb-6 tracking-tight">
+              읽은 김에, 내게 맞는 메이크업도 진단해 보세요
+            </h2>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <a
+                href="/tools/makeup-mbti/"
+                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
+              >
+                <div className="text-2xl mb-2">💄</div>
+                <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
+                  메이크업 MBTI
+                </div>
+                <div className="text-[12px] text-slate-500 leading-snug">
+                  16가지 메이크업 성향 진단
+                </div>
+              </a>
+              <a
+                href="/tools/personal-color/"
+                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
+              >
+                <div className="text-2xl mb-2">🎨</div>
+                <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
+                  퍼스널 컬러
+                </div>
+                <div className="text-[12px] text-slate-500 leading-snug">
+                  봄/여름/가을/겨울 4계절 분석
+                </div>
+              </a>
+              <a
+                href="/tools/face-shape/"
+                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
+              >
+                <div className="text-2xl mb-2">👤</div>
+                <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
+                  얼굴형 진단
+                </div>
+                <div className="text-[12px] text-slate-500 leading-snug">
+                  5가지 얼굴형 + 강조 포인트
+                </div>
+              </a>
+            </div>
           </div>
         </section>
 

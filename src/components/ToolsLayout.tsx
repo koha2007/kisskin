@@ -180,9 +180,13 @@ export function ToolsFooter() {
             </ul>
           </div>
         </div>
-        <div className="pt-8 border-t border-navy-mid text-center text-slate-400 text-xs space-y-1">
+        <div className="pt-8 border-t border-navy-mid text-center text-slate-400 text-xs space-y-2">
           <p>&copy; 2026 kissinskin · 운영자: Yonghun Kim · 대한민국 소재 1인 인디 프로젝트</p>
           <p>문의: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
+          <p className="max-w-3xl mx-auto leading-relaxed">
+            모든 글은 직접 기획·편집한 고유 콘텐츠이며, 시장 데이터는 BeautyMatter · NIQ · Mintel · Sephora · Olive Young
+            공개 보고서를 교차 참조합니다. 의학·법적 판단이 필요한 내용은 전문가 상담을 권고합니다.
+          </p>
         </div>
       </div>
     </footer>
