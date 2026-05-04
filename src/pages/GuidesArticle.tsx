@@ -1,4 +1,5 @@
 import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
+import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { GUIDE_POSTS, getGuideBySlug } from '../lib/guides/posts'
 import { getGuideCategoryMeta } from '../lib/guides/types'
@@ -57,26 +58,7 @@ export default function GuidesArticle({ slug }: Props) {
       relatedBasePath="/guides"
     >
       <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
-        {post.body.map((p, i) => {
-          if (p.startsWith('## ')) {
-            return (
-              <h2
-                key={i}
-                className="text-[22px] md:text-[26px] font-bold text-navy mt-12 mb-2 tracking-tight"
-              >
-                {p.replace(/^## /, '')}
-              </h2>
-            )
-          }
-          if (i === 0) {
-            return (
-              <p key={i} className="text-[17px] md:text-[19px] text-slate-800 font-medium">
-                {p}
-              </p>
-            )
-          }
-          return <p key={i}>{p}</p>
-        })}
+        {renderBody(post.body)}
       </article>
 
       <script

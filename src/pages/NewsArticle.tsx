@@ -1,4 +1,5 @@
 import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
+import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { NEWS_ITEMS, getNewsBySlug } from '../lib/news/items'
 import { getCategoryMeta } from '../lib/news/types'
@@ -56,10 +57,8 @@ export default function NewsArticle({ slug }: Props) {
       relatedLabel={`${meta.koLabel} 카테고리 관련 기사`}
       relatedBasePath="/news"
     >
-      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6 first:[&>p]:text-[17px] md:first:[&>p]:text-[19px] first:[&>p]:text-slate-800 first:[&>p]:font-medium">
-        {item.body.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
+      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
+        {renderBody(item.body)}
       </article>
 
       <script
