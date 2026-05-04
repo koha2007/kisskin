@@ -260,6 +260,21 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
 
   const { t, locale, setLocale } = useI18n()
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [mobileMenuOpen])
 
   const womenStyles: StyleData[] = [
     { num: 1, name: t('style.w1'), eng: 'Natural Glow', icon: 'wb_sunny' },
@@ -341,31 +356,24 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <a href="/blog/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">블로그</a>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <a
-              href="#tools-showcase"
-              className="md:hidden text-xs font-bold text-white bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 transition-all px-2.5 py-1.5 rounded-full flex items-center gap-1 shadow-sm"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>grid_view</span>
-              {t('common.freeTools')}
-            </a>
             <button
               onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
-              className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-500"
+              className="hidden md:inline-flex text-sm font-medium text-slate-200 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-500"
             >
               {locale === 'ko' ? 'EN' : '한국어'}
             </button>
             {user ? (
               <button
                 onClick={() => onNavigate('mypage')}
-                className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500 flex items-center gap-1.5"
+                className="hidden md:flex text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500 items-center gap-1.5"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
-                <span className="hidden sm:inline">{t('auth.mypage')}</span>
+                <span>{t('auth.mypage')}</span>
               </button>
             ) : (
               <button
                 onClick={() => onNavigate('auth')}
-                className="text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500"
+                className="hidden md:inline-flex text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500"
               >
                 {t('auth.login')}
               </button>
@@ -376,8 +384,110 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             >
               {t('common.startAnalysis')}
             </button>
+
+            {/* Mobile-only AI button + hamburger */}
+            <button
+              onClick={() => onNavigate('analysis')}
+              className="sm:hidden bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
+            >
+              {t('common.startAnalysis')}
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="메뉴 열기"
+              aria-expanded={mobileMenuOpen}
+              className="md:hidden text-white p-2 rounded-md border border-slate-500 hover:bg-navy-light/30"
+            >
+              <span className="material-symbols-outlined text-2xl leading-none align-middle">menu</span>
+            </button>
           </div>
         </div>
+
+        {/* Mobile drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 z-50">
+            <div
+              className="absolute inset-0 bg-navy/70 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
+            <div className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col">
+              <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200">
+                <span className="text-base font-bold text-navy">메뉴</span>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="메뉴 닫기"
+                  className="p-2 rounded-md hover:bg-slate-100 text-navy"
+                >
+                  <span className="material-symbols-outlined text-2xl leading-none align-middle">close</span>
+                </button>
+              </div>
+              <ul className="flex-1 overflow-y-auto py-2">
+                {[
+                  { href: '/tools/', label: t('common.freeTools') },
+                  { href: '/guides/', label: '가이드' },
+                  { href: '/reviews/', label: '리뷰' },
+                  { href: '/news/', label: '뉴스' },
+                  { href: '/blog/', label: '블로그' },
+                  { href: '/about/', label: '소개' },
+                ].map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-5 py-4 text-base font-semibold text-navy border-b border-slate-100 hover:bg-slate-50"
+                    >
+                      {l.label}
+                      <span className="material-symbols-outlined text-lg text-slate-400">chevron_right</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="p-4 border-t border-slate-200 space-y-3">
+                <button
+                  onClick={() => {
+                    setLocale(locale === 'ko' ? 'en' : 'ko')
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full text-sm font-medium text-slate-700 hover:text-navy py-2.5 rounded-lg border border-slate-300"
+                >
+                  {locale === 'ko' ? 'English' : '한국어'}
+                </button>
+                {user ? (
+                  <button
+                    onClick={() => {
+                      onNavigate('mypage')
+                      setMobileMenuOpen(false)
+                    }}
+                    className="w-full text-sm font-medium text-slate-700 hover:text-navy py-2.5 rounded-lg border border-slate-300 inline-flex items-center justify-center gap-1.5"
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>person</span>
+                    {t('auth.mypage')}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      onNavigate('auth')
+                      setMobileMenuOpen(false)
+                    }}
+                    className="w-full text-sm font-medium text-slate-700 hover:text-navy py-2.5 rounded-lg border border-slate-300"
+                  >
+                    {t('auth.login')}
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    onNavigate('analysis')
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full bg-gradient-to-r from-primary to-pink-500 text-white py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                >
+                  {t('common.startAnalysis')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       <main>
