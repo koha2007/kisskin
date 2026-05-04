@@ -1,4 +1,5 @@
 import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
+import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { REVIEW_POSTS, getReviewBySlug } from '../lib/reviews/posts'
 import { getReviewCategoryMeta } from '../lib/reviews/types'
@@ -116,9 +117,7 @@ export default function ReviewsArticle({ slug }: Props) {
       </ol>
 
       <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] mt-12 space-y-6 border-t border-slate-200 pt-10">
-        {post.outro.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
+        {renderBody(post.outro)}
       </article>
 
       <script
