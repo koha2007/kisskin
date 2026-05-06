@@ -38,6 +38,20 @@ export default function Head() {
       <meta name="twitter:title" content={item.title} />
       <meta name="twitter:description" content={item.summary} />
       <link rel="canonical" href={url} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: '홈', item: 'https://kissinskin.net/' },
+              { '@type': 'ListItem', position: 2, name: '뉴스', item: 'https://kissinskin.net/news/' },
+              { '@type': 'ListItem', position: 3, name: item.title, item: url },
+            ],
+          }),
+        }}
+      />
     </>
   )
 }
