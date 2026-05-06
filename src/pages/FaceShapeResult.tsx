@@ -48,12 +48,10 @@ export default function FaceShapeResult({ code }: Props) {
         </div>
       </section>
 
-      {/* Detail */}
-      <section className="py-14 md:py-20 bg-gradient-to-b from-background-light to-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-3 tracking-tight">{t.koName} 완전 가이드</h2>
-          <p className="text-center text-slate-500 text-sm mb-10">메이크업 · 헤어 · 안경까지 얼굴형 맞춤 가이드.</p>
-          <div className="prose max-w-none text-slate-600 leading-relaxed space-y-5 text-[15px] md:text-base">
+      {/* Summary */}
+      <section className="py-8 md:py-10 bg-gradient-to-b from-background-light to-white">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
+          <div className="text-slate-600 leading-relaxed text-[15px] md:text-base text-center">
             {t.detailParagraphs.map((p, i) => <p key={i}>{p}</p>)}
           </div>
         </div>
@@ -165,37 +163,6 @@ export default function FaceShapeResult({ code }: Props) {
             {i18n('tools.common.aiSimulation')}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
-        </div>
-      </section>
-
-      {/* In-depth context */}
-      <section className="py-14 md:py-20 bg-gradient-to-b from-white to-background-light">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">{t.koName} 얼굴형 더 깊이 이해하기</h2>
-          <div className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base space-y-5">
-            <p>
-              얼굴형은 단순히 외형을 분류하는 라벨이 아니라, <strong>메이크업·헤어·안경·악세서리 선택의 실용적인 좌표</strong>입니다.
-              {t.koName}에 해당하는 사람은 메이크업과 스타일링에서 공통적으로 비슷한 시각적 효과를 얻기 쉬운 경향이 있고,
-              여기서 벗어난 선택을 할 때는 그만큼 보완 포인트가 필요합니다.
-              위에서 본 컨투어링·립·블러쉬 가이드는 모두 이 좌표 위에서 가장 효율이 높은 조합을 추려낸 것입니다.
-            </p>
-            <p>
-              메이크업 초보자라면 <strong>가이드의 한두 가지만 먼저 적용</strong>해 보세요.
-              예를 들어 광대 쉐이딩 한 가지만 정확한 위치에 얇게 넣어도 인상이 한층 정돈됩니다.
-              여러 단계를 한꺼번에 시도하면 결과가 부담스럽거나 부자연스러워질 수 있으니,
-              한 주에 한 가지씩 익숙해지는 페이스로 도전하는 것이 가장 좋은 학습법입니다.
-            </p>
-            <p>
-              헤어와 안경은 메이크업보다 변화의 폭이 크고 비용도 많이 들기 때문에,
-              <strong> 시도하기 전 AI 시뮬레이션이나 가발·템플 안경으로 가상 테스트를 하는 것</strong>을 강력히 추천합니다.
-              매장에서 한두 번 써 보는 것만으로도 어울림 여부를 확실히 판별할 수 있고, 충동 구매로 인한 후회를 줄여 줍니다.
-            </p>
-            <p>
-              마지막으로, 얼굴형 진단 결과는 <strong>고정된 운명이 아니라 출발점</strong>입니다.
-              자신의 얼굴형에 맞지 않는 룩이라도 채도·면적·소재를 조절하면 충분히 시도할 수 있습니다.
-              가이드는 어울릴 확률을 높이는 도구이지, 다른 선택을 막는 규칙이 아니라는 점을 기억해 두세요.
-            </p>
-          </div>
         </div>
       </section>
 
