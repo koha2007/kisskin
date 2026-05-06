@@ -3,6 +3,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { FS_RECOMMENDATIONS } from '../lib/recommendations/face-shape'
 import RecommendedProducts from '../components/RecommendedProducts'
 import ToolFaq, { FACE_SHAPE_FAQ_BASE } from '../components/ToolFaq'
+import ShareBar from '../components/ShareBar'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: FaceShapeCode }
@@ -171,6 +172,14 @@ export default function FaceShapeResult({ code }: Props) {
         title={`${t.koName} 얼굴형 FAQ`}
         items={FACE_SHAPE_FAQ_BASE}
         accentColor={t.primaryColor}
+      />
+
+      {/* Share */}
+      <ShareBar
+        url={typeof window !== 'undefined' ? window.location.href : `https://kissinskin.net/tools/face-shape/${t.slug}/`}
+        shareText={`나의 얼굴형은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`}
+        shareTitle={`얼굴형: ${t.koName}`}
+        retakeUrl="/tools/face-shape/"
       />
 
       {/* Other shapes */}

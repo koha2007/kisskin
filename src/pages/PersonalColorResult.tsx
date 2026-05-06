@@ -3,6 +3,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { PC_RECOMMENDATIONS } from '../lib/recommendations/personal-color'
 import RecommendedProducts from '../components/RecommendedProducts'
 import ToolFaq, { PERSONAL_COLOR_FAQ_BASE } from '../components/ToolFaq'
+import ShareBar from '../components/ShareBar'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: SeasonCode }
@@ -173,6 +174,14 @@ export default function PersonalColorResult({ code }: Props) {
         title={`${t.koName} FAQ`}
         items={PERSONAL_COLOR_FAQ_BASE}
         accentColor={t.primaryColor}
+      />
+
+      {/* Share */}
+      <ShareBar
+        url={typeof window !== 'undefined' ? window.location.href : `https://kissinskin.net/tools/personal-color/${t.slug}/`}
+        shareText={`나의 퍼스널 컬러는 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`}
+        shareTitle={`퍼스널 컬러: ${t.koName}`}
+        retakeUrl="/tools/personal-color/"
       />
 
       {/* Other seasons */}

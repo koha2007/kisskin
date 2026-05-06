@@ -4,6 +4,7 @@ import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
 import RecommendedProducts from '../components/RecommendedProducts'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ToolFaq, { MBTI_FAQ_BASE } from '../components/ToolFaq'
+import ShareBar from '../components/ShareBar'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
@@ -276,6 +277,14 @@ export default function MakeupMbtiResult({ code }: Props) {
         title={`${type.koName} 유형 FAQ`}
         items={MBTI_FAQ_BASE}
         accentColor={type.primaryColor}
+      />
+
+      {/* Share */}
+      <ShareBar
+        url={shareUrl}
+        shareText={`나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`}
+        shareTitle={`메이크업 MBTI: ${type.koName}`}
+        retakeUrl="/tools/makeup-mbti/"
       />
 
       {/* All 16 types grid (SEO internal linking) */}
