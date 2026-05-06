@@ -492,10 +492,26 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
 
       <main>
       {/* Hero */}
-      <section className="relative py-14 lg:py-24 overflow-hidden" aria-labelledby="hero-title">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-pink-200/40 via-rose-100/30 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-purple-200/20 via-pink-100/30 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"></div>
-        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-amber-100/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" style={{ animation: 'pulse-soft 4s ease-in-out infinite' }}></div>
+      <section className="relative py-16 lg:py-28 overflow-hidden bg-cream" aria-labelledby="hero-title">
+        {/* Soft mesh gradient (Stripe/Vercel pattern, muted K-beauty palette) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(at 22% 18%, rgba(251, 207, 232, 0.7) 0px, transparent 55%),' +
+              'radial-gradient(at 78% 28%, rgba(254, 215, 170, 0.55) 0px, transparent 50%),' +
+              'radial-gradient(at 55% 85%, rgba(244, 232, 255, 0.55) 0px, transparent 60%),' +
+              'radial-gradient(at 12% 90%, rgba(255, 228, 230, 0.5) 0px, transparent 45%)',
+          }}
+        />
+        {/* Grainy noise texture (Linear/Vercel pattern) */}
+        <div
+          className="absolute inset-0 opacity-[0.04] mix-blend-multiply pointer-events-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex flex-col items-center gap-10">
@@ -508,7 +524,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 {t('home.hero.badge')}
               </div>
 
-              <h1 id="hero-title" className="animate-fade-in-up text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold leading-[1.15] tracking-tight text-navy">
+              <h1 id="hero-title" className="animate-fade-in-up font-serif text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.1] tracking-tight text-navy">
                 {t('home.hero.title1')}<br />
                 <span className="shimmer-text">{t('home.hero.title2')}</span><br />
                 {t('home.hero.title3')}
@@ -618,10 +634,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Free Tools Showcase — Big, prominent section for all tools */}
-      <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 relative overflow-hidden" aria-labelledby="tools-title">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-violet-200/40 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-pink-200/30 to-transparent rounded-full blur-3xl translate-y-1/4 -translate-x-1/4 pointer-events-none" />
+      <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 relative overflow-hidden bg-cream" aria-labelledby="tools-title">
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Big Heading */}
@@ -630,7 +643,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               <span className="text-base">💄</span>
               ALL FREE · 로그인 불필요
             </div>
-            <h2 id="tools-title" className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-[1.15] mb-4">
+            <h2 id="tools-title" className="font-serif text-4xl md:text-[3.25rem] font-semibold tracking-tight text-navy leading-[1.1] mb-4">
               {t('home.toolsShowcase.title1')}<br />
               <span className="bg-gradient-to-r from-primary via-pink-500 to-purple-600 bg-clip-text text-transparent">{t('home.toolsShowcase.title2')}</span>
             </h2>
@@ -750,8 +763,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Makeup Styles Section */}
-      <section id="styles" className="py-20 scroll-mt-16 relative overflow-hidden" aria-labelledby="styles-title">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-background-light via-pink-50/30 to-background-light"></div>
+      <section id="styles" className="py-20 md:py-28 scroll-mt-16 relative overflow-hidden bg-white" aria-labelledby="styles-title">
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12 flex flex-col items-center gap-3">
@@ -759,7 +771,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               {t('home.styles.badge')}
             </span>
-            <h2 id="styles-title" className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mt-2">
+            <h2 id="styles-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight text-navy mt-2 leading-tight">
               {t('home.styles.title')} <span className="text-primary">{t('home.styles.titleHighlight')}</span>{t('home.styles.titleEnd')}
             </h2>
             <p className="text-slate-500 max-w-lg text-sm md:text-base">
@@ -823,11 +835,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* How it Works */}
-      <section id="how" className="py-20 bg-white scroll-mt-16" aria-labelledby="how-title">
+      <section id="how" className="py-20 md:py-28 bg-cream scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
             <span className="text-primary-dark text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
-            <h2 id="how-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('home.how.title')}</h2>
+            <h2 id="how-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
           </div>
 
           {/* Example Preview: input photo → 9-style result grid */}
@@ -928,7 +940,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               <span className="material-symbols-outlined text-base">menu_book</span>
               kissinskin 가이드
             </span>
-            <h2 id="guide-title" className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mb-3 leading-tight">
+            <h2 id="guide-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight text-navy mb-3 leading-[1.1]">
               AI 메이크업 시뮬레이터를<br className="hidden md:block" /> 똑똑하게 활용하는 법
             </h2>
             <p className="text-slate-500 text-sm md:text-base max-w-xl mx-auto">
@@ -1099,11 +1111,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20 bg-white scroll-mt-16" aria-labelledby="pricing-title">
+      <section id="pricing" className="py-20 md:py-28 bg-cream scroll-mt-16" aria-labelledby="pricing-title">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14 flex flex-col items-center gap-3">
             <span className="text-primary-dark text-sm font-bold uppercase tracking-widest">{t('pricing.badge')}</span>
-            <h2 id="pricing-title" className="text-2xl md:text-4xl font-extrabold tracking-tight">{t('pricing.title')}</h2>
+            <h2 id="pricing-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('pricing.title')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {/* Per-analysis */}
@@ -1166,7 +1178,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
 
         <div className="max-w-3xl mx-auto px-4 text-center relative">
           <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-          <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4 text-navy">
+          <h2 className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight mb-4 text-navy leading-tight">
             {t('home.cta.title1')}<br />{t('home.cta.title2')}
           </h2>
           <p className="text-base text-slate-500 mb-8 max-w-md mx-auto">
@@ -1188,7 +1200,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-3">
             About this site
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-navy tracking-tight mb-4 leading-snug">
+          <h2 className="font-serif text-3xl md:text-[2.5rem] font-semibold text-navy tracking-tight mb-4 leading-snug">
             누가 만들고, 어떻게 운영되는가
           </h2>
           <p className="text-slate-600 text-base leading-relaxed mb-4">

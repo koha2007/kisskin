@@ -76,7 +76,7 @@ export default function MakeupMbtiResult({ code }: Props) {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="inline-block text-6xl md:text-7xl mb-3 mbti-bounce">{type.emoji}</div>
           <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{type.code}</p>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-navy tracking-tight mb-3 leading-tight">
+          <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">
             {type.koName}
           </h1>
           <p className="text-sm md:text-base text-slate-500 italic mb-4">{type.enName}</p>
@@ -124,7 +124,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       {/* 3 Traits */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-background-light via-pink-50/30 to-background-light">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
             이 유형의 3가지 핵심 특징
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
@@ -147,7 +147,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       {/* Signature Look */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
             나의 시그니처 룩 레시피
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
@@ -167,7 +167,7 @@ export default function MakeupMbtiResult({ code }: Props) {
               <span className="material-symbols-outlined text-base">recommend</span>
               추천 K-뷰티 스타일
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-navy mt-4">
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-navy mt-4 leading-tight">
               {type.koName}에게 어울리는 kissinskin 스타일
             </h2>
           </div>
@@ -232,7 +232,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       {/* Tips */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
             이 유형을 위한 2가지 팁
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
@@ -261,7 +261,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       {/* Relationships */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-background-light to-pink-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
             나와 궁합이 좋은 유형 · 배울 점 있는 반대 유형
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
@@ -281,7 +281,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       {/* All 16 types grid (SEO internal linking) */}
       <section className="py-14 md:py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-2 tracking-tight">
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-2 tracking-tight leading-tight">
             16가지 메이크업 MBTI 전체 보기
           </h2>
           <p className="text-center text-slate-500 text-sm mb-8">
@@ -318,7 +318,7 @@ export default function MakeupMbtiResult({ code }: Props) {
         <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 text-navy">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-3 text-navy leading-tight">
             이제 당신의 얼굴에 <span className="text-primary">{type.recommended.women.primary}</span> 적용해보세요
           </h2>
           <p className="text-slate-600 mb-6 max-w-lg mx-auto">

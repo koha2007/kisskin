@@ -5,10 +5,13 @@
   --color-primary-dark: #c9304a;
   --color-background-light: #f8f6f6;
   --color-background-dark: #211114;
+  --color-cream: #faf7f2;
+  --color-blush: #f8f1ec;
   --color-navy: #070953;
   --color-navy-mid: #121570;
   --color-navy-light: #2a2d8a;
   --font-display: "Manrope", sans-serif;
+  --font-serif: "Cormorant Garamond", "Noto Serif KR", "Pretendard", serif;
   --radius: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
@@ -58,4 +61,15 @@ input[type="button"],
 select,
 summary {
   cursor: pointer;
+}
+
+/* Drop cap — magazine-style first-letter for article body */
+.article-body > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.6rem;
+  font-weight: 600;
+  float: left;
+  line-height: 0.85;
+  margin: 0.35rem 0.65rem 0 0;
+  color: var(--color-primary);
 }

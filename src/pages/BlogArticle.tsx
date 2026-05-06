@@ -57,7 +57,7 @@ export default function BlogArticle({ slug }: Props) {
       relatedLabel={`${meta.koLabel} 카테고리 더 읽기`}
       relatedBasePath="/blog"
     >
-      <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
+      <article className="article-body prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
         {renderBody(post.body)}
       </article>
 

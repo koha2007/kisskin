@@ -22,7 +22,7 @@ export default function PersonalColorResult({ code }: Props) {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="text-6xl md:text-7xl mb-3">{t.emoji}</div>
           <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-navy tracking-tight mb-3 leading-tight">{t.koName}</h1>
+          <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{t.koName}</h1>
           <p className="text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">{t.tagline}</p>
           <div className="flex flex-wrap gap-2 justify-center mt-6">
             {t.keywords.map(k => (
@@ -43,7 +43,7 @@ export default function PersonalColorResult({ code }: Props) {
       {/* Traits */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">이 시즌의 신체 특징</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">이 시즌의 신체 특징</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               { icon: 'face', label: '피부', v: t.traits.skin },
@@ -75,7 +75,7 @@ export default function PersonalColorResult({ code }: Props) {
       {/* Best / Avoid Colors */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">어울리는 색 · 피해야 할 색</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">어울리는 색 · 피해야 할 색</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="rounded-3xl p-6 border-2" style={{ borderColor: `${t.primaryColor}40`, background: `${t.primaryColor}08` }}>
               <h3 className="font-extrabold text-navy-mid mb-4 flex items-center gap-2">
@@ -117,7 +117,7 @@ export default function PersonalColorResult({ code }: Props) {
       {/* Shopping Tips */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-background-light to-pink-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">실전 쇼핑 팁 {t.shoppingTips.length}가지</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">실전 쇼핑 팁 {t.shoppingTips.length}가지</h2>
           <div className="grid md:grid-cols-2 gap-3">
             {t.shoppingTips.map((tip, i) => (
               <div key={i} className="bg-white rounded-2xl p-5 border border-pink-100 flex gap-4">
@@ -145,7 +145,7 @@ export default function PersonalColorResult({ code }: Props) {
             <span className="material-symbols-outlined text-base">recommend</span>
             추천 K-뷰티 스타일
           </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-3">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-navy tracking-tight mb-3 leading-tight">
             {t.koName}에게 어울리는 kissinskin 룩
           </h2>
           <p className="text-slate-500 text-sm md:text-base mb-8">{t.kissinskinStyles.reason}</p>
@@ -178,7 +178,7 @@ export default function PersonalColorResult({ code }: Props) {
       {/* Other seasons */}
       <section className="py-14 bg-gradient-to-b from-white to-background-light">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">4가지 시즌 전체 보기</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">4가지 시즌 전체 보기</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {SEASON_ORDER.map(c => {
               const s = PERSONAL_COLOR_TYPES[c]

@@ -94,7 +94,7 @@ export default function ArticleShell({
                 </>
               )}
             </div>
-            <h1 className="text-[26px] md:text-[38px] font-bold text-navy leading-[1.22] tracking-tight mb-4">
+            <h1 className="font-serif text-[32px] md:text-[48px] font-semibold text-navy leading-[1.1] tracking-tight mb-4">
               {title}
             </h1>
             <p className="text-[15px] md:text-lg text-slate-600 leading-relaxed mb-5">

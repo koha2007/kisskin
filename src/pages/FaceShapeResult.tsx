@@ -20,7 +20,7 @@ export default function FaceShapeResult({ code }: Props) {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="text-6xl md:text-7xl mb-3">{t.emoji}</div>
           <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-navy tracking-tight mb-3 leading-tight">{t.koName}</h1>
+          <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{t.koName}</h1>
           <p className="text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">{t.tagline}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a href="/tools/face-shape/" className="bg-white border-2 border-emerald-100 hover:border-emerald-500 px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid flex items-center justify-center gap-2">
@@ -36,7 +36,7 @@ export default function FaceShapeResult({ code }: Props) {
       {/* Features */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">{t.koName}의 핵심 특징</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">{t.koName}의 핵심 특징</h2>
           <div className="grid md:grid-cols-2 gap-3">
             {t.features.map((f, i) => (
               <div key={i} className="bg-white rounded-2xl p-5 border flex gap-4" style={{ borderColor: `${t.primaryColor}30` }}>
@@ -60,7 +60,7 @@ export default function FaceShapeResult({ code }: Props) {
       {/* Contouring Map */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-3 tracking-tight">맞춤 컨투어링 가이드</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-3 tracking-tight leading-tight">맞춤 컨투어링 가이드</h2>
           <p className="text-center text-slate-500 text-sm mb-8">{t.koName}에 최적화된 쉐이딩·하이라이터 배치</p>
           <div className="grid md:grid-cols-2 gap-3">
             {[
@@ -86,7 +86,7 @@ export default function FaceShapeResult({ code }: Props) {
       {/* Style Recommendations */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-background-light to-pink-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">스타일링 가이드</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">스타일링 가이드</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               { icon: 'visibility', label: '눈썹', v: t.recommendedStyle.brow },
@@ -143,7 +143,7 @@ export default function FaceShapeResult({ code }: Props) {
             <span className="material-symbols-outlined text-base">recommend</span>
             추천 K-뷰티 스타일
           </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-3">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-navy tracking-tight mb-3 leading-tight">
             {t.koName}에게 어울리는 kissinskin 룩
           </h2>
           <p className="text-slate-500 text-sm md:text-base mb-8">{t.kissinskin.reason}</p>
@@ -176,7 +176,7 @@ export default function FaceShapeResult({ code }: Props) {
       {/* Other shapes */}
       <section className="py-14 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">5가지 얼굴형 전체 보기</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">5가지 얼굴형 전체 보기</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             {FACE_SHAPE_ORDER.map(c => {
               const s = FACE_SHAPE_TYPES[c]
