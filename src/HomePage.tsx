@@ -1217,40 +1217,21 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             </a>
           </div>
 
-          {/* Editorial standards — trust block (Byrdie pattern) */}
-          <div className="mt-10 pt-8 border-t border-slate-200">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500 mb-4">
-              편집·콘텐츠 기준
-            </div>
-            <div className="grid sm:grid-cols-3 gap-5">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-rose-500 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                  <h3 className="text-[14px] font-bold text-navy">고유 콘텐츠</h3>
-                </div>
-                <p className="text-[13px] text-slate-600 leading-relaxed">
-                  모든 글은 운영자가 직접 작성합니다. AI 자동 생성 본문은 사용하지 않습니다.
-                </p>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-sky-500 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
-                  <h3 className="text-[14px] font-bold text-navy">검증된 출처</h3>
-                </div>
-                <p className="text-[13px] text-slate-600 leading-relaxed">
-                  BeautyMatter · NIQ · Mintel · Sephora · Olive Young 등 공개 보고서 교차 인용.
-                </p>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-emerald-500 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>health_and_safety</span>
-                  <h3 className="text-[14px] font-bold text-navy">전문가 권고</h3>
-                </div>
-                <p className="text-[13px] text-slate-600 leading-relaxed">
-                  의학·법적 판단이 필요한 사안은 전문의·법률 자문을 권고합니다.
-                </p>
-              </div>
-            </div>
+          {/* Editorial standards — compact (full details on /about) */}
+          <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-slate-500">
+            <span className="font-semibold uppercase tracking-[0.18em] text-slate-400">편집 기준</span>
+            <span className="inline-flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-rose-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              고유 콘텐츠
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-sky-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
+              검증된 출처
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-emerald-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>health_and_safety</span>
+              전문가 권고
+            </span>
           </div>
         </div>
       </section>
