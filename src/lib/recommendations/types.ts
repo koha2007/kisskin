@@ -23,7 +23,7 @@ export interface ProductRec {
  * 3. 각 ProductRec에 affiliateUrl 입력 (또는 Google Shopping 검색 URL)
  * 4. AFFILIATE_ENABLED = true
  */
-export const AFFILIATE_ENABLED = false
+export const AFFILIATE_ENABLED = true
 
 /** 향후 Google Shopping 검색 링크 빌더 — 제휴 전 임시로 안전하게 사용 가능 */
 export function buildSearchLink(query: string): string {
