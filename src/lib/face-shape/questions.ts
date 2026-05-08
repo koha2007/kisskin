@@ -1,4 +1,4 @@
-// Face Shape — 8-question self-diagnosis
+// Face Shape — 6-question self-diagnosis
 // Uses ratio + feature questions from Korean beauty research (KISTI JAKO200431559977577)
 // Scoring: each type accumulates points; highest = result
 
@@ -44,25 +44,6 @@ export const FS_QUESTIONS: FSQuestion[] = [
   },
   {
     id: 4,
-    question: '헤어라인(이마 윗부분) 모양은?',
-    options: [
-      { text: '부드러운 곡선', value: 'oval', emoji: '🥚' },
-      { text: '직선에 가까움', value: 'square', emoji: '🧊' },
-      { text: '둥글게 내려감', value: 'round', emoji: '🌕' },
-      { text: 'M자 또는 V자처럼 넓음', value: 'heart', emoji: '💖' },
-    ],
-  },
-  {
-    id: 5,
-    question: '볼(뺨) 상태는?',
-    options: [
-      { text: '볼살이 적당하고 균형있음', value: 'oval', emoji: '🥚' },
-      { text: '볼살이 풍성해 동안 인상', value: 'round', emoji: '🌕' },
-      { text: '볼살이 적어 뺨이 길어 보임', value: 'oblong', emoji: '🫒' },
-    ],
-  },
-  {
-    id: 6,
     question: '옆모습에서 턱선 각도는?',
     options: [
       { text: '완만한 곡선', value: 'oval', emoji: '🥚' },
@@ -72,7 +53,7 @@ export const FS_QUESTIONS: FSQuestion[] = [
     ],
   },
   {
-    id: 7,
+    id: 5,
     question: '정면에서 보는 첫인상은?',
     options: [
       { text: '균형잡히고 이목구비 또렷', value: 'oval', emoji: '🥚' },
@@ -83,7 +64,7 @@ export const FS_QUESTIONS: FSQuestion[] = [
     ],
   },
   {
-    id: 8,
+    id: 6,
     question: '가장 자주 듣는 얼굴 관련 말은?',
     options: [
       { text: '"얼굴형이 예쁘다 / 비율이 좋다"', value: 'oval', emoji: '🥚' },

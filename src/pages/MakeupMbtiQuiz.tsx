@@ -78,7 +78,7 @@ export default function MakeupMbtiQuiz() {
               나의 메이크업 MBTI는?
             </h1>
             <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6 max-w-2xl mx-auto">
-              10문항으로 알아보는 당신의 메이크업 성향.
+              8문항으로 알아보는 당신의 메이크업 성향.
               <strong className="text-primary"> 16가지 유형</strong> 중 당신에게 맞는 K-뷰티 스타일과 제품 공식을 추천해드립니다.
             </p>
 

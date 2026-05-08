@@ -1005,7 +1005,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단의 활용</h3>
               <p>
                 AI 시뮬레이션 결과를 더 정확하게 해석하려면 자신의 메이크업 성향을 알아야 합니다.
-                <strong> 메이크업 MBTI</strong>는 10문항 퀴즈로 16가지 메이크업 성향을 진단하고,
+                <strong> 메이크업 MBTI</strong>는 8문항 퀴즈로 16가지 메이크업 성향을 진단하고,
                 각 유형에 어울리는 시그니처 컬러·텍스처·아이코닉 룩을 알려 줍니다.
                 <strong> 퍼스널 컬러 진단</strong>은 봄웜·여름쿨·가을웜·겨울쿨 4계절을 판별해
                 평소 잘 어울리는 색을 미리 찾을 수 있게 해 줍니다.

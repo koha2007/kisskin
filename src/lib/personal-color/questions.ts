@@ -1,6 +1,6 @@
-// Personal Color — 10-question self-diagnosis
+// Personal Color — 6-question self-diagnosis
 // Validated against namu.wiki 퍼스널컬러 기준, Carole Jackson 4-season framework.
-// 축: WarmCool (6문항) + LightDeep (4문항)
+// 축: WarmCool (4문항) + LightDeep (2문항)
 //   Warm/Cool 판정 → 봄·가을 vs 여름·겨울
 //   Light/Deep 판정 → 봄·여름 (Light) vs 가을·겨울 (Deep)
 
@@ -51,24 +51,6 @@ export const PC_QUESTIONS: PCQuestion[] = [
   {
     id: 4,
     axis: 'WC',
-    question: '흰 옷을 입을 때 더 편한 쪽은?',
-    options: [
-      { text: '아이보리·크림 같은 따뜻한 화이트', value: 'W', emoji: '🤍' },
-      { text: '순백·퓨어 화이트가 더 깔끔하다', value: 'C', emoji: '🕊️' },
-    ],
-  },
-  {
-    id: 5,
-    axis: 'WC',
-    question: '자연 모발 색은?',
-    options: [
-      { text: '짙은 갈색·오렌지 기운의 브라운', value: 'W', emoji: '🌰' },
-      { text: '블루 블랙·애쉬 기운의 검정', value: 'C', emoji: '🖤' },
-    ],
-  },
-  {
-    id: 6,
-    axis: 'WC',
     question: '입술 자연 색은?',
     options: [
       { text: '오렌지·살몬·살색에 가깝다', value: 'W', emoji: '🍑' },
@@ -77,7 +59,7 @@ export const PC_QUESTIONS: PCQuestion[] = [
   },
   // Light/Deep
   {
-    id: 7,
+    id: 5,
     axis: 'LD',
     question: '피부 전체 밝기는?',
     options: [
@@ -86,30 +68,12 @@ export const PC_QUESTIONS: PCQuestion[] = [
     ],
   },
   {
-    id: 8,
+    id: 6,
     axis: 'LD',
     question: '검정 티셔츠 vs 파스텔 상의, 어느 쪽이 더 예뻐 보인다?',
     options: [
       { text: '파스텔·밝은 색이 얼굴을 살린다', value: 'L', emoji: '💗' },
       { text: '블랙·와인·딥 컬러가 얼굴을 또렷하게 만든다', value: 'D', emoji: '🍷' },
-    ],
-  },
-  {
-    id: 9,
-    axis: 'LD',
-    question: '눈동자·모발·피부의 전체 대비는?',
-    options: [
-      { text: '부드럽고 유사한 톤 — 조화로움', value: 'L', emoji: '🌷' },
-      { text: '강한 대비 — 확실히 차이가 있음', value: 'D', emoji: '🎴' },
-    ],
-  },
-  {
-    id: 10,
-    axis: 'LD',
-    question: '첫인상을 물으면?',
-    options: [
-      { text: '밝고 생기 있다 · 어려 보인다', value: 'L', emoji: '🌼' },
-      { text: '차분하고 성숙하다 · 카리스마 있다', value: 'D', emoji: '👑' },
     ],
   },
 ]

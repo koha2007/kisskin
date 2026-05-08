@@ -61,7 +61,7 @@ export default function FaceShapeQuiz() {
               나의 얼굴형은?
             </h1>
             <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6 max-w-2xl mx-auto">
-              8문항으로 알아보는 계란형·둥근형·각진형·긴형·하트형.
+              6문항으로 알아보는 계란형·둥근형·각진형·긴형·하트형.
               <strong className="text-emerald-600"> 얼굴형별 맞춤 컨투어링</strong>과 메이크업·헤어·안경 가이드를 함께 제공합니다.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">

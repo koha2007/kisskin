@@ -64,7 +64,7 @@ export default function PersonalColorQuiz() {
               나의 퍼스널 컬러는?
             </h1>
             <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6 max-w-2xl mx-auto">
-              10문항으로 알아보는 봄 웜톤 / 여름 쿨톤 / 가을 웜톤 / 겨울 쿨톤.
+              6문항으로 알아보는 봄 웜톤 / 여름 쿨톤 / 가을 웜톤 / 겨울 쿨톤.
               <strong className="text-amber-600"> 4계절 퍼스널 컬러 시스템</strong>에 기반해 나에게 어울리는 색과 메이크업을 추천해드립니다.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">

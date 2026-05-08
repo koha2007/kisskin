@@ -1,5 +1,5 @@
-// Makeup MBTI — 10-question validated quiz
-// Axis distribution: E/I×3, N/S×2, F/T×3, P/J×2  (총 10문항)
+// Makeup MBTI — 8-question validated quiz
+// Axis distribution: E/I×2, N/S×2, F/T×2, P/J×2  (총 8문항)
 // 각 문항은 한 축만 측정하여 해석 혼란을 최소화합니다.
 
 import type { MbtiCode } from './types'
@@ -41,19 +41,10 @@ export const QUESTIONS: QuizQuestion[] = [
       { text: '평소 스타일 그대로, 대신 피부 톤만 더 신경 쓴다.', letter: 'I', emoji: '🌸' },
     ],
   },
-  {
-    id: 3,
-    axis: 'EI',
-    question: '완성된 메이크업 셀카를 보며 가장 만족하는 순간은?',
-    options: [
-      { text: '뚜렷한 립, 반짝이는 아이 — 존재감이 살아 있을 때.', letter: 'E', emoji: '✨' },
-      { text: '잡티 없는 피부와 은은한 혈색 — 자연스러울 때.', letter: 'I', emoji: '🍃' },
-    ],
-  },
 
   // N/S — 영감 원천
   {
-    id: 4,
+    id: 3,
     axis: 'NS',
     question: '화장품 매장에서 더 끌리는 제품은?',
     options: [
@@ -62,7 +53,7 @@ export const QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    id: 5,
+    id: 4,
     axis: 'NS',
     question: 'SNS에 새로운 메이크업 트렌드가 뜨면?',
     options: [
@@ -73,7 +64,7 @@ export const QUESTIONS: QuizQuestion[] = [
 
   // F/T — 무드 방향
   {
-    id: 6,
+    id: 5,
     axis: 'FT',
     question: '눈 화장을 마무리할 때 더 자연스러운 방식은?',
     options: [
@@ -82,16 +73,7 @@ export const QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    id: 7,
-    axis: 'FT',
-    question: '더 끌리는 립 타입은?',
-    options: [
-      { text: '경계가 번진 틴트·블러드 립. 안에서 붉어진 느낌.', letter: 'F', emoji: '🍒' },
-      { text: '컬러가 또렷한 매트·풀컬러 립. 바른 티가 나는 완성형.', letter: 'T', emoji: '💄' },
-    ],
-  },
-  {
-    id: 8,
+    id: 6,
     axis: 'FT',
     question: '"예쁘다"라고 느끼는 감각의 핵심은?',
     options: [
@@ -102,7 +84,7 @@ export const QUESTIONS: QuizQuestion[] = [
 
   // P/J — 루틴 스타일
   {
-    id: 9,
+    id: 7,
     axis: 'PJ',
     question: '아침 메이크업의 결정 방식은?',
     options: [
@@ -111,7 +93,7 @@ export const QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    id: 10,
+    id: 8,
     axis: 'PJ',
     question: '당신의 "시그니처 룩"은?',
     options: [
