@@ -343,5 +343,5 @@ export default {
   'recProducts.brandsLabel': 'Reference brands',
   'recProducts.findProducts': 'Find products',
   'recProducts.comingSoon': 'Purchase links coming soon',
-  'recProducts.disclosure': 'This page may contain affiliate links; we may earn a commission on qualifying purchases. Commissions do not affect product prices. Recommendations are based on type-specific analysis.',
+  'recProducts.disclosure': 'As a Coupang Partners affiliate, we earn a commission from qualifying purchases. Commissions do not affect product prices. Recommendations are based on type-specific analysis.',
 } as Record<string, string>

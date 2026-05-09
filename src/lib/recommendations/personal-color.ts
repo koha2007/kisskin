@@ -16,6 +16,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       whyForType: '봄 웜톤의 밝고 투명한 피부에 옐로우 베이스가 완벽 매치. 글로우 피니시가 생기를 극대화합니다.',
       searchKeywords: '봄웜톤 옐로우 베이스 쿠션 라이트 Y21',
       icon: 'palette',
+      affiliateUrl: 'https://link.coupang.com/a/eFuqyp',
     },
     {
       category: '립 틴트',
@@ -103,6 +104,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       whyForType: '벽돌색·테라코타가 가을 웜톤의 피부 깊이와 어우러지며 "지적인 고급스러움"을 완성합니다.',
       searchKeywords: '가을웜톤 벽돌색 테라코타 버건디 오렌지 립',
       icon: 'favorite',
+      affiliateUrl: 'https://link.coupang.com/a/eFuujB',
     },
     {
       category: '아이섀도 팔레트',

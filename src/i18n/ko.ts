@@ -343,5 +343,5 @@ export default {
   'recProducts.brandsLabel': '검색에 참고할 브랜드',
   'recProducts.findProducts': '제품 찾아보기',
   'recProducts.comingSoon': '구매 링크 준비 중',
-  'recProducts.disclosure': '이 페이지는 제휴 링크를 포함할 수 있으며, 구매 발생 시 당사가 소정의 수수료를 받을 수 있습니다. 수수료는 제품 가격에 영향을 주지 않으며, 추천은 유형별 특성 분석을 기반으로 이뤄집니다.',
+  'recProducts.disclosure': '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 수수료는 제품 가격에 영향을 주지 않으며, 추천은 유형별 특성 분석을 기반으로 이뤄집니다.',
 } as Record<string, string>
