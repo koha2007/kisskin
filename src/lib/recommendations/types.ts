@@ -1,6 +1,5 @@
 // Shared ProductRecommendation type used across all 3 diagnostic tools.
-// Purchase links deliberately NOT included until AdSense approval lands.
-// When ready, flip AFFILIATE_ENABLED and populate `affiliateUrl`.
+// Coupang Partners search affiliate active 2026-05-09.
 
 export interface ProductRec {
   category: string              // "립", "쿠션", "아이섀도", "블러셔", "컨투어" 등
@@ -25,7 +24,10 @@ export interface ProductRec {
  */
 export const AFFILIATE_ENABLED = true
 
-/** 향후 Google Shopping 검색 링크 빌더 — 제휴 전 임시로 안전하게 사용 가능 */
+/** Coupang Partners 검색 어필리에이트 ID — 환영 메일 발급 (2026-05-09) */
+const COUPANG_TRACKING_CODE = 'AF6657739'
+
+/** 쿠팡 검색 어필리에이트 링크 빌더 — 모든 검색 키워드에 자동 적용 */
 export function buildSearchLink(query: string): string {
-  return `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(query)}`
+  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=affiliate&trackingCode=${COUPANG_TRACKING_CODE}`
 }
