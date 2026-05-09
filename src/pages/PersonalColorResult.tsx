@@ -178,7 +178,7 @@ export default function PersonalColorResult({ code }: Props) {
 
       {/* Share */}
       <ShareBar
-        url={typeof window !== 'undefined' ? window.location.href : `https://kissinskin.net/tools/personal-color/${t.slug}/`}
+        url={`https://kissinskin.net/tools/personal-color/${t.slug}/`}
         shareText={`나의 퍼스널 컬러는 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`}
         shareTitle={`퍼스널 컬러: ${t.koName}`}
         retakeUrl="/tools/personal-color/"

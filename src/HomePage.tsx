@@ -231,9 +231,9 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
                   alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
                   width={200}
                   height={280}
-                  loading={mi < 5 ? "eager" : "lazy"}
-                  decoding={mi < 5 ? "sync" : "async"}
-                  fetchPriority={mi < 3 ? "high" : "low"}
+                  loading={mi < 2 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={mi === 0 ? "high" : "auto"}
                 />
                 <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
               </div>
@@ -565,8 +565,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                     width={64}
                     height={84}
                     loading="eager"
-                    decoding="sync"
-                    fetchPriority="high"
+                    decoding="async"
                     className="block w-14 h-[72px] sm:w-16 sm:h-[84px] object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent text-white text-[0.6rem] font-bold px-1.5 py-0.5 leading-tight">
@@ -580,9 +579,8 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                     alt={t('home.hero.previewResultLabel')}
                     width={108}
                     height={84}
-                    loading="eager"
-                    decoding="sync"
-                    fetchPriority="high"
+                    loading="lazy"
+                    decoding="async"
                     className="block w-[96px] h-[72px] sm:w-[108px] sm:h-[84px] object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent text-white text-[0.6rem] font-bold px-1.5 py-0.5 leading-tight">

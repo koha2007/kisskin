@@ -176,7 +176,7 @@ export default function FaceShapeResult({ code }: Props) {
 
       {/* Share */}
       <ShareBar
-        url={typeof window !== 'undefined' ? window.location.href : `https://kissinskin.net/tools/face-shape/${t.slug}/`}
+        url={`https://kissinskin.net/tools/face-shape/${t.slug}/`}
         shareText={`나의 얼굴형은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`}
         shareTitle={`얼굴형: ${t.koName}`}
         retakeUrl="/tools/face-shape/"

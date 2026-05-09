@@ -30,7 +30,7 @@ export default function MakeupMbtiResult({ code }: Props) {
     return () => { cancelAnimationFrame(raf); window.clearTimeout(hide) }
   }, [])
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://kissinskin.net/tools/makeup-mbti/${type.slug}/`
+  const shareUrl = `https://kissinskin.net/tools/makeup-mbti/${type.slug}/`
 
   const handleShare = async () => {
     const shareText = `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`

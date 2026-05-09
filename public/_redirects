@@ -1,2 +1,27 @@
 https://www.kissinskin.net/* https://kissinskin.net/:splat 301
 https://kisskin.pages.dev/* https://kissinskin.net/:splat 301!
+
+# Trailing slash normalization (GA4 split-tracking fix)
+/about            /about/             301
+/about-makeup-ai  /about-makeup-ai/   301
+/analysis         /analysis/          301
+/auth             /auth/              301
+/blog             /blog/              301
+/contact          /contact/           301
+/guides           /guides/            301
+/mypage           /mypage/            301
+/news             /news/              301
+/privacy          /privacy/           301
+/refund           /refund/            301
+/reviews          /reviews/           301
+/terms            /terms/             301
+/tools            /tools/             301
+/tools/face-shape       /tools/face-shape/        301
+/tools/personal-color   /tools/personal-color/    301
+/tools/makeup-mbti      /tools/makeup-mbti/       301
+/en               /en/                301
+/en/about         /en/about/          301
+/en/contact       /en/contact/        301
+/en/privacy       /en/privacy/        301
+/en/terms         /en/terms/          301
+/en/refund        /en/refund/         301

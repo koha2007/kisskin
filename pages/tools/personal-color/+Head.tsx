@@ -1,6 +1,6 @@
 export default function Head() {
-  const title = '퍼스널 컬러 자가 진단 무료 테스트 | kissinskin'
-  const desc = '10문항 무료 퍼스널 컬러 진단. 봄웜·여름쿨·가을웜·겨울쿨 시즌별 맞춤 메이크업.'
+  const title = '퍼스널 컬러 진단 — 6문항 1분 무료 테스트 | kissinskin'
+  const desc = '1분 만에 봄웜·여름쿨·가을웜·겨울쿨 4시즌 중 내 톤 진단. 시즌별 어울리는 색·립·아이·헤어 가이드까지 한 번에.'
   return (
     <>
       <title>{title}</title>

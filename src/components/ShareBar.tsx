@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ShareBarProps {
   /** Canonical share URL (use window.location.href or a static fallback) */
@@ -20,6 +20,11 @@ export default function ShareBar({
   retakeLabel = '다시 하기',
 }: ShareBarProps) {
   const [copied, setCopied] = useState(false)
+  // SSR-safe: only enable native-share button after mount, otherwise hydration mismatches (React #418).
+  const [hasNativeShare, setHasNativeShare] = useState(false)
+  useEffect(() => {
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') setHasNativeShare(true)
+  }, [])
 
   const copyLink = async () => {
     try {
@@ -43,8 +48,6 @@ export default function ShareBar({
 
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-
-  const hasNativeShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
 
   return (
     <section className="py-14 md:py-16 bg-cream">
