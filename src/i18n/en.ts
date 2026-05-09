@@ -30,7 +30,8 @@ export default {
   'home.hero.previewResultLabel': '9 Looks',
   'home.hero.trust1': '60s done',
   'home.hero.trust2': 'No sign-up',
-  'home.hero.trust3': 'Free preview',
+  'home.hero.trust3': '100% Free',
+  'home.hero.viewQuizzes': '4 Free Quizzes',
 
   // Value Props
   'home.value.title1': 'K-Beauty in 60 Seconds',

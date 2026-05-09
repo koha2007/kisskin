@@ -138,7 +138,8 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
         }
-        .ks-marquee-track:hover {
+        .ks-marquee-track:hover,
+        .ks-marquee-track.ks-paused {
           animation-play-state: paused;
         }
         @keyframes ks-scroll {
@@ -203,12 +204,28 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
         }
       `}</style>
       <div className="ks-hero-wrap">
-        <div className="ks-marquee-track" ref={trackRef}>
+        <div
+          className="ks-marquee-track"
+          ref={trackRef}
+          onTouchStart={(e) => e.currentTarget.classList.add('ks-paused')}
+          onTouchEnd={(e) => {
+            const el = e.currentTarget
+            window.setTimeout(() => el.classList.remove('ks-paused'), 1500)
+          }}
+        >
           {MARQUEE_MODELS.map((model, mi) => {
             const imgFile = model.images[styleIndices[mi]]
             const src = `/styles/marquee/${model.folder}_${imgFile}`
             return (
-              <div key={model.folder} className="ks-card" onClick={onClick}>
+              <div
+                key={model.folder}
+                className="ks-card"
+                onClick={onClick}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
+                aria-label={`Try AI makeup — ${STYLE_LABELS[styleIndices[mi]]}`}
+              >
                 <img
                   src={src}
                   alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
@@ -492,7 +509,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
 
       <main>
       {/* Hero */}
-      <section className="relative py-16 lg:py-28 overflow-hidden bg-cream" aria-labelledby="hero-title">
+      <section className="relative py-10 md:py-16 lg:py-24 overflow-hidden bg-cream" aria-labelledby="hero-title">
         {/* Soft mesh gradient (Stripe/Vercel pattern, muted K-beauty palette) */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -583,11 +600,11 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                   <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </button>
                 <a
-                  href="#styles"
+                  href="/tools/"
                   className="border border-pink-200 hover:border-primary/30 hover:bg-pink-50 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-700"
                 >
-                  <span className="material-symbols-outlined text-primary">grid_view</span>
-                  {t('home.hero.viewStyles')}
+                  <span className="material-symbols-outlined text-primary">quiz</span>
+                  {t('home.hero.viewQuizzes')}
                 </a>
               </div>
 

@@ -30,7 +30,8 @@ export default {
   'home.hero.previewResultLabel': '9가지 룩',
   'home.hero.trust1': '60초 완성',
   'home.hero.trust2': '가입 불필요',
-  'home.hero.trust3': '무료 미리보기',
+  'home.hero.trust3': '100% 무료',
+  'home.hero.viewQuizzes': '무료 진단 4종',
 
   // Value Props
   'home.value.title1': '1회 분석',

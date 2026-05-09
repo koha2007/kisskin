@@ -23,6 +23,11 @@ declare global {
 function gtagEvent(name: string, params?: Record<string, unknown>) {
   window.gtag?.('event', name, params)
 }
+function purchaseItems(type: 'one-time' | 'subscription') {
+  return type === 'subscription'
+    ? [{ item_id: 'analysis_subscription', item_name: 'AI Makeup Analysis (subscription)', price: 9.88 }]
+    : [{ item_id: 'analysis_per_use', item_name: 'AI Makeup Analysis (per-use)', price: 2.99 }]
+}
 
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
@@ -153,7 +158,7 @@ export default function AnalysisApp() {
     gtagEvent('view_item', {
       currency: 'USD',
       value: 2.99,
-      items: [{ item_id: 'analysis_per_use', item_name: 'AI Makeup Analysis (per-use)', price: 2.99 }],
+      items: purchaseItems('one-time'),
     })
     return () => subscription.unsubscribe()
   }, [])
@@ -607,7 +612,7 @@ export default function AnalysisApp() {
 
   const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
     const value = type === 'subscription' ? 9.88 : 2.99
-    gtagEvent('begin_checkout', { checkout_type: type, value, currency: 'USD' })
+    gtagEvent('begin_checkout', { checkout_type: type, value, currency: 'USD', items: purchaseItems(type) })
     try {
       if (isMobile) try { sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale })) } catch { /* storage full or unavailable */ }
       const { res: checkoutRes, data: checkoutRaw } = await fetchJsonWithRetry('/api/checkout', {
@@ -658,7 +663,7 @@ export default function AnalysisApp() {
       const onCheckoutComplete = async () => {
         if (paid) return; paid = true; embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
-        gtagEvent('purchase', { transaction_id: embeddedCheckoutId, value, currency: 'USD', checkout_type: type })
+        gtagEvent('purchase', { transaction_id: embeddedCheckoutId, value, currency: 'USD', checkout_type: type, items: purchaseItems(type) })
         if (type === 'subscription') { await checkSubscription() }
         else {
           // Show the analysis loader immediately — runAnalysis sets it too,
@@ -760,7 +765,7 @@ export default function AnalysisApp() {
       .then(({ data: result }) => {
         if (result.customerEmail && typeof result.customerEmail === 'string') customerEmailRef.current = result.customerEmail
         if (result.status === 'succeeded' || result.status === 'confirmed') {
-          gtagEvent('purchase', { transaction_id: checkoutId, value: 2.99, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect' })
+          gtagEvent('purchase', { transaction_id: checkoutId, value: 2.99, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect', items: purchaseItems('one-time') })
           setTimeout(() => runAnalysis(), 100)
         } else {
           gtagEvent('checkout_abandoned', { checkout_type: 'one-time', flow: 'mobile_redirect', transaction_id: checkoutId, status: result.status || 'unknown' })
@@ -956,21 +961,6 @@ export default function AnalysisApp() {
                   }
                   setShowShareMenu(true)
                 }}><span className="material-symbols-outlined">share</span>{t('result.share')}</button>
-              </div>
-              {/* AddToAny Share Buttons */}
-              <div className="a2a_kit a2a_kit_size_32 a2a_default_style" style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '12px' }}
-                data-a2a-url={shareId ? `https://kissinskin.net/result/${shareId}` : 'https://kissinskin.net'}
-                data-a2a-title={locale === 'ko' ? 'AI 메이크업 분석 결과 - kissinskin' : 'AI Makeup Analysis - kissinskin'}>
-                <a className="a2a_button_facebook"></a>
-                <a className="a2a_button_kakao"></a>
-                <a className="a2a_button_facebook_messenger"></a>
-                <a className="a2a_button_threads"></a>
-                <a className="a2a_button_linkedin"></a>
-                <a className="a2a_button_reddit"></a>
-                <a className="a2a_button_sms"></a>
-                <a className="a2a_button_pinterest"></a>
-                <a className="a2a_button_email"></a>
-                <a className="a2a_dd" href="https://www.addtoany.com/share"></a>
               </div>
             </section>
           )}

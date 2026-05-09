@@ -45,7 +45,7 @@ export default function CookieConsent() {
       applyConsent(stored as Decision)
       return
     }
-    const t = window.setTimeout(() => setVisible(true), 600)
+    const t = window.setTimeout(() => setVisible(true), 200)
     return () => window.clearTimeout(t)
   }, [])
 
