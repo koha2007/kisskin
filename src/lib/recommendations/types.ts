@@ -24,10 +24,10 @@ export interface ProductRec {
  */
 export const AFFILIATE_ENABLED = true
 
-/** Coupang Partners 검색 어필리에이트 ID — 환영 메일 발급 (2026-05-09) */
-const COUPANG_TRACKING_CODE = 'AF6657739'
+/** Coupang Partners 추적 파라미터 — 실제 단축링크 리디렉션 결과에서 확인 (2026-05-09) */
+const COUPANG_LPTAG = 'AF6657739'
 
 /** 쿠팡 검색 어필리에이트 링크 빌더 — 모든 검색 키워드에 자동 적용 */
 export function buildSearchLink(query: string): string {
-  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=affiliate&trackingCode=${COUPANG_TRACKING_CODE}`
+  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&lptag=${COUPANG_LPTAG}`
 }
