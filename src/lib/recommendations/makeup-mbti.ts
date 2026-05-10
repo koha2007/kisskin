@@ -112,7 +112,7 @@ export const MBTI_RECOMMENDATIONS: Record<MbtiCode, ProductRec[]> = {
       features: ['번짐 좋은 수분 틴트', '그런지 무드', '의도적으로 흐트러진 마무리'],
       brandExamples: ['페리페라', '롬앤', '어뮤즈'],
       whyForType: '그런지 메이크업의 핵심인 "완벽 부수기"에 가장 잘 맞는 번진 틴트입니다.',
-      searchKeywords: '블러드 틴트 오렌지 체리 번짐',
+      searchKeywords: '블러드 틴트 오렌지 체리 수분',
       icon: 'favorite',
     },
     {
@@ -262,7 +262,7 @@ export const MBTI_RECOMMENDATIONS: Record<MbtiCode, ProductRec[]> = {
       features: ['"내 입술 같은 컬러"', '시어 질감', '어떤 옷에도 무난'],
       brandExamples: ['페리페라', '이니스프리', '에뛰드'],
       whyForType: '변덕 없이 오래 쓸 수 있는 정석 MLBB. ISTJ의 일관된 스타일과 완벽하게 맞습니다.',
-      searchKeywords: 'MLBB 로즈 틴트 내 입술 같은',
+      searchKeywords: 'MLBB 로즈 틴트 시어',
       icon: 'favorite',
     },
     {

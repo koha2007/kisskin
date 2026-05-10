@@ -52,7 +52,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['스틱 타입 (정교한 라인)', '펄 입자 고운 것', '콧등/이마 중앙에 세로로'],
       brandExamples: ['3CE', 'MAC', '롬앤'],
       whyForType: '콧등·이마 중앙·턱에 세로로 발라 세로 입체감을 만듭니다. 스틱 타입이 정밀합니다.',
-      searchKeywords: '하이라이터 스틱 세로 콧등',
+      searchKeywords: '하이라이터 스틱 펄 입자고운',
       icon: 'auto_awesome',
     },
     {
@@ -61,7 +61,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['블러드 틴트 (번짐 좋은)', '블러셔는 광대 아래 사선', '가로 풀 립 피하기'],
       brandExamples: ['롬앤', '페리페라', '클리오'],
       whyForType: '가로 포인트를 줄이고 세로 입체감을 강화해야 얼굴이 길어 보입니다.',
-      searchKeywords: '그라데이션 틴트 사선 블러셔',
+      searchKeywords: '블러드 틴트 그라데이션 립',
       icon: 'favorite',
     },
   ],
@@ -73,7 +73,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['크림 컨투어 (부드러운 블렌딩)', '둥근 컬러 블러셔', '턱·이마 모서리 곡선 완화용'],
       brandExamples: ['MAC', '페리페라', '에뛰드'],
       whyForType: '각진형은 턱·이마 모서리만 부드럽게 풀어주는 것이 핵심. 크림 타입이 경계 없이 블렌딩됩니다.',
-      searchKeywords: '크림 컨투어 블러셔 각진형',
+      searchKeywords: '크림 컨투어 블렌딩 블러셔',
       icon: 'grid_3x3',
     },
     {
@@ -91,7 +91,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['입자 고운 파우더', '광대 위 둥글게 바를 수 있는 파우더 타입', '이마 중앙·턱 중앙에도'],
       brandExamples: ['3CE', 'MAC', '헤라'],
       whyForType: '광대 위에 둥글게 바르면 각진 얼굴에 "동그라미"가 추가되어 부드러움이 더해집니다.',
-      searchKeywords: '파우더 하이라이터 광대 둥글게',
+      searchKeywords: '파우더 하이라이터 입자고운',
       icon: 'auto_awesome',
     },
   ],
@@ -103,7 +103,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['자연스러운 브라운 톤', '파우더 타입 (넓게 블렌딩)', '헤어라인/턱 아래 가로 배치'],
       brandExamples: ['클리오', '에뛰드', '퓌르모어'],
       whyForType: '긴형은 이마 위·턱 아래에 가로 쉐이딩을 깔아 세로 길이를 시각적으로 줄이는 것이 핵심입니다.',
-      searchKeywords: '브라운 컨투어 파우더 헤어라인',
+      searchKeywords: '브라운 컨투어 파우더 쉐딩',
       icon: 'grid_3x3',
     },
     {
@@ -112,7 +112,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['광대 위 가로로 넓게 바를 수 있는 것', '파우더 또는 액상 블러셔', '사선/광대 아래 배치 피하기'],
       brandExamples: ['롬앤', 'NARS', '에뛰드'],
       whyForType: '볼 중앙에 가로로 넓게 발라 "가로 포인트"를 만들면 세로 길이가 덜 강조됩니다.',
-      searchKeywords: '가로 블러셔 드레이핑 파우더',
+      searchKeywords: '드레이핑 블러셔 파우더',
       icon: 'spa',
     },
     {
@@ -133,7 +133,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['크림 또는 파우더 컨투어', '이마 양옆 V자 배치용', '턱 끝 부드럽게 풀어줄 수 있는 것'],
       brandExamples: ['클리오', 'MAC', '페리페라'],
       whyForType: '하트형은 이마 양옆과 턱 끝에 집중 컨투어로 넓은 이마와 뾰족한 턱의 균형을 맞춥니다.',
-      searchKeywords: '이마 턱 컨투어 V자',
+      searchKeywords: '컨투어 파우더 V라인',
       icon: 'grid_3x3',
     },
     {
@@ -142,7 +142,7 @@ export const FS_RECOMMENDATIONS: Record<FaceShapeCode, ProductRec[]> = {
       features: ['광대 아래에 발라지는 타입', '부드러운 발색', '얼굴 하단에 볼륨 추가용'],
       brandExamples: ['롬앤', '3CE', 'NARS'],
       whyForType: '이마가 넓은 하트형은 볼 아래쪽에 블러셔를 발라 얼굴 하단에 볼륨을 더하면 균형이 잡힙니다.',
-      searchKeywords: '볼 아래 블러셔 크림',
+      searchKeywords: '크림 블러셔 자연스러운',
       icon: 'spa',
     },
     {
