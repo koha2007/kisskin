@@ -14,7 +14,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['Y21/W21 호수', '세미글로우 피니시', '밝은 명도 (라이트/뉴트럴 라이트)'],
       brandExamples: ['에뛰드', '헤라', '이니스프리'],
       whyForType: '봄 웜톤의 밝고 투명한 피부에 옐로우 베이스가 완벽 매치. 글로우 피니시가 생기를 극대화합니다.',
-      searchKeywords: '봄웜톤 옐로우 베이스 쿠션 라이트 Y21',
+      searchKeywords: '봄웜톤 쿠션 21호 글로우',
       icon: 'palette',
       affiliateUrl: 'https://link.coupang.com/a/eFuqyp',
     },
@@ -63,7 +63,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['쿨 핑크~플럼 기반', '시어~글로시 질감', '안에서 번진 듯한 마무리'],
       brandExamples: ['롬앤', '이니스프리', '디어달리아'],
       whyForType: '로즈 핑크·시어 플럼이 여름 쿨톤의 투명한 피부에 가장 자연스럽게 녹아듭니다.',
-      searchKeywords: '여름쿨톤 로즈 핑크 시어 플럼 립',
+      searchKeywords: '여름쿨톤 로즈 시어 립틴트',
       icon: 'favorite',
     },
     {
@@ -102,7 +102,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['딥 웜 오렌지 기반', '매트~새틴 질감', '깊고 풍부한 채도'],
       brandExamples: ['롬앤', 'MAC', '3CE'],
       whyForType: '벽돌색·테라코타가 가을 웜톤의 피부 깊이와 어우러지며 "지적인 고급스러움"을 완성합니다.',
-      searchKeywords: '가을웜톤 벽돌색 테라코타 버건디 오렌지 립',
+      searchKeywords: '가을웜톤 테라코타 립 매트',
       icon: 'favorite',
       affiliateUrl: 'https://link.coupang.com/a/eFuujB',
     },
@@ -112,7 +112,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['웜 딥 톤 기반', '브론즈/카퍼 시머', '올리브·딥 브라운 · 포함'],
       brandExamples: ['데이지크', '에뛰드', '어뮤즈'],
       whyForType: '브론즈·카퍼가 가을 웜톤의 눈매에 깊이와 성숙함을 더하며 시그니처 존재감을 만듭니다.',
-      searchKeywords: '가을웜톤 브론즈 카퍼 올리브 아이섀도 팔레트',
+      searchKeywords: '가을웜톤 브론즈 아이섀도 팔레트',
       icon: 'visibility',
     },
     {
@@ -133,7 +133,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['C21/P23 호수', '매트~세미매트 피니시', '쿨 뉴트럴 언더톤'],
       brandExamples: ['헤라', 'MAC', '아이오페'],
       whyForType: '쿨 뉴트럴 베이스가 겨울 쿨톤의 새하얀 피부에 깨끗하게 밀착되며 강한 대비를 유지합니다.',
-      searchKeywords: '겨울쿨톤 쿨 뉴트럴 매트 쿠션 C21',
+      searchKeywords: '겨울쿨톤 매트 쿠션 21호',
       icon: 'palette',
     },
     {
@@ -142,7 +142,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['쿨 언더 기반 레드', '매트~풀컬러 질감', '높은 채도와 강한 선명도'],
       brandExamples: ['MAC', '롬앤', '디어달리아'],
       whyForType: '정순 레드·블랙 체리가 겨울 쿨톤의 도시적 카리스마를 완성하는 시그니처 컬러입니다.',
-      searchKeywords: '겨울쿨톤 정순 레드 블랙 체리 와인 플럼 립',
+      searchKeywords: '겨울쿨톤 와인 매트 립',
       icon: 'favorite',
     },
     {
@@ -151,7 +151,7 @@ export const PC_RECOMMENDATIONS: Record<SeasonCode, ProductRec[]> = {
       features: ['쿨 딥 톤 기반', '실버/차콜 시머 포함', '하이 콘트라스트 (배색 강한)'],
       brandExamples: ['데이지크', '무드', 'NARS'],
       whyForType: '블랙·딥 네이비가 겨울 쿨톤의 강한 대비와 어우러져 세련되고 모던한 눈매를 완성합니다.',
-      searchKeywords: '겨울쿨톤 블랙 네이비 실버 아이섀도 팔레트',
+      searchKeywords: '겨울쿨톤 글리터 아이섀도 팔레트',
       icon: 'visibility',
     },
     {

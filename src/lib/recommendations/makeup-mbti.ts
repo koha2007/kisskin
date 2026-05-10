@@ -52,7 +52,7 @@ export const MBTI_RECOMMENDATIONS: Record<MbtiCode, ProductRec[]> = {
       features: ['웜 또는 뉴트럴 브라운', '매트~벨벳 질감', '90s 다크 노드 느낌'],
       brandExamples: ['롬앤', 'MAC', '3CE'],
       whyForType: '평범하지 않은 모카·다크 브라운이 INTP의 컨셉추얼한 취향을 표현합니다.',
-      searchKeywords: '모카 브라운 다크 누드 립 매트',
+      searchKeywords: '모카 브라운 매트 누드 립',
       icon: 'favorite',
     },
     {
@@ -142,7 +142,7 @@ export const MBTI_RECOMMENDATIONS: Record<MbtiCode, ProductRec[]> = {
       features: ['시어 수분 틴트', '로즈/플럼/모브 컬러', '안에서 번진 듯한 마무리'],
       brandExamples: ['롬앤', '페리페라', '디어달리아'],
       whyForType: '경계가 번진 소프트 립이 INFJ의 몽환적 감성을 가장 섬세하게 전달합니다.',
-      searchKeywords: '로즈 플럼 시어 틴트 블러드 립',
+      searchKeywords: '로즈 플럼 시어 블러드 립',
       icon: 'favorite',
     },
     {
@@ -373,7 +373,7 @@ export const MBTI_RECOMMENDATIONS: Record<MbtiCode, ProductRec[]> = {
       features: ['한 제품 3역할', '스틱 타입 (휴대 편리)', '발림 바로 가능'],
       brandExamples: ['3CE', '디어달리아', 'Glossier'],
       whyForType: 'ISTP의 효율주의에 완벽히 맞는 멀티 제품. 3분 루틴의 핵심 아이템.',
-      searchKeywords: '멀티 스틱 립 볼 아이 3in1',
+      searchKeywords: '멀티 스틱 립 블러셔 3in1',
       icon: 'auto_fix_high',
     },
     {
@@ -442,7 +442,7 @@ export const MBTI_RECOMMENDATIONS: Record<MbtiCode, ProductRec[]> = {
       features: ['매트 풀 커버', '레드/플럼/딥 베리', '지속력 최상'],
       brandExamples: ['MAC', '롬앤', 'YSL'],
       whyForType: '매트 레드가 ESTP의 풀메이크업 스릴을 완성합니다.',
-      searchKeywords: '매트 레드 딥 플럼 립 풀커버',
+      searchKeywords: '매트 레드 풀커버 립스틱',
       icon: 'favorite',
     },
     {
