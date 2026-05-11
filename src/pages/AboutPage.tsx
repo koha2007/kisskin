@@ -43,8 +43,9 @@ function AboutKo() {
       <p>
         kissinskin은 대한민국에서 운영되는 1인 인디 프로젝트입니다. 운영자
         <strong> 김용헌(YONGHUN KIM)</strong>이 모든 도구·콘텐츠·디자인·기술을
-        직접 만들고 유지하며, 모든 문의에 직접 응답합니다. 외부 투자나 광고주
-        제휴 없이 사용자 결제와 사이트 광고 수익만으로 운영됩니다.
+        직접 만들고 유지하며, 모든 문의에 직접 응답합니다. 외부 투자 없이
+        사용자 결제·Google AdSense 광고 수익·쿠팡 파트너스 어필리에이트 수수료로
+        운영비를 충당합니다.
       </p>
 
       <h2>사이트 목적</h2>
@@ -73,9 +74,11 @@ function AboutKo() {
         </li>
         <li>
           <strong>제품 추천 정직성:</strong> 추천 제품은 글로벌 베스트셀러 데이터
-          기반으로 큐레이션하며, 현재(2026년 5월 기준) 어떠한 제휴 수수료도
-          받지 않습니다. 향후 제휴가 도입되면 본 페이지와 해당 페이지에 명시할
-          예정입니다.
+          및 유형별 특성 분석 기반으로 큐레이션합니다. 2026년 5월부터 쿠팡 파트너스
+          어필리에이트 프로그램에 참여하며, 추천 카드의 일부 링크는 어필리에이트
+          링크입니다(<code>rel="sponsored"</code> 표기). 어필리에이트 수수료는
+          제품 가격에 영향을 주지 않으며, 추천 선정 자체에도 영향이 없습니다.
+          각 추천 섹션 하단에 디스클로저를 표시합니다.
         </li>
       </ul>
 
@@ -98,12 +101,21 @@ function AboutKo() {
         </li>
       </ul>
 
-      <h2>광고 정책</h2>
+      <h2>광고 · 어필리에이트 정책</h2>
       <p>
         본 사이트는 무료 도구·콘텐츠 운영 비용을 충당하기 위해 Google AdSense
         광고를 게재합니다. 광고는 사이드/콘텐츠 사이에 명확히 구분되어 노출되며,
         편집 콘텐츠와 광고를 혼동하지 않도록 표시합니다. 광고 쿠키 동의는 사이트
         하단 쿠키 배너에서 변경할 수 있습니다.
+      </p>
+      <p>
+        또한 본 사이트는 <strong>쿠팡 파트너스</strong> 어필리에이트 프로그램에
+        참여하고 있으며, 추천 카드의 일부 링크는 어필리에이트 링크입니다
+        (HTML <code>rel="sponsored"</code> 표기, 새 창 열림). 이용자가 해당
+        링크를 통해 쿠팡에서 구매할 경우 쿠팡으로부터 일정액의 수수료를
+        받습니다. 수수료는 제품 가격에 영향을 주지 않으며, 어떤 제품을 추천할지
+        결정하는 데에도 영향을 주지 않습니다. 추천은 사용자의 유형 진단 결과와
+        제품의 객관적 특성에만 기반합니다.
       </p>
 
       <h2>문의 · 정정 요청 · 신고</h2>
@@ -130,8 +142,8 @@ function AboutEn() {
         kissinskin is an indie one-person project based in South Korea. The
         operator, <strong>Yonghun Kim</strong>, builds and maintains every tool,
         article, and feature, and personally answers all inquiries. There are
-        no investors or sponsor deals — the site is funded by user payments
-        and on-site advertising only.
+        no investors. The site is funded by user payments, Google AdSense ad
+        revenue, and Coupang Partners affiliate commissions.
       </p>
 
       <h2>What the site is for</h2>
@@ -160,8 +172,12 @@ function AboutEn() {
         </li>
         <li>
           <strong>Product recommendations:</strong> Picks are curated from global
-          bestseller data. As of May 2026, we collect no affiliate commission.
-          If that changes, it will be disclosed here and on the relevant page.
+          bestseller data and type-specific analysis. Starting May 2026, we
+          participate in the Coupang Partners affiliate program; some links in
+          the recommendation cards are affiliate links (marked
+          <code> rel="sponsored"</code>). Affiliate commissions do not affect
+          product prices or our selection. A disclosure is shown beneath each
+          recommendation section.
         </li>
       </ul>
 
@@ -185,11 +201,20 @@ function AboutEn() {
         </li>
       </ul>
 
-      <h2>Advertising policy</h2>
+      <h2>Advertising and affiliate policy</h2>
       <p>
         We display Google AdSense ads to fund the free tools and content. Ads
         are clearly distinct from editorial content. You can change your cookie
         consent any time via the cookie banner at the bottom of the page.
+      </p>
+      <p>
+        We also participate in the <strong>Coupang Partners</strong> affiliate
+        program. Some links inside the recommendation cards are affiliate links
+        (marked <code>rel="sponsored"</code>, opens in a new tab). If you buy
+        through one of those links, Coupang pays us a small commission. The
+        commission does not change the price you pay, and it has no influence
+        on which products we recommend — picks are based only on your diagnostic
+        result and objective product attributes.
       </p>
 
       <h2>Contact, corrections, and reports</h2>

@@ -1229,8 +1229,9 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             AI는 도구 기능(이미지 시뮬레이션·진단)에만 사용되며, 본문 텍스트는
             사람이 직접 씁니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
             Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
-            저장되지 않습니다. 사이트 운영비는 사용자 결제와 Google AdSense
-            광고 수익으로 충당하며, 외부 투자나 광고주 제휴는 없습니다.
+            저장되지 않습니다. 사이트 운영비는 사용자 결제·Google AdSense 광고
+            수익·쿠팡 파트너스 어필리에이트 수수료로 충당하며, 외부 투자는 없습니다.
+            어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm pt-3">
             <a href="/about" className="text-navy font-semibold underline hover:text-primary">
