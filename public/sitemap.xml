@@ -79,6 +79,20 @@
   <url><loc>https://kissinskin.net/tools/face-shape/oblong/</loc><lastmod>2026-04-23</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://kissinskin.net/tools/face-shape/heart/</loc><lastmod>2026-04-23</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
+  <!-- Perfume Type Tool -->
+  <url>
+    <loc>https://kissinskin.net/tools/perfume-type/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/floral/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/citrus/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/woody/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/amber/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/fresh/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/gourmand/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
   <!-- Long-form Guide -->
   <url>
     <loc>https://kissinskin.net/about-makeup-ai/</loc>

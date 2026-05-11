@@ -1,3 +1,12 @@
+// News 글 중 thin content 후보 — X-Robots-Tag: noindex, follow 적용
+// 콘텐츠는 보존, 내부 링크 흐름은 살림. 단계적 적용으로 자연스러운 변화 유지.
+const NOINDEX_PATHS = new Set<string>([
+  '/news/glass-nails-global-2026/',
+  '/news/frosty-lipstick-comeback/',
+  '/news/metallic-eye-2026-runway/',
+  '/news/grunge-smoky-eye-comeback/',
+])
+
 // Simple in-memory rate limiter for API endpoints
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
 
@@ -73,6 +82,11 @@ export async function onRequest(context: { request: Request; next: () => Promise
   newResponse.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   newResponse.headers.set('Permissions-Policy', 'camera=(self), microphone=()')
   newResponse.headers.set('X-XSS-Protection', '1; mode=block')
+
+  const pathWithSlash = url.pathname.endsWith('/') ? url.pathname : url.pathname + '/'
+  if (NOINDEX_PATHS.has(pathWithSlash)) {
+    newResponse.headers.set('X-Robots-Tag', 'noindex, follow')
+  }
 
   return newResponse
 }

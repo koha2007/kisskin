@@ -7,6 +7,7 @@ const FILES = [
   'src/lib/recommendations/face-shape.ts',
   'src/lib/recommendations/personal-color.ts',
   'src/lib/recommendations/makeup-mbti.ts',
+  'src/lib/recommendations/perfume-type.ts',
 ]
 
 const MAX_WORDS = 5
