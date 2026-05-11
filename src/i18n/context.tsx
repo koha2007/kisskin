@@ -55,6 +55,11 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/tools/face-shape/square/',
   '/tools/face-shape/oblong/',
   '/tools/face-shape/heart/',
+  '/tools/personal-color/',
+  '/tools/personal-color/spring-warm/',
+  '/tools/personal-color/summer-cool/',
+  '/tools/personal-color/autumn-warm/',
+  '/tools/personal-color/winter-cool/',
 ])
 
 function normalize(p: string): string {

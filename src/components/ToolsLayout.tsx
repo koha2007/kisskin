@@ -7,6 +7,7 @@ type NavLink = { href: string; label: string }
 // Used to swap nav/footer hrefs when locale === 'en'.
 const EN_TOOL_PATHS = new Set<string>([
   '/tools/face-shape/',
+  '/tools/personal-color/',
 ])
 
 function localePath(path: string, isEn: boolean): string {

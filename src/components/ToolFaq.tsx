@@ -147,3 +147,26 @@ export const PERSONAL_COLOR_FAQ_BASE: FaqItem[] = [
     a: '그렇지 않습니다. 퍼스널 컬러는 "어울리는 확률을 높여 주는 가이드"이지 절대 규칙이 아닙니다. 어울리지 않는 색이라도 옷의 면적을 줄이거나(머플러·스카프·립 컬러 등 작은 부분) 채도를 조절해 충분히 활용할 수 있습니다.',
   },
 ]
+
+export const PERSONAL_COLOR_FAQ_BASE_EN: FaqItem[] = [
+  {
+    q: 'How accurate is an online personal-color diagnosis?',
+    a: 'It is somewhat less accurate than an in-person color-drape session, but for the broad four-season split (Spring Warm, Summer Cool, Autumn Warm, Winter Cool) the agreement rate runs roughly 70–85%. For finer sub-tone classification an in-person reading is worth getting, but for everyday clothing and makeup decisions an online quiz is plenty.',
+  },
+  {
+    q: 'What environment should I be in when I take the quiz?',
+    a: 'Answer in light close to natural daylight, with no makeup and no camera filter on. Fluorescent or strongly tinted lighting can shift how your skin reads — be careful with those conditions.',
+  },
+  {
+    q: 'What if I sit between two seasons?',
+    a: 'Most people are not 100% inside a single season — neighboring-season overlap is common (for example, Spring Warm + Summer Cool Light). In that case, mix about 70% from your primary season\'s recommendations with 30% from the lower-saturation pieces of your secondary season — that usually reads most natural.',
+  },
+  {
+    q: 'Does hair dye or makeup change my season?',
+    a: 'No. Your underlying skin undertone (warm or cool) does not change. What does change is how the overall look reads, so if you want to wear a color from the opposite season, lowering its saturation or going pale-tone will reduce the dissonance.',
+  },
+  {
+    q: 'Am I really banned from wearing colors outside my season?',
+    a: 'Not at all. Personal color is a probability guide, not a rule. You can absolutely wear "off-season" colors — just reduce the surface area (use them as a scarf, lipstick, or other accent) or lower the saturation, and they\'ll still work for you.',
+  },
+]

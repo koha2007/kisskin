@@ -321,4 +321,19 @@
   <url><loc>https://kissinskin.net/en/tools/face-shape/square/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/square/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/square/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/square/" /></url>
   <url><loc>https://kissinskin.net/en/tools/face-shape/oblong/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/oblong/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/oblong/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/oblong/" /></url>
   <url><loc>https://kissinskin.net/en/tools/face-shape/heart/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/heart/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/heart/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/heart/" /></url>
+
+  <!-- EN Personal Color Tool -->
+  <url>
+    <loc>https://kissinskin.net/en/tools/personal-color/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/" />
+  </url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/spring-warm/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/spring-warm/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/spring-warm/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/spring-warm/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/summer-cool/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/summer-cool/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/summer-cool/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/summer-cool/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/autumn-warm/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/autumn-warm/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/autumn-warm/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/autumn-warm/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/winter-cool/</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/winter-cool/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/winter-cool/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/winter-cool/" /></url>
 </urlset>
