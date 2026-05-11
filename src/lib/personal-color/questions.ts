@@ -12,10 +12,12 @@ export interface PCQuestion {
   id: number
   axis: 'WC' | 'LD'
   question: string
+  questionEn?: string
   description?: string
+  descriptionEn?: string
   options: [
-    { text: string; value: PCAnswer; emoji: string },
-    { text: string; value: PCAnswer; emoji: string }
+    { text: string; textEn?: string; value: PCAnswer; emoji: string },
+    { text: string; textEn?: string; value: PCAnswer; emoji: string }
   ]
 }
 
@@ -24,37 +26,42 @@ export const PC_QUESTIONS: PCQuestion[] = [
     id: 1,
     axis: 'WC',
     question: '손목 안쪽 혈관 색깔은?',
+    questionEn: 'What color are the veins on the inside of your wrist?',
     description: '밝은 자연광 아래에서 확인해 주세요.',
+    descriptionEn: 'Check in bright natural light.',
     options: [
-      { text: '초록색·올리브색에 가깝다', value: 'W', emoji: '🌿' },
-      { text: '파란색·보라색에 가깝다', value: 'C', emoji: '💙' },
+      { text: '초록색·올리브색에 가깝다', textEn: 'Closer to green or olive', value: 'W', emoji: '🌿' },
+      { text: '파란색·보라색에 가깝다', textEn: 'Closer to blue or purple', value: 'C', emoji: '💙' },
     ],
   },
   {
     id: 2,
     axis: 'WC',
     question: '햇빛에 오래 노출되면?',
+    questionEn: 'After long sun exposure, your skin…',
     options: [
-      { text: '잘 타서 갈색·구릿빛이 된다', value: 'W', emoji: '☀️' },
-      { text: '빨갛게 달아오르고 쉽게 타지 않는다', value: 'C', emoji: '🔴' },
+      { text: '잘 타서 갈색·구릿빛이 된다', textEn: 'Tans easily, turning brown or copper', value: 'W', emoji: '☀️' },
+      { text: '빨갛게 달아오르고 쉽게 타지 않는다', textEn: 'Goes red and burns rather than tans', value: 'C', emoji: '🔴' },
     ],
   },
   {
     id: 3,
     axis: 'WC',
     question: '은(실버) vs 금(골드) 액세서리 중 얼굴에 대면?',
+    questionEn: 'Hold silver and gold accessories up to your face — which wins?',
     options: [
-      { text: '골드가 얼굴을 화사하고 건강하게 만든다', value: 'W', emoji: '✨' },
-      { text: '실버가 얼굴을 깔끔하고 또렷하게 만든다', value: 'C', emoji: '🥈' },
+      { text: '골드가 얼굴을 화사하고 건강하게 만든다', textEn: 'Gold makes the face look bright and healthy', value: 'W', emoji: '✨' },
+      { text: '실버가 얼굴을 깔끔하고 또렷하게 만든다', textEn: 'Silver makes the face look clean and defined', value: 'C', emoji: '🥈' },
     ],
   },
   {
     id: 4,
     axis: 'WC',
     question: '입술 자연 색은?',
+    questionEn: 'Your natural lip color leans…',
     options: [
-      { text: '오렌지·살몬·살색에 가깝다', value: 'W', emoji: '🍑' },
-      { text: '핑크·장미·보랏빛이 섞여 있다', value: 'C', emoji: '🌹' },
+      { text: '오렌지·살몬·살색에 가깝다', textEn: 'Orange / salmon / nude', value: 'W', emoji: '🍑' },
+      { text: '핑크·장미·보랏빛이 섞여 있다', textEn: 'Pink / rose / has a purple undertone', value: 'C', emoji: '🌹' },
     ],
   },
   // Light/Deep
@@ -62,18 +69,20 @@ export const PC_QUESTIONS: PCQuestion[] = [
     id: 5,
     axis: 'LD',
     question: '피부 전체 밝기는?',
+    questionEn: 'Overall skin brightness?',
     options: [
-      { text: '밝고 투명한 편, 기미·잡티가 비교적 적음', value: 'L', emoji: '🌸' },
-      { text: '중간~어두운 편, 깊이가 있는 피부', value: 'D', emoji: '🍂' },
+      { text: '밝고 투명한 편, 기미·잡티가 비교적 적음', textEn: 'Bright and translucent; relatively few dark spots', value: 'L', emoji: '🌸' },
+      { text: '중간~어두운 편, 깊이가 있는 피부', textEn: 'Medium to deep; skin has visible depth', value: 'D', emoji: '🍂' },
     ],
   },
   {
     id: 6,
     axis: 'LD',
     question: '검정 티셔츠 vs 파스텔 상의, 어느 쪽이 더 예뻐 보인다?',
+    questionEn: 'Black tee vs pastel top — which looks better on you?',
     options: [
-      { text: '파스텔·밝은 색이 얼굴을 살린다', value: 'L', emoji: '💗' },
-      { text: '블랙·와인·딥 컬러가 얼굴을 또렷하게 만든다', value: 'D', emoji: '🍷' },
+      { text: '파스텔·밝은 색이 얼굴을 살린다', textEn: 'Pastels and brights bring the face up', value: 'L', emoji: '💗' },
+      { text: '블랙·와인·딥 컬러가 얼굴을 또렷하게 만든다', textEn: 'Black, wine, and deep colors sharpen the face', value: 'D', emoji: '🍷' },
     ],
   },
 ]

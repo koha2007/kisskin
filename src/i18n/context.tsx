@@ -44,6 +44,7 @@ function getServerSnapshot(): Locale {
 const EN_AVAILABLE_PATHS = new Set<string>([
   '/',
   '/about/',
+  '/about-makeup-ai/',
   '/contact/',
   '/privacy/',
   '/terms/',
