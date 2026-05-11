@@ -60,6 +60,7 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/tools/personal-color/summer-cool/',
   '/tools/personal-color/autumn-warm/',
   '/tools/personal-color/winter-cool/',
+  '/tools/makeup-mbti/',
 ])
 
 function normalize(p: string): string {

@@ -8,6 +8,7 @@ type NavLink = { href: string; label: string }
 const EN_TOOL_PATHS = new Set<string>([
   '/tools/face-shape/',
   '/tools/personal-color/',
+  '/tools/makeup-mbti/',
 ])
 
 function localePath(path: string, isEn: boolean): string {

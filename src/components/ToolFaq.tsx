@@ -125,6 +125,29 @@ export const MBTI_FAQ_BASE: FaqItem[] = [
   },
 ]
 
+export const MBTI_FAQ_BASE_EN: FaqItem[] = [
+  {
+    q: 'How is Makeup MBTI different from regular MBTI?',
+    a: 'Regular MBTI maps four personality axes. Makeup MBTI re-uses the four-axis frame but reads makeup preference instead — Expression, Source, Feel, Routine — and produces 16 makeup-style types. Your Makeup MBTI is not required to match your personality MBTI.',
+  },
+  {
+    q: 'How do I use the result in my everyday makeup?',
+    a: 'Use the signature look, recommended colors, and texture guidance on the result page to narrow down which product categories actually suit you. Instead of buying whatever is trending, you can pick by your type\'s color / texture / finish — your vanity gets sharper.',
+  },
+  {
+    q: 'Can I retake the quiz if I don\'t like the result?',
+    a: 'Of course. Just keep in mind that rushing through to "see the result" makes the answers inconsistent. Slow down and answer based on what you actually wear day-to-day — that gives the most accurate type.',
+  },
+  {
+    q: 'Why does the recommendation differ from what actually flatters me?',
+    a: 'Makeup MBTI reads only style preference — it does not factor in face shape or personal color. Two ENFPs can need different color tones if one is Spring Warm and one is Summer Cool. Take the personal-color and face-shape quizzes too for a fuller picture.',
+  },
+  {
+    q: 'Should I try this with my partner or friends?',
+    a: 'Yes — that\'s a recommended use. Comparing your type with your friends\' "good match" and "opposite" types is a fun way to understand differences in style taste. It also makes good content: trying similar looks together, or trying each other\'s opposites.',
+  },
+]
+
 export const PERSONAL_COLOR_FAQ_BASE: FaqItem[] = [
   {
     q: '온라인 퍼스널 컬러 진단은 정확한가요?',

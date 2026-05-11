@@ -10,6 +10,7 @@ export default function Head() {
   const title = `${type.koName} (${type.code}) 메이크업 MBTI | kissinskin`
   const desc = `${type.koName} 유형 메이크업 성향 — ${type.tagline}.`
   const url = `https://kissinskin.net/tools/makeup-mbti/${type.slug}/`
+  const enUrl = `https://kissinskin.net/en/tools/makeup-mbti/${type.slug}/`
 
   return (
     <>
@@ -18,6 +19,7 @@ export default function Head() {
       <meta name="keywords" content={`${type.koName}, ${type.code}, ${type.enName}, 메이크업 MBTI, ${type.recommended.women.primary}, ${type.recommended.men.primary}, K-뷰티 스타일`} />
       <link rel="canonical" href={url} />
       <link rel="alternate" hrefLang="ko" href={url} />
+      <link rel="alternate" hrefLang="en" href={enUrl} />
       <link rel="alternate" hrefLang="x-default" href={url} />
       <meta property="og:type" content="article" />
       <meta property="og:url" content={url} />

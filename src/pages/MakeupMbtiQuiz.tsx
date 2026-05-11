@@ -1,17 +1,20 @@
 import { useState, useEffect, useMemo } from 'react'
 import { QUESTIONS, computeMbti, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
+import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
 export default function MakeupMbtiQuiz() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const isEn = locale === 'en'
   const [phase, setPhase] = useState<Phase>('intro')
   const [currentIdx, setCurrentIdx] = useState(0)
   const [answers, setAnswers] = useState<QuizOption['letter'][]>([])
   const [fading, setFading] = useState(false)
+  const basePath = isEn ? '/en/tools/makeup-mbti' : '/tools/makeup-mbti'
 
   const q = QUESTIONS[currentIdx]
   const progress = useMemo(() => ((currentIdx) / QUESTIONS.length) * 100, [currentIdx])
@@ -33,7 +36,7 @@ export default function MakeupMbtiQuiz() {
         setPhase('redirecting')
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('makeup-mbti-answers', JSON.stringify(next))
-          window.location.href = `/tools/makeup-mbti/${slug}/`
+          window.location.href = `${basePath}/${slug}/`
         }
       } else {
         setCurrentIdx(currentIdx + 1)
@@ -75,11 +78,16 @@ export default function MakeupMbtiQuiz() {
               {t('tools.mbti.badge')}
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-navy mb-4">
-              나의 메이크업 MBTI는?
+              {isEn ? "What's your Makeup MBTI?" : '나의 메이크업 MBTI는?'}
             </h1>
             <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6 max-w-2xl mx-auto">
-              8문항으로 알아보는 당신의 메이크업 성향.
-              <strong className="text-primary"> 16가지 유형</strong> 중 당신에게 맞는 K-뷰티 스타일과 제품 공식을 추천해드립니다.
+              {isEn ? (
+                <>An 8-question quiz reads your makeup personality.
+                  <strong className="text-primary"> 16 types</strong> — we recommend the K-beauty style and product formula that fits yours.</>
+              ) : (
+                <>8문항으로 알아보는 당신의 메이크업 성향.
+                  <strong className="text-primary"> 16가지 유형</strong> 중 당신에게 맞는 K-뷰티 스타일과 제품 공식을 추천해드립니다.</>
+              )}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
@@ -120,37 +128,73 @@ export default function MakeupMbtiQuiz() {
         <section className="py-14 bg-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
             <h2 className="text-2xl md:text-3xl font-extrabold text-navy text-center mb-8 tracking-tight">
-              메이크업 MBTI란?
+              {isEn ? 'What is Makeup MBTI?' : '메이크업 MBTI란?'}
             </h2>
             <div className="prose max-w-none text-slate-600 leading-relaxed space-y-4">
-              <p>
-                메이크업 MBTI는 마이어스-브릭스 성격유형 지표(MBTI) 4가지 축을 메이크업 선호도에 맞게 재해석한 테스트입니다.
-                해외의 메이크업 아키타입 연구(Dear Peachie 8 archetype 시스템), 국내 여대생 314명 대상의 MBTI·뷰티 습관 실증 조사, 그리고 2024~2026년 K-뷰티 트렌드 분석을 종합하여
-                4가지 축 × 16가지 유형으로 재구성했습니다.
-              </p>
-              <p className="font-semibold text-navy-mid mt-6">4가지 축:</p>
-              <ul className="space-y-3 list-none pl-0">
-                <li className="flex items-start gap-3">
-                  <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">E · I</span>
-                  <span><strong>표현(Expression)</strong> — 강렬한 포인트를 선호하는가(E), 은은한 내면 글로우를 선호하는가(I).</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">N · S</span>
-                  <span><strong>영감(Source)</strong> — 새로운 실험·트렌드에서 영감을 얻는가(N), 검증된 내 공식을 신뢰하는가(S).</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">F · T</span>
-                  <span><strong>무드(Feel)</strong> — 블러·소프트 무드를 선호하는가(F), 샤프한 라인·구조를 선호하는가(T).</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">P · J</span>
-                  <span><strong>루틴(Routine)</strong> — 기분 따라 즉흥적으로 스타일링하는가(P), 공식화된 루틴을 유지하는가(J).</span>
-                </li>
-              </ul>
-              <p className="mt-6">
-                각 유형에 kissinskin의 9가지 여성 스타일 / 9가지 남성 스타일 중 가장 잘 맞는 조합을 매핑해,
-                단순 진단을 넘어 <strong>실제로 시도해볼 수 있는 K-뷰티 룩</strong>을 제안해드립니다.
-              </p>
+              {isEn ? (
+                <>
+                  <p>
+                    Makeup MBTI reinterprets the four classic Myers-Briggs axes through the lens of makeup preference.
+                    It draws from international makeup-archetype research (Dear Peachie&apos;s 8-archetype system), a Korean
+                    study of MBTI vs. beauty habits across 314 female university students, and 2024–2026 K-beauty trend
+                    analysis, reorganized into 4 axes × 16 types.
+                  </p>
+                  <p className="font-semibold text-navy-mid mt-6">The four axes:</p>
+                  <ul className="space-y-3 list-none pl-0">
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">E · I</span>
+                      <span><strong>Expression</strong> — bold, high-impact accents (E) vs. a subtle, private glow (I).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">N · S</span>
+                      <span><strong>Source</strong> — drawn to new experiments and trends (N) vs. a verified personal formula (S).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">F · T</span>
+                      <span><strong>Feel</strong> — blurred, soft, mood-driven (F) vs. sharp lines and structure (T).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">P · J</span>
+                      <span><strong>Routine</strong> — improvise by mood (P) vs. a consistent, formulaic ritual (J).</span>
+                    </li>
+                  </ul>
+                  <p className="mt-6">
+                    Each type is mapped to one of kissinskin&apos;s 9 women&apos;s and 9 men&apos;s styles, so instead of a plain diagnosis
+                    you get <strong>a K-beauty look you can actually try on</strong>.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    메이크업 MBTI는 마이어스-브릭스 성격유형 지표(MBTI) 4가지 축을 메이크업 선호도에 맞게 재해석한 테스트입니다.
+                    해외의 메이크업 아키타입 연구(Dear Peachie 8 archetype 시스템), 국내 여대생 314명 대상의 MBTI·뷰티 습관 실증 조사, 그리고 2024~2026년 K-뷰티 트렌드 분석을 종합하여
+                    4가지 축 × 16가지 유형으로 재구성했습니다.
+                  </p>
+                  <p className="font-semibold text-navy-mid mt-6">4가지 축:</p>
+                  <ul className="space-y-3 list-none pl-0">
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">E · I</span>
+                      <span><strong>표현(Expression)</strong> — 강렬한 포인트를 선호하는가(E), 은은한 내면 글로우를 선호하는가(I).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">N · S</span>
+                      <span><strong>영감(Source)</strong> — 새로운 실험·트렌드에서 영감을 얻는가(N), 검증된 내 공식을 신뢰하는가(S).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">F · T</span>
+                      <span><strong>무드(Feel)</strong> — 블러·소프트 무드를 선호하는가(F), 샤프한 라인·구조를 선호하는가(T).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">P · J</span>
+                      <span><strong>루틴(Routine)</strong> — 기분 따라 즉흥적으로 스타일링하는가(P), 공식화된 루틴을 유지하는가(J).</span>
+                    </li>
+                  </ul>
+                  <p className="mt-6">
+                    각 유형에 kissinskin의 9가지 여성 스타일 / 9가지 남성 스타일 중 가장 잘 맞는 조합을 매핑해,
+                    단순 진단을 넘어 <strong>실제로 시도해볼 수 있는 K-뷰티 룩</strong>을 제안해드립니다.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -161,31 +205,34 @@ export default function MakeupMbtiQuiz() {
             <div className="text-center mb-10">
               <span className="inline-flex items-center gap-2 text-primary-dark text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
                 <span className="material-symbols-outlined text-base">grid_view</span>
-                16가지 유형
+                {isEn ? '16 types' : '16가지 유형'}
               </span>
               <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-navy mt-4">
-                당신은 어느 유형인가요?
+                {isEn ? 'Which type are you?' : '당신은 어느 유형인가요?'}
               </h2>
               <p className="text-slate-500 mt-2 max-w-lg mx-auto text-sm md:text-base">
-                각 카드를 눌러 유형별 상세 설명·추천 메이크업을 먼저 볼 수 있어요.
+                {isEn ? 'Tap any card to preview the persona and recommended makeup first.' : '각 카드를 눌러 유형별 상세 설명·추천 메이크업을 먼저 볼 수 있어요.'}
               </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
               {MBTI_ORDER.map(code => {
-                const t = MAKEUP_MBTI_TYPES[code]
+                const mt = MAKEUP_MBTI_TYPES[code]
+                const en = MAKEUP_MBTI_EN[code]
+                const displayName = isEn ? en.enPersona : mt.koName
+                const subName = isEn ? mt.koName : en.enPersona
                 return (
                   <a
                     key={code}
-                    href={`/tools/makeup-mbti/${t.slug}/`}
+                    href={`${basePath}/${mt.slug}/`}
                     className="group bg-white rounded-2xl p-4 md:p-5 border border-pink-100 hover:border-primary/40 hover:shadow-lg hover:shadow-pink-100/50 transition-all hover:-translate-y-0.5"
                   >
-                    <div className="text-3xl md:text-4xl mb-2">{t.emoji}</div>
-                    <div className="text-xs font-mono text-slate-400 tracking-wider mb-1">{t.code}</div>
+                    <div className="text-3xl md:text-4xl mb-2">{mt.emoji}</div>
+                    <div className="text-xs font-mono text-slate-400 tracking-wider mb-1">{mt.code}</div>
                     <div className="text-sm md:text-base font-extrabold text-navy-mid group-hover:text-primary transition-colors leading-snug">
-                      {t.koName}
+                      {displayName}
                     </div>
-                    <div className="text-[0.7rem] text-slate-400 mt-1">{t.enName}</div>
+                    <div className="text-[0.7rem] text-slate-400 mt-1">{subName}</div>
                   </a>
                 )
               })}
@@ -221,6 +268,9 @@ export default function MakeupMbtiQuiz() {
   }
 
   /* ---------- QUIZ ---------- */
+  const questionText = isEn && q.questionEn ? q.questionEn : q.question
+  const descriptionText = isEn && q.descriptionEn ? q.descriptionEn : q.description
+
   return (
     <div className="font-display bg-background-light min-h-screen flex flex-col">
       <style>{styles}</style>
@@ -257,11 +307,11 @@ export default function MakeupMbtiQuiz() {
             Q{q.id}
           </p>
           <h2 className="text-xl md:text-3xl font-extrabold text-navy text-center leading-tight tracking-tight mb-3 md:mb-4">
-            {q.question}
+            {questionText}
           </h2>
-          {q.description && (
+          {descriptionText && (
             <p className="text-center text-sm md:text-base text-slate-500 mb-8 md:mb-10 max-w-lg mx-auto leading-relaxed">
-              {q.description}
+              {descriptionText}
             </p>
           )}
 
@@ -276,7 +326,7 @@ export default function MakeupMbtiQuiz() {
                   {opt.emoji}
                 </div>
                 <p className="flex-1 text-sm md:text-lg font-semibold text-navy-mid group-hover:text-primary transition-colors leading-snug">
-                  {opt.text}
+                  {isEn && opt.textEn ? opt.textEn : opt.text}
                 </p>
                 <span className="material-symbols-outlined text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all">
                   arrow_forward

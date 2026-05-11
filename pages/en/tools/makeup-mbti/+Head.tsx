@@ -1,42 +1,37 @@
 export default function Head() {
-  const title = '메이크업 MBTI 테스트 | kissinskin'
-  const desc = '10문항 무료 메이크업 MBTI. 16가지 유형별 K-뷰티 스타일과 시그니처 룩 공식.'
+  const title = 'Makeup MBTI — 16 Types from 8 Questions | kissinskin'
+  const desc = 'A free 8-question quiz reads your makeup personality and matches you to one of 16 types, each with a tailored K-beauty look and product formula.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="메이크업 MBTI, 메이크업 테스트, 뷰티 성향, K-뷰티 스타일, 메이크업 성향 테스트, makeup mbti, 퍼스널 메이크업, 16가지 뷰티" />
-      <link rel="canonical" href="https://kissinskin.net/tools/makeup-mbti/" />
+      <meta name="keywords" content="makeup MBTI, makeup personality, 16 types, K-beauty makeup, makeup quiz" />
+      <link rel="canonical" href="https://kissinskin.net/en/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/tools/makeup-mbti/" />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://kissinskin.net/tools/makeup-mbti/" />
+      <meta property="og:url" content="https://kissinskin.net/en/tools/makeup-mbti/" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={desc} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:site_name" content="kissinskin" />
-      <meta property="og:locale" content="ko_KR" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale:alternate" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Quiz",
-        "name": "메이크업 MBTI 테스트",
-        "description": desc,
-        "url": "https://kissinskin.net/tools/makeup-mbti/",
-        "educationalUse": "Personality Test",
-        "inLanguage": "ko",
-        "about": { "@type": "Thing", "name": "K-Beauty Makeup Personality" }
+        "@context": "https://schema.org", "@type": "Quiz",
+        "name": "Makeup MBTI Quiz", "description": desc,
+        "url": "https://kissinskin.net/en/tools/makeup-mbti/", "inLanguage": "en"
       }) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://kissinskin.net/" },
-          { "@type": "ListItem", "position": 2, "name": "AI 도구", "item": "https://kissinskin.net/tools/" },
-          { "@type": "ListItem", "position": 3, "name": "메이크업 MBTI 테스트", "item": "https://kissinskin.net/tools/makeup-mbti/" }
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kissinskin.net/en/" },
+          { "@type": "ListItem", "position": 2, "name": "Makeup MBTI Quiz", "item": "https://kissinskin.net/en/tools/makeup-mbti/" }
         ]
       }) }} />
     </>
