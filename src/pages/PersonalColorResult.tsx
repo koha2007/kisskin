@@ -4,6 +4,7 @@ import { PC_RECOMMENDATIONS } from '../lib/recommendations/personal-color'
 import RecommendedProducts from '../components/RecommendedProducts'
 import ToolFaq, { PERSONAL_COLOR_FAQ_BASE } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
+import RelatedTools from '../components/RelatedTools'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: SeasonCode }
@@ -175,6 +176,9 @@ export default function PersonalColorResult({ code }: Props) {
         items={PERSONAL_COLOR_FAQ_BASE}
         accentColor={t.primaryColor}
       />
+
+      {/* Related tools — drive cross-tool retention */}
+      <RelatedTools exclude="personal-color" />
 
       {/* Share */}
       <ShareBar

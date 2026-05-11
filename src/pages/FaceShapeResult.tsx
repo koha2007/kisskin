@@ -4,6 +4,7 @@ import { FS_RECOMMENDATIONS } from '../lib/recommendations/face-shape'
 import RecommendedProducts from '../components/RecommendedProducts'
 import ToolFaq, { FACE_SHAPE_FAQ_BASE, FACE_SHAPE_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
+import RelatedTools from '../components/RelatedTools'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: FaceShapeCode }
@@ -205,6 +206,9 @@ export default function FaceShapeResult({ code }: Props) {
         items={isEn ? FACE_SHAPE_FAQ_BASE_EN : FACE_SHAPE_FAQ_BASE}
         accentColor={t.primaryColor}
       />
+
+      {/* Related tools — drive cross-tool retention */}
+      <RelatedTools exclude="face-shape" />
 
       {/* Share */}
       <ShareBar

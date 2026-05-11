@@ -5,6 +5,7 @@ import RecommendedProducts from '../components/RecommendedProducts'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ToolFaq, { MBTI_FAQ_BASE } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
+import RelatedTools from '../components/RelatedTools'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
@@ -278,6 +279,9 @@ export default function MakeupMbtiResult({ code }: Props) {
         items={MBTI_FAQ_BASE}
         accentColor={type.primaryColor}
       />
+
+      {/* Related tools — drive cross-tool retention */}
+      <RelatedTools exclude="makeup-mbti" />
 
       {/* Share */}
       <ShareBar
