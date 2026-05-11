@@ -49,6 +49,12 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/privacy/',
   '/terms/',
   '/refund/',
+  '/tools/face-shape/',
+  '/tools/face-shape/oval/',
+  '/tools/face-shape/round/',
+  '/tools/face-shape/square/',
+  '/tools/face-shape/oblong/',
+  '/tools/face-shape/heart/',
 ])
 
 function normalize(p: string): string {

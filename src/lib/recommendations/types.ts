@@ -23,6 +23,12 @@ export interface ProductRec {
   searchKeywords: string        // 쿠팡 어필리에이트 검색 키워드 (위 규칙 준수)
   icon: string                  // material-symbols icon
   affiliateUrl?: string         // 단축링크 또는 직접 URL (있으면 searchKeywords 무시)
+  // English variants — used when locale === 'en'. Optional;
+  // when absent, the KO fields are shown.
+  categoryEn?: string
+  titleEn?: string
+  featuresEn?: string[]
+  whyForTypeEn?: string
 }
 
 /**

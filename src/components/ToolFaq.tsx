@@ -79,6 +79,29 @@ export const FACE_SHAPE_FAQ_BASE: FaqItem[] = [
   },
 ]
 
+export const FACE_SHAPE_FAQ_BASE_EN: FaqItem[] = [
+  {
+    q: 'Can my face shape change over time?',
+    a: 'The underlying bone structure barely changes after adulthood, but weight changes, muscle volume, water retention, and hairstyle can shift the impression of your face. Quiz results reflect your typical state, so a re-take after major weight changes or procedures may give a slightly different answer.',
+  },
+  {
+    q: 'What if my face has features from multiple shapes?',
+    a: 'Very few people sit at 100% of a single shape. The quiz tells you which base shape dominates; for makeup and hair, follow the primary shape\'s guidance first, then borrow small adjustments from the secondary shape for a more natural fit.',
+  },
+  {
+    q: 'Why does my contouring look unnatural?',
+    a: 'Usually because the shading color is too dark, or the edges are too defined. Work in natural light, build up shadow in thin layers with a small brush, and pat over the edges with a damp sponge to fade them — that single step makes contour read as light instead of paint.',
+  },
+  {
+    q: 'Do the eyewear recommendations apply to prescription glasses too?',
+    a: 'Yes. The recommended frame shapes work the same way whether the lens is prescription or non-prescription. With a strong prescription, you may want to size the frame slightly smaller to keep lens thickness from overpowering the face.',
+  },
+  {
+    q: 'How does this work alongside the AI makeup simulation?',
+    a: 'Face-shape diagnosis tells you which contour direction suits your bone structure. The AI makeup simulation shows how a specific look will actually render on your photo. Reading them together is the fastest way to narrow down looks you will actually want to wear.',
+  },
+]
+
 export const MBTI_FAQ_BASE: FaqItem[] = [
   {
     q: '메이크업 MBTI는 일반 MBTI와 어떻게 다른가요?',

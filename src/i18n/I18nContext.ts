@@ -16,3 +16,9 @@ export const I18nContext = createContext<I18nContextType>({
 export function useI18n() {
   return useContext(I18nContext)
 }
+
+/** Inline locale-branched string. `pick(locale, koText, enText)`. */
+export function pick<T>(locale: Locale, ko: T, en: T | undefined): T {
+  if (locale === 'en' && en !== undefined) return en
+  return ko
+}

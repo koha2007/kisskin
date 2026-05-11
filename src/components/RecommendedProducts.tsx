@@ -17,7 +17,8 @@ export default function RecommendedProducts({
   headingEmoji = '🛍️',
   subtitle,
 }: Props) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const isEn = locale === 'en'
   if (!items.length) return null
 
   return (
@@ -56,10 +57,10 @@ export default function RecommendedProducts({
                   </div>
                   <div>
                     <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400">
-                      {item.category}
+                      {isEn && item.categoryEn ? item.categoryEn : item.category}
                     </div>
                     <h3 className="text-base md:text-lg font-extrabold text-navy-mid leading-tight">
-                      {item.title}
+                      {isEn && item.titleEn ? item.titleEn : item.title}
                     </h3>
                   </div>
                 </div>
@@ -67,7 +68,7 @@ export default function RecommendedProducts({
 
               {/* Why for type */}
               <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                {item.whyForType}
+                {isEn && item.whyForTypeEn ? item.whyForTypeEn : item.whyForType}
               </p>
 
               {/* Features checklist */}
@@ -76,7 +77,7 @@ export default function RecommendedProducts({
                   {t('recProducts.featuresLabel')}
                 </div>
                 <ul className="flex flex-col gap-1.5">
-                  {item.features.map((f, fi) => (
+                  {(isEn && item.featuresEn ? item.featuresEn : item.features).map((f, fi) => (
                     <li key={fi} className="flex items-start gap-2 text-sm text-slate-600">
                       <span
                         className="material-symbols-outlined text-base mt-0.5 shrink-0"
