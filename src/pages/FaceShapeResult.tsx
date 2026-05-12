@@ -168,6 +168,8 @@ export default function FaceShapeResult({ code }: Props) {
             ? `Recommended product categories for ${name.toLowerCase()} faces. Use these as a reference to complete tailored contouring and styling.`
             : `${name} 얼굴형에 추천하는 제품 카테고리입니다. 맞춤 컨투어와 스타일을 완성할 때 참고하세요.`
         }
+        pageType="face_shape"
+        pageSlug={t.code}
       />
 
       {/* kissinskin CTA */}

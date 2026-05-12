@@ -343,7 +343,8 @@ export default {
   'recProducts.defaultSubtitle': 'Curated product categories that suit this type, with features to look for.',
   'recProducts.featuresLabel': 'Key features',
   'recProducts.brandsLabel': 'Reference brands',
-  'recProducts.findProducts': 'Find products',
+  'recProducts.findProducts': 'Search on Coupang',
+  'recProducts.findOnClio': 'CLIO official store',
   'recProducts.comingSoon': 'Purchase links coming soon',
-  'recProducts.disclosure': 'As a Coupang Partners affiliate, we earn a commission from qualifying purchases. Commissions do not affect product prices. Recommendations are based on type-specific analysis.',
+  'recProducts.disclosure': 'This page includes affiliate links from Coupang Partners and LinkPrice (CLIO); we may earn a commission on qualifying purchases. Commissions do not affect product prices, and recommendations are based on type-specific analysis.',
 } as Record<string, string>

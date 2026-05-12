@@ -1,6 +1,9 @@
 import type { ProductRec } from '../lib/recommendations/types'
 import { AFFILIATE_ENABLED, buildSearchLink } from '../lib/recommendations/types'
 import { useI18n } from '../i18n/I18nContext'
+import { AFFILIATE_CONFIG } from '../config/affiliate'
+import { getClioCategoryByIcon, getClioLinkByIcon } from '../lib/affiliate/categoryMapping'
+import { trackAffiliateClick, type AffiliatePageType } from '../lib/affiliate/track'
 
 interface Props {
   items: ProductRec[]
@@ -8,6 +11,8 @@ interface Props {
   accentGradient?: string
   headingEmoji?: string
   subtitle?: string
+  pageType?: AffiliatePageType
+  pageSlug?: string
 }
 
 export default function RecommendedProducts({
@@ -16,6 +21,8 @@ export default function RecommendedProducts({
   accentGradient = 'from-primary to-pink-500',
   headingEmoji = '🛍️',
   subtitle,
+  pageType,
+  pageSlug,
 }: Props) {
   const { t, locale } = useI18n()
   const isEn = locale === 'en'
@@ -38,100 +45,140 @@ export default function RecommendedProducts({
 
         {/* Grid */}
         <div className="grid md:grid-cols-2 gap-4 mt-8">
-          {items.map((item, i) => (
-            <article
-              key={i}
-              className="relative bg-white rounded-2xl border p-5 md:p-6 hover:shadow-lg transition-shadow"
-              style={{ borderColor: `${accentColor}25` }}
-            >
-              {/* Category chip */}
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0"
-                    style={{ background: accentColor }}
-                  >
-                    <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      {item.icon}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400">
-                      {isEn && item.categoryEn ? item.categoryEn : item.category}
-                    </div>
-                    <h3 className="text-base md:text-lg font-extrabold text-navy-mid leading-tight">
-                      {isEn && item.titleEn ? item.titleEn : item.title}
-                    </h3>
-                  </div>
-                </div>
-              </div>
+          {items.map((item, i) => {
+            const showClio =
+              AFFILIATE_CONFIG.clio.enabled && AFFILIATE_CONFIG.clio.shouldShow(item.brandExamples)
+            const clioCategory = showClio ? getClioCategoryByIcon(item.icon) : null
+            const clioLink = showClio ? getClioLinkByIcon(item.icon) : null
+            const coupangLink = item.affiliateUrl || buildSearchLink(item.searchKeywords)
 
-              {/* Why for type */}
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                {isEn && item.whyForTypeEn ? item.whyForTypeEn : item.whyForType}
-              </p>
-
-              {/* Features checklist */}
-              <div className="mb-4">
-                <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2">
-                  {t('recProducts.featuresLabel')}
-                </div>
-                <ul className="flex flex-col gap-1.5">
-                  {(isEn && item.featuresEn ? item.featuresEn : item.features).map((f, fi) => (
-                    <li key={fi} className="flex items-start gap-2 text-sm text-slate-600">
-                      <span
-                        className="material-symbols-outlined text-base mt-0.5 shrink-0"
-                        style={{ color: accentColor, fontVariationSettings: "'FILL' 1" }}
-                      >
-                        check_circle
-                      </span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Brand examples */}
-              <div className="mb-4">
-                <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2">
-                  {t('recProducts.brandsLabel')}
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {item.brandExamples.map((b, bi) => (
-                    <span
-                      key={bi}
-                      className="px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-full text-[0.7rem] font-medium text-slate-600"
+            return (
+              <article
+                key={i}
+                className="relative bg-white rounded-2xl border p-5 md:p-6 hover:shadow-lg transition-shadow"
+                style={{ borderColor: `${accentColor}25` }}
+              >
+                {/* Category chip */}
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0"
+                      style={{ background: accentColor }}
                     >
-                      {b}
-                    </span>
-                  ))}
+                      <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        {item.icon}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400">
+                        {isEn && item.categoryEn ? item.categoryEn : item.category}
+                      </div>
+                      <h3 className="text-base md:text-lg font-extrabold text-navy-mid leading-tight">
+                        {isEn && item.titleEn ? item.titleEn : item.title}
+                      </h3>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* CTA — safe Google Shopping search for now; affiliate-ready structure */}
-              {AFFILIATE_ENABLED ? (
-                <a
-                  href={item.affiliateUrl || buildSearchLink(item.searchKeywords)}
-                  target="_blank"
-                  rel="sponsored noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 text-sm font-bold bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent group-hover:gap-2 transition-all`}
-                >
-                  {t('recProducts.findProducts')}
-                  <span
-                    className="material-symbols-outlined text-base"
-                    style={{ color: accentColor }}
-                  >
-                    arrow_outward
-                  </span>
-                </a>
-              ) : (
-                <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
-                  <span className="material-symbols-outlined text-sm">schedule</span>
-                  {t('recProducts.comingSoon')}
+                {/* Why for type */}
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  {isEn && item.whyForTypeEn ? item.whyForTypeEn : item.whyForType}
+                </p>
+
+                {/* Features checklist */}
+                <div className="mb-4">
+                  <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2">
+                    {t('recProducts.featuresLabel')}
+                  </div>
+                  <ul className="flex flex-col gap-1.5">
+                    {(isEn && item.featuresEn ? item.featuresEn : item.features).map((f, fi) => (
+                      <li key={fi} className="flex items-start gap-2 text-sm text-slate-600">
+                        <span
+                          className="material-symbols-outlined text-base mt-0.5 shrink-0"
+                          style={{ color: accentColor, fontVariationSettings: "'FILL' 1" }}
+                        >
+                          check_circle
+                        </span>
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              )}
-            </article>
-          ))}
+
+                {/* Brand examples */}
+                <div className="mb-4">
+                  <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2">
+                    {t('recProducts.brandsLabel')}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {item.brandExamples.map((b, bi) => (
+                      <span
+                        key={bi}
+                        className="px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-full text-[0.7rem] font-medium text-slate-600"
+                      >
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTAs */}
+                {AFFILIATE_ENABLED ? (
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <a
+                      href={coupangLink}
+                      target="_blank"
+                      rel="sponsored noopener noreferrer"
+                      onClick={() =>
+                        pageType && pageSlug &&
+                        trackAffiliateClick({
+                          merchant: 'coupang',
+                          category: item.icon,
+                          pageType,
+                          pageSlug,
+                        })
+                      }
+                      className={`inline-flex items-center gap-1.5 text-sm font-bold bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent hover:gap-2 transition-all`}
+                    >
+                      🛒 {t('recProducts.findProducts')}
+                      <span
+                        className="material-symbols-outlined text-base"
+                        style={{ color: accentColor }}
+                      >
+                        arrow_outward
+                      </span>
+                    </a>
+
+                    {showClio && clioLink && (
+                      <a
+                        href={clioLink}
+                        target="_blank"
+                        rel="sponsored noopener noreferrer"
+                        onClick={() =>
+                          pageType && pageSlug &&
+                          trackAffiliateClick({
+                            merchant: 'clubclio',
+                            category: clioCategory ?? 'main',
+                            pageType,
+                            pageSlug,
+                          })
+                        }
+                        className="inline-flex items-center gap-1.5 text-sm font-bold text-rose-500 hover:text-rose-600 hover:gap-2 transition-all"
+                      >
+                        🌹 {t('recProducts.findOnClio')}
+                        <span className="material-symbols-outlined text-base">arrow_outward</span>
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
+                    <span className="material-symbols-outlined text-sm">schedule</span>
+                    {t('recProducts.comingSoon')}
+                  </div>
+                )}
+              </article>
+            )
+          })}
         </div>
 
         {/* Disclosure — only when affiliate enabled */}

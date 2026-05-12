@@ -170,6 +170,8 @@ export default function PersonalColorResult({ code }: Props) {
             ? `Product categories that match ${name}. Key features to check and reference brands when shopping.`
             : `${name}에게 어울리는 제품 카테고리입니다. 쇼핑 시 꼭 확인할 특징과 참고 브랜드를 정리했습니다.`
         }
+        pageType="personal_color"
+        pageSlug={t.code}
       />
 
       {/* kissinskin crossell */}

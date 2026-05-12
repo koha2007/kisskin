@@ -272,6 +272,8 @@ export default function MakeupMbtiResult({ code }: Props) {
             ? `Product categories that match ${displayName} (${type.code}). Use these to complete your signature look.`
             : `${displayName} (${type.code}) 유형에 어울리는 제품 카테고리입니다. 시그니처 룩을 완성할 때 참고하세요.`
         }
+        pageType="mbti"
+        pageSlug={type.code}
       />
 
       {/* Tips */}

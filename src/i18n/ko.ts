@@ -343,7 +343,8 @@ export default {
   'recProducts.defaultSubtitle': '이 유형에 어울리는 제품 카테고리와 꼭 확인해야 할 특징을 정리했습니다.',
   'recProducts.featuresLabel': '꼭 확인할 특징',
   'recProducts.brandsLabel': '검색에 참고할 브랜드',
-  'recProducts.findProducts': '제품 찾아보기',
+  'recProducts.findProducts': '쿠팡에서 검색',
+  'recProducts.findOnClio': '클리오 공식몰',
   'recProducts.comingSoon': '구매 링크 준비 중',
-  'recProducts.disclosure': '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 수수료는 제품 가격에 영향을 주지 않으며, 추천은 유형별 특성 분석을 기반으로 이뤄집니다.',
+  'recProducts.disclosure': '이 포스팅은 쿠팡 파트너스 및 링크프라이스(클리오) 제휴마케팅이 포함된 광고로 일정액의 커미션을 지급 받습니다. 수수료는 제품 가격에 영향을 주지 않으며, 추천은 유형별 특성 분석을 기반으로 이뤄집니다.',
 } as Record<string, string>

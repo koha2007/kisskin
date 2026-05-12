@@ -4,6 +4,69 @@ import { PERFUME_TYPE_RECOMMENDATIONS } from '../lib/recommendations/perfume-typ
 import RecommendedProducts from '../components/RecommendedProducts'
 import ShareBar from '../components/ShareBar'
 import RelatedTools from '../components/RelatedTools'
+import {
+  getClioCategoryByPerfumeType,
+  getClioLinkByPerfumeType,
+} from '../lib/affiliate/categoryMapping'
+import { trackAffiliateClick } from '../lib/affiliate/track'
+
+const CLIO_CATEGORY_LABEL: Record<string, string> = {
+  base: '베이스 메이크업',
+  lip: '립 메이크업',
+  eye: '아이 메이크업',
+  cheek: '치크 · 블러쉬',
+  main: '클리오 공식몰',
+}
+
+function PerfumeClioCrossSell({
+  typeCode,
+  typeName,
+  accent,
+}: {
+  typeCode: PerfumeTypeCode
+  typeName: string
+  accent: string
+}) {
+  const link = getClioLinkByPerfumeType(typeCode)
+  const category = getClioCategoryByPerfumeType(typeCode)
+  const categoryLabel = CLIO_CATEGORY_LABEL[category] ?? CLIO_CATEGORY_LABEL.main
+  return (
+    <section className="py-12 md:py-16 bg-gradient-to-b from-white via-rose-50/40 to-white">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <span className="inline-flex items-center gap-2 text-rose-500 text-xs font-bold uppercase tracking-widest bg-rose-50 px-3 py-1 rounded-full border border-rose-100 mb-3">
+          🌹 K-뷰티 추천
+        </span>
+        <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy tracking-tight mb-2 leading-tight">
+          {typeName}과 어울리는 클리오 {categoryLabel}
+        </h2>
+        <p className="text-slate-500 text-sm md:text-base mb-6 max-w-xl mx-auto leading-relaxed">
+          {typeName} 분위기를 완성하는 K-뷰티 메이크업을 클리오 공식몰에서 둘러보세요.
+        </p>
+        <a
+          href={link}
+          target="_blank"
+          rel="sponsored noopener noreferrer"
+          onClick={() =>
+            trackAffiliateClick({
+              merchant: 'clubclio',
+              category,
+              pageType: 'perfume_type',
+              pageSlug: typeCode,
+            })
+          }
+          className="inline-flex items-center gap-2 text-white px-8 py-3.5 rounded-full text-base font-bold shadow-lg"
+          style={{ background: `linear-gradient(135deg, ${accent}, #f43f5e)` }}
+        >
+          🌹 클리오 공식몰에서 보기
+          <span className="material-symbols-outlined">arrow_outward</span>
+        </a>
+        <p className="mt-4 text-[11px] text-slate-400 leading-relaxed">
+          링크프라이스 제휴마케팅이 포함된 광고로 일정액의 커미션을 지급 받습니다.
+        </p>
+      </div>
+    </section>
+  )
+}
 
 interface Props { code: PerfumeTypeCode }
 
@@ -181,14 +244,19 @@ export default function PerfumeTypeResult({ code }: Props) {
         </div>
       </section>
 
-      {/* Recommended Products — Coupang Partners search affiliate */}
+      {/* Recommended Products — Coupang Partners + Clio (LinkPrice) affiliate */}
       <RecommendedProducts
         items={PERFUME_TYPE_RECOMMENDATIONS[t.code]}
         accentColor={t.primaryColor}
         accentGradient="from-rose-500 to-amber-500"
         headingEmoji={t.emoji}
         subtitle={`${t.koName} 타입에 추천하는 향수 카테고리입니다. 한국 시장 인지도 높은 브랜드를 참고하세요.`}
+        pageType="perfume_type"
+        pageSlug={t.code}
       />
+
+      {/* Clio cross-sell — makeup category matched to perfume type */}
+      <PerfumeClioCrossSell typeCode={t.code} typeName={t.koName} accent={t.primaryColor} />
 
       {/* Related tools */}
       <RelatedTools exclude="perfume-type" titleKo="다른 무료 진단도 함께" />
