@@ -43,10 +43,17 @@ export interface ProductRec {
  */
 export const AFFILIATE_ENABLED = true
 
-/** Coupang Partners 추적 파라미터 — 실제 단축링크 리디렉션 결과에서 확인 (2026-05-09) */
-const COUPANG_LPTAG = 'AF6657739'
-
-/** 쿠팡 검색 어필리에이트 링크 빌더 — 모든 검색 키워드에 자동 적용 */
+/**
+ * 쿠팡 검색 링크 빌더.
+ *
+ * 2026-05-12 현재 Coupang Partners는 공개 URL `lptag` 파라미터 attribution을 막아둠
+ * (`/np/search?lptag=` 및 `/re/AFFSDP?lptag=&pageKey=` 양쪽 모두 RET9999 시스템 오류 반환).
+ *
+ * 따라서 검색 키워드 → 일반 쿠팡 검색 URL(어필리에이트 없음)로 fallback.
+ * 어필리에이트 수수료가 필요하면 Coupang Partners 대시보드에서 발급한
+ * `https://link.coupang.com/a/xxxxxx` 단축링크를 각 ProductRec.affiliateUrl 에 직접 입력 —
+ * 이미 affiliateUrl 이 있는 카드는 그 링크가 우선 사용됨 (RecommendedProducts 참고).
+ */
 export function buildSearchLink(query: string): string {
-  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&lptag=${COUPANG_LPTAG}`
+  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=user`
 }
