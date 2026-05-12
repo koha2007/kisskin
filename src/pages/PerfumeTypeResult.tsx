@@ -7,6 +7,18 @@ import RelatedTools from '../components/RelatedTools'
 
 interface Props { code: PerfumeTypeCode }
 
+function josaIGa(word: string): string {
+  const code = word.charCodeAt(word.length - 1)
+  if (code < 0xac00 || code > 0xd7a3) return '이'
+  return (code - 0xac00) % 28 === 0 ? '가' : '이'
+}
+
+function josaWaGwa(word: string): string {
+  const code = word.charCodeAt(word.length - 1)
+  if (code < 0xac00 || code > 0xd7a3) return '와'
+  return (code - 0xac00) % 28 === 0 ? '와' : '과'
+}
+
 export default function PerfumeTypeResult({ code }: Props) {
   const t = PERFUME_TYPES[code]
   const basePath = '/tools/perfume-type'
@@ -66,7 +78,7 @@ export default function PerfumeTypeResult({ code }: Props) {
             상황·계절 가이드
           </h2>
           <p className="text-center text-slate-500 text-sm mb-8">
-            {t.koName}이 가장 매력적으로 발산되는 시간과 자리
+            {t.koName}{josaIGa(t.koName)} 가장 매력적으로 발산되는 시간과 자리
           </p>
           <div className="grid md:grid-cols-2 gap-3">
             {[
@@ -139,16 +151,7 @@ export default function PerfumeTypeResult({ code }: Props) {
         </div>
       </section>
 
-      {/* Recommended Products — Coupang Partners search affiliate */}
-      <RecommendedProducts
-        items={PERFUME_TYPE_RECOMMENDATIONS[t.code]}
-        accentColor={t.primaryColor}
-        accentGradient="from-rose-500 to-amber-500"
-        headingEmoji="🌹"
-        subtitle={`${t.koName} 타입에 추천하는 향수 카테고리입니다. 한국 시장 인지도 높은 브랜드를 참고하세요.`}
-      />
-
-      {/* kissinskin CTA */}
+      {/* kissinskin CTA — placed above affiliate to surface main $2.99 funnel */}
       <section className="py-14 md:py-20 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/40">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="inline-flex items-center gap-2 text-primary-dark text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100 mb-4">
@@ -156,7 +159,7 @@ export default function PerfumeTypeResult({ code }: Props) {
             추천 K-뷰티 스타일
           </span>
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-navy tracking-tight mb-3 leading-tight">
-            {t.koName}과 어울리는 kissinskin 룩
+            {t.koName}{josaWaGwa(t.koName)} 어울리는 kissinskin 룩
           </h2>
           <p className="text-slate-500 text-sm md:text-base mb-8">{t.kissinskin.reason}</p>
           <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8">
@@ -177,6 +180,15 @@ export default function PerfumeTypeResult({ code }: Props) {
           </a>
         </div>
       </section>
+
+      {/* Recommended Products — Coupang Partners search affiliate */}
+      <RecommendedProducts
+        items={PERFUME_TYPE_RECOMMENDATIONS[t.code]}
+        accentColor={t.primaryColor}
+        accentGradient="from-rose-500 to-amber-500"
+        headingEmoji={t.emoji}
+        subtitle={`${t.koName} 타입에 추천하는 향수 카테고리입니다. 한국 시장 인지도 높은 브랜드를 참고하세요.`}
+      />
 
       {/* Related tools */}
       <RelatedTools exclude="perfume-type" titleKo="다른 무료 진단도 함께" />

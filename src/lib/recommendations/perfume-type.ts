@@ -23,7 +23,7 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       features: ['장미 솔리플로럴 또는 부케형', '데이트·결혼식 자리에 강력', '오 드 퍼퓸 권장'],
       brandExamples: ['딥디크', '크리드', '톰포드'],
       whyForType: '플로럴 정수를 체험하고 싶은 분에게 추천 — 클래식한 페미닌 무드의 결정판입니다.',
-      searchKeywords: '로즈 오 드 퍼퓸',
+      searchKeywords: '장미향 향수',
       icon: 'favorite',
     },
     {
@@ -32,7 +32,7 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       features: ['모던 유니섹스 향수', '오피스·갤러리 자리 무난', '플로럴 + 그린 조합'],
       brandExamples: ['이솝', '르라보', '바이레도'],
       whyForType: '여성스러운 인상은 살리되 너무 페미닌하지 않은 톤을 원할 때 — 유니섹스 플로럴이 정답.',
-      searchKeywords: '플로럴 그린 유니섹스 향수',
+      searchKeywords: '플로럴 향수',
       icon: 'eco',
     },
   ],
@@ -44,7 +44,7 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       features: ['가장 가벼운 톱노트', '오피스·운동 후 강력', '오 드 콜로뉴 또는 오 드 토일렛'],
       brandExamples: ['아쿠아 디 파르마', '조말론', '4711'],
       whyForType: '시트러스의 정수 — 깔끔하고 활기찬 첫인상을 만드는 데 가장 검증된 조합입니다.',
-      searchKeywords: '시트러스 오 드 콜로뉴',
+      searchKeywords: '유니섹스 시트러스 향수',
       icon: 'wb_sunny',
     },
     {
