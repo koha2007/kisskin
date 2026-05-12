@@ -179,7 +179,7 @@ export default function PerfumeTypeResult({ code }: Props) {
       </section>
 
       {/* Related tools */}
-      <RelatedTools exclude="face-shape" titleKo="다른 무료 진단도 함께" />
+      <RelatedTools exclude="perfume-type" titleKo="다른 무료 진단도 함께" />
 
       {/* Share */}
       <ShareBar

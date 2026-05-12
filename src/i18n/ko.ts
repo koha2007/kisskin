@@ -60,9 +60,9 @@ export default {
   'home.toolsShowcase.t3Tag': '5가지 얼굴형',
   'home.toolsShowcase.t3Title': '얼굴형 진단',
   'home.toolsShowcase.t3Desc': '6문항으로 얼굴형 판정 → 맞춤 컨투어링·헤어·안경 가이드',
-  'home.toolsShowcase.t4Tag': '3,000단어 심화',
-  'home.toolsShowcase.t4Title': 'K-뷰티 가이드',
-  'home.toolsShowcase.t4Desc': '한국 메이크업의 역사·18가지 스타일·AI 시뮬레이션 원리 완전 가이드',
+  'home.toolsShowcase.t4Tag': '6가지 향수 타입',
+  'home.toolsShowcase.t4Title': '나에게 어울리는 향수',
+  'home.toolsShowcase.t4Desc': '5문항 진단 → 6가지 타입별 맞춤 향수 추천',
 
   // Styles Section
   'home.styles.badge': '2026 Makeup Trends',
@@ -302,6 +302,7 @@ export default {
   'tools.footer.mbti': '메이크업 MBTI',
   'tools.footer.personalColor': '퍼스널 컬러',
   'tools.footer.faceShape': '얼굴형 진단',
+  'tools.footer.perfume': '향수 진단',
   'tools.footer.legal': '법적 고지',
   'tools.footer.terms': '이용약관',
   'tools.footer.privacy': '개인정보처리방침',

@@ -1,6 +1,6 @@
 import { useI18n } from '../i18n/I18nContext'
 
-type ToolKey = 'face-shape' | 'personal-color' | 'makeup-mbti' | 'ai-makeup'
+type ToolKey = 'face-shape' | 'personal-color' | 'makeup-mbti' | 'ai-makeup' | 'perfume-type'
 
 interface Tool {
   key: ToolKey
@@ -25,6 +25,16 @@ const TOOLS: Tool[] = [
     descKo: '셀카 한 장으로 9가지 K-뷰티 룩을 30초 만에',
     descEn: 'One selfie, 9 K-beauty looks in 30 seconds',
     accent: '#eb4763',
+  },
+  {
+    key: 'perfume-type',
+    href: '/tools/perfume-type/',
+    emoji: '🌸',
+    titleKo: '향수 타입 진단',
+    titleEn: 'Perfume Type Quiz',
+    descKo: '5문항으로 6가지 향수 타입 + 맞춤 향 추천',
+    descEn: '5 questions → 6 perfume types + matched notes',
+    accent: '#ec4899',
   },
   {
     key: 'face-shape',
@@ -70,7 +80,7 @@ export default function RelatedTools({ exclude, titleKo, titleEn }: Props) {
   const { locale } = useI18n()
   const isEn = locale === 'en'
 
-  const visible = TOOLS.filter((t) => t.key !== exclude)
+  const visible = TOOLS.filter((t) => t.key !== exclude).slice(0, 3)
   const heading = isEn
     ? titleEn || 'Try the other tools too'
     : titleKo || '다른 무료 도구도 시도해 보세요'

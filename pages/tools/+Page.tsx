@@ -52,6 +52,16 @@ const TOOLS: Tool[] = [
     available: true,
   },
   {
+    href: '/tools/perfume-type/',
+    title: '나에게 어울리는 향수',
+    subtitle: '6가지 향수 타입 진단',
+    desc: '5문항으로 알아보는 플로럴·시트러스·우디·앰버·프레시·구르망. 타입별 씬/메이크업 매칭 + 향 추천 큐레이션.',
+    cta: '진단',
+    accent: '#ec4899',
+    badge: 'NEW',
+    available: true,
+  },
+  {
     href: '/about-makeup-ai/',
     title: 'K-뷰티 메이크업 완전 가이드',
     subtitle: '3,000단어 심화 아티클',

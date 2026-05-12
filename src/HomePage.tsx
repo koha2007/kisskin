@@ -729,8 +729,8 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 tag: t('home.toolsShowcase.t3Tag'),
               },
               {
-                href: '/about-makeup-ai/',
-                emoji: '📖',
+                href: '/tools/perfume-type/',
+                emoji: '🌸',
                 title: t('home.toolsShowcase.t4Title'),
                 desc: t('home.toolsShowcase.t4Desc'),
                 gradient: 'from-rose-500 to-pink-500',
@@ -1289,6 +1289,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 <li><a href="/tools/makeup-mbti/" className="hover:text-primary transition-colors cursor-pointer">메이크업 MBTI</a></li>
                 <li><a href="/tools/personal-color/" className="hover:text-primary transition-colors cursor-pointer">퍼스널 컬러 진단</a></li>
                 <li><a href="/tools/face-shape/" className="hover:text-primary transition-colors cursor-pointer">얼굴형 진단</a></li>
+                <li><a href="/tools/perfume-type/" className="hover:text-primary transition-colors cursor-pointer">향수 진단</a></li>
                 <li><a href="/guides/" className="hover:text-primary transition-colors cursor-pointer">가이드</a></li>
                 <li><a href="/reviews/" className="hover:text-primary transition-colors cursor-pointer">리뷰</a></li>
                 <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">뉴스</a></li>

@@ -185,6 +185,7 @@ export function ToolsFooter() {
               <li><a href="/tools/makeup-mbti/" className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
               <li><a href="/tools/personal-color/" className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href={localePath('/tools/face-shape/', isEn)} className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>
+              <li><a href="/tools/perfume-type/" className="hover:text-primary">{t('tools.footer.perfume')}</a></li>
               <li><a href="/guides/" className="hover:text-primary">{isEn ? 'Guides' : '가이드'}</a></li>
               <li><a href="/reviews/" className="hover:text-primary">{isEn ? 'Reviews' : '리뷰'}</a></li>
               <li><a href="/news/" className="hover:text-primary">{isEn ? 'News' : '뉴스'}</a></li>

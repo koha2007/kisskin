@@ -60,9 +60,9 @@ export default {
   'home.toolsShowcase.t3Tag': '5 Face Shapes',
   'home.toolsShowcase.t3Title': 'Face Shape Quiz',
   'home.toolsShowcase.t3Desc': '6-question quiz → custom contouring, hair, and eyewear guide',
-  'home.toolsShowcase.t4Tag': '3,000-word deep dive',
-  'home.toolsShowcase.t4Title': 'K-Beauty Guide',
-  'home.toolsShowcase.t4Desc': 'History of Korean makeup, 18 styles, AI simulation principles, and photo tips',
+  'home.toolsShowcase.t4Tag': '6 Perfume Types',
+  'home.toolsShowcase.t4Title': 'Your Perfect Perfume',
+  'home.toolsShowcase.t4Desc': '5-question quiz → matched perfume notes per type',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
@@ -302,6 +302,7 @@ export default {
   'tools.footer.mbti': 'Makeup MBTI',
   'tools.footer.personalColor': 'Personal Color',
   'tools.footer.faceShape': 'Face Shape',
+  'tools.footer.perfume': 'Perfume Type',
   'tools.footer.legal': 'Legal',
   'tools.footer.terms': 'Terms of Service',
   'tools.footer.privacy': 'Privacy Policy',
