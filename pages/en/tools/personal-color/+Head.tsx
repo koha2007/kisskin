@@ -1,6 +1,6 @@
 export default function Head() {
   const title = 'Personal Color Quiz — 4 Seasons in 6 Questions | kissinskin'
-  const desc = 'Free 6-question diagnosis matches you to Spring Warm, Summer Cool, Autumn Warm, or Winter Cool, with a tailored color, makeup, and hair guide.'
+  const desc = 'Free 6-question quiz · 1 minute · no signup. Match yourself to Spring Warm, Summer Cool, Autumn Warm, or Winter Cool — with tailored color, lip, eye, and hair picks.'
   return (
     <>
       <title>{title}</title>

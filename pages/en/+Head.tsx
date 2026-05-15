@@ -4,7 +4,7 @@ export default function Head() {
       <title>AI K-Beauty Makeup Simulator | kissinskin</title>
       <meta
         name="description"
-        content="Try 9 K-beauty makeup looks on your selfie in 60 seconds — plus personal-color analysis and curated cosmetic picks."
+        content="One selfie · 60 seconds · free preview · no signup. Try 9 K-beauty makeup looks plus personal-color diagnosis and curated K-beauty product picks. Start instantly."
       />
       <link rel="canonical" href="https://kissinskin.net/en/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/" />
@@ -15,7 +15,7 @@ export default function Head() {
       <meta property="og:title" content="AI K-Beauty Makeup Simulator | kissinskin" />
       <meta
         property="og:description"
-        content="Try 9 K-beauty makeup looks on your selfie in 60 seconds — plus personal-color analysis and curated cosmetic picks."
+        content="One selfie · 60 seconds · free preview · no signup. Try 9 K-beauty makeup looks plus personal-color diagnosis and curated K-beauty product picks. Start instantly."
       />
       <meta property="og:url" content="https://kissinskin.net/en/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
@@ -28,7 +28,7 @@ export default function Head() {
       <meta name="twitter:title" content="AI K-Beauty Makeup Simulator | kissinskin" />
       <meta
         name="twitter:description"
-        content="Try 9 K-beauty makeup looks on your selfie in 60 seconds — plus personal-color analysis and curated cosmetic picks."
+        content="One selfie · 60 seconds · free preview · no signup. Try 9 K-beauty makeup looks plus personal-color diagnosis and curated K-beauty product picks. Start instantly."
       />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script

@@ -7,7 +7,7 @@ export default function Head() {
   const t = getPerfumeTypeBySlug(slug)
   if (!t) return null
   const title = `${t.koName} 향수 타입 — 추천 향수·메이크업·상황 가이드 | kissinskin`
-  const desc = `${t.koName} (${t.enName}) 향수 타입의 정체성과 한국 시장 추천 향수, 어울리는 메이크업·계절·상황 가이드 한 번에.`
+  const desc = `${t.koName} (${t.enName}) 향수 타입 완전 가이드 — 한국 시장 추천 향수·어울리는 메이크업·계절·상황까지. 무료 1분 향수 타입 진단으로 내 타입 바로 확인.`
   const url = `https://kissinskin.net/tools/perfume-type/${t.slug}/`
   return (
     <>

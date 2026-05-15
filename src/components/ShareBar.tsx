@@ -1,4 +1,27 @@
 import { useState, useEffect } from 'react'
+import { useI18n } from '../i18n/I18nContext'
+
+declare global {
+  interface Window {
+    Kakao?: {
+      isInitialized: () => boolean
+      init: (key: string) => void
+      Share: { sendDefault: (settings: Record<string, unknown>) => void }
+    }
+  }
+}
+
+const KAKAO_JS_KEY = (import.meta.env.VITE_KAKAO_JS_KEY as string | undefined) || ''
+
+function ensureKakaoReady(): boolean {
+  if (typeof window === 'undefined') return false
+  const k = window.Kakao
+  if (!k || !KAKAO_JS_KEY) return false
+  if (!k.isInitialized()) {
+    try { k.init(KAKAO_JS_KEY) } catch { return false }
+  }
+  return k.isInitialized()
+}
 
 interface ShareBarProps {
   /** Canonical share URL (use window.location.href or a static fallback) */
@@ -19,6 +42,7 @@ export default function ShareBar({
   retakeUrl,
   retakeLabel = '다시 하기',
 }: ShareBarProps) {
+  const { locale } = useI18n()
   const [copied, setCopied] = useState(false)
   // SSR-safe: only enable native-share button after mount, otherwise hydration mismatches (React #418).
   const [hasNativeShare, setHasNativeShare] = useState(false)
@@ -43,6 +67,35 @@ export default function ShareBar({
       } catch {
         /* user cancelled */
       }
+    }
+  }
+
+  const kakaoShare = async () => {
+    if (ensureKakaoReady()) {
+      try {
+        window.Kakao!.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: shareTitle,
+            description: shareText,
+            imageUrl: 'https://kissinskin.net/og-image.png',
+            link: { mobileWebUrl: url, webUrl: url },
+          },
+          buttons: [
+            { title: '결과 보기', link: { mobileWebUrl: url, webUrl: url } },
+            { title: '나도 테스트', link: { mobileWebUrl: 'https://kissinskin.net/tools/', webUrl: 'https://kissinskin.net/tools/' } },
+          ],
+        })
+        return
+      } catch {
+        /* fall through to clipboard */
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url)
+      alert('링크가 복사되었습니다.\n카카오톡에 붙여넣기 해주세요!')
+    } catch {
+      alert('링크 복사에 실패했습니다.')
     }
   }
 
@@ -80,6 +133,21 @@ export default function ShareBar({
             >
               <span className="material-symbols-outlined text-[18px]">ios_share</span>
               공유하기
+            </button>
+          )}
+
+          {/* KakaoTalk — only for Korean locale */}
+          {locale === 'ko' && (
+            <button
+              type="button"
+              onClick={kakaoShare}
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#FEE500] text-[#191919] hover:bg-[#fdd835] hover:shadow-md text-sm font-semibold transition-all"
+              aria-label="카카오톡으로 공유"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-[15px] h-[15px]">
+                <path d="M12 3C6.486 3 2 6.524 2 10.857c0 2.788 1.85 5.232 4.629 6.604-.204.762-.74 2.76-.847 3.19-.133.534.196.527.412.383.17-.113 2.703-1.834 3.793-2.575.658.097 1.337.149 2.013.149 5.514 0 10-3.523 10-7.857S17.514 3 12 3z" />
+              </svg>
+              카카오톡
             </button>
           )}
 

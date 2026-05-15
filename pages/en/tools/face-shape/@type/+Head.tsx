@@ -8,7 +8,7 @@ export default function Head() {
   if (!t) return null
   const enName = t.enName
   const title = `${enName} Face — Contour, Shading, and Hair Guide | kissinskin`
-  const desc = `Features of an ${enName.toLowerCase()} face plus slimming contour & shading placement, plus hairstyles and makeup tips that complement the shape.`
+  const desc = `${enName} face complete guide — slimming contour & shading placement, hairstyles, and makeup tips that complement the shape. Take the free 1-minute face shape quiz to find your type.`
   const url = `https://kissinskin.net/en/tools/face-shape/${t.slug}/`
   const koUrl = `https://kissinskin.net/tools/face-shape/${t.slug}/`
   return (

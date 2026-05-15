@@ -1,6 +1,6 @@
 export default function Head() {
   const title = '향수 타입 진단 — 5문항 1분 무료 자가 테스트 | kissinskin'
-  const desc = '플로럴·시트러스·우디·앰버·프레시·구르망 6가지 향수 타입 중 나는 어디? 한국 시장 추천 향수와 어울리는 메이크업·상황·계절 가이드 포함.'
+  const desc = '무료 5문항 1분 진단 · 회원가입 불필요. 플로럴·시트러스·우디·앰버·프레시·구르망 6가지 중 내 향수 타입은? 한국 시장 추천 향수·메이크업·상황 가이드까지.'
   return (
     <>
       <title>{title}</title>

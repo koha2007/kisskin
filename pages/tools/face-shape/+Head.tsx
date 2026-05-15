@@ -1,6 +1,6 @@
 export default function Head() {
   const title = '얼굴형 진단 — 6문항 1분 무료 자가 테스트 | kissinskin'
-  const desc = '계란·둥근·각진·긴·하트 5가지 얼굴형 중 나는 어디? 얼굴형별 맞춤 컨투어링·메이크업·헤어 가이드 포함.'
+  const desc = '무료 6문항 1분 진단 · 회원가입 불필요. 계란·둥근·각진·긴·하트 5가지 얼굴형 중 나는 어디? 슬림 컨투어링·헤어·메이크업 가이드까지 한 번에.'
   return (
     <>
       <title>{title}</title>

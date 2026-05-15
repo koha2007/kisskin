@@ -8,7 +8,7 @@ export default function Head() {
   if (!t) return null
   const enName = t.enName
   const title = `${enName} — Personal Color Guide for Makeup & Hair | kissinskin`
-  const desc = `${enName} body traits, best and worst colors, makeup direction, and ${t.shoppingTipsEn?.length ?? 5} practical shopping tips — all in one guide.`
+  const desc = `${enName} complete guide — best & worst colors, lip, eye, hair picks, and practical shopping tips. Take the free 1-minute personal color quiz to find your type.`
   const url = `https://kissinskin.net/en/tools/personal-color/${t.slug}/`
   const koUrl = `https://kissinskin.net/tools/personal-color/${t.slug}/`
   return (

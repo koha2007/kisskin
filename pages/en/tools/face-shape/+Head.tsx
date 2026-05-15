@@ -1,6 +1,6 @@
 export default function Head() {
   const title = 'Face Shape Quiz — Free 6-Question 1-Min Diagnosis | kissinskin'
-  const desc = 'Oval, round, square, oblong, or heart — which one are you? Includes per-shape contouring, hair, and eyewear guidance.'
+  const desc = 'Free 6-question quiz · 1 minute · no signup. Oval, round, square, oblong, or heart — which face shape are you? Per-shape contouring, hair, and eyewear guide included.'
   return (
     <>
       <title>{title}</title>
