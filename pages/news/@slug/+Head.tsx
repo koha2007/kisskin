@@ -18,15 +18,17 @@ export default function Head() {
 
   const meta = getCategoryMeta(item.category)
   const url = `https://kissinskin.net/news/${item.slug}/`
+  const seoTitle = item.seoTitle ?? `${item.title} · kissinskin News`
+  const seoDesc = item.seoDescription ?? item.summary
 
   return (
     <>
-      <title>{`${item.title} · kissinskin News`}</title>
-      <meta name="description" content={item.summary} />
+      <title>{seoTitle}</title>
+      <meta name="description" content={seoDesc} />
       <meta name="keywords" content={item.tags.join(', ')} />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={item.title} />
-      <meta property="og:description" content={item.summary} />
+      <meta property="og:description" content={seoDesc} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="article:published_time" content={item.date} />
@@ -36,7 +38,7 @@ export default function Head() {
       ))}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={item.title} />
-      <meta name="twitter:description" content={item.summary} />
+      <meta name="twitter:description" content={seoDesc} />
       <link rel="canonical" href={url} />
       <script
         type="application/ld+json"

@@ -1,11 +1,11 @@
 export default function Head() {
-  const title = 'Face Shape Quiz — Free 6-Question 1-Min Diagnosis | kissinskin'
-  const desc = 'Free 6-question quiz · 1 minute · no signup. Oval, round, square, oblong, or heart — which face shape are you? Per-shape contouring, hair, and eyewear guide included.'
+  const title = 'Face Shape Quiz & Test — Free, 1 Min, 5 Shapes | kissinskin'
+  const desc = 'Free face shape quiz · face shape test in 1 minute · no signup. Find if you are oval, round, square, oblong, or heart. Per-shape contouring, hairstyle, and glasses tips included.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="face shape quiz, oval, round, square, oblong, heart, contouring, face shape makeup" />
+      <meta name="keywords" content="face shape quiz, face shape test, face quiz, face shapes test, oval face, round face, square face, oblong face, heart face, contouring, face shape makeup" />
       <link rel="canonical" href="https://kissinskin.net/en/tools/face-shape/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/face-shape/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/face-shape/" />

@@ -1,11 +1,11 @@
 export default function Head() {
-  const title = 'Personal Color Quiz — 4 Seasons in 6 Questions | kissinskin'
-  const desc = 'Free 6-question quiz · 1 minute · no signup. Match yourself to Spring Warm, Summer Cool, Autumn Warm, or Winter Cool — with tailored color, lip, eye, and hair picks.'
+  const title = 'Personal Color Test & Quiz — Free 4-Season Analysis in 1 Min | kissinskin'
+  const desc = 'Free personal color test · 6-question quiz · 1 minute · no signup. Find your season — Spring Warm, Summer Cool, Autumn Warm, or Winter Cool — with tailored lip, eye, and hair color picks.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="personal color, color analysis, spring warm, summer cool, autumn warm, winter cool, 4-season" />
+      <meta name="keywords" content="personal color test, personal color quiz, personal color analysis, color analysis test, spring warm, summer cool, autumn warm, winter cool, 4-season, seasonal color" />
       <link rel="canonical" href="https://kissinskin.net/en/tools/personal-color/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/personal-color/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/personal-color/" />

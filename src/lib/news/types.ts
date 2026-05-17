@@ -39,6 +39,8 @@ export interface NewsItem {
   readMinutes: number
   tags: string[]
   featured?: boolean
+  seoTitle?: string
+  seoDescription?: string
 }
 
 export function getCategoryMeta(code: NewsCategory): NewsCategoryMeta {
