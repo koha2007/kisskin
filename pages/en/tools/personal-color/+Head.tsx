@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/en/tools/personal-color/')) return null
   const title = 'Personal Color Test & Quiz — Free 4-Season Analysis in 1 Min | kissinskin'
   const desc = 'Free personal color test · 6-question quiz · 1 minute · no signup. Find your season — Spring Warm, Summer Cool, Autumn Warm, or Winter Cool — with tailored lip, eye, and hair color picks.'
   return (

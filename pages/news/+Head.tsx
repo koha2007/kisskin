@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/news/')) return null
   return (
     <>
       <title>뉴스 · K-뷰티 글로벌 화장품 트렌드 — kissinskin</title>

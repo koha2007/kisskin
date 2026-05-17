@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/reviews/')) return null
   return (
     <>
       <title>리뷰 · 글로벌 베스트셀러 화장품 비교 — kissinskin</title>

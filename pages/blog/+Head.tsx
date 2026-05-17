@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/blog/')) return null
   return (
     <>
       <title>블로그 · 뷰티 데이터 인사이트 — kissinskin</title>

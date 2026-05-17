@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/tools/')) return null
   const title = 'K-뷰티 AI 도구 모음 | kissinskin'
   const desc = '메이크업 시뮬레이터·MBTI·퍼스널 컬러·얼굴형 진단 — 무료 K-뷰티 AI 도구 모음.'
   const keywords = 'K-뷰티 AI 도구, 메이크업 AI, 메이크업 MBTI, 퍼스널 컬러 진단, 얼굴형 진단, 무료 뷰티 테스트, 한국 메이크업, personal color test, kissinskin'

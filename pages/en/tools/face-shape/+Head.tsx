@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/en/tools/face-shape/')) return null
   const title = 'Face Shape Quiz & Test — Free, 1 Min, 5 Shapes | kissinskin'
   const desc = 'Free face shape quiz · face shape test in 1 minute · no signup. Find if you are oval, round, square, oblong, or heart. Per-shape contouring, hairstyle, and glasses tips included.'
   return (

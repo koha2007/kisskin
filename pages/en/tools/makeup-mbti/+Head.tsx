@@ -1,4 +1,9 @@
+import { usePageContext } from 'vike-react/usePageContext'
+import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
+
 export default function Head() {
+  const ctx = usePageContext()
+  if (!isExactRoute(ctx.urlPathname, '/en/tools/makeup-mbti/')) return null
   const title = 'Makeup MBTI — 16 Types from 8 Questions | kissinskin'
   const desc = 'A free 8-question quiz reads your makeup personality and matches you to one of 16 types, each with a tailored K-beauty look and product formula.'
   return (
