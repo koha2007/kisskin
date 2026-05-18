@@ -102,7 +102,7 @@ export default function ArticleShell({
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <span>작성</span>
-              <a href="/about" className="font-semibold text-slate-700 hover:text-navy underline">
+              <a href="/about/" className="font-semibold text-slate-700 hover:text-navy underline">
                 kissinskin Editorial · Yonghun Kim
               </a>
             </div>
@@ -121,7 +121,7 @@ export default function ArticleShell({
               </div>
               <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
                 kissinskin은 1인 인디 프로젝트로, 모든 글은 운영자{' '}
-                <a href="/about" className="font-semibold text-navy underline hover:text-primary">
+                <a href="/about/" className="font-semibold text-navy underline hover:text-primary">
                   Yonghun Kim
                 </a>
                 이 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
@@ -130,7 +130,7 @@ export default function ArticleShell({
               <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
                 개인 의견과 일반화된 가이드는 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
                 오류 제보·의견은{' '}
-                <a href="/contact" className="font-semibold text-navy underline hover:text-primary">
+                <a href="/contact/" className="font-semibold text-navy underline hover:text-primary">
                   문의 페이지
                 </a>
                 를 통해 받습니다.
@@ -214,7 +214,7 @@ export default function ArticleShell({
             </h2>
             <p className="text-slate-600 text-sm mb-5">{ctaSubtitle}</p>
             <a
-              href="/analysis"
+              href="/analysis/"
               className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-navy-mid transition-colors"
             >
               AI 메이크업 시작

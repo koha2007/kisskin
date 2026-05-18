@@ -97,7 +97,7 @@ function AboutKo() {
         <li>
           <strong>업로드 사진:</strong> 분석 직후 즉시 폐기되며, 어떠한 형태로도
           저장되지 않습니다. 자세한 내용은
-          <a href="/privacy"> 개인정보처리방침</a>을 참고해 주세요.
+          <a href="/privacy/"> 개인정보처리방침</a>을 참고해 주세요.
         </li>
       </ul>
 
@@ -123,7 +123,7 @@ function AboutKo() {
         <li>일반 문의: <a href="mailto:support@kissinskin.net">support@kissinskin.net</a></li>
         <li>개인정보 요청: <a href="mailto:privacy@kissinskin.net">privacy@kissinskin.net</a></li>
         <li>비즈니스: <a href="mailto:biz@kissinskin.net">biz@kissinskin.net</a></li>
-        <li>전체 문의 채널: <a href="/contact">/contact</a></li>
+        <li>전체 문의 채널: <a href="/contact/">/contact/</a></li>
       </ul>
       <p>
         콘텐츠 사실 오류·저작권 우려·접근성 문제가 있으면 위 이메일 또는
@@ -196,7 +196,7 @@ function AboutEn() {
         </li>
         <li>
           <strong>Uploaded photos:</strong> Discarded immediately after analysis
-          and never stored. See our <a href="/privacy">Privacy Policy</a> for full
+          and never stored. See our <a href="/privacy/">Privacy Policy</a> for full
           detail.
         </li>
       </ul>
@@ -222,7 +222,7 @@ function AboutEn() {
         <li>General: <a href="mailto:support@kissinskin.net">support@kissinskin.net</a></li>
         <li>Privacy: <a href="mailto:privacy@kissinskin.net">privacy@kissinskin.net</a></li>
         <li>Business: <a href="mailto:biz@kissinskin.net">biz@kissinskin.net</a></li>
-        <li>All contact channels: <a href="/contact">/contact</a></li>
+        <li>All contact channels: <a href="/contact/">/contact/</a></li>
       </ul>
       <p>
         If you spot a factual error, a copyright concern, or an accessibility

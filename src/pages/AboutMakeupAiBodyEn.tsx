@@ -195,7 +195,7 @@ export default function AboutMakeupAiBodyEn() {
               Run all nine styles on your own face. You\'ll see which one fits within seconds.
             </p>
             <a
-              href="/analysis"
+              href="/analysis/"
               className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2"
             >
               {t('tools.common.aiMakeupStart')}

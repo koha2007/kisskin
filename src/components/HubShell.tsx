@@ -172,7 +172,7 @@ export default function HubShell({
               30초 안에 9가지 K-뷰티 메이크업이 본인 얼굴에 적용된 결과를 확인합니다.
             </p>
             <a
-              href="/analysis"
+              href="/analysis/"
               className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-navy-mid transition-colors"
             >
               AI 메이크업 시작

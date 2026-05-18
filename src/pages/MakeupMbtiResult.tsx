@@ -141,7 +141,7 @@ export default function MakeupMbtiResult({ code }: Props) {
               {copied ? i18n('tools.common.copiedLink') : i18n('tools.common.shareToFriend')}
             </button>
             <a
-              href={isEn ? '/en/' : '/analysis'}
+              href={isEn ? '/en/' : '/analysis/'}
               className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined">auto_awesome</span>
@@ -228,7 +228,7 @@ export default function MakeupMbtiResult({ code }: Props) {
                 {recWomenReason}
               </p>
               <a
-                href={isEn ? '/en/' : '/analysis'}
+                href={isEn ? '/en/' : '/analysis/'}
                 className="inline-flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all"
               >
                 {isEn ? 'Try this style in AI simulation' : '이 스타일로 AI 시뮬레이션 하기'}
@@ -250,7 +250,7 @@ export default function MakeupMbtiResult({ code }: Props) {
                 {recMenReason}
               </p>
               <a
-                href={isEn ? '/en/' : '/analysis'}
+                href={isEn ? '/en/' : '/analysis/'}
                 className="inline-flex items-center gap-2 text-blue-500 font-bold text-sm hover:gap-3 transition-all"
               >
                 {isEn ? 'Try this style in AI simulation' : '이 스타일로 AI 시뮬레이션 하기'}
@@ -408,7 +408,7 @@ export default function MakeupMbtiResult({ code }: Props) {
             {isEn ? 'Upload one selfie and AI generates 9 K-beauty looks in under 30 seconds.' : '셀카 한 장 업로드하면 30초 이내 9가지 K-뷰티 룩을 생성합니다.'}
           </p>
           <a
-            href={isEn ? '/en/' : '/analysis'}
+            href={isEn ? '/en/' : '/analysis/'}
             className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2"
           >
             {i18n('tools.common.aiMakeupStart')}

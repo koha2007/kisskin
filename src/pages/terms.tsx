@@ -11,7 +11,7 @@ export default function Terms({ onNavigate }: TermsProps) {
   const { locale, setLocale } = useI18n()
 
   const nav = (page: string) => {
-    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as Page)
     else window.location.href = paths[page] || '/'
   }
@@ -82,7 +82,7 @@ function TermsKo() {
       <p>기술적 오류로 결과가 제공되지 않을 경우 이용자의 법정 권리(환불 등)는 전적으로 보호됩니다.</p>
 
       <h2>6. 환불 정책</h2>
-      <p>상세 내용은 별도 <a className="legal-link" href="/refund">환불 정책</a> 페이지를 참고해 주십시오. 요약:</p>
+      <p>상세 내용은 별도 <a className="legal-link" href="/refund/">환불 정책</a> 페이지를 참고해 주십시오. 요약:</p>
       <ul>
         <li>AI가 결과(이미지 또는 리포트)를 생성하지 못한 경우, 이용자의 별도 조치 없이 <strong>자동으로 전액 환불</strong>됩니다.</li>
         <li>결과가 정상적으로 전달된 이후에는 디지털 콘텐츠의 특성상 <strong>원칙적으로 환불이 불가능</strong>합니다.</li>
@@ -192,7 +192,7 @@ function TermsKo() {
       <p>본 약관의 어느 조항이 관할 법원에 의해 무효, 위법 또는 집행 불가능한 것으로 판명되더라도 나머지 조항은 계속 유효합니다. 무효 조항은 유효하고 집행 가능하도록 필요한 최소한의 범위에서 수정됩니다.</p>
 
       <h2>20. 완전 합의</h2>
-      <p>본 약관은 <a className="legal-link" href="/privacy">개인정보처리방침</a> 및 <a className="legal-link" href="/refund">환불 정책</a>과 함께 서비스 이용에 관한 이용자와 kissinskin 사이의 완전한 합의를 구성합니다. 이전의 합의, 소통, 이해는 본 약관으로 대체됩니다.</p>
+      <p>본 약관은 <a className="legal-link" href="/privacy/">개인정보처리방침</a> 및 <a className="legal-link" href="/refund/">환불 정책</a>과 함께 서비스 이용에 관한 이용자와 kissinskin 사이의 완전한 합의를 구성합니다. 이전의 합의, 소통, 이해는 본 약관으로 대체됩니다.</p>
 
       <h2>21. 약관 변경</h2>
       <p>본 약관은 언제든 갱신될 수 있습니다. 중요한 변경은 본 페이지에 갱신된 시행일과 함께 게시됩니다. 법률상 요구되는 경우 시행 전에 중요한 변경 사항을 통지합니다. 변경 후에도 계속 서비스를 이용하는 것은 변경된 약관에 대한 동의로 간주됩니다. 변경된 약관에 동의하지 않는 경우 서비스 이용을 중단해 주십시오.</p>
@@ -251,7 +251,7 @@ function TermsEn() {
       <p>This consent is obtained at the point of purchase. If the Service fails to deliver results due to a technical error, your statutory rights (including refund rights) remain fully protected.</p>
 
       <h2>6. Refund Policy</h2>
-      <p>Please see our dedicated <a className="legal-link" href="/refund">Refund Policy</a> page for full details. In summary:</p>
+      <p>Please see our dedicated <a className="legal-link" href="/refund/">Refund Policy</a> page for full details. In summary:</p>
       <ul>
         <li>If the AI fails to generate results (images or report), a <strong>full refund is automatically processed</strong> without any action required from you.</li>
         <li>Since results are delivered instantly as digital content, <strong>all sales are generally final</strong> once results are successfully delivered.</li>
@@ -361,7 +361,7 @@ function TermsEn() {
       <p>If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable.</p>
 
       <h2>20. Entire Agreement</h2>
-      <p>These Terms, together with our <a className="legal-link" href="/privacy">Privacy Policy</a> and <a className="legal-link" href="/refund">Refund Policy</a>, constitute the entire agreement between you and kissinskin regarding the use of the Service. Any prior agreements, communications, or understandings are superseded.</p>
+      <p>These Terms, together with our <a className="legal-link" href="/privacy/">Privacy Policy</a> and <a className="legal-link" href="/refund/">Refund Policy</a>, constitute the entire agreement between you and kissinskin regarding the use of the Service. Any prior agreements, communications, or understandings are superseded.</p>
 
       <h2>21. Changes to Terms</h2>
       <p>We may update these Terms at any time. Material changes will be posted on this page with an updated effective date. Where required by law, we will notify you of material changes before they take effect. Your continued use of the Service after changes constitutes acceptance. If you do not agree with the updated Terms, you should discontinue use of the Service.</p>

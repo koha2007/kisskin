@@ -33,7 +33,7 @@ interface MyPageProps {
 
 export default function MyPage({ onNavigate, user, onLogout, subStatus, onCheckout }: MyPageProps) {
   const nav = (page: string) => {
-    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage')
     else window.location.href = paths[page] || '/'
   }

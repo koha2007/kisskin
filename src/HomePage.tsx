@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useI18n } from './i18n/I18nContext'
 
 const PAGE_PATHS: Record<string, string> = {
-  home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy',
-  refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage',
+  home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
+  refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/',
 }
 
 interface HomePageProps {
@@ -670,7 +670,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
           {/* Featured: AI Makeup (main product) */}
           <div className="mb-6">
             <a
-              href="/analysis"
+              href="/analysis/"
               className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-pink-500 to-rose-400 p-6 md:p-10 text-white shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -1041,7 +1041,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
                 업로드된 셀카는 AI 분석에 사용된 후 지체 없이 처리·삭제되며, 학습 데이터로 재사용되지 않습니다.
                 결과 이미지는 본인이 명시적으로 저장·공유하지 않는 한 외부에 노출되지 않습니다.
                 kissinskin은 사용자가 동의한 범위 내에서만 데이터를 처리하며,
-                자세한 내용은 <a href="/privacy" className="text-primary font-semibold hover:underline">개인정보처리방침</a> 페이지에서 확인할 수 있습니다.
+                자세한 내용은 <a href="/privacy/" className="text-primary font-semibold hover:underline">개인정보처리방침</a> 페이지에서 확인할 수 있습니다.
               </p>
               <p>
                 AI 메이크업 합성은 매우 정확하지만 완벽하지는 않습니다.
@@ -1234,13 +1234,13 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm pt-3">
-            <a href="/about" className="text-navy font-semibold underline hover:text-primary">
+            <a href="/about/" className="text-navy font-semibold underline hover:text-primary">
               운영자·편집 원칙 자세히 보기 →
             </a>
-            <a href="/privacy" className="text-slate-600 hover:text-navy underline">
+            <a href="/privacy/" className="text-slate-600 hover:text-navy underline">
               개인정보·쿠키 정책
             </a>
-            <a href="/contact" className="text-slate-600 hover:text-navy underline">
+            <a href="/contact/" className="text-slate-600 hover:text-navy underline">
               문의 채널
             </a>
           </div>
@@ -1300,16 +1300,16 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
             <div className="flex flex-col gap-3">
               <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.legal')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-                <li><a href="/about" className="hover:text-primary transition-colors cursor-pointer">About · 운영자 소개</a></li>
-                <li><a href="/terms" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
-                <li><a href="/refund" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
-                <li><a href="/privacy" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy · Cookies</a></li>
-                <li><a href="/contact" className="hover:text-primary transition-colors cursor-pointer">Contact Us</a></li>
+                <li><a href="/about/" className="hover:text-primary transition-colors cursor-pointer">About · 운영자 소개</a></li>
+                <li><a href="/terms/" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
+                <li><a href="/refund/" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
+                <li><a href="/privacy/" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy · Cookies</a></li>
+                <li><a href="/contact/" className="hover:text-primary transition-colors cursor-pointer">Contact Us</a></li>
               </ul>
             </div>
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
-            <p>&copy; 2026 kissinskin · Operated by <a href="/about" className="hover:text-primary">Yonghun Kim</a> · 대한민국 1인 인디 프로젝트</p>
+            <p>&copy; 2026 kissinskin · Operated by <a href="/about/" className="hover:text-primary">Yonghun Kim</a> · 대한민국 1인 인디 프로젝트</p>
             <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-05-02">2026년 5월 기준</time></p>
           </div>
         </div>

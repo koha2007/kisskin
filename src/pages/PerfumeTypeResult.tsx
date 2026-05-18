@@ -101,7 +101,7 @@ export default function PerfumeTypeResult({ code }: Props) {
             <a href={`${basePath}/`} className="bg-white border-2 border-rose-100 hover:border-rose-500 px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid flex items-center justify-center gap-2">
               <span className="material-symbols-outlined">refresh</span> 다시 진단하기
             </a>
-            <a href="/analysis" className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
+            <a href="/analysis/" className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
               <span className="material-symbols-outlined">auto_awesome</span> 어울리는 메이크업 시뮬레이션
             </a>
           </div>
@@ -237,7 +237,7 @@ export default function PerfumeTypeResult({ code }: Props) {
               <p className="text-xl font-bold text-blue-500">{t.kissinskin.men}</p>
             </div>
           </div>
-          <a href="/analysis" className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
+          <a href="/analysis/" className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
             AI 메이크업 시뮬레이션 ($2.99)
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>

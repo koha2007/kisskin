@@ -14,7 +14,7 @@ interface Tool {
 
 const TOOLS: Tool[] = [
   {
-    href: '/analysis',
+    href: '/analysis/',
     title: 'AI 메이크업 시뮬레이터',
     subtitle: 'kissinskin 시그니처',
     desc: '셀카 한 장으로 9가지 K-뷰티 메이크업을 30초 이내에 생성. 여성·남성 각각 18가지 스타일 지원.',

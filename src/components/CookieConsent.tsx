@@ -106,7 +106,7 @@ export default function CookieConsent() {
               </p>
             )}
             <div className="mt-2 text-xs">
-              <a href="/privacy" className="text-navy underline hover:text-primary">
+              <a href="/privacy/" className="text-navy underline hover:text-primary">
                 {t.link}
               </a>
               <button

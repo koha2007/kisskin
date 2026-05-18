@@ -11,7 +11,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
   const { locale, setLocale } = useI18n()
 
   const nav = (page: string) => {
-    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as Page)
     else window.location.href = paths[page] || '/'
   }

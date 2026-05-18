@@ -56,7 +56,7 @@ export default function Head() {
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
-          "url": "https://kissinskin.net/contact",
+          "url": "https://kissinskin.net/contact/",
           "availableLanguage": ["Korean", "English"]
         }
       }) }} />

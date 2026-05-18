@@ -1116,7 +1116,7 @@ export default function AnalysisApp() {
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '10px 0 8px', width: '100%' }}><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /><span style={{ fontSize: 11, color: 'rgba(7,9,83,0.35)', fontWeight: 500 }}>or</span><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /></div>
             <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete}
-              onClick={() => { if (flagMissingField()) return; if (!user) { navigate('/auth'); return }; openCheckout('subscription') }}
+              onClick={() => { if (flagMissingField()) return; if (!user) { navigate('/auth/'); return }; openCheckout('subscription') }}
               style={{ background: '#fff', border: '1.5px solid #eb4763', color: '#eb4763', boxShadow: '0 4px 16px rgba(235,71,99,0.1)' }}>
               <span className="cta-price" style={{ background: 'rgba(235,71,99,0.1)', color: '#eb4763' }}>$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
               <span>{t('sub.subscribeGenerate')}</span><span className="material-symbols-outlined">all_inclusive</span>

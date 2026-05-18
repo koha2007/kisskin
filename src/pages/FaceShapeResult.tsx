@@ -46,7 +46,7 @@ export default function FaceShapeResult({ code }: Props) {
             <a href={`${basePath}/`} className="bg-white border-2 border-emerald-100 hover:border-emerald-500 px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid flex items-center justify-center gap-2">
               <span className="material-symbols-outlined">refresh</span> {i18n('tools.common.retakeDiagnosis')}
             </a>
-            <a href={isEn ? '/en/' : '/analysis'} className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
+            <a href={isEn ? '/en/' : '/analysis/'} className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
               <span className="material-symbols-outlined">auto_awesome</span> {i18n('tools.common.applyToMyFace')}
             </a>
           </div>
@@ -195,7 +195,7 @@ export default function FaceShapeResult({ code }: Props) {
               <p className="text-xl font-bold text-blue-500">{t.kissinskin.men}</p>
             </div>
           </div>
-          <a href={isEn ? '/en/' : '/analysis'} className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
+          <a href={isEn ? '/en/' : '/analysis/'} className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
             {i18n('tools.common.aiSimulation')}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>

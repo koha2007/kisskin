@@ -47,7 +47,7 @@ function buildBuyLink(brand: string, name: string): string {
 
 export default function ResultPage({ onNavigate }: ResultPageProps) {
   const nav = (page: string) => {
-    const paths: Record<string, string> = { home: '/', analysis: '/analysis', terms: '/terms', privacy: '/privacy', refund: '/refund', contact: '/contact', auth: '/auth', mypage: '/mypage' }
+    const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth')
     else window.location.href = paths[page] || '/'
   }
@@ -238,7 +238,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
                 },
                 {
                   title: locale === 'ko' ? '나도 분석하기' : 'Try it myself',
-                  link: { mobileWebUrl: 'https://kissinskin.net/analysis', webUrl: 'https://kissinskin.net/analysis' },
+                  link: { mobileWebUrl: 'https://kissinskin.net/analysis/', webUrl: 'https://kissinskin.net/analysis/' },
                 },
               ],
             })

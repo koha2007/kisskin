@@ -80,7 +80,7 @@ export function ToolsNav() {
             {locale === 'ko' ? 'EN' : '한국어'}
           </button>
           <a
-            href={isEn ? '/en/' : '/analysis'}
+            href={isEn ? '/en/' : '/analysis/'}
             className="bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
@@ -90,7 +90,7 @@ export function ToolsNav() {
         {/* Mobile cluster — visible below md */}
         <div className="flex md:hidden items-center gap-2">
           <a
-            href={isEn ? '/en/' : '/analysis'}
+            href={isEn ? '/en/' : '/analysis/'}
             className="bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
@@ -150,7 +150,7 @@ export function ToolsNav() {
                 {locale === 'ko' ? 'English' : '한국어'}
               </button>
               <a
-                href={isEn ? '/en/' : '/analysis'}
+                href={isEn ? '/en/' : '/analysis/'}
                 onClick={() => setOpen(false)}
                 className="w-full bg-gradient-to-r from-primary to-pink-500 text-white py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5"
               >
@@ -181,7 +181,7 @@ export function ToolsFooter() {
           <div className="flex flex-col gap-3">
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('tools.footer.toolsTitle')}</h3>
             <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-              <li><a href={isEn ? '/en/' : '/analysis'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
+              <li><a href={isEn ? '/en/' : '/analysis/'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
               <li><a href="/tools/makeup-mbti/" className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
               <li><a href="/tools/personal-color/" className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href={localePath('/tools/face-shape/', isEn)} className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>

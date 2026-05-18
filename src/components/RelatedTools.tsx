@@ -17,7 +17,7 @@ interface Tool {
 const TOOLS: Tool[] = [
   {
     key: 'ai-makeup',
-    href: '/analysis',
+    href: '/analysis/',
     hrefEn: '/en/',
     emoji: '💄',
     titleKo: 'AI 메이크업 시뮬레이터',
