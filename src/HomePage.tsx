@@ -253,7 +253,11 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
   const numColor = gender === 'women' ? 'bg-rose-400' : 'bg-blue-400'
 
   return (
-    <div className={`${bgColor} border rounded-2xl p-4 transition-all hover:shadow-lg hover:-translate-y-0.5 group`}>
+    <a
+      href="/analysis/"
+      aria-label={`${style.name} 스타일로 AI 메이크업 시작`}
+      className={`${bgColor} border rounded-2xl p-4 transition-all hover:shadow-lg hover:-translate-y-0.5 group block`}
+    >
       <div className="flex items-center gap-3">
         <div className={`${numColor} w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
           {style.num}
@@ -264,7 +268,7 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
         </div>
         <span className={`material-symbols-outlined ${iconColor} text-xl flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity`} style={{ fontVariationSettings: "'FILL' 1" }}>{style.icon}</span>
       </div>
-    </div>
+    </a>
   )
 }
 
@@ -636,7 +640,7 @@ function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
               { icon: 'palette', title: t('home.value.title2'), desc: t('home.value.desc2'), gradient: 'from-pink-400 to-rose-500' },
               { icon: 'devices', title: t('home.value.title3'), desc: t('home.value.desc3'), gradient: 'from-violet-400 to-purple-500' },
             ].map((item) => (
-              <div key={item.title} className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl border border-slate-100 hover:border-pink-200 hover:shadow-xl hover:shadow-pink-50 transition-all group bg-white">
+              <div key={item.title} className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl border border-slate-100 bg-white">
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg`}>
                   <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
