@@ -48,8 +48,19 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   const [fetchedSubStatus, setFetchedSubStatus] = useState<SubStatus>(DEFAULT_SUB_STATUS)
   const subStatus = subStatusProp ?? fetchedSubStatus
 
-  // Self-implemented logout / checkout fallbacks for direct-URL access
-  const onLogout = onLogoutProp ?? (async () => { await signOut() })
+  // Self-implemented logout / checkout fallbacks for direct-URL access.
+  // The logout fallback owns its own navigation so the click handler can
+  // simply await it — otherwise the in-flight signOut races a
+  // window.location.href assignment and the user appears logged in.
+  const onLogout = onLogoutProp ?? (async () => {
+    try {
+      await signOut()
+    } catch (err) {
+      console.error('[MyPage] signOut failed:', err)
+    } finally {
+      window.location.href = '/'
+    }
+  })
   const onCheckout = onCheckoutProp ?? ((type: 'one-time' | 'subscription') => {
     window.location.href = `/analysis/?checkout=${type}`
   })
@@ -176,8 +187,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         throw new Error(data.error || 'Failed to delete account')
       }
       await supabase.auth.signOut({ scope: 'local' })
-      onLogout()
-      nav('home')
+      await onLogout()
+      window.location.href = '/'
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
       setDeleteError(message)
@@ -529,7 +540,11 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       {/* 로그아웃 */}
       <div style={cardStyle}>
         <button
-          onClick={() => { onLogout(); nav('home') }}
+          onClick={async () => {
+            try { await onLogout() } catch (err) { console.error('[MyPage] logout error:', err) }
+            // Safety net in case onLogout (prop-injected) doesn't navigate
+            window.location.href = '/'
+          }}
           style={{
             width: '100%',
             padding: '12px',
