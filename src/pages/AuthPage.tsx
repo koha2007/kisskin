@@ -55,7 +55,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           return
         }
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/mypage`,
+          redirectTo: `${window.location.origin}/mypage/`,
         })
         if (error) throw error
         setSuccess(t('auth.resetEmailSent'))

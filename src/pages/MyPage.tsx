@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
+import { useAuth } from '../hooks/useAuth'
 
 interface SubStatus {
   active: boolean
@@ -25,19 +26,62 @@ interface OrderRow {
 
 interface MyPageProps {
   onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage') => void
-  user: { id?: string; email?: string; app_metadata?: { provider?: string } } | null
-  onLogout: () => void
-  subStatus: SubStatus
-  onCheckout: (type: 'one-time' | 'subscription') => void
+  user?: { id?: string; email?: string; app_metadata?: { provider?: string } } | null
+  onLogout?: () => void
+  subStatus?: SubStatus
+  onCheckout?: (type: 'one-time' | 'subscription') => void
 }
 
-export default function MyPage({ onNavigate, user, onLogout, subStatus, onCheckout }: MyPageProps) {
+const DEFAULT_SUB_STATUS: SubStatus = { active: false, checked: false, usage: 0, limit: 0 }
+
+export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutProp, subStatus: subStatusProp, onCheckout: onCheckoutProp }: MyPageProps) {
   const nav = (page: string) => {
     const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage')
     else window.location.href = paths[page] || '/'
   }
   const { t, locale } = useI18n()
+  const { user: authUser, loading: authLoading, signOut } = useAuth()
+  const user = userProp ?? authUser
+
+  // Self-fetched subscription status (only used when no prop is passed)
+  const [fetchedSubStatus, setFetchedSubStatus] = useState<SubStatus>(DEFAULT_SUB_STATUS)
+  const subStatus = subStatusProp ?? fetchedSubStatus
+
+  // Self-implemented logout / checkout fallbacks for direct-URL access
+  const onLogout = onLogoutProp ?? (async () => { await signOut() })
+  const onCheckout = onCheckoutProp ?? ((type: 'one-time' | 'subscription') => {
+    window.location.href = `/analysis/?checkout=${type}`
+  })
+
+  // Redirect unauthenticated users to /auth/ once session check finishes
+  useEffect(() => {
+    if (!authLoading && !user && !userProp) {
+      window.location.href = '/auth/'
+    }
+  }, [authLoading, user, userProp])
+
+  // Self-fetch subscription status when wrapper didn't pass one
+  useEffect(() => {
+    if (subStatusProp) return
+    if (!user?.email) return
+    let cancelled = false
+    ;(async () => {
+      try {
+        const res = await fetch('/api/subscription-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email }),
+        })
+        if (!res.ok) return
+        const data = await res.json()
+        if (!cancelled) setFetchedSubStatus({ ...data, checked: true } as SubStatus)
+      } catch {
+        if (!cancelled) setFetchedSubStatus({ ...DEFAULT_SUB_STATUS, checked: true })
+      }
+    })()
+    return () => { cancelled = true }
+  }, [subStatusProp, user?.email])
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
   const [passwordLoading, setPasswordLoading] = useState(false)

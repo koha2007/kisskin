@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useI18n } from './i18n/I18nContext'
+import { useAuth } from './hooks/useAuth'
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -272,12 +273,15 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
   )
 }
 
-function HomePage({ onNavigate: onNavigateProp, user }: HomePageProps) {
+function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps) {
   const onNavigate = (page: string) => {
     if (onNavigateProp) { onNavigateProp(page); return }
     const path = PAGE_PATHS[page] || '/'
     window.location.href = path
   }
+
+  const { user: authUser } = useAuth()
+  const user = userProp ?? authUser
 
   const { t, locale, setLocale } = useI18n()
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
