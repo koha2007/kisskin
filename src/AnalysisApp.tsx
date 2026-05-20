@@ -28,6 +28,22 @@ function purchaseItems(type: 'one-time' | 'subscription') {
     ? [{ item_id: 'analysis_subscription', item_name: 'AI Makeup Analysis (subscription)', price: 9.88 }]
     : [{ item_id: 'analysis_per_use', item_name: 'AI Makeup Analysis (per-use)', price: 2.99 }]
 }
+// Fire GA4 `purchase` at most once per Polar checkout id. The embedded-checkout
+// success/confirmed callback and the mobile redirect-return path can both resolve
+// for a single payment with the SAME checkout id (success_url uses {CHECKOUT_ID},
+// which equals the embed's checkout id), which would otherwise double-count revenue:
+// GA4 sums event-level revenue but dedupes transactions by transaction_id.
+// localStorage persists across the redirect/reload, unlike a module-level flag.
+function firePurchaseOnce(transactionId: string, params: Record<string, unknown>) {
+  if (!transactionId) return
+  const KEY = 'kisskin_purchased'
+  try {
+    const fired: string[] = JSON.parse(localStorage.getItem(KEY) || '[]')
+    if (fired.includes(transactionId)) return
+    localStorage.setItem(KEY, JSON.stringify([...fired, transactionId].slice(-20)))
+  } catch { /* localStorage blocked — fire once rather than drop the conversion */ }
+  gtagEvent('purchase', { transaction_id: transactionId, ...params })
+}
 
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
@@ -663,7 +679,7 @@ export default function AnalysisApp() {
       const onCheckoutComplete = async () => {
         if (paid) return; paid = true; embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
-        gtagEvent('purchase', { transaction_id: embeddedCheckoutId, value, currency: 'USD', checkout_type: type, items: purchaseItems(type) })
+        firePurchaseOnce(embeddedCheckoutId, { value, currency: 'USD', checkout_type: type, items: purchaseItems(type) })
         if (type === 'subscription') { await checkSubscription() }
         else {
           // Show the analysis loader immediately — runAnalysis sets it too,
@@ -765,7 +781,7 @@ export default function AnalysisApp() {
       .then(({ data: result }) => {
         if (result.customerEmail && typeof result.customerEmail === 'string') customerEmailRef.current = result.customerEmail
         if (result.status === 'succeeded' || result.status === 'confirmed') {
-          gtagEvent('purchase', { transaction_id: checkoutId, value: 2.99, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect', items: purchaseItems('one-time') })
+          firePurchaseOnce(checkoutId, { value: 2.99, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect', items: purchaseItems('one-time') })
           setTimeout(() => runAnalysis(), 100)
         } else {
           gtagEvent('checkout_abandoned', { checkout_type: 'one-time', flow: 'mobile_redirect', transaction_id: checkoutId, status: result.status || 'unknown' })
