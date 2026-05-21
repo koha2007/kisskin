@@ -25,3 +25,8 @@ https://kisskin.pages.dev/* https://kissinskin.net/:splat 301!
 /en/privacy       /en/privacy/        301
 /en/terms         /en/terms/          301
 /en/refund        /en/refund/         301
+
+# Stray /history path: no such route ever existed, but GA4 logged repeat
+# 404s here (3 users, 38 views) — users hunting for their account/orders.
+/history          /mypage/            301
+/history/         /mypage/            301
