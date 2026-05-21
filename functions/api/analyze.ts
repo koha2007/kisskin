@@ -108,7 +108,16 @@ async function generateReportWithGemini(
             { text: userText },
           ],
         }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 3000 },
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 4000,
+          // gemini-2.5-flash의 thinking 토큰은 출력 예산(maxOutputTokens)을 공유한다.
+          // 기본값으로 두면 thinking이 ~1.7~2k 토큰을 소비해 JSON 답변이 잘리고
+          // (finishReason=MAX_TOKENS) 리포트의 ~50%가 파싱 불가가 됐다.
+          // thinking을 끄고 JSON 응답을 강제해 잘림을 제거한다.
+          thinkingConfig: { thinkingBudget: 0 },
+          responseMimeType: 'application/json',
+        },
       }),
     },
   )
@@ -599,9 +608,11 @@ JSON만 응답 (코드펜스, 마크다운 없이):
         try {
           console.log('[kisskin] Trying Gemini report (1st)')
           const result = await generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText, env.GEMINI_REPORT_MODEL)
-          if (result) return { data: result, error: '' }
-          errors.push('[1.Gemini] empty response')
-          console.warn('[kisskin] Gemini report empty, falling back to OpenAI')
+          // Gemini가 비었거나 (잘려서) 유효 JSON을 못 만들면 폴백으로 넘긴다.
+          // 과거엔 잘린 텍스트도 non-empty라 success로 오인되어 폴백이 안 돌았다.
+          if (result && extractReportJson(result)) return { data: result, error: '' }
+          errors.push(result ? '[1.Gemini] invalid/truncated JSON' : '[1.Gemini] empty response')
+          console.warn('[kisskin] Gemini report empty/invalid, falling back to Gateway/OpenAI')
         } catch (e) {
           const msg = e instanceof Error ? e.message : String(e)
           errors.push(`[1.Gemini] ${msg}`)

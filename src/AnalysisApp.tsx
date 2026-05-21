@@ -557,8 +557,15 @@ export default function AnalysisApp() {
       if (!res.ok) { console.error('[kissinskin] API error:', data.error); throw new Error(`${t('error.analysisError')} ${data.error ? `[${String(data.error).slice(0, 150)}]` : `[${res.status}]`}`) }
       if (!data.image && !data.report) { reverseUsage(); throw new Error(t('error.bothGenFailed')) }
       if (!data.image) { reverseUsage(); throw new Error(t('error.imageGenFailed')) }
-      if (!data.report) { reverseUsage(); throw new Error(t('error.reportGenFailed')) }
-      setResultImage(data.image); setReport(data.report)
+      // 9-look 이미지가 핵심 유료 산출물이다. 리포트 생성이 실패해도(모든 리포트
+      // 백엔드가 빈값) 이미지가 성공했으면 결과를 버리지 않고 룩을 보여준다.
+      // 결제 고객이 성공한 이미지를 못 보고 에러만 보던 문제를 막는다.
+      if (!data.report) {
+        setEmailWarning(locale === 'ko'
+          ? '메이크업 룩은 생성됐지만 상세 분석 리포트 생성에는 실패했습니다. 룩 결과는 아래에서 확인하세요.'
+          : 'Your makeup looks were generated, but the detailed analysis report could not be created. Your looks are shown below.')
+      }
+      setResultImage(data.image); setReport(data.report || null)
       gtagEvent('analysis_complete', { gender, skin_type: skinType, has_report: !!data.report, has_image: !!data.image })
       if (data.image && data.report && gender) {
         saveSharedResult(data.image, data.report, gender, activeStyles)
