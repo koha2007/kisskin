@@ -196,6 +196,12 @@ export default function AnalysisApp() {
   const customerEmailRef = useRef<string | null>(null)
   const shareMenuRef = useRef<HTMLDivElement>(null)
   const [dragging, setDragging] = useState(false)
+  // True while a picked file is being decoded/compressed — drives the avatar
+  // spinner so the click registers visibly (a native file dialog mutates no
+  // DOM, so Clarity flags the working click as "dead" without this).
+  const [processing, setProcessing] = useState(false)
+  // Section id to flash when the user taps the CTA with a required field empty.
+  const [flashSection, setFlashSection] = useState<string | null>(null)
 
   const [subStatus, setSubStatus] = useState<{
     active: boolean; status?: string; tier?: string | null
@@ -282,23 +288,28 @@ export default function AnalysisApp() {
         ctx.drawImage(img, 0, 0, cvs.width, cvs.height)
         blob = await toBlob(0.7)
       }
-      if (!blob) { setError(t('error.imageLoad')); return }
+      if (!blob) { setProcessing(false); setError(t('error.imageLoad')); return }
       const reader = new FileReader()
-      reader.onload = () => { setPhoto(reader.result as string); gtagEvent('photo_uploaded') }
-      reader.onerror = () => setError(t('error.imageLoad'))
+      reader.onload = () => { setProcessing(false); setPhoto(reader.result as string); gtagEvent('photo_uploaded') }
+      reader.onerror = () => { setProcessing(false); setError(t('error.imageLoad')) }
       reader.readAsDataURL(blob)
     }
-    img.onerror = () => setError(t('error.imageLoad'))
+    img.onerror = () => { setProcessing(false); setError(t('error.imageLoad')) }
     img.src = dataUrl
   }
 
+  // iOS HEIC/HEIF picks often arrive with an empty or non-standard MIME type,
+  // so fall back to the file extension before rejecting as "image only".
+  const looksLikeImage = (file: File) =>
+    file.type.startsWith('image/') || /\.(jpe?g|png|webp|gif|heic|heif|bmp|avif)$/i.test(file.name)
+
   const processPickedFile = (file: File) => {
-    if (!file.type.startsWith('image/')) { setError(t('error.imageOnly')); return }
+    if (!looksLikeImage(file)) { setError(t('error.imageOnly')); return }
     if (file.size > 50 * 1024 * 1024) { setError(locale === 'ko' ? '파일 크기는 50MB 이하만 가능합니다.' : 'File must be under 50MB.'); return }
-    setError(null)
+    setError(null); setProcessing(true)
     const reader = new FileReader()
     reader.onloadend = () => loadPhoto(reader.result as string)
-    reader.onerror = () => setError(t('error.fileRead'))
+    reader.onerror = () => { setProcessing(false); setError(t('error.fileRead')) }
     reader.readAsDataURL(file)
   }
 
@@ -316,6 +327,7 @@ export default function AnalysisApp() {
         window.removeEventListener('nativePickResult', onResult)
         const detail = (e as CustomEvent<{ canceled: boolean; dataUrl: string | null }>).detail
         if (!detail || detail.canceled || !detail.dataUrl) return
+        setProcessing(true)
         loadPhoto(detail.dataUrl)
       }
       window.addEventListener('nativePickResult', onResult)
@@ -352,12 +364,7 @@ export default function AnalysisApp() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault(); setDragging(false)
     const file = e.dataTransfer.files[0]
-    if (file && file.type.startsWith('image/')) {
-      if (file.size > 50 * 1024 * 1024) { setError(locale === 'ko' ? '파일 크기는 50MB 이하만 가능합니다.' : 'File must be under 50MB.'); return }
-      const reader = new FileReader()
-      reader.onloadend = () => loadPhoto(reader.result as string)
-      reader.readAsDataURL(file)
-    }
+    if (file) processPickedFile(file)
   }
 
   const activeStyles = gender === 'male' ? MALE_MAKEUP_STYLES : FEMALE_MAKEUP_STYLES
@@ -735,6 +742,10 @@ export default function AnalysisApp() {
     setError(msg)
     const el = document.getElementById(missingId)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    // Flash the empty section so the tap is unmistakably acknowledged — the
+    // scroll alone leaves the error text off-screen, which read as a dead click.
+    setFlashSection(missingId)
+    window.setTimeout(() => setFlashSection((cur) => (cur === missingId ? null : cur)), 1400)
     return true
   }
 
@@ -1070,16 +1081,17 @@ export default function AnalysisApp() {
         </button>
       </div>
       <div className="analysis-body setup-body">
-        <section id="section-photo" className="upload-section">
+        <section id="section-photo" className={`upload-section ${flashSection === 'section-photo' ? 'flash-required' : ''}`}>
           <h3 className="upload-heading">{t('analysis.uploadTitle')}</h3>
           <p className="upload-sub">{t('analysis.uploadHint')}</p>
-          <div className={`avatar-upload ${dragging ? 'dragging' : ''}`} onClick={() => openPicker('gallery')}
+          <div className={`avatar-upload ${dragging ? 'dragging' : ''}`} onClick={() => { if (!processing) openPicker('gallery') }}
             onDragOver={(e) => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)} onDrop={handleDrop}>
             <div className={`avatar-circle ${photo ? 'has-photo' : ''} ${dragging ? 'dragging' : ''}`}>
               {photo ? (<><img src={photo} alt={t('analysis.changePhoto')} className="avatar-img" /><div className="avatar-hover"><span className="material-symbols-outlined">photo_camera</span><span>{t('analysis.changePhoto')}</span></div></>)
                 : (<><span className="material-symbols-outlined avatar-placeholder-icon">add_a_photo</span><span className="avatar-placeholder-text">{t('analysis.selectPhoto')}</span></>)}
+              {processing && (<div className="avatar-processing"><span className="avatar-processing-spinner" /></div>)}
             </div>
-            {photo && (<div className="avatar-edit-badge"><span className="material-symbols-outlined">edit</span></div>)}
+            {photo && !processing && (<div className="avatar-edit-badge"><span className="material-symbols-outlined">edit</span></div>)}
           </div>
           <div className="upload-actions">
             <button type="button" className="upload-action-btn" onClick={(e) => { e.stopPropagation(); openPicker('gallery') }}>
@@ -1092,13 +1104,13 @@ export default function AnalysisApp() {
             </button>
           </div>
         </section>
-        <section id="section-gender" className="form-group">
+        <section id="section-gender" className={`form-group ${flashSection === 'section-gender' ? 'flash-required' : ''}`}>
           <h4 className="section-label">{t('analysis.gender')}</h4>
           <div className="gender-row">
             {(['female', 'male'] as const).map((g) => (<button key={g} className={`gender-btn ${gender === g ? 'selected' : ''}`} onClick={() => setGender(g)}>{t(`analysis.${g}`)}</button>))}
           </div>
         </section>
-        <section id="section-skin" className="form-group">
+        <section id="section-skin" className={`form-group ${flashSection === 'section-skin' ? 'flash-required' : ''}`}>
           <div className="section-label-row"><h4 className="section-label">{t('analysis.skinType')}</h4><span className="section-label-hint">{t('analysis.skinTypeSelect')}</span></div>
           <div className="skin-grid">
             {(['oily', 'dry', 'combination', 'normal'] as const).map((type) => (
