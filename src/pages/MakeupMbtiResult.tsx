@@ -7,6 +7,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ToolFaq, { MBTI_FAQ_BASE, MBTI_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
 import RelatedTools from '../components/RelatedTools'
+import ToolUpsellCTA from '../components/ToolUpsellCTA'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
@@ -150,6 +151,9 @@ export default function MakeupMbtiResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Primary upsell — convert the result into the $2.99 AI analysis */}
+      <ToolUpsellCTA name={displayName} accentColor={type.primaryColor} accentColorTo={type.accentColor} tool="makeup_mbti" slug={type.slug} variant="top" />
 
       {/* Summary — detailParagraphs stay in KO (human translation pending; see project_i18n_full_translation_pending.md) */}
       {!isEn && (
@@ -392,30 +396,8 @@ export default function MakeupMbtiResult({ code }: Props) {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50" />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-3 text-navy leading-tight">
-            {isEn ? (
-              <>Now apply <span className="text-primary">{type.recommended.women.primary}</span> to your own face</>
-            ) : (
-              <>이제 당신의 얼굴에 <span className="text-primary">{type.recommended.women.primary}</span> 적용해보세요</>
-            )}
-          </h2>
-          <p className="text-slate-600 mb-6 max-w-lg mx-auto">
-            {isEn ? 'Upload one selfie and AI generates 9 K-beauty looks in under 30 seconds.' : '셀카 한 장 업로드하면 30초 이내 9가지 K-뷰티 룩을 생성합니다.'}
-          </p>
-          <a
-            href={isEn ? '/en/' : '/analysis/'}
-            className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2"
-          >
-            {i18n('tools.common.aiMakeupStart')}
-            <span className="material-symbols-outlined">arrow_forward</span>
-          </a>
-        </div>
-      </section>
+      {/* Repeat upsell for visitors who scrolled to the very end */}
+      <ToolUpsellCTA name={displayName} accentColor={type.primaryColor} accentColorTo={type.accentColor} tool="makeup_mbti" slug={type.slug} variant="bottom" />
 
       </main>
 
