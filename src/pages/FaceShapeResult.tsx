@@ -5,6 +5,7 @@ import RecommendedProducts from '../components/RecommendedProducts'
 import ToolFaq, { FACE_SHAPE_FAQ_BASE, FACE_SHAPE_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
 import RelatedTools from '../components/RelatedTools'
+import ToolUpsellCTA from '../components/ToolUpsellCTA'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props { code: FaceShapeCode }
@@ -52,6 +53,9 @@ export default function FaceShapeResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Primary upsell — convert the result into the $2.99 AI analysis */}
+      <ToolUpsellCTA name={name} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="face_shape" slug={t.code} variant="top" />
 
       {/* Features */}
       <section className="py-12 md:py-16 bg-white">
@@ -245,6 +249,9 @@ export default function FaceShapeResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Repeat upsell for visitors who scrolled to the very end */}
+      <ToolUpsellCTA name={name} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="face_shape" slug={t.code} variant="bottom" />
 
       </main>
       <ToolsFooter />

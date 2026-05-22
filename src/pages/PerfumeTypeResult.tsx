@@ -4,6 +4,7 @@ import { PERFUME_TYPE_RECOMMENDATIONS } from '../lib/recommendations/perfume-typ
 import RecommendedProducts from '../components/RecommendedProducts'
 import ShareBar from '../components/ShareBar'
 import RelatedTools from '../components/RelatedTools'
+import ToolUpsellCTA from '../components/ToolUpsellCTA'
 import {
   getClioCategoryByPerfumeType,
   getClioLinkByPerfumeType,
@@ -107,6 +108,9 @@ export default function PerfumeTypeResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Primary upsell — convert the result into the $2.99 AI analysis */}
+      <ToolUpsellCTA name={t.koName} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="perfume_type" slug={t.code} variant="top" />
 
       {/* Features */}
       <section className="py-12 md:py-16 bg-white">
@@ -291,6 +295,9 @@ export default function PerfumeTypeResult({ code }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Repeat upsell for visitors who scrolled to the very end */}
+      <ToolUpsellCTA name={t.koName} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="perfume_type" slug={t.code} variant="bottom" />
 
       </main>
       <ToolsFooter />
