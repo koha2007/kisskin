@@ -3,13 +3,9 @@ import { isInternalTraffic } from '../lib/internalTraffic'
 
 // Prominent "apply this result to your own face" upsell, shared by every tool
 // result page. Goal: convert free-tool traffic into the $2.99 AI analysis by
-// showing value (9 looks), the price up front (trust), and clear social proof
-// before the call to action. Used twice per page — once right after the result
-// (variant="top") and once at the very bottom (variant="bottom").
-
-// Cumulative analyses run so far. Truthful social-proof number (orders/analyses,
-// not unique users). Bump as the real total grows.
-const ANALYSES_DONE = 270
+// showing value (9 looks) and the price up front before the call to action.
+// Used twice per page — once right after the result (variant="top") and once
+// at the very bottom (variant="bottom").
 
 interface Props {
   /** Result type display name, e.g. "봄 웜톤", "둥근형", "Spring Warm". */
@@ -42,12 +38,10 @@ export default function ToolUpsellCTA({ name, accentColor, accentColorTo, tool, 
 
   const trust = isEn
     ? [
-        { icon: 'verified', label: `${ANALYSES_DONE}+ analyses created` },
         { icon: 'bolt', label: 'Results in ~60s' },
         { icon: 'verified_user', label: 'Refund if unsatisfied' },
       ]
     : [
-        { icon: 'verified', label: `누적 ${ANALYSES_DONE}회+ 분석 완료` },
         { icon: 'bolt', label: '약 60초면 완성' },
         { icon: 'verified_user', label: '결과 불만족 시 환불' },
       ]
