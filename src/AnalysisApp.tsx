@@ -4,6 +4,7 @@ import { navigate } from 'vike/client/router'
 import { useI18n } from './i18n/I18nContext'
 import { supabase } from './lib/supabase'
 import { saveSharedResult } from './lib/shareResult'
+import { isInternalTraffic, markInternalIfFamily } from './lib/internalTraffic'
 import type { User } from '@supabase/supabase-js'
 
 // ── Google Analytics helper ──────────────────────────────────────
@@ -21,6 +22,9 @@ declare global {
   }
 }
 function gtagEvent(name: string, params?: Record<string, unknown>) {
+  // Suppress all events for family/operator devices so dashboards stay clean even
+  // if GA4 was already loaded before the internal flag was set this session.
+  if (isInternalTraffic()) return
   window.gtag?.('event', name, params)
 }
 function purchaseItems(type: 'one-time' | 'subscription') {
@@ -165,9 +169,11 @@ export default function AnalysisApp() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
+      markInternalIfFamily(session?.user?.email)
     })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
+      markInternalIfFamily(session?.user?.email)
     })
     // GA4 e-commerce funnel signal so /analysis arrival is countable independently
     // of the photo-upload step (the previous funnel started at photo_uploaded only).
@@ -693,17 +699,25 @@ export default function AnalysisApp() {
       const onCheckoutComplete = async () => {
         if (paid) return; paid = true; embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
-        firePurchaseOnce(embeddedCheckoutId, { value, currency: 'USD', checkout_type: type, items: purchaseItems(type) })
+        // Show the analysis loader immediately for one-time purchases — there's a
+        // visible gap while /api/verify resolves during which the form would
+        // otherwise flash back interactive.
+        if (type !== 'subscription') setLoading(true)
+        // Verify against Polar to record the REAL amount paid. Free/100%-discount
+        // codes resolve to $0, which must not be reported to GA4 as $2.99. Polar
+        // returns the post-discount total in cents.
+        let realValue = value
+        try {
+          const vRes = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId: embeddedCheckoutId }) })
+          if (vRes.ok) {
+            const vData = await vRes.json()
+            if (typeof vData.amount === 'number') realValue = vData.amount / 100
+            if (vData.customerEmail) customerEmailRef.current = vData.customerEmail
+          }
+        } catch { /* ok - fall back to nominal value, proceed without email */ }
+        firePurchaseOnce(embeddedCheckoutId, { value: realValue, currency: 'USD', checkout_type: type, items: purchaseItems(type) })
         if (type === 'subscription') { await checkSubscription() }
-        else {
-          // Show the analysis loader immediately — runAnalysis sets it too,
-          // but there's a visible gap while /api/verify resolves during which
-          // the form would otherwise flash back interactive.
-          setLoading(true)
-          try { const vRes = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId: embeddedCheckoutId }) }); if (vRes.ok) { const vData = await vRes.json(); if (vData.customerEmail) customerEmailRef.current = vData.customerEmail } }
-          catch { /* ok - proceed without email */ }
-          runAnalysis()
-        }
+        else { runAnalysis() }
       }
       embed.addEventListener('success', onCheckoutComplete); embed.addEventListener('confirmed', onCheckoutComplete)
       embed.addEventListener('close', async () => {
@@ -799,7 +813,10 @@ export default function AnalysisApp() {
       .then(({ data: result }) => {
         if (result.customerEmail && typeof result.customerEmail === 'string') customerEmailRef.current = result.customerEmail
         if (result.status === 'succeeded' || result.status === 'confirmed') {
-          firePurchaseOnce(checkoutId, { value: 2.99, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect', items: purchaseItems('one-time') })
+          // Use the real post-discount amount (cents) Polar returned, not a fixed
+          // $2.99 — free/100%-discount codes must report value: 0 to GA4.
+          const realValue = typeof result.amount === 'number' ? result.amount / 100 : 2.99
+          firePurchaseOnce(checkoutId, { value: realValue, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect', items: purchaseItems('one-time') })
           setTimeout(() => runAnalysis(), 100)
         } else {
           gtagEvent('checkout_abandoned', { checkout_type: 'one-time', flow: 'mobile_redirect', transaction_id: checkoutId, status: result.status || 'unknown' })

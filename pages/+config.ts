@@ -31,6 +31,22 @@ export default {
           var h = location.hostname;
           var isProd = h === 'kissinskin.net' || h === 'www.kissinskin.net';
           if (!isProd) return;
+          // Internal/family-traffic exclusion. The operator opens the site once per
+          // device with ?internal=1; family logins set the same flag from React
+          // (src/lib/internalTraffic.ts). Either way we skip GA4 + Clarity entirely
+          // so dashboards reflect only real external visitors (no fake $ from free
+          // codes, no operator pageviews).
+          try {
+            if (new URLSearchParams(location.search).get('internal') === '1') {
+              localStorage.setItem('kisskin_internal', '1');
+            }
+          } catch (e) {}
+          var internal = false;
+          try { internal = localStorage.getItem('kisskin_internal') === '1'; } catch (e) {}
+          if (internal) {
+            window['ga-disable-G-JJ7G39W5T3'] = true; // official GA4 kill switch
+            return;
+          }
           // GA4 — Consent Mode v2 (initialized in <head>) gates cookie storage until user accepts.
           var gs = document.createElement('script');
           gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-JJ7G39W5T3';
