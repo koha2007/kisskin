@@ -517,7 +517,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
       <main>
       {/* Hero */}
-      <section className="relative py-10 md:py-16 lg:py-24 overflow-hidden bg-cream" aria-labelledby="hero-title">
+      <section className="relative py-6 md:py-16 lg:py-24 overflow-hidden bg-cream" aria-labelledby="hero-title">
         {/* Soft mesh gradient (Stripe/Vercel pattern, muted K-beauty palette) */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -539,8 +539,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex flex-col items-center gap-10">
-            <div className="flex flex-col gap-6 items-center text-center max-w-2xl">
+          <div className="flex flex-col items-center gap-6 md:gap-10">
+            <div className="flex flex-col gap-4 md:gap-6 items-center text-center max-w-2xl">
               <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -614,17 +614,37 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 </a>
               </div>
 
-              <div className="animate-fade-in-up-delay2 flex flex-wrap items-center justify-center gap-2 pt-1">
-                {[
-                  { icon: 'bolt', text: t('home.hero.trust1') },
-                  { icon: 'lock_open', text: t('home.hero.trust2') },
-                  { icon: 'visibility', text: t('home.hero.trust3') },
-                ].map(chip => (
-                  <span key={chip.text} className="inline-flex items-center gap-1 bg-white/70 backdrop-blur-sm border border-pink-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
-                    <span className="material-symbols-outlined text-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>{chip.icon}</span>
-                    {chip.text}
-                  </span>
-                ))}
+              {/* Trust cluster: price line + experience chips + safety strip */}
+              <div className="animate-fade-in-up-delay2 flex flex-col items-center gap-2.5 pt-1">
+                {/* Honest price line — free quizzes vs paid AI makeup, no bait */}
+                <p className="text-sm font-medium text-slate-500">
+                  {t('home.hero.priceLine')}
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  {[
+                    { icon: 'bolt', text: t('home.hero.trust1') },
+                    { icon: 'lock_open', text: t('home.hero.trust2') },
+                    { icon: 'replay', text: t('home.hero.trust3') },
+                  ].map(chip => (
+                    <span key={chip.text} className="inline-flex items-center gap-1 bg-white/70 backdrop-blur-sm border border-pink-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
+                      <span className="material-symbols-outlined text-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>{chip.icon}</span>
+                      {chip.text}
+                    </span>
+                  ))}
+                </div>
+                {/* Safety strip — operator/payment trust for skeptical first-time visitors */}
+                <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5 text-[11px] sm:text-xs text-slate-400">
+                  {[
+                    { icon: 'lock', text: t('home.hero.safe1') },
+                    { icon: 'verified_user', text: t('home.hero.safe2') },
+                    { icon: 'delete_sweep', text: t('home.hero.safe3') },
+                  ].map(s => (
+                    <span key={s.text} className="inline-flex items-center gap-1">
+                      <span className="material-symbols-outlined text-slate-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
+                      {s.text}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 

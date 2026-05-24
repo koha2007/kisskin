@@ -30,8 +30,12 @@ export default {
   'home.hero.previewResultLabel': '9 Looks',
   'home.hero.trust1': '60s done',
   'home.hero.trust2': 'No sign-up',
-  'home.hero.trust3': '100% Free',
+  'home.hero.trust3': '7-day refund',
   'home.hero.viewQuizzes': '4 Free Quizzes',
+  'home.hero.priceLine': '4 free quizzes · AI makeup preview $2.99',
+  'home.hero.safe1': 'Secure checkout by Polar',
+  'home.hero.safe2': 'Indie-built in Korea',
+  'home.hero.safe3': 'Photos deleted after analysis',
 
   // Value Props
   'home.value.title1': 'K-Beauty in 60 Seconds',
