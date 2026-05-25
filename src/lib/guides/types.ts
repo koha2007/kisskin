@@ -39,6 +39,8 @@ export interface GuidePost {
   readMinutes: number
   tags: string[]
   featured?: boolean
+  /** Context-aware headline for the in-article AI-analysis upsell CTA. */
+  ctaHook?: string
 }
 
 export function getGuideCategoryMeta(code: GuideCategory): GuideCategoryMeta {

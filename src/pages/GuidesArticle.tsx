@@ -1,5 +1,6 @@
 import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
 import { renderBody } from '../components/ArticleBlocks'
+import GuideUpsellCTA from '../components/GuideUpsellCTA'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { GUIDE_POSTS, getGuideBySlug } from '../lib/guides/posts'
 import { getGuideCategoryMeta } from '../lib/guides/types'
@@ -60,6 +61,13 @@ export default function GuidesArticle({ slug }: Props) {
       <article className="article-body prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
         {renderBody(post.body)}
       </article>
+
+      <GuideUpsellCTA
+        slug={post.slug}
+        accentColor={meta.color}
+        hook={post.ctaHook ?? '방금 읽은 메이크업, 내 얼굴로 직접 적용해보세요'}
+        variant="bottom"
+      />
 
       <script
         type="application/ld+json"
