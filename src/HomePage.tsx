@@ -247,6 +247,7 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
 }
 
 function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men' }) {
+  const { locale } = useI18n()
   const bgColor = gender === 'women'
     ? 'bg-gradient-to-br from-pink-50 to-rose-50 border-pink-100 hover:border-pink-300 hover:shadow-pink-100/50'
     : 'bg-gradient-to-br from-slate-50 to-blue-50 border-slate-200 hover:border-blue-300 hover:shadow-blue-100/50'
@@ -256,7 +257,7 @@ function StyleCard({ style, gender }: { style: StyleData, gender: 'women' | 'men
   return (
     <a
       href="/analysis/"
-      aria-label={`${style.name} 스타일로 AI 메이크업 시작`}
+      aria-label={locale === 'en' ? `Start AI makeup in the ${style.name} style` : `${style.name} 스타일로 AI 메이크업 시작`}
       className={`${bgColor} border rounded-2xl p-4 transition-all hover:shadow-lg hover:-translate-y-0.5 group block`}
     >
       <div className="flex items-center gap-3">
@@ -676,7 +677,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </section>
 
       {/* Value Props */}
-      <section className="py-16 bg-white" aria-label="핵심 기능">
+      <section className="py-16 bg-white" aria-label={isEn ? 'Key features' : '핵심 기능'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -704,7 +705,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="text-center mb-12 md:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-purple-200 text-purple-700 text-xs font-bold uppercase tracking-wider mb-5">
               <span className="text-base">💄</span>
-              ALL FREE · 로그인 불필요
+              {isEn ? 'ALL FREE · No signup' : 'ALL FREE · 로그인 불필요'}
             </div>
             <h2 id="tools-title" className="font-serif text-4xl md:text-[3.25rem] font-semibold tracking-tight text-navy leading-[1.1] mb-4">
               {t('home.toolsShowcase.title1')}<br />
@@ -1304,49 +1305,57 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             About this site
           </div>
           <h2 className="font-serif text-3xl md:text-[2.5rem] font-semibold text-navy tracking-tight mb-4 leading-snug">
-            누가 만들고, 어떻게 운영되는가
+            {isEn ? 'Who builds this, and how it’s run' : '누가 만들고, 어떻게 운영되는가'}
           </h2>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
-            kissinskin은 대한민국에 거주하는 1인 운영자 <strong>김용헌(Yonghun Kim)</strong>이
-            직접 코드·콘텐츠·디자인을 만들고 운영하는 인디 사이트입니다.
-            모든 가이드·블로그·뉴스·리뷰는 직접 기획·작성하며, 산업 데이터를
-            인용할 때는 BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를
-            본문에 명시합니다.
+            {isEn ? (
+              <>kissinskin is an indie site built and run single-handedly by <strong>Yonghun Kim</strong>, based in South Korea — he writes the code, content, and design himself. Every guide, blog post, news piece, and review is planned and written in-house, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
+            ) : (
+              <>kissinskin은 대한민국에 거주하는 1인 운영자 <strong>김용헌(Yonghun Kim)</strong>이
+              직접 코드·콘텐츠·디자인을 만들고 운영하는 인디 사이트입니다.
+              모든 가이드·블로그·뉴스·리뷰는 직접 기획·작성하며, 산업 데이터를
+              인용할 때는 BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를
+              본문에 명시합니다.</>
+            )}
           </p>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
-            AI는 도구 기능(이미지 시뮬레이션·진단)에만 사용되며, 본문 텍스트는
-            사람이 직접 씁니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
-            Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
-            저장되지 않습니다. 사이트 운영비는 사용자 결제·Google AdSense 광고
-            수익·쿠팡 파트너스 어필리에이트 수수료로 충당하며, 외부 투자는 없습니다.
-            어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.
+            {isEn ? (
+              <>AI is used only for the tool features (image simulation and diagnostics); the body text is written by a human. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments, Google AdSense revenue, and Coupang Partners affiliate commissions — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
+            ) : (
+              <>AI는 도구 기능(이미지 시뮬레이션·진단)에만 사용되며, 본문 텍스트는
+              사람이 직접 씁니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
+              Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
+              저장되지 않습니다. 사이트 운영비는 사용자 결제·Google AdSense 광고
+              수익·쿠팡 파트너스 어필리에이트 수수료로 충당하며, 외부 투자는 없습니다.
+              어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.</>
+            )}
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm pt-3">
-            <a href="/about/" className="text-navy font-semibold underline hover:text-primary">
-              운영자·편집 원칙 자세히 보기 →
+            <a href={isEn ? '/en/about/' : '/about/'} className="text-navy font-semibold underline hover:text-primary">
+              {isEn ? 'Operator & editorial principles →' : '운영자·편집 원칙 자세히 보기 →'}
             </a>
-            <a href="/privacy/" className="text-slate-600 hover:text-navy underline">
-              개인정보·쿠키 정책
+            <a href={isEn ? '/en/privacy/' : '/privacy/'} className="text-slate-600 hover:text-navy underline">
+              {isEn ? 'Privacy & Cookie Policy' : '개인정보·쿠키 정책'}
             </a>
-            <a href="/contact/" className="text-slate-600 hover:text-navy underline">
-              문의 채널
+            <a href={isEn ? '/en/contact/' : '/contact/'} className="text-slate-600 hover:text-navy underline">
+              {isEn ? 'Contact' : '문의 채널'}
             </a>
           </div>
 
           {/* Editorial standards — compact (full details on /about) */}
           <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-slate-500">
-            <span className="font-semibold uppercase tracking-[0.18em] text-slate-400">편집 기준</span>
+            <span className="font-semibold uppercase tracking-[0.18em] text-slate-400">{isEn ? 'Editorial standards' : '편집 기준'}</span>
             <span className="inline-flex items-center gap-1.5">
               <span className="material-symbols-outlined text-rose-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-              고유 콘텐츠
+              {isEn ? 'Original content' : '고유 콘텐츠'}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <span className="material-symbols-outlined text-sky-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
-              검증된 출처
+              {isEn ? 'Verified sources' : '검증된 출처'}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <span className="material-symbols-outlined text-emerald-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>health_and_safety</span>
-              전문가 권고
+              {isEn ? 'Expert guidance' : '전문가 권고'}
             </span>
           </div>
         </div>
@@ -1373,32 +1382,32 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
                 <li><a href="#pricing" className="hover:text-primary transition-colors cursor-pointer">{t('pricing.badge')}</a></li>
-                <li><a href="/tools/" className="hover:text-primary transition-colors cursor-pointer">무료 도구 모음</a></li>
-                <li><a href="/tools/makeup-mbti/" className="hover:text-primary transition-colors cursor-pointer">메이크업 MBTI</a></li>
-                <li><a href="/tools/personal-color/" className="hover:text-primary transition-colors cursor-pointer">퍼스널 컬러 진단</a></li>
-                <li><a href="/tools/face-shape/" className="hover:text-primary transition-colors cursor-pointer">얼굴형 진단</a></li>
-                <li><a href="/tools/perfume-type/" className="hover:text-primary transition-colors cursor-pointer">향수 진단</a></li>
-                <li><a href="/guides/" className="hover:text-primary transition-colors cursor-pointer">가이드</a></li>
-                <li><a href="/reviews/" className="hover:text-primary transition-colors cursor-pointer">리뷰</a></li>
-                <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">뉴스</a></li>
-                <li><a href="/blog/" className="hover:text-primary transition-colors cursor-pointer">블로그</a></li>
-                <li><a href="/about-makeup-ai/" className="hover:text-primary transition-colors cursor-pointer">K-뷰티 가이드</a></li>
+                <li><a href={isEn ? '/en/' : '/tools/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Free Tools' : '무료 도구 모음'}</a></li>
+                <li><a href={isEn ? '/en/tools/makeup-mbti/' : '/tools/makeup-mbti/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup MBTI' : '메이크업 MBTI'}</a></li>
+                <li><a href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
+                <li><a href={isEn ? '/en/tools/face-shape/' : '/tools/face-shape/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
+                <li><a href="/tools/perfume-type/" className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
+                <li><a href="/guides/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a></li>
+                <li><a href="/reviews/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a></li>
+                <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
+                <li><a href="/blog/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.blog')}</a></li>
+                <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>
               </ul>
             </div>
             <div className="flex flex-col gap-3">
               <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.legal')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-                <li><a href="/about/" className="hover:text-primary transition-colors cursor-pointer">About · 운영자 소개</a></li>
-                <li><a href="/terms/" className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
-                <li><a href="/refund/" className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
-                <li><a href="/privacy/" className="hover:text-primary transition-colors cursor-pointer">Privacy Policy · Cookies</a></li>
-                <li><a href="/contact/" className="hover:text-primary transition-colors cursor-pointer">Contact Us</a></li>
+                <li><a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'About · Operator' : 'About · 운영자 소개'}</a></li>
+                <li><a href={isEn ? '/en/terms/' : '/terms/'} className="hover:text-primary transition-colors cursor-pointer">Terms of Service</a></li>
+                <li><a href={isEn ? '/en/refund/' : '/refund/'} className="hover:text-primary transition-colors cursor-pointer">Refund Policy</a></li>
+                <li><a href={isEn ? '/en/privacy/' : '/privacy/'} className="hover:text-primary transition-colors cursor-pointer">Privacy Policy · Cookies</a></li>
+                <li><a href={isEn ? '/en/contact/' : '/contact/'} className="hover:text-primary transition-colors cursor-pointer">Contact Us</a></li>
               </ul>
             </div>
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
-            <p>&copy; 2026 kissinskin · Operated by <a href="/about/" className="hover:text-primary">Yonghun Kim</a> · 대한민국 1인 인디 프로젝트</p>
-            <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-05-02">2026년 5월 기준</time></p>
+            <p>&copy; 2026 kissinskin · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">Yonghun Kim</a> · {isEn ? 'Solo indie project in South Korea' : '대한민국 1인 인디 프로젝트'}</p>
+            <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-05-02">{isEn ? 'As of May 2026' : '2026년 5월 기준'}</time></p>
           </div>
         </div>
       </footer>

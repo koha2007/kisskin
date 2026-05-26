@@ -103,8 +103,15 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
     document.documentElement.lang = locale
   }, [locale])
 
-  const t = (key: string): string =>
-    dictionaries[locale][key] || dictionaries['ko'][key] || key
+  const t = (key: string): string => {
+    const dict = dictionaries[locale]
+    // Use the active-locale value whenever the key exists — even if it's an empty
+    // string, which is an intentional, valid translation (e.g. an English heading
+    // that needs no prefix). Only fall back to Korean when the key is genuinely
+    // absent, so '' in en.ts no longer leaks the Korean value onto /en/ pages.
+    if (key in dict) return dict[key]
+    return key in dictionaries.ko ? dictionaries.ko[key] : key
+  }
 
   return (
     <I18nContext.Provider value={{ locale, setLocale, t }}>
