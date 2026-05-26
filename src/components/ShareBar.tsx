@@ -40,9 +40,11 @@ export default function ShareBar({
   shareText,
   shareTitle,
   retakeUrl,
-  retakeLabel = '다시 하기',
+  retakeLabel,
 }: ShareBarProps) {
   const { locale } = useI18n()
+  const isEn = locale === 'en'
+  const retakeText = retakeLabel ?? (isEn ? 'Retake' : '다시 하기')
   const [copied, setCopied] = useState(false)
   // SSR-safe: only enable native-share button after mount, otherwise hydration mismatches (React #418).
   const [hasNativeShare, setHasNativeShare] = useState(false)
@@ -106,9 +108,9 @@ export default function ShareBar({
     <section className="py-14 md:py-16 bg-cream">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy mb-2 tracking-tight leading-tight">
-          결과 공유하기
+          {isEn ? 'Share your result' : '결과 공유하기'}
         </h2>
-        <p className="text-sm text-slate-500 mb-7">친구·가족과 진단 결과를 공유해보세요</p>
+        <p className="text-sm text-slate-500 mb-7">{isEn ? 'Share your result with friends and family' : '친구·가족과 진단 결과를 공유해보세요'}</p>
 
         {/* Share buttons row */}
         <div className="flex flex-wrap justify-center gap-2.5">
@@ -117,10 +119,10 @@ export default function ShareBar({
             type="button"
             onClick={copyLink}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-slate-200 hover:border-primary hover:shadow-md text-navy-mid hover:text-primary text-sm font-semibold transition-all"
-            aria-label="링크 복사"
+            aria-label={isEn ? 'Copy link' : '링크 복사'}
           >
             <span className="material-symbols-outlined text-[18px]">{copied ? 'check' : 'link'}</span>
-            {copied ? '복사됨!' : '링크 복사'}
+            {copied ? (isEn ? 'Copied!' : '복사됨!') : (isEn ? 'Copy Link' : '링크 복사')}
           </button>
 
           {/* 공유하기 (Web Share API — mobile native sheet) */}
@@ -129,10 +131,10 @@ export default function ShareBar({
               type="button"
               onClick={nativeShare}
               className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-slate-200 hover:border-primary hover:shadow-md text-navy-mid hover:text-primary text-sm font-semibold transition-all"
-              aria-label="공유하기"
+              aria-label={isEn ? 'Share' : '공유하기'}
             >
               <span className="material-symbols-outlined text-[18px]">ios_share</span>
-              공유하기
+              {isEn ? 'Share' : '공유하기'}
             </button>
           )}
 
@@ -157,7 +159,7 @@ export default function ShareBar({
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-black text-white hover:bg-zinc-800 hover:shadow-md text-sm font-semibold transition-all"
-            aria-label="X(Twitter)에 공유"
+            aria-label={isEn ? 'Share on X' : 'X(Twitter)에 공유'}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-[15px] h-[15px]">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -171,7 +173,7 @@ export default function ShareBar({
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#1877F2] text-white hover:bg-[#155bd0] hover:shadow-md text-sm font-semibold transition-all"
-            aria-label="Facebook에 공유"
+            aria-label={isEn ? 'Share on Facebook' : 'Facebook에 공유'}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-[15px] h-[15px]">
               <path d="M24 12.073C24 5.446 18.627.073 12 .073S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854V15.54H7.078v-3.467h3.047V9.43c0-3.007 1.792-4.668 4.533-4.668 1.312 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.467h-2.796v8.387C19.612 23.027 24 18.062 24 12.073z" />
@@ -188,15 +190,15 @@ export default function ShareBar({
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-primary hover:bg-white transition-all"
             >
               <span className="material-symbols-outlined text-[16px]">refresh</span>
-              {retakeLabel}
+              {retakeText}
             </a>
           )}
           <a
-            href="/tools/"
+            href={isEn ? '/en/' : '/tools/'}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-primary hover:bg-white transition-all"
           >
             <span className="material-symbols-outlined text-[16px]">apps</span>
-            다른 테스트 해보기
+            {isEn ? 'Try Other Tests' : '다른 테스트 해보기'}
           </a>
         </div>
       </div>
