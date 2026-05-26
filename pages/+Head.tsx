@@ -1,4 +1,10 @@
+import { usePageContext } from 'vike-react/usePageContext'
+
 export default function Head() {
+  // Localize the language-specific global meta for /en/* routes so prerendered
+  // English pages don't carry Korean subject/classification/Content-Language.
+  const ctx = usePageContext()
+  const isEn = ctx.urlPathname?.startsWith('/en') ?? false
   return (
     <>
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
@@ -29,10 +35,10 @@ export default function Head() {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="NaverBot" content="All" />
       <meta name="Yeti" content="All" />
-      <meta name="subject" content="K-뷰티 AI 메이크업 시뮬레이터 · 퍼스널 컬러 진단" />
-      <meta name="classification" content="뷰티, 메이크업, AI, 퍼스널컬러, K-뷰티" />
+      <meta name="subject" content={isEn ? 'AI K-Beauty Makeup Simulator · Personal Color Analysis' : 'K-뷰티 AI 메이크업 시뮬레이터 · 퍼스널 컬러 진단'} />
+      <meta name="classification" content={isEn ? 'Beauty, Makeup, AI, Personal Color, K-Beauty' : '뷰티, 메이크업, AI, 퍼스널컬러, K-뷰티'} />
       <meta name="copyright" content="kissinskin" />
-      <meta httpEquiv="Content-Language" content="ko" />
+      <meta httpEquiv="Content-Language" content={isEn ? 'en' : 'ko'} />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <script

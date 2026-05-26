@@ -284,6 +284,26 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   const user = userProp ?? authUser
 
   const { t, locale, setLocale } = useI18n()
+  const isEn = locale === 'en'
+  // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
+  // structured data always matches the visible text in the active language.
+  const homeFaq = isEn
+    ? [
+        { q: 'What happens to my selfie after I upload it?', a: 'Your uploaded photo is used only for the AI makeup synthesis, then processed and deleted. It is never reused as training data, and unless you tap save or share yourself, the result image is never made public.' },
+        { q: 'How close is the result to real makeup?', a: 'For a front-facing selfie in natural light, the visual match is roughly 85–95%. Color can vary with your monitor or phone display calibration, so for a look you love we recommend confirming the shade in-store once before buying.' },
+        { q: 'Can I use it without signing up?', a: 'The Makeup MBTI, Personal Color, and Face Shape tools are all usable instantly without an account. The AI makeup simulation is available after payment, as a single-use pass or a subscription.' },
+        { q: 'Can I get a refund?', a: 'If the analysis is still unused right after payment, a refund is available within 7 days. Once you have used the analysis or downloaded the result image, refunds are limited due to the nature of digital content. See the refund policy page for the full terms.' },
+        { q: 'Where can I buy the recommended cosmetics?', a: 'We give recommendations by category (lipstick, eyeshadow, blush, and so on). For specific products, search and compare on the channels you already use — Olive Young, Sephora, Coupang, Amazon, and others. We never lock you into a single store.' },
+        { q: 'Can men use it too?', a: 'Yes. We curate a separate set of 9 men’s looks (No-Makeup, Skincare Hybrid, Blurred Lip, and more), from a natural grooming base all the way to K-pop stage makeup.' },
+      ]
+    : [
+        { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
+        { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 다만 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있어, 마음에 드는 룩은 매장에서 한 번 더 발색을 확인한 뒤 구매하는 것을 권장합니다.' },
+        { q: '회원가입 없이도 사용할 수 있나요?', a: '메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 도구는 모두 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 1회 사용권 또는 구독 형태로 제공됩니다.' },
+        { q: '환불은 가능한가요?', a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 이미 사용했거나 결과 이미지를 다운로드한 이후에는 디지털 콘텐츠 특성상 환불이 제한됩니다. 자세한 조건은 환불 정책 페이지에서 확인할 수 있습니다.' },
+        { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.' },
+        { q: '남성도 사용할 수 있나요?', a: '네. 남성 전용 9가지 룩(No-Makeup, Skincare Hybrid, Blurred Lip 등)을 별도 큐레이션해 제공합니다. 그루밍 단계의 자연스러운 베이스부터 K-팝 무대 메이크업까지 모두 시뮬레이션 가능합니다.' },
+      ]
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -981,17 +1001,87 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 text-primary-dark text-xs font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100 mb-4">
               <span className="material-symbols-outlined text-base">menu_book</span>
-              kissinskin 가이드
+              {isEn ? 'kissinskin Guide' : 'kissinskin 가이드'}
             </span>
             <h2 id="guide-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight text-navy mb-3 leading-[1.1]">
-              AI 메이크업 시뮬레이터를<br className="hidden md:block" /> 똑똑하게 활용하는 법
+              {isEn
+                ? <>How to get the most out of<br className="hidden md:block" /> the AI makeup simulator</>
+                : <>AI 메이크업 시뮬레이터를<br className="hidden md:block" /> 똑똑하게 활용하는 법</>}
             </h2>
             <p className="text-slate-500 text-sm md:text-base max-w-xl mx-auto">
-              실패 없는 메이크업 변신, 시간과 화장품 비용을 아끼는 가장 빠른 방법.
+              {isEn
+                ? 'The fastest way to try makeup transformations — without wasting time or money on products that don’t suit you.'
+                : '실패 없는 메이크업 변신, 시간과 화장품 비용을 아끼는 가장 빠른 방법.'}
             </p>
           </div>
 
           <div className="prose prose-slate max-w-none text-slate-700 leading-[1.85] text-[15px] md:text-base space-y-10">
+            {isEn ? (
+            <>
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Why AI makeup simulation helps</h3>
+              <p>
+                The biggest hesitation before trying a new look is the question <strong className="text-primary">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 9 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
+              </p>
+              <p>
+                The AI reads your facial contours, features, and skin tone, then blends the makeup on naturally. Unlike a Photoshop paste-over, it keeps the direction of light, your skin texture, and the curves of your face intact — adding only the lip, eye, blush, and highlighter placement with precision. The result looks close to “you, actually wearing the makeup,” so any look you like is easy to recreate.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">How kissinskin differs from a regular filter</h3>
+              <p>
+                TikTok and Instagram makeup filters are layered uniformly over the screen, so the same color lands on everyone regardless of face shape or skin tone. kissinskin is different: an AI trained on K-beauty makeup artists’ know-how <strong> analyzes your skin tone, face shape, and feature proportions and decides how to adapt each style for you</strong>. The same “Bold Lip” becomes a blue-toned red on a cool-toned user and a coral-based red on a warm-toned one, so it brings your features to life.
+              </p>
+              <p>
+                kissinskin also goes beyond a filter: it adds analysis notes on why a look suits you, a step-by-step makeup guide, and recommended product categories (lipstick, eyeshadow palettes, blush, and more). The biggest difference is that the result is something you can actually recreate at your own vanity.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">The 9 signature K-beauty looks, at a glance</h3>
+              <p>
+                kissinskin curates 9 looks that define Korean makeup trends.
+                <strong> Natural Glow</strong> is the essence of Korean luminous makeup — a glow that seems to come from within.
+                <strong> Cloud Skin</strong> sits between matte and dewy, an easy everyday look for anyone, and
+                <strong> Blood Lip</strong> is a deep, rich red that draws the eye.
+                For a bolder impression, try <strong>Maximalist Eye</strong>, <strong>Metallic Eye</strong>, or <strong>Bold Lip</strong>;
+                if point makeup is new to you, ease in with <strong>Blush Draping</strong>.
+                <strong> Grunge Makeup</strong> and <strong>K-pop Idol Makeup</strong> are for when you want an intense, on-stage idol look.
+              </p>
+              <p>
+                For men, we curate a separate set: No-Makeup Makeup, Skincare Hybrid Base, Blurred Lip,
+                Grunge Smoky Eye, Monochrome, Utility Makeup, Color Point Eye, Vampire Romantic, and K-pop Idol.
+                The question “men wear makeup?” was settled long ago by K-pop and the global K-beauty movement.
+                The nine are arranged in steps, from a natural base to full stage makeup, so you can build up gradually.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Putting Makeup MBTI, Personal Color &amp; Face Shape to work</h3>
+              <p>
+                To read your AI simulation more accurately, it helps to know your own makeup tendencies.
+                <strong> Makeup MBTI</strong> is an 8-question quiz that identifies 16 makeup personalities and the signature colors, textures, and iconic looks that suit each.
+                <strong> Personal Color</strong> analysis sorts you into one of four seasons — spring warm, summer cool, autumn warm, winter cool — so you can find your most flattering colors in advance.
+                <strong> Face Shape</strong> analysis covers oval, round, square, oblong, and heart, bundling contouring, hair, and eyewear tips for each.
+              </p>
+              <p>
+                Once you’ve done all three, you end up with concrete guidelines like “my Makeup MBTI is ENFP-Natural, I’m a spring warm with a round face, so coral lips, pink blush, and a not-too-long eyeliner work best.” Bring those results back to the AI simulation and it becomes even clearer why a given look suits you.
+              </p>
+            </article>
+
+            <article>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Privacy and AI accuracy</h3>
+              <p>
+                Your uploaded selfie is used for the AI analysis and then processed and deleted without delay; it is never reused as training data. Result images are not exposed externally unless you explicitly save or share them. kissinskin processes data only within the scope you’ve consented to — see our <a href="/en/privacy/" className="text-primary font-semibold hover:underline">Privacy Policy</a> for details.
+              </p>
+              <p>
+                AI makeup synthesis is highly accurate, but not perfect. Photos where the face is turned too far to the side, the lighting is heavily skewed, or a mask or glasses cover a lot can look awkward in some looks. A front-facing selfie in natural light gives the most natural result, and if you don’t like the outcome, try again with a different photo. Confirming the actual shade in-store one more time right before you apply your makeup greatly reduces the chance of a miss.
+              </p>
+            </article>
+            </>
+            ) : (
+            <>
             <article>
               <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">AI 메이크업 시뮬레이션이 필요한 이유</h3>
               <p>
@@ -1080,38 +1170,15 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 실제 메이크업 직전, 한 번 더 색조 발색만 매장에서 확인하면 실패 확률을 크게 줄일 수 있습니다.
               </p>
             </article>
+            </>
+            )}
           </div>
 
           {/* FAQ */}
           <div className="mt-16">
-            <h3 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">자주 묻는 질문</h3>
+            <h3 className="text-xl md:text-2xl font-extrabold text-navy text-center mb-8 tracking-tight">{isEn ? 'Frequently asked questions' : '자주 묻는 질문'}</h3>
             <div className="space-y-3">
-              {[
-                {
-                  q: '셀카 업로드 후 사진은 어떻게 처리되나요?',
-                  a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.',
-                },
-                {
-                  q: '결과가 실제 메이크업과 얼마나 비슷한가요?',
-                  a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 다만 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있어, 마음에 드는 룩은 매장에서 한 번 더 발색을 확인한 뒤 구매하는 것을 권장합니다.',
-                },
-                {
-                  q: '회원가입 없이도 사용할 수 있나요?',
-                  a: '메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 도구는 모두 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 1회 사용권 또는 구독 형태로 제공됩니다.',
-                },
-                {
-                  q: '환불은 가능한가요?',
-                  a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 이미 사용했거나 결과 이미지를 다운로드한 이후에는 디지털 콘텐츠 특성상 환불이 제한됩니다. 자세한 조건은 환불 정책 페이지에서 확인할 수 있습니다.',
-                },
-                {
-                  q: '추천된 화장품은 어디서 살 수 있나요?',
-                  a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.',
-                },
-                {
-                  q: '남성도 사용할 수 있나요?',
-                  a: '네. 남성 전용 9가지 룩(No-Makeup, Skincare Hybrid, Blurred Lip 등)을 별도 큐레이션해 제공합니다. 그루밍 단계의 자연스러운 베이스부터 K-팝 무대 메이크업까지 모두 시뮬레이션 가능합니다.',
-                },
-              ].map((item, i) => (
+              {homeFaq.map((item, i) => (
                 <details
                   key={i}
                   className="group bg-white rounded-2xl border border-pink-100 hover:border-primary/30 transition-colors"
@@ -1135,14 +1202,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'FAQPage',
-                mainEntity: [
-                  { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
-                  { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있습니다.' },
-                  { q: '회원가입 없이도 사용할 수 있나요?', a: '메이크업 MBTI, 퍼스널 컬러, 얼굴형 진단은 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 사용 가능합니다.' },
-                  { q: '환불은 가능한가요?', a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 사용한 후에는 디지털 콘텐츠 특성상 환불이 제한됩니다.' },
-                  { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천을 제공하며 올리브영, 세포라, 쿠팡, 아마존 등에서 검색해 비교 구매할 수 있습니다.' },
-                  { q: '남성도 사용할 수 있나요?', a: '네. 남성 전용 9가지 룩을 별도 큐레이션해 제공합니다.' },
-                ].map((x) => ({
+                mainEntity: homeFaq.map((x) => ({
                   '@type': 'Question',
                   name: x.q,
                   acceptedAnswer: { '@type': 'Answer', text: x.a },
