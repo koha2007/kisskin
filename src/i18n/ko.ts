@@ -11,6 +11,15 @@ export default {
 
   // Nav
   'nav.brand': 'kissinskin',
+  'nav.guides': '가이드',
+  'nav.reviews': '리뷰',
+  'nav.news': '뉴스',
+  'nav.blog': '블로그',
+  'nav.about': '소개',
+  'nav.menu': '메뉴',
+  'nav.mainMenu': '주요 메뉴',
+  'nav.openMenu': '메뉴 열기',
+  'nav.closeMenu': '메뉴 닫기',
 
   // Home Hero
   'home.hero.badge': 'AI K-뷰티 Technology',

@@ -11,6 +11,15 @@ export default {
 
   // Nav
   'nav.brand': 'kissinskin',
+  'nav.guides': 'Guides',
+  'nav.reviews': 'Reviews',
+  'nav.news': 'News',
+  'nav.blog': 'Blog',
+  'nav.about': 'About',
+  'nav.menu': 'Menu',
+  'nav.mainMenu': 'Main menu',
+  'nav.openMenu': 'Open menu',
+  'nav.closeMenu': 'Close menu',
 
   // Home Hero
   'home.hero.badge': 'AI K-Beauty Makeup',

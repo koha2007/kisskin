@@ -35,10 +35,6 @@ function subscribe(cb: () => void): () => void {
   }
 }
 
-function getServerSnapshot(): Locale {
-  return 'ko'
-}
-
 // Paths that have a real prerendered English version under /en/...
 // Any other URL falls back to the English home when the user toggles to EN.
 const EN_AVAILABLE_PATHS = new Set<string>([
@@ -85,7 +81,12 @@ function alternateUrl(currentPath: string, target: Locale): string {
   return currentPath
 }
 
-export function I18nProvider({ children }: { children: ReactNode }) {
+export function I18nProvider({ children, initialLocale = 'ko' }: { children: ReactNode; initialLocale?: Locale }) {
+  // SSR/prerender has no window — the locale is derived from the route URL by the
+  // layout (which passes initialLocale), so /en/* pages render English HTML instead
+  // of Korean. On the client, readLocale (URL prefix wins) returns the same value,
+  // so hydration matches with no flash. Non-/en/ paths stay 'ko' (Korean unaffected).
+  const getServerSnapshot = useCallback((): Locale => initialLocale, [initialLocale])
   const locale = useSyncExternalStore(subscribe, readLocale, getServerSnapshot)
 
   const setLocale = useCallback((l: Locale) => {

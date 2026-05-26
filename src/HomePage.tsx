@@ -367,7 +367,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       `}</style>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50" role="navigation" aria-label="주요 메뉴">
+      <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50" role="navigation" aria-label={t('nav.mainMenu')}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
@@ -375,10 +375,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </div>
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
-            <a href="/guides/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">가이드</a>
-            <a href="/reviews/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">리뷰</a>
-            <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">뉴스</a>
-            <a href="/blog/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">블로그</a>
+            <a href="/guides/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a>
+            <a href="/reviews/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a>
+            <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
+            <a href="/blog/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.blog')}</a>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <button
@@ -419,7 +419,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </button>
             <button
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="메뉴 열기"
+              aria-label={t('nav.openMenu')}
               aria-expanded={mobileMenuOpen}
               className="md:hidden text-white p-2 rounded-md border border-slate-500 hover:bg-navy-light/30"
             >
@@ -438,10 +438,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             />
             <div className="absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col">
               <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200">
-                <span className="text-base font-bold text-navy">메뉴</span>
+                <span className="text-base font-bold text-navy">{t('nav.menu')}</span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  aria-label="메뉴 닫기"
+                  aria-label={t('nav.closeMenu')}
                   className="p-2 rounded-md hover:bg-slate-100 text-navy"
                 >
                   <span className="material-symbols-outlined text-2xl leading-none align-middle">close</span>
@@ -450,11 +450,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <ul className="flex-1 overflow-y-auto py-2">
                 {[
                   { href: '/tools/', label: t('common.freeTools') },
-                  { href: '/guides/', label: '가이드' },
-                  { href: '/reviews/', label: '리뷰' },
-                  { href: '/news/', label: '뉴스' },
-                  { href: '/blog/', label: '블로그' },
-                  { href: '/about/', label: '소개' },
+                  { href: '/guides/', label: t('nav.guides') },
+                  { href: '/reviews/', label: t('nav.reviews') },
+                  { href: '/news/', label: t('nav.news') },
+                  { href: '/blog/', label: t('nav.blog') },
+                  { href: '/about/', label: t('nav.about') },
                 ].map((l) => (
                   <li key={l.href}>
                     <a
