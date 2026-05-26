@@ -41,7 +41,11 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
 
     if (useRedirect) {
-      checkoutBody.success_url = `${origin}/?checkout_id={CHECKOUT_ID}`
+      // Return to /analysis/ — that page hosts the checkout-return handler that
+      // verifies the payment, resumes the analysis, and fires the GA4 purchase.
+      // (The bare homepage has no such handler, so returning to `/` silently drops
+      // the conversion.) Trailing slash matches the prerendered canonical route.
+      checkoutBody.success_url = `${origin}/analysis/?checkout_id={CHECKOUT_ID}`
     } else {
       checkoutBody.embed_origin = origin
     }

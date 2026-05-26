@@ -379,6 +379,14 @@ export default function AnalysisApp() {
   const reverseUsage = () => { setSubStatus(prev => ({ ...prev, usage: Math.max(0, prev.usage - 1) })) }
 
   const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  // iOS = iPhone/iPad/iPod, plus iPadOS 13+ which masquerades as a Mac UA but reports
+  // touch points. iOS gets routed to Polar's HOSTED checkout (not the embed iframe)
+  // because Polar disables Apple Pay/Google Pay in embeds by default and iOS Safari
+  // ITP breaks the third-party iframe's payment session. See openCheckout().
+  const isIOS = typeof navigator !== 'undefined' && (
+    /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  )
 
   const wrapText = (ctx: CanvasRenderingContext2D, text: string, x: number, maxW: number, y: number, lineH: number): number => {
     const words = text.split(' '); let line = ''; let curY = y
@@ -648,54 +656,67 @@ export default function AnalysisApp() {
 
   const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
     const value = type === 'subscription' ? 9.88 : 2.99
-    gtagEvent('begin_checkout', { checkout_type: type, value, currency: 'USD', items: purchaseItems(type) })
+    // Routing: iOS → Polar HOSTED checkout (full-page redirect, Apple Pay works);
+    // Android + desktop → in-page embed iframe (works for them, lower friction).
+    // The hosted redirect is also the fallback if the Polar SDK failed to load on a
+    // non-iOS mobile device. Tagged with checkout_method so GA4 can compare conversion.
+    const sdkReady = !!window.Polar?.EmbedCheckout
+    const useRedirect = isIOS || (isMobile && !sdkReady)
+    const checkoutMethod: 'embed' | 'redirect' = useRedirect ? 'redirect' : 'embed'
+    gtagEvent('begin_checkout', { checkout_type: type, checkout_method: checkoutMethod, value, currency: 'USD', items: purchaseItems(type) })
     try {
-      if (isMobile) try { sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale })) } catch { /* storage full or unavailable */ }
+      // ── Hosted checkout (iOS): redirect to Polar, return to /analysis/?checkout_id ──
+      if (useRedirect) {
+        // Persist the form so the resume handler (see effect below) can finish the
+        // analysis after the round-trip. `type` lets resume restore the right flow.
+        try { sessionStorage.setItem('kisskin_pending', JSON.stringify({ photo, gender, skinType, locale, type })) } catch { /* storage full or unavailable */ }
+        gtagEvent('checkout_redirect', { checkout_type: type, checkout_method: 'redirect', value, currency: 'USD', reason: isIOS ? 'ios_hosted' : 'mobile_no_embed' })
+        const { res: redirectRes, data: redirectRaw } = await fetchJsonWithRetry('/api/checkout', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobile: true, redirect: true, email: user?.email, type }),
+        }).catch((err) => {
+          gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'redirect', stage: 'redirect_api', reason: err?.message?.slice(0, 100) || 'unknown' })
+          throw new Error(`${t('error.checkoutError')}`)
+        })
+        const redirectData = redirectRaw as { url?: string; error?: string }
+        if (redirectRes.ok && redirectData.url) { window.location.href = redirectData.url; return }
+        gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'redirect', stage: 'redirect_response', reason: 'no_redirect_url' })
+        throw new Error(redirectData.error || t('error.checkoutCreate'))
+      }
+
+      // ── Embedded in-page checkout (Android + desktop) ──
+      // Re-check window.Polar directly (not the sdkReady snapshot) so TS narrows it
+      // to defined for EmbedCheckout.create below, and to catch the rare race where
+      // the deferred SDK still hasn't loaded on a non-iOS device.
+      if (!window.Polar?.EmbedCheckout) {
+        gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'embed', stage: 'module_load', reason: 'polar_sdk_missing' })
+        throw new Error(t('error.checkoutModule'))
+      }
       const { res: checkoutRes, data: checkoutRaw } = await fetchJsonWithRetry('/api/checkout', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobile: isMobile, email: user?.email, type }),
       }).catch((err) => {
-        gtagEvent('checkout_error', { checkout_type: type, stage: 'api_request', reason: err?.message?.slice(0, 100) || 'unknown' })
+        gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'embed', stage: 'api_request', reason: err?.message?.slice(0, 100) || 'unknown' })
         throw new Error(`${t('error.checkoutError')} [API:${err?.message || 'unknown'}]`)
       })
       const checkoutData = checkoutRaw as { id?: string; url?: string; error?: string }
       if (!checkoutRes.ok) {
-        gtagEvent('checkout_error', { checkout_type: type, stage: 'api_response', reason: `status_${checkoutRes.status}`, error_message: (checkoutData.error || '').slice(0, 100) })
+        gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'embed', stage: 'api_response', reason: `status_${checkoutRes.status}`, error_message: (checkoutData.error || '').slice(0, 100) })
         throw new Error(checkoutData.error || `${t('error.checkoutCreate')} [${checkoutRes.status}]`)
       }
       if (!checkoutData.url) {
-        gtagEvent('checkout_error', { checkout_type: type, stage: 'api_response', reason: 'no_url' })
+        gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'embed', stage: 'api_response', reason: 'no_url' })
         throw new Error(`${t('error.checkoutError')} [NO_URL]`)
-      }
-      if (!window.Polar?.EmbedCheckout) {
-        if (isMobile) {
-          gtagEvent('checkout_redirect', { checkout_type: type, value, currency: 'USD', reason: 'mobile_no_embed' })
-          const { res: redirectRes, data: redirectRaw } = await fetchJsonWithRetry('/api/checkout', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mobile: true, redirect: true, email: user?.email, type }),
-          }).catch((err) => {
-            gtagEvent('checkout_error', { checkout_type: type, stage: 'redirect_api', reason: err?.message?.slice(0, 100) || 'unknown' })
-            throw new Error(`${t('error.checkoutError')}`)
-          })
-          const redirectData = redirectRaw as { url?: string; error?: string }
-          if (redirectRes.ok && redirectData.url) { window.location.href = redirectData.url } else {
-            gtagEvent('checkout_error', { checkout_type: type, stage: 'redirect_response', reason: 'no_redirect_url' })
-            throw new Error(redirectData.error || t('error.checkoutCreate'))
-          }
-          return
-        }
-        gtagEvent('checkout_error', { checkout_type: type, stage: 'module_load', reason: 'polar_sdk_missing' })
-        throw new Error(t('error.checkoutModule'))
       }
       const embeddedCheckoutId = checkoutData.id!; let paid = false
       let embed: Awaited<ReturnType<typeof window.Polar.EmbedCheckout.create>>
       try { embed = await window.Polar!.EmbedCheckout.create(checkoutData.url!, { theme: 'light' }) }
       catch (embedErr) {
         const reason = embedErr instanceof Error ? embedErr.message.slice(0, 100) : String(embedErr).slice(0, 100)
-        gtagEvent('checkout_error', { checkout_type: type, stage: 'embed_create', reason })
+        gtagEvent('checkout_error', { checkout_type: type, checkout_method: 'embed', stage: 'embed_create', reason })
         throw new Error(`${t('error.checkoutError')} [EMBED:${reason}]`)
       }
-      gtagEvent('checkout_displayed', { checkout_type: type, value, currency: 'USD', transaction_id: embeddedCheckoutId })
+      gtagEvent('checkout_displayed', { checkout_type: type, checkout_method: 'embed', value, currency: 'USD', transaction_id: embeddedCheckoutId })
       const onCheckoutComplete = async () => {
         if (paid) return; paid = true; embed.close()
         if (isMobile) sessionStorage.removeItem('kisskin_pending')
@@ -715,7 +736,7 @@ export default function AnalysisApp() {
             if (vData.customerEmail) customerEmailRef.current = vData.customerEmail
           }
         } catch { /* ok - fall back to nominal value, proceed without email */ }
-        firePurchaseOnce(embeddedCheckoutId, { value: realValue, currency: 'USD', checkout_type: type, items: purchaseItems(type) })
+        firePurchaseOnce(embeddedCheckoutId, { value: realValue, currency: 'USD', checkout_type: type, checkout_method: 'embed', items: purchaseItems(type) })
         if (type === 'subscription') { await checkSubscription() }
         else { runAnalysis() }
       }
@@ -734,7 +755,7 @@ export default function AnalysisApp() {
               return
             }
           } catch { /* ok */ }
-          gtagEvent('checkout_abandoned', { checkout_type: type, value, currency: 'USD', transaction_id: embeddedCheckoutId })
+          gtagEvent('checkout_abandoned', { checkout_type: type, checkout_method: 'embed', value, currency: 'USD', transaction_id: embeddedCheckoutId })
           if (type !== 'subscription') setError(t('error.paymentIncomplete'))
         }
       })
@@ -792,7 +813,7 @@ export default function AnalysisApp() {
     const pending = sessionStorage.getItem('kisskin_pending')
     if (!pending) return
     sessionStorage.removeItem('kisskin_pending')
-    let data: { photo?: string; gender?: 'female' | 'male'; skinType?: typeof skinType; locale?: 'ko' | 'en' }
+    let data: { photo?: string; gender?: 'female' | 'male'; skinType?: typeof skinType; locale?: 'ko' | 'en'; type?: 'one-time' | 'subscription' }
     try {
       data = JSON.parse(pending)
     } catch (parseErr) {
@@ -800,6 +821,7 @@ export default function AnalysisApp() {
       setError(t('error.verifyError'))
       return
     }
+    const resumeType: 'one-time' | 'subscription' = data.type === 'subscription' ? 'subscription' : 'one-time'
     if (!data.photo || !data.gender || !data.skinType) {
       setError(t('error.verifyError'))
       return
@@ -810,21 +832,23 @@ export default function AnalysisApp() {
     // between payment-return and runAnalysis kicking in.
     setLoading(true)
     fetchJsonWithRetry('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ checkoutId }) })
-      .then(({ data: result }) => {
+      .then(async ({ data: result }) => {
         if (result.customerEmail && typeof result.customerEmail === 'string') customerEmailRef.current = result.customerEmail
         if (result.status === 'succeeded' || result.status === 'confirmed') {
           // Use the real post-discount amount (cents) Polar returned, not a fixed
-          // $2.99 — free/100%-discount codes must report value: 0 to GA4.
-          const realValue = typeof result.amount === 'number' ? result.amount / 100 : 2.99
-          firePurchaseOnce(checkoutId, { value: realValue, currency: 'USD', checkout_type: 'one-time', flow: 'mobile_redirect', items: purchaseItems('one-time') })
-          setTimeout(() => runAnalysis(), 100)
+          // nominal — free/100%-discount codes must report value: 0 to GA4.
+          const nominal = resumeType === 'subscription' ? 9.88 : 2.99
+          const realValue = typeof result.amount === 'number' ? result.amount / 100 : nominal
+          firePurchaseOnce(checkoutId, { value: realValue, currency: 'USD', checkout_type: resumeType, checkout_method: 'redirect', flow: 'mobile_redirect', items: purchaseItems(resumeType) })
+          if (resumeType === 'subscription') { await checkSubscription(); setLoading(false) }
+          else { setTimeout(() => runAnalysis(), 100) }
         } else {
-          gtagEvent('checkout_abandoned', { checkout_type: 'one-time', flow: 'mobile_redirect', transaction_id: checkoutId, status: result.status || 'unknown' })
+          gtagEvent('checkout_abandoned', { checkout_type: resumeType, checkout_method: 'redirect', flow: 'mobile_redirect', transaction_id: checkoutId, status: result.status || 'unknown' })
           setLoading(false)
           setError(t('error.paymentIncomplete'))
         }
       }).catch((err) => {
-        gtagEvent('checkout_error', { checkout_type: 'one-time', stage: 'mobile_verify', reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' })
+        gtagEvent('checkout_error', { checkout_type: resumeType, checkout_method: 'redirect', stage: 'mobile_verify', reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' })
         setLoading(false)
         setError(t('error.verifyError'))
       })
