@@ -5,6 +5,7 @@ import RecommendedProducts from '../components/RecommendedProducts'
 import ShareBar from '../components/ShareBar'
 import RelatedTools from '../components/RelatedTools'
 import ToolUpsellCTA from '../components/ToolUpsellCTA'
+import { useI18n } from '../i18n/I18nContext'
 import {
   getClioCategoryByPerfumeType,
   getClioLinkByPerfumeType,
@@ -85,7 +86,26 @@ function josaWaGwa(word: string): string {
 
 export default function PerfumeTypeResult({ code }: Props) {
   const t = PERFUME_TYPES[code]
-  const basePath = '/tools/perfume-type'
+  const { t: i18n, locale } = useI18n()
+  const isEn = locale === 'en'
+  const basePath = isEn ? '/en/tools/perfume-type' : '/tools/perfume-type'
+
+  const name = isEn ? t.enName : t.koName
+  const tagline = isEn && t.taglineEn ? t.taglineEn : t.tagline
+  const features = isEn && t.featuresEn ? t.featuresEn : t.features
+  const detailParagraphs = isEn && t.detailParagraphsEn ? t.detailParagraphsEn : t.detailParagraphs
+  const scene = isEn && t.sceneEn ? t.sceneEn : t.scene
+  const makeupMatch = isEn && t.makeupMatchEn ? t.makeupMatchEn : t.makeupMatch
+  const cautions = isEn && t.cautionsEn ? t.cautionsEn : t.cautions
+  const kissinskinReason = isEn && t.kissinskinReasonEn ? t.kissinskinReasonEn : t.kissinskin.reason
+
+  const sceneLabels = isEn
+    ? { season: 'Best season', occasion: 'Best occasions', time: 'Best time of day', avoid: 'Where to avoid it' }
+    : { season: '베스트 계절', occasion: '추천 상황', time: '베스트 시간대', avoid: '피해야 할 자리' }
+
+  const makeupLabels = isEn
+    ? { base: 'Base', lip: 'Lip', eye: 'Eye', cheek: 'Cheek' }
+    : { base: '베이스', lip: '립', eye: '아이', cheek: '치크' }
 
   return (
     <div className="font-display bg-background-light min-h-screen">
@@ -96,30 +116,30 @@ export default function PerfumeTypeResult({ code }: Props) {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="text-6xl md:text-7xl mb-3">{t.emoji}</div>
           <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
-          <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{t.koName}</h1>
-          <p className="text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">{t.tagline}</p>
+          <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{name}</h1>
+          <p className="text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">{tagline}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a href={`${basePath}/`} className="bg-white border-2 border-rose-100 hover:border-rose-500 px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined">refresh</span> 다시 진단하기
+              <span className="material-symbols-outlined">refresh</span> {isEn ? 'Retake the quiz' : '다시 진단하기'}
             </a>
-            <a href="/analysis/" className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
-              <span className="material-symbols-outlined">auto_awesome</span> 어울리는 메이크업 시뮬레이션
+            <a href={isEn ? '/en/' : '/analysis/'} className="text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg flex items-center justify-center gap-2" style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.accentColor})` }}>
+              <span className="material-symbols-outlined">auto_awesome</span> {isEn ? i18n('tools.common.applyToMyFace') : '어울리는 메이크업 시뮬레이션'}
             </a>
           </div>
         </div>
       </section>
 
       {/* Primary upsell — convert the result into the $2.99 AI analysis */}
-      <ToolUpsellCTA name={t.koName} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="perfume_type" slug={t.code} variant="top" />
+      <ToolUpsellCTA name={name} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="perfume_type" slug={t.code} variant="top" />
 
       {/* Features */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
-            {t.koName}의 핵심 특징
+            {isEn ? `${name}: key traits` : `${t.koName}의 핵심 특징`}
           </h2>
           <div className="grid md:grid-cols-2 gap-3">
-            {t.features.map((f, i) => (
+            {features.map((f, i) => (
               <div key={i} className="bg-white rounded-2xl p-5 border flex gap-4" style={{ borderColor: `${t.primaryColor}30` }}>
                 <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-extrabold text-sm" style={{ background: t.primaryColor }}>{i + 1}</div>
                 <p className="text-sm text-slate-600 leading-relaxed pt-0.5">{f}</p>
@@ -133,7 +153,7 @@ export default function PerfumeTypeResult({ code }: Props) {
       <section className="py-8 md:py-10 bg-gradient-to-b from-background-light to-white">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <div className="text-slate-600 leading-relaxed text-[15px] md:text-base space-y-5">
-            {t.detailParagraphs.map((p, i) => <p key={i}>{p}</p>)}
+            {detailParagraphs.map((p, i) => <p key={i}>{p}</p>)}
           </div>
         </div>
       </section>
@@ -142,17 +162,17 @@ export default function PerfumeTypeResult({ code }: Props) {
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-3 tracking-tight leading-tight">
-            상황·계절 가이드
+            {isEn ? 'Occasion & season guide' : '상황·계절 가이드'}
           </h2>
           <p className="text-center text-slate-500 text-sm mb-8">
-            {t.koName}{josaIGa(t.koName)} 가장 매력적으로 발산되는 시간과 자리
+            {isEn ? `When and where ${name} shines brightest` : `${t.koName}${josaIGa(t.koName)} 가장 매력적으로 발산되는 시간과 자리`}
           </p>
           <div className="grid md:grid-cols-2 gap-3">
             {[
-              { icon: 'calendar_month', label: '베스트 계절', v: t.scene.season },
-              { icon: 'event', label: '추천 상황', v: t.scene.occasion },
-              { icon: 'schedule', label: '베스트 시간대', v: t.scene.timeOfDay },
-              { icon: 'block', label: '피해야 할 자리', v: t.scene.avoidSituation },
+              { icon: 'calendar_month', label: sceneLabels.season, v: scene.season },
+              { icon: 'event', label: sceneLabels.occasion, v: scene.occasion },
+              { icon: 'schedule', label: sceneLabels.time, v: scene.timeOfDay },
+              { icon: 'block', label: sceneLabels.avoid, v: scene.avoidSituation },
             ].map(it => (
               <div key={it.label} className="bg-white rounded-2xl p-5 border" style={{ borderColor: `${t.primaryColor}30`, background: `${t.primaryColor}06` }}>
                 <div className="flex items-center gap-3 mb-2">
@@ -172,17 +192,17 @@ export default function PerfumeTypeResult({ code }: Props) {
       <section className="py-12 md:py-16 bg-gradient-to-b from-background-light to-pink-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-3 tracking-tight leading-tight">
-            어울리는 메이크업
+            {isEn ? 'Makeup that matches' : '어울리는 메이크업'}
           </h2>
           <p className="text-center text-slate-500 text-sm mb-8">
-            향수와 톤이 자연스럽게 맞는 메이크업 무드
+            {isEn ? 'A makeup mood that naturally matches the scent' : '향수와 톤이 자연스럽게 맞는 메이크업 무드'}
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
             {[
-              { icon: 'palette', label: '베이스', v: t.makeupMatch.base },
-              { icon: 'favorite', label: '립', v: t.makeupMatch.lip },
-              { icon: 'visibility', label: '아이', v: t.makeupMatch.eye },
-              { icon: 'spa', label: '치크', v: t.makeupMatch.cheek },
+              { icon: 'palette', label: makeupLabels.base, v: makeupMatch.base },
+              { icon: 'favorite', label: makeupLabels.lip, v: makeupMatch.lip },
+              { icon: 'visibility', label: makeupLabels.eye, v: makeupMatch.eye },
+              { icon: 'spa', label: makeupLabels.cheek, v: makeupMatch.cheek },
             ].map(it => (
               <div key={it.label} className="bg-white rounded-2xl p-5 border border-pink-100">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white mb-3" style={{ background: t.primaryColor }}>
@@ -203,11 +223,11 @@ export default function PerfumeTypeResult({ code }: Props) {
             <div className="flex items-center gap-3 mb-4">
               <span className="material-symbols-outlined text-amber-500 text-3xl">warning</span>
               <h2 className="text-xl font-extrabold text-navy tracking-tight">
-                향수 입히기 전 주의할 점
+                {isEn ? 'Before you wear it' : '향수 입히기 전 주의할 점'}
               </h2>
             </div>
             <ul className="space-y-2 text-sm text-slate-600">
-              {t.cautions.map((a, i) => (
+              {cautions.map((a, i) => (
                 <li key={i} className="flex items-start gap-2">
                   <span className="text-amber-500 mt-0.5">•</span>
                   <span>{a}</span>
@@ -223,26 +243,26 @@ export default function PerfumeTypeResult({ code }: Props) {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="inline-flex items-center gap-2 text-primary-dark text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100 mb-4">
             <span className="material-symbols-outlined text-base">recommend</span>
-            추천 K-뷰티 스타일
+            {isEn ? 'Recommended K-Beauty look' : '추천 K-뷰티 스타일'}
           </span>
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-navy tracking-tight mb-3 leading-tight">
-            {t.koName}{josaWaGwa(t.koName)} 어울리는 kissinskin 룩
+            {isEn ? `The kissinskin look for ${name}` : `${t.koName}${josaWaGwa(t.koName)} 어울리는 kissinskin 룩`}
           </h2>
-          <p className="text-slate-500 text-sm md:text-base mb-8">{t.kissinskin.reason}</p>
+          <p className="text-slate-500 text-sm md:text-base mb-8">{kissinskinReason}</p>
           <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8">
             <div className="bg-pink-50/50 rounded-2xl p-6 border border-pink-100">
               <span className="material-symbols-outlined text-primary text-3xl mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>female</span>
-              <h3 className="font-extrabold text-navy-mid mb-1">여성</h3>
+              <h3 className="font-extrabold text-navy-mid mb-1">{i18n('tools.common.female')}</h3>
               <p className="text-xl font-bold text-primary">{t.kissinskin.women}</p>
             </div>
             <div className="bg-blue-50/50 rounded-2xl p-6 border border-blue-100">
               <span className="material-symbols-outlined text-blue-500 text-3xl mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>male</span>
-              <h3 className="font-extrabold text-navy-mid mb-1">남성</h3>
+              <h3 className="font-extrabold text-navy-mid mb-1">{i18n('tools.common.male')}</h3>
               <p className="text-xl font-bold text-blue-500">{t.kissinskin.men}</p>
             </div>
           </div>
-          <a href="/analysis/" className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
-            AI 메이크업 시뮬레이션 ($2.99)
+          <a href={isEn ? '/en/' : '/analysis/'} className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
+            {isEn ? 'AI Makeup Simulation ($2.99)' : 'AI 메이크업 시뮬레이션 ($2.99)'}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
         </div>
@@ -254,22 +274,33 @@ export default function PerfumeTypeResult({ code }: Props) {
         accentColor={t.primaryColor}
         accentGradient="from-rose-500 to-amber-500"
         headingEmoji={t.emoji}
-        subtitle={`${t.koName} 타입에 추천하는 향수 카테고리입니다. 한국 시장 인지도 높은 브랜드를 참고하세요.`}
+        subtitle={
+          isEn
+            ? `Fragrance categories that suit the ${name} type. Use these reference notes and brands when you shop.`
+            : `${t.koName} 타입에 추천하는 향수 카테고리입니다. 한국 시장 인지도 높은 브랜드를 참고하세요.`
+        }
         pageType="perfume_type"
         pageSlug={t.code}
       />
 
-      {/* Clio cross-sell — makeup category matched to perfume type */}
-      <PerfumeClioCrossSell typeCode={t.code} typeName={t.koName} accent={t.primaryColor} />
+      {/* Clio cross-sell — makeup category matched to perfume type.
+          KO only: it links to the Korea-only CLIO store with a Korean disclosure,
+          and the EN result pages (personal-color etc.) have no standalone Clio
+          banner. RecommendedProducts already surfaces Clio per-item in English. */}
+      {!isEn && <PerfumeClioCrossSell typeCode={t.code} typeName={t.koName} accent={t.primaryColor} />}
 
       {/* Related tools */}
-      <RelatedTools exclude="perfume-type" titleKo="다른 무료 진단도 함께" />
+      <RelatedTools exclude="perfume-type" titleKo="다른 무료 진단도 함께" titleEn="Try the other free quizzes too" />
 
       {/* Share */}
       <ShareBar
         url={`https://kissinskin.net${basePath}/${t.slug}/`}
-        shareText={`나의 향수 타입은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`}
-        shareTitle={`향수 타입: ${t.koName}`}
+        shareText={
+          isEn
+            ? `My perfume type is "${t.enName}" ${t.emoji}\n${tagline}\n\n`
+            : `나의 향수 타입은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`
+        }
+        shareTitle={isEn ? `Perfume type: ${t.enName}` : `향수 타입: ${t.koName}`}
         retakeUrl={`${basePath}/`}
       />
 
@@ -277,7 +308,7 @@ export default function PerfumeTypeResult({ code }: Props) {
       <section className="py-14 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
-            6가지 향수 타입 전체 보기
+            {isEn ? 'Browse all 6 perfume types' : '6가지 향수 타입 전체 보기'}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {PERFUME_TYPE_ORDER.map(c => {
@@ -286,9 +317,9 @@ export default function PerfumeTypeResult({ code }: Props) {
               return (
                 <a key={c} href={`${basePath}/${s.slug}/`} className={`rounded-2xl p-5 border transition-all ${isMe ? 'ring-2' : 'hover:shadow-md'}`} style={{ background: isMe ? `${s.primaryColor}10` : 'white', borderColor: `${s.primaryColor}30` }}>
                   <div className="text-3xl mb-1.5">{s.emoji}</div>
-                  <div className="text-[0.65rem] mb-0.5" style={{ color: s.primaryColor }}>{isMe ? '나의 결과' : ''}</div>
-                  <div className="text-sm font-bold text-navy-mid">{s.koName}</div>
-                  <div className="text-[0.65rem] text-slate-400 mt-0.5">{s.enName}</div>
+                  <div className="text-[0.65rem] mb-0.5" style={{ color: s.primaryColor }}>{isMe ? (isEn ? 'Your result' : '나의 결과') : ''}</div>
+                  <div className="text-sm font-bold text-navy-mid">{isEn ? s.enName : s.koName}</div>
+                  {!isEn && <div className="text-[0.65rem] text-slate-400 mt-0.5">{s.enName}</div>}
                 </a>
               )
             })}
@@ -297,7 +328,7 @@ export default function PerfumeTypeResult({ code }: Props) {
       </section>
 
       {/* Repeat upsell for visitors who scrolled to the very end */}
-      <ToolUpsellCTA name={t.koName} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="perfume_type" slug={t.code} variant="bottom" />
+      <ToolUpsellCTA name={name} accentColor={t.primaryColor} accentColorTo={t.accentColor} tool="perfume_type" slug={t.code} variant="bottom" />
 
       </main>
       <ToolsFooter />

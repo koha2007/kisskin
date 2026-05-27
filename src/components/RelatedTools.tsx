@@ -29,6 +29,7 @@ const TOOLS: Tool[] = [
   {
     key: 'perfume-type',
     href: '/tools/perfume-type/',
+    hrefEn: '/en/tools/perfume-type/',
     emoji: '🌸',
     titleKo: '향수 타입 진단',
     titleEn: 'Perfume Type Quiz',
@@ -50,6 +51,7 @@ const TOOLS: Tool[] = [
   {
     key: 'personal-color',
     href: '/tools/personal-color/',
+    hrefEn: '/en/tools/personal-color/',
     emoji: '🌈',
     titleKo: '퍼스널 컬러 자가 진단',
     titleEn: 'Personal Color Quiz',
@@ -60,6 +62,7 @@ const TOOLS: Tool[] = [
   {
     key: 'makeup-mbti',
     href: '/tools/makeup-mbti/',
+    hrefEn: '/en/tools/makeup-mbti/',
     emoji: '🎨',
     titleKo: '메이크업 MBTI',
     titleEn: 'Makeup MBTI',

@@ -5,6 +5,7 @@ import type { ProductRec } from './types'
  * 향수 타입별 추천 향수 카테고리 — 어필리에이트 검색 링크용.
  * searchKeywords ≤ 5단어, 제품 속성(계열·노트·텍스처)만 사용.
  * 한국 시장 인지도 높은 브랜드를 brandExamples로 노출 (구매 참고용).
+ * *En 필드는 /en/ (locale === 'en')에서 노출 — 없으면 한국어로 폴백.
  */
 export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]> = {
   floral: [
@@ -16,6 +17,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '플로럴 입문자에게 가장 안전한 모던 플로럴 — 헤비한 장미향 부담 없이 우아함만 살립니다.',
       searchKeywords: '프리지아 향수',
       icon: 'spa',
+      categoryEn: 'Floral starter',
+      titleEn: 'Freesia · pear blend',
+      featuresEn: ['A modern, light floral', 'Great daily wear for your 20s–30s', 'Strong in spring and early summer'],
+      whyForTypeEn: 'The safest modern floral for newcomers — all the elegance, none of the heavy rose.',
     },
     {
       category: '클래식 로즈',
@@ -25,6 +30,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '플로럴 정수를 체험하고 싶은 분에게 추천 — 클래식한 페미닌 무드의 결정판입니다.',
       searchKeywords: '장미향 향수',
       icon: 'favorite',
+      categoryEn: 'Classic rose',
+      titleEn: 'Rose-forward feminine scent',
+      featuresEn: ['Rose soliflore or bouquet', 'Powerful for dates and weddings', 'Eau de parfum recommended'],
+      whyForTypeEn: 'For those who want the essence of floral — the definitive classic feminine mood.',
     },
     {
       category: '유니섹스 플로럴',
@@ -34,6 +43,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '여성스러운 인상은 살리되 너무 페미닌하지 않은 톤을 원할 때 — 유니섹스 플로럴이 정답.',
       searchKeywords: '플로럴 향수',
       icon: 'eco',
+      categoryEn: 'Unisex floral',
+      titleEn: 'Floral + green-note blend',
+      featuresEn: ['A modern unisex scent', 'Easy for the office or a gallery', 'Floral meets green'],
+      whyForTypeEn: 'When you want a feminine impression without going too soft — a unisex floral is the answer.',
     },
   ],
 
@@ -46,6 +59,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '시트러스의 정수 — 깔끔하고 활기찬 첫인상을 만드는 데 가장 검증된 조합입니다.',
       searchKeywords: '유니섹스 시트러스 향수',
       icon: 'wb_sunny',
+      categoryEn: 'Classic citrus',
+      titleEn: 'Bergamot · lemon blend',
+      featuresEn: ['The lightest top notes', 'Strong for the office or post-workout', 'Eau de cologne or eau de toilette'],
+      whyForTypeEn: 'The essence of citrus — the most proven blend for a clean, energetic first impression.',
     },
     {
       category: '시트러스 + 허브',
@@ -55,6 +72,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '단순 시트러스에 입체감을 더한 조합 — 가볍지만 단순하지 않은 향을 찾을 때 추천.',
       searchKeywords: '라임 바질 향수',
       icon: 'grass',
+      categoryEn: 'Citrus + herbs',
+      titleEn: 'Lime · basil · mandarin blend',
+      featuresEn: ['Adds herbal depth to citrus', 'Easy even for beginners', 'Daily wear from spring to summer'],
+      whyForTypeEn: 'Citrus with added dimension — for when you want something light but not simple.',
     },
     {
       category: '시트러스 + 플로럴',
@@ -64,6 +85,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '시트러스의 청량함과 플로럴의 우아함을 동시에 — 가장 무난한 데일리 향수 카테고리.',
       searchKeywords: '시트러스 플로럴 향수',
       icon: 'auto_awesome',
+      categoryEn: 'Citrus + floral',
+      titleEn: 'Value citrus-floral line',
+      featuresEn: ['Citrus top, floral heart', 'Easy as an everyday scent', 'Well known at Korean department stores'],
+      whyForTypeEn: 'The crispness of citrus and the elegance of floral at once — the most foolproof everyday category.',
     },
   ],
 
@@ -76,6 +101,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '우디 입문자에게 가장 검증된 샌달우드 — 부드럽고 따뜻한 톤으로 부담 없이 시작 가능.',
       searchKeywords: '샌달우드 향수',
       icon: 'forest',
+      categoryEn: 'Signature woody',
+      titleEn: 'Sandalwood-forward scent',
+      featuresEn: ['The icon of woody fragrance', 'A unisex lineup', 'Strong in autumn and winter'],
+      whyForTypeEn: 'The most proven sandalwood for newcomers to woody — soft, warm, and easy to start with.',
     },
     {
       category: '스모키 우디',
@@ -85,6 +114,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '우디의 깊이를 더 강화한 라인 — 비즈니스·격식 디너 자리의 무게감을 만들어 줍니다.',
       searchKeywords: '베티버 우디 향수',
       icon: 'local_fire_department',
+      categoryEn: 'Smoky woody',
+      titleEn: 'Vetiver · patchouli blend',
+      featuresEn: ['A deep, heavy base', 'Strong for evening occasions', 'Eau de parfum recommended'],
+      whyForTypeEn: 'A line that doubles down on woody depth — it brings gravitas to business and formal dinners.',
     },
     {
       category: '우디 + 스파이시',
@@ -94,6 +127,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '우디에 스파이시 톤을 더한 변형 — 가장 시그니처에 가까운 우디를 찾을 때 추천.',
       searchKeywords: '시더우드 스파이시 향수',
       icon: 'whatshot',
+      categoryEn: 'Woody + spicy',
+      titleEn: 'Cedarwood · pepper · cardamom',
+      featuresEn: ['Woody with spicy notes', 'Great for men and unisex wear', 'An autumn-to-winter signature'],
+      whyForTypeEn: 'Woody with a spicy twist — for when you want the most signature-worthy woody.',
     },
   ],
 
@@ -106,6 +143,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '앰버의 정수 — 잊을 수 없는 임팩트를 만들고 싶을 때 가장 검증된 라인.',
       searchKeywords: '앰버 바닐라 향수',
       icon: 'whatshot',
+      categoryEn: 'Classic amber',
+      titleEn: 'Vanilla · tonka-bean base',
+      featuresEn: ['A rich, sweet base', 'Strong for evening and night', 'Eau de parfum / parfum recommended'],
+      whyForTypeEn: 'The essence of amber — the most proven line for an unforgettable impact.',
     },
     {
       category: '앰버 + 우디',
@@ -115,6 +156,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '앰버의 강도를 살짝 톤다운한 우디 앰버 — 입문자도 부담 없이 시도 가능한 조합.',
       searchKeywords: '앰버 우디 향수',
       icon: 'park',
+      categoryEn: 'Amber + woody',
+      titleEn: 'Amber-woody blend',
+      featuresEn: ['Amber depth with woody warmth', 'An autumn-winter signature', 'Lasts 8+ hours'],
+      whyForTypeEn: 'A woody amber that tones the intensity down a notch — easy enough for newcomers to try.',
     },
     {
       category: '앰버 구르망',
@@ -124,6 +169,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '앰버에 달콤함을 더한 라인 — 관능과 사랑스러움을 동시에 잡는 변형.',
       searchKeywords: '앰버 구르망 향수',
       icon: 'bakery_dining',
+      categoryEn: 'Amber gourmand',
+      titleEn: 'Amber + caramel-vanilla dessert notes',
+      featuresEn: ['Amber depth with sweetness', 'Popular with women in their 20s–30s', 'Strong for evening dates'],
+      whyForTypeEn: 'Amber with added sweetness — a twist that captures sensuality and charm at once.',
     },
   ],
 
@@ -136,6 +185,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '프레시 입문자에게 가장 안전한 비누향 — 호불호 없이 모든 자리에서 깨끗한 인상.',
       searchKeywords: '비누향 머스크 향수',
       icon: 'shower',
+      categoryEn: 'Soap-clean fresh',
+      titleEn: 'Aqua · musk blend',
+      featuresEn: ['A soap-and-laundry mood', 'Great for students and new hires', 'Strong summer daily wear'],
+      whyForTypeEn: 'The safest soap scent for newcomers to fresh — a clean impression anywhere, loved by all.',
     },
     {
       category: '아쿠아틱 프레시',
@@ -145,6 +198,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '여름의 시원함을 직접 입은 듯한 아쿠아틱 라인 — 더운 날씨에 가장 매력적.',
       searchKeywords: '아쿠아틱 향수',
       icon: 'water_drop',
+      categoryEn: 'Aquatic fresh',
+      titleEn: 'Sea · ozone-note scent',
+      featuresEn: ['A cool, ocean mood', 'Strong for summer and post-workout', 'Eau de toilette recommended'],
+      whyForTypeEn: "An aquatic line like wearing summer's cool air — most alluring in hot weather.",
     },
     {
       category: '유니섹스 프레시',
@@ -154,6 +211,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '프레시에 모던한 미네랄·그린 노트를 더한 유니섹스 — 데일리 시그니처로 가장 무난.',
       searchKeywords: '그린 미네랄 향수',
       icon: 'eco',
+      categoryEn: 'Unisex fresh',
+      titleEn: 'Green + mineral blend',
+      featuresEn: ['A modern unisex scent', 'Strong for everyday office wear', 'Well known among Korean brands'],
+      whyForTypeEn: 'A unisex fresh with modern mineral and green notes — the most foolproof daily signature.',
     },
   ],
 
@@ -166,6 +227,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '구르망 입문자에게 가장 검증된 라인 — 디저트 향의 정수를 체험할 수 있는 베스트셀러.',
       searchKeywords: '바닐라 카라멜 향수',
       icon: 'cake',
+      categoryEn: 'Classic gourmand',
+      titleEn: 'Vanilla · caramel-forward scent',
+      featuresEn: ['The lineup that started the family', 'Popular in the 20s–30s', 'Strong in autumn and winter'],
+      whyForTypeEn: 'The most proven line for newcomers to gourmand — a bestseller that captures the essence of dessert notes.',
     },
     {
       category: '체리·베리 구르망',
@@ -175,6 +240,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '바닐라·카라멜이 부담스러울 때 — 더 가볍고 상큼한 디저트 톤의 구르망을 추천.',
       searchKeywords: '체리 베리 향수',
       icon: 'restaurant',
+      categoryEn: 'Cherry · berry gourmand',
+      titleEn: 'Cherry · raspberry dessert notes',
+      featuresEn: ['A fruity dessert tone', 'Daily wear in spring and autumn', 'Strong for café dates'],
+      whyForTypeEn: 'When vanilla and caramel feel too much — a lighter, brighter dessert-toned gourmand.',
     },
     {
       category: '우디 구르망',
@@ -184,6 +253,10 @@ export const PERFUME_TYPE_RECOMMENDATIONS: Record<PerfumeTypeCode, ProductRec[]>
       whyForType: '구르망의 달콤함에 우디·앰버 깊이를 더한 진화형 — 30대 이후 추천 카테고리.',
       searchKeywords: '우디 구르망 향수',
       icon: 'park',
+      categoryEn: 'Woody gourmand',
+      titleEn: 'Gourmand + sandalwood-amber blend',
+      featuresEn: ['A grown-up evolution for your 30s and beyond', 'An autumn-winter signature', 'Gourmand sweetness with woody depth'],
+      whyForTypeEn: 'An evolved form that adds woody and amber depth to gourmand sweetness — recommended from your 30s on.',
     },
   ],
 }

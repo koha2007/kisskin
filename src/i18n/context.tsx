@@ -35,8 +35,8 @@ function subscribe(cb: () => void): () => void {
   }
 }
 
-// Paths that have a real prerendered English version under /en/...
-// Any other URL falls back to the English home when the user toggles to EN.
+// Standalone pages that have a real prerendered English version under /en/...
+// (non-tool pages — home, legal, about). Tool pages are matched by prefix below.
 const EN_AVAILABLE_PATHS = new Set<string>([
   '/',
   '/about/',
@@ -45,23 +45,30 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/privacy/',
   '/terms/',
   '/refund/',
-  '/tools/face-shape/',
-  '/tools/face-shape/oval/',
-  '/tools/face-shape/round/',
-  '/tools/face-shape/square/',
-  '/tools/face-shape/oblong/',
-  '/tools/face-shape/heart/',
-  '/tools/personal-color/',
-  '/tools/personal-color/spring-warm/',
-  '/tools/personal-color/summer-cool/',
-  '/tools/personal-color/autumn-warm/',
-  '/tools/personal-color/winter-cool/',
-  '/tools/makeup-mbti/',
 ])
+
+// Tool families that have a complete English mirror under /en/tools/<tool>/...
+// — the intro page plus every result/type sub-page. Because the EN side
+// prerenders the exact same slug set as KO, any sub-path the user can actually
+// be on (e.g. /tools/face-shape/oval/) has a matching English page. So we can
+// map these by prefix instead of enumerating every slug, which keeps the
+// toggle landing on the *same* page in the other language rather than the
+// English home — and stays correct automatically as new type pages are added.
+const EN_MIRRORED_TOOL_PREFIXES = [
+  '/tools/face-shape/',
+  '/tools/personal-color/',
+  '/tools/makeup-mbti/',
+  '/tools/perfume-type/',
+]
 
 function normalize(p: string): string {
   if (!p) return '/'
   return p.endsWith('/') ? p : p + '/'
+}
+
+function hasEnglishVersion(normalizedPath: string): boolean {
+  if (EN_AVAILABLE_PATHS.has(normalizedPath)) return true
+  return EN_MIRRORED_TOOL_PREFIXES.some(prefix => normalizedPath.startsWith(prefix))
 }
 
 function alternateUrl(currentPath: string, target: Locale): string {
@@ -69,7 +76,7 @@ function alternateUrl(currentPath: string, target: Locale): string {
     if (currentPath === '/' || currentPath === '') return '/en/'
     if (currentPath.startsWith('/en/') || currentPath === '/en') return currentPath
     const normalized = normalize(currentPath)
-    if (EN_AVAILABLE_PATHS.has(normalized)) {
+    if (hasEnglishVersion(normalized)) {
       return `/en${normalized}`
     }
     // No translated version yet — send the user to the English home.
