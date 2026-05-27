@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useI18n } from '../i18n/I18nContext'
+import { useAuth } from '../hooks/useAuth'
 
 type NavLink = { href: string; label: string }
 
@@ -26,6 +27,7 @@ function localePath(path: string, isEn: boolean): string {
 
 export function ToolsNav() {
   const { t, locale, setLocale } = useI18n()
+  const { user } = useAuth()
   const isEn = locale === 'en'
   const [open, setOpen] = useState(false)
 
@@ -45,7 +47,10 @@ export function ToolsNav() {
   }, [open])
 
   const links: NavLink[] = [
-    { href: localePath('/tools/', isEn), label: t('tools.nav.toolsLink') },
+    // Unified site nav — must match the home nav in src/HomePage.tsx.
+    // EN has no /en/tools/ hub, so EN "Free Tools" points at the EN home, which
+    // surfaces every tool in its showcase section.
+    { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
     { href: '/guides/', label: isEn ? 'Guides' : '가이드' },
     { href: '/reviews/', label: isEn ? 'Reviews' : '리뷰' },
     { href: '/news/', label: isEn ? 'News' : '뉴스' },
@@ -79,6 +84,22 @@ export function ToolsNav() {
           >
             {locale === 'ko' ? 'EN' : '한국어'}
           </button>
+          {user ? (
+            <a
+              href="/mypage/"
+              className="text-xs lg:text-sm font-medium text-slate-200 hover:text-primary px-2 lg:px-3 py-1.5 rounded-md border border-slate-500 inline-flex items-center gap-1.5"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
+              <span>{t('auth.mypage')}</span>
+            </a>
+          ) : (
+            <a
+              href="/auth/"
+              className="text-xs lg:text-sm font-medium text-slate-200 hover:text-primary px-2 lg:px-3 py-1.5 rounded-md border border-slate-500"
+            >
+              {t('auth.login')}
+            </a>
+          )}
           <a
             href={isEn ? '/en/' : '/analysis/'}
             className="bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold inline-flex items-center gap-1.5"
@@ -149,6 +170,24 @@ export function ToolsNav() {
               >
                 {locale === 'ko' ? 'English' : '한국어'}
               </button>
+              {user ? (
+                <a
+                  href="/mypage/"
+                  onClick={() => setOpen(false)}
+                  className="w-full text-sm font-medium text-slate-700 hover:text-navy py-2.5 rounded-lg border border-slate-300 inline-flex items-center justify-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>person</span>
+                  {t('auth.mypage')}
+                </a>
+              ) : (
+                <a
+                  href="/auth/"
+                  onClick={() => setOpen(false)}
+                  className="w-full text-sm font-medium text-slate-700 hover:text-navy py-2.5 rounded-lg border border-slate-300 inline-flex items-center justify-center"
+                >
+                  {t('auth.login')}
+                </a>
+              )}
               <a
                 href={isEn ? '/en/' : '/analysis/'}
                 onClick={() => setOpen(false)}

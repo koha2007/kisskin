@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 
@@ -69,9 +69,7 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
   const [styleIndices, setStyleIndices] = useState<number[]>(
     MARQUEE_MODELS.map((_, i) => i % 9) // stagger initial styles
   )
-  const trackRef = useRef<HTMLDivElement>(null)
-
-  // Rotate styles every 3.5s with crossfade
+  // Rotate styles every 3.5s
   useEffect(() => {
     const interval = setInterval(() => {
       setStyleIndices(prev => prev.map((idx) => (idx + 1) % 9))
@@ -79,26 +77,52 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
     return () => clearInterval(interval)
   }, [])
 
-  // Clone cards for seamless loop
+  // Preload every rotation image so the 3.5s style swaps are instant (no blank
+  // pop-in mid-scroll). Deferred so it never competes with first paint.
   useEffect(() => {
-    const track = trackRef.current
-    if (!track || track.dataset.cloned) return
-    track.dataset.cloned = 'true'
-    const originals = Array.from(track.children)
-    originals.forEach(card => {
-      const clone = card.cloneNode(true) as HTMLElement
-      clone.setAttribute('aria-hidden', 'true')
-      track.appendChild(clone)
-    })
+    const id = window.setTimeout(() => {
+      MARQUEE_MODELS.forEach(m =>
+        m.images.forEach(file => {
+          const img = new Image()
+          img.src = `/styles/marquee/${m.folder}_${file}`
+        })
+      )
+    }, 1200)
+    return () => window.clearTimeout(id)
   }, [])
 
-  // Preload first image of each model
-  useEffect(() => {
-    MARQUEE_MODELS.forEach(m => {
-      const img = new Image()
-      img.src = `/styles/marquee/${m.folder}_${m.images[0]}`
+  // Render the model cards. The track holds two identical copies (a + b) and the
+  // CSS scrolls it by exactly -50%, so copy B lands where copy A began — a truly
+  // seamless loop. Both copies read the same styleIndices, so they always show
+  // the same image (the old cloneNode froze copies on their initial image, which
+  // popped at every loop seam). Copy B is decorative: hidden from a11y + focus.
+  const renderCards = (copy: 'a' | 'b') =>
+    MARQUEE_MODELS.map((model, mi) => {
+      const src = `/styles/marquee/${model.folder}_${model.images[styleIndices[mi]]}`
+      return (
+        <div
+          key={`${copy}-${model.folder}`}
+          className="ks-card"
+          onClick={onClick}
+          role="button"
+          tabIndex={copy === 'a' ? 0 : -1}
+          aria-hidden={copy === 'b' || undefined}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
+          aria-label={`Try AI makeup — ${STYLE_LABELS[styleIndices[mi]]}`}
+        >
+          <img
+            src={src}
+            alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
+            width={200}
+            height={280}
+            loading={copy === 'a' && mi < 2 ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchPriority={copy === 'a' && mi === 0 ? 'high' : 'auto'}
+          />
+          <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
+        </div>
+      )
     })
-  }, [])
 
   return (
     <>
@@ -207,39 +231,14 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
       <div className="ks-hero-wrap">
         <div
           className="ks-marquee-track"
-          ref={trackRef}
           onTouchStart={(e) => e.currentTarget.classList.add('ks-paused')}
           onTouchEnd={(e) => {
             const el = e.currentTarget
             window.setTimeout(() => el.classList.remove('ks-paused'), 1500)
           }}
         >
-          {MARQUEE_MODELS.map((model, mi) => {
-            const imgFile = model.images[styleIndices[mi]]
-            const src = `/styles/marquee/${model.folder}_${imgFile}`
-            return (
-              <div
-                key={model.folder}
-                className="ks-card"
-                onClick={onClick}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
-                aria-label={`Try AI makeup — ${STYLE_LABELS[styleIndices[mi]]}`}
-              >
-                <img
-                  src={src}
-                  alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
-                  width={200}
-                  height={280}
-                  loading={mi < 2 ? "eager" : "lazy"}
-                  decoding="async"
-                  fetchPriority={mi === 0 ? "high" : "auto"}
-                />
-                <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
-              </div>
-            )
-          })}
+          {renderCards('a')}
+          {renderCards('b')}
         </div>
       </div>
     </>
@@ -394,12 +393,14 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
           </div>
+          {/* Unified site nav — must match ToolsNav in src/components/ToolsLayout.tsx */}
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
             <a href="/guides/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a>
             <a href="/reviews/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a>
             <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
             <a href="/blog/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.blog')}</a>
+            <a href={isEn ? '/en/about/' : '/about/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.about')}</a>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <button
@@ -428,7 +429,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
               onClick={() => onNavigate('analysis')}
             >
-              {t('common.startAnalysis')}
+              {t('tools.nav.aiMakeup')}
             </button>
 
             {/* Mobile-only AI button + hamburger */}
@@ -436,7 +437,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               onClick={() => onNavigate('analysis')}
               className="sm:hidden bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
             >
-              {t('common.startAnalysis')}
+              {t('tools.nav.aiMakeup')}
             </button>
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -470,12 +471,12 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </div>
               <ul className="flex-1 overflow-y-auto py-2">
                 {[
-                  { href: '/tools/', label: t('common.freeTools') },
+                  { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
                   { href: '/guides/', label: t('nav.guides') },
                   { href: '/reviews/', label: t('nav.reviews') },
                   { href: '/news/', label: t('nav.news') },
                   { href: '/blog/', label: t('nav.blog') },
-                  { href: '/about/', label: t('nav.about') },
+                  { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
                 ].map((l) => (
                   <li key={l.href}>
                     <a
@@ -528,7 +529,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   }}
                   className="w-full bg-gradient-to-r from-primary to-pink-500 text-white py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5"
                 >
-                  {t('common.startAnalysis')}
+                  {t('tools.nav.aiMakeup')}
                 </button>
               </div>
             </div>

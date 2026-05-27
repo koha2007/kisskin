@@ -6,6 +6,9 @@ import { I18nContext } from './I18nContext'
 
 const dictionaries: Record<Locale, Record<string, string>> = { ko, en }
 const LOCALE_EVENT = 'kisskin:locale-change'
+// Scroll position stashed right before a locale toggle navigates to the
+// other-language URL, so the new page can restore it (see setLocale + effect).
+const SCROLL_RESTORE_KEY = 'kisskin_scroll_restore'
 
 function localeFromPath(pathname: string): Locale | null {
   if (pathname === '/en' || pathname === '/en/' || pathname.startsWith('/en/')) return 'en'
@@ -100,7 +103,12 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
     try { localStorage.setItem('kisskin_locale', l) } catch { /* quota / unavailable */ }
     const target = alternateUrl(window.location.pathname, l)
     if (target !== window.location.pathname) {
-      window.location.href = target + window.location.search + window.location.hash
+      // Preserve the reader's scroll position across the full-page locale switch
+      // so they stay where they were instead of snapping to the top. Drop any
+      // #hash too, so the browser doesn't re-jump to an anchor (e.g. the tools
+      // section) and fight the restore below.
+      try { sessionStorage.setItem(SCROLL_RESTORE_KEY, String(window.scrollY)) } catch { /* unavailable */ }
+      window.location.href = target + window.location.search
       return
     }
     window.dispatchEvent(new Event(LOCALE_EVENT))
@@ -109,6 +117,24 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])
+
+  // After a locale toggle reloads the other-language URL, restore the scroll
+  // position saved just before the jump so the view stays put. Runs once on mount.
+  useEffect(() => {
+    let saved: string | null = null
+    try { saved = sessionStorage.getItem(SCROLL_RESTORE_KEY) } catch { /* unavailable */ }
+    if (saved === null) return
+    try { sessionStorage.removeItem(SCROLL_RESTORE_KEY) } catch { /* ignore */ }
+    const y = Number.parseInt(saved, 10)
+    if (Number.isNaN(y)) return
+    const restore = () => window.scrollTo(0, y)
+    // Take over from the browser's own restore, then re-apply across a couple of
+    // frames so late layout shifts (images/fonts) don't leave us short.
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual' } catch { /* ignore */ }
+    requestAnimationFrame(restore)
+    const t1 = window.setTimeout(restore, 150)
+    return () => window.clearTimeout(t1)
+  }, [])
 
   const t = (key: string): string => {
     const dict = dictionaries[locale]
