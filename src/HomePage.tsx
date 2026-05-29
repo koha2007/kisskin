@@ -427,7 +427,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <a href="/guides/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a>
             <a href="/reviews/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a>
             <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
-            <a href="/blog/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.blog')}</a>
             <a href={isEn ? '/en/about/' : '/about/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.about')}</a>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
@@ -503,7 +502,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   { href: '/guides/', label: t('nav.guides') },
                   { href: '/reviews/', label: t('nav.reviews') },
                   { href: '/news/', label: t('nav.news') },
-                  { href: '/blog/', label: t('nav.blog') },
                   { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
                 ].map((l) => (
                   <li key={l.href}>
@@ -1419,7 +1417,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href="/guides/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a></li>
                 <li><a href="/reviews/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a></li>
                 <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
-                <li><a href="/blog/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.blog')}</a></li>
                 <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>
               </ul>
             </div>

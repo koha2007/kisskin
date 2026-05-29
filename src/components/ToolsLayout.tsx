@@ -54,7 +54,6 @@ export function ToolsNav() {
     { href: '/guides/', label: isEn ? 'Guides' : '가이드' },
     { href: '/reviews/', label: isEn ? 'Reviews' : '리뷰' },
     { href: '/news/', label: isEn ? 'News' : '뉴스' },
-    { href: '/blog/', label: isEn ? 'Blog' : '블로그' },
     { href: localePath('/about/', isEn), label: isEn ? 'About' : '소개' },
   ]
 
@@ -228,7 +227,6 @@ export function ToolsFooter() {
               <li><a href="/guides/" className="hover:text-primary">{isEn ? 'Guides' : '가이드'}</a></li>
               <li><a href="/reviews/" className="hover:text-primary">{isEn ? 'Reviews' : '리뷰'}</a></li>
               <li><a href="/news/" className="hover:text-primary">{isEn ? 'News' : '뉴스'}</a></li>
-              <li><a href="/blog/" className="hover:text-primary">{isEn ? 'Blog' : '블로그'}</a></li>
               <li><a href={localePath('/about-makeup-ai/', isEn)} className="hover:text-primary">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>
             </ul>
           </div>
