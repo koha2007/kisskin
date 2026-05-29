@@ -47,3 +47,10 @@ export const AFFILIATE_CONFIG = {
 } as const
 
 export const CLIO_CATEGORY_LINKS = CLIO_LINKS
+
+// Substring match for free-text brand strings (e.g. "Peripera (한국)") — unlike
+// AFFILIATE_CONFIG.clio.shouldShow, which expects an exact-token brand list.
+export function clioBrandMatch(text: string): boolean {
+  const lower = text.toLowerCase()
+  return CLIO_BRAND_TOKENS.some((token) => lower.includes(token.toLowerCase()))
+}

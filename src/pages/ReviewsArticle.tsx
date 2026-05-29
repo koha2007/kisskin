@@ -1,11 +1,24 @@
 import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
 import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import ProductBuyButtons from '../components/ProductBuyButtons'
+import AffiliateDisclosure from '../components/AffiliateDisclosure'
 import { REVIEW_POSTS, getReviewBySlug } from '../lib/reviews/posts'
 import { getReviewCategoryMeta } from '../lib/reviews/types'
+import { clioBrandMatch } from '../config/affiliate'
+import { getClioLinkByReviewCategory } from '../lib/affiliate/categoryMapping'
 
 interface Props {
   slug: string
+}
+
+// Build a clean Coupang search phrase from a review product's brand + name.
+// Strips parenthetical country tags ("Rom&nd (한국)" → "Rom&nd") and keeps only
+// the product line before any em/en-dash or colon separator.
+function reviewQuery(brand: string, name: string): string {
+  const cleanBrand = brand.replace(/\s*\(.*?\)\s*/g, ' ').trim()
+  const cleanName = name.split(/[—–:]/)[0].replace(/[“”"'‘’]/g, '').trim()
+  return `${cleanBrand} ${cleanName}`.replace(/\s+/g, ' ').trim()
 }
 
 export default function ReviewsArticle({ slug }: Props) {
@@ -112,9 +125,20 @@ export default function ReviewsArticle({ slug }: Props) {
                 </div>
               )}
             </div>
+
+            <ProductBuyButtons
+              className="mt-5"
+              coupangQuery={reviewQuery(product.brand, product.name)}
+              clioLink={clioBrandMatch(product.brand) ? getClioLinkByReviewCategory(post.category) : null}
+              pageType="review"
+              pageSlug={post.slug}
+              trackCategory={post.category}
+            />
           </li>
         ))}
       </ol>
+
+      <AffiliateDisclosure className="mt-8" />
 
       <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] mt-12 space-y-6 border-t border-slate-200 pt-10">
         {renderBody(post.outro)}

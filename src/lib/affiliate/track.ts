@@ -1,4 +1,10 @@
-export type AffiliatePageType = 'personal_color' | 'face_shape' | 'mbti' | 'perfume_type'
+export type AffiliatePageType =
+  | 'personal_color'
+  | 'face_shape'
+  | 'mbti'
+  | 'perfume_type'
+  | 'review'
+  | 'guide'
 
 export interface AffiliateClickEvent {
   merchant: 'coupang' | 'clubclio'

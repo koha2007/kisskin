@@ -59,3 +59,24 @@ export function getClioCategoryByPerfumeType(type: string): ClioCategory {
 export function getClioLinkByPerfumeType(type: string): string {
   return CLIO_CATEGORY_LINKS[getClioCategoryByPerfumeType(type)]
 }
+
+// Review / guide category code → Clio storefront category.
+const CLIO_CATEGORY_BY_REVIEW: Record<string, ClioCategory> = {
+  lip: 'lip',
+  base: 'base',
+  eye: 'eye',
+  cheek: 'cheek',
+  skincare: 'base',
+  tools: 'main',
+  vegan: 'main',
+  budget: 'main',
+  mens: 'main',
+}
+
+export function getClioCategoryByReviewCategory(cat: string): ClioCategory {
+  return CLIO_CATEGORY_BY_REVIEW[cat] ?? 'main'
+}
+
+export function getClioLinkByReviewCategory(cat: string): string {
+  return CLIO_CATEGORY_LINKS[getClioCategoryByReviewCategory(cat)]
+}
