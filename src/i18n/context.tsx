@@ -4,6 +4,8 @@ import ko from './ko'
 import en from './en'
 import { I18nContext } from './I18nContext'
 import { EN_GUIDE_SLUG_SET } from '../lib/guides/enSlugs'
+import { EN_REVIEW_SLUG_SET } from '../lib/reviews/enSlugs'
+import { EN_NEWS_SLUG_SET } from '../lib/news/enSlugs'
 
 const dictionaries: Record<Locale, Record<string, string>> = { ko, en }
 const LOCALE_EVENT = 'kisskin:locale-change'
@@ -50,6 +52,8 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/terms/',
   '/refund/',
   '/guides/',
+  '/reviews/',
+  '/news/',
 ])
 
 // Tool families that have a complete English mirror under /en/tools/<tool>/...
@@ -71,18 +75,31 @@ function normalize(p: string): string {
   return p.endsWith('/') ? p : p + '/'
 }
 
-// Individual guide articles with a hand-written English version. The hub itself
-// is in EN_AVAILABLE_PATHS; only the translated slugs map one-to-one (others
-// fall back to the English guides hub).
-function isTranslatedGuidePath(normalizedPath: string): boolean {
-  const m = normalizedPath.match(/^\/guides\/([^/]+)\/$/)
-  return m ? EN_GUIDE_SLUG_SET.has(m[1]) : false
+// Individual guide/review/news articles with a hand-written English version.
+// The hubs are in EN_AVAILABLE_PATHS; only the translated slugs map one-to-one
+// (others fall back to the matching English hub — see alternateUrl below).
+function isTranslatedArticlePath(normalizedPath: string): boolean {
+  const guide = normalizedPath.match(/^\/guides\/([^/]+)\/$/)
+  if (guide) return EN_GUIDE_SLUG_SET.has(guide[1])
+  const review = normalizedPath.match(/^\/reviews\/([^/]+)\/$/)
+  if (review) return EN_REVIEW_SLUG_SET.has(review[1])
+  const news = normalizedPath.match(/^\/news\/([^/]+)\/$/)
+  if (news) return EN_NEWS_SLUG_SET.has(news[1])
+  return false
 }
 
 function hasEnglishVersion(normalizedPath: string): boolean {
   if (EN_AVAILABLE_PATHS.has(normalizedPath)) return true
-  if (isTranslatedGuidePath(normalizedPath)) return true
+  if (isTranslatedArticlePath(normalizedPath)) return true
   return EN_MIRRORED_TOOL_PREFIXES.some(prefix => normalizedPath.startsWith(prefix))
+}
+
+// An untranslated article still has a relevant English landing — its hub.
+function sectionHubFallback(normalizedPath: string): string | null {
+  if (normalizedPath.startsWith('/guides/')) return '/en/guides/'
+  if (normalizedPath.startsWith('/reviews/')) return '/en/reviews/'
+  if (normalizedPath.startsWith('/news/')) return '/en/news/'
+  return null
 }
 
 function alternateUrl(currentPath: string, target: Locale): string {
@@ -93,8 +110,8 @@ function alternateUrl(currentPath: string, target: Locale): string {
     if (hasEnglishVersion(normalized)) {
       return `/en${normalized}`
     }
-    // An untranslated guide still has a relevant English landing — the guides hub.
-    if (normalized.startsWith('/guides/')) return '/en/guides/'
+    const hub = sectionHubFallback(normalized)
+    if (hub) return hub
     // No translated version yet — send the user to the English home.
     return '/en/'
   }

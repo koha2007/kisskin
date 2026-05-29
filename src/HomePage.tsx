@@ -425,8 +425,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
             <a href={isEn ? '/en/guides/' : '/guides/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a>
-            <a href="/reviews/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a>
-            <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
+            <a href={isEn ? '/en/reviews/' : '/reviews/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a>
+            <a href={isEn ? '/en/news/' : '/news/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
             <a href={isEn ? '/en/about/' : '/about/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.about')}</a>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
@@ -500,8 +500,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 {[
                   { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
                   { href: isEn ? '/en/guides/' : '/guides/', label: t('nav.guides') },
-                  { href: '/reviews/', label: t('nav.reviews') },
-                  { href: '/news/', label: t('nav.news') },
+                  { href: isEn ? '/en/reviews/' : '/reviews/', label: t('nav.reviews') },
+                  { href: isEn ? '/en/news/' : '/news/', label: t('nav.news') },
                   { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
                 ].map((l) => (
                   <li key={l.href}>
@@ -1415,8 +1415,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href={isEn ? '/en/tools/face-shape/' : '/tools/face-shape/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
                 <li><a href="/tools/perfume-type/" className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
                 <li><a href={isEn ? '/en/guides/' : '/guides/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a></li>
-                <li><a href="/reviews/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a></li>
-                <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
+                <li><a href={isEn ? '/en/reviews/' : '/reviews/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a></li>
+                <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
                 <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>
               </ul>
             </div>

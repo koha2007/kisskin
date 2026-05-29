@@ -4,9 +4,11 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ProductBuyButtons from '../components/ProductBuyButtons'
 import AffiliateDisclosure from '../components/AffiliateDisclosure'
 import { REVIEW_POSTS, getReviewBySlug } from '../lib/reviews/posts'
+import { REVIEW_POSTS_EN, getReviewBySlugEn } from '../lib/reviews/posts.en'
 import { getReviewCategoryMeta } from '../lib/reviews/types'
 import { clioBrandMatch } from '../config/affiliate'
 import { getClioLinkByReviewCategory } from '../lib/affiliate/categoryMapping'
+import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
   slug: string
@@ -22,18 +24,26 @@ function reviewQuery(brand: string, name: string): string {
 }
 
 export default function ReviewsArticle({ slug }: Props) {
-  const post = getReviewBySlug(slug)
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
+  const posts = isEn ? REVIEW_POSTS_EN : REVIEW_POSTS
+  const post = isEn ? getReviewBySlugEn(slug) : getReviewBySlug(slug)
+  const hubPath = isEn ? '/en/reviews/' : '/reviews/'
+  const hubBase = isEn ? '/en/reviews' : '/reviews'
+
   if (!post) {
     return (
       <div className="font-display bg-white min-h-screen">
         <ToolsNav />
         <main className="max-w-3xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-navy mb-4">리뷰를 찾을 수 없습니다</h1>
+          <h1 className="text-2xl font-bold text-navy mb-4">
+            {isEn ? 'Review not found' : '리뷰를 찾을 수 없습니다'}
+          </h1>
           <a
-            href="/reviews/"
+            href={hubPath}
             className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full font-semibold"
           >
-            리뷰 홈으로
+            {isEn ? 'Back to reviews' : '리뷰 홈으로'}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
         </main>
@@ -43,33 +53,33 @@ export default function ReviewsArticle({ slug }: Props) {
   }
 
   const meta = getReviewCategoryMeta(post.category)
-  const related: RelatedItem[] = REVIEW_POSTS.filter(
-    (p) => p.category === post.category && p.slug !== post.slug,
-  )
+  const categoryLabel = isEn ? meta.enLabel : meta.koLabel
+  const related: RelatedItem[] = posts
+    .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3)
     .map((r) => ({
       slug: r.slug,
       title: r.title,
       date: r.date,
-      categoryLabel: meta.koLabel,
+      categoryLabel,
       categoryColor: meta.color,
     }))
 
   return (
     <ArticleShell
-      hubLabel="리뷰 홈"
-      hubPath="/reviews/"
-      categoryLabel={meta.koLabel}
+      hubLabel={isEn ? 'Reviews home' : '리뷰 홈'}
+      hubPath={hubPath}
+      categoryLabel={categoryLabel}
       categoryColor={meta.color}
       date={post.date}
       readMinutes={post.readMinutes}
       title={post.title}
       summary={post.summary}
-      metaExtra={<span>{post.products.length}개 제품 비교</span>}
+      metaExtra={<span>{isEn ? `${post.products.length} products compared` : `${post.products.length}개 제품 비교`}</span>}
       tags={post.tags}
       related={related}
-      relatedLabel={`${meta.koLabel} 카테고리 다른 리뷰`}
-      relatedBasePath="/reviews"
+      relatedLabel={isEn ? `More in ${categoryLabel}` : `${meta.koLabel} 카테고리 다른 리뷰`}
+      relatedBasePath={hubBase}
     >
       <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] mb-10">
         <p className="text-[17px] md:text-[19px] text-slate-800 font-medium">{post.intro}</p>
@@ -98,7 +108,7 @@ export default function ReviewsArticle({ slug }: Props) {
             <div className="grid md:grid-cols-2 gap-x-8 gap-y-3 text-sm">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 mb-1.5">
-                  장점
+                  {isEn ? 'Pros' : '장점'}
                 </div>
                 <ul className="space-y-1 text-slate-700">
                   {product.pros.map((pro, i) => (
@@ -112,7 +122,7 @@ export default function ReviewsArticle({ slug }: Props) {
               {product.cons && product.cons.length > 0 && (
                 <div>
                   <div className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 mb-1.5">
-                    단점
+                    {isEn ? 'Cons' : '단점'}
                   </div>
                   <ul className="space-y-1 text-slate-700">
                     {product.cons.map((con, i) => (

@@ -1,26 +1,24 @@
 import { usePageContext } from 'vike-react/usePageContext'
-import { getNewsBySlug } from '../../../src/lib/news/items'
-import { getCategoryMeta } from '../../../src/lib/news/types'
-import { hasEnNews } from '../../../src/lib/news/enSlugs'
+import { getNewsBySlugEn } from '../../../../src/lib/news/items.en'
+import { getCategoryMeta } from '../../../../src/lib/news/types'
 
 export default function Head() {
   const ctx = usePageContext()
   const slug = (ctx.routeParams?.slug ?? '').toString()
-  const item = getNewsBySlug(slug)
+  const item = getNewsBySlugEn(slug)
 
   if (!item) {
     return (
       <>
-        <title>기사를 찾을 수 없습니다 · kissinskin News</title>
+        <title>Article not found · kissinskin News</title>
         <meta name="robots" content="noindex" />
       </>
     )
   }
 
   const meta = getCategoryMeta(item.category)
-  const url = `https://kissinskin.net/news/${item.slug}/`
-  const enUrl = `https://kissinskin.net/en/news/${item.slug}/`
-  const translated = hasEnNews(item.slug)
+  const url = `https://kissinskin.net/en/news/${item.slug}/`
+  const koUrl = `https://kissinskin.net/news/${item.slug}/`
   const seoTitle = item.seoTitle ?? `${item.title} · kissinskin News`
   const seoDesc = item.seoDescription ?? item.summary
 
@@ -34,8 +32,11 @@ export default function Head() {
       <meta property="og:description" content={seoDesc} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:site_name" content="kissinskin" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale:alternate" content="ko_KR" />
       <meta property="article:published_time" content={item.date} />
-      <meta property="article:section" content={meta.koLabel} />
+      <meta property="article:section" content={meta.enLabel} />
       {item.tags.map((t) => (
         <meta key={t} property="article:tag" content={t} />
       ))}
@@ -43,13 +44,9 @@ export default function Head() {
       <meta name="twitter:title" content={item.title} />
       <meta name="twitter:description" content={seoDesc} />
       <link rel="canonical" href={url} />
-      {translated && (
-        <>
-          <link rel="alternate" hrefLang="ko" href={url} />
-          <link rel="alternate" hrefLang="en" href={enUrl} />
-          <link rel="alternate" hrefLang="x-default" href={url} />
-        </>
-      )}
+      <link rel="alternate" hrefLang="ko" href={koUrl} />
+      <link rel="alternate" hrefLang="en" href={url} />
+      <link rel="alternate" hrefLang="x-default" href={koUrl} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -57,8 +54,8 @@ export default function Head() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: '홈', item: 'https://kissinskin.net/' },
-              { '@type': 'ListItem', position: 2, name: '뉴스', item: 'https://kissinskin.net/news/' },
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://kissinskin.net/en/' },
+              { '@type': 'ListItem', position: 2, name: 'News', item: 'https://kissinskin.net/en/news/' },
               { '@type': 'ListItem', position: 3, name: item.title, item: url },
             ],
           }),

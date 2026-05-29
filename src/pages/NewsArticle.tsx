@@ -2,25 +2,36 @@ import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
 import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { NEWS_ITEMS, getNewsBySlug } from '../lib/news/items'
+import { NEWS_ITEMS_EN, getNewsBySlugEn } from '../lib/news/items.en'
 import { getCategoryMeta } from '../lib/news/types'
+import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
   slug: string
 }
 
 export default function NewsArticle({ slug }: Props) {
-  const item = getNewsBySlug(slug)
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
+  const items = isEn ? NEWS_ITEMS_EN : NEWS_ITEMS
+  const item = isEn ? getNewsBySlugEn(slug) : getNewsBySlug(slug)
+  const hubPath = isEn ? '/en/news/' : '/news/'
+  const hubBase = isEn ? '/en/news' : '/news'
+  const siteBase = isEn ? 'https://kissinskin.net/en/news' : 'https://kissinskin.net/news'
+
   if (!item) {
     return (
       <div className="font-display bg-white min-h-screen">
         <ToolsNav />
         <main className="max-w-3xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-navy mb-4">기사를 찾을 수 없습니다</h1>
+          <h1 className="text-2xl font-bold text-navy mb-4">
+            {isEn ? 'Article not found' : '기사를 찾을 수 없습니다'}
+          </h1>
           <a
-            href="/news/"
+            href={hubPath}
             className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full font-semibold"
           >
-            뉴스 홈으로
+            {isEn ? 'Back to news' : '뉴스 홈으로'}
             <span className="material-symbols-outlined">arrow_forward</span>
           </a>
         </main>
@@ -30,23 +41,23 @@ export default function NewsArticle({ slug }: Props) {
   }
 
   const meta = getCategoryMeta(item.category)
-  const related: RelatedItem[] = NEWS_ITEMS.filter(
-    (n) => n.category === item.category && n.slug !== item.slug,
-  )
+  const categoryLabel = isEn ? meta.enLabel : meta.koLabel
+  const related: RelatedItem[] = items
+    .filter((n) => n.category === item.category && n.slug !== item.slug)
     .slice(0, 3)
     .map((r) => ({
       slug: r.slug,
       title: r.title,
       date: r.date,
-      categoryLabel: meta.koLabel,
+      categoryLabel,
       categoryColor: meta.color,
     }))
 
   return (
     <ArticleShell
-      hubLabel="뉴스 홈"
-      hubPath="/news/"
-      categoryLabel={meta.koLabel}
+      hubLabel={isEn ? 'News home' : '뉴스 홈'}
+      hubPath={hubPath}
+      categoryLabel={categoryLabel}
       categoryColor={meta.color}
       date={item.date}
       readMinutes={item.readMinutes}
@@ -54,8 +65,8 @@ export default function NewsArticle({ slug }: Props) {
       summary={item.summary}
       tags={item.tags}
       related={related}
-      relatedLabel={`${meta.koLabel} 카테고리 관련 기사`}
-      relatedBasePath="/news"
+      relatedLabel={isEn ? `More in ${categoryLabel}` : `${meta.koLabel} 카테고리 관련 기사`}
+      relatedBasePath={hubBase}
     >
       <article className="article-body prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
         {renderBody(item.body)}
@@ -69,6 +80,7 @@ export default function NewsArticle({ slug }: Props) {
             '@type': 'NewsArticle',
             headline: item.title,
             description: item.summary,
+            inLanguage: isEn ? 'en' : 'ko',
             datePublished: item.date,
             dateModified: item.date,
             author: { '@type': 'Organization', name: 'kissinskin' },
@@ -79,9 +91,9 @@ export default function NewsArticle({ slug }: Props) {
             },
             mainEntityOfPage: {
               '@type': 'WebPage',
-              '@id': `https://kissinskin.net/news/${item.slug}/`,
+              '@id': `${siteBase}/${item.slug}/`,
             },
-            articleSection: meta.koLabel,
+            articleSection: categoryLabel,
             keywords: item.tags.join(', '),
           }),
         }}
