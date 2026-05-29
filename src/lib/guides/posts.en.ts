@@ -1,0 +1,135 @@
+import type { GuidePost } from './types'
+
+// Hand-written English guides — not machine translations of the Korean posts.
+// Same slugs as their Korean counterparts so the language toggle and hreflang
+// map one-to-one. Keep EN_GUIDE_SLUGS (enSlugs.ts) in sync with this list.
+export const GUIDE_POSTS_EN: GuidePost[] = [
+  {
+    slug: '10-minute-daily-makeup-routine',
+    category: 'basics',
+    title: 'The Korean 10-Minute Everyday Makeup Routine',
+    summary:
+      'A realistic five-step routine that gives you a clean, put-together face before work or class — in about ten minutes flat.',
+    body: [
+      'A ten-minute face is not about rushing. It is about building a routine you will actually keep every single day. The five steps below are the minimal daily routine most makeup artists reach for, and once the order becomes muscle memory you will finish in closer to eight minutes.',
+      '> TLDR: Five steps = skin prep (1.5 min) → base (2 min) → eyes (3 min) → brows (1 min) → blush + lip (2.5 min) | Doing the same order every day is the whole trick | A tinted SPF lets you thin out or skip foundation and save time',
+      '> KEY: The order never changes — skin prep → base → eyes → brows → blush + lip. Ten minutes total.',
+      'Step 1 — Skin prep (1 min 30 sec). After cleansing, go toner → a light moisturizer → SPF 30 or higher. Choose a tinted or tone-up sunscreen and it doubles as light coverage, so you can thin out or skip foundation in the next step and save real time.',
+      'Step 2 — Base (2 min). Tap a cushion or BB cream on with the sponge, starting on the high points — cheekbones, forehead, the bridge of the nose — and melting the edges out with the warmth of your fingertips. Dab concealer only on dark circles and spots, then press it in; do not rub. If pores or texture show, press a little loose powder over just those areas.',
+      'Step 3 — Eyes (3 min). Sweep a matte nude shadow across the whole lid, then tap a deeper brown into the outer third for quiet definition. Tightline by dotting a pencil between the lashes and softly joining the dots. One coat of mascara on curled lashes is plenty.',
+      'Step 4 — Brows (1 min). Brows set the whole impression of a face. Use a pencil or brow mascara one shade lighter than your hair and fill only the gaps, following the natural growth. Resist drawing a heavier or blockier shape than you already have — natural is the goal.',
+      'Step 5 — Blush + lip (2 min 30 sec). Sweep blush in a soft circle on the cheekbones, then lip balm followed by a lipstick or tint in the same color family. Keeping blush and lip in one family — coral, pink, or berry — is what makes a quick face look intentional instead of thrown together.',
+      'A few things worth prepping in advance: keep the five to seven items you use daily within arm’s reach; build a small duplicate kit for your bag so you can touch up on the go; and add one deeper treatment mask on the weekend. A short weekday routine pays off far more when your skin is in good shape underneath.',
+      '> TIP: For the first week, run a timer and check yourself at each step. Within days it naturally drops under eight minutes — the constant is doing the steps in the same order every time.',
+      'Small seasonal tweaks make a real difference too. In summer or humidity, set with a matte finish and a setting spray to stop slippage. In winter or dry air, keep a glowy base but reapply lip balm often. On high-pollution days, lengthen your evening cleanse — a double cleanse of five minutes or more — to clear what has settled into your pores. When you travel, carry the same line in mini sizes so your result stays consistent even when the environment changes.',
+    ],
+    date: '2026-04-30',
+    readMinutes: 5,
+    tags: ['Basics', 'Daily', 'Routine', 'Minimal'],
+    featured: true,
+    ctaHook: 'See this everyday routine on your own face with AI',
+  },
+  {
+    slug: 'cushion-foundation-no-cakiness-5-steps',
+    category: 'base',
+    title: 'Cushion Foundation Without the Cake: A 5-Step Method',
+    summary:
+      'By afternoon the cushion lifts on your cheeks and pores start to show. Here is the five-step method that keeps it clean for six hours and more.',
+    body: [
+      'The cushion compact is one of K-beauty’s signature inventions, but used the wrong way it manages to look cakey, emphasize pores, and turn shiny all at once. “My cushion cakes up by the afternoon” is one of the most common questions Korean makeup artists hear. Here is the five-step fix.',
+      'Step 1 — Wait five minutes after skincare. Your moisturizer and sunscreen need to absorb fully before the cushion goes on. Tap product onto skin that is still wet and the base film never sets, so it begins to lift and crack as the hours pass. The order is skincare → wait five minutes → cushion.',
+      'Step 2 — Add a primer step. If pores stand out or you run oily, smooth a light makeup primer over those areas first to give the cushion an even bed. CLIO and Japan’s Canmake both make affordable, reliable options in the budget-to-mid range.',
+      'Step 3 — Tap, then one slide. Pick up a moderate amount on the puff and press it on in order — cheeks → forehead → chin → nose. Going over the same spot again and again builds thickness and causes cakeyness, so limit each area to two or three presses. Then take a clean section of the puff and glide once to melt the edges in for an even finish.',
+      'Step 4 — Dot concealer, then press. Apply concealer only on dark circles and blemishes, after the cushion. Never drag it — always tap it in with a fingertip or a concealer brush. Dragging shoves the cushion layer around, and that is exactly where the cakeyness starts.',
+      'Step 5 — Finishing powder (do not skip). Press a little powder into just the T-zone and the tops of the cheeks and you will hold a clean, matte finish for six hours and more. If you do not want a matte mood, dust translucent powder very thinly — you keep the glow but absorb the oil.',
+      'Maintaining the cushion itself matters as much as application. Wash the sponge once a month in lukewarm soapy water; replace it the moment the surface darkens or the smell changes; and use it up within six months of opening. An oxidized cushion will cake no matter how good your technique is.',
+      '> WARN: Smear concealer over a cushion and you push the whole base layer around, and the cakeyness begins. Always press it in. Dragged concealer will not make it six hours.',
+      'Skin-type tweaks change the result. Oily skin: cut the glow and use a matte cushion plus T-zone powder. Dry skin: a glow cushion plus a highlighter on the cheekbones, with powder only where pores show. Combination skin: matte T-zone, dewy cheeks. From your late thirties, drop one step thinner than usual so fine lines and pores are not emphasized. Seasonally, a matte tone in summer and a glow tone in winter feels most natural — keeping both within one cushion line is the efficient move.',
+    ],
+    date: '2026-04-27',
+    readMinutes: 5,
+    tags: ['Cushion', 'Foundation', 'Base', 'How-to'],
+    ctaHook: 'Curious how a dewy K-beauty base looks on you? Try it with AI',
+  },
+  {
+    slug: 'monolid-hooded-eye-makeup-techniques',
+    category: 'eye',
+    title: 'Monolid & Hooded Eye Makeup: Techniques That Actually Show',
+    summary:
+      'Most tutorials assume a visible crease. For monolids, partial lids, and hooded eyes, the rules are different — here is what works for each eye shape.',
+    body: [
+      'Almost every makeup tutorial is built around a visible crease. But roughly 30% of East Asians — over half a billion people worldwide — have monolids or partial lids, and hooded eyes, where lid skin covers part of the eye, are common across every ethnicity. Here is how to work with each eye shape instead of against it.',
+      '## Monolid eyes',
+      'A lid with no crease. The defining trait is that a normal-width liner all but disappears when your eyes are open. So draw a line 1.5 to 2 times thicker than usual, placed so a sliver still shows when you look straight ahead. Best looks: a clean thick line, or a small cat-eye with a slightly lifted tail.',
+      'The key with monolids is using the lid space. The flat, generous lid takes graphic makeup beautifully — color blocking (one shade up top, another below), graphic liner, and glitter focal points all read well, so this is a shape that rewards experimentation.',
+      '## Inner-double lids',
+      'A lid with a partial crease near the inner eye — the in-between shape, common in Korea, Japan, and China. Lift the liner up a touch so the inner crease stays visible and you get a natural gradient. Angle the cat-eye tail up about 30 degrees to counter any downturn.',
+      '## Hooded eyes',
+      'A lid where extra skin drapes over part of the eye and hides your liner. The fix is the floating liner — drawing the line where it stays visible with the eye open. Avoid the classic trap of drawing a line with the eye closed that vanishes the moment you open it.',
+      'How to apply on hooded eyes: (1) watch yourself slowly open and close your eyes in the mirror to see how far the hood covers; (2) draw the liner just above the edge of the hood; (3) lift the cat-eye tail strongly to offset the downturn; (4) emphasize only the upper lashes and keep the lower ones natural.',
+      '## Larger, rounder eyes',
+      'If your eyes already read big and defined, heavy liner can overwhelm them. Smudge a soft dark-brown shadow instead of a hard line, or skip liner entirely and let a couple of coats of mascara carry the look.',
+      '## Asymmetrical eyes',
+      'Almost everyone’s eyes are slightly uneven. Do not try to draw them identical — judge balance from a step back in the mirror. Go a touch thicker on the smaller eye and a touch thinner on the larger one, and they even out.',
+      '> TIP: Flip a selfie horizontally and your asymmetry jumps out at once. We only ever see ourselves in a mirror-reversed reflection, so we assume we are symmetrical — the un-flipped photo is how others actually see you, which makes it the honest reference for balance.',
+      'Eye shape changes with age. A crisp crease in your twenties can start to hood from the late thirties as the lid begins to droop. Keep drawing liner in your old spot and it will all hide when your eyes are open, so re-check the visible position once a year by slowly opening and closing your eyes in the mirror. For monolids and hooded eyes alike, skip the painted-on fake crease — working with your own eye shape looks the most natural, and global trends increasingly lean into individual identity rather than away from it.',
+    ],
+    date: '2026-04-22',
+    readMinutes: 6,
+    tags: ['Eye', 'Monolid', 'Hooded eye', 'How-to'],
+    ctaHook: 'Wondering what eye looks suit your eyes? See it with AI',
+  },
+  {
+    slug: 'natural-no-makeup-makeup',
+    category: 'basics',
+    title: 'Korean “No-Makeup” Makeup: A 6-Step Natural Look',
+    summary:
+      'The hardest look there is — reading as if you wear nothing while your features still look awake. A six-step guide to the global no-makeup makeup look.',
+    body: [
+      'No-makeup makeup is the hardest look there is. It has to read as if you are wearing nothing while your features still look awake and defined. Makeup artists routinely call it the most labor-intensive look of all — here it is in six steps.',
+      'Step 1 — It starts with skincare. No-makeup makeup pays off most when your bare skin is in good shape. A sheet mask the night before, daily sunscreen, and enough sleep do the heavy lifting. Right before makeup, use a light moisturizer and give it five minutes to absorb.',
+      'Step 2 — Tone-up sunscreen or a light BB cream. Instead of a full foundation, finger-blend a tone-up sunscreen or sheer BB cream to even your tone just slightly. The goal is color correction only — keep your real skin texture visible. Dr.G’s tone-up base and Tower 28’s SunnyDays are global favorites here.',
+      'Step 3 — Spot conceal. Tap concealer only on dark circles and blemishes, and press it in. Never spread it across the whole face. Preserving your skin’s natural texture is the entire point of this look.',
+      'Step 4 — Your lip color, plus one shade. Use a balm or tint one step deeper than your natural lip color for a “your-lips-but-better” finish. Anything too defined reads as makeup. AMUSE’s dewy tint and Glossier’s Generation G are good picks.',
+      'Step 5 — Glow highlighter and a natural blush. A whisper of glow highlighter on the highest point of the cheekbones adds life through light. Sweep a very soft coral or pink blush in a circle on the cheeks for a believable flush. You are after “looks healthy,” not “wearing blush.”',
+      'Step 6 — Mascara and brows only. One coat of mascara on curled lashes — never two. Fill brow gaps along the natural growth. Shadow and liner are skipped, or kept to an absolute minimum.',
+      '## Five core principles',
+      '(1) Base thin and even — thickness is what reads as makeup. (2) Keep color close to your own tone — one or two steps deeper at most. (3) Glow only where it falls naturally — the top of the cheekbones, the bridge of the nose. (4) Blush where a real flush sits — circled on the cheekbones. (5) Mascara once — no fake length.',
+      '## The counterintuitive part',
+      'No-makeup makeup usually takes about 30% longer than a full face. The control is finer and small differences swing the result. Once it is second nature, though, it is the most efficient everyday work look there is.',
+      '> KEY: No-makeup makeup is not about how much you put on — it is about how invisibly you put it on. Base thickness is what gives makeup away, and color intensity is the ceiling.',
+      'What the look means shifts by age. In your twenties, skin is at its best, so minimizing nearly every step still reads natural. From the late thirties, as fine lines and pigmentation begin, “well cared for” is a more realistic target than “wearing nothing” — tone-up base, a cheekbone highlight, and a natural blush become the core three. Past forty, no-makeup makeup becomes the most elegant look of all, but a satin or glow finish hides fine lines better than matte. K-beauty’s “glass skin” trend is essentially the evolved form of no-makeup makeup — same philosophy: keep your real texture, build the impression with light.',
+    ],
+    date: '2026-04-12',
+    readMinutes: 6,
+    tags: ['No-makeup', 'Natural', 'Basics', 'How-to'],
+    ctaHook: 'See a natural, no-makeup look rendered on your face with AI',
+  },
+  {
+    slug: 'lipstick-stay-all-day-7-tips',
+    category: 'lip',
+    title: 'How to Make Lipstick Last All Day: 7 Tested Tips',
+    summary:
+      'Through coffee, lunch, and a full day of talking — seven techniques makeup artists use to keep lipstick from disappearing.',
+    body: [
+      'Lipstick that vanishes after coffee, lunch, and a few conversations is the world’s most-searched makeup frustration. Here are the seven tricks artists actually use, ordered by how much they move the needle.',
+      '> KEY: The highest-impact steps are #1 (exfoliate), #3 (blot), and #4 (powder set). Do just those three and your wear time more than doubles.',
+      '1. Exfoliating is the starting line. No lipstick lays down evenly over flaky skin. Massage a soft toothbrush with a little warm water and honey in small circles for 30 seconds, or use a lip scrub twice a week. Exfoliate, let a balm absorb for five minutes, then apply — that is how color sets evenly.',
+      '2. Line first. Define the lip with a liner and lightly fill it in; the lipstick color then anchors inside the line. Even after a meal the liner stays, so the shape does not fall apart. Match the liner to your lipstick’s color family so it reads natural.',
+      '3. Blot after the first coat. Apply once, slip a tissue between your lips and gently press to absorb the surface oils, then apply a second coat. That second layer bonds directly to the lip and roughly doubles the wear.',
+      '4. Set with a dusting of powder. After the second coat, lay one ply of tissue over your lips and tap a little face powder through it. The fine powder that passes through acts as a matte fixative on the lipstick surface, and the longevity jumps. Skip this if you want a glossy finish — it sets matte.',
+      '5. Reach for matte first. Within the same brand, matte outlasts satin and gloss. If you want shine, set color with a matte lipstick first, then dab gloss onto just the center of the lips — the “combo” trick that keeps both the wear and the shine.',
+      '6. Eat from the inside of your lips. Tuck your lips slightly inward when you drink or eat so the edges do not touch the cup or fork. A small habit, but it makes a big difference in how much color survives lunch.',
+      '7. Carry a touch-up kit. No trick holds a full day perfectly. A mini lipstick and a small mirror let you refresh in a minute. When you do, blot first and reapply a thin layer for the most natural result.',
+      'It helps to know how color families wear, too. Matte dark shades (blood wine, deep plum) last longest, matte nudes next, satin corals and pinks after that, and glossy formulas fade first. So for meetings and presentations where touch-ups are awkward, reach for matte dark or matte nude; for dates and everyday wear, satin or gloss is fine. If your lips run dry, the fix is not dropping gloss — it is using balm more often to protect the lips themselves.',
+    ],
+    date: '2026-04-29',
+    readMinutes: 6,
+    tags: ['Lipstick', 'Longevity', 'How-to'],
+    ctaHook: 'Find the lip colors that suit you — see them on your face with AI',
+  },
+]
+
+export function getGuideBySlugEn(slug: string): GuidePost | undefined {
+  return GUIDE_POSTS_EN.find((p) => p.slug === slug)
+}

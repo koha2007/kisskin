@@ -1,5 +1,6 @@
 import { useState, useMemo, type ReactNode } from 'react'
 import { ToolsNav, ToolsFooter } from './ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
 
 export type HubItem = {
   slug: string
@@ -44,6 +45,8 @@ export default function HubShell({
   totalLabel,
   showFeatured = true,
 }: Props) {
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
   const [active, setActive] = useState<string>('all')
 
   const counts = useMemo(() => {
@@ -92,7 +95,7 @@ export default function HubShell({
             <div className="flex gap-1 overflow-x-auto hide-scrollbar py-3 -mx-1">
               <FilterTab
                 active={active === 'all'}
-                label="전체"
+                label={isEn ? 'All' : '전체'}
                 count={counts.get('all') || 0}
                 onClick={() => setActive('all')}
               />
@@ -114,7 +117,7 @@ export default function HubShell({
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {filtered.length === 0 ? (
               <p className="text-center text-slate-500 py-12 text-sm">
-                이 카테고리에는 아직 글이 없습니다.
+                {isEn ? 'No articles in this category yet.' : '이 카테고리에는 아직 글이 없습니다.'}
               </p>
             ) : (
               <ul className="divide-y divide-slate-200">
@@ -132,7 +135,7 @@ export default function HubShell({
                         {featured.summary}
                       </p>
                       <span className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
-                        읽기
+                        {isEn ? 'Read' : '읽기'}
                         <span className="material-symbols-outlined text-sm">arrow_forward</span>
                       </span>
                     </a>
@@ -166,16 +169,18 @@ export default function HubShell({
               kissinskin · AI tool
             </div>
             <h2 className="text-lg md:text-xl font-bold text-navy mb-2 tracking-tight">
-              읽기만 하지 말고, 셀카로 직접 시뮬레이션해 보세요
+              {isEn ? 'Don’t just read — try it on your own selfie' : '읽기만 하지 말고, 셀카로 직접 시뮬레이션해 보세요'}
             </h2>
             <p className="text-slate-600 text-sm mb-5">
-              30초 안에 9가지 K-뷰티 메이크업이 본인 얼굴에 적용된 결과를 확인합니다.
+              {isEn
+                ? 'See nine K-beauty makeup looks rendered on your face in about 30 seconds.'
+                : '30초 안에 9가지 K-뷰티 메이크업이 본인 얼굴에 적용된 결과를 확인합니다.'}
             </p>
             <a
-              href="/analysis/"
+              href={isEn ? '/en/' : '/analysis/'}
               className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-navy-mid transition-colors"
             >
-              AI 메이크업 시작
+              {isEn ? 'Start AI Makeup' : 'AI 메이크업 시작'}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
             </a>
           </div>
@@ -188,6 +193,7 @@ export default function HubShell({
 }
 
 function ItemMeta({ item }: { item: HubItem }) {
+  const { locale } = useI18n()
   return (
     <div className="flex items-center gap-2 mb-3 text-[11px] text-slate-500">
       <span className="inline-flex items-center gap-1.5">
@@ -200,7 +206,7 @@ function ItemMeta({ item }: { item: HubItem }) {
       <span className="text-slate-300">·</span>
       <span>{formatDate(item.date)}</span>
       <span className="text-slate-300">·</span>
-      <span>{item.readMinutes}분</span>
+      <span>{locale === 'en' ? `${item.readMinutes} min` : `${item.readMinutes}분`}</span>
       {item.rightMeta && (
         <>
           <span className="text-slate-300">·</span>

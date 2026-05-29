@@ -51,7 +51,7 @@ export function ToolsNav() {
     // EN has no /en/tools/ hub, so EN "Free Tools" points at the EN home, which
     // surfaces every tool in its showcase section.
     { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
-    { href: '/guides/', label: isEn ? 'Guides' : '가이드' },
+    { href: isEn ? '/en/guides/' : '/guides/', label: isEn ? 'Guides' : '가이드' },
     { href: '/reviews/', label: isEn ? 'Reviews' : '리뷰' },
     { href: '/news/', label: isEn ? 'News' : '뉴스' },
     { href: localePath('/about/', isEn), label: isEn ? 'About' : '소개' },
@@ -224,7 +224,7 @@ export function ToolsFooter() {
               <li><a href="/tools/personal-color/" className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href={localePath('/tools/face-shape/', isEn)} className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>
               <li><a href="/tools/perfume-type/" className="hover:text-primary">{t('tools.footer.perfume')}</a></li>
-              <li><a href="/guides/" className="hover:text-primary">{isEn ? 'Guides' : '가이드'}</a></li>
+              <li><a href={isEn ? '/en/guides/' : '/guides/'} className="hover:text-primary">{isEn ? 'Guides' : '가이드'}</a></li>
               <li><a href="/reviews/" className="hover:text-primary">{isEn ? 'Reviews' : '리뷰'}</a></li>
               <li><a href="/news/" className="hover:text-primary">{isEn ? 'News' : '뉴스'}</a></li>
               <li><a href={localePath('/about-makeup-ai/', isEn)} className="hover:text-primary">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>

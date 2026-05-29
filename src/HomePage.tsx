@@ -424,7 +424,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* Unified site nav — must match ToolsNav in src/components/ToolsLayout.tsx */}
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
-            <a href="/guides/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a>
+            <a href={isEn ? '/en/guides/' : '/guides/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a>
             <a href="/reviews/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a>
             <a href="/news/" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
             <a href={isEn ? '/en/about/' : '/about/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.about')}</a>
@@ -499,7 +499,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <ul className="flex-1 overflow-y-auto py-2">
                 {[
                   { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
-                  { href: '/guides/', label: t('nav.guides') },
+                  { href: isEn ? '/en/guides/' : '/guides/', label: t('nav.guides') },
                   { href: '/reviews/', label: t('nav.reviews') },
                   { href: '/news/', label: t('nav.news') },
                   { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
@@ -1414,7 +1414,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
                 <li><a href={isEn ? '/en/tools/face-shape/' : '/tools/face-shape/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
                 <li><a href="/tools/perfume-type/" className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
-                <li><a href="/guides/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a></li>
+                <li><a href={isEn ? '/en/guides/' : '/guides/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.guides')}</a></li>
                 <li><a href="/reviews/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.reviews')}</a></li>
                 <li><a href="/news/" className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
                 <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>

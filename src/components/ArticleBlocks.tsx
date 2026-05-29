@@ -1,36 +1,42 @@
 import type { ReactNode } from 'react'
+import { useI18n } from '../i18n/I18nContext'
 
 type CalloutType = 'key' | 'warn' | 'data' | 'tip'
 
-const CALLOUT_STYLES: Record<CalloutType, { border: string; label: string; labelColor: string }> = {
+const CALLOUT_STYLES: Record<CalloutType, { border: string; label: string; labelEn: string; labelColor: string }> = {
   key: {
     border: 'border-rose-400',
     label: '핵심',
+    labelEn: 'Key',
     labelColor: 'text-rose-500',
   },
   warn: {
     border: 'border-amber-500',
     label: '주의',
+    labelEn: 'Note',
     labelColor: 'text-amber-600',
   },
   data: {
     border: 'border-slate-400',
     label: '데이터',
+    labelEn: 'Data',
     labelColor: 'text-slate-500',
   },
   tip: {
     border: 'border-emerald-500',
     label: '팁',
+    labelEn: 'Tip',
     labelColor: 'text-emerald-600',
   },
 }
 
 export function Callout({ type = 'key', children }: { type?: CalloutType; children: ReactNode }) {
+  const { locale } = useI18n()
   const s = CALLOUT_STYLES[type]
   return (
     <aside className={`not-prose my-7 border-l-2 ${s.border} pl-5 py-1`}>
       <div className={`text-[10px] font-bold uppercase tracking-[0.22em] ${s.labelColor} mb-2`}>
-        {s.label}
+        {locale === 'en' ? s.labelEn : s.label}
       </div>
       <div className="text-[15px] md:text-[16px] text-slate-700 leading-[1.7]">
         {children}
@@ -45,11 +51,12 @@ export function Callout({ type = 'key', children }: { type?: CalloutType; childr
  * without reading to the end.
  */
 export function TLDR({ points }: { points: string[] }) {
+  const { locale } = useI18n()
   if (!points.length) return null
   return (
     <aside className="not-prose mb-9 md:mb-10 p-5 md:p-6 bg-slate-50 border border-slate-200 rounded-lg">
       <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-3">
-        이 글의 핵심
+        {locale === 'en' ? 'The gist' : '이 글의 핵심'}
       </div>
       <ul className="space-y-2.5">
         {points.map((p, i) => (
@@ -91,6 +98,8 @@ export function Verdict({ children, label = 'Final Verdict' }: { children: React
  * Two-column quick-read help.
  */
 export function SkipTry({ skip, tryFor }: { skip: string; tryFor: string }) {
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
   return (
     <div className="not-prose my-8 grid sm:grid-cols-2 gap-4">
       <div className="p-5 border border-slate-200 rounded-lg">
@@ -98,7 +107,7 @@ export function SkipTry({ skip, tryFor }: { skip: string; tryFor: string }) {
           <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>
             block
           </span>
-          이런 분은 SKIP
+          {isEn ? 'SKIP IF' : '이런 분은 SKIP'}
         </div>
         <p className="text-[14px] md:text-[15px] text-slate-700 leading-[1.6]">{skip}</p>
       </div>
@@ -107,7 +116,7 @@ export function SkipTry({ skip, tryFor }: { skip: string; tryFor: string }) {
           <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle
           </span>
-          이런 분은 TRY
+          {isEn ? 'TRY IF' : '이런 분은 TRY'}
         </div>
         <p className="text-[14px] md:text-[15px] text-slate-700 leading-[1.6]">{tryFor}</p>
       </div>

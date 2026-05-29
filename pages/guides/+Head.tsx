@@ -17,6 +17,9 @@ export default function Head() {
       <meta property="og:url" content="https://kissinskin.net/guides/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <link rel="canonical" href="https://kissinskin.net/guides/" />
+      <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/guides/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/guides/" />
+      <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/guides/" />
     </>
   )
 }

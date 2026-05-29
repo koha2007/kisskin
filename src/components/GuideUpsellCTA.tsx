@@ -1,4 +1,5 @@
 import { isInternalTraffic } from '../lib/internalTraffic'
+import { useI18n } from '../i18n/I18nContext'
 
 // Strong "apply this to your own face" upsell for guide articles. Mirrors
 // ToolUpsellCTA visually for consistency, but is tailored to editorial guide
@@ -22,12 +23,14 @@ interface Props {
 
 // Trust signals mirror the homepage hero trust band for a consistent promise.
 const TRUST = [
-  { icon: 'bolt', label: '60초 완성' },
-  { icon: 'verified_user', label: '7일 환불보장' },
-  { icon: 'lock', label: 'Polar 안전결제' },
+  { icon: 'bolt', label: '60초 완성', labelEn: 'Done in 60s' },
+  { icon: 'verified_user', label: '7일 환불보장', labelEn: '7-day refund' },
+  { icon: 'lock', label: 'Polar 안전결제', labelEn: 'Secure checkout' },
 ]
 
 export default function GuideUpsellCTA({ slug, accentColor, accentColorTo, hook, variant = 'bottom' }: Props) {
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
   const to = accentColorTo || accentColor
 
   const trackClick = () => {
@@ -51,14 +54,16 @@ export default function GuideUpsellCTA({ slug, accentColor, accentColorTo, hook,
           style={{ color: accentColor, background: `${accentColor}14`, border: `1px solid ${accentColor}33` }}
         >
           <span className="material-symbols-outlined text-base">auto_awesome</span>
-          AI 메이크업 시뮬레이션
+          {isEn ? 'AI Makeup Simulation' : 'AI 메이크업 시뮬레이션'}
         </span>
 
         <h2 className="font-serif text-2xl md:text-[2rem] font-semibold text-navy tracking-tight mb-3 leading-tight">
           {hook}
         </h2>
         <p className="text-slate-600 text-[15px] md:text-lg leading-relaxed max-w-xl mx-auto mb-6">
-          셀카 한 장이면 AI가 9가지 K-뷰티 메이크업 룩을 약 60초 만에 만들어드려요.
+          {isEn
+            ? 'One selfie and AI builds nine K-beauty makeup looks in about 60 seconds.'
+            : '셀카 한 장이면 AI가 9가지 K-뷰티 메이크업 룩을 약 60초 만에 만들어드려요.'}
         </p>
 
         <div className="flex flex-wrap justify-center gap-2 mb-7">
@@ -70,23 +75,23 @@ export default function GuideUpsellCTA({ slug, accentColor, accentColorTo, hook,
               <span className="material-symbols-outlined text-sm" style={{ color: accentColor, fontVariationSettings: "'FILL' 1" }}>
                 {it.icon}
               </span>
-              {it.label}
+              {isEn ? it.labelEn : it.label}
             </span>
           ))}
         </div>
 
         <a
-          href="/analysis/"
+          href={isEn ? '/en/' : '/analysis/'}
           onClick={trackClick}
           className="inline-flex items-center justify-center gap-2 text-white px-8 md:px-10 py-4 rounded-full text-base md:text-lg font-bold transition-transform hover:scale-[1.02]"
           style={{ background: `linear-gradient(135deg, ${accentColor}, ${to})`, boxShadow: `0 14px 32px -10px ${accentColor}80` }}
         >
           <span className="text-xl leading-none">💄</span>
-          시작하기 · $2.99
+          {isEn ? 'Get started · $2.99' : '시작하기 · $2.99'}
           <span className="material-symbols-outlined">arrow_forward</span>
         </a>
         <p className="mt-4 text-xs text-slate-400">
-          가입 없이 바로 시작 · 1회 결제
+          {isEn ? 'No sign-up · one-time payment' : '가입 없이 바로 시작 · 1회 결제'}
         </p>
       </div>
     </aside>

@@ -141,9 +141,11 @@ function AboutEn() {
       <p>
         kissinskin is an indie one-person project based in South Korea. The
         operator, <strong>Yonghun Kim</strong>, builds and maintains every tool,
-        article, and feature, and personally answers all inquiries. There are
-        no investors. The site is funded by user payments, Google AdSense ad
-        revenue, and Coupang Partners affiliate commissions.
+        article, and feature, and personally answers all inquiries. It has been
+        running and updated continuously since 2024 — over a year of solo
+        development, design, and editorial. There are no investors; the site is
+        funded by user payments, Google AdSense ad revenue, and Coupang Partners
+        affiliate commissions.
       </p>
 
       <h2>What the site is for</h2>
@@ -163,7 +165,7 @@ function AboutEn() {
         </li>
         <li>
           <strong>Sourced claims:</strong> Industry data references public reports
-          (BeautyMatter, Mintel, NIQ, NPD Group) inline.
+          (BeautyMatter, Mintel, NIQ, NPD Group, Sephora, and Olive Young) inline.
         </li>
         <li>
           <strong>AI disclosure:</strong> Editorial text is written by a human.
@@ -196,7 +198,7 @@ function AboutEn() {
         </li>
         <li>
           <strong>Uploaded photos:</strong> Discarded immediately after analysis
-          and never stored. See our <a href="/privacy/">Privacy Policy</a> for full
+          and never stored. See our <a href="/en/privacy/">Privacy Policy</a> for full
           detail.
         </li>
       </ul>
@@ -222,7 +224,7 @@ function AboutEn() {
         <li>General: <a href="mailto:support@kissinskin.net">support@kissinskin.net</a></li>
         <li>Privacy: <a href="mailto:privacy@kissinskin.net">privacy@kissinskin.net</a></li>
         <li>Business: <a href="mailto:biz@kissinskin.net">biz@kissinskin.net</a></li>
-        <li>All contact channels: <a href="/contact/">/contact/</a></li>
+        <li>All contact channels: <a href="/en/contact/">/en/contact/</a></li>
       </ul>
       <p>
         If you spot a factual error, a copyright concern, or an accessibility

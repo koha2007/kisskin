@@ -1,26 +1,24 @@
 import { usePageContext } from 'vike-react/usePageContext'
-import { getGuideBySlug } from '../../../src/lib/guides/posts'
-import { getGuideCategoryMeta } from '../../../src/lib/guides/types'
-import { hasEnGuide } from '../../../src/lib/guides/enSlugs'
+import { getGuideBySlugEn } from '../../../../src/lib/guides/posts.en'
+import { getGuideCategoryMeta } from '../../../../src/lib/guides/types'
 
 export default function Head() {
   const ctx = usePageContext()
   const slug = (ctx.routeParams?.slug ?? '').toString()
-  const post = getGuideBySlug(slug)
+  const post = getGuideBySlugEn(slug)
 
   if (!post) {
     return (
       <>
-        <title>가이드를 찾을 수 없습니다 · kissinskin</title>
+        <title>Guide not found · kissinskin</title>
         <meta name="robots" content="noindex" />
       </>
     )
   }
 
   const meta = getGuideCategoryMeta(post.category)
-  const url = `https://kissinskin.net/guides/${post.slug}/`
-  const enUrl = `https://kissinskin.net/en/guides/${post.slug}/`
-  const translated = hasEnGuide(post.slug)
+  const url = `https://kissinskin.net/en/guides/${post.slug}/`
+  const koUrl = `https://kissinskin.net/guides/${post.slug}/`
 
   return (
     <>
@@ -32,8 +30,11 @@ export default function Head() {
       <meta property="og:description" content={post.summary} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:site_name" content="kissinskin" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale:alternate" content="ko_KR" />
       <meta property="article:published_time" content={post.date} />
-      <meta property="article:section" content={meta.koLabel} />
+      <meta property="article:section" content={meta.enLabel} />
       {post.tags.map((t) => (
         <meta key={t} property="article:tag" content={t} />
       ))}
@@ -41,13 +42,9 @@ export default function Head() {
       <meta name="twitter:title" content={post.title} />
       <meta name="twitter:description" content={post.summary} />
       <link rel="canonical" href={url} />
-      {translated && (
-        <>
-          <link rel="alternate" hrefLang="ko" href={url} />
-          <link rel="alternate" hrefLang="en" href={enUrl} />
-          <link rel="alternate" hrefLang="x-default" href={url} />
-        </>
-      )}
+      <link rel="alternate" hrefLang="ko" href={koUrl} />
+      <link rel="alternate" hrefLang="en" href={url} />
+      <link rel="alternate" hrefLang="x-default" href={koUrl} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -55,8 +52,8 @@ export default function Head() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: '홈', item: 'https://kissinskin.net/' },
-              { '@type': 'ListItem', position: 2, name: '가이드', item: 'https://kissinskin.net/guides/' },
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://kissinskin.net/en/' },
+              { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://kissinskin.net/en/guides/' },
               { '@type': 'ListItem', position: 3, name: post.title, item: url },
             ],
           }),

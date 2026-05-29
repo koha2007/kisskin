@@ -3,6 +3,7 @@ import type { Locale } from './types'
 import ko from './ko'
 import en from './en'
 import { I18nContext } from './I18nContext'
+import { EN_GUIDE_SLUG_SET } from '../lib/guides/enSlugs'
 
 const dictionaries: Record<Locale, Record<string, string>> = { ko, en }
 const LOCALE_EVENT = 'kisskin:locale-change'
@@ -48,6 +49,7 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/privacy/',
   '/terms/',
   '/refund/',
+  '/guides/',
 ])
 
 // Tool families that have a complete English mirror under /en/tools/<tool>/...
@@ -69,8 +71,17 @@ function normalize(p: string): string {
   return p.endsWith('/') ? p : p + '/'
 }
 
+// Individual guide articles with a hand-written English version. The hub itself
+// is in EN_AVAILABLE_PATHS; only the translated slugs map one-to-one (others
+// fall back to the English guides hub).
+function isTranslatedGuidePath(normalizedPath: string): boolean {
+  const m = normalizedPath.match(/^\/guides\/([^/]+)\/$/)
+  return m ? EN_GUIDE_SLUG_SET.has(m[1]) : false
+}
+
 function hasEnglishVersion(normalizedPath: string): boolean {
   if (EN_AVAILABLE_PATHS.has(normalizedPath)) return true
+  if (isTranslatedGuidePath(normalizedPath)) return true
   return EN_MIRRORED_TOOL_PREFIXES.some(prefix => normalizedPath.startsWith(prefix))
 }
 
@@ -82,6 +93,8 @@ function alternateUrl(currentPath: string, target: Locale): string {
     if (hasEnglishVersion(normalized)) {
       return `/en${normalized}`
     }
+    // An untranslated guide still has a relevant English landing — the guides hub.
+    if (normalized.startsWith('/guides/')) return '/en/guides/'
     // No translated version yet — send the user to the English home.
     return '/en/'
   }

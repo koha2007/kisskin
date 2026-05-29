@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { ToolsNav, ToolsFooter } from './ToolsLayout'
+import { useI18n } from '../i18n/I18nContext'
 
 export type RelatedItem = {
   slug: string
@@ -28,8 +29,11 @@ type Props = {
   ctaSubtitle?: string
 }
 
-function formatDate(iso: string) {
+function formatDate(iso: string, isEn: boolean) {
   const d = new Date(iso)
+  if (isEn) {
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  }
   return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`
 }
 
@@ -48,9 +52,18 @@ export default function ArticleShell({
   related,
   relatedLabel,
   relatedBasePath,
-  ctaTitle = '내게 어울리는 룩, AI로 직접 시뮬레이션',
-  ctaSubtitle = '셀카 한 장으로 9가지 K-뷰티 메이크업을 30초 안에',
+  ctaTitle,
+  ctaSubtitle,
 }: Props) {
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
+  const aboutPath = isEn ? '/en/about/' : '/about/'
+  const contactPath = isEn ? '/en/contact/' : '/contact/'
+  const analysisPath = isEn ? '/en/' : '/analysis/'
+  const resolvedCtaTitle = ctaTitle ?? (isEn ? 'Try your perfect look with AI' : '내게 어울리는 룩, AI로 직접 시뮬레이션')
+  const resolvedCtaSubtitle =
+    ctaSubtitle ?? (isEn ? 'One selfie, nine K-beauty looks in about 30 seconds.' : '셀카 한 장으로 9가지 K-뷰티 메이크업을 30초 안에')
+
   return (
     <div className="font-display bg-white min-h-screen">
       <ToolsNav />
@@ -75,7 +88,7 @@ export default function ArticleShell({
               <a
                 href={hubPath}
                 className="inline-flex items-center gap-1.5 hover:text-navy transition-colors"
-                aria-label={`${categoryLabel} 카테고리 글 더 보기`}
+                aria-label={isEn ? `More in ${categoryLabel}` : `${categoryLabel} 카테고리 글 더 보기`}
               >
                 <span
                   className="inline-block w-1.5 h-1.5 rounded-full"
@@ -84,9 +97,9 @@ export default function ArticleShell({
                 <span className="font-semibold text-slate-700 hover:text-navy">{categoryLabel}</span>
               </a>
               <span className="text-slate-300">·</span>
-              <span>{formatDate(date)}</span>
+              <span>{formatDate(date, isEn)}</span>
               <span className="text-slate-300">·</span>
-              <span>{readMinutes}분 읽기</span>
+              <span>{isEn ? `${readMinutes} min read` : `${readMinutes}분 읽기`}</span>
               {metaExtra && (
                 <>
                   <span className="text-slate-300">·</span>
@@ -101,8 +114,8 @@ export default function ArticleShell({
               {summary}
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
-              <span>작성</span>
-              <a href="/about/" className="font-semibold text-slate-700 hover:text-navy underline">
+              <span>{isEn ? 'By' : '작성'}</span>
+              <a href={aboutPath} className="font-semibold text-slate-700 hover:text-navy underline">
                 kissinskin Editorial · Yonghun Kim
               </a>
             </div>
@@ -117,30 +130,55 @@ export default function ArticleShell({
             {/* Editorial transparency disclosure — AdSense policy: original content provenance */}
             <div className="mt-12 p-5 md:p-6 bg-slate-50 border border-slate-200 rounded-xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-2">
-                이 글에 대해
+                {isEn ? 'About this article' : '이 글에 대해'}
               </div>
-              <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
-                kissinskin은 1인 인디 프로젝트로, 모든 글은 운영자{' '}
-                <a href="/about/" className="font-semibold text-navy underline hover:text-primary">
-                  Yonghun Kim
-                </a>
-                이 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
-                데이터 등 공개 출처를 교차 참조합니다.
-              </p>
-              <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
-                개인 의견과 일반화된 가이드는 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
-                오류 제보·의견은{' '}
-                <a href="/contact/" className="font-semibold text-navy underline hover:text-primary">
-                  문의 페이지
-                </a>
-                를 통해 받습니다.
-              </p>
+              {isEn ? (
+                <>
+                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
+                    kissinskin is a one-person indie project; every article is planned and edited by its
+                    operator{' '}
+                    <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
+                      Yonghun Kim
+                    </a>
+                    . Claims are cross-checked against public sources such as BeautyMatter, NIQ, Mintel,
+                    Sephora quarterly reports, and Olive Young bestseller data.
+                  </p>
+                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
+                    Personal opinion is kept distinct from generalized guidance, and matters needing medical
+                    or legal judgment should be taken to a professional. Corrections and feedback are welcome
+                    via the{' '}
+                    <a href={contactPath} className="font-semibold text-navy underline hover:text-primary">
+                      contact page
+                    </a>
+                    .
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
+                    kissinskin은 1인 인디 프로젝트로, 모든 글은 운영자{' '}
+                    <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
+                      Yonghun Kim
+                    </a>
+                    이 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
+                    데이터 등 공개 출처를 교차 참조합니다.
+                  </p>
+                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
+                    개인 의견과 일반화된 가이드는 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
+                    오류 제보·의견은{' '}
+                    <a href={contactPath} className="font-semibold text-navy underline hover:text-primary">
+                      문의 페이지
+                    </a>
+                    를 통해 받습니다.
+                  </p>
+                </>
+              )}
             </div>
 
             {tags && tags.length > 0 && (
               <div className="mt-8 pt-6 border-t border-slate-200">
                 <div className="flex items-center gap-2 flex-wrap text-xs text-slate-500">
-                  <span className="font-semibold text-slate-700">태그</span>
+                  <span className="font-semibold text-slate-700">{isEn ? 'Tags' : '태그'}</span>
                   {tags.map((tag) => (
                     <a
                       key={tag}
@@ -160,46 +198,46 @@ export default function ArticleShell({
         <section className="border-t border-slate-200 bg-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
             <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-2 text-center">
-              kissinskin · 무료 AI 진단
+              {isEn ? 'kissinskin · Free AI quizzes' : 'kissinskin · 무료 AI 진단'}
             </div>
             <h2 className="text-lg md:text-xl font-bold text-navy text-center mb-6 tracking-tight">
-              읽은 김에, 내게 맞는 메이크업도 진단해 보세요
+              {isEn ? 'While you’re here, find the makeup that suits you' : '읽은 김에, 내게 맞는 메이크업도 진단해 보세요'}
             </h2>
             <div className="grid sm:grid-cols-3 gap-3">
               <a
-                href="/tools/makeup-mbti/"
+                href={isEn ? '/en/tools/makeup-mbti/' : '/tools/makeup-mbti/'}
                 className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
               >
                 <div className="text-2xl mb-2">💄</div>
                 <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
-                  메이크업 MBTI
+                  {isEn ? 'Makeup MBTI' : '메이크업 MBTI'}
                 </div>
                 <div className="text-[12px] text-slate-500 leading-snug">
-                  16가지 메이크업 성향 진단
+                  {isEn ? '16 makeup personality types' : '16가지 메이크업 성향 진단'}
                 </div>
               </a>
               <a
-                href="/tools/personal-color/"
+                href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'}
                 className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
               >
                 <div className="text-2xl mb-2">🎨</div>
                 <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
-                  퍼스널 컬러
+                  {isEn ? 'Personal Color' : '퍼스널 컬러'}
                 </div>
                 <div className="text-[12px] text-slate-500 leading-snug">
-                  봄/여름/가을/겨울 4계절 분석
+                  {isEn ? 'Spring / Summer / Autumn / Winter' : '봄/여름/가을/겨울 4계절 분석'}
                 </div>
               </a>
               <a
-                href="/tools/face-shape/"
+                href={isEn ? '/en/tools/face-shape/' : '/tools/face-shape/'}
                 className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
               >
                 <div className="text-2xl mb-2">👤</div>
                 <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
-                  얼굴형 진단
+                  {isEn ? 'Face Shape' : '얼굴형 진단'}
                 </div>
                 <div className="text-[12px] text-slate-500 leading-snug">
-                  5가지 얼굴형 + 강조 포인트
+                  {isEn ? '5 face shapes + focal points' : '5가지 얼굴형 + 강조 포인트'}
                 </div>
               </a>
             </div>
@@ -210,14 +248,14 @@ export default function ArticleShell({
         <section className="border-t border-slate-200 bg-slate-50">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
             <h2 className="text-lg md:text-xl font-bold text-navy mb-2 tracking-tight">
-              {ctaTitle}
+              {resolvedCtaTitle}
             </h2>
-            <p className="text-slate-600 text-sm mb-5">{ctaSubtitle}</p>
+            <p className="text-slate-600 text-sm mb-5">{resolvedCtaSubtitle}</p>
             <a
-              href="/analysis/"
+              href={analysisPath}
               className="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-navy-mid transition-colors"
             >
-              AI 메이크업 시작
+              {isEn ? 'Start AI Makeup' : 'AI 메이크업 시작'}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
             </a>
           </div>
@@ -228,7 +266,7 @@ export default function ArticleShell({
           <section className="border-t border-slate-200">
             <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-14">
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-5">
-                {relatedLabel ?? '관련 글'}
+                {relatedLabel ?? (isEn ? 'Related' : '관련 글')}
               </div>
               <ul className="divide-y divide-slate-200">
                 {related.map((r) => (
