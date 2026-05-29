@@ -119,7 +119,10 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
             decoding="async"
             fetchPriority={copy === 'a' && mi === 0 ? 'high' : 'auto'}
           />
-          <div className="ks-card-label">{STYLE_LABELS[styleIndices[mi]]}</div>
+          <div className="ks-card-label">
+            <span>{STYLE_LABELS[styleIndices[mi]]}</span>
+            <span className="ks-card-try" aria-hidden="true">Try →</span>
+          </div>
         </div>
       )
     })
@@ -180,6 +183,11 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           overflow: hidden;
           flex-shrink: 0;
           cursor: pointer;
+          /* touch-action: manipulation kills the iOS 300ms tap delay and the
+             double-tap-zoom gesture on these cards — without it some quick
+             single taps on the rotating carousel were counted as dead clicks. */
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(235, 71, 99, 0.25);
           transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
                       box-shadow 0.35s ease;
           background: #111;
@@ -204,13 +212,31 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           bottom: 0;
           left: 0;
           right: 0;
-          padding: 28px 14px 12px;
-          background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+          padding: 36px 14px 12px;
+          background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
           color: #fff;
           font-size: 12px;
           font-weight: 600;
           letter-spacing: 0.04em;
           transition: opacity 0.8s ease;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 6px;
+        }
+        /* "Try →" hint pill on every card — makes the carousel obviously tappable
+           (cards were getting a lot of dead clicks because nothing on the card
+           visually said "you can click this"). */
+        .ks-card-try {
+          flex-shrink: 0;
+          font-size: 10px;
+          font-weight: 700;
+          background: rgba(255, 255, 255, 0.95);
+          color: #eb4763;
+          padding: 3px 8px;
+          border-radius: 999px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
         }
         @media (max-width: 768px) {
           .ks-card {
@@ -389,10 +415,12 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* Navigation */}
       <nav className="sticky top-0 z-50 w-full bg-navy border-b border-navy-light/50" role="navigation" aria-label={t('nav.mainMenu')}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          {/* Brand → home. Was a non-interactive <div>, so logo taps registered as
+             dead clicks in Clarity (people expect logos to be home links). */}
+          <a href={isEn ? '/en/' : '/'} className="flex items-center gap-2 rounded-md -ml-1 px-1 py-1 hover:bg-navy-light/30 transition-colors" aria-label="kissinskin home">
             <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
             <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
-          </div>
+          </a>
           {/* Unified site nav — must match ToolsNav in src/components/ToolsLayout.tsx */}
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>

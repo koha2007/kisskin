@@ -4,7 +4,7 @@ import { navigate } from 'vike/client/router'
 import { useI18n } from './i18n/I18nContext'
 import { supabase } from './lib/supabase'
 import { saveSharedResult } from './lib/shareResult'
-import { isInternalTraffic, markInternalIfFamily } from './lib/internalTraffic'
+import { isInternalTraffic, markInternalIfFamily, isInternalEmail } from './lib/internalTraffic'
 import type { User } from '@supabase/supabase-js'
 
 // ── Google Analytics helper ──────────────────────────────────────
@@ -38,8 +38,12 @@ function purchaseItems(type: 'one-time' | 'subscription') {
 // which equals the embed's checkout id), which would otherwise double-count revenue:
 // GA4 sums event-level revenue but dedupes transactions by transaction_id.
 // localStorage persists across the redirect/reload, unlike a module-level flag.
-function firePurchaseOnce(transactionId: string, params: Record<string, unknown>) {
+// Also drops family/operator purchases — Polar returns the checkout customerEmail,
+// which lets us catch family devices that paid before logging in (so the
+// markInternalIfFamily login-hook never ran). Polar dashboard is untouched.
+function firePurchaseOnce(transactionId: string, params: Record<string, unknown>, customerEmail?: string | null) {
   if (!transactionId) return
+  if (isInternalEmail(customerEmail)) { markInternalIfFamily(customerEmail); return }
   const KEY = 'kisskin_purchased'
   try {
     const fired: string[] = JSON.parse(localStorage.getItem(KEY) || '[]')
@@ -736,7 +740,7 @@ export default function AnalysisApp() {
             if (vData.customerEmail) customerEmailRef.current = vData.customerEmail
           }
         } catch { /* ok - fall back to nominal value, proceed without email */ }
-        firePurchaseOnce(embeddedCheckoutId, { value: realValue, currency: 'USD', checkout_type: type, checkout_method: 'embed', items: purchaseItems(type) })
+        firePurchaseOnce(embeddedCheckoutId, { value: realValue, currency: 'USD', checkout_type: type, checkout_method: 'embed', items: purchaseItems(type) }, customerEmailRef.current)
         if (type === 'subscription') { await checkSubscription() }
         else { runAnalysis() }
       }
@@ -839,7 +843,7 @@ export default function AnalysisApp() {
           // nominal — free/100%-discount codes must report value: 0 to GA4.
           const nominal = resumeType === 'subscription' ? 9.88 : 2.99
           const realValue = typeof result.amount === 'number' ? result.amount / 100 : nominal
-          firePurchaseOnce(checkoutId, { value: realValue, currency: 'USD', checkout_type: resumeType, checkout_method: 'redirect', flow: 'mobile_redirect', items: purchaseItems(resumeType) })
+          firePurchaseOnce(checkoutId, { value: realValue, currency: 'USD', checkout_type: resumeType, checkout_method: 'redirect', flow: 'mobile_redirect', items: purchaseItems(resumeType) }, customerEmailRef.current)
           if (resumeType === 'subscription') { await checkSubscription(); setLoading(false) }
           else { setTimeout(() => runAnalysis(), 100) }
         } else {
