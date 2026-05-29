@@ -354,7 +354,11 @@ export default function AnalysisApp() {
       ? 'image/*'
       : 'image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif'
     if (mode === 'camera') {
-      input.setAttribute('capture', 'environment')
+      // Front camera: this is a selfie-based face-analysis flow, so the user
+      // expects to see their own face. 'environment' opened the rear camera,
+      // which confused purchase-intent users into closing the camera and
+      // leaving (seen in Clarity sessions). 'user' = front-facing.
+      input.setAttribute('capture', 'user')
     }
     input.style.position = 'fixed'
     input.style.left = '-9999px'
