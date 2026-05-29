@@ -124,7 +124,7 @@ export default function RecommendedProducts({
 
                 {/* CTAs */}
                 {AFFILIATE_ENABLED ? (
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <a
                       href={coupangLink}
                       target="_blank"
@@ -138,15 +138,10 @@ export default function RecommendedProducts({
                           pageSlug,
                         })
                       }
-                      className={`inline-flex items-center gap-1.5 text-sm font-bold bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent hover:gap-2 transition-all`}
+                      className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${accentGradient} px-4 py-2 text-sm font-bold text-white shadow-sm hover:shadow-md hover:brightness-105 transition-all`}
                     >
                       🛒 {t('recProducts.findProducts')}
-                      <span
-                        className="material-symbols-outlined text-base"
-                        style={{ color: accentColor }}
-                      >
-                        arrow_outward
-                      </span>
+                      <span className="material-symbols-outlined text-base">arrow_outward</span>
                     </a>
 
                     {showClio && clioLink && (
@@ -163,7 +158,7 @@ export default function RecommendedProducts({
                             pageSlug,
                           })
                         }
-                        className="inline-flex items-center gap-1.5 text-sm font-bold text-rose-500 hover:text-rose-600 hover:gap-2 transition-all"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-rose-300 bg-white px-4 py-2 text-sm font-bold text-rose-500 hover:bg-rose-50 transition-colors"
                       >
                         🌹 {t('recProducts.findOnClio')}
                         <span className="material-symbols-outlined text-base">arrow_outward</span>
