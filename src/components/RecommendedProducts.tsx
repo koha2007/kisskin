@@ -1,9 +1,11 @@
 import type { ProductRec } from '../lib/recommendations/types'
-import { AFFILIATE_ENABLED, buildSearchLink } from '../lib/recommendations/types'
+import { AFFILIATE_ENABLED, buildSearchLink, buildAmazonLink, buildYesStyleLink } from '../lib/recommendations/types'
 import { useI18n } from '../i18n/I18nContext'
+import { useRegion } from '../hooks/useRegion'
 import { AFFILIATE_CONFIG } from '../config/affiliate'
 import { getClioCategoryByIcon, getClioLinkByIcon } from '../lib/affiliate/categoryMapping'
 import { trackAffiliateClick, type AffiliatePageType } from '../lib/affiliate/track'
+import RegionToggle from './RegionToggle'
 
 interface Props {
   items: ProductRec[]
@@ -25,6 +27,7 @@ export default function RecommendedProducts({
   pageSlug,
 }: Props) {
   const { t, locale } = useI18n()
+  const [region] = useRegion()
   const isEn = locale === 'en'
   if (!items.length) return null
 
@@ -43,6 +46,9 @@ export default function RecommendedProducts({
           <p className="text-sm text-slate-500 max-w-xl leading-relaxed">{subtitle || t('recProducts.defaultSubtitle')}</p>
         </div>
 
+        {/* Buying-region toggle */}
+        {AFFILIATE_ENABLED && <RegionToggle pageType={pageType} className="mt-5" />}
+
         {/* Grid */}
         <div className="grid md:grid-cols-2 gap-4 mt-8">
           {items.map((item, i) => {
@@ -51,6 +57,9 @@ export default function RecommendedProducts({
             const clioCategory = showClio ? getClioCategoryByIcon(item.icon) : null
             const clioLink = showClio ? getClioLinkByIcon(item.icon) : null
             const coupangLink = item.affiliateUrl || buildSearchLink(item.searchKeywords)
+            const globalQuery = [item.brandExamples[0], item.titleEn || item.title]
+              .filter(Boolean)
+              .join(' ')
 
             return (
               <article
@@ -124,6 +133,28 @@ export default function RecommendedProducts({
 
                 {/* CTAs */}
                 {AFFILIATE_ENABLED ? (
+                  region === 'global' ? (
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <a
+                        href={buildAmazonLink(globalQuery)}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow sponsored"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 text-sm font-bold text-white shadow-sm hover:shadow-md hover:brightness-105 transition-all"
+                      >
+                        🛒 {t('region.amazonButton')}
+                        <span className="material-symbols-outlined text-base">arrow_outward</span>
+                      </a>
+                      <a
+                        href={buildYesStyleLink(globalQuery)}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow sponsored"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-600 hover:bg-amber-50 transition-colors"
+                      >
+                        ⭐ {t('region.yesstyleButton')}
+                        <span className="material-symbols-outlined text-base">arrow_outward</span>
+                      </a>
+                    </div>
+                  ) : (
                   <div className="flex flex-wrap items-center gap-2.5">
                     <a
                       href={coupangLink}
@@ -165,6 +196,7 @@ export default function RecommendedProducts({
                       </a>
                     )}
                   </div>
+                  )
                 ) : (
                   <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
                     <span className="material-symbols-outlined text-sm">schedule</span>
@@ -179,7 +211,7 @@ export default function RecommendedProducts({
         {/* Disclosure — only when affiliate enabled */}
         {AFFILIATE_ENABLED && (
           <p className="mt-8 text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            {t('recProducts.disclosure')}
+            {t(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}
           </p>
         )}
       </div>

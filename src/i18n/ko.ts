@@ -360,4 +360,10 @@ export default {
   'recProducts.findOnClio': '클리오 공식몰',
   'recProducts.comingSoon': '구매 링크 준비 중',
   'recProducts.disclosure': '이 포스팅은 쿠팡 파트너스 및 링크프라이스(클리오) 제휴마케팅이 포함된 광고로 일정액의 커미션을 지급 받습니다. 수수료는 제품 가격에 영향을 주지 않으며, 추천은 유형별 특성 분석을 기반으로 이뤄집니다.',
+  'recProducts.disclosureGlobal': 'Amazon · YesStyle 버튼은 일반 검색 링크입니다(현재 제휴 아님). 브랜드와 제품명으로 검색 결과를 열어줄 뿐, 가격이나 결과에 영향을 주지 않습니다.',
+  'region.label': '어디서 구매하시나요?',
+  'region.toggleKorea': '🇰🇷 한국에서 구매',
+  'region.toggleGlobal': '🌍 글로벌 구매',
+  'region.amazonButton': 'Amazon에서 검색',
+  'region.yesstyleButton': 'YesStyle에서 검색',
 } as Record<string, string>

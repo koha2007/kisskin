@@ -2,6 +2,7 @@ import { useI18n, pick } from '../i18n/I18nContext'
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import ProductBuyButtons from './ProductBuyButtons'
 import AffiliateDisclosure from './AffiliateDisclosure'
+import RegionToggle from './RegionToggle'
 import { GUIDE_CATEGORY_PRODUCTS } from '../lib/guides/products'
 import { CLIO_CATEGORY_LINKS } from '../config/affiliate'
 import type { GuideCategory } from '../lib/guides/types'
@@ -33,6 +34,8 @@ export default function GuideProductBox({ category, slug, accentColor = '#eb4763
           {isEn ? 'Products that pair with this guide' : '이 가이드와 어울리는 추천 제품'}
         </h2>
       </div>
+
+      <RegionToggle pageType="guide" className="mb-5" />
 
       <div className="grid gap-3 sm:grid-cols-2">
         {recs.map((rec) => (
@@ -71,6 +74,7 @@ export default function GuideProductBox({ category, slug, accentColor = '#eb4763
               className="mt-auto"
               coupangQuery={rec.coupangQuery}
               clioLink={rec.clio ? CLIO_CATEGORY_LINKS[rec.clioCategory] : null}
+              globalQuery={`${rec.brandsEn[0]} ${rec.labelEn}`}
               pageType="guide"
               pageSlug={slug}
               trackCategory={category}

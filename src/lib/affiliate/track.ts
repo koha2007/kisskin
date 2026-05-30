@@ -24,3 +24,20 @@ export function trackAffiliateClick(event: AffiliateClickEvent): void {
     page_slug: event.pageSlug,
   })
 }
+
+// Fired when a reader switches the Korea/Global buying-region toggle, so we can
+// measure how many visitors want global links vs. the page-default region.
+export function trackRegionToggle(event: {
+  region: 'korea' | 'global'
+  pageType?: AffiliatePageType
+  locale?: string
+}): void {
+  if (typeof window === 'undefined') return
+  const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag
+  if (!gtag) return
+  gtag('event', 'region_toggle_click', {
+    region: event.region,
+    page_type: event.pageType,
+    locale: event.locale,
+  })
+}

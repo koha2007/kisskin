@@ -57,3 +57,19 @@ export const AFFILIATE_ENABLED = true
 export function buildSearchLink(query: string): string {
   return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=user`
 }
+
+/**
+ * Amazon plain-search link for readers buying outside Korea. Not affiliate —
+ * a generic storefront search by brand + product.
+ */
+export function buildAmazonLink(query: string): string {
+  return `https://www.amazon.com/s?k=${encodeURIComponent(query)}`
+}
+
+/**
+ * YesStyle plain-search link (K-beauty global retailer). Not affiliate yet —
+ * swap to a Commission Factory affiliate URL once that program is approved.
+ */
+export function buildYesStyleLink(query: string): string {
+  return `https://www.yesstyle.com/en/search?q=${encodeURIComponent(query)}`
+}

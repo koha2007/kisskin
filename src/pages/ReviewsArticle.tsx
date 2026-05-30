@@ -3,6 +3,7 @@ import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ProductBuyButtons from '../components/ProductBuyButtons'
 import AffiliateDisclosure from '../components/AffiliateDisclosure'
+import RegionToggle from '../components/RegionToggle'
 import { REVIEW_POSTS, getReviewBySlug } from '../lib/reviews/posts'
 import { REVIEW_POSTS_EN, getReviewBySlugEn } from '../lib/reviews/posts.en'
 import { getReviewCategoryMeta } from '../lib/reviews/types'
@@ -84,6 +85,8 @@ export default function ReviewsArticle({ slug }: Props) {
       <article className="prose prose-slate max-w-none text-slate-700 leading-[1.8] mb-10">
         <p className="text-[17px] md:text-[19px] text-slate-800 font-medium">{post.intro}</p>
       </article>
+
+      <RegionToggle pageType="review" className="mb-8" />
 
       <ol className="space-y-8 list-none p-0">
         {post.products.map((product) => (

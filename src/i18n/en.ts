@@ -360,4 +360,10 @@ export default {
   'recProducts.findOnClio': 'CLIO official store',
   'recProducts.comingSoon': 'Purchase links coming soon',
   'recProducts.disclosure': 'This page includes affiliate links from Coupang Partners and LinkPrice (CLIO); we may earn a commission on qualifying purchases. Commissions do not affect product prices, and recommendations are based on type-specific analysis.',
+  'recProducts.disclosureGlobal': 'The Amazon and YesStyle buttons are plain search links (not affiliate yet). They simply open search results for the brand and product, with no effect on prices or results.',
+  'region.label': 'Where will you buy?',
+  'region.toggleKorea': '🇰🇷 Buying in Korea',
+  'region.toggleGlobal': '🌍 Buying Globally',
+  'region.amazonButton': 'Find on Amazon',
+  'region.yesstyleButton': 'Search on YesStyle',
 } as Record<string, string>

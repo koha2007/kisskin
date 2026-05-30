@@ -1,10 +1,13 @@
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import { useI18n } from '../i18n/I18nContext'
+import { useRegion } from '../hooks/useRegion'
 
 // Unified affiliate disclosure block. Rendered once per page below the
-// product CTAs. Only shows when affiliate links are actually live.
+// product CTAs. Text follows the region toggle: Korea names Coupang/Clio as
+// affiliate links; Global notes Amazon/YesStyle are plain search (not affiliate).
 export default function AffiliateDisclosure({ className = '' }: { className?: string }) {
   const { t } = useI18n()
+  const [region] = useRegion()
   if (!AFFILIATE_ENABLED) return null
 
   return (
@@ -12,7 +15,7 @@ export default function AffiliateDisclosure({ className = '' }: { className?: st
       className={`text-xs text-slate-400 leading-relaxed ${className}`}
       role="note"
     >
-      {t('recProducts.disclosure')}
+      {t(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}
     </p>
   )
 }
