@@ -69,7 +69,13 @@ export function buildAmazonLink(query: string): string {
 /**
  * YesStyle plain-search link (K-beauty global retailer). Not affiliate yet —
  * swap to a Commission Factory affiliate URL once that program is approved.
+ *
+ * Live-verified 2026-05-30: the search path is `/en/list.html?q=...&bpt=48`
+ * (the `/en/search?q=` form 404s), and long full product names return 0 items —
+ * callers pass a simplified "brand + category" query.
  */
 export function buildYesStyleLink(query: string): string {
-  return `https://www.yesstyle.com/en/search?q=${encodeURIComponent(query)}`
+  // Drop "&" (e.g. rom&nd) — it breaks YesStyle's query and isn't needed to match.
+  const clean = query.replace(/&/g, '').trim()
+  return `https://www.yesstyle.com/en/list.html?q=${encodeURIComponent(clean)}&bpt=48`
 }

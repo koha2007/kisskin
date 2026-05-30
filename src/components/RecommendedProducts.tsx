@@ -57,9 +57,10 @@ export default function RecommendedProducts({
             const clioCategory = showClio ? getClioCategoryByIcon(item.icon) : null
             const clioLink = showClio ? getClioLinkByIcon(item.icon) : null
             const coupangLink = item.affiliateUrl || buildSearchLink(item.searchKeywords)
-            const globalQuery = [item.brandExamples[0], item.titleEn || item.title]
-              .filter(Boolean)
-              .join(' ')
+            // brandExamples are Korean (e.g. "롬앤") — useless on Amazon/YesStyle.
+            // Search the English category ("Cushion foundation") so the global
+            // stores return real results instead of 0 items.
+            const globalQuery = item.categoryEn || item.titleEn || item.title
 
             return (
               <article

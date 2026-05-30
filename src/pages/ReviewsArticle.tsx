@@ -6,7 +6,7 @@ import AffiliateDisclosure from '../components/AffiliateDisclosure'
 import RegionToggle from '../components/RegionToggle'
 import { REVIEW_POSTS, getReviewBySlug } from '../lib/reviews/posts'
 import { REVIEW_POSTS_EN, getReviewBySlugEn } from '../lib/reviews/posts.en'
-import { getReviewCategoryMeta } from '../lib/reviews/types'
+import { getReviewCategoryMeta, type ReviewCategory } from '../lib/reviews/types'
 import { clioBrandMatch } from '../config/affiliate'
 import { getClioLinkByReviewCategory } from '../lib/affiliate/categoryMapping'
 import { useI18n } from '../i18n/I18nContext'
@@ -22,6 +22,24 @@ function reviewQuery(brand: string, name: string): string {
   const cleanBrand = brand.replace(/\s*\(.*?\)\s*/g, ' ').trim()
   const cleanName = name.split(/[—–:]/)[0].replace(/[“”"'‘’]/g, '').trim()
   return `${cleanBrand} ${cleanName}`.replace(/\s+/g, ' ').trim()
+}
+
+// Amazon/YesStyle return 0 items for long full product names, so the global
+// search uses just the brand + a generic category noun (e.g. "Laneige lip tint").
+const REVIEW_GLOBAL_CATEGORY: Record<ReviewCategory, string> = {
+  lip: 'lip tint',
+  base: 'cushion foundation',
+  eye: 'eyeshadow',
+  skincare: 'skincare',
+  tools: 'makeup brush',
+  vegan: 'makeup',
+  budget: 'makeup',
+  mens: 'skincare',
+}
+
+function reviewGlobalQuery(brand: string, category: ReviewCategory): string {
+  const cleanBrand = brand.replace(/\s*\(.*?\)\s*/g, ' ').trim()
+  return `${cleanBrand} ${REVIEW_GLOBAL_CATEGORY[category]}`.replace(/\s+/g, ' ').trim()
 }
 
 export default function ReviewsArticle({ slug }: Props) {
@@ -142,6 +160,7 @@ export default function ReviewsArticle({ slug }: Props) {
             <ProductBuyButtons
               className="mt-5"
               coupangQuery={reviewQuery(product.brand, product.name)}
+              globalQuery={reviewGlobalQuery(product.brand, post.category)}
               clioLink={clioBrandMatch(product.brand) ? getClioLinkByReviewCategory(post.category) : null}
               pageType="review"
               pageSlug={post.slug}
