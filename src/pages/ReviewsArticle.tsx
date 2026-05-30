@@ -24,6 +24,33 @@ function reviewQuery(brand: string, name: string): string {
   return `${cleanBrand} ${cleanName}`.replace(/\s+/g, ' ').trim()
 }
 
+// Build a schema.org Offer from a review product's price string for the Product
+// JSON-LD (Google "product snippet" rich results require offers/review/rating).
+// Prices read like "약 12,000원 / $14", "$14 / ~₩12,000", "$3.50", or KRW-only
+// "약 16,000원". Prefer the USD figure for a global-friendly offer; fall back to
+// KRW when no dollar amount is present.
+function parsePriceOffer(price: string): Record<string, string> | undefined {
+  const usd = price.match(/\$\s*([\d.]+)/)
+  if (usd) {
+    return {
+      '@type': 'Offer',
+      price: parseFloat(usd[1]).toFixed(2),
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+    }
+  }
+  const krw = price.match(/([\d,]+)\s*원/)
+  if (krw) {
+    return {
+      '@type': 'Offer',
+      price: krw[1].replace(/,/g, ''),
+      priceCurrency: 'KRW',
+      availability: 'https://schema.org/InStock',
+    }
+  }
+  return undefined
+}
+
 // Amazon/YesStyle return 0 items for long full product names, so the global
 // search uses just the brand + a generic category noun (e.g. "Laneige lip tint").
 const REVIEW_GLOBAL_CATEGORY: Record<ReviewCategory, string> = {
@@ -185,16 +212,20 @@ export default function ReviewsArticle({ slug }: Props) {
             name: post.title,
             description: post.summary,
             numberOfItems: post.products.length,
-            itemListElement: post.products.map((p) => ({
-              '@type': 'ListItem',
-              position: p.rank,
-              item: {
-                '@type': 'Product',
-                name: p.name,
-                brand: { '@type': 'Brand', name: p.brand },
-                description: p.highlight,
-              },
-            })),
+            itemListElement: post.products.map((p) => {
+              const offers = parsePriceOffer(p.price)
+              return {
+                '@type': 'ListItem',
+                position: p.rank,
+                item: {
+                  '@type': 'Product',
+                  name: p.name,
+                  brand: { '@type': 'Brand', name: p.brand },
+                  description: p.highlight,
+                  ...(offers ? { offers } : {}),
+                },
+              }
+            }),
           }),
         }}
       />
