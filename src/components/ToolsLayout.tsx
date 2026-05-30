@@ -60,25 +60,29 @@ export function ToolsNav() {
   return (
     <nav className="sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50" role="navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href={isEn ? '/en/' : '/'} className="flex items-center gap-2">
+        <a href={isEn ? '/en/' : '/'} className="flex items-center gap-2 rounded-md -ml-1 px-1 py-1 hover:bg-navy-light/30 transition-colors" aria-label="kissinskin home">
           <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
           <span className="text-xl font-bold tracking-tight text-white">kissinskin</span>
         </a>
 
-        {/* Desktop links — visible from md up */}
-        <div className="hidden md:flex items-center gap-2 lg:gap-3">
+        {/* Desktop links — plain text, matching the home nav in src/HomePage.tsx */}
+        <div className="hidden md:flex items-center gap-5">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-xs lg:text-sm font-medium text-slate-200 hover:text-primary px-2 lg:px-3 py-1.5 rounded-md border border-slate-500"
+              className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer"
             >
               {l.label}
             </a>
           ))}
+        </div>
+
+        {/* Actions — language / login keep their outline; AI CTA is a filled pill */}
+        <div className="flex items-center gap-2 md:gap-3">
           <button
             onClick={() => setLocale(locale === 'ko' ? 'en' : 'ko')}
-            className="text-xs lg:text-sm font-medium text-slate-200 hover:text-primary px-2 py-1 rounded-md border border-slate-500"
+            className="hidden md:inline-flex text-sm font-medium text-slate-200 hover:text-primary transition-colors px-2 py-1 rounded-md border border-slate-500"
             aria-label="Switch language"
           >
             {locale === 'ko' ? 'EN' : '한국어'}
@@ -86,7 +90,7 @@ export function ToolsNav() {
           {user ? (
             <a
               href="/mypage/"
-              className="text-xs lg:text-sm font-medium text-slate-200 hover:text-primary px-2 lg:px-3 py-1.5 rounded-md border border-slate-500 inline-flex items-center gap-1.5"
+              className="hidden md:flex text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500 items-center gap-1.5"
             >
               <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
               <span>{t('auth.mypage')}</span>
@@ -94,24 +98,23 @@ export function ToolsNav() {
           ) : (
             <a
               href="/auth/"
-              className="text-xs lg:text-sm font-medium text-slate-200 hover:text-primary px-2 lg:px-3 py-1.5 rounded-md border border-slate-500"
+              className="hidden md:inline-flex text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500"
             >
               {t('auth.login')}
             </a>
           )}
+          {/* Desktop AI CTA */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="bg-gradient-to-r from-primary to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold inline-flex items-center gap-1.5"
+            className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
-        </div>
 
-        {/* Mobile cluster — visible below md */}
-        <div className="flex md:hidden items-center gap-2">
+          {/* Mobile-only AI button + hamburger */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
+            className="sm:hidden bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
@@ -119,7 +122,7 @@ export function ToolsNav() {
             onClick={() => setOpen(true)}
             aria-label={isEn ? 'Open menu' : '메뉴 열기'}
             aria-expanded={open}
-            className="text-white p-2 rounded-md border border-slate-500 hover:bg-navy-light/30"
+            className="md:hidden text-white p-2 rounded-md border border-slate-500 hover:bg-navy-light/30"
           >
             <span className="material-symbols-outlined text-2xl leading-none align-middle">menu</span>
           </button>
