@@ -9,6 +9,7 @@ export default function Head() {
     <>
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
       <meta name="naver-site-verification" content="efbca87df560d16f2ce20199b681b86319b65e56" />
+      <meta name="commission-factory-verification" content="a9cdb3796ac44aa1b1f472567138e436" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
       {/* Google Consent Mode v2 — default deny until the cookie banner records a choice. */}
       <script
