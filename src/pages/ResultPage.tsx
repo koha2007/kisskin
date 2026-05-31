@@ -75,23 +75,27 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
         }
         setData(result)
 
-        // Slice grid image into 9 cells
+        // 합본 그리드를 셀로 분할. 룩 개수에 맞춰 3열 × ceil(n/3)행으로 일반화
+        // (과거 9칸 3x3 고정 → 현재 6칸 3x2. 과거 공유결과도 styles.length로 호환).
+        const count = Array.isArray(result.styles) && result.styles.length > 0 ? result.styles.length : 9
+        const cols = 3
+        const rows = Math.max(1, Math.ceil(count / cols))
         const img = new Image()
         img.crossOrigin = 'anonymous'
         img.onload = () => {
           try {
-            const cellW = Math.floor(img.width / 3)
-            const cellH = Math.floor(img.height / 3)
+            const cellW = Math.floor(img.width / cols)
+            const cellH = Math.floor(img.height / rows)
             const sliced: string[] = []
-            for (let row = 0; row < 3; row++) {
-              for (let col = 0; col < 3; col++) {
-                const cvs = document.createElement('canvas')
-                cvs.width = cellW
-                cvs.height = cellH
-                const ctx = cvs.getContext('2d')!
-                ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
-                sliced.push(cvs.toDataURL('image/jpeg', 0.85))
-              }
+            for (let i = 0; i < count; i++) {
+              const col = i % cols
+              const row = Math.floor(i / cols)
+              const cvs = document.createElement('canvas')
+              cvs.width = cellW
+              cvs.height = cellH
+              const ctx = cvs.getContext('2d')!
+              ctx.drawImage(img, col * cellW, row * cellH, cellW, cellH, 0, 0, cellW, cellH)
+              sliced.push(cvs.toDataURL('image/jpeg', 0.85))
             }
             setCells(sliced)
           } catch (e) {
@@ -317,7 +321,7 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
         )}
 
         {/* 메이크업 그리드 */}
-        {cells.length === 9 ? (
+        {cells.length > 0 && cells.length === data.styles.length ? (
           <section className="result-section">
             <h3 className="section-heading">{t('result.makeupStyles')}</h3>
             <div className="makeup-grid">

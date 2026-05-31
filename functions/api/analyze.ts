@@ -1,7 +1,12 @@
-// Makeup Analysis API v8 — Gemini 우선, AI Gateway 폴백 (지역 차단 우회)
-// - 이미지: Gemini → AI Gateway gpt-image-1.5 → AI Gateway gpt-4o
+// Makeup Analysis API v9 — 개별 생성(얼굴 보존) + 2026 트렌드 6종 + 헤어 컬러
+// - 이미지: 원본 셀카 1장 → 스타일당 1회 image-to-image 편집 × 6 (3개씩 배치)
+//   * Gemini → AI Gateway gpt-image-1.5 → AI Gateway gpt-4o (폴백 체인은 항목별 동일)
+//   * 9칸 그리드 단일 생성을 폐기 → 얼굴 축소/재생성 문제 해결
+//   * 스타일 정의(이름·SEO·프롬프트)는 _makeupStyles.ts 한 파일에서만 관리
 // - 리포트: Gemini → AI Gateway gpt-4.1 → 직접 OpenAI (폴백)
 // - AI Gateway BYOK: cf-aig-authorization 헤더 사용, 저장된 키 자동 주입
+import { stylesForGender, type MakeupStyle } from './_makeupStyles'
+
 interface Env {
   OPENAI_API_KEY: string
   OPENAI_BASE_URL?: string       // AI Gateway URL (예: https://gateway.ai.cloudflare.com/v1/.../openai)
@@ -13,8 +18,7 @@ interface Env {
 
 interface RequestBody {
   photo: string
-  gridPhoto?: string
-  gridSize?: string
+  imageSize?: string   // 원본 셀카 비율에 맞춘 출력 크기 (예: '1024x1536')
   gender: string
   skinType: string
   lang?: string
@@ -60,11 +64,6 @@ async function fetchWithRetry(
     }
   }
   return lastResponse!
-}
-
-// 지역 차단 체크
-function isRegionBlocked(text: string): boolean {
-  return text.includes('unsupported_country_region_territory')
 }
 
 // 기본 모델 만료일 경고 (환경변수로 모델 지정 시 불필요)
@@ -257,7 +256,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const { photo, gridPhoto, gridSize, gender, skinType, lang } = (await request.json()) as RequestBody
+    const { photo, imageSize: reqImageSize, gender, skinType, lang } = (await request.json()) as RequestBody
 
     if (!photo || !gender || !skinType) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
@@ -274,101 +273,57 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
-    const imageSource = gridPhoto || photo
-    const imageSize = gridSize || '1024x1024'
+    // 개별 생성: 원본 셀카 풀해상도 1장이 그대로 모델 입력 (얼굴 보존 핵심)
+    const imageSource = photo
+    const imageSize = reqImageSize || '1024x1024'
     const skinTypeInstruction = skinType === '잘 모름' ? '피부타입은 사진을 보고 판단해서' : skinType + ' 피부타입을'
     const directUrl = 'https://api.openai.com'
     const gatewayUrl = env.OPENAI_BASE_URL?.replace(/\/$/, '')
     const authHeader = `Bearer ${env.OPENAI_API_KEY}`
 
-    const femalePrompt = `너는 최고의 메이크업 아티스트야. 이 여성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 여성 메이크업으로 표현해줘.
+    // ── 항목별 이미지 프롬프트 빌더 ──
+    // 그리드를 폐기하고 항목당 1회 편집을 돌리므로, 얼굴 보존(face-lock)
+    // 프리앰블을 공통으로 감싸고 스타일별 "바꿀 것"만 _makeupStyles.ts에서 가져온다.
+    const genderWord = gender === '남성' ? '남성' : '여성'
+    const maleExtra = gender === '남성'
+      ? '\n- 남성 한정: 여성화 금지(턱선 좁게/눈 크게/입술 두껍게 금지). 수염·턱수염·면도 자국·모공 등 남성 피부 질감 그대로. 더 잘생기게/어려보이게/이상화 금지.'
+      : ''
 
-🔒🔒🔒 ABSOLUTE FACE LOCK — HIGHEST PRIORITY 🔒🔒🔒
-[EN] DO NOT generate a new face. DO NOT re-draw the face. Use the EXACT pixels of the original face as-is and composite makeup ON TOP as an overlay. Identity, bone structure, eye shape, eye size, nose shape, mouth shape, jawline, cheekbones, forehead, hairline, ears, face width, face length, skin texture, moles, freckles, scars, wrinkles, asymmetry — ALL MUST BE 100% IDENTICAL to the source photo in every one of the 9 cells. No face slimming. No face beautification. No skin smoothing that alters features. No eye enlargement. No nose reshaping. No jaw softening. The person in all 9 cells must be recognizable as the EXACT same individual as the source photo — not a similar-looking person.
-[KO] 얼굴을 새로 그리지 마. 원본 사진의 얼굴 픽셀을 그대로 두고 그 위에 화장품만 레이어로 올려. 9개 셀 모두 원본과 100% 동일 인물 — 비슷한 사람이 아니라 정확히 같은 사람이어야 함
-- 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율/폭/길이, 피부질감, 주름/점/주근깨/흉터/비대칭
-- 얼굴 슬리밍 금지, 얼굴 미화 금지, 눈 확대 금지, 코 축소 금지, 턱 부드럽게 만들기 금지
-- 피부색/밝기/톤 변경 금지 (2번 클라우드 스킨의 베이스 효과 제외). 원래 피부톤 그대로
-- 얼굴 위치, 크기, 각도, 표정 모두 원본과 동일
-- 모자/헤어밴드/머리띠 등 머리 위 착용물이 있으면 원본 그대로 유지. 색상, 형태, 위치 변경 금지. 모자를 제거하거나 얼굴처럼 변형하지 마
+    const FACE_LOCK_MAKEUP = `🔒🔒🔒 ABSOLUTE FACE LOCK — HIGHEST PRIORITY 🔒🔒🔒
+[EN] DO NOT generate a new face. DO NOT re-draw or reshape the face. Use the EXACT pixels of the original face and composite makeup ON TOP as an overlay. Keep identity, bone structure, eye shape/size, nose, mouth, jawline, cheekbones, forehead, hairline, ears, face width/length, skin texture, moles, freckles, scars — 100% IDENTICAL. Keep the SAME hat, clothing, hair, background, lighting, pose, expression, framing and composition. The result MUST be unmistakably the SAME individual — not a similar-looking or prettier person.
+[KO] 얼굴을 새로 그리거나 변형하지 마. 원본 얼굴 픽셀을 그대로 두고 그 위에 화장만 레이어로 올려.
+- 눈·코·입·턱선·광대·이마·헤어라인·귀·얼굴비율·피부질감·점·주근깨 모두 100% 동일
+- 모자·옷·머리(스타일/색)·배경·조명·포즈·표정·구도 모두 원본 그대로
+- 얼굴 슬리밍/미화/눈확대/코축소/턱 깎기 금지. 결과는 비슷한 사람이 아니라 정확히 같은 사람.${maleExtra}`
 
-⚠️ 텍스트 금지: 이미지에 글자, 숫자, 라벨, 스타일명, 워터마크 등 어떤 텍스트도 절대 넣지 마. 스타일 이름을 이미지 위에 쓰지 마.
+    const FACE_LOCK_HAIR = `🔒🔒🔒 ABSOLUTE FACE LOCK 🔒🔒🔒
+[EN] Keep the EXACT same face, eyes, nose, mouth, jawline, skin, makeup, clothing and background — 100% identical person, same composition. Change ONLY the hair COLOR. Keep the same hairstyle, length, parting and texture. Do NOT alter the face or identity.
+[KO] 얼굴·눈·코·입·턱선·피부·메이크업·옷·배경 모두 원본과 100% 동일. 머리 "색"만 바꿔. 헤어스타일·길이·가르마·질감은 그대로. 얼굴/이목구비/정체성 변경 금지.`
 
-🚨 얼굴 위치/크기 규칙 (절대 위반 불가) 🚨
-- 각 셀에서 얼굴이 잘리면 안 됨. 머리 꼭대기부터 턱까지 완전히 보여야 함
-- 각 셀의 상단에 충분한 여백을 두어 이마와 머리카락이 잘리지 않게
-- 원본 사진의 프레이밍(머리~턱 비율)을 9개 셀 모두 동일하게 유지
-- 얼굴을 셀 중앙에 배치. 상단/하단에 적절한 여백
+    const buildImagePrompt = (style: MakeupStyle): string => {
+      if (style.type === 'hair') {
+        return `이 ${genderWord} 사진을 편집해서 머리 "색"만 바꿔줘.
 
-[추가 규칙]
-- 메이크업(화장품)만 변경. 배경, 조명, 옷, 악세서리 변경 금지
-- 2번(Cloud Skin)만 머리색 변경 허용. 나머지 8개는 원본 머리색 유지
-- 이빨이 보이면 하얗고 깨끗하게
-- 그리드 라인 넣지 마. 셀 사이 간격 없이 꽉 채워
-- 9개 스타일이 썸네일에서도 즉시 구별되어야 함. 특히 1~3번도 립 컬러, 피부 질감, 광택 차이가 눈에 확 띄어야 함
-- 화장법을 자연스럽고 이쁘게 해줘
+${FACE_LOCK_HAIR}
 
-[9가지 여성 메이크업 - 좌→우, 위→아래]
-1: 내추럴 글로우 - 광채 피부, 피치 블러셔, 누드 립. 자연스러운 건강미. 피부가 촉촉하게 빛나되 과하지 않게
-2: 클라우드 스킨 - 구름처럼 뽀얀 피부, 깨끗한 베이스, 머리색 애쉬블론드/밀크브라운으로 변경. 옷 원본 유지. 1번보다 피부가 확연히 하얗고 뽀얗게
-3: 블러드 립 - 진한 버건디/레드 립을 확실하게 표현. 입술 색이 사진에서 가장 먼저 눈에 띄어야 함. 깔끔한 아이 메이크업
-4: 맥시멀리스트 아이 - 컬러 아이섀도(보라/파랑/초록), 굵은 아이라인. 눈매가 화려해야 함
-5: 메탈릭 아이 - 골드/실버 메탈릭 아이섀도, 글로시 눈매. 반짝임이 확실해야 함. 4번과 다른 컬러톤으로
-6: 볼드 립 - 선명한 빨강/코랄 립. 입술 색이 확실히 눈에 띄어야 함. 3번보다 더 밝고 비비드한 컬러
-7: 블러쉬 드레이핑 & 레이어링 - 광대~관자놀이 진한 분홍/코랄 블러셔. 볼 색이 확실히 보여야 함
-8: 그런지 메이크업 - 스모키 아이, 다크 베리 립, 매트 피부. 강렬한 무드
-9: K-pop 아이돌 메이크업 - 유리알 광택, 그라데이션 핑크 립, 쉬머 하이라이트
+⚠️ 이미지에 글자·숫자·라벨·워터마크 등 어떤 텍스트도 넣지 마.
 
-이 사진을 3x3 그리드로 균등하게 9등분해줘. 다시 한번 강조: 텍스트 절대 금지. 9개 셀 모두 반드시 원본과 100% 동일한 얼굴 — 메이크업만 다르게. 얼굴은 원본 픽셀 그대로, 메이크업은 레이어로 덧입힌다는 마인드로 작업해.`
+[변경할 머리색]
+${style.prompt}`
+      }
+      return `너는 최고의 ${gender === '남성' ? '남성 그루밍 전문가' : '메이크업 아티스트'}야. 이 ${genderWord} 사진을 편집해서 "${style.displayName}" 룩을 적용해줘. ${skinTypeInstruction} 반영.
 
-    const malePrompt = `너는 최고의 남성 그루밍 전문가야. 이 남성 사진에 ${skinTypeInstruction} 반영해서 총 9가지 남성 메이크업으로 표현해줘.
+${FACE_LOCK_MAKEUP}
 
-🔒🔒🔒 ABSOLUTE FACE LOCK — HIGHEST PRIORITY (MALE IDENTITY PRESERVATION) 🔒🔒🔒
-[EN] DO NOT generate a new face. DO NOT re-draw the face. Use the EXACT pixels of the original male face as-is and composite makeup/grooming ON TOP as an overlay.
-- The person in all 9 cells MUST be recognizable as the EXACT same individual as the source photo — not a similar-looking person, not an idealized version, not a younger version, not a more handsome version.
-- DO NOT feminize the face. DO NOT soften masculine features. DO NOT make jaw more narrow. DO NOT enlarge eyes. DO NOT make lips fuller. DO NOT smooth skin in a way that removes male skin texture (pores, stubble shadow, beard growth).
-- Preserve: eye shape/size, nose shape, mouth width, jawline angle, cheekbones, forehead shape, hairline, ears, face width, face length, skin texture, stubble, beard, moles, scars, wrinkles, Adam's apple, masculine bone structure.
-- Keep all 9 cells as the SAME MAN. A male user must not see a different/prettier/more feminine face in the result.
-[KO] 남성의 얼굴을 절대 새로 그리지 마. 원본 사진 픽셀을 그대로 두고 그 위에 메이크업만 레이어로 올려.
-- 9개 셀 모두 원본과 100% 동일 인물. 비슷한 남자가 아니라 정확히 같은 남자여야 함. 더 잘생기게 하거나 어려보이게 하거나 이상화하지 마
-- 여성화 금지: 턱선 좁게 만들지 마, 눈 크게 만들지 마, 입술 두껍게 만들지 마, 얼굴 각지지 않게 부드럽게 만들지 마
-- 남성 피부 질감 유지: 모공, 수염 자국, 턱수염, 면도 그림자 모두 원본 그대로
-- 절대 변경 금지: 눈 크기/모양/쌍꺼풀, 코, 입 모양/크기, 턱선/광대뼈/얼굴윤곽, 이마/헤어라인, 귀, 얼굴 비율/폭/길이, 주름/점/흉터/수염/턱수염, 목젖, 뼈대
-- 피부색/밝기/톤 변경 금지 (2번 스킨케어 베이스의 윤광 효과 제외). 원래 피부톤 그대로
-- 얼굴 위치, 크기, 각도, 표정 모두 원본과 동일
-- 수염/턱수염/콧수염/구레나룻이 있으면 **반드시** 그대로 유지. 제거하거나 변형 금지
-- 모자/캡/헤어밴드 등 머리 위 착용물이 있으면 원본 그대로 유지. 색상, 형태, 위치 변경 금지. 모자를 제거하거나 얼굴처럼 변형하지 마
+⚠️ 이미지에 글자·숫자·라벨·워터마크 등 어떤 텍스트도 넣지 마.
 
-⚠️ 텍스트 금지: 이미지에 글자, 숫자, 라벨, 스타일명, 워터마크 등 어떤 텍스트도 절대 넣지 마. 스타일 이름을 이미지 위에 쓰지 마.
+[적용할 메이크업]
+${style.prompt}
 
-🚨 얼굴 위치/크기 규칙 (절대 위반 불가) 🚨
-- 각 셀에서 얼굴이 잘리면 안 됨. 머리 꼭대기부터 턱까지 완전히 보여야 함
-- 각 셀의 상단에 충분한 여백을 두어 이마와 머리카락이 잘리지 않게
-- 원본 사진의 프레이밍(머리~턱 비율)을 9개 셀 모두 동일하게 유지
-- 얼굴을 셀 중앙에 배치. 상단/하단에 적절한 여백
+다시 강조: 얼굴은 원본 픽셀 그대로, 메이크업만 바꾼다. 이빨이 보이면 하얗고 깨끗하게. 자연스럽고 ${gender === '남성' ? '과하지 않게(남성이므로 티 안 나게)' : '이쁘게'} 표현해줘.`
+    }
 
-[추가 규칙]
-- 메이크업(화장품)만 변경. 배경, 조명, 옷, 악세서리 변경 금지
-- 9번(K-pop Idol)만 머리색 변경 허용. 나머지 8개는 원본 머리색 유지
-- 이빨이 보이면 하얗고 깨끗하게
-- 그리드 라인 넣지 마. 셀 사이 간격 없이 꽉 채워
-- 9개 스타일이 썸네일에서도 즉시 구별되어야 함. 각 스타일 간 차이가 확실하고 눈에 띄게
-- 화장법을 자연스럽게 해줘 (남성이므로 과장하지 말 것)
-
-[9가지 남성 메이크업 - 좌→우, 위→아래]
-1: 내추럴 소프트포커스 스킨 (No-Makeup Makeup) - 원본 피부 위에 가벼운 소프트 필터 느낌의 베이스만 얹은 것. 피부결/모공/수염 자국은 원본 그대로 유지. 얼굴 형태 변경 금지. 눈썹도 원본 그대로. 투명 립밤만. "원래 피부 좋은 사람" 느낌
-2: 스킨케어 하이브리드 베이스 - 촉촉한 윤광 피부. 이마·코끝·광대에 건강한 수분 광택. 1번과 확실히 다르게 피부가 촉촉하게 빛나야 함. 립은 무색 립밤
-3: 디퓨즈드 립 (Blurred Lip) - 입술에 자연스러운 코랄/로즈 틴트를 확실하게 표현. 입술 안쪽이 진하고 바깥으로 갈수록 흐려지는 그라데이션. 입술 색이 사진에서 확실히 눈에 띄어야 함. 피부는 깨끗한 세미매트
-4: 그런지 / 스모키 아이 - 눈두덩에 브라운+다크카키를 블렌딩해서 눈매에 깊이감. 눈 아래 언더라인도 살짝 스모키하게. 립은 자연스러운 누드톤. 강렬한 눈매가 포인트
-5: 톤인톤 모노크롬 메이크업 - 테라코타/피치 한 가지 톤으로 눈두덩·볼·입술을 통일감 있게. 각 부위에 같은 컬러가 확실히 보여야 함. 따뜻한 톤이 얼굴 전체에 감도는 무드
-6: 유틸리티 메이크업 (기능성 남성 전용) - 잡티·다크서클을 컨실러로 커버 (얼굴 형태 변경 금지). 눈썹은 원본 형태 그대로, 브로우 젤만 바른 듯 가지런히 정돈 (눈썹 모양/굵기/위치 변경 금지). 입술은 건강한 코랄 틴트. 면접/비즈니스에 적합한 깔끔하고 신뢰감 있는 룩
-7: 블루 & 컬러 포인트 아이 - 눈두덩에 네이비/블루 컬러를 확실하게 포인트로. 파란색이 눈에 띄어야 함. 다른 스타일과 확연히 다른 컬러감. 립은 자연스러운 누드
-8: 뱀파이어 로맨틱 - 눈두덩에 버건디/와인 컬러. 입술은 진한 로제/다크레드 틴트. 전체적으로 어둡고 붉은 무드. 창백한 피부 위에 붉은 색감이 대비되는 세련된 다크 로맨틱
-9: K-팝 아이돌 메이크업 - 유리알 글로우 베이스. 눈두덩에 핑크+피치 쉬머를 확실하게. 코랄핑크 립 틴트. 쉬머 하이라이트. 머리색 변경(애쉬블론드/실버그레이/밀크브라운). 옷 원본 유지
-
-이 사진을 3x3 그리드로 균등하게 9등분해줘. 다시 한번 강조: 텍스트 절대 금지. **남성의 얼굴은 원본 픽셀 그대로, 1픽셀도 바꾸지 마**. 얼굴 형태/비율/뼈대/질감 모두 원본과 동일. 메이크업만 레이어로 덧입혀서 9가지 스타일을 확실하게 분별할 수 있게 표현해줘. 결과물을 본 사용자가 "이건 내 얼굴이 아니야"라고 느끼면 실패한 것.`
-
-    const imagePrompt = gender === '남성' ? malePrompt : femalePrompt
+    const styles = stylesForGender(gender)
 
     // ── 리포트 시스템 프롬프트 ──
     const isEn = lang === 'en'
@@ -453,7 +408,7 @@ JSON만 응답 (코드펜스, 마크다운 없이):
     // ══════════════════════════════════════════════════════════
     // 이미지 생성 함수: Gemini 우선 → OpenAI 폴백 (비용 절감)
     // ══════════════════════════════════════════════════════════
-    async function generateImage(): Promise<{ data: string; error: string }> {
+    async function generateImage(imagePrompt: string): Promise<{ data: string; error: string }> {
       const errors: string[] = []
 
       // 1차: Gemini 이미지 생성 (저렴, 지역 제한 없음)
@@ -696,32 +651,79 @@ JSON만 응답 (코드펜스, 마크다운 없이):
     }
 
     // ══════════════════════════════════════════════════════════
-    // 병렬 실행
+    // 6개 이미지 개별 생성 (3개씩 배치) + 실패 항목 1회 재시도
     // ══════════════════════════════════════════════════════════
-    // 90-second timeout to prevent indefinite hangs
-    const TIMEOUT_MS = 90_000
+    const BATCH = 3
+    const lastImageError: string[] = []
+
+    // 한 스타일을 한 번 생성 시도. 성공 시 data URL, 실패 시 '' 반환.
+    async function generateOneStyle(style: MakeupStyle): Promise<string> {
+      const { data, error } = await generateImage(buildImagePrompt(style))
+      if (!data && error) lastImageError.push(`${style.id}:${error.slice(0, 80)}`)
+      return data
+    }
+
+    // 주어진 스타일 목록을 BATCH개씩 동시 실행
+    async function runBatched(items: MakeupStyle[]): Promise<Map<string, string>> {
+      const out = new Map<string, string>()
+      for (let i = 0; i < items.length; i += BATCH) {
+        const chunk = items.slice(i, i + BATCH)
+        const settled = await Promise.all(chunk.map(s => generateOneStyle(s)))
+        chunk.forEach((s, idx) => { if (settled[idx]) out.set(s.id, settled[idx]) })
+      }
+      return out
+    }
+
+    async function generateAllImages(): Promise<{ byId: Map<string, string>; failed: string[] }> {
+      const byId = await runBatched(styles)
+      // 1차에서 실패한 항목만 1회 재시도 (부분 실패가 전체 실패로 번지지 않게)
+      const missing = styles.filter(s => !byId.has(s.id))
+      if (missing.length > 0) {
+        console.warn(`[kisskin] Retrying ${missing.length} failed styles: ${missing.map(s => s.id).join(',')}`)
+        const retry = await runBatched(missing)
+        retry.forEach((v, k) => byId.set(k, v))
+      }
+      const failed = styles.filter(s => !byId.has(s.id)).map(s => s.id)
+      return { byId, failed }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // 병렬 실행 (이미지 6장 + 리포트)
+    // ══════════════════════════════════════════════════════════
+    // 개별 생성은 호출 수가 늘어 시간이 더 걸린다 → 타임아웃 상향(클라이언트 150s)
+    const TIMEOUT_MS = 130_000
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('Analysis timed out. Please try again.')), TIMEOUT_MS),
     )
 
-    const [imageResult, reportResult] = await Promise.race([
-      Promise.all([generateImage(), generateReport()]),
+    const [imagesResult, reportResult] = await Promise.race([
+      Promise.all([generateAllImages(), generateReport()]),
       timeoutPromise,
-    ]) as [Awaited<ReturnType<typeof generateImage>>, Awaited<ReturnType<typeof generateReport>>]
+    ]) as [Awaited<ReturnType<typeof generateAllImages>>, Awaited<ReturnType<typeof generateReport>>]
 
-    const imageData = imageResult.data
-    const imageError = imageResult.error
+    const { byId: imageById, failed } = imagesResult
     const reportError = reportResult.error
     const report = extractReportJson(reportResult.data)
+
+    // 원본 스타일 순서를 유지하며 성공한 항목만 배열로 구성
+    const images = styles
+      .filter(s => imageById.has(s.id))
+      .map(s => ({
+        id: s.id,
+        displayName: s.displayName,
+        seoName: s.seoName,
+        type: s.type,
+        image: imageById.get(s.id)!,
+      }))
 
     // ══════════════════════════════════════════════════════════
     // 결과 반환
     // ══════════════════════════════════════════════════════════
-    if (!imageData && !report) {
+    if (images.length === 0 && !report) {
       const cf = (request as unknown as { cf?: { colo?: string } }).cf
       const colo = cf?.colo || 'unknown'
 
-      const allErrors = [imageError, reportError].filter(Boolean).join(' || ')
+      const allErrors = [lastImageError.join(' '), reportError].filter(Boolean).join(' || ')
       console.error(`[analyze] Failed (${colo}): ${allErrors} [GEMINI_KEY:${env.GEMINI_API_KEY ? 'set' : 'MISSING'}|BASE_URL:${env.OPENAI_BASE_URL ? 'set' : 'MISSING'}|AIG_TOKEN:${env.CF_AIG_TOKEN ? 'set' : 'MISSING'}|IMG_MODELS:${env.GEMINI_IMAGE_MODELS || 'default'}]`)
       return new Response(JSON.stringify({
         error: `API 오류 (${colo}): ${allErrors.slice(0, 400) || '이미지와 보고서 모두 생성 실패'}`,
@@ -730,7 +732,7 @@ JSON만 응답 (코드펜스, 마크다운 없이):
       })
     }
 
-    return new Response(JSON.stringify({ image: imageData, report }), {
+    return new Response(JSON.stringify({ images, failed, report }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (e) {

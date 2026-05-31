@@ -56,14 +56,9 @@ function firePurchaseOnce(transactionId: string, params: Record<string, unknown>
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
 
-const FEMALE_MAKEUP_STYLES = [
-  'Natural Glow', 'Cloud Skin', 'Blood Lip', 'Maximalist Eye',
-  'Metallic Eye', 'Bold Lip', 'Blush Draping & Layering', 'Grunge Makeup', 'K-pop Idol Makeup',
-]
-const MALE_MAKEUP_STYLES = [
-  'No-Makeup Makeup', 'Skincare Hybrid Base', 'Blurred Lip', 'Grunge / Smoky Eye',
-  'Monochrome', 'Utility Makeup', 'Blue Point Eye', 'Vampire Romantic', 'K-pop Idol Makeup',
-]
+// 스타일 이름/순서/프롬프트는 백엔드(_makeupStyles.ts)가 단일 소스다.
+// 프론트는 /api/analyze 응답의 displayName을 그대로 라벨로 쓴다.
+interface StyleImage { id: string; displayName: string; seoName: string; type: 'makeup' | 'hair'; image: string }
 const GENDER_MAP: Record<string, string> = { female: '여성', male: '남성' }
 const SKIN_MAP: Record<string, string> = {
   oily: '지성', dry: '건성', combination: '복합성', normal: '중성', not_sure: '잘 모름'
@@ -124,32 +119,57 @@ async function fetchJsonWithRetry(url: string, options: RequestInit, retries = 2
   throw new Error('Unreachable')
 }
 
-function createTiledGrid(photoUrl: string): Promise<{ gridPhoto: string; gridSize: string }> {
-  return new Promise((resolve, reject) => {
+// 원본 셀카 비율로 개별 생성 출력 크기를 정한다 (백엔드 imageSize로 전달).
+function pickImageSize(photoUrl: string): Promise<string> {
+  return new Promise((resolve) => {
     const img = new Image()
     img.onload = () => {
-      const w = img.naturalWidth; const h = img.naturalHeight; const ratio = w / h
-      let gridW: number, gridH: number, gridSize: string
-      if (ratio < 0.85) { gridW = 1024; gridH = 1536; gridSize = '1024x1536' }
-      else if (ratio > 1.15) { gridW = 1536; gridH = 1024; gridSize = '1536x1024' }
-      else { gridW = 1024; gridH = 1024; gridSize = '1024x1024' }
-      gridW = Math.floor(gridW / 3) * 3; gridH = Math.floor(gridH / 3) * 3
-      const cellW = gridW / 3; const cellH = gridH / 3; const cellRatio = cellW / cellH
-      const cvs = document.createElement('canvas'); cvs.width = gridW; cvs.height = gridH
+      const ratio = img.naturalWidth / img.naturalHeight
+      if (ratio < 0.85) resolve('1024x1536')
+      else if (ratio > 1.15) resolve('1536x1024')
+      else resolve('1024x1024')
+    }
+    img.onerror = () => resolve('1024x1024')
+    img.src = photoUrl
+  })
+}
+
+const GRID_COLS = 3
+const gridRows = (count: number) => Math.max(1, Math.ceil(count / GRID_COLS))
+
+// 개별 생성된 N장을 3열 그리드(raw, 라벨 없음) 한 장으로 합친다.
+// 이 합본이 공유/다운로드/저장(Supabase) 및 결과 페이지 슬라이싱의 단일 소스가 된다.
+function assembleGrid(images: string[]): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (images.length === 0) { reject(new Error('No images to assemble')); return }
+    const imgs = images.map((src) => { const im = new Image(); im.src = src; return im })
+    let loaded = 0
+    const onAll = () => {
+      const cellW = imgs[0].naturalWidth || 1024
+      const cellH = imgs[0].naturalHeight || 1024
+      const rows = gridRows(imgs.length)
+      const cvs = document.createElement('canvas')
+      cvs.width = cellW * GRID_COLS; cvs.height = cellH * rows
       const ctx = cvs.getContext('2d')
       if (!ctx) { reject(new Error('Canvas not supported')); return }
-      let sx: number, sy: number, sw: number, sh: number
-      if (ratio > cellRatio) { sh = h; sw = Math.floor(h * cellRatio); sx = Math.floor((w - sw) / 2); sy = 0 }
-      else { sw = w; sh = Math.floor(w / cellRatio); sx = 0; sy = Math.floor((h - sh) * 0.15) }
-      for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
-          ctx.drawImage(img, sx, sy, sw, sh, col * cellW, row * cellH, cellW, cellH)
-        }
-      }
-      resolve({ gridPhoto: cvs.toDataURL('image/png'), gridSize })
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cvs.width, cvs.height)
+      imgs.forEach((im, i) => {
+        const col = i % GRID_COLS; const row = Math.floor(i / GRID_COLS)
+        const dx = col * cellW; const dy = row * cellH
+        // cover-fit each image into its cell (defensive against size drift)
+        const iw = im.naturalWidth || cellW; const ih = im.naturalHeight || cellH
+        const scale = Math.max(cellW / iw, cellH / ih)
+        const sw = cellW / scale; const sh = cellH / scale
+        const sx = (iw - sw) / 2; const sy = (ih - sh) / 2
+        try { ctx.drawImage(im, sx, sy, sw, sh, dx, dy, cellW, cellH) } catch { /* skip broken cell */ }
+      })
+      resolve(cvs.toDataURL('image/jpeg', 0.9))
     }
-    img.onerror = () => reject(new Error('Image load failed'))
-    img.src = photoUrl
+    imgs.forEach((im) => {
+      const done = () => { loaded++; if (loaded === imgs.length) onAll() }
+      if (im.complete && im.naturalWidth > 0) done()
+      else { im.onload = done; im.onerror = done }
+    })
   })
 }
 
@@ -195,6 +215,8 @@ export default function AnalysisApp() {
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
   const [resultCells, setResultCells] = useState<string[]>([])
+  // Display labels for the generated looks, in result order (from API response).
+  const [styleNames, setStyleNames] = useState<string[]>([])
   const [report, setReport] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [emailWarning, setEmailWarning] = useState<string | null>(null)
@@ -381,7 +403,7 @@ export default function AnalysisApp() {
     if (file) processPickedFile(file)
   }
 
-  const activeStyles = gender === 'male' ? MALE_MAKEUP_STYLES : FEMALE_MAKEUP_STYLES
+  const activeStyles = styleNames
   const isComplete = photo && gender && skinType
 
   const reverseUsage = () => { setSubStatus(prev => ({ ...prev, usage: Math.max(0, prev.usage - 1) })) }
@@ -407,14 +429,16 @@ export default function AnalysisApp() {
     return curY - y
   }
 
-  const buildCompositeCanvas = async (gridImg: HTMLImageElement, includeProducts = false): Promise<HTMLCanvasElement> => {
-    const srcCellW = Math.floor(gridImg.width / 3)
-    const srcCellH = Math.floor(gridImg.height / 3)
+  const buildCompositeCanvas = async (gridImg: HTMLImageElement, includeProducts = false, labels: string[] = activeStyles): Promise<HTMLCanvasElement> => {
+    const cols = GRID_COLS
+    const rows = gridRows(labels.length || 1)
+    const srcCellW = Math.floor(gridImg.width / cols)
+    const srcCellH = Math.floor(gridImg.height / rows)
     const gap = Math.round(srcCellW * 0.035); const pad = Math.round(srcCellW * 0.04)
     const radius = Math.round(srcCellW * 0.045); const fontSize = Math.max(14, Math.round(srcCellW * 0.065))
     const cellW = srcCellW; const displayImgH = Math.round(cellW * 1.25); const labelH = Math.round(fontSize * 2.2)
     const cellH = displayImgH + labelH
-    const gridW = Math.round(pad * 2 + cellW * 3 + gap * 2); const gridH = Math.round(pad * 2 + cellH * 3 + gap * 2)
+    const gridW = Math.round(pad * 2 + cellW * cols + gap * (cols - 1)); const gridH = Math.round(pad * 2 + cellH * rows + gap * (rows - 1))
     const structured = report ? parseReport(report) : null; const a = structured?.analysis
     const tmpCvs = document.createElement('canvas'); tmpCvs.width = gridW; const tmpCtx = tmpCvs.getContext('2d')!
     const rPad = Math.round(gridW * 0.05); const rContentW = gridW - rPad * 2
@@ -461,9 +485,11 @@ export default function AnalysisApp() {
     // remain responsive while this composite is built (helps INP).
     const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0))
 
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
-        const i = row * 3 + col; const sx = Math.round(col * srcCellW); const sy = Math.round(row * srcCellH)
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const i = row * cols + col
+        if (i >= labels.length) break
+        const sx = Math.round(col * srcCellW); const sy = Math.round(row * srcCellH)
         const dx = Math.round(pad + col * (cellW + gap)); const dy = Math.round(pad + row * (cellH + gap))
         ctx.save(); roundRect(dx, dy, cellW, cellH, [radius, radius, radius, radius])
         ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.08)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 1; ctx.fill(); ctx.restore()
@@ -475,7 +501,7 @@ export default function AnalysisApp() {
         ctx.drawImage(gridImg, cropX, cropY, cropW, cropH, dx, dy, cellW, displayImgH); ctx.restore()
         ctx.fillStyle = '#070953'; ctx.font = `700 ${fontSize}px Manrope, sans-serif`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-        ctx.fillText(activeStyles[i], dx + cellW / 2, dy + displayImgH + labelH / 2)
+        ctx.fillText(labels[i] || '', dx + cellW / 2, dy + displayImgH + labelH / 2)
       }
       await yieldToMain()
     }
@@ -568,12 +594,13 @@ export default function AnalysisApp() {
     setLoading(true); setError(null)
     gtagEvent('analysis_start', { gender, skin_type: skinType })
     try {
-      const { gridPhoto, gridSize } = await createTiledGrid(photo!)
+      const imageSize = await pickImageSize(photo!)
       const abortCtrl = new AbortController()
-      const timeoutId = setTimeout(() => abortCtrl.abort(), 120_000) // 2 min client timeout
+      // 개별 생성은 6회 호출이라 더 오래 걸린다 → 백엔드(130s)보다 넉넉히 큰 150s.
+      const timeoutId = setTimeout(() => abortCtrl.abort(), 150_000)
       const res = await fetch('/api/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, gridPhoto, gridSize, gender: GENDER_MAP[gender!], skinType: SKIN_MAP[skinType!], lang: locale }),
+        body: JSON.stringify({ photo, imageSize, gender: GENDER_MAP[gender!], skinType: SKIN_MAP[skinType!], lang: locale }),
         signal: abortCtrl.signal,
       })
       clearTimeout(timeoutId)
@@ -584,75 +611,76 @@ export default function AnalysisApp() {
       }
       const data = await res.json()
       if (!res.ok) { console.error('[kissinskin] API error:', data.error); throw new Error(`${t('error.analysisError')} ${data.error ? `[${String(data.error).slice(0, 150)}]` : `[${res.status}]`}`) }
-      if (!data.image && !data.report) { reverseUsage(); throw new Error(t('error.bothGenFailed')) }
-      if (!data.image) { reverseUsage(); throw new Error(t('error.imageGenFailed')) }
-      // 9-look 이미지가 핵심 유료 산출물이다. 리포트 생성이 실패해도(모든 리포트
-      // 백엔드가 빈값) 이미지가 성공했으면 결과를 버리지 않고 룩을 보여준다.
-      // 결제 고객이 성공한 이미지를 못 보고 에러만 보던 문제를 막는다.
-      if (!data.report) {
+      const images: StyleImage[] = Array.isArray(data.images) ? data.images : []
+      const failedCount = Array.isArray(data.failed) ? data.failed.length : 0
+      if (images.length === 0 && !data.report) { reverseUsage(); throw new Error(t('error.bothGenFailed')) }
+      if (images.length === 0) { reverseUsage(); throw new Error(t('error.imageGenFailed')) }
+
+      const names = images.map(im => im.displayName)
+      const cells = images.map(im => im.image)
+
+      // 부분 실패가 전체 실패로 번지지 않게: 일부만 성공해도 결과를 보여준다.
+      if (failedCount > 0) {
+        setEmailWarning(locale === 'ko'
+          ? `메이크업 룩 ${images.length}종이 생성됐어요. ${failedCount}종은 생성에 실패했어요 — "다시 만들기"로 재시도하면 채워집니다.`
+          : `${images.length} looks were generated. ${failedCount} failed to generate — tap "Try Again" to fill them in.`)
+      } else if (!data.report) {
+        // 룩 이미지가 핵심 유료 산출물이다. 리포트가 실패해도 룩은 보여준다.
         setEmailWarning(locale === 'ko'
           ? '메이크업 룩은 생성됐지만 상세 분석 리포트 생성에는 실패했습니다. 룩 결과는 아래에서 확인하세요.'
           : 'Your makeup looks were generated, but the detailed analysis report could not be created. Your looks are shown below.')
       }
-      setResultImage(data.image); setReport(data.report || null)
-      gtagEvent('analysis_complete', { gender, skin_type: skinType, has_report: !!data.report, has_image: !!data.image })
-      if (data.image && data.report && gender) {
-        saveSharedResult(data.image, data.report, gender, activeStyles)
+
+      // 개별 룩들을 3열 합본 한 장으로 → 공유/다운로드/저장/이메일의 단일 소스
+      let gridDataUrl = ''
+      try { gridDataUrl = await assembleGrid(cells) }
+      catch (gridErr) { console.warn('[analysis] grid assemble failed', gridErr) }
+      const shareImage = gridDataUrl || cells[0]
+
+      setStyleNames(names); setResultCells(cells)
+      setResultImage(shareImage); setReport(data.report || null)
+      gtagEvent('analysis_complete', { gender, skin_type: skinType, has_report: !!data.report, image_count: images.length, failed_count: failedCount })
+
+      if (shareImage && data.report && gender) {
+        saveSharedResult(shareImage, data.report, gender, names)
           .then(id => setShareId(id))
           .catch(err => {
             console.warn('[auto-save] Failed:', err)
             setTimeout(() => {
-              saveSharedResult(data.image, data.report, gender, activeStyles)
+              saveSharedResult(shareImage, data.report, gender, names)
                 .then(id => setShareId(id))
                 .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
             }, 3000)
           })
       }
-      const img = new Image()
-      img.onerror = (e) => {
-        console.warn('[analysis] grid image failed to load for slicing, showing full grid fallback', e)
-        setResultCells([])
-      }
-      img.onload = async () => {
-        try {
-          const srcCellW = Math.floor(img.width / 3); const srcCellH = Math.floor(img.height / 3)
-          const cells: string[] = []
-          for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 3; col++) {
-              const cvs = document.createElement('canvas'); cvs.width = srcCellW; cvs.height = srcCellH
-              const ctx = cvs.getContext('2d')!
-              ctx.drawImage(img, col * srcCellW, row * srcCellH, srcCellW, srcCellH, 0, 0, srcCellW, srcCellH)
-              cells.push(cvs.toDataURL('image/jpeg', 0.85))
+
+      if (data.report) {
+        const targetEmail = customerEmailRef.current
+        if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(targetEmail)) {
+          console.warn('[send-report] No valid email available, skipping email report')
+          setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
+        } else {
+          try {
+            let composedImage = ''
+            if (gridDataUrl) {
+              try {
+                const gridImg = new Image()
+                await new Promise<void>((resolve) => { gridImg.onload = () => resolve(); gridImg.onerror = () => resolve(); gridImg.src = gridDataUrl })
+                const composedCanvas = await buildCompositeCanvas(gridImg, true, names)
+                composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
+              } catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
             }
-          }
-          setResultCells(cells)
-        } catch (sliceErr) {
-          console.warn('[analysis] canvas slicing failed, showing full grid fallback', sliceErr)
-          setResultCells([])
-        }
-        if (data.report) {
-          const targetEmail = customerEmailRef.current
-          if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(targetEmail)) {
-            console.warn('[send-report] No valid email available, skipping email report')
-            setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
-          } else {
-            try {
-              let composedImage = ''
-              try { const composedCanvas = await buildCompositeCanvas(img, true); composedImage = composedCanvas.toDataURL('image/jpeg', 0.85) }
-              catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
-              const parsed = parseReport(data.report)
-              gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1] })
-              fetch('/api/send-report', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: targetEmail, report: parsed || { summary: data.report, products: [] }, styles: activeStyles, resultImage: composedImage, lang: locale }),
-              }).then(res => {
-                if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
-              }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
-            } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr); setEmailWarning(locale === 'ko' ? '이메일 리포트 준비에 실패했습니다.' : 'Failed to prepare email report.') }
-          }
+            const parsed = parseReport(data.report)
+            gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1] })
+            fetch('/api/send-report', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: targetEmail, report: parsed || { summary: data.report, products: [] }, styles: names, resultImage: composedImage, lang: locale }),
+            }).then(res => {
+              if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
+            }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
+          } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr); setEmailWarning(locale === 'ko' ? '이메일 리포트 준비에 실패했습니다.' : 'Failed to prepare email report.') }
         }
       }
-      img.src = data.image
     } catch (e) {
       const msg = e instanceof DOMException && e.name === 'AbortError'
         ? (locale === 'ko' ? '분석 시간이 초과되었습니다. 다시 시도해 주세요.' : 'Analysis timed out. Please try again.')
@@ -862,7 +890,7 @@ export default function AnalysisApp() {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleReset = () => { setResultImage(null); setResultCells([]); setReport(null); setError(null); setShareId(null) }
+  const handleReset = () => { setResultImage(null); setResultCells([]); setStyleNames([]); setReport(null); setError(null); setShareId(null); setEmailWarning(null) }
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -896,13 +924,13 @@ export default function AnalysisApp() {
       if (a) {
         const stylesList = activeStyles.map((s, i) => `${i + 1}. ${s}`).join('\n')
         if (locale === 'ko') {
-          shareText = `💄 AI 메이크업 분석 리포트 - kissinskin\n\n✨ 피부 분석\n• 피부 타입: ${a.skinType}\n• ${a.skinTypeDetail}\n• 톤: ${a.tone}\n• ${a.toneDetail}\n\n💡 맞춤 조언\n${a.advice}\n\n💄 메이크업 스타일 9종\n${stylesList}\n\n` +
+          shareText = `💄 AI 메이크업 분석 리포트 - kissinskin\n\n✨ 피부 분석\n• 피부 타입: ${a.skinType}\n• ${a.skinTypeDetail}\n• 톤: ${a.tone}\n• ${a.toneDetail}\n\n💡 맞춤 조언\n${a.advice}\n\n💄 메이크업 스타일 ${activeStyles.length}종\n${stylesList}\n\n` +
             (structured.products.length > 0 ? `🛍️ 추천 제품\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n` : '') + shareUrl
         } else {
-          shareText = `💄 AI Makeup Analysis Report - kissinskin\n\n✨ Skin Analysis\n• Skin Type: ${a.skinType}\n• ${a.skinTypeDetail}\n• Tone: ${a.tone}\n• ${a.toneDetail}\n\n💡 Advice\n${a.advice}\n\n💄 9 Makeup Styles\n${stylesList}\n\n` +
+          shareText = `💄 AI Makeup Analysis Report - kissinskin\n\n✨ Skin Analysis\n• Skin Type: ${a.skinType}\n• ${a.skinTypeDetail}\n• Tone: ${a.tone}\n• ${a.toneDetail}\n\n💡 Advice\n${a.advice}\n\n💄 ${activeStyles.length} Makeup Styles\n${stylesList}\n\n` +
             (structured.products.length > 0 ? `🛍️ Recommended Products\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n` : '') + shareUrl
         }
-      } else { shareText = (locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles') + '\n' + shareUrl }
+      } else { shareText = (locale === 'ko' ? `AI가 추천한 나만의 메이크업 스타일 ${activeStyles.length}종` : `My ${activeStyles.length} AI-recommended makeup styles`) + '\n' + shareUrl }
       // Void unused var warning while still keeping long-form text available for future platforms
       void shareText
       if (platform === 'native') {
@@ -1023,7 +1051,7 @@ export default function AnalysisApp() {
           {resultImage && (
             <section className="result-section">
               <h3 className="section-heading">{t('result.makeupStyles')}</h3>
-              {resultCells.length === 9 ? (
+              {resultCells.length > 0 && resultCells.length === activeStyles.length ? (
                 <div className="makeup-grid">
                   {activeStyles.map((style, i) => (<div key={style} className="makeup-cell"><img src={resultCells[i]} alt={style} className="makeup-cell-img" /><p className="makeup-cell-label">{style}</p></div>))}
                 </div>
@@ -1058,7 +1086,7 @@ export default function AnalysisApp() {
                 ? `✨ ${sa.skinType} | ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ 추천: ${topProducts}` : ''}`
                 : `✨ ${sa.skinType} | ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ Picks: ${topProducts}` : ''}`
               shareTextFull = `${shareTitle}\n${summary}\n\n${shareUrl}`
-            } else { shareTitle = locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일 9종' : 'My 9 AI-recommended makeup styles'; shareTextFull = `${shareTitle}\n${shareUrl}` }
+            } else { shareTitle = locale === 'ko' ? `AI가 추천한 나만의 메이크업 스타일 ${activeStyles.length}종` : `My ${activeStyles.length} AI-recommended makeup styles`; shareTextFull = `${shareTitle}\n${shareUrl}` }
             const encodedText = encodeURIComponent(shareTextFull); const encodedUrl = encodeURIComponent(shareUrl); const encodedTitle = encodeURIComponent(shareTitle)
             return (
               <div className="share-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowShareMenu(false) }}>
