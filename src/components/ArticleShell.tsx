@@ -62,7 +62,7 @@ export default function ArticleShell({
   const analysisPath = isEn ? '/en/' : '/analysis/'
   const resolvedCtaTitle = ctaTitle ?? (isEn ? 'Try your perfect look with AI' : '내게 어울리는 룩, AI로 직접 시뮬레이션')
   const resolvedCtaSubtitle =
-    ctaSubtitle ?? (isEn ? 'One selfie, nine K-beauty looks in about 30 seconds.' : '셀카 한 장으로 9가지 K-뷰티 메이크업을 30초 안에')
+    ctaSubtitle ?? (isEn ? 'One selfie, six K-beauty looks in about 30 seconds.' : '셀카 한 장으로 6가지 K-뷰티 메이크업을 30초 안에')
 
   return (
     <div className="font-display bg-white min-h-screen">

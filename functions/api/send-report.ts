@@ -48,7 +48,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       toneAnalysis: isEn ? 'Tone Analysis' : '톤 분석',
       advice: isEn ? 'Personalized Advice' : '맞춤 조언',
       makeupResult: isEn ? 'Makeup Simulation Result' : '메이크업 시뮬레이션 결과',
-      makeupStyles: isEn ? '9 Makeup Styles' : '메이크업 스타일 9종',
+      makeupStyles: isEn ? '6 Makeup Styles' : '메이크업 스타일 6종',
       productRec: isEn ? 'Personalized Product Recommendations' : '맞춤 화장품 추천',
       buyNow: isEn ? 'Buy Now →' : 'Buy Now →',
       reportTitle: isEn ? 'AI Makeup Analysis Report' : 'AI 메이크업 분석 리포트',

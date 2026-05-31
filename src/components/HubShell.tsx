@@ -173,8 +173,8 @@ export default function HubShell({
             </h2>
             <p className="text-slate-600 text-sm mb-5">
               {isEn
-                ? 'See nine K-beauty makeup looks rendered on your face in about 30 seconds.'
-                : '30초 안에 9가지 K-뷰티 메이크업이 본인 얼굴에 적용된 결과를 확인합니다.'}
+                ? 'See six K-beauty makeup looks rendered on your face in about 30 seconds.'
+                : '30초 안에 6가지 K-뷰티 메이크업이 본인 얼굴에 적용된 결과를 확인합니다.'}
             </p>
             <a
               href={isEn ? '/en/' : '/analysis/'}

@@ -51,7 +51,7 @@ function AboutKo() {
       <h2>사이트 목적</h2>
       <p>
         2024년 K-뷰티 시장이 글로벌로 확장되면서 "한국식 메이크업이 나에게
-        어울릴까?"라는 질문이 늘었습니다. 매장에 가지 않고도 셀카 한 장으로 9가지
+        어울릴까?"라는 질문이 늘었습니다. 매장에 가지 않고도 셀카 한 장으로 6가지
         스타일을 미리 보고, 자신의 퍼스널컬러·얼굴형·취향을 진단하고, 글로벌
         뷰티 산업의 데이터·트렌드를 한 곳에서 읽을 수 있는 사이트가 필요하다고
         생각해 만들었습니다.
@@ -151,7 +151,7 @@ function AboutEn() {
       <h2>What the site is for</h2>
       <p>
         As K-beauty went global in 2024, more people started asking, "Would
-        Korean makeup look good on me?" kissinskin lets you preview nine styles
+        Korean makeup look good on me?" kissinskin lets you preview six styles
         on a single selfie, diagnose your personal color, face shape, and
         preferences, and read in-depth K-beauty industry context — all in one
         place, without visiting a store.

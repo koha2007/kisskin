@@ -159,7 +159,7 @@ export default function MakeupMbtiQuiz() {
                     </li>
                   </ul>
                   <p className="mt-6">
-                    Each type is mapped to one of kissinskin&apos;s 9 women&apos;s and 9 men&apos;s styles, so instead of a plain diagnosis
+                    Each type is mapped to one of kissinskin&apos;s 6 women&apos;s and 6 men&apos;s styles, so instead of a plain diagnosis
                     you get <strong>a K-beauty look you can actually try on</strong>.
                   </p>
                 </>
@@ -190,7 +190,7 @@ export default function MakeupMbtiQuiz() {
                     </li>
                   </ul>
                   <p className="mt-6">
-                    각 유형에 kissinskin의 9가지 여성 스타일 / 9가지 남성 스타일 중 가장 잘 맞는 조합을 매핑해,
+                    각 유형에 kissinskin의 6가지 여성 스타일 / 6가지 남성 스타일 중 가장 잘 맞는 조합을 매핑해,
                     단순 진단을 넘어 <strong>실제로 시도해볼 수 있는 K-뷰티 룩</strong>을 제안해드립니다.
                   </p>
                 </>

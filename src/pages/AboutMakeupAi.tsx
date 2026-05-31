@@ -6,12 +6,12 @@ const HERO_KO = {
   badge: 'K-뷰티 메이크업 완전 가이드',
   title: 'K-뷰티 메이크업의 모든 것',
   subtitle:
-    '역사·9가지 여성 스타일·9가지 남성 스타일·AI 시뮬레이션의 원리·사진 촬영 팁까지. K-뷰티 메이크업을 시작하는 사람부터 현직 뷰티 에디터까지 참고할 수 있는 3,000단어 분량의 심화 가이드입니다.',
+    '역사·6가지 여성 스타일·6가지 남성 스타일·AI 시뮬레이션의 원리·사진 촬영 팁까지. K-뷰티 메이크업을 시작하는 사람부터 현직 뷰티 에디터까지 참고할 수 있는 3,000단어 분량의 심화 가이드입니다.',
   toc: [
     ['#history', '1. K-뷰티 메이크업의 역사'],
     ['#philosophy', '2. K-뷰티 메이크업의 미학 — 왜 세계가 주목하는가'],
-    ['#women-styles', '3. 여성을 위한 9가지 K-뷰티 스타일'],
-    ['#men-styles', '4. 남성을 위한 9가지 K-뷰티 스타일'],
+    ['#women-styles', '3. 여성을 위한 6가지 K-뷰티 스타일'],
+    ['#men-styles', '4. 남성을 위한 6가지 K-뷰티 스타일'],
     ['#ai-principle', '5. AI 메이크업 시뮬레이션의 원리'],
     ['#photo-tips', '6. 정확도를 높이는 사진 촬영 팁'],
     ['#faq', '7. 자주 묻는 질문'],
@@ -93,8 +93,8 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
 
           {/* 3. Women styles */}
           <section id="women-styles" className="mb-14">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">3. 여성을 위한 9가지 K-뷰티 스타일</h2>
-            <p className="mb-6">kissinskin은 2026년 기준 가장 대표적인 9가지 여성 K-뷰티 스타일을 AI 시뮬레이션으로 제공합니다. 각 스타일의 핵심을 정리합니다.</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">3. 여성을 위한 6가지 K-뷰티 스타일</h2>
+            <p className="mb-6">kissinskin은 2026년 기준 가장 대표적인 6가지 여성 K-뷰티 스타일을 AI 시뮬레이션으로 제공합니다. 각 스타일의 핵심을 정리합니다.</p>
             <div className="space-y-5 not-prose">
               {WOMEN_STYLES.map(s => (
                 <div key={s.name} className="bg-white rounded-2xl p-5 border border-pink-100">
@@ -107,8 +107,8 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
 
           {/* 4. Men styles */}
           <section id="men-styles" className="mb-14">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">4. 남성을 위한 9가지 K-뷰티 스타일</h2>
-            <p className="mb-6">남성 메이크업은 2023년부터 대중화가 급격히 빨라졌으며, kissinskin은 남성 전용 9가지 스타일을 별도로 제공합니다. 남성 메이크업은 "티 안 나는 정돈"이 기본 원칙입니다.</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">4. 남성을 위한 6가지 K-뷰티 스타일</h2>
+            <p className="mb-6">남성 메이크업은 2023년부터 대중화가 급격히 빨라졌으며, kissinskin은 남성 전용 6가지 스타일을 별도로 제공합니다. 남성 메이크업은 "티 안 나는 정돈"이 기본 원칙입니다.</p>
             <div className="space-y-5 not-prose">
               {MEN_STYLES.map(s => (
                 <div key={s.name} className="bg-white rounded-2xl p-5 border border-blue-100">
@@ -126,7 +126,7 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
             <p className="mb-4"><strong>1단계 · 얼굴 분석(Face Analysis)</strong>: 업로드된 사진에서 얼굴 랜드마크(눈·코·입·광대·턱 등 68~98개 포인트)를 추출합니다. 이 단계에서 얼굴형, 피부톤, 눈·입술 크기 비율이 계산됩니다. 추출된 데이터는 익명화된 벡터 형태로만 처리되며, 원본 사진은 서버에 저장되지 않습니다.</p>
             <p className="mb-4"><strong>2단계 · 스타일 매핑(Style Mapping)</strong>: 사용자가 선택한 스타일(예: Natural Glow, Blood Lip)의 "스타일 프로파일"이 AI에 입력됩니다. 각 프로파일은 수백 장의 레퍼런스 이미지와 브랜드 컬러 공식을 학습한 결과이며, 사용자의 얼굴 벡터에 맞게 컬러·강도·배치가 동적으로 조정됩니다.</p>
             <p className="mb-4"><strong>3단계 · 생성 및 합성(Generation & Composite)</strong>: 최종 이미지는 사용자의 원본 얼굴 구조를 유지한 채, 메이크업 레이어만 자연스럽게 합성됩니다. 이 과정에서 얼굴의 개인 정체성(눈매·입꼬리 각도·광대 높이 등)은 보존되며, 오직 "메이크업 레이어"만 적용됩니다. 이 원칙 덕분에 "전혀 다른 사람처럼 보이는" 부자연스러운 결과 없이 실제 본인이 그 메이크업을 한 것처럼 시뮬레이션됩니다.</p>
-            <p className="mb-4">결과물은 총 9장의 이미지로, 여성의 경우 9가지 여성 스타일, 남성의 경우 9가지 남성 스타일이 한꺼번에 생성됩니다. 약 30~60초 내에 완성되며, 결과 페이지에서 각 룩을 크게 보고 다운로드·공유할 수 있습니다.</p>
+            <p className="mb-4">결과물은 총 6장의 이미지로, 여성의 경우 6가지 여성 스타일(메이크업 5 + 헤어 컬러 1), 남성의 경우 6가지 남성 스타일이 각각 별도로 생성됩니다. 원본 셀카 1장으로 항목마다 따로 합성해 얼굴 동일성을 보존합니다. 약 30~60초 내에 완성되며, 결과 페이지에서 각 룩을 크게 보고 다운로드·공유할 수 있습니다.</p>
           </section>
 
           {/* 6. Photo tips */}
@@ -160,7 +160,7 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
             <div className="bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 rounded-3xl p-8 md:p-10 text-center">
               <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-3">이론은 충분히 이해하셨나요?</h2>
-              <p className="text-slate-600 mb-6 max-w-lg mx-auto text-sm md:text-base">직접 본인 얼굴에 9가지 스타일을 시뮬레이션해 보세요. 무엇이 가장 잘 어울리는지 바로 확인할 수 있습니다.</p>
+              <p className="text-slate-600 mb-6 max-w-lg mx-auto text-sm md:text-base">직접 본인 얼굴에 6가지 스타일을 시뮬레이션해 보세요. 무엇이 가장 잘 어울리는지 바로 확인할 수 있습니다.</p>
               <a href="/analysis/" className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
                 {t('tools.common.aiMakeupStart')}
                 <span className="material-symbols-outlined">arrow_forward</span>
@@ -175,27 +175,21 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
 }
 
 const WOMEN_STYLES = [
-  { name: '내추럴 글로우', en: 'Natural Glow', desc: '피부 본연의 광택을 최대한 살리는 스타일. 쿠션 한 톱, 틴트 립, 살짝의 마스카라로 완성되는 "꾸안꾸"의 정석. 친근함과 건강한 인상이 핵심이며, 퍼스널 컬러와 무관하게 거의 모든 피부톤에 어울립니다.' },
-  { name: '클라우드 스킨', en: 'Cloud Skin', desc: '구름처럼 부드럽게 번지는 반매트 피부 연출. 글로우보다는 촉촉함을 강조하며, 블러처리된 듯한 부드러운 질감이 시그니처. 여름 쿨톤·봄 웜톤에 특히 잘 어울리며, 셀카에서 "보정한 듯" 깔끔하게 나옵니다.' },
-  { name: '블러드 립', en: 'Blood Lip', desc: '입술 안쪽에서 붉어진 듯한 자연 혈색 연출. 경계가 번진 틴트 효과로 "꾸안꾸"의 대표 기법. 어떤 옷과 메이크업에도 자연스럽게 매치되며, 2016년부터 2026년까지 10년간 한국 K-뷰티의 시그니처 립 기법으로 자리잡았습니다.' },
-  { name: '맥시멀리스트 아이', en: 'Maximalist Eye', desc: '한 눈에 3~4가지 컬러를 레이어링하는 실험적 아이 메이크업. 팬데믹 이후 "마스크 위 눈에 집중" 트렌드로 대중화됐으며, ENFP·INTP·ENTP 같은 실험 정신이 강한 메이크업 MBTI 유형에게 특히 잘 어울립니다.' },
-  { name: '메탈릭 아이', en: 'Metallic Eye', desc: '브론즈·골드·실버 등 메탈릭 쉬머로 눈두덩 중앙에 포인트. 무대·이브닝·파티 등 강한 존재감이 필요한 자리의 정답. 가을 웜톤·겨울 쿨톤에서 각각 다른 매력으로 살아나며, ESFP·INTJ 유형의 시그니처 룩입니다.' },
-  { name: '볼드 립', en: 'Bold Lip', desc: '또렷한 풀 컬러 립으로 얼굴 전체에 중심을 주는 스타일. 레드·플럼·버건디 같은 고채도 컬러가 중심이며, "한 방 임팩트"를 선호하는 ENTJ·ESTJ 유형에게 이상적. 겨울 쿨톤·가을 웜톤이 가장 소화하기 쉽습니다.' },
-  { name: '블러쉬 드레이핑', en: 'Blush Draping', desc: '볼 → 관자놀이 → 눈두덩까지 한 톤 블러쉬를 드레이핑하듯 연결. 얼굴 전체가 하나의 무드로 감성적으로 번지는 기법. 2025년 한국에서 K-pop 아티스트 스타일리스트들이 적극 채택하며 폭발적으로 유행했습니다.' },
-  { name: '그런지 메이크업', en: 'Grunge Makeup', desc: '완벽을 부수는 "의도된 거침". 번진 아이라인, 불균일한 립, 매트 피부의 조합으로 스트리트 감성을 표현. ESTP·ENTP 같은 실험·에너지 지향 유형에게 특히 잘 어울리며, 패션 위크와 클럽 스타일의 교집합입니다.' },
-  { name: 'K-pop 아이돌', en: 'Kpop Idol Makeup', desc: '화사한 피부 + 반짝이는 아이 + 틴티드 립의 3박자. 무대성과 친근함의 균형이 핵심으로, K-pop 팬덤 문화와 함께 세계로 확산된 한국 메이크업의 아이콘. ESFJ·ESFP 유형의 시그니처이며 거의 모든 퍼스널 컬러에 변주 가능합니다.' },
+  { name: '글래스 스킨 글로우', en: 'Glass Skin Glow', desc: '유리알처럼 맑고 촉촉한 광채 베이스. 2026 클라우드 글로우 트렌드의 핵심으로, 물광이 도는 투명한 피부에 은은한 핑크·피치 블러셔와 글로시 누드 립을 더합니다. 거의 모든 퍼스널 컬러에 어울리는 K-뷰티의 시그니처 베이스입니다.' },
+  { name: '블러드 틴트 립', en: 'Blurred Tint Lip', desc: '입술 중앙은 진하고 바깥으로 갈수록 흐려지는 그라데이션 틴트. 경계가 번진 자연 혈색 연출로 "꾸안꾸"의 대표 기법이며, 2016년부터 한국 K-뷰티의 상징적인 립 표현으로 자리잡았습니다.' },
+  { name: '란제리 메이크업', en: 'Lingerie Makeup', desc: '속옷처럼 은은하고 관능적인 뉴트럴 무드. 뮤트 베이지·로지 브라운 톤이 피부에 녹아드는 소프트 매트 베이스에 차분한 셰이딩을 더한 2026 트렌드 룩입니다.' },
+  { name: '글레이즈드 라벤더 립', en: 'Glazed Lavender Lip', desc: '라벤더·모브 톤의 글로시한 누드 립이 핵심인 2026 신상 누드립 트렌드. 차분한 라벤더 기운이 도는 뮤트 베이스에 클린한 아이로 마무리해 세련되고 트렌디한 인상을 만듭니다.' },
+  { name: 'K-pop 아이돌 메이크업', en: 'K-Pop Idol Makeup', desc: '유리알 광 베이스 + 그라데이션 핑크 립 + 쉬머 하이라이터의 3박자. 제니·IVE 스타일의 화사한 무대 메이크업으로, K-pop 팬덤과 함께 세계로 확산된 한국 메이크업의 아이콘입니다.' },
+  { name: '코퍼 어번 헤어', en: 'Copper Auburn Hair', desc: '메이크업이 아닌 헤어 컬러 변신. 구리빛 어번(적갈색)은 2026 글로벌 유행 헤어 컬러로, 얼굴은 그대로 두고 머리색만 바꿔 분위기 변화를 미리 확인할 수 있습니다.' },
 ]
 
 const MEN_STYLES = [
-  { name: '노메이크업 메이크업', en: 'No-Makeup Makeup', desc: '화장한 듯 안 한 듯한 궁극의 "티 안 나는 정돈". 입술과 피부에 살짝의 톤만 더하는 수준으로, 남성 메이크업 입문자에게 가장 추천됩니다. ISTJ·ISTP 유형에게 이상적입니다.' },
-  { name: '스킨케어 하이브리드', en: 'Skincare Hybrid', desc: '색조보다 피부결 개선에 집중하는 남성형 접근. BB 크림+피부 결 개선 제품의 조합. 한국 남성 메이크업의 기본 접근법이며, ISFJ·ISFP 유형의 시그니처입니다.' },
-  { name: '블러드 립', en: 'Blurred Lip', desc: '여성판 블러드 립의 남성 버전. 립에 아주 옅은 혈색만 더해 "건강해 보이는" 효과. 과하지 않으면서 생기를 더하는 방식으로 INFJ·ISFP 유형에 특히 잘 어울립니다.' },
-  { name: '그런지 스모키 아이', en: 'Grunge Smoky Eye', desc: '남성 메이크업 중 가장 강렬한 카테고리. 번진 스모키로 눈에 샤프한 존재감을 만드는 스타일. ESTP·ENTP 같은 에너지 지향 유형의 시그니처입니다.' },
-  { name: '모노크롬', en: 'Monochrome', desc: '눈·피부·입술을 하나의 톤으로 묶은 절제된 스타일. INTJ·ESTJ 같은 구조 지향 유형에게 완벽하게 어울리며, 비즈니스·공식 자리에서 가장 신뢰감 있는 남성 메이크업으로 평가받습니다.' },
-  { name: '유틸리티 메이크업', en: 'Utility Makeup', desc: '기능적이고 군더더기 없는 톤 정리. 스킨케어 이상·풀메이크업 미만의 중간 지점으로, ENTJ·ISTP 같은 실용주의 유형에게 이상적입니다.' },
-  { name: '컬러 포인트 아이', en: 'Color Point Eye', desc: '이너라인·언더라인에 예상 밖 컬러(블루·바이올렛·에메랄드 등)를 얹는 실험적 남성 스타일. 2025년 K-pop 남성 아이돌 스타일링에서 대중화된 기법입니다. INTP·ENFP 유형의 시그니처입니다.' },
-  { name: '뱀파이어 로맨틱', en: 'Vampire Romantic', desc: '플럼 립 + 스모키 보라 아이의 다크 판타지 룩. 남성 메이크업 중 가장 서사적인 스타일로, INFP·INTP 같은 감성·실험 유형에 완벽하게 어울립니다.' },
-  { name: 'K-pop 아이돌', en: 'Kpop Idol Makeup', desc: '여성판과 동일한 컨셉으로, 남성형으로 조정된 버전. 화사한 피부 + 은은한 아이 포인트 + 틴티드 립. 무대성과 대중성의 균형으로 ESFJ·ESFP 유형의 시그니처입니다.' },
+  { name: '스킨케어 글로우 베이스', en: 'Skincare Glow Base', desc: '이마·코끝·광대에 건강한 수분 광택이 도는 촉촉한 피부 연출. 잡티·다크서클만 살짝 정돈해 "원래 피부 좋은 남자" 인상을 만드는, 한국 남성 메이크업의 기본 접근법입니다.' },
+  { name: '노메이크업 메이크업', en: 'No-Makeup Makeup', desc: '화장한 듯 안 한 듯한 궁극의 "티 안 나는 정돈". 피부결·모공·수염 자국은 유지한 채 매끈하게만 정리하고 눈썹을 가지런히 다듬는 수준으로, 남성 메이크업 입문자에게 가장 추천됩니다.' },
+  { name: 'K-팝 아이돌 메이크업', en: 'K-Pop Idol Makeup', desc: '유리알 글로우 베이스 + 은은한 아이 포인트 + 코랄 립 틴트. 남성적인 얼굴은 그대로 두고 무대 위 남돌처럼 화사하게 연출하는 균형 잡힌 스타일입니다.' },
+  { name: '그런지 스모키 아이', en: 'Grunge Smoky Eye', desc: '남성 메이크업 중 가장 강렬한 카테고리. 브라운·다크카키를 블렌딩한 스머지드 스모키로 샤프한 눈매를 만드는, 2026 그런지 부활 트렌드의 대표 룩입니다.' },
+  { name: '모노크롬 메이크업', en: 'Monochrome Makeup', desc: '눈·볼·입술을 테라코타·피치 한 톤으로 묶은 절제된 톤온톤 스타일. 따뜻한 톤이 은은하게 감돌아 비즈니스·공식 자리에서 신뢰감 있는 남성 메이크업으로 평가받습니다.' },
+  { name: '애쉬 브라운 헤어', en: 'Ash Brown Hair', desc: '메이크업이 아닌 헤어 컬러 변신. 애쉬 브라운은 2026 글로벌 유행 헤어 컬러로, 얼굴은 그대로 두고 머리색만 차분한 애쉬 브라운으로 바꿔 분위기 변화를 확인할 수 있습니다.' },
 ]
 
 const FAQ = [

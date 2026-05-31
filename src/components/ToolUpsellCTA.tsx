@@ -3,7 +3,7 @@ import { isInternalTraffic } from '../lib/internalTraffic'
 
 // Prominent "apply this result to your own face" upsell, shared by every tool
 // result page. Goal: convert free-tool traffic into the $2.99 AI analysis by
-// showing value (9 looks) and the price up front before the call to action.
+// showing value (6 looks) and the price up front before the call to action.
 // Used twice per page — once right after the result (variant="top") and once
 // at the very bottom (variant="bottom").
 
@@ -33,8 +33,8 @@ export default function ToolUpsellCTA({ name, accentColor, accentColorTo, tool, 
     : (isEn ? 'Ready to see it on your own face?' : '이제 내 얼굴로 직접 적용해볼까요?')
 
   const subline = isEn
-    ? `Upload one selfie and AI creates 9 K-beauty makeup looks tailored to ${name} in about 60 seconds.`
-    : `셀카 한 장이면 AI가 ${name}에 어울리는 9가지 K-뷰티 룩을 약 60초 만에 만들어드려요.`
+    ? `Upload one selfie and AI creates 6 K-beauty makeup looks tailored to ${name} in about 60 seconds.`
+    : `셀카 한 장이면 AI가 ${name}에 어울리는 6가지 K-뷰티 룩을 약 60초 만에 만들어드려요.`
 
   const trust = isEn
     ? [

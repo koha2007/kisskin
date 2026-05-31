@@ -39,7 +39,7 @@ export interface MakeupMbtiType {
     base: string
     blush: string
   }
-  // Mapping to kissinskin's existing 9 women / 9 men styles
+  // Mapping to kissinskin's existing 6 women / 6 men styles
   // Values must match the existing style folder or label used in HomePage.tsx
   recommended: {
     women: { primary: string; secondary: string; reason: string }

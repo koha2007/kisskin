@@ -22,8 +22,8 @@ const TOOLS: Tool[] = [
     emoji: '💄',
     titleKo: 'AI 메이크업 시뮬레이터',
     titleEn: 'AI Makeup Simulator',
-    descKo: '셀카 한 장으로 9가지 K-뷰티 룩을 30초 만에',
-    descEn: 'One selfie, 9 K-beauty looks in 30 seconds',
+    descKo: '셀카 한 장으로 6가지 K-뷰티 룩을 30초 만에',
+    descEn: 'One selfie, 6 K-beauty looks in 30 seconds',
     accent: '#eb4763',
   },
   {
