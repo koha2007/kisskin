@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MediaPipe 메이크업 6종 — 베이스+포인트 미리보기</title>
+<style>
+  body{font-family:system-ui,'Apple SD Gothic Neo',sans-serif;margin:0;background:#0f1115;color:#e7e7ea}
+  header{padding:14px 20px;border-bottom:1px solid #252833}
+  h1{font-size:16px;margin:0}.sub{color:#8a8f9a;font-size:12px;margin-top:3px}
+  main{display:flex;gap:18px;padding:18px;flex-wrap:wrap;align-items:flex-start}
+  .panel{background:#161922;border:1px solid #252833;border-radius:12px;padding:14px;min-width:300px}
+  .row{display:flex;gap:8px;align-items:center;margin:8px 0;flex-wrap:wrap}
+  canvas,img.preview{max-width:380px;width:100%;border-radius:10px;border:1px solid #252833;background:#000}
+  button{background:#222636;color:#fff;border:1px solid #2f3550;border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer}
+  button.on{background:#6d5efc;border-color:#6d5efc}
+  .looks button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-width:150px}
+  .looks button small{color:#9aa;font-size:10px}
+  .looks button.on small{color:#e7e0ff}
+  #status{font-size:12px;color:#7fd1a0;font-family:ui-monospace,monospace;white-space:pre-wrap;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <h1>MediaPipe 메이크업 — 기본 베이스 + 룩 포인트 (얼굴 100% 보존)</h1>
+  <div class="sub">모든 룩에 공통 베이스(립 혈색·볼 블러셔·T존 광채)가 깔려 화사. 1개 선택 → 그 룩만 적용. 전부 온디바이스.</div>
+</header>
+<main>
+  <div class="panel">
+    <div class="row"><input type="file" id="file" accept="image/*" /></div>
+    <div class="row"><span style="font-size:12px;color:#aab">성별</span>
+      <button id="gF" class="on">여성</button><button id="gM">남성</button>
+      <label style="font-size:11px;color:#889;margin-left:6px"><input type="checkbox" id="baseOff"> 베이스 끄고 비교</label>
+    </div>
+    <div class="row looks" id="looks"></div>
+    <div id="status">모델 로딩 대기…</div>
+  </div>
+  <div class="panel"><div class="row"><span style="font-size:12px;color:#aab">원본</span></div><img id="orig" class="preview" /></div>
+  <div class="panel"><div class="row"><span style="font-size:12px;color:#aab">결과</span></div><canvas id="out"></canvas></div>
+</main>
+
+<script type="module">
+import { initEngine, renderLook } from './looks-engine.js'
+import { looksFor, BASE_FEMALE, BASE_MALE } from './looks-config.js'
+
+const $ = (id) => document.getElementById(id)
+const setStatus = (m) => { $('status').textContent = m; console.log(m) }
+let engine = null, gender = 'female', curImg = null, curLook = null
+
+// 베이스 끄기(비교용): 베이스 값을 0으로 덮어쓰는 토글
+const origBaseF = { ...BASE_FEMALE }, origBaseM = { ...BASE_MALE }
+function setBaseEnabled(on) {
+  const z = { highlight:0, blush:{color:'#000',alpha:0}, lip:{color:'#000',alpha:0,style:'tint'} }
+  Object.assign(BASE_FEMALE, on?origBaseF:z); Object.assign(BASE_MALE, on?origBaseM:z)
+}
+
+function renderLookButtons() {
+  const wrap = $('looks'); wrap.innerHTML = ''
+  for (const lk of looksFor(gender)) {
+    const b = document.createElement('button')
+    b.innerHTML = `${lk.nameKo}<small>${lk.point}</small>`
+    b.onclick = () => { curLook = lk; [...wrap.children].forEach(c=>c.classList.remove('on')); b.classList.add('on'); run() }
+    wrap.appendChild(b)
+  }
+  curLook = null
+}
+
+async function run() {
+  if (!curImg || !engine || !curLook) return
+  setStatus(`처리 중… (${curLook.nameKo})`)
+  const t = performance.now()
+  const report = await renderLook($('out'), curImg, curLook, engine)
+  setStatus(`완료 ${Math.round(performance.now()-t)}ms\n` + JSON.stringify(report,null,1))
+}
+
+$('file').onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return
+  const r = new FileReader()
+  r.onload = () => { const im = new Image(); im.onload = () => { curImg = im; $('orig').src = r.result; run() }; im.src = r.result }
+  r.readAsDataURL(f)
+}
+$('gF').onclick = () => { gender='female'; $('gF').classList.add('on'); $('gM').classList.remove('on'); renderLookButtons() }
+$('gM').onclick = () => { gender='male'; $('gM').classList.add('on'); $('gF').classList.remove('on'); renderLookButtons() }
+$('baseOff').onchange = (e) => { setBaseEnabled(!e.target.checked); run() }
+
+// ── 헤드리스 훅 ──
+window.renderOne = async (dataUrl, lookId) => {
+  const im = new Image(); await new Promise((res,rej)=>{ im.onload=res; im.onerror=rej; im.src=dataUrl })
+  const lk = [...looksFor('female'), ...looksFor('male')].find(l => l.id === lookId)
+  const report = await renderLook($('out'), im, lk, engine)
+  return { report, result: $('out').toDataURL('image/png') }
+}
+window.setBaseEnabled = setBaseEnabled
+
+renderLookButtons()
+initEngine(setStatus).then(e => { engine = e; window.__POC_READY = true; setStatus('✅ 모델 준비 완료. 사진을 올리고 룩을 선택하세요.') })
+  .catch(err => { window.__POC_ERROR = String(err.message||err); setStatus('❌ '+err) })
+</script>
+</body>
+</html>
