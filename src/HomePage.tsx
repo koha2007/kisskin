@@ -584,12 +584,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex flex-col items-center gap-6 md:gap-10">
             <div className="flex flex-col gap-4 md:gap-6 items-center text-center max-w-2xl">
-              <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
+              {/* Compressed eyebrow — single trust line (was: badge + 3 chips) */}
+              <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                {t('home.hero.badge')}
+                {t('home.hero.eyebrow')}
               </div>
 
               <h1 id="hero-title" className="animate-fade-in-up font-serif text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.1] tracking-tight text-navy">
@@ -603,91 +604,22 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <strong className="text-primary"> {t('home.hero.subtitleBold')}</strong>{t('home.hero.subtitleEnd')}
               </p>
 
-              {/* Compact Before → After Visual Proof */}
-              <a
-                href="#how"
-                className="animate-fade-in-up-delay flex items-center gap-2 sm:gap-3 bg-white/80 rounded-2xl p-2.5 sm:p-3 border border-pink-100 shadow-sm backdrop-blur-sm hover:border-primary/30 hover:shadow-md transition-all"
-                aria-label={t('home.hero.viewStyles')}
-              >
-                <div className="relative rounded-xl overflow-hidden border border-pink-100 shrink-0">
-                  <img
-                    src="/example-input.webp"
-                    alt={t('home.hero.previewLabel')}
-                    width={64}
-                    height={84}
-                    loading="eager"
-                    decoding="async"
-                    className="block w-14 h-[72px] sm:w-16 sm:h-[84px] object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent text-white text-[0.6rem] font-bold px-1.5 py-0.5 leading-tight">
-                    {t('home.hero.previewLabel')}
-                  </div>
-                </div>
-                <span className="material-symbols-outlined text-primary text-xl shrink-0">arrow_forward</span>
-                <div className="relative rounded-xl overflow-hidden border-2 border-primary/30 shrink-0">
-                  <img
-                    src="/example-result.webp"
-                    alt={t('home.hero.previewResultLabel')}
-                    width={108}
-                    height={84}
-                    loading="lazy"
-                    decoding="async"
-                    className="block w-[96px] h-[72px] sm:w-[108px] sm:h-[84px] object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent text-white text-[0.6rem] font-bold px-1.5 py-0.5 leading-tight">
-                    {t('home.hero.previewResultLabel')}
-                  </div>
-                </div>
-              </a>
-
-              <div className="animate-fade-in-up-delay2 flex flex-col sm:flex-row gap-3 pt-2">
-                <button
-                  className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25 group"
-                  onClick={() => onNavigate('analysis')}
-                >
-                  {t('common.startAnalysisLong')}
-                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
+              {/* Single primary CTA — free-first; paid AI demoted to a small secondary link */}
+              <div className="animate-fade-in-up-delay2 flex flex-col items-center gap-3 pt-2 w-full">
                 <a
-                  href="/tools/"
-                  className="border border-pink-200 hover:border-primary/30 hover:bg-pink-50 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 cursor-pointer text-slate-700"
+                  href="#tools-showcase"
+                  className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-10 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25 group w-full sm:w-auto"
                 >
-                  <span className="material-symbols-outlined text-primary">quiz</span>
-                  {t('home.hero.viewQuizzes')}
+                  {t('home.hero.startFree')}
+                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </a>
-              </div>
-
-              {/* Trust cluster: price line + experience chips + safety strip */}
-              <div className="animate-fade-in-up-delay2 flex flex-col items-center gap-2.5 pt-1">
-                {/* Honest price line — free quizzes vs paid AI makeup, no bait */}
-                <p className="text-sm font-medium text-slate-500">
-                  {t('home.hero.priceLine')}
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  {[
-                    { icon: 'bolt', text: t('home.hero.trust1') },
-                    { icon: 'lock_open', text: t('home.hero.trust2') },
-                    { icon: 'replay', text: t('home.hero.trust3') },
-                  ].map(chip => (
-                    <span key={chip.text} className="inline-flex items-center gap-1 bg-white/70 backdrop-blur-sm border border-pink-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
-                      <span className="material-symbols-outlined text-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>{chip.icon}</span>
-                      {chip.text}
-                    </span>
-                  ))}
-                </div>
-                {/* Safety strip — operator/payment trust for skeptical first-time visitors */}
-                <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5 text-[11px] sm:text-xs text-slate-400">
-                  {[
-                    { icon: 'lock', text: t('home.hero.safe1') },
-                    { icon: 'verified_user', text: t('home.hero.safe2') },
-                    { icon: 'delete_sweep', text: t('home.hero.safe3') },
-                  ].map(s => (
-                    <span key={s.text} className="inline-flex items-center gap-1">
-                      <span className="material-symbols-outlined text-slate-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
-                      {s.text}
-                    </span>
-                  ))}
-                </div>
+                <button
+                  onClick={() => onNavigate('analysis')}
+                  className="text-sm text-slate-500 hover:text-primary font-medium underline underline-offset-4 decoration-slate-300 hover:decoration-primary inline-flex items-center gap-1 transition-colors"
+                >
+                  {t('home.hero.paidLink')}
+                  <span className="material-symbols-outlined text-base">arrow_forward</span>
+                </button>
               </div>
             </div>
 
@@ -695,6 +627,20 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
           {/* Marquee Hero — 9 models with cycling styles */}
           <MarqueeHero onClick={() => onNavigate('analysis')} />
+
+          {/* Safety strip — moved below the hero per redesign (operator/payment trust) */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5 text-[11px] sm:text-xs text-slate-400">
+            {[
+              { icon: 'lock', text: t('home.hero.safe1') },
+              { icon: 'verified_user', text: t('home.hero.safe2') },
+              { icon: 'delete_sweep', text: t('home.hero.safe3') },
+            ].map(s => (
+              <span key={s.text} className="inline-flex items-center gap-1">
+                <span className="material-symbols-outlined text-slate-400 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
+                {s.text}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -45,6 +45,9 @@ export default {
   'home.hero.safe1': 'Secure checkout by Polar',
   'home.hero.safe2': 'Indie-built in Korea',
   'home.hero.safe3': 'Photos deleted after analysis',
+  'home.hero.eyebrow': '60s · Free quiz · No sign-up',
+  'home.hero.startFree': 'Start Free',
+  'home.hero.paidLink': 'Or try AI Makeup preview · $2.99',
 
   // Value Props
   'home.value.title1': 'K-Beauty in 60 Seconds',

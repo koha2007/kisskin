@@ -45,6 +45,9 @@ export default {
   'home.hero.safe1': 'Polar 안전결제',
   'home.hero.safe2': '대한민국 1인 인디 운영',
   'home.hero.safe3': '사진 분석 후 즉시 폐기',
+  'home.hero.eyebrow': '60초 · 무료 진단 · 가입 불필요',
+  'home.hero.startFree': '무료로 시작하기',
+  'home.hero.paidLink': 'AI 메이크업 미리보기 $2.99',
 
   // Value Props
   'home.value.title1': '1회 분석',
