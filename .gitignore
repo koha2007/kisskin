@@ -51,3 +51,6 @@ h-image2/
 *.njsproj
 *.sln
 *.sw?
+experiments/mediapipe-poc/node_modules/
+experiments/mediapipe-poc/out/
+experiments/mediapipe-poc/assets/
