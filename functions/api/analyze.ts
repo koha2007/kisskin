@@ -356,14 +356,13 @@ When analyzing the photo, apply these evidence-based principles:
 
 ## Response Format
 Respond ONLY with JSON (no code fences, no markdown):
-{"analysis":{"gender":"","skinType":"e.g. Combination","skinTypeDetail":"3-4 sentences: skin characteristics observed from photo, specific concerns by zone (T-zone vs cheeks), strengths to maintain, and evidence-based care priorities","tone":"e.g. Warm Undertone (Light-Intermediate depth)","toneDetail":"3-4 sentences: undertone determination basis (visible vein color, jaw/neck observation), best-matching color families for foundation/lip/blush, specific colors to avoid and why (e.g. pure pink on olive skin creates gray cast)","advice":"3-4 sentences: personalized makeup strategy considering skin type + tone + visible age range + conditions. Include base texture recommendation (dewy/satin/matte), coverage approach (sheer/medium/full), and key technique tips"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1-2 sentences explaining why this specific product suits THIS person's skin tone, type, and concerns"}]}
+{"analysis":{"gender":"","tone":"e.g. Warm Undertone (Light-Intermediate depth)","toneDetail":"3-4 sentences: undertone determination basis (visible vein color, jaw/neck observation), best-matching color families for foundation/lip/blush, specific colors to avoid and why (e.g. pure pink on olive skin creates gray cast)","advice":"3-4 sentences: personalized makeup strategy considering tone + the user's stated skin type + visible age range. Include base texture recommendation (dewy/satin/matte), coverage approach (sheer/medium/full), and key technique tips"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1-2 sentences explaining why this specific product suits THIS person's skin tone and the makeup looks"}]}
 
 Rules:
 - Exactly 7 products, one per category: Base, Primer, Eyes, Lips, Cheeks, Brow, Skin
 - Global brands available internationally, realistic USD prices
 - Each product reason must reference the person's specific skin characteristics (not generic)
 - For deep skin tones: prioritize shade-inclusive brands with sufficient undertone range
-- If skin type is unknown, assess from photo (pore visibility, shine, texture)
 - Consider the person's apparent age when recommending textures (cream vs powder)`
       : `당신은 피부과학적 색채 이론과 K-뷰티 포뮬레이션에 전문성을 갖춘 프로페셔널 메이크업 컨설턴트입니다.
 
@@ -393,14 +392,13 @@ Rules:
 
 ## 응답 형식
 JSON만 응답 (코드펜스, 마크다운 없이):
-{"analysis":{"gender":"","skinType":"예: 복합성","skinTypeDetail":"3-4문장: 사진에서 관찰된 피부 특성, 존별 상태(T존 vs 볼), 유지해야 할 강점, 근거 기반 관리 우선순위","tone":"예: 웜 언더톤 (밝음-중간 깊이)","toneDetail":"3-4문장: 언더톤 판단 근거(혈관 색, 턱/목 관찰), 파운데이션/립/블러셔에 가장 잘 맞는 컬러 패밀리, 피해야 할 특정 색상과 이유(예: 올리브 피부에 순핑크 → 회색 캐스트)","advice":"3-4문장: 피부타입+톤+추정 연령대+컨디션을 종합한 맞춤 메이크업 전략. 베이스 텍스처(윤광/새틴/매트), 커버력(쉬어/미디엄/풀), 핵심 테크닉 팁 포함"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1-2문장: 이 사람의 피부톤·타입·고민에 이 제품이 왜 맞는지 구체적으로"}]}
+{"analysis":{"gender":"","tone":"예: 웜 언더톤 (밝음-중간 깊이)","toneDetail":"3-4문장: 언더톤 판단 근거(혈관 색, 턱/목 관찰), 파운데이션/립/블러셔에 가장 잘 맞는 컬러 패밀리, 피해야 할 특정 색상과 이유(예: 올리브 피부에 순핑크 → 회색 캐스트)","advice":"3-4문장: 톤+사용자가 입력한 피부타입+추정 연령대를 종합한 맞춤 메이크업 전략. 베이스 텍스처(윤광/새틴/매트), 커버력(쉬어/미디엄/풀), 핵심 테크닉 팁 포함"},"products":[{"category":"","name":"","brand":"","price":"$","reason":"1-2문장: 이 사람의 피부톤과 메이크업 룩에 이 제품이 왜 맞는지 구체적으로"}]}
 
 규칙:
 - 정확히 7개 제품, 카테고리별 1개: Base, Primer, Eyes, Lips, Cheeks, Brow, Skin
 - 글로벌 브랜드, 현실적 USD 가격
 - 각 제품 reason은 이 사람의 구체적 피부 특성을 참조 (일반적 설명 금지)
 - 깊은 피부톤: 셰이드 범위가 넓은 브랜드 우선
-- 피부타입 모르면 사진에서 판단 (모공 가시성, 유분, 질감)
 - 추정 연령대에 맞는 텍스처 추천 (크림 vs 파우더)`
 
     const reportUserText = `${gender}\n${skinType}`

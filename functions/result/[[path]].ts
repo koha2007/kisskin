@@ -83,19 +83,19 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
         }
       } catch { /* keep */ }
     }
-    const a = (report as { analysis?: { skinType?: string; tone?: string; skinTypeDetail?: string; toneDetail?: string; advice?: string } })?.analysis
+    const a = (report as { analysis?: { tone?: string; toneDetail?: string; advice?: string } })?.analysis
     const styles = data.styles || []
 
     // Detect if analysis is in Korean (check for Korean characters)
-    const isKo = a ? /[가-힣]/.test(`${a.skinType}${a.tone}${a.advice || ''}`) : false
+    const isKo = a ? /[가-힣]/.test(`${a.tone || ''}${a.advice || ''}`) : false
 
     const title = a
       ? escHtml(isKo
-        ? `💄 AI 메이크업 분석: ${a.skinType} · ${a.tone} - kissinskin`
-        : `💄 AI Makeup: ${a.skinType} · ${a.tone} - kissinskin`)
+        ? `💄 AI 메이크업 분석: ${a.tone} - kissinskin`
+        : `💄 AI Makeup: ${a.tone} - kissinskin`)
       : (isKo ? '💄 AI 메이크업 분석 결과 - kissinskin' : '💄 AI Makeup Analysis Result - kissinskin')
     const description = a
-      ? escHtml(`${a.skinTypeDetail || ''} ${a.toneDetail || ''} ${a.advice || ''}`.trim().slice(0, 200))
+      ? escHtml(`${a.toneDetail || ''} ${a.advice || ''}`.trim().slice(0, 200))
       : escHtml(isKo
         ? `AI가 분석한 ${styles.length}가지 맞춤 K-뷰티 메이크업 룩과 제품 추천`
         : `AI-powered ${styles.length} personalized K-beauty makeup looks and product recommendations.`)

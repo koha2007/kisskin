@@ -68,7 +68,7 @@ interface ProductRecommendation {
   category: string; name: string; brand: string; price: string; reason: string
 }
 interface AnalysisDetail {
-  gender: string; skinType: string; skinTypeDetail: string; tone: string; toneDetail: string; advice: string
+  gender: string; tone: string; toneDetail: string; advice: string
 }
 interface StructuredReport {
   analysis?: AnalysisDetail; summary?: string; products: ProductRecommendation[]
@@ -448,7 +448,6 @@ export default function AnalysisApp() {
     if (a) {
       reportH = Math.round(rFontTitle * 2.5); reportH += Math.round(rFontBody * 2)
       const sections = [
-        { label: locale === 'ko' ? '피부 타입' : 'Skin Type', text: a.skinTypeDetail },
         { label: locale === 'ko' ? '톤 분석' : 'Tone Analysis', text: a.toneDetail },
         { label: locale === 'ko' ? '맞춤 조언' : 'Advice', text: a.advice },
       ]
@@ -511,8 +510,8 @@ export default function AnalysisApp() {
       ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.06)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2; ctx.fill(); ctx.restore()
       const cardX = rPad + Math.round(rPad * 0.6); const cardContentW = rContentW - Math.round(rPad * 1.2)
       ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
-      ctx.fillText('✨ AI Skin Analysis', cardX, y); y += Math.round(rFontTitle * 1.8)
-      const badges = [a.gender, a.skinType, a.tone].filter(Boolean); let bx = cardX
+      ctx.fillText('✨ AI Tone Analysis', cardX, y); y += Math.round(rFontTitle * 1.8)
+      const badges = [a.gender, a.tone].filter(Boolean); let bx = cardX
       for (const badge of badges) {
         ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`; const bw = ctx.measureText(badge).width + 20
         ctx.save(); roundRect(bx, y, bw, Math.round(rFontBody * 1.8), [10, 10, 10, 10])
@@ -522,7 +521,6 @@ export default function AnalysisApp() {
       }
       y += Math.round(rFontBody * 3)
       const sections = [
-        { label: locale === 'ko' ? '🧴 피부 타입' : '🧴 Skin Type', text: a.skinTypeDetail },
         { label: locale === 'ko' ? '🎨 톤 분석' : '🎨 Tone Analysis', text: a.toneDetail },
         { label: locale === 'ko' ? '💡 맞춤 조언' : '💡 Advice', text: a.advice },
       ]
@@ -924,10 +922,10 @@ export default function AnalysisApp() {
       if (a) {
         const stylesList = activeStyles.map((s, i) => `${i + 1}. ${s}`).join('\n')
         if (locale === 'ko') {
-          shareText = `💄 AI 메이크업 분석 리포트 - kissinskin\n\n✨ 피부 분석\n• 피부 타입: ${a.skinType}\n• ${a.skinTypeDetail}\n• 톤: ${a.tone}\n• ${a.toneDetail}\n\n💡 맞춤 조언\n${a.advice}\n\n💄 메이크업 스타일 ${activeStyles.length}종\n${stylesList}\n\n` +
+          shareText = `💄 AI 메이크업 분석 리포트 - kissinskin\n\n✨ 톤 분석\n• 톤: ${a.tone}\n• ${a.toneDetail}\n\n💡 맞춤 조언\n${a.advice}\n\n💄 메이크업 스타일 ${activeStyles.length}종\n${stylesList}\n\n` +
             (structured.products.length > 0 ? `🛍️ 추천 제품\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n` : '') + shareUrl
         } else {
-          shareText = `💄 AI Makeup Analysis Report - kissinskin\n\n✨ Skin Analysis\n• Skin Type: ${a.skinType}\n• ${a.skinTypeDetail}\n• Tone: ${a.tone}\n• ${a.toneDetail}\n\n💡 Advice\n${a.advice}\n\n💄 ${activeStyles.length} Makeup Styles\n${stylesList}\n\n` +
+          shareText = `💄 AI Makeup Analysis Report - kissinskin\n\n✨ Tone Analysis\n• Tone: ${a.tone}\n• ${a.toneDetail}\n\n💡 Advice\n${a.advice}\n\n💄 ${activeStyles.length} Makeup Styles\n${stylesList}\n\n` +
             (structured.products.length > 0 ? `🛍️ Recommended Products\n${structured.products.map(p => `• ${p.brand} ${p.name} (${p.price}) - ${p.reason}`).join('\n')}\n\n` : '') + shareUrl
         }
       } else { shareText = (locale === 'ko' ? `AI가 추천한 나만의 메이크업 스타일 ${activeStyles.length}종` : `My ${activeStyles.length} AI-recommended makeup styles`) + '\n' + shareUrl }
@@ -1037,10 +1035,9 @@ export default function AnalysisApp() {
             if (a) {
               return (
                 <section className="ai-analysis-section">
-                  <div className="ai-analysis-header"><span className="material-symbols-outlined">auto_awesome</span><h3>AI Skin Analysis</h3></div>
-                  <div className="analysis-badges"><span className="analysis-badge">{a.gender}</span><span className="analysis-badge">{a.skinType}</span><span className="analysis-badge tone">{a.tone}</span></div>
+                  <div className="ai-analysis-header"><span className="material-symbols-outlined">auto_awesome</span><h3>AI Tone Analysis</h3></div>
+                  <div className="analysis-badges"><span className="analysis-badge">{a.gender}</span><span className="analysis-badge tone">{a.tone}</span></div>
                   <div className="analysis-cards">
-                    <div className="analysis-card"><div className="analysis-card-icon"><span className="material-symbols-outlined">dermatology</span></div><div className="analysis-card-content"><h4>{t('result.skinType')}</h4><p>{a.skinTypeDetail}</p></div></div>
                     <div className="analysis-card"><div className="analysis-card-icon tone-icon"><span className="material-symbols-outlined">palette</span></div><div className="analysis-card-content"><h4>{t('result.toneAnalysis')}</h4><p>{a.toneDetail}</p></div></div>
                     <div className="analysis-advice"><span className="material-symbols-outlined">tips_and_updates</span><p>{a.advice}</p></div>
                   </div>
@@ -1083,8 +1080,8 @@ export default function AnalysisApp() {
               const topProducts = sr.products.slice(0, 3).map(p => `${p.brand} ${p.name}`).join(', ')
               shareTitle = locale === 'ko' ? `💄 AI 메이크업 분석 리포트 - kissinskin` : `💄 AI Makeup Analysis - kissinskin`
               const summary = locale === 'ko'
-                ? `✨ ${sa.skinType} | ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ 추천: ${topProducts}` : ''}`
-                : `✨ ${sa.skinType} | ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ Picks: ${topProducts}` : ''}`
+                ? `✨ ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ 추천: ${topProducts}` : ''}`
+                : `✨ ${sa.tone}\n💡 ${sa.advice}${topProducts ? `\n🛍️ Picks: ${topProducts}` : ''}`
               shareTextFull = `${shareTitle}\n${summary}\n\n${shareUrl}`
             } else { shareTitle = locale === 'ko' ? `AI가 추천한 나만의 메이크업 스타일 ${activeStyles.length}종` : `My ${activeStyles.length} AI-recommended makeup styles`; shareTextFull = `${shareTitle}\n${shareUrl}` }
             const encodedText = encodeURIComponent(shareTextFull); const encodedUrl = encodeURIComponent(shareUrl); const encodedTitle = encodeURIComponent(shareTitle)

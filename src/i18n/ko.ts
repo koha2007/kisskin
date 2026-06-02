@@ -166,7 +166,6 @@ export default {
 
   // Results
   'result.title': '분석 결과',
-  'result.skinType': '🧴 피부 타입',
   'result.toneAnalysis': '🎨 톤 분석',
   'result.advice': '💡 맞춤 조언',
   'result.makeupStyles': '메이크업 스타일 6종',

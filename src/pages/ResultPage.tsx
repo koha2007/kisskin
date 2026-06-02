@@ -177,9 +177,9 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
     if (a) {
       const stylesList = data.styles.map((s, i) => `${i + 1}. ${s}`).join('\n')
       if (locale === 'ko') {
-        return `💄 AI 메이크업 분석 리포트 - kissinskin\n\n✨ 피부 분석\n• 피부 타입: ${a.skinType}\n• 톤: ${a.tone}\n\n💡 맞춤 조언\n${a.advice}\n\n💄 메이크업 스타일 ${data.styles.length}종\n${stylesList}\n\n${shareUrl}`
+        return `💄 AI 메이크업 분석 리포트 - kissinskin\n\n✨ 톤 분석\n• 톤: ${a.tone}\n\n💡 맞춤 조언\n${a.advice}\n\n💄 메이크업 스타일 ${data.styles.length}종\n${stylesList}\n\n${shareUrl}`
       }
-      return `💄 AI Makeup Analysis - kissinskin\n\n✨ Skin: ${a.skinType} | ${a.tone}\n💡 ${a.advice}\n\n💄 ${data.styles.length} Makeup Styles\n${stylesList}\n\n${shareUrl}`
+      return `💄 AI Makeup Analysis - kissinskin\n\n✨ Tone: ${a.tone}\n💡 ${a.advice}\n\n💄 ${data.styles.length} Makeup Styles\n${stylesList}\n\n${shareUrl}`
     }
     return (locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일' : 'My AI-recommended makeup styles') + '\n' + shareUrl
   }
@@ -221,8 +221,8 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
             const a = reportObj?.analysis
             const description = a
               ? (locale === 'ko'
-                  ? `피부 ${a.skinType} · ${a.tone} — ${data.styles.length}가지 메이크업 스타일`
-                  : `${a.skinType} · ${a.tone} — ${data.styles.length} makeup styles`)
+                  ? `${a.tone} — ${data.styles.length}가지 메이크업 스타일`
+                  : `${a.tone} — ${data.styles.length} makeup styles`)
               : (locale === 'ko' ? 'AI가 추천한 나만의 메이크업 스타일' : 'My AI-recommended makeup styles')
             const imageUrl = data.imageUrl?.startsWith('http')
               ? data.imageUrl
@@ -286,23 +286,13 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
           <section className="ai-analysis-section">
             <div className="ai-analysis-header">
               <span className="material-symbols-outlined">auto_awesome</span>
-              <h3>AI Skin Analysis</h3>
+              <h3>AI Tone Analysis</h3>
             </div>
             <div className="analysis-badges">
               <span className="analysis-badge">{a.gender}</span>
-              <span className="analysis-badge">{a.skinType}</span>
               <span className="analysis-badge tone">{a.tone}</span>
             </div>
             <div className="analysis-cards">
-              <div className="analysis-card">
-                <div className="analysis-card-icon">
-                  <span className="material-symbols-outlined">dermatology</span>
-                </div>
-                <div className="analysis-card-content">
-                  <h4>{t('result.skinType')}</h4>
-                  <p>{a.skinTypeDetail}</p>
-                </div>
-              </div>
               <div className="analysis-card">
                 <div className="analysis-card-icon tone-icon">
                   <span className="material-symbols-outlined">palette</span>

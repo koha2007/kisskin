@@ -55,7 +55,7 @@ export async function saveSharedResult(
 
 export interface SharedResultData {
   imageUrl: string
-  report: { analysis?: { gender?: string; skinType?: string; skinTypeDetail?: string; tone?: string; toneDetail?: string; advice?: string }; products?: { category: string; name: string; brand: string; price: string; reason: string }[] }
+  report: { analysis?: { gender?: string; tone?: string; toneDetail?: string; advice?: string }; products?: { category: string; name: string; brand: string; price: string; reason: string }[] }
   gender: string
   styles: string[]
 }

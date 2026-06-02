@@ -166,7 +166,6 @@ export default {
 
   // Results
   'result.title': 'Analysis Results',
-  'result.skinType': '🧴 Skin Type',
   'result.toneAnalysis': '🎨 Tone Analysis',
   'result.advice': '💡 Personalized Advice',
   'result.makeupStyles': '6 Makeup Styles',

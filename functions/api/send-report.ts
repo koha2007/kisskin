@@ -7,8 +7,6 @@ interface RequestBody {
   report: {
     analysis?: {
       gender: string
-      skinType: string
-      skinTypeDetail: string
       tone: string
       toneDetail: string
       advice: string
@@ -43,8 +41,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const isEn = lang === 'en'
     const labels = {
       subject: isEn ? '💄 Your AI Makeup Analysis Report - kissinskin' : '💄 AI 메이크업 분석 리포트 - kissinskin',
-      skinAnalysis: isEn ? 'AI Skin Analysis' : 'AI 피부 분석',
-      skinType: isEn ? 'Skin Type' : '피부 타입',
+      skinAnalysis: isEn ? 'AI Tone Analysis' : 'AI 톤 분석',
       toneAnalysis: isEn ? 'Tone Analysis' : '톤 분석',
       advice: isEn ? 'Personalized Advice' : '맞춤 조언',
       makeupResult: isEn ? 'Makeup Simulation Result' : '메이크업 시뮬레이션 결과',
@@ -95,12 +92,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         </h2>
         <div style="margin-bottom:12px;">
           <span style="display:inline-block;background:#f9a8d4;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.gender}</span>
-          <span style="display:inline-block;background:#f9a8d4;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.skinType}</span>
           <span style="display:inline-block;background:#fbbf24;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;">${a.tone}</span>
-        </div>
-        <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
-          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🧴 ${labels.skinType}</h4>
-          <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.skinTypeDetail}</p>
         </div>
         <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
           <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🎨 ${labels.toneAnalysis}</h4>
