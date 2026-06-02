@@ -404,7 +404,10 @@ export default function AnalysisApp() {
   }
 
   const activeStyles = styleNames
-  const isComplete = photo && gender && skinType
+  // 피부 타입은 선택사항 → 사진+성별만 있으면 진행 가능
+  const isComplete = photo && gender
+  // 프롬프트로 보낼 피부 타입(미선택/'잘 모름'은 미입력으로 처리 → 톤 기반 일반 조언)
+  const skinTypeForApi = skinType && skinType !== 'not_sure' ? SKIN_MAP[skinType] : ''
 
   const reverseUsage = () => { setSubStatus(prev => ({ ...prev, usage: Math.max(0, prev.usage - 1) })) }
 
@@ -598,7 +601,7 @@ export default function AnalysisApp() {
       const timeoutId = setTimeout(() => abortCtrl.abort(), 150_000)
       const res = await fetch('/api/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, imageSize, gender: GENDER_MAP[gender!], skinType: SKIN_MAP[skinType!], lang: locale }),
+        body: JSON.stringify({ photo, imageSize, gender: GENDER_MAP[gender!], skinType: skinTypeForApi, lang: locale }),
         signal: abortCtrl.signal,
       })
       clearTimeout(timeoutId)
@@ -806,7 +809,7 @@ export default function AnalysisApp() {
     let msg = ''
     if (!photo) { missingId = 'section-photo'; msg = t('analysis.needPhoto') }
     else if (!gender) { missingId = 'section-gender'; msg = t('analysis.needGender') }
-    else if (!skinType) { missingId = 'section-skin'; msg = t('analysis.needSkinType') }
+    // 피부 타입은 선택사항이라 검증하지 않음
     if (!missingId) return false
     setError(msg)
     const el = document.getElementById(missingId)
@@ -856,11 +859,12 @@ export default function AnalysisApp() {
       return
     }
     const resumeType: 'one-time' | 'subscription' = data.type === 'subscription' ? 'subscription' : 'one-time'
-    if (!data.photo || !data.gender || !data.skinType) {
+    // 피부 타입은 선택사항 → 없어도 복원/진행 허용
+    if (!data.photo || !data.gender) {
       setError(t('error.verifyError'))
       return
     }
-    setPhoto(data.photo); setGender(data.gender); setSkinType(data.skinType)
+    setPhoto(data.photo); setGender(data.gender); setSkinType(data.skinType ?? null)
     if (data.locale) setLocale(data.locale)
     // Show the loader immediately so user doesn't see a blank interactive form
     // between payment-return and runAnalysis kicking in.
