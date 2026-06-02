@@ -97,7 +97,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   return (
     <div style={{
       minHeight: '100dvh',
-      background: 'linear-gradient(135deg, #070953 0%, #121570 50%, #070953 100%)',
+      background: 'linear-gradient(135deg, #1E2D5C 0%, #2C3D75 50%, #1E2D5C 100%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

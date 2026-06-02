@@ -499,7 +499,7 @@ export default function AnalysisApp() {
         else { cropH = Math.round(srcCellW / targetRatio); cropY = sy }
         ctx.save(); roundRect(dx, dy, cellW, displayImgH, [radius, radius, 0, 0]); ctx.clip()
         ctx.drawImage(gridImg, cropX, cropY, cropW, cropH, dx, dy, cellW, displayImgH); ctx.restore()
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${fontSize}px Manrope, sans-serif`
+        ctx.fillStyle = '#1E2D5C'; ctx.font = `700 ${fontSize}px Manrope, sans-serif`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(labels[i] || '', dx + cellW / 2, dy + displayImgH + labelH / 2)
       }
@@ -527,7 +527,7 @@ export default function AnalysisApp() {
         { label: locale === 'ko' ? '💡 맞춤 조언' : '💡 Advice', text: a.advice },
       ]
       for (const s of sections) {
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`; ctx.textBaseline = 'top'
+        ctx.fillStyle = '#1E2D5C'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`; ctx.textBaseline = 'top'
         ctx.fillText(s.label, cardX, y); y += Math.round(rFontBody * 1.6)
         ctx.fillStyle = '#475569'; ctx.font = `400 ${rFontBody}px Manrope, sans-serif`
         const h = wrapText(ctx, s.text, cardX, cardContentW, y, rLineH); y += h + Math.round(rLineH * 0.5)
@@ -555,7 +555,7 @@ export default function AnalysisApp() {
         const tx = cx + badgeSize + Math.round(rPad * 0.5); ctx.textAlign = 'left'
         ctx.fillStyle = '#eb4763'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`; ctx.textBaseline = 'top'
         let ty = py + Math.round(rFontBody * 0.6); ctx.fillText(p.category.toUpperCase(), tx, ty); ty += Math.round(rFontBody * 1.2)
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`
+        ctx.fillStyle = '#1E2D5C'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`
         ctx.fillText(p.name.length > 35 ? p.name.slice(0, 35) + '…' : p.name, tx, ty); ty += Math.round(rFontBody * 1.4)
         ctx.fillStyle = '#64748b'; ctx.font = `500 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`
         ctx.fillText(`${p.brand} · ${p.price}`, tx, ty); ty += Math.round(rFontBody * 1.3)
@@ -576,13 +576,13 @@ export default function AnalysisApp() {
         const logoSize = Math.round(brandH * 0.45); const logoX = gridW / 2 - Math.round(gridW * 0.18); const logoY = brandY + Math.round((brandH - logoSize) / 2)
         ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize)
         const textX = logoX + logoSize + Math.round(gridW * 0.02)
-        ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+        ctx.fillStyle = '#1E2D5C'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', textX, brandY + brandH * 0.4)
         ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
         ctx.fillText('kissinskin.net', textX, brandY + brandH * 0.65)
       }
     } catch {
-      ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+      ctx.fillStyle = '#1E2D5C'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', gridW / 2, brandY + brandH * 0.4)
       ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
       ctx.fillText('kissinskin.net', gridW / 2, brandY + brandH * 0.65)
@@ -1093,7 +1093,7 @@ export default function AnalysisApp() {
                 <div className="share-modal">
                   <div className="share-modal-header"><h3>{t('result.share')}</h3><button className="share-modal-close" onClick={() => setShowShareMenu(false)} aria-label="Close"><span className="material-symbols-outlined">close</span></button></div>
                   <div className="share-icons-row">
-                    {'share' in navigator && (<button className="share-option" onClick={() => handleShare('native')}><div className="share-icon-circle" style={{ background: '#2a2d8a' }}><span className="material-symbols-outlined">phone_iphone</span></div>{t('result.defaultShare')}</button>)}
+                    {'share' in navigator && (<button className="share-option" onClick={() => handleShare('native')}><div className="share-icon-circle" style={{ background: '#3E4F94' }}><span className="material-symbols-outlined">phone_iphone</span></div>{t('result.defaultShare')}</button>)}
                     <button className="share-option" onClick={() => handleShare('copy')}><div className="share-icon-circle" style={{ background: '#8b5cf6' }}><span className="material-symbols-outlined">content_copy</span></div>{t('result.copyLink')}</button>
                     <button className="share-option" onClick={() => { navigator.clipboard.writeText(shareUrl).then(() => alert(locale === 'ko' ? '링크가 복사되었습니다.\n카카오톡에 붙여넣기 해주세요!' : 'Link copied!\nPaste it in KakaoTalk.')).catch(() => alert(locale === 'ko' ? '링크 복사에 실패했습니다.' : 'Failed to copy link.')) }}><div className="share-icon-circle" style={{ background: '#FFE812' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#3C1E1E"><path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.726 1.802 5.113 4.508 6.463-.144.509-.926 3.281-.962 3.503 0 0-.019.162.085.224.104.062.227.029.227.029.3-.042 3.472-2.275 4.022-2.652.37.052.748.079 1.12.079 5.523 0 10-3.463 10-7.646C22 6.463 17.523 3 12 3z"/></svg></div>KakaoTalk</button>
                     <button className="share-option" onClick={() => { window.open(`https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encodedText}`, '_blank', 'width=600,height=400') }}><div className="share-icon-circle" style={{ background: '#00B900' }}><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></div>LINE</button>
@@ -1252,7 +1252,7 @@ export default function AnalysisApp() {
             <div style={{ padding: '24px 20px', textAlign: 'center' }}>
               <img src="/icons/icon-96x96.png" alt="kissinskin" style={{ width: 64, height: 64, borderRadius: 14, margin: '0 auto 16px', display: 'block' }} />
               <div style={{ fontSize: 14, color: '#475569', lineHeight: 1.8, textAlign: 'left' }}>
-                <p style={{ margin: '0 0 16px', fontWeight: 700, textAlign: 'center', color: '#121570' }}>{locale === 'ko' ? 'Safari에서 홈 화면에 추가하세요' : 'Add to Home Screen from Safari'}</p>
+                <p style={{ margin: '0 0 16px', fontWeight: 700, textAlign: 'center', color: '#2C3D75' }}>{locale === 'ko' ? 'Safari에서 홈 화면에 추가하세요' : 'Add to Home Screen from Safari'}</p>
                 <p style={{ margin: '0 0 10px' }}><strong>1.</strong> {locale === 'ko' ? ' 하단의 ' : ' Tap the '}<span className="material-symbols-outlined" style={{ fontSize: 18, verticalAlign: 'middle', color: '#007AFF' }}>ios_share</span>{locale === 'ko' ? ' 공유 버튼을 탭하세요' : ' share button below'}</p>
                 <p style={{ margin: '0 0 10px' }}><strong>2.</strong> {locale === 'ko' ? ' 스크롤 후 "홈 화면에 추가"를 탭하세요' : ' Scroll and tap "Add to Home Screen"'}</p>
                 <p style={{ margin: 0 }}><strong>3.</strong> {locale === 'ko' ? ' 오른쪽 상단 "추가"를 탭하세요' : ' Tap "Add" in the top right'}</p>
