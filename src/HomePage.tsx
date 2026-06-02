@@ -644,28 +644,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         </div>
       </section>
 
-      {/* Value Props */}
-      <section className="py-16 bg-white" aria-label={isEn ? 'Key features' : '핵심 기능'}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { icon: 'bolt', title: t('home.value.title1'), desc: t('home.value.desc1'), gradient: 'from-amber-400 to-orange-500' },
-              { icon: 'palette', title: t('home.value.title2'), desc: t('home.value.desc2'), gradient: 'from-pink-400 to-rose-500' },
-              { icon: 'devices', title: t('home.value.title3'), desc: t('home.value.desc3'), gradient: 'from-violet-400 to-purple-500' },
-            ].map((item) => (
-              <div key={item.title} className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl border border-slate-100 bg-white">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg`}>
-                  <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
-                </div>
-                <h2 className="text-lg font-bold text-navy-mid">{item.title}</h2>
-                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Free Tools Showcase — Big, prominent section for all tools */}
+      {/* Free Tools Showcase — Big, prominent section for all tools (moved directly under hero) */}
       <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 relative overflow-hidden bg-cream" aria-labelledby="tools-title">
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -684,38 +663,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </p>
           </div>
 
-          {/* Featured: AI Makeup (main product) */}
-          <div className="mb-6">
-            <a
-              href="/analysis/"
-              className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-pink-500 to-rose-400 p-6 md:p-10 text-white shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
-            >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
-                <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-6xl md:text-7xl shadow-inner">
-                  💄
-                </div>
-                <div className="flex-1 text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest mb-3">
-                    <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-                    {t('home.toolsShowcase.signatureBadge')}
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-extrabold mb-2 leading-tight">
-                    {t('home.toolsShowcase.mainTitle')}
-                  </h3>
-                  <p className="text-white/90 text-sm md:text-base mb-5 max-w-xl">
-                    {t('home.toolsShowcase.mainDesc')}
-                  </p>
-                  <div className="inline-flex items-center gap-2 font-bold text-sm md:text-base bg-white text-primary px-6 py-3 rounded-full shadow-lg group-hover:gap-3 transition-all">
-                    {t('home.toolsShowcase.mainCta')}
-                    <span className="material-symbols-outlined">arrow_forward</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          {/* 4 Tool Cards Grid */}
+          {/* 4 Tool Cards Grid — FREE tools surfaced first (redesign: free before paid) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {[
               {
@@ -780,6 +728,42 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             ))}
           </div>
 
+          {/* Premium pick: AI Makeup (paid) — moved below the free tools */}
+          <div className="mt-6">
+            <a
+              href="/analysis/"
+              className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-pink-500 to-rose-400 p-6 md:p-10 text-white shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
+                <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-6xl md:text-7xl shadow-inner">
+                  💄
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-3">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest">
+                      <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                      {t('home.toolsShowcase.signatureBadge')}
+                    </span>
+                    <span className="inline-flex items-center px-3 py-1 bg-white text-primary rounded-full text-xs font-extrabold">
+                      $2.99 · {isEn ? 'Premium' : '프리미엄'}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-extrabold mb-2 leading-tight">
+                    {t('home.toolsShowcase.mainTitle')}
+                  </h3>
+                  <p className="text-white/90 text-sm md:text-base mb-5 max-w-xl">
+                    {t('home.toolsShowcase.mainDesc')}
+                  </p>
+                  <div className="inline-flex items-center gap-2 font-bold text-sm md:text-base bg-white text-primary px-6 py-3 rounded-full shadow-lg group-hover:gap-3 transition-all">
+                    {t('home.toolsShowcase.mainCta')}
+                    <span className="material-symbols-outlined">arrow_forward</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
           {/* Bottom CTA */}
           <div className="text-center mt-10 md:mt-12">
             <a
@@ -790,6 +774,27 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               {t('home.toolsShowcase.seeAllTools')}
               <span className="material-symbols-outlined">arrow_forward</span>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Value Props — moved below the free tools (redesign) */}
+      <section className="py-16 bg-white" aria-label={isEn ? 'Key features' : '핵심 기능'}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: 'bolt', title: t('home.value.title1'), desc: t('home.value.desc1'), gradient: 'from-amber-400 to-orange-500' },
+              { icon: 'palette', title: t('home.value.title2'), desc: t('home.value.desc2'), gradient: 'from-pink-400 to-rose-500' },
+              { icon: 'devices', title: t('home.value.title3'), desc: t('home.value.desc3'), gradient: 'from-violet-400 to-purple-500' },
+            ].map((item) => (
+              <div key={item.title} className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl border border-slate-100 bg-white">
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg`}>
+                  <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                </div>
+                <h2 className="text-lg font-bold text-navy-mid">{item.title}</h2>
+                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
