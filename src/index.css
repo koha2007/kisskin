@@ -10,8 +10,13 @@
   --color-navy: #070953;
   --color-navy-mid: #121570;
   --color-navy-light: #2a2d8a;
-  --font-display: "Manrope", sans-serif;
-  --font-serif: "Cormorant Garamond", "Noto Serif KR", "Pretendard", serif;
+  /* 디자인 시스템: 폰트 2족만 사용 (DESIGN_SYSTEM.md 단일 소스) */
+  /* 본문(body): Pretendard 우선 + 시스템 폴백 */
+  --font-body: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* legacy 유틸 .font-display 는 전 페이지 본문 래퍼로 쓰여 본문 스택과 동일하게 둔다(Manrope 제거) */
+  --font-display: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* 제목(display serif): 영문 Cormorant Garamond + 한글 Noto Serif KR */
+  --font-serif: "Cormorant Garamond", "Noto Serif KR", serif;
   --radius: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;

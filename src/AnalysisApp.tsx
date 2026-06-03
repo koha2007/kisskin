@@ -408,7 +408,7 @@ export default function AnalysisApp() {
       ]
       for (const s of sections) {
         reportH += Math.round(rFontBody * 2.2)
-        tmpCtx.font = `400 ${rFontBody}px Manrope, sans-serif`
+        tmpCtx.font = `400 ${rFontBody}px Pretendard, system-ui, sans-serif`
         const words = s.text.split(' '); let line = ''
         for (const word of words) {
           const test = line ? line + ' ' + word : word
@@ -453,7 +453,7 @@ export default function AnalysisApp() {
         else { cropH = Math.round(srcCellW / targetRatio); cropY = sy }
         ctx.save(); roundRect(dx, dy, cellW, displayImgH, [radius, radius, 0, 0]); ctx.clip()
         ctx.drawImage(gridImg, cropX, cropY, cropW, cropH, dx, dy, cellW, displayImgH); ctx.restore()
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${fontSize}px Manrope, sans-serif`
+        ctx.fillStyle = '#070953'; ctx.font = `700 ${fontSize}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(labels[i] || '', dx + cellW / 2, dy + displayImgH + labelH / 2)
       }
@@ -464,11 +464,11 @@ export default function AnalysisApp() {
       ctx.save(); roundRect(rPad, gridH + Math.round(rPad * 0.5), gridW - rPad * 2, reportH - rPad, [radius * 2, radius * 2, radius * 2, radius * 2])
       ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.06)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2; ctx.fill(); ctx.restore()
       const cardX = rPad + Math.round(rPad * 0.6); const cardContentW = rContentW - Math.round(rPad * 1.2)
-      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
       ctx.fillText('✨ AI Tone Analysis', cardX, y); y += Math.round(rFontTitle * 1.8)
       const badges = [a.gender, a.tone].filter(Boolean); let bx = cardX
       for (const badge of badges) {
-        ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`; const bw = ctx.measureText(badge).width + 20
+        ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Pretendard, system-ui, sans-serif`; const bw = ctx.measureText(badge).width + 20
         ctx.save(); roundRect(bx, y, bw, Math.round(rFontBody * 1.8), [10, 10, 10, 10])
         ctx.fillStyle = 'rgba(235,71,99,0.08)'; ctx.fill(); ctx.restore()
         ctx.fillStyle = '#eb4763'; ctx.textBaseline = 'middle'; ctx.fillText(badge, bx + 10, y + Math.round(rFontBody * 0.9))
@@ -480,16 +480,16 @@ export default function AnalysisApp() {
         { label: locale === 'ko' ? '💡 맞춤 조언' : '💡 Advice', text: a.advice },
       ]
       for (const s of sections) {
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`; ctx.textBaseline = 'top'
+        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Pretendard, system-ui, sans-serif`; ctx.textBaseline = 'top'
         ctx.fillText(s.label, cardX, y); y += Math.round(rFontBody * 1.6)
-        ctx.fillStyle = '#475569'; ctx.font = `400 ${rFontBody}px Manrope, sans-serif`
+        ctx.fillStyle = '#475569'; ctx.font = `400 ${rFontBody}px Pretendard, system-ui, sans-serif`
         const h = wrapText(ctx, s.text, cardX, cardContentW, y, rLineH); y += h + Math.round(rLineH * 0.5)
       }
       await yieldToMain()
     }
     if (products.length > 0) {
       let py = gridH + reportH + rPad
-      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
       ctx.fillText(locale === 'ko' ? '🛍️ 맞춤 화장품 추천' : '🛍️ Product Recommendations', rPad, py)
       py += Math.round(rFontTitle * 2)
       const prodCardH = Math.round(rFontBody * 7); const prodGap = Math.round(rFontBody * 0.8)
@@ -502,17 +502,17 @@ export default function AnalysisApp() {
         const badgeSize = Math.round(rFontBody * 2.4); const badgeColor = catColors[p.category] || '#94a3b8'
         ctx.save(); roundRect(cx, py + Math.round((prodCardH - badgeSize) / 2), badgeSize, badgeSize, [8, 8, 8, 8])
         ctx.fillStyle = badgeColor; ctx.fill(); ctx.restore()
-        ctx.fillStyle = '#ffffff'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`
+        ctx.fillStyle = '#ffffff'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(p.category.slice(0, 3).toUpperCase(), cx + badgeSize / 2, py + prodCardH / 2)
         const tx = cx + badgeSize + Math.round(rPad * 0.5); ctx.textAlign = 'left'
-        ctx.fillStyle = '#eb4763'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`; ctx.textBaseline = 'top'
+        ctx.fillStyle = '#eb4763'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Pretendard, system-ui, sans-serif`; ctx.textBaseline = 'top'
         let ty = py + Math.round(rFontBody * 0.6); ctx.fillText(p.category.toUpperCase(), tx, ty); ty += Math.round(rFontBody * 1.2)
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`
+        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Pretendard, system-ui, sans-serif`
         ctx.fillText(p.name.length > 35 ? p.name.slice(0, 35) + '…' : p.name, tx, ty); ty += Math.round(rFontBody * 1.4)
-        ctx.fillStyle = '#64748b'; ctx.font = `500 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`
+        ctx.fillStyle = '#64748b'; ctx.font = `500 ${Math.round(rFontBody * 0.9)}px Pretendard, system-ui, sans-serif`
         ctx.fillText(`${p.brand} · ${p.price}`, tx, ty); ty += Math.round(rFontBody * 1.3)
-        ctx.fillStyle = '#94a3b8'; ctx.font = `400 ${Math.round(rFontBody * 0.85)}px Manrope, sans-serif`
+        ctx.fillStyle = '#94a3b8'; ctx.font = `400 ${Math.round(rFontBody * 0.85)}px Pretendard, system-ui, sans-serif`
         ctx.fillText(p.reason.length > 50 ? p.reason.slice(0, 50) + '…' : p.reason, tx, ty)
         py += prodCardH + prodGap
         // Yield every 3 product cards to keep the UI responsive
@@ -529,15 +529,15 @@ export default function AnalysisApp() {
         const logoSize = Math.round(brandH * 0.45); const logoX = gridW / 2 - Math.round(gridW * 0.18); const logoY = brandY + Math.round((brandH - logoSize) / 2)
         ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize)
         const textX = logoX + logoSize + Math.round(gridW * 0.02)
-        ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+        ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', textX, brandY + brandH * 0.4)
-        ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
+        ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
         ctx.fillText('kissinskin.net', textX, brandY + brandH * 0.65)
       }
     } catch {
-      ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+      ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Pretendard, system-ui, sans-serif`
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', gridW / 2, brandY + brandH * 0.4)
-      ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
+      ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
       ctx.fillText('kissinskin.net', gridW / 2, brandY + brandH * 0.65)
     }
     return canvas

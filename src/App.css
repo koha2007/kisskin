@@ -15,7 +15,7 @@ html, body {
 
 /* ===== Analysis Page Layout ===== */
 .analysis-page {
-  font-family: 'Manrope', 'Pretendard', system-ui, sans-serif;
+  font-family: var(--font-body, 'Pretendard', system-ui, sans-serif);
   background: #f8f6f6;
   color: #070953;
   min-height: 100vh;
