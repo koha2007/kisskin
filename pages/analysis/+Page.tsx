@@ -29,9 +29,9 @@ function SeoShell() {
       </ol>
       <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginTop: 24, marginBottom: 12 }}>제공되는 메이크업 스타일</h2>
       <ul style={{ color: '#555', lineHeight: 1.8, paddingLeft: 20 }}>
-        <li>Natural Glow · Cloud Skin · Blood Lip</li>
-        <li>Maximalist Eye · Metallic Eye · Bold Lip</li>
-        <li>Blush Draping · Grunge Makeup · K-pop Idol</li>
+        <li>Cloudglow Skin · Idol Blur Base · Blurred Gradient Tint</li>
+        <li>Berry Stain Lip · Glazed Lavender Lip · K-Pop Idol Shimmer</li>
+        <li>Watercolor Flush · Lingerie Nude · Copper Auburn Hair</li>
       </ul>
     </div>
   )

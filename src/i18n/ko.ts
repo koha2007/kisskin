@@ -24,10 +24,10 @@ export default {
   // Home Hero
   'home.hero.badge': 'AI K-뷰티 Technology',
   'home.hero.title1': '사진 한장으로 완성하는',
-  'home.hero.title2': '6가지 놀라운',
+  'home.hero.title2': '9가지 놀라운',
   'home.hero.title3': '메이크업 룩',
   'home.hero.subtitle': '셀카 1장으로 60초 안에 AI가',
-  'home.hero.subtitleBold': ' 6가지 K-뷰티 메이크업',
+  'home.hero.subtitleBold': ' 9가지 K-뷰티 메이크업',
   'home.hero.subtitleEnd': '을 만들어 드려요.',
   'home.hero.productHighlightBold': '피부 특성을 AI가 분석',
   'home.hero.productHighlight': '하여 어울리는 코스메틱 제품을 추천하고,',
@@ -36,7 +36,7 @@ export default {
   'home.hero.viewStyles': '예시 보기',
   'home.hero.userCount': 'AI 퍼스널컬러 · K-뷰티 메이크업 시뮬레이션 · 제품 추천',
   'home.hero.previewLabel': '내 사진',
-  'home.hero.previewResultLabel': '6가지 룩',
+  'home.hero.previewResultLabel': '9가지 룩',
   'home.hero.trust1': '60초 완성',
   'home.hero.trust2': '가입 불필요',
   'home.hero.trust3': '7일 환불보장',
@@ -48,7 +48,7 @@ export default {
 
   // Value Props
   'home.value.title1': '1회 분석',
-  'home.value.desc1': 'AI가 얼굴을 분석하고 60초 안에 6가지 K-뷰티 룩 + 맞춤 제품 추천을 제공합니다.',
+  'home.value.desc1': 'AI가 얼굴을 분석하고 60초 안에 9가지 K-뷰티 룩 + 맞춤 제품 추천을 제공합니다.',
   'home.value.title2': '맞춤 추천',
   'home.value.desc2': 'AI가 어울리는 K-뷰티 코스메틱 제품을 추천하고 구매 링크를 제공합니다.',
   'home.value.title3': '모든 기기 지원',
@@ -60,7 +60,7 @@ export default {
   'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단, 그리고 심화 가이드까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
   'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',
   'home.toolsShowcase.mainTitle': 'AI 메이크업 시뮬레이터',
-  'home.toolsShowcase.mainDesc': '셀카 한 장으로 6가지 K-뷰티 메이크업 룩을 30초 만에 생성. 여성·남성 각각 6가지 스타일 지원.',
+  'home.toolsShowcase.mainDesc': '셀카 한 장으로 9가지 K-뷰티 메이크업 룩을 즉시 생성. 여성·남성 각각 9가지 스타일 지원.',
   'home.toolsShowcase.mainCta': '지금 바로 체험',
   'home.toolsShowcase.cardCta': '시작하기',
   'home.toolsShowcase.seeAllTools': '전체 도구 모음 보기',
@@ -80,28 +80,34 @@ export default {
   // Styles Section
   'home.styles.badge': '2026 Makeup Trends',
   'home.styles.title': '여성과 남성의 ',
-  'home.styles.titleHighlight': '6가지 메이크업 스타일',
+  'home.styles.titleHighlight': '9가지 메이크업 스타일',
   'home.styles.titleEnd': '은\n이렇게 변화가 이루어져요',
   'home.styles.subtitle': 'AI가 당신의 얼굴에 맞춰 최신 K-뷰티 트렌드 메이크업을 적용합니다',
   'home.styles.womenTab': '2026 여자 메이크업',
   'home.styles.menTab': '2026 남자 메이크업',
-  'home.styles.cta': '6가지 스타일 체험하기',
+  'home.styles.cta': '9가지 스타일 체험하기',
 
-  // Women styles (2026 트렌드 6종: 메이크업 5 + 헤어 1)
-  'style.w1': '글래스 스킨 글로우',
-  'style.w2': '블러드 틴트 립',
-  'style.w3': '란제리 메이크업',
-  'style.w4': '글레이즈드 라벤더 립',
-  'style.w5': 'K-pop 아이돌 메이크업',
-  'style.w6': '코퍼 어번 헤어',
+  // Women styles (2026 트렌드 9종: 메이크업 8 + 헤어 1) — src/lib/makeup/looksConfig.ts 와 동일
+  'style.w1': '클라우드글로우 스킨',
+  'style.w2': '아이돌 블러 베이스',
+  'style.w3': '블러드 그라데이션 틴트',
+  'style.w4': '베리 스테인 립',
+  'style.w5': '글레이즈드 라벤더 립',
+  'style.w6': 'K-pop 아이돌 쉬머',
+  'style.w7': '워터컬러 플러시',
+  'style.w8': '란제리 누드',
+  'style.w9': '코퍼 어번 헤어',
 
-  // Men styles (2026 트렌드 6종: 메이크업 5 + 헤어 1)
-  'style.m1': '스킨케어 글로우 베이스',
-  'style.m2': '노메이크업 메이크업',
-  'style.m3': 'K-팝 아이돌 메이크업',
-  'style.m4': '그런지 스모키 아이',
-  'style.m5': '모노크롬 메이크업',
-  'style.m6': '애쉬 브라운 헤어',
+  // Men styles (2026 트렌드 9종: 메이크업 8 + 헤어 1) — src/lib/makeup/looksConfig.ts 와 동일
+  'style.m1': '촉촉 글로우',
+  'style.m2': '아이돌 블러 스킨',
+  'style.m3': '노메이크업 베이스',
+  'style.m4': '틴티드 립밤',
+  'style.m5': '헬시 플러시',
+  'style.m6': 'K-pop 아이돌 라이너',
+  'style.m7': '스모키 브라운 아이',
+  'style.m8': '디파인드 브로우',
+  'style.m9': '애쉬 브라운 헤어',
 
   // How it works
   'home.how.title': '간단한 3단계',
@@ -111,13 +117,13 @@ export default {
   'home.how.step2': 'AI 분석',
   'home.how.step2Desc': '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다',
   'home.how.step3': '결과 확인',
-  'home.how.step3Desc': '6가지 K-뷰티 메이크업 + 맞춤 제품 추천을 받으세요',
+  'home.how.step3Desc': '9가지 K-뷰티 메이크업 + 맞춤 제품 추천을 받으세요',
   'home.how.tipTitle': '100% 활용 꿀팁',
   'home.how.tipDesc': '증명사진처럼 밝은 곳에서 찍은 정면 독사진, 얼굴에 그림자가 없는 사진일수록 더 정확한 결과가 나옵니다.',
   'home.how.exampleBadge': '실제 분석 예시',
   'home.how.exampleTitle': '이런 사진을 올리면 이런 결과가 나와요',
   'home.how.exampleInputLabel': '내가 올리는 사진',
-  'home.how.exampleResultLabel': '6가지 K-뷰티 메이크업 결과',
+  'home.how.exampleResultLabel': '9가지 K-뷰티 메이크업 결과',
   'home.how.exampleTipHighlight': '증명사진 또는 얼굴에 그림자 없는 사진이 가장 잘 나와요',
 
   // Final CTA
@@ -128,7 +134,7 @@ export default {
   // Footer
   'home.footer.desc': 'AI K-뷰티 메이크업 시뮬레이션 및 코스메틱 추천 서비스',
   'home.footer.service': '서비스',
-  'home.footer.styles': '6가지 스타일',
+  'home.footer.styles': '9가지 스타일',
   'home.footer.howTo': '이용 방법',
   'home.footer.legal': '법적 고지',
 
@@ -161,14 +167,14 @@ export default {
 
   // Loading
   'analysis.loading.title': 'AI 분석 중',
-  'analysis.loading.subtitle': '6가지 메이크업 룩을 한 장씩 정성껏 생성하고 있어요...',
-  'analysis.loading.time': '약 40~90초 소요 (얼굴 보존을 위해 룩마다 따로 생성)',
+  'analysis.loading.subtitle': '메이크업 분석 리포트를 준비하고 있어요...',
+  'analysis.loading.time': '곧 결과가 표시됩니다',
 
   // Results
   'result.title': '분석 결과',
   'result.toneAnalysis': '🎨 톤 분석',
   'result.advice': '💡 맞춤 조언',
-  'result.makeupStyles': '메이크업 스타일 6종',
+  'result.makeupStyles': '메이크업 스타일 9종',
   'result.save': '저장하기',
   'result.share': '공유하기',
   'result.defaultShare': '기본 공유',
@@ -283,7 +289,7 @@ export default {
   'pricing.perAnalysisPrice': '$2.99',
   'pricing.perAnalysisUnit': '/ 1회',
   'pricing.perAnalysisDesc': '가입 없이 바로 이용',
-  'pricing.perAnalysisF1': '6가지 메이크업 스타일',
+  'pricing.perAnalysisF1': '9가지 메이크업 스타일',
   'pricing.perAnalysisF2': '피부 분석 리포트',
   'pricing.perAnalysisF3': '맞춤 제품 추천',
   'pricing.subscription': '월 구독',
