@@ -261,8 +261,11 @@ export function renderLook(canvas: HTMLCanvasElement, img: HTMLImageElement, loo
   applyBlush(ctx, lm, w, h, look.blush || base.blush)
   // 4) 립 = 룩 지정 or 베이스(자연 혈색)
   applyLip(ctx, lm, w, h, look.lip || base.lip)
-  // 5) 아이/브로우 포인트
-  if (look.eyeshadow) applyEyeshadow(ctx, lm, w, h, look.eyeshadow)
+  // 5) 아이/브로우 포인트 (eyeshadow 는 단일 or 다중 레이어 — 쉬머 워시 위에 라이너 등)
+  if (look.eyeshadow) {
+    const layers = Array.isArray(look.eyeshadow) ? look.eyeshadow : [look.eyeshadow]
+    for (const es of layers) applyEyeshadow(ctx, lm, w, h, es)
+  }
   if (look.brow) applyBrow(ctx, lm, w, h, look.brow)
   // 6) 헤어 룩이면 세그멘테이션 리컬러 (모자면 스킵 + 경고)
   if (look.hair) {

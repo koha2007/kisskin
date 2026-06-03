@@ -10,12 +10,12 @@ interface Props {
   onRender: (image: string, lookName: string) => void
 }
 
-// 온디바이스 메이크업 스튜디오: 9개 룩 중 1개 선택 → 그 1장만 크게.
-// 다른 룩 선택 시 즉시 재렌더(공짜). 얼굴은 원본 픽셀 위 합성이라 100% 보존.
+// 온디바이스 메이크업 스튜디오: 성별별 "K-뷰티 풀 메이크업" 1장만 크게 렌더.
+// 9종 선택 폐기 — 모든 기술이 1장에 통합돼 있다. 얼굴은 원본 픽셀 위 합성이라 100% 보존.
 export default function MakeupStudio({ photo, gender, onRender }: Props) {
   const { locale } = useI18n()
   const ko = locale === 'ko'
-  const looks = looksFor(gender)
+  const look = looksFor(gender)[0]   // 성별별 풀 메이크업 1장
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement | null>(null)
@@ -24,7 +24,6 @@ export default function MakeupStudio({ photo, gender, onRender }: Props) {
   const [status, setStatus] = useState(ko ? '메이크업 엔진 준비 중…' : 'Preparing makeup engine…')
   const [ready, setReady] = useState(false)
   const [engineErr, setEngineErr] = useState<string | null>(null)
-  const [selectedId, setSelectedId] = useState(looks[0]?.id)
   const [rendering, setRendering] = useState(false)
   const [hatWarning, setHatWarning] = useState(false)
   const [noFace, setNoFace] = useState(false)
@@ -66,8 +65,7 @@ export default function MakeupStudio({ photo, gender, onRender }: Props) {
         if (cancelled) return
         engineRef.current = engine
         setReady(true)
-        const first = looks[0]
-        if (first) { setSelectedId(first.id); draw(first) }
+        if (look) draw(look)
       } catch (e) {
         console.error('[MakeupStudio] engine init failed', e)
         if (!cancelled) setEngineErr(ko
@@ -80,14 +78,6 @@ export default function MakeupStudio({ photo, gender, onRender }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photo, gender])
 
-  const onPick = (look: Look) => {
-    if (!ready || rendering) return
-    setSelectedId(look.id)
-    draw(look)
-  }
-
-  const selected = looks.find((l) => l.id === selectedId)
-
   return (
     <div className="makeup-studio">
       <div className="makeup-studio-stage" style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', background: '#f1f1f4', minHeight: 240 }}>
@@ -96,7 +86,7 @@ export default function MakeupStudio({ photo, gender, onRender }: Props) {
           <div className="makeup-studio-overlay" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, color: '#555', background: 'rgba(255,255,255,0.7)' }}>
             <span className="material-symbols-outlined" style={{ fontSize: 36, animation: 'spin 1s linear infinite' }}>progress_activity</span>
             <p style={{ margin: 0, fontSize: 14 }}>
-              {!ready ? status : (selected?.hair ? (ko ? '헤어 컬러 적용 중… (몇 초 걸려요)' : 'Applying hair color… (a few seconds)') : (ko ? '적용 중…' : 'Applying…'))}
+              {!ready ? status : (look?.hair ? (ko ? '헤어 컬러 적용 중… (몇 초 걸려요)' : 'Applying hair color… (a few seconds)') : (ko ? '적용 중…' : 'Applying…'))}
             </p>
           </div>
         )}
@@ -117,29 +107,12 @@ export default function MakeupStudio({ photo, gender, onRender }: Props) {
         </div>
       )}
 
-      <div className="makeup-look-picker" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 14 }}>
-        {looks.map((look) => {
-          const active = look.id === selectedId
-          return (
-            <button
-              key={look.id}
-              type="button"
-              onClick={() => onPick(look)}
-              disabled={!ready || rendering}
-              className={`makeup-look-btn${active ? ' active' : ''}`}
-              style={{
-                padding: '10px 8px', borderRadius: 12, fontSize: 12.5, lineHeight: 1.25, cursor: ready && !rendering ? 'pointer' : 'default',
-                border: active ? '2px solid #2a2d8a' : '1px solid #e2e2ea',
-                background: active ? '#eef0ff' : '#fff', color: active ? '#2a2d8a' : '#333',
-                fontWeight: active ? 700 : 500, textAlign: 'center', minHeight: 48,
-              }}
-            >
-              {ko ? look.nameKo : look.name}
-              {look.hair && <span style={{ display: 'block', fontSize: 10, opacity: 0.7, fontWeight: 400 }}>{ko ? '헤어' : 'Hair'}</span>}
-            </button>
-          )
-        })}
-      </div>
+      {ready && !noFace && !engineErr && look && (
+        <p className="makeup-look-caption" style={{ marginTop: 12, textAlign: 'center', fontSize: 13.5, color: '#555' }}>
+          <span style={{ fontWeight: 700, color: '#2a2d8a' }}>{ko ? look.nameKo : look.name}</span>
+          {ko && <span style={{ display: 'block', fontSize: 12, opacity: 0.8, marginTop: 2 }}>{look.point}</span>}
+        </p>
+      )}
     </div>
   )
 }
