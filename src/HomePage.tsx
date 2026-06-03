@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
+import ToolCard from './components/ToolCard'
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -775,68 +776,28 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </a>
           </div>
 
-          {/* 4 Tool Cards Grid */}
+          {/* 4 Tool Cards Grid — 공통 ToolCard 재사용(도구색은 토큰 액센트 1점) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {[
-              {
-                href: '/tools/makeup-mbti/',
-                emoji: '💫',
-                title: t('home.toolsShowcase.t1Title'),
-                desc: t('home.toolsShowcase.t1Desc'),
-                gradient: 'from-violet-500 to-purple-600',
-                bgGradient: 'from-violet-50 to-purple-50',
-                tag: t('home.toolsShowcase.t1Tag'),
-              },
-              {
-                href: '/tools/personal-color/',
-                emoji: '🎨',
-                title: t('home.toolsShowcase.t2Title'),
-                desc: t('home.toolsShowcase.t2Desc'),
-                gradient: 'from-amber-500 to-orange-500',
-                bgGradient: 'from-amber-50 to-orange-50',
-                tag: t('home.toolsShowcase.t2Tag'),
-              },
-              {
-                href: '/tools/face-shape/',
-                emoji: '🌟',
-                title: t('home.toolsShowcase.t3Title'),
-                desc: t('home.toolsShowcase.t3Desc'),
-                gradient: 'from-emerald-500 to-teal-500',
-                bgGradient: 'from-emerald-50 to-teal-50',
-                tag: t('home.toolsShowcase.t3Tag'),
-              },
-              {
-                href: '/tools/perfume-type/',
-                emoji: '🌸',
-                title: t('home.toolsShowcase.t4Title'),
-                desc: t('home.toolsShowcase.t4Desc'),
-                gradient: 'from-rose-500 to-pink-500',
-                bgGradient: 'from-rose-50 to-pink-50',
-                tag: t('home.toolsShowcase.t4Tag'),
-              },
+              { href: '/tools/makeup-mbti/', icon: 'quiz', accent: 'var(--color-tool-mbti)',
+                title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), tag: t('home.toolsShowcase.t1Tag') },
+              { href: '/tools/personal-color/', icon: 'palette', accent: 'var(--color-tool-pc)',
+                title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc'), tag: t('home.toolsShowcase.t2Tag') },
+              { href: '/tools/face-shape/', icon: 'face', accent: 'var(--color-tool-face)',
+                title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc'), tag: t('home.toolsShowcase.t3Tag') },
+              { href: '/tools/perfume-type/', icon: 'local_florist', accent: 'var(--color-tool-perfume)',
+                title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc'), tag: t('home.toolsShowcase.t4Tag') },
             ].map(tool => (
-              <a
+              <ToolCard
                 key={tool.title}
                 href={tool.href}
-                className="group bg-white rounded-3xl p-5 md:p-6 border border-white hover:border-primary/30 shadow-md hover:shadow-xl hover:shadow-pink-100 transition-all hover:-translate-y-1 flex flex-col"
-              >
-                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${tool.bgGradient} border border-white flex items-center justify-center text-3xl md:text-4xl mb-4 shadow-sm`}>
-                  {tool.emoji}
-                </div>
-                <div className={`inline-block self-start text-[0.65rem] uppercase tracking-widest font-bold bg-gradient-to-r ${tool.gradient} bg-clip-text text-transparent mb-1`}>
-                  {tool.tag}
-                </div>
-                <h3 className="text-base md:text-lg font-extrabold text-navy mb-2 leading-tight">
-                  {tool.title}
-                </h3>
-                <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-4 flex-1">
-                  {tool.desc}
-                </p>
-                <div className={`inline-flex items-center gap-1 text-sm font-bold bg-gradient-to-r ${tool.gradient} bg-clip-text text-transparent group-hover:gap-2 transition-all`}>
-                  {t('home.toolsShowcase.cardCta')}
-                  <span className={`material-symbols-outlined bg-gradient-to-r ${tool.gradient} bg-clip-text text-transparent`} style={{ WebkitBackgroundClip: 'text', color: 'transparent' }}>arrow_forward</span>
-                </div>
-              </a>
+                icon={tool.icon}
+                accent={tool.accent}
+                title={tool.title}
+                desc={tool.desc}
+                tag={tool.tag}
+                cta={t('home.toolsShowcase.cardCta')}
+              />
             ))}
           </div>
 
