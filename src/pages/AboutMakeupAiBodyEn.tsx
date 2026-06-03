@@ -2,24 +2,36 @@ import { useI18n } from '../i18n/I18nContext'
 
 export const WOMEN_STYLES_EN = [
   {
-    name: 'Glass Skin Glow',
-    desc: 'A glass-clear, dewy radiant base — the heart of the 2026 cloud-glow trend. Luminous, translucent skin with a soft pink-peach blush and a glossy nude lip. A K-beauty signature base that flatters nearly every personal color season.',
+    name: 'Cloudglow Skin',
+    desc: 'The evolution of glass skin — a soft, cloud-like radiant base finished with a glossy nude lip. Luminous, translucent skin that flatters nearly every personal color season; the heart of the 2026 cloud-glow trend.',
   },
   {
-    name: 'Blurred Tint Lip',
-    desc: 'A gradient tint that is deepest at the center and fades toward the edges. The blurred boundary reads as natural color rising under the surface — the canon "did-she-or-didn\'t-she" lip that has anchored K-beauty since 2016.',
+    name: 'Idol Blur Base',
+    desc: 'That filter-smooth K-pop idol complexion. A blur base softly diffuses imperfections and adds a quiet glow, for the flawless skin impression of a photo app left on.',
   },
   {
-    name: 'Lingerie Makeup',
-    desc: 'A soft, sensual neutral mood, like lingerie. Muted beige and rosy-brown tones melt into a soft-matte base with restrained shading — a 2026 trend look built on quiet, skin-close color.',
+    name: 'Blurred Gradient Tint',
+    desc: 'A gradient rose tint that is deepest at the center and fades toward the edges. The blurred boundary reads as natural color rising under the surface — the canon "did-she-or-didn\'t-she" K-beauty lip.',
+  },
+  {
+    name: 'Berry Stain Lip',
+    desc: 'The 2026 global berry-and-wine stained lip. A deep berry shade that looks soaked into the lips for a chic, moody impression — especially flattering on autumn and winter cool tones.',
   },
   {
     name: 'Glazed Lavender Lip',
     desc: 'A glossy lavender-mauve nude lip — the 2026 new-nude trend. A calm, lavender-tinted muted base finished with a clean eye for a refined, current impression.',
   },
   {
-    name: 'K-Pop Idol Makeup',
-    desc: 'Glass-glow skin, a gradient pink lip, and shimmer highlighter — the three-beat stage formula seen on Jennie and IVE. The global icon of K-beauty that spread worldwide alongside the K-pop fandom.',
+    name: 'K-Pop Idol Shimmer',
+    desc: 'Inner-corner highlighter, pink shimmer eyeshadow, and a glossy pink lip — the three-beat stage formula seen on Jennie and IVE. The global icon of K-beauty that spread worldwide with the K-pop fandom.',
+  },
+  {
+    name: 'Watercolor Flush',
+    desc: 'A watercolor-soft blush carried up toward the under-eye. The flush blooms like you just finished a workout, for a youthful, lively impression — a 2026 blush trend.',
+  },
+  {
+    name: 'Lingerie Nude',
+    desc: 'A soft, sensual neutral mood, like lingerie. A muted beige soft-matte lip melts into the skin with a rosy blush — a quiet yet atmospheric 2026 trend look.',
   },
   {
     name: 'Copper Auburn Hair',
@@ -29,24 +41,36 @@ export const WOMEN_STYLES_EN = [
 
 export const MEN_STYLES_EN = [
   {
-    name: 'Skincare Glow Base',
-    desc: 'Dewy, healthy skin with a hydrated sheen on the forehead, nose tip, and cheekbones. Just enough cover on blemishes and dark circles to read as "naturally good skin" — the default Korean men\'s approach.',
+    name: 'Chok-Chok Glow',
+    desc: 'Dewy, healthy skin with a hydrated K-pop-idol sheen on the forehead, nose tip, and cheekbones. Just enough cover on blemishes to read as "naturally good skin" — the default Korean men\'s approach.',
   },
   {
-    name: 'No-Makeup Makeup',
-    desc: 'The ultimate "polished but unseen." Skin texture, pores, and stubble are preserved while only smoothing and tidying the brows. The most-recommended starting point for men trying makeup for the first time.',
+    name: 'Idol Blur Skin',
+    desc: 'A filter-smooth base. Pores and blemishes are softly blurred for a clean skin impression even on camera and video calls — a restrained men\'s blur correction.',
   },
   {
-    name: 'K-Pop Idol Makeup',
-    desc: 'Glass-glow base, subtle eye accents, and a coral lip tint. The masculine face stays intact while the look turns stage-bright like a male idol — a balanced, crowd-pleasing style.',
+    name: 'No-Makeup Base',
+    desc: 'BB-cream-level natural correction. Skin texture, pores, and stubble stay intact while only the tone is smoothed — the "polished but unseen" approach most recommended for first-time men.',
   },
   {
-    name: 'Grunge Smoky Eye',
-    desc: 'The most intense category in the men\'s lineup. A smudged smoky eye in brown and dark khaki builds sharp presence — the signature look of the 2026 grunge revival.',
+    name: 'Tinted Lip Balm',
+    desc: 'Just a hint of natural color on the lips, like a tinted balm. It lifts dull lips to a healthy tone for a tidy impression with no visible makeup — the easiest men\'s accent.',
   },
   {
-    name: 'Monochrome Makeup',
-    desc: 'A restrained tone-on-tone look that ties eyes, cheeks, and lips into a single terracotta-peach tone. The warm wash reads as the most trustworthy men\'s option for business or formal settings.',
+    name: 'Healthy Flush',
+    desc: 'A subtle, healthy flush across the cheeks. It adds a natural just-exercised vitality to fix a pale or tired look — a restrained men\'s blush.',
+  },
+  {
+    name: 'K-Pop Idol Liner',
+    desc: 'A gel-eyeliner accent that sharpens the eyes. The masculine face stays intact while the gaze turns defined like a male idol on stage — a balanced, crowd-pleasing style.',
+  },
+  {
+    name: 'Smoky Brown Eye',
+    desc: 'A restrained smudged smoky eye in brown and dark khaki. It builds sharp presence without going overboard — the men\'s read on the 2026 grunge revival.',
+  },
+  {
+    name: 'Defined Brow',
+    desc: 'Tidies the brows and fills gaps for a crisp, defined shape — the 2026 brow trend. Grooming the brows alone makes the whole face read neater and sharper, a core men\'s grooming step.',
   },
   {
     name: 'Ash Brown Hair',
@@ -101,7 +125,7 @@ export default function AboutMakeupAiBodyEn() {
 
         <section id="women-styles" className="mb-14">
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">3. Nine signature K-beauty styles for women</h2>
-          <p className="mb-6">kissinskin\'s AI simulates the six most representative Korean women\'s makeup styles for 2026 (five makeup looks plus one hair color). The essentials of each:</p>
+          <p className="mb-6">kissinskin simulates the nine most representative Korean women\'s makeup styles for 2026 (eight makeup looks plus one hair color), all rendered on your device. The essentials of each:</p>
           <div className="space-y-5 not-prose">
             {WOMEN_STYLES_EN.map((s) => (
               <div key={s.name} className="bg-white rounded-2xl p-5 border border-pink-100">
@@ -114,7 +138,7 @@ export default function AboutMakeupAiBodyEn() {
 
         <section id="men-styles" className="mb-14">
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">4. Nine signature K-beauty styles for men</h2>
-          <p className="mb-6">Men\'s makeup mainstreamed sharply from 2023 onward, and kissinskin offers six male-specific styles. The base principle for men\'s makeup is "polished but unseen."</p>
+          <p className="mb-6">Men\'s makeup mainstreamed sharply from 2023 onward, and kissinskin offers nine male-specific styles. The base principle for men\'s makeup is "polished but unseen."</p>
           <div className="space-y-5 not-prose">
             {MEN_STYLES_EN.map((s) => (
               <div key={s.name} className="bg-white rounded-2xl p-5 border border-blue-100">
@@ -129,9 +153,9 @@ export default function AboutMakeupAiBodyEn() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">5. How the AI simulation works</h2>
           <p className="mb-4">The kissinskin AI makeup simulation runs in three stages.</p>
           <p className="mb-4"><strong>Stage 1 · Face analysis.</strong> The uploaded photo is processed to extract 68–98 facial landmarks (eyes, nose, lips, cheekbones, jaw). From these, the system computes face shape, skin tone, and eye/lip ratios. The data is processed only as an anonymized vector; the original photo is never stored on the server.</p>
-          <p className="mb-4"><strong>Stage 2 · Style mapping.</strong> The selected style (Natural Glow, Blood Lip, etc.) loads its "style profile" into the AI. Each profile is the result of training on hundreds of reference images and brand color formulas, dynamically adapted to your face vector — color, intensity, placement.</p>
+          <p className="mb-4"><strong>Stage 2 · Style mapping.</strong> The selected style (Cloudglow Skin, Berry Stain Lip, etc.) loads its "style profile" into the AI. Each profile is the result of training on hundreds of reference images and brand color formulas, dynamically adapted to your face vector — color, intensity, placement.</p>
           <p className="mb-4"><strong>Stage 3 · Generation and composite.</strong> The final image preserves your original facial structure and only blends the makeup layer on top. Personal identity (eye shape, mouth angle, cheekbone height) is preserved; only the makeup layer is applied. This rule is what prevents "looks like a different person" results — what you see is your actual face wearing that look.</p>
-          <p className="mb-4">The output is a set of six images — six women\'s styles for female users, six men\'s styles for male users — each generated separately from a single selfie to preserve your facial identity. Total time runs 30–60 seconds, after which each look can be opened, downloaded, or shared from the result page.</p>
+          <p className="mb-4">Makeup is composited on your own device (in the browser), not on a server. Because only the makeup layer is overlaid on top of your original photo, your face is preserved 100%, and you can pick any of the nine looks and switch between them in 1–2 seconds. Nine styles each (eight makeup looks plus one hair color) are offered for women and men, and the selected look can be opened, downloaded, or shared from the result page.</p>
         </section>
 
         <section id="photo-tips" className="mb-14">
@@ -189,7 +213,7 @@ export const ABOUT_MAKEUP_AI_HERO_EN = {
   badge: 'Complete K-beauty makeup guide',
   title: 'Everything K-beauty makeup',
   subtitle:
-    'History, six women\'s styles, six men\'s styles, how the AI simulation works, photo tips — a 3,000-word in-depth guide for both first-timers and working beauty editors.',
+    'History, nine women\'s styles, nine men\'s styles, how the AI simulation works, photo tips — a 3,000-word in-depth guide for both first-timers and working beauty editors.',
   toc: [
     ['#history', '1. A short history of K-beauty makeup'],
     ['#philosophy', '2. The K-beauty aesthetic — why the world watches'],

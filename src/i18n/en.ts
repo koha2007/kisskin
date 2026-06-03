@@ -24,10 +24,10 @@ export default {
   // Home Hero
   'home.hero.badge': 'AI K-Beauty Makeup',
   'home.hero.title1': 'Try K-Beauty Makeup',
-  'home.hero.title2': '6 Korean Looks',
+  'home.hero.title2': '9 Korean Looks',
   'home.hero.title3': 'On Your Selfie',
   'home.hero.subtitle': 'One selfie, 60 seconds, AI creates',
-  'home.hero.subtitleBold': ' 6 personalized K-beauty makeup looks',
+  'home.hero.subtitleBold': ' 9 personalized K-beauty makeup looks',
   'home.hero.subtitleEnd': ' tailored to your face.',
   'home.hero.productHighlightBold': 'AI skin analysis',
   'home.hero.productHighlight': ' recommends the best K-beauty products with',
@@ -36,7 +36,7 @@ export default {
   'home.hero.viewStyles': 'See Example',
   'home.hero.userCount': 'K-Beauty Makeup · Personal Color · AI Skin Analysis',
   'home.hero.previewLabel': 'Your Photo',
-  'home.hero.previewResultLabel': '6 Looks',
+  'home.hero.previewResultLabel': '9 Looks',
   'home.hero.trust1': '60s done',
   'home.hero.trust2': 'No sign-up',
   'home.hero.trust3': '7-day refund',
@@ -48,7 +48,7 @@ export default {
 
   // Value Props
   'home.value.title1': 'K-Beauty in 60 Seconds',
-  'home.value.desc1': 'AI analyzes your face and delivers 6 K-beauty makeup looks + Korean cosmetics recommendations in 60 seconds.',
+  'home.value.desc1': 'AI analyzes your face and delivers 9 K-beauty makeup looks + Korean cosmetics recommendations in 60 seconds.',
   'home.value.title2': 'K-Beauty Product Picks',
   'home.value.desc2': 'AI recommends Korean beauty products that match your skin type and tone, with direct purchase links.',
   'home.value.title3': 'Any Device',
@@ -60,7 +60,7 @@ export default {
   'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color & face shape diagnosis, and in-depth guide — all free, no signup required.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
-  'home.toolsShowcase.mainDesc': 'Upload one selfie, get 6 K-beauty makeup looks in 30 seconds. Supports 6 styles each for women and men.',
+  'home.toolsShowcase.mainDesc': 'Upload one selfie, get 9 K-beauty makeup looks instantly. Supports 9 styles each for women and men.',
   'home.toolsShowcase.mainCta': 'Try now',
   'home.toolsShowcase.cardCta': 'Start',
   'home.toolsShowcase.seeAllTools': 'See all tools',
@@ -80,28 +80,34 @@ export default {
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
   'home.styles.title': '',
-  'home.styles.titleHighlight': '6 K-Beauty Makeup Styles',
+  'home.styles.titleHighlight': '9 K-Beauty Makeup Styles',
   'home.styles.titleEnd': ' for Women & Men\nDiscover Korean Beauty Trends',
   'home.styles.subtitle': 'AI applies the latest trending K-beauty makeup looks customized to your face',
   'home.styles.womenTab': "2026 Women's Makeup",
   'home.styles.menTab': "2026 Men's Makeup",
   'home.styles.cta': 'Try K-Beauty Looks Now',
 
-  // Women styles (2026 trends: 5 makeup + 1 hair)
-  'style.w1': 'Glass Skin Glow',
-  'style.w2': 'Blurred Tint Lip',
-  'style.w3': 'Lingerie Makeup',
-  'style.w4': 'Glazed Lavender Lip',
-  'style.w5': 'K-Pop Idol Makeup',
-  'style.w6': 'Copper Auburn Hair',
+  // Women styles (2026 trends: 8 makeup + 1 hair) — same set as src/lib/makeup/looksConfig.ts
+  'style.w1': 'Cloudglow Skin',
+  'style.w2': 'Idol Blur Base',
+  'style.w3': 'Blurred Gradient Tint',
+  'style.w4': 'Berry Stain Lip',
+  'style.w5': 'Glazed Lavender Lip',
+  'style.w6': 'K-Pop Idol Shimmer',
+  'style.w7': 'Watercolor Flush',
+  'style.w8': 'Lingerie Nude',
+  'style.w9': 'Copper Auburn Hair',
 
-  // Men styles (2026 trends: 5 makeup + 1 hair)
-  'style.m1': 'Skincare Glow Base',
-  'style.m2': 'No-Makeup Makeup',
-  'style.m3': 'K-Pop Idol Makeup',
-  'style.m4': 'Grunge Smoky Eye',
-  'style.m5': 'Monochrome Makeup',
-  'style.m6': 'Ash Brown Hair',
+  // Men styles (2026 trends: 8 makeup + 1 hair) — same set as src/lib/makeup/looksConfig.ts
+  'style.m1': 'Chok-Chok Glow',
+  'style.m2': 'Idol Blur Skin',
+  'style.m3': 'No-Makeup Base',
+  'style.m4': 'Tinted Lip Balm',
+  'style.m5': 'Healthy Flush',
+  'style.m6': 'K-Pop Idol Liner',
+  'style.m7': 'Smoky Brown Eye',
+  'style.m8': 'Defined Brow',
+  'style.m9': 'Ash Brown Hair',
 
   // How it works
   'home.how.title': '3 Simple Steps',
@@ -111,13 +117,13 @@ export default {
   'home.how.step2': 'AI Analysis',
   'home.how.step2Desc': 'AI simulates your facial features and skin characteristics',
   'home.how.step3': 'Get Results',
-  'home.how.step3Desc': 'Receive 6 K-beauty makeup looks + personalized Korean cosmetics recommendations',
+  'home.how.step3Desc': 'Receive 9 K-beauty makeup looks + personalized Korean cosmetics recommendations',
   'home.how.tipTitle': 'Pro Tip for Best Results',
   'home.how.tipDesc': 'For 100% accuracy, use a well-lit front-facing solo photo (like an ID photo) with no shadows on your face — the clearer your face, the better the AI results.',
   'home.how.exampleBadge': 'Real Analysis Example',
   'home.how.exampleTitle': 'Upload a photo like this, get results like this',
   'home.how.exampleInputLabel': 'Your photo',
-  'home.how.exampleResultLabel': '6 K-beauty makeup styles',
+  'home.how.exampleResultLabel': '9 K-beauty makeup styles',
   'home.how.exampleTipHighlight': 'ID photos or shadow-free face photos work best',
 
   // Final CTA
@@ -128,7 +134,7 @@ export default {
   // Footer
   'home.footer.desc': 'AI K-Beauty Makeup Simulator & Korean Cosmetics Recommendation',
   'home.footer.service': 'Service',
-  'home.footer.styles': '6 Styles',
+  'home.footer.styles': '9 Styles',
   'home.footer.howTo': 'How to Use',
   'home.footer.legal': 'Legal',
 
@@ -161,14 +167,14 @@ export default {
 
   // Loading
   'analysis.loading.title': 'AI Analyzing',
-  'analysis.loading.subtitle': 'Carefully generating your 6 makeup looks, one by one...',
+  'analysis.loading.subtitle': 'Preparing your makeup analysis report...',
   'analysis.loading.time': 'Takes about 40-90 seconds (each look rendered separately to keep your face)',
 
   // Results
   'result.title': 'Analysis Results',
   'result.toneAnalysis': '🎨 Tone Analysis',
   'result.advice': '💡 Personalized Advice',
-  'result.makeupStyles': '6 Makeup Styles',
+  'result.makeupStyles': '9 Makeup Styles',
   'result.save': 'Save',
   'result.share': 'Share',
   'result.defaultShare': 'Share',
@@ -283,7 +289,7 @@ export default {
   'pricing.perAnalysisPrice': '$2.99',
   'pricing.perAnalysisUnit': '/ once',
   'pricing.perAnalysisDesc': 'No sign-up required',
-  'pricing.perAnalysisF1': '6 makeup styles',
+  'pricing.perAnalysisF1': '9 makeup styles',
   'pricing.perAnalysisF2': 'Skin analysis report',
   'pricing.perAnalysisF3': 'Product recommendations',
   'pricing.subscription': 'Monthly',

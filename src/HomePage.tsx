@@ -320,7 +320,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         { q: 'Can I use it without signing up?', a: 'The Makeup MBTI, Personal Color, and Face Shape tools are all usable instantly without an account. The AI makeup simulation is available after payment, as a single-use pass or a subscription.' },
         { q: 'Can I get a refund?', a: 'If the analysis is still unused right after payment, a refund is available within 7 days. Once you have used the analysis or downloaded the result image, refunds are limited due to the nature of digital content. See the refund policy page for the full terms.' },
         { q: 'Where can I buy the recommended cosmetics?', a: 'We give recommendations by category (lipstick, eyeshadow, blush, and so on). For specific products, search and compare on the channels you already use — Olive Young, Sephora, Coupang, Amazon, and others. We never lock you into a single store.' },
-        { q: 'Can men use it too?', a: 'Yes. We curate a separate set of 6 men’s looks (Skincare Glow Base, No-Makeup Makeup, K-Pop Idol, and more) — from a natural grooming base all the way to K-pop stage makeup, plus a 2026 trend hair color.' },
+        { q: 'Can men use it too?', a: 'Yes. We curate a separate set of 9 men’s looks (Chok-Chok Glow, No-Makeup Base, K-Pop Idol Liner, and more) — from a natural grooming base all the way to K-pop stage makeup, plus a 2026 trend hair color.' },
       ]
     : [
         { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
@@ -328,7 +328,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         { q: '회원가입 없이도 사용할 수 있나요?', a: '메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 도구는 모두 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 1회 사용권 또는 구독 형태로 제공됩니다.' },
         { q: '환불은 가능한가요?', a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 이미 사용했거나 결과 이미지를 다운로드한 이후에는 디지털 콘텐츠 특성상 환불이 제한됩니다. 자세한 조건은 환불 정책 페이지에서 확인할 수 있습니다.' },
         { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.' },
-        { q: '남성도 사용할 수 있나요?', a: '네. 남성 전용 6가지 룩(Skincare Glow Base, No-Makeup Makeup, K-Pop Idol 등)을 별도 큐레이션해 제공합니다. 그루밍 단계의 자연스러운 베이스부터 K-팝 무대 메이크업, 2026 트렌드 헤어 컬러까지 시뮬레이션 가능합니다.' },
+        { q: '남성도 사용할 수 있나요?', a: '네. 남성 전용 9가지 룩(Chok-Chok Glow, No-Makeup Base, K-Pop Idol 등)을 별도 큐레이션해 제공합니다. 그루밍 단계의 자연스러운 베이스부터 K-팝 무대 메이크업, 2026 트렌드 헤어 컬러까지 시뮬레이션 가능합니다.' },
       ]
   const [activeTab, setActiveTab] = useState<'women' | 'men'>('women')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -347,23 +347,29 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
     }
   }, [mobileMenuOpen])
 
-  // 2026 트렌드 6종 (메이크업 5 + 헤어 1). 백엔드 _makeupStyles.ts와 동일 세트.
+  // 2026 트렌드 9종 (메이크업 8 + 헤어 1). 온디바이스 엔진 src/lib/makeup/looksConfig.ts 와 동일 세트.
   const womenStyles: StyleData[] = [
-    { num: 1, name: t('style.w1'), eng: 'Glass Skin Glow', icon: 'water_drop' },
-    { num: 2, name: t('style.w2'), eng: 'Blurred Tint Lip', icon: 'blur_on' },
-    { num: 3, name: t('style.w3'), eng: 'Lingerie Makeup', icon: 'spa' },
-    { num: 4, name: t('style.w4'), eng: 'Glazed Lavender Lip', icon: 'palette' },
-    { num: 5, name: t('style.w5'), eng: 'K-Pop Idol Makeup', icon: 'star' },
-    { num: 6, name: t('style.w6'), eng: 'Copper Auburn Hair', icon: 'colorize' },
+    { num: 1, name: t('style.w1'), eng: 'Cloudglow Skin', icon: 'water_drop' },
+    { num: 2, name: t('style.w2'), eng: 'Idol Blur Base', icon: 'blur_on' },
+    { num: 3, name: t('style.w3'), eng: 'Blurred Gradient Tint', icon: 'gradient' },
+    { num: 4, name: t('style.w4'), eng: 'Berry Stain Lip', icon: 'format_color_fill' },
+    { num: 5, name: t('style.w5'), eng: 'Glazed Lavender Lip', icon: 'palette' },
+    { num: 6, name: t('style.w6'), eng: 'K-Pop Idol Shimmer', icon: 'auto_awesome' },
+    { num: 7, name: t('style.w7'), eng: 'Watercolor Flush', icon: 'brush' },
+    { num: 8, name: t('style.w8'), eng: 'Lingerie Nude', icon: 'spa' },
+    { num: 9, name: t('style.w9'), eng: 'Copper Auburn Hair', icon: 'colorize' },
   ]
 
   const menStyles: StyleData[] = [
-    { num: 1, name: t('style.m1'), eng: 'Skincare Glow Base', icon: 'water_drop' },
-    { num: 2, name: t('style.m2'), eng: 'No-Makeup Makeup', icon: 'face' },
-    { num: 3, name: t('style.m3'), eng: 'K-Pop Idol Makeup', icon: 'star' },
-    { num: 4, name: t('style.m4'), eng: 'Grunge Smoky Eye', icon: 'contrast' },
-    { num: 5, name: t('style.m5'), eng: 'Monochrome Makeup', icon: 'palette' },
-    { num: 6, name: t('style.m6'), eng: 'Ash Brown Hair', icon: 'colorize' },
+    { num: 1, name: t('style.m1'), eng: 'Chok-Chok Glow', icon: 'water_drop' },
+    { num: 2, name: t('style.m2'), eng: 'Idol Blur Skin', icon: 'blur_on' },
+    { num: 3, name: t('style.m3'), eng: 'No-Makeup Base', icon: 'face' },
+    { num: 4, name: t('style.m4'), eng: 'Tinted Lip Balm', icon: 'favorite' },
+    { num: 5, name: t('style.m5'), eng: 'Healthy Flush', icon: 'spa' },
+    { num: 6, name: t('style.m6'), eng: 'K-Pop Idol Liner', icon: 'star' },
+    { num: 7, name: t('style.m7'), eng: 'Smoky Brown Eye', icon: 'contrast' },
+    { num: 8, name: t('style.m8'), eng: 'Defined Brow', icon: 'draw' },
+    { num: 9, name: t('style.m9'), eng: 'Ash Brown Hair', icon: 'colorize' },
   ]
 
   return (
@@ -1044,7 +1050,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <article>
               <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Why AI makeup simulation helps</h3>
               <p>
-                The biggest hesitation before trying a new look is the question <strong className="text-primary">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 6 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
+                The biggest hesitation before trying a new look is the question <strong className="text-primary">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 9 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
               </p>
               <p>
                 The AI reads your facial contours, features, and skin tone, then blends the makeup on naturally. Unlike a Photoshop paste-over, it keeps the direction of light, your skin texture, and the curves of your face intact — adding only the lip, eye, blush, and highlighter placement with precision. The result looks close to “you, actually wearing the makeup,” so any look you like is easy to recreate.
@@ -1062,21 +1068,24 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </article>
 
             <article>
-              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">The 6 signature K-beauty looks, at a glance</h3>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">The 9 signature K-beauty looks, at a glance</h3>
               <p>
-                kissinskin curates 6 looks that define current Korean beauty trends.
-                <strong> Glass Skin Glow</strong> is the essence of Korean luminous skin — a dewy, glass-clear glow.
-                <strong> Blurred Tint Lip</strong> is a center-deep gradient tint, and
-                <strong> Lingerie Makeup</strong> is a soft, sensual neutral mood that melts into the skin.
-                For a more current edge, try <strong>Glazed Lavender Lip</strong> — the 2026 new-nude trend — or
-                <strong> K-Pop Idol Makeup</strong> for a bright, on-stage idol look.
-                The sixth, <strong>Copper Auburn Hair</strong>, changes only your hair color to a 2026 trend shade while your face stays exactly the same.
+                kissinskin curates 9 looks that define 2026 Korean beauty trends, each built on a brightening base.
+                <strong> Cloudglow Skin</strong> is the essence of Korean luminous skin — a soft, cloud-like glow with a nude glossy lip.
+                <strong> Idol Blur Base</strong> gives that filter-smooth K-pop complexion, while
+                <strong> Blurred Gradient Tint</strong> is a center-deep gradient rose.
+                <strong> Berry Stain Lip</strong> brings the 2026 global berry-wine lip,
+                <strong> Glazed Lavender Lip</strong> is the new-nude lavender gloss, and
+                <strong> K-Pop Idol Shimmer</strong> adds inner-corner highlighter with pink shimmer eyes.
+                <strong> Watercolor Flush</strong> is a soft under-eye blush,
+                <strong> Lingerie Nude</strong> a muted beige that melts into the skin, and
+                <strong> Copper Auburn Hair</strong> changes only your hair color to a 2026 trend shade while your face stays exactly the same.
               </p>
               <p>
-                For men, we curate a separate set: Skincare Glow Base, No-Makeup Makeup, K-Pop Idol Makeup,
-                Grunge Smoky Eye, Monochrome Makeup, and Ash Brown Hair.
+                For men, we curate a separate set: Chok-Chok Glow, Idol Blur Skin, No-Makeup Base, Tinted Lip Balm,
+                Healthy Flush, K-Pop Idol Liner, Smoky Brown Eye, Defined Brow, and Ash Brown Hair.
                 The question “men wear makeup?” was settled long ago by K-pop and the global K-beauty movement.
-                The six span a barely-there base to full stage makeup and a trend hair color — each generated separately so your face stays unmistakably yours.
+                The nine span a barely-there base to defined brows and a trend hair color — each rendered on your device as an overlay on your original photo, so your face stays 100% unchanged.
               </p>
             </article>
 
@@ -1111,7 +1120,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 새로운 메이크업 룩에 도전할 때 가장 큰 부담은 <strong className="text-primary">"내 얼굴에 어울릴까?"</strong>라는 의문과
                 실패할 경우 발생하는 시간·비용 손실입니다. 매장에서 일일이 발색하기에는 매장 동선이 부담스럽고,
                 온라인 색조 화장품을 구매한 뒤에는 환불이 까다롭거나 사실상 불가능한 경우도 많습니다.
-                kissinskin은 셀카 한 장으로 6가지 K-뷰티 시그니처 룩을 즉시 시뮬레이션해
+                kissinskin은 셀카 한 장으로 9가지 K-뷰티 시그니처 룩을 즉시 시뮬레이션해
                 실제 발색과 인상 변화를 미리 확인할 수 있게 해 줍니다.
               </p>
               <p>
@@ -1139,21 +1148,24 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </article>
 
             <article>
-              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">6가지 K-뷰티 시그니처 룩, 한눈에</h3>
+              <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">9가지 K-뷰티 시그니처 룩, 한눈에</h3>
               <p>
-                kissinskin은 최신 한국 메이크업 트렌드를 대표하는 6가지 룩을 큐레이션했습니다.
-                <strong> Glass Skin Glow</strong>는 유리알처럼 맑고 촉촉한 한국 광채 피부의 정수이고,
-                <strong> Blurred Tint Lip</strong>은 중앙이 진하게 번지는 그라데이션 틴트,
-                <strong> Lingerie Makeup</strong>은 피부에 녹아드는 은은하고 관능적인 뉴트럴 무드입니다.
-                더 트렌디한 인상을 원한다면 2026 신상 누드 트렌드 <strong>Glazed Lavender Lip</strong>을,
-                화사한 무대 룩을 원한다면 <strong>K-Pop Idol Makeup</strong>을 시도해 보세요.
-                여섯 번째 <strong>Copper Auburn Hair</strong>는 얼굴은 그대로 둔 채 머리색만 2026 유행 컬러로 바꿔 줍니다.
+                kissinskin은 2026 한국 메이크업 트렌드를 대표하는 9가지 룩을 화사한 기본 베이스 위에 큐레이션했습니다.
+                <strong> Cloudglow Skin</strong>은 구름처럼 부드러운 광채 + 누드 글로시 립으로 한국 광채 피부의 진화형이고,
+                <strong> Idol Blur Base</strong>는 필터처럼 매끈한 K팝 피부,
+                <strong> Blurred Gradient Tint</strong>는 중앙이 진하게 번지는 그라데이션 로즈 립입니다.
+                <strong> Berry Stain Lip</strong>은 2026 글로벌 베리·와인 립,
+                <strong> Glazed Lavender Lip</strong>은 신상 누드 라벤더 글로시,
+                <strong> K-Pop Idol Shimmer</strong>는 이너코너 하이라이터 + 핑크 쉬머 아이입니다.
+                <strong> Watercolor Flush</strong>는 언더아이 수채 혈색,
+                <strong> Lingerie Nude</strong>는 피부에 녹는 뮤트 베이지,
+                아홉 번째 <strong>Copper Auburn Hair</strong>는 얼굴은 그대로 둔 채 머리색만 2026 유행 컬러로 바꿔 줍니다.
               </p>
               <p>
-                남성 사용자를 위해서는 Skincare Glow Base, No-Makeup Makeup, K-Pop Idol Makeup,
-                Grunge Smoky Eye, Monochrome Makeup, Ash Brown Hair를 별도 큐레이션합니다.
+                남성 사용자를 위해서는 Chok-Chok Glow, Idol Blur Skin, No-Makeup Base, Tinted Lip Balm,
+                Healthy Flush, K-Pop Idol Liner, Smoky Brown Eye, Defined Brow, Ash Brown Hair를 별도 큐레이션합니다.
                 "남자도 메이크업을 한다고?"라는 의문은 이미 K-팝과 글로벌 K-뷰티 트렌드가 깬 지 오래입니다.
-                자연스러운 베이스부터 무대 메이크업, 트렌드 헤어 컬러까지 6가지를 각각 따로 생성해 얼굴 동일성을 보존합니다.
+                자연스러운 베이스부터 디파인드 브로우, 트렌드 헤어 컬러까지 9가지를, 원본 사진 위에 기기에서 오버레이로 입혀 얼굴을 100% 그대로 보존합니다.
               </p>
             </article>
 

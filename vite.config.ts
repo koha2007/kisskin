@@ -10,6 +10,12 @@ export default defineConfig({
     tailwindcss(),
     vike(),
   ],
+  // dev 전용: Codespaces 포워딩 도메인(*.app.github.dev)에서 접속 허용.
+  // (미설정 시 Vite 가 "Blocked request. This host is not allowed." 403 반환)
+  server: {
+    host: true,
+    allowedHosts: ['.app.github.dev'],
+  },
   build: {
     rollupOptions: {
       output: {
