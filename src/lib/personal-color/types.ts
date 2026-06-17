@@ -2,11 +2,14 @@
 // References: 나무위키 퍼스널컬러, 한국패션협회 자료, 비주얼살롱·언니의파우치 커뮤니티,
 // Munsell color system, Carole Jackson "Color Me Beautiful" original framework.
 
+import type { IdentityCardData } from '../identityCard/types'
+
 export type SeasonCode = 'spring' | 'summer' | 'autumn' | 'winter'
 
 export interface PersonalColorType {
   code: SeasonCode
   slug: string
+  card: IdentityCardData          // 9:16 정체성 카드 데이터 (FINAL §3-4/3-5/3-6)
   koName: string                 // 봄 웜톤 등
   enName: string                 // Spring Warm 등
   emoji: string
@@ -72,6 +75,13 @@ export const PERSONAL_COLOR_TYPES: Record<SeasonCode, PersonalColorType> = {
   spring: {
     code: 'spring',
     slug: 'spring-warm',
+    card: {
+      nickname: '봄볕의 요정',
+      enName: 'SPRING MUSE',
+      identityLine: '화사하게 빛나며 곁에 있으면 기분이 밝아지는 사람',
+      hashtags: ['#봄웜톤', '#화사핏', '#생기메이크업', '#코랄립'],
+      gradient: ['#070953', '#ff9e6b'],
+    },
     koName: '봄 웜톤',
     enName: 'Spring Warm',
     emoji: '🌸',
@@ -157,6 +167,13 @@ export const PERSONAL_COLOR_TYPES: Record<SeasonCode, PersonalColorType> = {
   summer: {
     code: 'summer',
     slug: 'summer-cool',
+    card: {
+      nickname: '여름 새벽의 뮤즈',
+      enName: 'SUMMER MUSE',
+      identityLine: '부드럽고 청량해서 곁이 편안해지는 사람',
+      hashtags: ['#여름쿨톤', '#파스텔', '#청량메이크업', '#로즈립'],
+      gradient: ['#070953', '#7aa6ff'],
+    },
     koName: '여름 쿨톤',
     enName: 'Summer Cool',
     emoji: '💎',
@@ -242,6 +259,13 @@ export const PERSONAL_COLOR_TYPES: Record<SeasonCode, PersonalColorType> = {
   autumn: {
     code: 'autumn',
     slug: 'autumn-warm',
+    card: {
+      nickname: '가을 숲의 뮤즈',
+      enName: 'AUTUMN MUSE',
+      identityLine: '깊고 차분한 분위기로 사람을 끌어들이는 사람',
+      hashtags: ['#가을웜톤', '#뮤트톤', '#브릭립', '#깊은무드'],
+      gradient: ['#070953', '#b5651d'],
+    },
     koName: '가을 웜톤',
     enName: 'Autumn Warm',
     emoji: '🍂',
@@ -327,6 +351,13 @@ export const PERSONAL_COLOR_TYPES: Record<SeasonCode, PersonalColorType> = {
   winter: {
     code: 'winter',
     slug: 'winter-cool',
+    card: {
+      nickname: '겨울 밤의 시크',
+      enName: 'WINTER CHIC',
+      identityLine: '또렷하고 시크해서 분위기를 압도하는 사람',
+      hashtags: ['#겨울쿨톤', '#선명대비', '#레드립', '#시크룩'],
+      gradient: ['#070953', '#c026d3'],
+    },
     koName: '겨울 쿨톤',
     enName: 'Winter Cool',
     emoji: '❄️',

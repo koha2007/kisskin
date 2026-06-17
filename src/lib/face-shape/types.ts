@@ -2,11 +2,14 @@
 // References: BeautySpark face-shape makeup guide, Korean beauty research papers
 // (20대 여성 얼굴 유형 분류 KISTI DIKO0011976303), K-beauty contouring standards 2024-2026
 
+import type { IdentityCardData } from '../identityCard/types'
+
 export type FaceShapeCode = 'oval' | 'round' | 'square' | 'oblong' | 'heart'
 
 export interface FaceShapeType {
   code: FaceShapeCode
   slug: string
+  card: IdentityCardData          // 9:16 정체성 카드 데이터 (FINAL §3-4/3-5/3-6)
   koName: string
   enName: string
   emoji: string
@@ -60,6 +63,13 @@ export const FACE_SHAPE_TYPES: Record<FaceShapeCode, FaceShapeType> = {
   oval: {
     code: 'oval',
     slug: 'oval',
+    card: {
+      nickname: '밸런스의 정석, 펄',
+      enName: 'PERFECT PEARL',
+      identityLine: '어떤 스타일도 소화하는 균형의 얼굴',
+      hashtags: ['#계란형', '#밸런스얼굴', '#만능소화', '#이상형얼굴'],
+      gradient: ['#070953', '#b9a7e0'],
+    },
     koName: '계란형',
     enName: 'Oval',
     emoji: '🥚',
@@ -138,6 +148,13 @@ export const FACE_SHAPE_TYPES: Record<FaceShapeCode, FaceShapeType> = {
   round: {
     code: 'round',
     slug: 'round',
+    card: {
+      nickname: '러블리 라운드젬',
+      enName: 'LOVELY ROUND',
+      identityLine: '부드럽고 다정한 인상을 주는 얼굴',
+      hashtags: ['#둥근형', '#러블리상', '#동안얼굴', '#다정한인상'],
+      gradient: ['#070953', '#ff9eb5'],
+    },
     koName: '둥근형',
     enName: 'Round',
     emoji: '🌕',
@@ -221,6 +238,13 @@ export const FACE_SHAPE_TYPES: Record<FaceShapeCode, FaceShapeType> = {
   square: {
     code: 'square',
     slug: 'square',
+    card: {
+      nickname: '카리스마 스퀘어젬',
+      enName: 'BOLD SQUARE',
+      identityLine: '선이 또렷해 강단 있어 보이는 얼굴',
+      hashtags: ['#각진형', '#카리스마', '#또렷한턱선', '#강단있는'],
+      gradient: ['#070953', '#5a8fb0'],
+    },
     koName: '각진형',
     enName: 'Square',
     emoji: '🧊',
@@ -304,6 +328,13 @@ export const FACE_SHAPE_TYPES: Record<FaceShapeCode, FaceShapeType> = {
   oblong: {
     code: 'oblong',
     slug: 'oblong',
+    card: {
+      nickname: '우아한 롱젬',
+      enName: 'ELEGANT LONG',
+      identityLine: '성숙하고 시크한 분위기의 얼굴',
+      hashtags: ['#긴형', '#시크무드', '#성숙한분위기', '#세련된'],
+      gradient: ['#070953', '#9b7fc0'],
+    },
     koName: '긴형',
     enName: 'Oblong / Long',
     emoji: '🫒',
@@ -387,6 +418,13 @@ export const FACE_SHAPE_TYPES: Record<FaceShapeCode, FaceShapeType> = {
   heart: {
     code: 'heart',
     slug: 'heart',
+    card: {
+      nickname: '빛나는 하트젬',
+      enName: 'SHINING HEART',
+      identityLine: '넓은 이마와 갸름한 턱의 러블리 V라인',
+      hashtags: ['#하트형', '#브이라인', '#러블리', '#갸름턱'],
+      gradient: ['#070953', '#ff7eb3'],
+    },
     koName: '하트형',
     enName: 'Heart',
     emoji: '💖',

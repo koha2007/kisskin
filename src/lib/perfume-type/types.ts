@@ -2,11 +2,14 @@
 // References: global fragrance industry classification (Estée Lauder, Le Labo, Fragrantica 2024)
 // "Oriental" deprecated post-2018 — replaced by "Amber" for cultural neutrality.
 
+import type { IdentityCardData } from '../identityCard/types'
+
 export type PerfumeTypeCode = 'floral' | 'citrus' | 'woody' | 'amber' | 'fresh' | 'gourmand'
 
 export interface PerfumeType {
   code: PerfumeTypeCode
   slug: string
+  card: IdentityCardData          // 9:16 정체성 카드 데이터 (FINAL §3-4/3-5/3-6)
   koName: string            // "로맨틱 플로럴"
   koFamily: string          // "Floral" — 영문 계열명 한글 컨텍스트
   enName: string
@@ -59,6 +62,13 @@ export const PERFUME_TYPES: Record<PerfumeTypeCode, PerfumeType> = {
   floral: {
     code: 'floral',
     slug: 'floral',
+    card: {
+      nickname: '꽃밭의 사람',
+      enName: 'FLORAL SOUL',
+      identityLine: '우아하고 로맨틱한 분위기를 풍기는 사람',
+      hashtags: ['#플로럴', '#로맨틱향', '#꽃향기', '#여성스러움'],
+      gradient: ['#070953', '#ff7eb3'],
+    },
     koName: '로맨틱 플로럴',
     koFamily: 'Floral',
     enName: 'Floral',
@@ -140,6 +150,13 @@ export const PERFUME_TYPES: Record<PerfumeTypeCode, PerfumeType> = {
   citrus: {
     code: 'citrus',
     slug: 'citrus',
+    card: {
+      nickname: '상쾌한 아침의 사람',
+      enName: 'FRESH CITRUS',
+      identityLine: '활기차고 청량한 첫인상의 사람',
+      hashtags: ['#시트러스', '#상큼향', '#청량함', '#데일리향수'],
+      gradient: ['#070953', '#ffd86b'],
+    },
     koName: '상큼 시트러스',
     koFamily: 'Citrus',
     enName: 'Citrus',
@@ -221,6 +238,13 @@ export const PERFUME_TYPES: Record<PerfumeTypeCode, PerfumeType> = {
   woody: {
     code: 'woody',
     slug: 'woody',
+    card: {
+      nickname: '깊은 숲의 사람',
+      enName: 'DEEP WOODY',
+      identityLine: '차분하고 깊이 있어 신뢰가 가는 사람',
+      hashtags: ['#우디', '#차분한향', '#포근함', '#시그니처향'],
+      gradient: ['#070953', '#9b6b3e'],
+    },
     koName: '포근 우디',
     koFamily: 'Woody',
     enName: 'Woody',
@@ -302,6 +326,13 @@ export const PERFUME_TYPES: Record<PerfumeTypeCode, PerfumeType> = {
   amber: {
     code: 'amber',
     slug: 'amber',
+    card: {
+      nickname: '관능적인 호박빛의 사람',
+      enName: 'AMBER ALLURE',
+      identityLine: '따뜻하고 깊은 잔향으로 강렬한 인상을 남기는 사람',
+      hashtags: ['#앰버', '#관능향', '#깊은잔향', '#밤향수'],
+      gradient: ['#070953', '#d99058'],
+    },
     koName: '관능 앰버',
     koFamily: 'Amber',
     enName: 'Amber',
@@ -383,6 +414,13 @@ export const PERFUME_TYPES: Record<PerfumeTypeCode, PerfumeType> = {
   fresh: {
     code: 'fresh',
     slug: 'fresh',
+    card: {
+      nickname: '청량한 바람의 사람',
+      enName: 'FRESH BREEZE',
+      identityLine: '깨끗하고 시원한 첫인상을 주는 사람',
+      hashtags: ['#프레시', '#청량향', '#깨끗한향', '#여름향수'],
+      gradient: ['#070953', '#6bd3d8'],
+    },
     koName: '청량 프레시',
     koFamily: 'Fresh',
     enName: 'Fresh',
@@ -464,6 +502,13 @@ export const PERFUME_TYPES: Record<PerfumeTypeCode, PerfumeType> = {
   gourmand: {
     code: 'gourmand',
     slug: 'gourmand',
+    card: {
+      nickname: '달콤한 디저트의 사람',
+      enName: 'SWEET GOURMAND',
+      identityLine: '포근하고 사랑스러운 무드의 사람',
+      hashtags: ['#구르망', '#달콤한향', '#디저트향', '#포근함'],
+      gradient: ['#070953', '#e8a0c0'],
+    },
     koName: '달콤 구르망',
     koFamily: 'Gourmand',
     enName: 'Gourmand',
