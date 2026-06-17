@@ -318,7 +318,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
     ? [
         { q: 'What happens to my selfie after I upload it?', a: 'Your uploaded photo is used only for the AI makeup synthesis, then processed and deleted. It is never reused as training data, and unless you tap save or share yourself, the result image is never made public.' },
         { q: 'How close is the result to real makeup?', a: 'For a front-facing selfie in natural light, the visual match is roughly 85–95%. Color can vary with your monitor or phone display calibration, so for a look you love we recommend confirming the shade in-store once before buying.' },
-        { q: 'Can I use it without signing up?', a: 'The Makeup MBTI, Personal Color, and Face Shape tools are all usable instantly without an account. The AI makeup simulation is available after payment, as a single-use pass or a subscription.' },
+        { q: 'Can I use it without signing up?', a: 'The Makeup MBTI, Personal Color, and Face Shape tools are all usable instantly without an account. The AI makeup simulation is available after payment as a single-use pass.' },
         { q: 'Can I get a refund?', a: 'If the analysis is still unused right after payment, a refund is available within 7 days. Once you have used the analysis or downloaded the result image, refunds are limited due to the nature of digital content. See the refund policy page for the full terms.' },
         { q: 'Where can I buy the recommended cosmetics?', a: 'We give recommendations by category (lipstick, eyeshadow, blush, and so on). For specific products, search and compare on the channels you already use — Olive Young, Sephora, Coupang, Amazon, and others. We never lock you into a single store.' },
         { q: 'Can men use it too?', a: 'Yes. We curate a separate set of 9 men’s looks (Chok-Chok Glow, No-Makeup Base, K-Pop Idol Liner, and more) — from a natural grooming base all the way to K-pop stage makeup, plus a 2026 trend hair color.' },
@@ -326,7 +326,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
     : [
         { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
         { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 다만 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있어, 마음에 드는 룩은 매장에서 한 번 더 발색을 확인한 뒤 구매하는 것을 권장합니다.' },
-        { q: '회원가입 없이도 사용할 수 있나요?', a: '메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 도구는 모두 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 1회 사용권 또는 구독 형태로 제공됩니다.' },
+        { q: '회원가입 없이도 사용할 수 있나요?', a: '메이크업 MBTI · 퍼스널 컬러 · 얼굴형 진단 도구는 모두 비회원으로 즉시 사용 가능합니다. AI 메이크업 시뮬레이션은 결제 후 1회 사용권으로 제공됩니다.' },
         { q: '환불은 가능한가요?', a: '결제 직후 분석 미사용 상태라면 7일 이내 환불 가능합니다. 분석을 이미 사용했거나 결과 이미지를 다운로드한 이후에는 디지털 콘텐츠 특성상 환불이 제한됩니다. 자세한 조건은 환불 정책 페이지에서 확인할 수 있습니다.' },
         { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.' },
         { q: '남성도 사용할 수 있나요?', a: '네. 남성 전용 9가지 룩(Chok-Chok Glow, No-Makeup Base, K-Pop Idol 등)을 별도 큐레이션해 제공합니다. 그루밍 단계의 자연스러운 베이스부터 K-팝 무대 메이크업, 2026 트렌드 헤어 컬러까지 시뮬레이션 가능합니다.' },
@@ -1216,9 +1216,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <span className="text-primary-dark text-sm font-bold uppercase tracking-widest">{t('pricing.badge')}</span>
             <h2 id="pricing-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('pricing.title')}</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {/* Per-analysis */}
-            <div className="relative rounded-2xl border border-slate-200 bg-white p-8 flex flex-col gap-5">
+          <div className="max-w-md mx-auto">
+            {/* Per-analysis (단건 — $9.88 구독 표기는 제거, Polar 상품은 숨김만) */}
+            <div className="relative rounded-2xl border-2 border-primary bg-white p-8 flex flex-col gap-5 shadow-lg shadow-primary/10">
               <h3 className="text-lg font-bold text-navy">{t('pricing.perAnalysis')}</h3>
               <div className="flex items-end gap-1">
                 <span className="text-4xl font-extrabold text-navy">{t('pricing.perAnalysisPrice')}</span>
@@ -1235,30 +1235,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </ul>
               <button
                 className="mt-auto w-full py-3.5 rounded-xl border-2 border-primary-dark text-primary-dark font-bold text-sm hover:bg-pink-50 transition-colors"
-                onClick={() => onNavigate('analysis')}
-              >
-                {t('pricing.startBtn')}
-              </button>
-            </div>
-            {/* Subscription */}
-            <div className="relative rounded-2xl border-2 border-primary bg-white p-8 flex flex-col gap-5 shadow-lg shadow-primary/10">
-              <span className="absolute -top-3 right-6 bg-primary-dark text-white text-xs font-bold px-3 py-1 rounded-full">{t('pricing.popular')}</span>
-              <h3 className="text-lg font-bold text-navy">{t('pricing.subscription')}</h3>
-              <div className="flex items-end gap-1">
-                <span className="text-4xl font-extrabold text-primary">{t('pricing.subscriptionPrice')}</span>
-                <span className="text-slate-500 text-sm mb-1">{t('pricing.subscriptionUnit')}</span>
-              </div>
-              <p className="text-slate-500 text-sm">{t('pricing.subscriptionDesc')}</p>
-              <ul className="flex flex-col gap-2.5 text-sm text-slate-600 mt-2">
-                {['subscriptionF1', 'subscriptionF2', 'subscriptionF3', 'subscriptionF4', 'subscriptionF5'].map(k => (
-                  <li key={k} className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-green-500 text-base">check_circle</span>
-                    {t(`pricing.${k}`)}
-                  </li>
-                ))}
-              </ul>
-              <button
-                className="mt-auto w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-pink-500 text-white font-bold text-sm hover:from-primary/90 hover:to-pink-500/90 transition-all shadow-md shadow-primary/20"
                 onClick={() => onNavigate('analysis')}
               >
                 {t('pricing.startBtn')}

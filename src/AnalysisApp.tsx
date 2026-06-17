@@ -1172,18 +1172,7 @@ export default function AnalysisApp() {
         ) : (
           <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete} onClick={handleSubmit}><span className="cta-price">$2.99</span><span>{t('common.generateLooks')}</span><span className="material-symbols-outlined">auto_awesome</span></button>
         )}
-        {!(user && subStatus.active) && (
-          <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '10px 0 8px', width: '100%' }}><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /><span style={{ fontSize: 11, color: 'rgba(7,9,83,0.35)', fontWeight: 500 }}>or</span><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /></div>
-            <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete}
-              onClick={() => { if (flagMissingField()) return; if (!user) { navigate('/auth/'); return }; openCheckout('subscription') }}
-              style={{ background: '#fff', border: '1.5px solid #eb4763', color: '#eb4763', boxShadow: '0 4px 16px rgba(235,71,99,0.1)' }}>
-              <span className="cta-price" style={{ background: 'rgba(235,71,99,0.1)', color: '#eb4763' }}>$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
-              <span>{t('sub.subscribeGenerate')}</span><span className="material-symbols-outlined">all_inclusive</span>
-            </button>
-            <span style={{ fontSize: 11, color: '#eb4763', marginTop: 4, fontWeight: 500, opacity: 0.7 }}>{t('sub.ctaSubTrial')}</span>
-          </>
-        )}
+        {/* $9.88 구독 옵션 표기 제거 (P0-5) — 단건 $2.99만 노출. Polar 구독 상품은 삭제하지 않고 숨김만. */}
       </div>
       {showInstallBanner && (
         <div className="pwa-install-banner">

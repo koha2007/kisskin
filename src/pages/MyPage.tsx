@@ -34,7 +34,7 @@ interface MyPageProps {
 
 const DEFAULT_SUB_STATUS: SubStatus = { active: false, checked: false, usage: 0, limit: 0 }
 
-export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutProp, subStatus: subStatusProp, onCheckout: onCheckoutProp }: MyPageProps) {
+export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutProp, subStatus: subStatusProp }: MyPageProps) {
   const nav = (page: string) => {
     const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth' | 'mypage')
@@ -60,9 +60,6 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
     } finally {
       window.location.href = '/'
     }
-  })
-  const onCheckout = onCheckoutProp ?? ((type: 'one-time' | 'subscription') => {
-    window.location.href = `/analysis/?checkout=${type}`
   })
 
   // Redirect unauthenticated users to /auth/ once session check finishes
@@ -379,21 +376,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           </div>
         )}
 
-        {/* 액션 버튼 */}
-        {!subStatus.active && (
-          <button
-            onClick={() => onCheckout('subscription')}
-            style={{
-              width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
-              background: 'linear-gradient(135deg, #ec4899, #f472b6)',
-              color: '#fff', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
-              marginBottom: '8px',
-            }}
-          >
-            {isKo ? '구독하기 — $9.88/월' : 'Subscribe — $9.88/mo'}
-          </button>
-        )}
-
+        {/* 액션 버튼 — $9.88 신규 구독 유도 표기 제거 (P0-5). 기존 구독자 관리(Polar 포털)는 유지. */}
         {subStatus.active && (
           <>
             <button
