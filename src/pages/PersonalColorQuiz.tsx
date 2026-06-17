@@ -1,7 +1,8 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { PC_QUESTIONS, computeSeason, type PCAnswer } from '../lib/personal-color/questions'
 import { PERSONAL_COLOR_TYPES, SEASON_ORDER } from '../lib/personal-color/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
 import { useI18n } from '../i18n/I18nContext'
 
 // Back-compat re-exports (FaceShape pages import these names from this file)
@@ -17,7 +18,6 @@ export default function PersonalColorQuiz() {
   const [answers, setAnswers] = useState<PCAnswer[]>([])
   const [fading, setFading] = useState(false)
   const q = PC_QUESTIONS[idx]
-  const progress = useMemo(() => (idx / PC_QUESTIONS.length) * 100, [idx])
   const basePath = isEn ? '/en/tools/personal-color' : '/tools/personal-color'
 
   useEffect(() => {
@@ -164,55 +164,31 @@ export default function PersonalColorQuiz() {
   }
 
   if (phase === 'redirecting') {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background-light gap-4">
-        <style>{quizStyles}</style>
-        <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-600 text-sm">{t('tools.common.analyzing')}</p>
-      </div>
-    )
+    return <QuizRedirecting isEn={isEn} />
   }
 
   const questionText = isEn && q.questionEn ? q.questionEn : q.question
   const descriptionText = isEn && q.descriptionEn ? q.descriptionEn : q.description
 
   return (
-    <div className="font-display bg-background-light min-h-screen flex flex-col">
-      <style>{quizStyles}</style>
-      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-amber-100">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
-          <button onClick={onBack} className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-amber-50 text-slate-500 hover:text-amber-600" aria-label={t('tools.common.previousQuestion')}>
-            <span className="material-symbols-outlined">arrow_back</span>
-          </button>
-          <div className="flex-1">
-            <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-              <span className="text-amber-600">Q {idx + 1} / {PC_QUESTIONS.length}</span>
-              <span className="text-slate-400">{Math.round(progress)}%</span>
-            </div>
-            <div className="h-1.5 bg-amber-100 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500" style={{ width: `${progress}%` }} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <main className="flex-1 flex items-center justify-center py-8 md:py-14">
-        <div className={`max-w-2xl mx-auto px-4 sm:px-6 w-full ${fading ? 'pc-q-fadeout' : 'pc-q-fadein'}`}>
-          <p className="text-center text-xs uppercase tracking-[0.2em] text-amber-600 font-bold mb-4">Q{q.id}</p>
-          <h2 className="text-xl md:text-3xl font-extrabold text-navy text-center leading-tight tracking-tight mb-3">{questionText}</h2>
-          {descriptionText && <p className="text-center text-sm md:text-base text-slate-500 mb-8 max-w-lg mx-auto">{descriptionText}</p>}
-          <div className="flex flex-col gap-3 md:gap-4">
-            {q.options.map((opt, i) => (
-              <button key={i} onClick={() => onSelect(opt.value)} className="group bg-white border-2 border-amber-100 hover:border-amber-500 hover:shadow-lg rounded-2xl p-5 md:p-6 text-left transition-all hover:-translate-y-0.5 flex items-center gap-4">
-                <div className="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-amber-50 to-orange-50 group-hover:from-amber-100 group-hover:to-orange-100 flex items-center justify-center text-2xl md:text-3xl">{opt.emoji}</div>
-                <p className="flex-1 text-sm md:text-lg font-semibold text-navy-mid group-hover:text-amber-700">{isEn && opt.textEn ? opt.textEn : opt.text}</p>
-                <span className="material-symbols-outlined text-slate-300 group-hover:text-amber-600 group-hover:translate-x-1 transition-all">arrow_forward</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </main>
-    </div>
+    <QuizScreen
+      toolLabel={isEn ? 'Personal Color' : '퍼스널 컬러'}
+      step={idx + 1}
+      total={PC_QUESTIONS.length}
+      questionTag={`Q${q.id}`}
+      question={questionText}
+      description={descriptionText}
+      variant="fullscreen"
+      fading={fading}
+      isEn={isEn}
+      onBack={onBack}
+      options={q.options.map((opt, i) => ({
+        key: i,
+        text: isEn && opt.textEn ? opt.textEn : opt.text,
+        emoji: opt.emoji,
+        onSelect: () => onSelect(opt.value),
+      }))}
+    />
   )
 }
 

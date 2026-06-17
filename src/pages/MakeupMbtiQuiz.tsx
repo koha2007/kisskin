@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { QUESTIONS, computeMbti, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
 import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
@@ -17,7 +18,6 @@ export default function MakeupMbtiQuiz() {
   const basePath = isEn ? '/en/tools/makeup-mbti' : '/tools/makeup-mbti'
 
   const q = QUESTIONS[currentIdx]
-  const progress = useMemo(() => ((currentIdx) / QUESTIONS.length) * 100, [currentIdx])
 
   useEffect(() => {
     if (phase === 'quiz') {
@@ -59,8 +59,6 @@ export default function MakeupMbtiQuiz() {
   if (phase === 'intro') {
     return (
       <div className="font-display bg-background-light min-h-screen">
-        <style>{styles}</style>
-
         {/* Nav */}
         <ToolsNav />
 
@@ -258,13 +256,7 @@ export default function MakeupMbtiQuiz() {
 
   /* ---------- REDIRECTING ---------- */
   if (phase === 'redirecting') {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background-light gap-4">
-        <style>{styles}</style>
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-600 text-sm">{t('tools.common.analyzing')}</p>
-      </div>
-    )
+    return <QuizRedirecting isEn={isEn} />
   }
 
   /* ---------- QUIZ ---------- */
@@ -272,77 +264,23 @@ export default function MakeupMbtiQuiz() {
   const descriptionText = isEn && q.descriptionEn ? q.descriptionEn : q.description
 
   return (
-    <div className="font-display bg-background-light min-h-screen flex flex-col">
-      <style>{styles}</style>
-
-      {/* Progress */}
-      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-pink-100">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-pink-50 text-slate-500 hover:text-primary transition-colors"
-            aria-label={t('tools.common.previousQuestion')}
-          >
-            <span className="material-symbols-outlined">arrow_back</span>
-          </button>
-          <div className="flex-1">
-            <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-              <span className="text-primary">Q {currentIdx + 1} / {QUESTIONS.length}</span>
-              <span className="text-slate-400">{Math.round(progress)}%</span>
-            </div>
-            <div className="h-1.5 bg-pink-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-primary to-pink-500 transition-all duration-500 ease-out"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Question */}
-      <main className="flex-1 flex items-center justify-center py-8 md:py-14">
-        <div className={`max-w-2xl mx-auto px-4 sm:px-6 w-full ${fading ? 'mbti-q-fadeout' : 'mbti-q-fadein'}`}>
-          <p className="text-center text-xs uppercase tracking-[0.2em] text-primary-dark font-bold mb-4">
-            Q{q.id}
-          </p>
-          <h2 className="text-xl md:text-3xl font-extrabold text-navy text-center leading-tight tracking-tight mb-3 md:mb-4">
-            {questionText}
-          </h2>
-          {descriptionText && (
-            <p className="text-center text-sm md:text-base text-slate-500 mb-8 md:mb-10 max-w-lg mx-auto leading-relaxed">
-              {descriptionText}
-            </p>
-          )}
-
-          <div className="flex flex-col gap-3 md:gap-4">
-            {q.options.map((opt, i) => (
-              <button
-                key={i}
-                onClick={() => onSelect(opt.letter)}
-                className="group bg-white border-2 border-pink-100 hover:border-primary hover:shadow-lg hover:shadow-pink-100/50 rounded-2xl p-5 md:p-6 text-left transition-all hover:-translate-y-0.5 flex items-center gap-4"
-              >
-                <div className="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 group-hover:from-primary/10 group-hover:to-pink-500/10 flex items-center justify-center text-2xl md:text-3xl transition-colors">
-                  {opt.emoji}
-                </div>
-                <p className="flex-1 text-sm md:text-lg font-semibold text-navy-mid group-hover:text-primary transition-colors leading-snug">
-                  {isEn && opt.textEn ? opt.textEn : opt.text}
-                </p>
-                <span className="material-symbols-outlined text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all">
-                  arrow_forward
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </main>
-    </div>
+    <QuizScreen
+      toolLabel={isEn ? 'Makeup MBTI' : '메이크업 MBTI'}
+      step={currentIdx + 1}
+      total={QUESTIONS.length}
+      questionTag={`Q${q.id}`}
+      question={questionText}
+      description={descriptionText}
+      variant="fullscreen"
+      fading={fading}
+      isEn={isEn}
+      onBack={onBack}
+      options={q.options.map((opt, i) => ({
+        key: i,
+        text: isEn && opt.textEn ? opt.textEn : opt.text,
+        emoji: opt.emoji,
+        onSelect: () => onSelect(opt.letter),
+      }))}
+    />
   )
 }
-
-const styles = `
-  @keyframes mbti-fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes mbti-fadeout { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
-  .mbti-q-fadein { animation: mbti-fadein 0.35s ease-out both; }
-  .mbti-q-fadeout { animation: mbti-fadeout 0.22s ease-in both; }
-`
