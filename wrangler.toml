@@ -8,3 +8,11 @@ mode = "smart"
 
 [vars]
 # GEMINI_API_KEY는 Cloudflare 대시보드 Environment variables에서 시크릿으로 관리
+
+# ── 메이크업 사용량/크레딧 가드용 KV (프로덕션) ──────────────────────────
+# makeup-edit Worker가 (fingerprint+IP)당 무료 횟수를 기록하는 저장소.
+# dev 는 vite.config.ts 의 파일백드 셔임을 쓰므로 이 바인딩과 무관(프로덕션 전용).
+# 네임스페이스는 `npx wrangler kv namespace create MAKEUP_USAGE` 로 생성됨.
+[[kv_namespaces]]
+binding = "MAKEUP_USAGE"
+id = "1588216109cc4401b0bfd7356e2a6d46"

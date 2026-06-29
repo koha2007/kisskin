@@ -7,6 +7,7 @@ export type AffiliatePageType =
   | 'perfume_type'
   | 'review'
   | 'guide'
+  | 'makeup'
 
 export interface AffiliateClickEvent {
   merchant: 'coupang' | 'clubclio'

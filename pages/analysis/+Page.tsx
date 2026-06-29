@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 
-const AnalysisApp = lazy(() => import('../../src/AnalysisApp'))
+// free-pivot P1: 새 무료 플로우(업로드→스타일→마스크→결과)로 교체.
+// 기존 유료 리포트 앱(AnalysisApp)은 P1-5(크레딧) 통합까지 파일 보존.
+const AnalysisApp = lazy(() => import('../../src/components/makeup/MakeupFlow'))
 
 const Loading = () => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>

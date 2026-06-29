@@ -41,6 +41,15 @@ files/
 h-image/
 h-image2/
 
+# free-pivot: 임시/실험 에셋 — 절대 배포 금지 (위 !public/** 재포함을 덮어씀)
+experiments/
+pages/maketest/
+public/glam_*
+public/screen*.png
+public/image*.png
+public/KakaoTalk_*.jpg
+public/maketest_*.jpg
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
