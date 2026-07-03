@@ -49,6 +49,9 @@ public/screen*.png
 public/image*.png
 public/KakaoTalk_*.jpg
 public/maketest_*.jpg
+# Before/After 원본 소스(webp로 최적화 후 커밋 제외) — home-ba-*.webp 만 배포
+public/before.jpg
+public/after.jpg
 
 # Editor directories and files
 .vscode/*

@@ -41,8 +41,8 @@ function AboutKo() {
     <>
       <h2>운영 주체</h2>
       <p>
-        kissinskin은 대한민국에서 운영되는 1인 인디 프로젝트입니다. 운영자
-        <strong> 김용헌(YONGHUN KIM)</strong>이 모든 도구·콘텐츠·디자인·기술을
+        kissinskin은 대한민국에서 운영되는 1인 인디 프로젝트로,
+        <strong> koha</strong>에서 제작되었습니다. 모든 도구·콘텐츠·디자인·기술을
         직접 만들고 유지하며, 모든 문의에 직접 응답합니다. 외부 투자 없이
         사용자 결제·Google AdSense 광고 수익·쿠팡 파트너스 어필리에이트 수수료로
         운영비를 충당합니다.
@@ -139,8 +139,8 @@ function AboutEn() {
     <>
       <h2>Who runs this site</h2>
       <p>
-        kissinskin is an indie one-person project based in South Korea. The
-        operator, <strong>Yonghun Kim</strong>, builds and maintains every tool,
+        kissinskin is an indie one-person project based in South Korea, created
+        by <strong>koha</strong>, who builds and maintains every tool,
         article, and feature, and personally answers all inquiries. It has been
         running and updated continuously since 2024 — over a year of solo
         development, design, and editorial. There are no investors; the site is

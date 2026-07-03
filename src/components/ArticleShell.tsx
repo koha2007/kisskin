@@ -116,7 +116,7 @@ export default function ArticleShell({
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <span>{isEn ? 'By' : '작성'}</span>
               <a href={aboutPath} className="font-semibold text-slate-700 hover:text-navy underline">
-                kissinskin Editorial · Yonghun Kim
+                kissinskin Editorial · koha
               </a>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function ArticleShell({
                     kissinskin is a one-person indie project; every article is planned and edited by its
                     operator{' '}
                     <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
-                      Yonghun Kim
+                      koha
                     </a>
                     . Claims are cross-checked against public sources such as BeautyMatter, NIQ, Mintel,
                     Sephora quarterly reports, and Olive Young bestseller data.
@@ -158,9 +158,9 @@ export default function ArticleShell({
                   <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
                     kissinskin은 1인 인디 프로젝트로, 모든 글은 운영자{' '}
                     <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
-                      Yonghun Kim
+                      koha
                     </a>
-                    이 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
+                    가 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
                     데이터 등 공개 출처를 교차 참조합니다.
                   </p>
                   <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">

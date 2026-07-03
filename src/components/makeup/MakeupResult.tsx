@@ -9,6 +9,7 @@
 //     플레이스홀더 ProductRec 데이터. AI 생성 가짜 제품 이미지 X.
 // 실제 비포/애프터(P1-3)·실제 추천(도구 추천 데이터)이 붙으면 props 만 교체.
 
+import { useState } from 'react'
 import ResultGrid from '../result-grid/ResultGrid'
 import { ProductGridCard } from '../result-grid/ProductGridCard'
 import BeforeAfterSlider from './BeforeAfterSlider'
@@ -18,6 +19,37 @@ import type { ProductRec } from '../../lib/recommendations/types'
 const PRIMARY = '#eb4763'
 const NAVY = '#070953'
 const screenBg = { background: `linear-gradient(170deg, ${NAVY} 0%, #15123f 60%, #241a52 100%)` }
+
+function gtagEvent(name: string, params?: Record<string, unknown>) {
+  const w = window as unknown as { gtag?: (...a: unknown[]) => void }
+  if (typeof w.gtag === 'function') w.gtag('event', name, params)
+}
+
+// afterSrc 는 캔버스에서 만든 로컬 data URL(toDataURL) → CORS 없이 바로 Blob/File 변환 가능.
+function dataUrlToBlob(dataUrl: string): Blob {
+  const [head, body] = dataUrl.split(',')
+  const mime = head.match(/:(.*?);/)?.[1] || 'image/jpeg'
+  const bin = atob(body)
+  const arr = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i)
+  return new Blob([arr], { type: mime })
+}
+
+const isAbort = (e: unknown) => e instanceof Error && e.name === 'AbortError'
+
+function ActionBtn({ icon, label, onClick, disabled }: { icon: string; label: string; onClick?: () => void; disabled?: boolean }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="flex-1 flex flex-col items-center gap-1.5 rounded-2xl bg-white/10 border border-white/15 py-3 active:scale-[0.97] transition disabled:opacity-40 disabled:active:scale-100"
+    >
+      <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
+      <span className="text-[11px] font-bold">{label}</span>
+    </button>
+  )
+}
 
 // 플레이스홀더 추천 (실제 도구 추천 데이터 연결 전). searchKeywords 는
 // check:keywords 규칙(≤5단어·제품속성만) 준수 → 실제 affiliate 검색 동작.
@@ -67,15 +99,93 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
   // 실제 메이크업 결과가 아직 없으면(P1-3 미연결) 안전한 "생성 준비 중" 상태만 노출.
   const pending = !afterSrc
 
-  const ActionBtn = ({ icon, label, onClick }: { icon: string; label: string; onClick?: () => void }) => (
-    <button
-      onClick={onClick}
-      className="flex-1 flex flex-col items-center gap-1.5 rounded-2xl bg-white/10 border border-white/15 py-3 active:scale-[0.97] transition"
-    >
-      <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
-      <span className="text-[11px] font-bold">{label}</span>
-    </button>
-  )
+  const [toast, setToast] = useState<string | null>(null)
+  const showToast = (msg: string) => {
+    setToast(msg)
+    window.setTimeout(() => setToast((cur) => (cur === msg ? null : cur)), 2200)
+  }
+
+  const fileName = `kisskin-makeup-${styleId}.jpg`
+
+  // 저장 — 데스크톱/안드로이드: <a download> 파일 다운로드. iOS Safari 는 blob download 를
+  // 무시하므로 네이티브 공유 시트("이미지 저장")로 우회.
+  const handleSave = async () => {
+    if (!afterSrc) return
+    const nav = typeof navigator !== 'undefined' ? navigator : undefined
+    const isIOS = !!nav && /iP(hone|ad|od)/.test(nav.userAgent || '')
+    if (isIOS && nav && typeof nav.canShare === 'function') {
+      try {
+        const file = new File([dataUrlToBlob(afterSrc)], fileName, { type: 'image/jpeg' })
+        if (nav.canShare({ files: [file] })) {
+          await nav.share({ files: [file] })
+          gtagEvent('makeup_save', { style: styleId, method: 'ios_share' })
+          return
+        }
+      } catch (e) {
+        if (isAbort(e)) return
+        /* 폴백으로 진행 */
+      }
+    }
+    try {
+      const url = URL.createObjectURL(dataUrlToBlob(afterSrc))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = fileName
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+      gtagEvent('makeup_save', { style: styleId, method: 'download' })
+      showToast(isEn ? 'Saved to your device' : '이미지를 저장했어요')
+    } catch {
+      showToast(isEn ? 'Save failed — try again' : '저장에 실패했어요. 다시 시도해 주세요')
+    }
+  }
+
+  // 공유 — ① 결과 이미지 파일 자체 공유(모바일 네이티브 시트, 바이럴 핵심)
+  //        ② 파일 미지원 → URL 공유  ③ navigator.share 없음(데스크톱) → 링크 복사
+  const handleShare = async () => {
+    const nav = typeof navigator !== 'undefined' ? navigator : undefined
+    const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+    const title = isEn ? 'AI Makeup — kisskin' : 'AI 메이크업 — kisskin'
+    const text = isEn
+      ? `I tried the ${style.subEn} look with AI makeup! Try it free 👉`
+      : `AI 메이크업으로 ${style.nameKo} 룩 완성! 나도 무료로 해보기 👉`
+
+    // ① 이미지 파일 공유
+    if (afterSrc && nav && typeof nav.canShare === 'function') {
+      try {
+        const file = new File([dataUrlToBlob(afterSrc)], fileName, { type: 'image/jpeg' })
+        if (nav.canShare({ files: [file] })) {
+          await nav.share({ files: [file], title, text })
+          gtagEvent('makeup_share', { style: styleId, method: 'file' })
+          return
+        }
+      } catch (e) {
+        if (isAbort(e)) return
+        /* 링크 공유로 폴백 */
+      }
+    }
+    // ② URL 공유
+    if (nav && typeof nav.share === 'function') {
+      try {
+        await nav.share({ title, text, url: shareUrl })
+        gtagEvent('makeup_share', { style: styleId, method: 'url' })
+        return
+      } catch (e) {
+        if (isAbort(e)) return
+        /* 클립보드로 폴백 */
+      }
+    }
+    // ③ 데스크톱 폴백 — 링크 복사
+    try {
+      await nav!.clipboard.writeText(shareUrl)
+      gtagEvent('makeup_share', { style: styleId, method: 'copy' })
+      showToast(isEn ? 'Link copied to clipboard!' : '링크를 복사했어요!')
+    } catch {
+      showToast(isEn ? 'Copy failed — copy the URL manually' : '복사 실패 — 주소창의 링크를 복사해 주세요')
+    }
+  }
 
   return (
     <div className="min-h-[100dvh] font-display text-white" style={screenBg}>
@@ -118,10 +228,10 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
           />
         )}
 
-        {/* 액션 */}
+        {/* 액션 — 저장/공유는 결과 이미지가 있어야 의미 있음(생성 준비 중이면 비활성) */}
         <div className="mt-4 flex gap-2.5">
-          <ActionBtn icon="download" label={isEn ? 'Save' : '저장'} />
-          <ActionBtn icon="ios_share" label={isEn ? 'Share' : '공유'} />
+          <ActionBtn icon="download" label={isEn ? 'Save' : '저장'} onClick={handleSave} disabled={pending} />
+          <ActionBtn icon="ios_share" label={isEn ? 'Share' : '공유'} onClick={handleShare} disabled={pending} />
           <ActionBtn icon="refresh" label={isEn ? 'Retry' : '다시'} onClick={onRetake} />
         </div>
 
@@ -150,6 +260,18 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
           </p>
         </section>
       </main>
+
+      {/* 저장/복사 피드백 토스트 (모바일 네이티브 시트는 자체 피드백이 있어 토스트 없음) */}
+      {toast && (
+        <div
+          role="status"
+          className="fixed inset-x-0 bottom-6 z-50 flex justify-center px-5 pointer-events-none"
+        >
+          <div className="rounded-full bg-black/80 backdrop-blur px-5 py-2.5 text-[13px] font-bold text-white shadow-lg">
+            {toast}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

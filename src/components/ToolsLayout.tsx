@@ -246,7 +246,7 @@ export function ToolsFooter() {
         </div>
         <div className="pt-8 border-t border-navy-mid text-center text-slate-400 text-xs space-y-2">
           <p>
-            &copy; 2026 kissinskin · {isEn ? 'Operator: Yonghun Kim · One-person indie project based in South Korea' : '운영자: Yonghun Kim · 대한민국 소재 1인 인디 프로젝트'}
+            &copy; 2026 kissinskin · {isEn ? 'Created by koha · One-person indie project based in South Korea' : '제작: koha · 대한민국 소재 1인 인디 프로젝트'}
           </p>
           <p>{isEn ? 'Contact: ' : '문의: '}<a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
           <p className="max-w-3xl mx-auto leading-relaxed">

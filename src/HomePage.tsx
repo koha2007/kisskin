@@ -3,6 +3,7 @@ import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
 import MobileBottomNav from './components/home/MobileBottomNav'
+import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -553,38 +554,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </h2>
           <p className="text-slate-500 text-sm md:text-base mb-8">{t('home.ba.subtitle')}</p>
 
-          <div className="flex items-stretch justify-center gap-3 sm:gap-4">
-            <figure className="relative flex-1 max-w-[220px] rounded-2xl overflow-hidden border border-slate-200 shadow-md">
-              <img
-                src="/example-input.webp"
-                alt={isEn ? 'Before — original selfie' : '비포 — 원본 셀카'}
-                width={240}
-                height={320}
-                loading="lazy"
-                decoding="async"
-                className="block w-full aspect-[3/4] object-cover"
-              />
-              <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent text-white text-xs font-bold tracking-widest py-2">
-                BEFORE
-              </figcaption>
-            </figure>
-            <div className="flex items-center" aria-hidden="true">
-              <span className="material-symbols-outlined text-primary text-3xl">arrow_forward</span>
-            </div>
-            <figure className="relative flex-1 max-w-[220px] rounded-2xl overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/10">
-              <img
-                src="/example-result.webp"
-                alt={isEn ? 'After — AI K-beauty makeup' : '애프터 — AI K-뷰티 메이크업'}
-                width={240}
-                height={320}
-                loading="lazy"
-                decoding="async"
-                className="block w-full aspect-[3/4] object-cover"
-              />
-              <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-primary/80 to-transparent text-white text-xs font-bold tracking-widest py-2">
-                AFTER
-              </figcaption>
-            </figure>
+          {/* 우리 파이프라인으로 직접 생성한 실제 결과. 결과 화면의 드래그 슬라이더 재사용 */}
+          <div className="max-w-[300px] sm:max-w-[340px] mx-auto">
+            <BeforeAfterSlider
+              beforeSrc="/home-ba-before.webp"
+              afterSrc="/home-ba-after.webp"
+              isEn={isEn}
+            />
+            <p className="mt-3 text-xs text-slate-400">
+              {isEn ? 'Drag the handle to compare' : '가운데 손잡이를 좌우로 드래그해 비교해보세요'}
+            </p>
           </div>
         </div>
       </section>
@@ -754,10 +733,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </h2>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
             {isEn ? (
-              <>kissinskin is an indie site built and run single-handedly by <strong>Yonghun Kim</strong>, based in South Korea — he writes the code, content, and design himself. Every guide, blog post, news piece, and review is planned and written in-house, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
+              <>kissinskin is created by <strong>koha</strong>. Every guide, blog post, news piece, and review is planned and written in-house, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
             ) : (
-              <>kissinskin은 대한민국에 거주하는 1인 운영자 <strong>김용헌(Yonghun Kim)</strong>이
-              직접 코드·콘텐츠·디자인을 만들고 운영하는 인디 사이트입니다.
+              <>kissinskin은 <strong>koha</strong>에서 제작되었습니다.
               모든 가이드·블로그·뉴스·리뷰는 직접 기획·작성하며, 산업 데이터를
               인용할 때는 BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를
               본문에 명시합니다.</>
@@ -1025,7 +1003,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </div>
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
-            <p>&copy; 2026 kissinskin · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">Yonghun Kim</a> · {isEn ? 'Solo indie project in South Korea' : '대한민국 1인 인디 프로젝트'}</p>
+            <p>&copy; 2026 kissinskin · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a> · {isEn ? 'Solo indie project in South Korea' : '대한민국 1인 인디 프로젝트'}</p>
             <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-06-29">{isEn ? 'As of June 2026' : '2026년 6월 기준'}</time></p>
           </div>
         </div>

@@ -38,7 +38,7 @@ export default function Head() {
               '@type': 'Organization',
               name: 'kissinskin',
               url: 'https://kissinskin.net',
-              founder: { '@type': 'Person', name: 'Yonghun Kim' },
+              founder: { '@type': 'Person', name: 'koha' },
               email: 'support@kissinskin.net',
               foundingLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressCountry: 'KR' } },
             },
