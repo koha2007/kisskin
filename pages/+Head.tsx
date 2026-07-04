@@ -48,7 +48,6 @@ export default function Head() {
         defer
       />
       <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap" />
       </noscript>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -58,7 +57,7 @@ export default function Head() {
         "alternateName": ["키스인스킨", "키스인 스킨"],
         "url": "https://kissinskin.net",
         "logo": "https://kissinskin.net/og-image.png",
-        "description": "셀카 한 장으로 AI가 9가지 K-뷰티 메이크업 룩을 시뮬레이션하고 퍼스널 컬러 진단과 맞춤 화장품을 추천하는 서비스. AI-powered K-beauty makeup simulator with personal color analysis and Korean cosmetics recommendations.",
+        "description": "셀카 한 장으로 AI가 5가지 K-뷰티 메이크업 룩을 시뮬레이션하고 퍼스널 컬러 진단과 맞춤 화장품을 추천하는 서비스. AI-powered K-beauty makeup simulator with personal color analysis and Korean cosmetics recommendations.",
         "sameAs": [],
         "contactPoint": {
           "@type": "ContactPoint",

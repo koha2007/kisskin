@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import './App.css'
+import MakeupStudio from './components/MakeupStudio'
 import { navigate } from 'vike/client/router'
 import { useI18n } from './i18n/I18nContext'
 import { supabase } from './lib/supabase'
@@ -56,9 +57,8 @@ function firePurchaseOnce(transactionId: string, params: Record<string, unknown>
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
 
-// 스타일 이름/순서/프롬프트는 백엔드(_makeupStyles.ts)가 단일 소스다.
-// 프론트는 /api/analyze 응답의 displayName을 그대로 라벨로 쓴다.
-interface StyleImage { id: string; displayName: string; seoName: string; type: 'makeup' | 'hair'; image: string }
+// 룩 정의는 src/lib/makeup/looksConfig.ts(온디바이스) 단일 소스다.
+// 서버 /api/analyze 는 이제 텍스트 리포트만 반환한다(이미지 생성 제거).
 const GENDER_MAP: Record<string, string> = { female: '여성', male: '남성' }
 const SKIN_MAP: Record<string, string> = {
   oily: '지성', dry: '건성', combination: '복합성', normal: '중성', not_sure: '잘 모름'
@@ -119,59 +119,8 @@ async function fetchJsonWithRetry(url: string, options: RequestInit, retries = 2
   throw new Error('Unreachable')
 }
 
-// 원본 셀카 비율로 개별 생성 출력 크기를 정한다 (백엔드 imageSize로 전달).
-function pickImageSize(photoUrl: string): Promise<string> {
-  return new Promise((resolve) => {
-    const img = new Image()
-    img.onload = () => {
-      const ratio = img.naturalWidth / img.naturalHeight
-      if (ratio < 0.85) resolve('1024x1536')
-      else if (ratio > 1.15) resolve('1536x1024')
-      else resolve('1024x1024')
-    }
-    img.onerror = () => resolve('1024x1024')
-    img.src = photoUrl
-  })
-}
-
+// 단일 룩 합성 시 cols=1 로 처리하기 위한 그리드 상수(buildCompositeCanvas 에서 사용).
 const GRID_COLS = 3
-const gridRows = (count: number) => Math.max(1, Math.ceil(count / GRID_COLS))
-
-// 개별 생성된 N장을 3열 그리드(raw, 라벨 없음) 한 장으로 합친다.
-// 이 합본이 공유/다운로드/저장(Supabase) 및 결과 페이지 슬라이싱의 단일 소스가 된다.
-function assembleGrid(images: string[]): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (images.length === 0) { reject(new Error('No images to assemble')); return }
-    const imgs = images.map((src) => { const im = new Image(); im.src = src; return im })
-    let loaded = 0
-    const onAll = () => {
-      const cellW = imgs[0].naturalWidth || 1024
-      const cellH = imgs[0].naturalHeight || 1024
-      const rows = gridRows(imgs.length)
-      const cvs = document.createElement('canvas')
-      cvs.width = cellW * GRID_COLS; cvs.height = cellH * rows
-      const ctx = cvs.getContext('2d')
-      if (!ctx) { reject(new Error('Canvas not supported')); return }
-      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cvs.width, cvs.height)
-      imgs.forEach((im, i) => {
-        const col = i % GRID_COLS; const row = Math.floor(i / GRID_COLS)
-        const dx = col * cellW; const dy = row * cellH
-        // cover-fit each image into its cell (defensive against size drift)
-        const iw = im.naturalWidth || cellW; const ih = im.naturalHeight || cellH
-        const scale = Math.max(cellW / iw, cellH / ih)
-        const sw = cellW / scale; const sh = cellH / scale
-        const sx = (iw - sw) / 2; const sy = (ih - sh) / 2
-        try { ctx.drawImage(im, sx, sy, sw, sh, dx, dy, cellW, cellH) } catch { /* skip broken cell */ }
-      })
-      resolve(cvs.toDataURL('image/jpeg', 0.9))
-    }
-    imgs.forEach((im) => {
-      const done = () => { loaded++; if (loaded === imgs.length) onAll() }
-      if (im.complete && im.naturalWidth > 0) done()
-      else { im.onload = done; im.onerror = done }
-    })
-  })
-}
 
 export default function AnalysisApp() {
   const { t, locale, setLocale } = useI18n()
@@ -214,10 +163,12 @@ export default function AnalysisApp() {
   const [skinType, setSkinType] = useState<SkinType>(null)
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
-  const [resultCells, setResultCells] = useState<string[]>([])
-  // Display labels for the generated looks, in result order (from API response).
+  // 선택된 룩 표시명(단일 룩) — 공유/저장/이메일 라벨로 사용.
   const [styleNames, setStyleNames] = useState<string[]>([])
   const [report, setReport] = useState<string | null>(null)
+  const [reportLoading, setReportLoading] = useState(false)
+  // 분석 시작(결제 후) → 결과/스튜디오 뷰 진입. 메이크업은 온디바이스라 서버 대기 없음.
+  const [analyzed, setAnalyzed] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [emailWarning, setEmailWarning] = useState<string | null>(null)
   const [showShareMenu, setShowShareMenu] = useState(false)
@@ -226,6 +177,8 @@ export default function AnalysisApp() {
   const [isIos, setIsIos] = useState(false)
   const [showIosGuide, setShowIosGuide] = useState(false)
   const customerEmailRef = useRef<string | null>(null)
+  // 결과당 1회만 자동 저장/이메일 전송하도록 가드.
+  const autoSavedRef = useRef(false)
   const shareMenuRef = useRef<HTMLDivElement>(null)
   const [dragging, setDragging] = useState(false)
   // True while a picked file is being decoded/compressed — drives the avatar
@@ -409,8 +362,6 @@ export default function AnalysisApp() {
   // 프롬프트로 보낼 피부 타입(미선택/'잘 모름'은 미입력으로 처리 → 톤 기반 일반 조언)
   const skinTypeForApi = skinType && skinType !== 'not_sure' ? SKIN_MAP[skinType] : ''
 
-  const reverseUsage = () => { setSubStatus(prev => ({ ...prev, usage: Math.max(0, prev.usage - 1) })) }
-
   const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
   // iOS = iPhone/iPad/iPod, plus iPadOS 13+ which masquerades as a Mac UA but reports
   // touch points. iOS gets routed to Polar's HOSTED checkout (not the embed iframe)
@@ -433,8 +384,9 @@ export default function AnalysisApp() {
   }
 
   const buildCompositeCanvas = async (gridImg: HTMLImageElement, includeProducts = false, labels: string[] = activeStyles): Promise<HTMLCanvasElement> => {
-    const cols = GRID_COLS
-    const rows = gridRows(labels.length || 1)
+    // 단일 룩(1장)이면 cols=1 → 슬라이싱 없이 전체 이미지를 한 셀로 사용.
+    const cols = Math.min(GRID_COLS, Math.max(1, labels.length || 1))
+    const rows = Math.max(1, Math.ceil((labels.length || 1) / cols))
     const srcCellW = Math.floor(gridImg.width / cols)
     const srcCellH = Math.floor(gridImg.height / rows)
     const gap = Math.round(srcCellW * 0.035); const pad = Math.round(srcCellW * 0.04)
@@ -456,7 +408,7 @@ export default function AnalysisApp() {
       ]
       for (const s of sections) {
         reportH += Math.round(rFontBody * 2.2)
-        tmpCtx.font = `400 ${rFontBody}px Manrope, sans-serif`
+        tmpCtx.font = `400 ${rFontBody}px Pretendard, system-ui, sans-serif`
         const words = s.text.split(' '); let line = ''
         for (const word of words) {
           const test = line ? line + ' ' + word : word
@@ -501,7 +453,7 @@ export default function AnalysisApp() {
         else { cropH = Math.round(srcCellW / targetRatio); cropY = sy }
         ctx.save(); roundRect(dx, dy, cellW, displayImgH, [radius, radius, 0, 0]); ctx.clip()
         ctx.drawImage(gridImg, cropX, cropY, cropW, cropH, dx, dy, cellW, displayImgH); ctx.restore()
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${fontSize}px Manrope, sans-serif`
+        ctx.fillStyle = '#070953'; ctx.font = `700 ${fontSize}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(labels[i] || '', dx + cellW / 2, dy + displayImgH + labelH / 2)
       }
@@ -512,11 +464,11 @@ export default function AnalysisApp() {
       ctx.save(); roundRect(rPad, gridH + Math.round(rPad * 0.5), gridW - rPad * 2, reportH - rPad, [radius * 2, radius * 2, radius * 2, radius * 2])
       ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.06)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2; ctx.fill(); ctx.restore()
       const cardX = rPad + Math.round(rPad * 0.6); const cardContentW = rContentW - Math.round(rPad * 1.2)
-      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
       ctx.fillText('✨ AI Tone Analysis', cardX, y); y += Math.round(rFontTitle * 1.8)
       const badges = [a.gender, a.tone].filter(Boolean); let bx = cardX
       for (const badge of badges) {
-        ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`; const bw = ctx.measureText(badge).width + 20
+        ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Pretendard, system-ui, sans-serif`; const bw = ctx.measureText(badge).width + 20
         ctx.save(); roundRect(bx, y, bw, Math.round(rFontBody * 1.8), [10, 10, 10, 10])
         ctx.fillStyle = 'rgba(235,71,99,0.08)'; ctx.fill(); ctx.restore()
         ctx.fillStyle = '#eb4763'; ctx.textBaseline = 'middle'; ctx.fillText(badge, bx + 10, y + Math.round(rFontBody * 0.9))
@@ -528,16 +480,16 @@ export default function AnalysisApp() {
         { label: locale === 'ko' ? '💡 맞춤 조언' : '💡 Advice', text: a.advice },
       ]
       for (const s of sections) {
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`; ctx.textBaseline = 'top'
+        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Pretendard, system-ui, sans-serif`; ctx.textBaseline = 'top'
         ctx.fillText(s.label, cardX, y); y += Math.round(rFontBody * 1.6)
-        ctx.fillStyle = '#475569'; ctx.font = `400 ${rFontBody}px Manrope, sans-serif`
+        ctx.fillStyle = '#475569'; ctx.font = `400 ${rFontBody}px Pretendard, system-ui, sans-serif`
         const h = wrapText(ctx, s.text, cardX, cardContentW, y, rLineH); y += h + Math.round(rLineH * 0.5)
       }
       await yieldToMain()
     }
     if (products.length > 0) {
       let py = gridH + reportH + rPad
-      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Manrope, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
       ctx.fillText(locale === 'ko' ? '🛍️ 맞춤 화장품 추천' : '🛍️ Product Recommendations', rPad, py)
       py += Math.round(rFontTitle * 2)
       const prodCardH = Math.round(rFontBody * 7); const prodGap = Math.round(rFontBody * 0.8)
@@ -550,17 +502,17 @@ export default function AnalysisApp() {
         const badgeSize = Math.round(rFontBody * 2.4); const badgeColor = catColors[p.category] || '#94a3b8'
         ctx.save(); roundRect(cx, py + Math.round((prodCardH - badgeSize) / 2), badgeSize, badgeSize, [8, 8, 8, 8])
         ctx.fillStyle = badgeColor; ctx.fill(); ctx.restore()
-        ctx.fillStyle = '#ffffff'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`
+        ctx.fillStyle = '#ffffff'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(p.category.slice(0, 3).toUpperCase(), cx + badgeSize / 2, py + prodCardH / 2)
         const tx = cx + badgeSize + Math.round(rPad * 0.5); ctx.textAlign = 'left'
-        ctx.fillStyle = '#eb4763'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Manrope, sans-serif`; ctx.textBaseline = 'top'
+        ctx.fillStyle = '#eb4763'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Pretendard, system-ui, sans-serif`; ctx.textBaseline = 'top'
         let ty = py + Math.round(rFontBody * 0.6); ctx.fillText(p.category.toUpperCase(), tx, ty); ty += Math.round(rFontBody * 1.2)
-        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Manrope, sans-serif`
+        ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Pretendard, system-ui, sans-serif`
         ctx.fillText(p.name.length > 35 ? p.name.slice(0, 35) + '…' : p.name, tx, ty); ty += Math.round(rFontBody * 1.4)
-        ctx.fillStyle = '#64748b'; ctx.font = `500 ${Math.round(rFontBody * 0.9)}px Manrope, sans-serif`
+        ctx.fillStyle = '#64748b'; ctx.font = `500 ${Math.round(rFontBody * 0.9)}px Pretendard, system-ui, sans-serif`
         ctx.fillText(`${p.brand} · ${p.price}`, tx, ty); ty += Math.round(rFontBody * 1.3)
-        ctx.fillStyle = '#94a3b8'; ctx.font = `400 ${Math.round(rFontBody * 0.85)}px Manrope, sans-serif`
+        ctx.fillStyle = '#94a3b8'; ctx.font = `400 ${Math.round(rFontBody * 0.85)}px Pretendard, system-ui, sans-serif`
         ctx.fillText(p.reason.length > 50 ? p.reason.slice(0, 50) + '…' : p.reason, tx, ty)
         py += prodCardH + prodGap
         // Yield every 3 product cards to keep the UI responsive
@@ -577,31 +529,32 @@ export default function AnalysisApp() {
         const logoSize = Math.round(brandH * 0.45); const logoX = gridW / 2 - Math.round(gridW * 0.18); const logoY = brandY + Math.round((brandH - logoSize) / 2)
         ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize)
         const textX = logoX + logoSize + Math.round(gridW * 0.02)
-        ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+        ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', textX, brandY + brandH * 0.4)
-        ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
+        ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
         ctx.fillText('kissinskin.net', textX, brandY + brandH * 0.65)
       }
     } catch {
-      ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Manrope, sans-serif`
+      ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Pretendard, system-ui, sans-serif`
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', gridW / 2, brandY + brandH * 0.4)
-      ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Manrope, sans-serif`
+      ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
       ctx.fillText('kissinskin.net', gridW / 2, brandY + brandH * 0.65)
     }
     return canvas
   }
 
+  // 메이크업은 온디바이스(MakeupStudio)가 처리한다. runAnalysis 는 결과/스튜디오 뷰로
+  // 진입시키고, 서버에서는 텍스트 리포트(톤 분석/제품 추천)만 백그라운드로 받아온다.
+  // → Gemini 이미지 생성이 사라져 524 타임아웃이 원천적으로 발생하지 않는다.
   const runAnalysis = async () => {
-    setLoading(true); setError(null)
+    setError(null); setLoading(false); setAnalyzed(true); setReportLoading(true)
     gtagEvent('analysis_start', { gender, skin_type: skinType })
     try {
-      const imageSize = await pickImageSize(photo!)
       const abortCtrl = new AbortController()
-      // 개별 생성은 6회 호출이라 더 오래 걸린다 → 백엔드(130s)보다 넉넉히 큰 150s.
-      const timeoutId = setTimeout(() => abortCtrl.abort(), 150_000)
+      const timeoutId = setTimeout(() => abortCtrl.abort(), 60_000) // 텍스트만이라 60s면 충분
       const res = await fetch('/api/analyze', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo, imageSize, gender: GENDER_MAP[gender!], skinType: skinTypeForApi, lang: locale }),
+        body: JSON.stringify({ photo, gender: GENDER_MAP[gender!], skinType: skinTypeForApi, lang: locale }),
         signal: abortCtrl.signal,
       })
       clearTimeout(timeoutId)
@@ -612,84 +565,79 @@ export default function AnalysisApp() {
       }
       const data = await res.json()
       if (!res.ok) { console.error('[kissinskin] API error:', data.error); throw new Error(`${t('error.analysisError')} ${data.error ? `[${String(data.error).slice(0, 150)}]` : `[${res.status}]`}`) }
-      const images: StyleImage[] = Array.isArray(data.images) ? data.images : []
-      const failedCount = Array.isArray(data.failed) ? data.failed.length : 0
-      if (images.length === 0 && !data.report) { reverseUsage(); throw new Error(t('error.bothGenFailed')) }
-      if (images.length === 0) { reverseUsage(); throw new Error(t('error.imageGenFailed')) }
-
-      const names = images.map(im => im.displayName)
-      const cells = images.map(im => im.image)
-
-      // 부분 실패가 전체 실패로 번지지 않게: 일부만 성공해도 결과를 보여준다.
-      if (failedCount > 0) {
+      setReport(data.report || null)
+      gtagEvent('analysis_complete', { gender, skin_type: skinType, has_report: !!data.report })
+      if (!data.report) {
         setEmailWarning(locale === 'ko'
-          ? `메이크업 룩 ${images.length}종이 생성됐어요. ${failedCount}종은 생성에 실패했어요 — "다시 만들기"로 재시도하면 채워집니다.`
-          : `${images.length} looks were generated. ${failedCount} failed to generate — tap "Try Again" to fill them in.`)
-      } else if (!data.report) {
-        // 룩 이미지가 핵심 유료 산출물이다. 리포트가 실패해도 룩은 보여준다.
-        setEmailWarning(locale === 'ko'
-          ? '메이크업 룩은 생성됐지만 상세 분석 리포트 생성에는 실패했습니다. 룩 결과는 아래에서 확인하세요.'
-          : 'Your makeup looks were generated, but the detailed analysis report could not be created. Your looks are shown below.')
-      }
-
-      // 개별 룩들을 3열 합본 한 장으로 → 공유/다운로드/저장/이메일의 단일 소스
-      let gridDataUrl = ''
-      try { gridDataUrl = await assembleGrid(cells) }
-      catch (gridErr) { console.warn('[analysis] grid assemble failed', gridErr) }
-      const shareImage = gridDataUrl || cells[0]
-
-      setStyleNames(names); setResultCells(cells)
-      setResultImage(shareImage); setReport(data.report || null)
-      gtagEvent('analysis_complete', { gender, skin_type: skinType, has_report: !!data.report, image_count: images.length, failed_count: failedCount })
-
-      if (shareImage && data.report && gender) {
-        saveSharedResult(shareImage, data.report, gender, names)
-          .then(id => setShareId(id))
-          .catch(err => {
-            console.warn('[auto-save] Failed:', err)
-            setTimeout(() => {
-              saveSharedResult(shareImage, data.report, gender, names)
-                .then(id => setShareId(id))
-                .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
-            }, 3000)
-          })
-      }
-
-      if (data.report) {
-        const targetEmail = customerEmailRef.current
-        if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(targetEmail)) {
-          console.warn('[send-report] No valid email available, skipping email report')
-          setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
-        } else {
-          try {
-            let composedImage = ''
-            if (gridDataUrl) {
-              try {
-                const gridImg = new Image()
-                await new Promise<void>((resolve) => { gridImg.onload = () => resolve(); gridImg.onerror = () => resolve(); gridImg.src = gridDataUrl })
-                const composedCanvas = await buildCompositeCanvas(gridImg, true, names)
-                composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
-              } catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
-            }
-            const parsed = parseReport(data.report)
-            gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1] })
-            fetch('/api/send-report', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: targetEmail, report: parsed || { summary: data.report, products: [] }, styles: names, resultImage: composedImage, lang: locale }),
-            }).then(res => {
-              if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
-            }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
-          } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr); setEmailWarning(locale === 'ko' ? '이메일 리포트 준비에 실패했습니다.' : 'Failed to prepare email report.') }
-        }
+          ? '상세 분석 리포트 생성에는 실패했어요. 메이크업 룩은 위에서 확인하세요.'
+          : 'The detailed analysis report could not be created. Your looks are shown above.')
       }
     } catch (e) {
+      // 리포트 실패는 치명적이지 않다 — 핵심 유료 산출물(메이크업 룩)은 온디바이스로 정상.
+      // 따라서 usage 를 되돌리지 않고, 안내만 띄운다.
       const msg = e instanceof DOMException && e.name === 'AbortError'
-        ? (locale === 'ko' ? '분석 시간이 초과되었습니다. 다시 시도해 주세요.' : 'Analysis timed out. Please try again.')
+        ? (locale === 'ko' ? '분석 리포트 시간이 초과되었어요.' : 'The analysis report timed out.')
         : e instanceof Error ? e.message : t('error.analysisError')
-      reverseUsage(); setError(msg)
+      console.warn('[analysis] report failed:', msg)
+      setEmailWarning(locale === 'ko'
+        ? '분석 리포트를 불러오지 못했어요. 메이크업 룩은 위에서 확인하세요.'
+        : 'Could not load the analysis report. Your looks are shown above.')
       gtagEvent('analysis_error', { error_message: msg.slice(0, 100) })
-    } finally { setLoading(false) }
+    } finally { setReportLoading(false) }
   }
+
+  // MakeupStudio 가 현재 룩을 렌더할 때마다 호출 → 공유/저장/이메일의 단일 소스 갱신.
+  // 룩을 바꾸면 shareId 를 비워, 다음 공유 시 현재 룩으로 다시 저장되게 한다.
+  const handleLookRender = useCallback((image: string, lookName: string) => {
+    setResultImage(image)
+    setStyleNames([lookName])
+    setShareId(null)
+  }, [])
+
+  // 결과당 1회: 룩 이미지 + 리포트가 모두 준비되면 자동 저장(공유링크) + 이메일 전송.
+  useEffect(() => {
+    if (autoSavedRef.current) return
+    if (!resultImage || !report || !gender) return
+    autoSavedRef.current = true
+    const names = styleNames
+    saveSharedResult(resultImage, report, gender, names)
+      .then(id => setShareId(id))
+      .catch(err => {
+        console.warn('[auto-save] Failed:', err)
+        setTimeout(() => {
+          saveSharedResult(resultImage, report, gender, names)
+            .then(id => setShareId(id))
+            .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
+        }, 3000)
+      })
+
+    const targetEmail = customerEmailRef.current
+    if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(targetEmail)) {
+      console.warn('[send-report] No valid email available, skipping email report')
+      setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
+      return
+    }
+    ;(async () => {
+      try {
+        let composedImage = ''
+        try {
+          const lookImg = new Image()
+          await new Promise<void>((resolve) => { lookImg.onload = () => resolve(); lookImg.onerror = () => resolve(); lookImg.src = resultImage })
+          const composedCanvas = await buildCompositeCanvas(lookImg, true, names)
+          composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
+        } catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
+        const parsed = parseReport(report)
+        gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1] })
+        fetch('/api/send-report', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: targetEmail, report: parsed || { summary: report, products: [] }, styles: names, resultImage: composedImage, lang: locale }),
+        }).then(res => {
+          if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
+        }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
+      } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr) }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resultImage, report, gender])
 
   const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
     const value = type === 'subscription' ? 9.88 : 2.99
@@ -892,7 +840,7 @@ export default function AnalysisApp() {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleReset = () => { setResultImage(null); setResultCells([]); setStyleNames([]); setReport(null); setError(null); setShareId(null); setEmailWarning(null) }
+  const handleReset = () => { setAnalyzed(false); setReportLoading(false); autoSavedRef.current = false; setResultImage(null); setStyleNames([]); setReport(null); setError(null); setShareId(null); setEmailWarning(null) }
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -1024,7 +972,7 @@ export default function AnalysisApp() {
   }
 
   // 결과 화면
-  if (resultImage || report) {
+  if (analyzed || resultImage || report) {
     return (
       <div className="analysis-page">
         <div className="top-bar">
@@ -1034,6 +982,32 @@ export default function AnalysisApp() {
           <h2 className="top-bar-title">{t('result.title')}</h2>
         </div>
         <div className="analysis-body">
+          {/* 메이크업 룩 — 온디바이스 단일 룩 스튜디오(9종 중 1개 선택) */}
+          {photo && gender && (
+            <section className="result-section">
+              <h3 className="section-heading">{t('result.makeupStyles')}</h3>
+              <MakeupStudio photo={photo} gender={gender} onRender={handleLookRender} />
+              <div className="action-btn-row">
+                <button className="download-btn" onClick={handleDownload} disabled={!resultImage}><span className="material-symbols-outlined">download</span>{t('result.save')}</button>
+                <button className="download-btn share-btn" disabled={!resultImage} onClick={async () => {
+                  if (!shareId && resultImage && report && gender) {
+                    try { const id = await saveSharedResult(resultImage, report, gender, activeStyles); setShareId(id) }
+                    catch (e) {
+                      console.warn('[share] Failed to save:', e)
+                      setEmailWarning(locale === 'ko' ? '공유 링크 생성에 실패했습니다. 다시 시도해 주세요.' : 'Failed to generate share link. Please try again.')
+                    }
+                  }
+                  setShowShareMenu(true)
+                }}><span className="material-symbols-outlined">share</span>{t('result.share')}</button>
+              </div>
+            </section>
+          )}
+          {reportLoading && !report && (
+            <section className="ai-analysis-section" style={{ textAlign: 'center', color: '#64748b', padding: '16px 0' }}>
+              <span className="material-symbols-outlined" style={{ verticalAlign: 'middle', animation: 'spin 0.8s linear infinite' }}>progress_activity</span>
+              <span style={{ marginLeft: 8 }}>{locale === 'ko' ? 'AI 톤 분석 리포트 생성 중…' : 'Generating AI tone analysis…'}</span>
+            </section>
+          )}
           {report && (() => {
             const structured = parseReport(report); const a = structured?.analysis
             if (a) {
@@ -1049,33 +1023,6 @@ export default function AnalysisApp() {
               )
             }; return null
           })()}
-          {resultImage && (
-            <section className="result-section">
-              <h3 className="section-heading">{t('result.makeupStyles')}</h3>
-              {resultCells.length > 0 && resultCells.length === activeStyles.length ? (
-                <div className="makeup-grid">
-                  {activeStyles.map((style, i) => (<div key={style} className="makeup-cell"><img src={resultCells[i]} alt={style} className="makeup-cell-img" /><p className="makeup-cell-label">{style}</p></div>))}
-                </div>
-              ) : (
-                <div className="makeup-grid-fallback" style={{ display: 'flex', justifyContent: 'center' }}>
-                  <img src={resultImage} alt="makeup grid" style={{ maxWidth: '100%', height: 'auto', borderRadius: '12px' }} />
-                </div>
-              )}
-              <div className="action-btn-row">
-                <button className="download-btn" onClick={handleDownload}><span className="material-symbols-outlined">download</span>{t('result.save')}</button>
-                <button className="download-btn share-btn" onClick={async () => {
-                  if (!shareId && resultImage && report && gender) {
-                    try { const id = await saveSharedResult(resultImage, report, gender, activeStyles); setShareId(id) }
-                    catch (e) {
-                      console.warn('[share] Failed to save:', e)
-                      setEmailWarning(locale === 'ko' ? '공유 링크 생성에 실패했습니다. 다시 시도해 주세요.' : 'Failed to generate share link. Please try again.')
-                    }
-                  }
-                  setShowShareMenu(true)
-                }}><span className="material-symbols-outlined">share</span>{t('result.share')}</button>
-              </div>
-            </section>
-          )}
           {showShareMenu && (() => {
             const shareUrl = shareId ? `https://kissinskin.net/result/${shareId}` : 'https://kissinskin.net'
             const sr = report ? parseReport(report) : null; const sa = sr?.analysis
@@ -1225,18 +1172,7 @@ export default function AnalysisApp() {
         ) : (
           <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete} onClick={handleSubmit}><span className="cta-price">$2.99</span><span>{t('common.generateLooks')}</span><span className="material-symbols-outlined">auto_awesome</span></button>
         )}
-        {!(user && subStatus.active) && (
-          <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '10px 0 8px', width: '100%' }}><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /><span style={{ fontSize: 11, color: 'rgba(7,9,83,0.35)', fontWeight: 500 }}>or</span><div style={{ flex: 1, height: 1, background: 'rgba(7,9,83,0.1)' }} /></div>
-            <button className={`cta-btn ${!isComplete ? 'disabled' : ''}`} aria-disabled={!isComplete}
-              onClick={() => { if (flagMissingField()) return; if (!user) { navigate('/auth/'); return }; openCheckout('subscription') }}
-              style={{ background: '#fff', border: '1.5px solid #eb4763', color: '#eb4763', boxShadow: '0 4px 16px rgba(235,71,99,0.1)' }}>
-              <span className="cta-price" style={{ background: 'rgba(235,71,99,0.1)', color: '#eb4763' }}>$9.88<span style={{ fontSize: 10, fontWeight: 400 }}>/mo</span></span>
-              <span>{t('sub.subscribeGenerate')}</span><span className="material-symbols-outlined">all_inclusive</span>
-            </button>
-            <span style={{ fontSize: 11, color: '#eb4763', marginTop: 4, fontWeight: 500, opacity: 0.7 }}>{t('sub.ctaSubTrial')}</span>
-          </>
-        )}
+        {/* $9.88 구독 옵션 표기 제거 (P0-5) — 단건 $2.99만 노출. Polar 구독 상품은 삭제하지 않고 숨김만. */}
       </div>
       {showInstallBanner && (
         <div className="pwa-install-banner">

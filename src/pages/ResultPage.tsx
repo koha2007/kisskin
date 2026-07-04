@@ -75,10 +75,11 @@ export default function ResultPage({ onNavigate }: ResultPageProps) {
         }
         setData(result)
 
-        // 합본 그리드를 셀로 분할. 룩 개수에 맞춰 3열 × ceil(n/3)행으로 일반화
-        // (과거 9칸 3x3 고정 → 현재 6칸 3x2. 과거 공유결과도 styles.length로 호환).
+        // 합본 그리드를 셀로 분할. 룩 개수에 맞춰 열 수를 정한다.
+        // 단일 룩(1장)이면 cols=1 → 슬라이싱 없이 전체 이미지를 그대로 쓴다(왼쪽 1/3 잘림 방지).
+        // (과거 9칸 3x3 / 6칸 3x2 공유결과도 styles.length 로 호환).
         const count = Array.isArray(result.styles) && result.styles.length > 0 ? result.styles.length : 9
-        const cols = 3
+        const cols = Math.min(3, Math.max(1, count))
         const rows = Math.max(1, Math.ceil(count / cols))
         const img = new Image()
         img.crossOrigin = 'anonymous'

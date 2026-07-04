@@ -1,13 +1,25 @@
 import { useEffect, useState } from 'react'
-import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode, type MakeupMbtiType } from '../lib/makeup-mbti/types'
-import { MAKEUP_MBTI_EN, type MakeupMbtiTypeEn } from '../lib/makeup-mbti/types.en'
+import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode } from '../lib/makeup-mbti/types'
+import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
+import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
-import RecommendedProducts from '../components/RecommendedProducts'
+import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
+import RegionToggle from '../components/RegionToggle'
+import { useRegion } from '../hooks/useRegion'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ToolFaq, { MBTI_FAQ_BASE, MBTI_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
+import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
-import ToolUpsellCTA from '../components/ToolUpsellCTA'
+import ResultGrid, {
+  MoodCard,
+  IconCard,
+  TipCard,
+  AxisCard,
+  AccordionCard,
+  BannerCard,
+} from '../components/result-grid/ResultGrid'
+import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
@@ -16,6 +28,7 @@ interface Props {
 
 export default function MakeupMbtiResult({ code }: Props) {
   const { t: i18n, locale } = useI18n()
+  const [region] = useRegion()
   const isEn = locale === 'en'
   const type = MAKEUP_MBTI_TYPES[code]
   const en = MAKEUP_MBTI_EN[code]
@@ -23,12 +36,11 @@ export default function MakeupMbtiResult({ code }: Props) {
   const goodEn = MAKEUP_MBTI_EN[type.goodMatch]
   const opp = MAKEUP_MBTI_TYPES[type.opposite]
   const oppEn = MAKEUP_MBTI_EN[type.opposite]
-  const [copied, setCopied] = useState(false)
+  const mood = MBTI_MOOD[code]
   const [confetti, setConfetti] = useState(false)
   const basePath = isEn ? '/en/tools/makeup-mbti' : '/tools/makeup-mbti'
 
   const displayName = isEn ? en.enPersona : type.koName
-  const subName = isEn ? type.koName : en.enPersona
   const tagline = isEn ? en.tagline : type.tagline
   const traits = isEn ? en.traits : type.traits
   const signature = isEn ? en.signature : type.signature
@@ -48,43 +60,45 @@ export default function MakeupMbtiResult({ code }: Props) {
     return () => { cancelAnimationFrame(raf); window.clearTimeout(hide) }
   }, [])
 
-  const shareUrl = `https://kissinskin.net${basePath}/${type.slug}/`
+  const accent = type.primaryColor
+  // Rotate the type's two signature colors as soft card tints so the grid reads
+  // as a moodboard rather than a wall of identical white cards (재설계 지시 §3).
+  const tints = [type.primaryColor, type.accentColor, type.card.gradient[1]]
+  const tint = (i: number) => tints[i % tints.length]
 
-  const handleShare = async () => {
-    const shareText = isEn
-      ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
-      : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`
-    const shareTitle = isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      try {
-        await navigator.share({ title: shareTitle, text: shareText, url: shareUrl })
-        return
-      } catch { /* fallback to copy */ }
-    }
-    try {
-      await navigator.clipboard.writeText(shareText + shareUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch { /* ignore */ }
-  }
+  const L = isEn
+    ? {
+        axisTitle: 'Your axes', sigTitle: 'Signature look', match: 'Compatible type', contrast: 'Contrast type',
+        avoid: 'Pitfall to avoid', boost: 'Play to your strength', look: 'Recommended look',
+        more: 'My story', allTypes: 'All 16 Makeup MBTI types', me: i18n('tools.common.me'),
+        retake: 'Retake', save: 'Save image', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
+        lip: 'Lip', eye: 'Eye', base: 'Base', blush: 'Blush',
+        bannerTitle: 'See this look on your own face', bannerDesc: 'Try AI makeup on your selfie — your face stays exactly the same.',
+        bannerCta: 'Try AI makeup',
+      }
+    : {
+        axisTitle: '나의 4가지 축', sigTitle: '시그니처 룩', match: '잘 맞는 유형', contrast: '대조되는 유형',
+        avoid: '피해야 할 함정', boost: '강점을 살리는 법', look: '추천 룩',
+        more: '나에 대한 이야기', allTypes: '16가지 메이크업 MBTI 전체 보기', me: i18n('tools.common.me'),
+        retake: '다시 진단', save: '이미지 저장하기', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
+        lip: '립', eye: '아이', base: '베이스', blush: '블러쉬',
+        bannerTitle: '이 룩, 내 얼굴에 직접', bannerDesc: 'AI로 어울리는 메이크업을 내 셀카에 입혀보세요. 얼굴은 그대로예요.',
+        bannerCta: 'AI 메이크업 체험',
+      }
 
-  const axisLabels = isEn
+  const axes = isEn
     ? [
-        { label: 'Expression', left: 'Intimate (I)', right: 'Expressive (E)' },
-        { label: 'Source', left: 'Signature (S)', right: 'Novel (N)' },
-        { label: 'Feel', left: 'Structure (T)', right: 'Feel (F)' },
-        { label: 'Routine', left: 'Journal (J)', right: 'Playful (P)' },
+        { label: 'Expression', left: 'Intimate', right: 'Expressive', value: type.axisScores.e },
+        { label: 'Source', left: 'Signature', right: 'Novel', value: type.axisScores.n },
+        { label: 'Feel', left: 'Structure', right: 'Feel', value: type.axisScores.f },
+        { label: 'Routine', left: 'Journal', right: 'Playful', value: type.axisScores.p },
       ]
     : [
-        { label: '표현', left: '내면 I', right: '외현 E' },
-        { label: '영감', left: '검증 S', right: '실험 N' },
-        { label: '무드', left: '구조 T', right: '감성 F' },
-        { label: '루틴', left: '일관 J', right: '즉흥 P' },
+        { label: '표현', left: '내면 I', right: '외현 E', value: type.axisScores.e },
+        { label: '영감', left: '검증 S', right: '실험 N', value: type.axisScores.n },
+        { label: '무드', left: '구조 T', right: '감성 F', value: type.axisScores.f },
+        { label: '루틴', left: '일관 J', right: '즉흥 P', value: type.axisScores.p },
       ]
-
-  const sigLabels = isEn
-    ? { lip: 'Lip', eye: 'Eye', base: 'Base', blush: 'Blush' }
-    : { lip: '립', eye: '아이', base: '베이스', blush: '블러쉬' }
 
   return (
     <div className="font-display bg-background-light min-h-screen">
@@ -94,371 +108,135 @@ export default function MakeupMbtiResult({ code }: Props) {
       <ToolsNav />
 
       <main>
-
-      {/* Hero Result */}
-      <section
-        className="relative py-16 md:py-24 overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, ${type.primaryColor}12 0%, ${type.accentColor}20 100%)`,
-        }}
-      >
-        <div className="absolute inset-0 opacity-50 pointer-events-none">
-          <div
-            className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl -translate-y-1/3 translate-x-1/4"
-            style={{ background: `radial-gradient(circle, ${type.primaryColor}30, transparent 70%)` }}
-          />
-          <div
-            className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-3xl translate-y-1/4 -translate-x-1/4"
-            style={{ background: `radial-gradient(circle, ${type.accentColor}30, transparent 70%)` }}
-          />
-        </div>
-
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <div className="inline-block text-6xl md:text-7xl mb-3 mbti-bounce">{type.emoji}</div>
-          <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{type.code}</p>
-          <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">
-            {displayName}
-          </h1>
-          <p className="text-sm md:text-base text-slate-500 italic mb-4">{subName}</p>
-          <p className="text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">
-            {tagline}
-          </p>
-
-          {/* Axis scores */}
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
-            <AxisBar label={axisLabels[0].label} left={axisLabels[0].left} right={axisLabels[0].right} value={type.axisScores.e} color={type.primaryColor} />
-            <AxisBar label={axisLabels[1].label} left={axisLabels[1].left} right={axisLabels[1].right} value={type.axisScores.n} color={type.primaryColor} />
-            <AxisBar label={axisLabels[2].label} left={axisLabels[2].left} right={axisLabels[2].right} value={type.axisScores.f} color={type.primaryColor} />
-            <AxisBar label={axisLabels[3].label} left={axisLabels[3].left} right={axisLabels[3].right} value={type.axisScores.p} color={type.primaryColor} />
-          </div>
-
-          {/* Share + CTA */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-10">
-            <button
-              onClick={handleShare}
-              className="bg-white border-2 border-pink-100 hover:border-primary hover:shadow-lg px-6 py-3 rounded-full font-bold text-sm md:text-base text-navy-mid hover:text-primary transition-all flex items-center justify-center gap-2"
-            >
-              <span className="material-symbols-outlined">share</span>
-              {copied ? i18n('tools.common.copiedLink') : i18n('tools.common.shareToFriend')}
-            </button>
-            <a
-              href={isEn ? '/en/' : '/analysis/'}
-              className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base shadow-lg shadow-primary/25 flex items-center justify-center gap-2"
-            >
-              <span className="material-symbols-outlined">auto_awesome</span>
-              {i18n('tools.common.applyToMyFace')}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Primary upsell — convert the result into the $2.99 AI analysis */}
-      <ToolUpsellCTA name={displayName} accentColor={type.primaryColor} accentColorTo={type.accentColor} tool="makeup_mbti" slug={type.slug} variant="top" />
-
-      {/* Summary — detailParagraphs stay in KO (human translation pending; see project_i18n_full_translation_pending.md) */}
-      {!isEn && (
-        <section className="py-8 md:py-10 bg-white">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6">
-            <div className="text-slate-600 leading-relaxed text-[15px] md:text-base text-center">
-              {type.detailParagraphs.map((p, i) => <p key={i}>{p}</p>)}
+        {/* Hero — slim: identity card + save (재설계 지시 §2 상단) */}
+        <section className="relative pt-12 pb-8 md:pt-16 md:pb-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${type.primaryColor}12 0%, ${type.accentColor}20 100%)` }}>
+          <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+            <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{type.code}</p>
+            <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{displayName}</h1>
+            <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
+            <div className="flex flex-wrap gap-2 justify-center mb-8">
+              {type.card.hashtags.map(k => (
+                <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${type.primaryColor}40` }}>{k}</span>
+              ))}
+            </div>
+            {!isEn && (
+              <IdentityCard label="메이크업 MBTI" emoji={type.emoji} card={type.card} fileSlug={`makeup-mbti-${type.slug}`} saveLabel={L.save} />
+            )}
+            <div className="mt-7">
+              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border-2 border-pink-100 hover:border-primary px-6 py-2.5 rounded-full font-bold text-sm text-navy-mid">
+                <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
+              </a>
             </div>
           </div>
         </section>
-      )}
 
-      {/* 3 Traits */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-background-light via-pink-50/30 to-background-light">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
-            {isEn ? '3 core traits of this type' : '이 유형의 3가지 핵심 특징'}
-          </h2>
-          <div className="grid md:grid-cols-3 gap-4">
-            {traits.map((tr) => (
-              <div key={tr.title} className="bg-white rounded-2xl p-6 border border-pink-100 hover:shadow-lg hover:shadow-pink-100/50 transition-all">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-md mb-4"
-                  style={{ background: `linear-gradient(135deg, ${type.primaryColor}, ${type.accentColor})` }}
-                >
-                  <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{tr.icon}</span>
-                </div>
-                <h3 className="font-bold text-navy-mid mb-2">{tr.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{tr.desc}</p>
-              </div>
-            ))}
+        {/* Masonry grid — 산문을 카드 1개=정보 1조각으로 분해 (재설계 지시 §3) */}
+        <section className="py-8 md:py-12">
+          <div className="max-w-5xl mx-auto px-3 sm:px-6">
+            {AFFILIATE_ENABLED && <RegionToggle pageType="mbti" className="mb-7" />}
+            <ResultGrid>
+              <MoodCard image={mood.image} caption={tagline} emoji={type.emoji} gradient={type.card.gradient} />
+
+              <AxisCard title={L.axisTitle} axes={axes} accent={accent} tint={tint(0)} />
+
+              {traits.map((tr, i) => (
+                <IconCard key={`trait-${i}`} icon={tr.icon} label={tr.title} text={tr.desc} accent={accent} tint={tint(i + 1)} />
+              ))}
+
+              <IconCard icon="favorite" label={`${L.sigTitle} · ${L.lip}`} text={signature.lip} accent={accent} tint={tint(0)} />
+              <IconCard icon="visibility" label={`${L.sigTitle} · ${L.eye}`} text={signature.eye} accent={accent} tint={tint(1)} />
+              <IconCard icon="auto_fix_high" label={`${L.sigTitle} · ${L.base}`} text={signature.base} accent={accent} tint={tint(2)} />
+              <IconCard icon="spa" label={`${L.sigTitle} · ${L.blush}`} text={signature.blush} accent={accent} tint={tint(3)} />
+
+              <IconCard icon="warning" label={L.avoid} text={avoidTip} accent={accent} tint={tint(2)} />
+              <TipCard tip={boostTip} accent={accent} tint={tint(3)} />
+
+              <IconCard icon="female" label={`${L.look} · ${L.female}`} text={`${type.recommended.women.primary} — ${recWomenReason}`} accent={accent} tint={tint(0)} />
+              <IconCard icon="male" label={`${L.look} · ${L.male}`} text={`${type.recommended.men.primary} — ${recMenReason}`} accent={accent} tint={tint(1)} />
+
+              <IconCard
+                icon="favorite_border"
+                label={L.match}
+                text={`${isEn ? goodEn.enPersona : good.koName} (${good.code}) · ${isEn ? oppEn.enPersona : opp.koName} (${opp.code}) ${isEn ? '— a contrast to learn from' : '— 배울 점 있는 반대 유형'}`}
+                accent={accent}
+                tint={tint(2)}
+              />
+
+              {(MBTI_RECOMMENDATIONS[type.code] ?? []).map((item, i) => (
+                <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="mbti" pageSlug={type.code} />
+              ))}
+
+              {!isEn && type.detailParagraphs.length > 0 && (
+                <AccordionCard title={L.more} paragraphs={type.detailParagraphs} accent={accent} />
+              )}
+
+              <BannerCard
+                title={L.bannerTitle}
+                desc={L.bannerDesc}
+                ctaLabel={L.bannerCta}
+                href={isEn ? '/en/' : '/analysis/'}
+                gradient={type.card.gradient}
+              />
+            </ResultGrid>
+            {AFFILIATE_ENABLED && (
+              <p className="mt-7 text-center text-[11px] text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                {i18n(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}
+              </p>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Signature Look */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
-            {isEn ? 'Your signature look recipe' : '나의 시그니처 룩 레시피'}
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            <SignatureCard label={sigLabels.lip} value={signature.lip} icon="favorite" color={type.primaryColor} />
-            <SignatureCard label={sigLabels.eye} value={signature.eye} icon="visibility" color={type.primaryColor} />
-            <SignatureCard label={sigLabels.base} value={signature.base} icon="auto_fix_high" color={type.primaryColor} />
-            <SignatureCard label={sigLabels.blush} value={signature.blush} icon="spa" color={type.primaryColor} />
-          </div>
-        </div>
-      </section>
+        {/* FAQ — SEO 보존 */}
+        <ToolFaq
+          title={isEn ? `FAQ — ${displayName}` : `${displayName} 유형 FAQ`}
+          items={isEn ? MBTI_FAQ_BASE_EN : MBTI_FAQ_BASE}
+          accentColor={type.primaryColor}
+        />
 
-      {/* Recommended Styles (kissinskin integration) */}
-      <section className="py-14 md:py-20 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/40">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <span className="inline-flex items-center gap-2 text-primary-dark text-sm font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100">
-              <span className="material-symbols-outlined text-base">recommend</span>
-              {isEn ? 'Recommended K-Beauty look' : '추천 K-뷰티 스타일'}
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-navy mt-4 leading-tight">
-              {isEn ? `The kissinskin style for ${displayName}` : `${displayName}에게 어울리는 kissinskin 스타일`}
+        {/* Related tools — drive cross-tool retention */}
+        <RelatedTools exclude="makeup-mbti" />
+
+        {/* Share */}
+        <ShareBar
+          url={`https://kissinskin.net${basePath}/${type.slug}/`}
+          shareText={
+            isEn
+              ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
+              : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`
+          }
+          shareTitle={isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`}
+          retakeUrl={`${basePath}/`}
+        />
+
+        {/* All 16 types grid (SEO internal linking) */}
+        <section className="py-14 bg-gradient-to-b from-white to-background-light">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-2 tracking-tight leading-tight">
+              {L.allTypes}
             </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Women */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-pink-100 shadow-sm">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>female</span>
-                <h3 className="font-extrabold text-navy-mid">{i18n('tools.common.female')}</h3>
-              </div>
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-2xl font-extrabold text-primary">{type.recommended.women.primary}</span>
-              </div>
-              <p className="text-sm text-slate-500 mb-4">+ {type.recommended.women.secondary}</p>
-              <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                {recWomenReason}
-              </p>
-              <a
-                href={isEn ? '/en/' : '/analysis/'}
-                className="inline-flex items-center gap-2 text-primary font-bold text-sm hover:gap-3 transition-all"
-              >
-                {isEn ? 'Try this style in AI simulation' : '이 스타일로 AI 시뮬레이션 하기'}
-                <span className="material-symbols-outlined">arrow_forward</span>
-              </a>
-            </div>
-
-            {/* Men */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-blue-100 shadow-sm">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="material-symbols-outlined text-blue-500" style={{ fontVariationSettings: "'FILL' 1" }}>male</span>
-                <h3 className="font-extrabold text-navy-mid">{i18n('tools.common.male')}</h3>
-              </div>
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-2xl font-extrabold text-blue-500">{type.recommended.men.primary}</span>
-              </div>
-              <p className="text-sm text-slate-500 mb-4">+ {type.recommended.men.secondary}</p>
-              <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                {recMenReason}
-              </p>
-              <a
-                href={isEn ? '/en/' : '/analysis/'}
-                className="inline-flex items-center gap-2 text-blue-500 font-bold text-sm hover:gap-3 transition-all"
-              >
-                {isEn ? 'Try this style in AI simulation' : '이 스타일로 AI 시뮬레이션 하기'}
-                <span className="material-symbols-outlined">arrow_forward</span>
-              </a>
+            <p className="text-center text-slate-500 text-sm mb-8">
+              {isEn ? 'Read the other types — useful when you want to compare with friends or family.' : '다른 유형의 설명도 확인해 보세요. 주변 사람의 MBTI로 스타일을 탐색할 수 있어요.'}
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {MBTI_ORDER.map(c => {
+                const mt = MAKEUP_MBTI_TYPES[c]
+                const mtEn = MAKEUP_MBTI_EN[c]
+                const isMe = c === type.code
+                return (
+                  <a key={c} href={`${basePath}/${mt.slug}/`} className={`rounded-2xl p-4 border transition-all ${isMe ? 'ring-2' : 'hover:shadow-md'}`} style={{ background: isMe ? `${mt.primaryColor}10` : 'white', borderColor: `${mt.primaryColor}30` }}>
+                    <div className="text-2xl md:text-3xl mb-1.5">{mt.emoji}</div>
+                    <div className="text-[0.65rem] font-mono text-slate-400 mb-0.5">{mt.code}{isMe ? ` · ${L.me}` : ''}</div>
+                    <div className="text-sm font-bold text-navy-mid leading-tight">{isEn ? mtEn.enPersona : mt.koName}</div>
+                  </a>
+                )
+              })}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Recommended Products */}
-      <RecommendedProducts
-        items={MBTI_RECOMMENDATIONS[type.code]}
-        accentColor={type.primaryColor}
-        accentGradient="from-primary to-pink-500"
-        headingEmoji="🛍️"
-        subtitle={
-          isEn
-            ? `Product categories that match ${displayName} (${type.code}). Use these to complete your signature look.`
-            : `${displayName} (${type.code}) 유형에 어울리는 제품 카테고리입니다. 시그니처 룩을 완성할 때 참고하세요.`
-        }
-        pageType="mbti"
-        pageSlug={type.code}
-      />
-
-      {/* Tips */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
-            {isEn ? 'Two tips for this type' : '이 유형을 위한 2가지 팁'}
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="rounded-2xl border-2 border-amber-200 bg-amber-50/60 p-5 md:p-6 flex gap-4">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-amber-400 flex items-center justify-center text-white shadow-md">
-                <span className="material-symbols-outlined">warning</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-navy-mid mb-1">{isEn ? 'Pitfall to avoid' : '피해야 할 함정'}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{avoidTip}</p>
-              </div>
-            </div>
-            <div className="rounded-2xl border-2 border-pink-200 bg-pink-50/60 p-5 md:p-6 flex gap-4">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-md">
-                <span className="material-symbols-outlined">lightbulb</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-navy-mid mb-1">{isEn ? 'Play to your strength' : '강점을 살리는 법'}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{boostTip}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Relationships */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-background-light to-pink-50/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
-            {isEn ? 'Compatible type · contrast type to learn from' : '나와 궁합이 좋은 유형 · 배울 점 있는 반대 유형'}
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            <RelCard
-              t={good}
-              en={goodEn}
-              isEn={isEn}
-              basePath={basePath}
-              relation={isEn ? 'Compatible type' : '궁합이 좋은 유형'}
-              description={isEn ? 'A natural match — you trade inspiration both ways' : '영감을 주고받는 찰떡 궁합'}
-              tone="good"
-            />
-            <RelCard
-              t={opp}
-              en={oppEn}
-              isEn={isEn}
-              basePath={basePath}
-              relation={isEn ? 'Contrast type' : '대조되는 유형'}
-              description={isEn ? 'An opposite style — yet you can learn from it' : '배울 점이 있는 반대 스타일'}
-              tone="opp"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <ToolFaq
-        title={isEn ? `FAQ — ${displayName}` : `${displayName} 유형 FAQ`}
-        items={isEn ? MBTI_FAQ_BASE_EN : MBTI_FAQ_BASE}
-        accentColor={type.primaryColor}
-      />
-
-      {/* Related tools — drive cross-tool retention */}
-      <RelatedTools exclude="makeup-mbti" />
-
-      {/* Share */}
-      <ShareBar
-        url={shareUrl}
-        shareText={
-          isEn
-            ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
-            : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`
-        }
-        shareTitle={isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`}
-        retakeUrl={`${basePath}/`}
-      />
-
-      {/* All 16 types grid (SEO internal linking) */}
-      <section className="py-14 md:py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-2 tracking-tight leading-tight">
-            {isEn ? 'All 16 Makeup MBTI types' : '16가지 메이크업 MBTI 전체 보기'}
-          </h2>
-          <p className="text-center text-slate-500 text-sm mb-8">
-            {isEn ? 'Read the other types — useful when you want to compare with friends or family.' : '다른 유형의 설명도 확인해 보세요. 주변 사람의 MBTI로 스타일을 탐색할 수 있어요.'}
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {MBTI_ORDER.map(c => {
-              const mt = MAKEUP_MBTI_TYPES[c]
-              const mtEn = MAKEUP_MBTI_EN[c]
-              const isMe = c === type.code
-              return (
-                <a
-                  key={c}
-                  href={`${basePath}/${mt.slug}/`}
-                  className={`group rounded-2xl p-4 border transition-all ${
-                    isMe
-                      ? 'bg-gradient-to-br from-primary/10 to-pink-50 border-primary/40'
-                      : 'bg-white border-pink-100 hover:border-primary/30 hover:shadow-md'
-                  }`}
-                >
-                  <div className="text-2xl md:text-3xl mb-1.5">{mt.emoji}</div>
-                  <div className="text-[0.65rem] font-mono text-slate-400 mb-0.5">{mt.code}{isMe ? ` · ${i18n('tools.common.me')}` : ''}</div>
-                  <div className="text-sm font-bold text-navy-mid group-hover:text-primary transition-colors leading-tight">
-                    {isEn ? mtEn.enPersona : mt.koName}
-                  </div>
-                </a>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Repeat upsell for visitors who scrolled to the very end */}
-      <ToolUpsellCTA name={displayName} accentColor={type.primaryColor} accentColorTo={type.accentColor} tool="makeup_mbti" slug={type.slug} variant="bottom" />
-
+        </section>
       </main>
 
       <ToolsFooter />
     </div>
-  )
-}
-
-/* ---------- Sub components ---------- */
-function AxisBar({ label, left, right, value, color }: { label: string; left: string; right: string; value: number; color: string }) {
-  return (
-    <div className="bg-white rounded-xl p-3 border border-white/50 shadow-sm">
-      <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-2 text-center">{label}</div>
-      <div className="flex items-center justify-between text-[0.7rem] text-slate-500 mb-1.5">
-        <span>{left}</span>
-        <span>{right}</span>
-      </div>
-      <div className="h-2 bg-slate-100 rounded-full overflow-hidden relative">
-        <div
-          className="h-full transition-all duration-1000 ease-out"
-          style={{ width: `${value}%`, background: color }}
-        />
-      </div>
-      <div className="text-xs text-center font-bold text-navy-mid mt-1.5">{value}%</div>
-    </div>
-  )
-}
-
-function SignatureCard({ label, value, icon, color }: { label: string; value: string; icon: string; color: string }) {
-  return (
-    <div className="bg-white border border-pink-100 rounded-2xl p-5 text-center hover:shadow-md transition-shadow">
-      <div
-        className="w-10 h-10 mx-auto mb-3 rounded-full flex items-center justify-center text-white"
-        style={{ background: color }}
-      >
-        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
-      </div>
-      <div className="text-[0.7rem] uppercase tracking-wider font-bold text-slate-400 mb-1">{label}</div>
-      <div className="text-sm font-bold text-navy-mid leading-snug">{value}</div>
-    </div>
-  )
-}
-
-function RelCard({ t, en, isEn, basePath, relation, description, tone }: { t: MakeupMbtiType; en: MakeupMbtiTypeEn; isEn: boolean; basePath: string; relation: string; description: string; tone: 'good' | 'opp' }) {
-  const toneClass = tone === 'good'
-    ? 'border-primary/30 bg-gradient-to-br from-pink-50/60 to-rose-50/60'
-    : 'border-slate-200 bg-white'
-  return (
-    <a
-      href={`${basePath}/${t.slug}/`}
-      className={`group rounded-2xl border-2 ${toneClass} p-5 md:p-6 flex items-center gap-4 hover:shadow-lg transition-all`}
-    >
-      <div className="shrink-0 text-5xl">{t.emoji}</div>
-      <div className="flex-1">
-        <div className="text-[0.65rem] uppercase tracking-wider font-bold text-slate-400 mb-0.5">{relation}</div>
-        <div className="font-extrabold text-navy-mid text-lg group-hover:text-primary transition-colors">{isEn ? en.enPersona : t.koName}</div>
-        <div className="font-mono text-[0.7rem] text-slate-400 mb-1">{t.code}</div>
-        <p className="text-xs text-slate-500">{description}</p>
-      </div>
-      <span className="material-symbols-outlined text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all">arrow_forward</span>
-    </a>
   )
 }
 
@@ -496,12 +274,6 @@ function ConfettiBurst() {
 }
 
 const styles = `
-  @keyframes mbti-bounce {
-    0%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-14px); }
-    60% { transform: translateY(-4px); }
-  }
-  .mbti-bounce { animation: mbti-bounce 1.5s ease-in-out; }
   @keyframes mbti-confetti {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }

@@ -1,3 +1,5 @@
+import { trackEvent } from '../analytics'
+
 export type AffiliatePageType =
   | 'personal_color'
   | 'face_shape'
@@ -5,6 +7,7 @@ export type AffiliatePageType =
   | 'perfume_type'
   | 'review'
   | 'guide'
+  | 'makeup'
 
 export interface AffiliateClickEvent {
   merchant: 'coupang' | 'clubclio'
@@ -14,10 +17,8 @@ export interface AffiliateClickEvent {
 }
 
 export function trackAffiliateClick(event: AffiliateClickEvent): void {
-  if (typeof window === 'undefined') return
-  const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag
-  if (!gtag) return
-  gtag('event', 'affiliate_click', {
+  // routed through the central wrapper → SSR + internal/family traffic guard (P0-6)
+  trackEvent('affiliate_click', {
     merchant: event.merchant,
     category: event.category,
     page_type: event.pageType,
@@ -32,10 +33,7 @@ export function trackRegionToggle(event: {
   pageType?: AffiliatePageType
   locale?: string
 }): void {
-  if (typeof window === 'undefined') return
-  const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag
-  if (!gtag) return
-  gtag('event', 'region_toggle_click', {
+  trackEvent('region_toggle_click', {
     region: event.region,
     page_type: event.pageType,
     locale: event.locale,

@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 
-const AnalysisApp = lazy(() => import('../../src/AnalysisApp'))
+// free-pivot P1: 새 무료 플로우(업로드→스타일→마스크→결과)로 교체.
+// 기존 유료 리포트 앱(AnalysisApp)은 P1-5(크레딧) 통합까지 파일 보존.
+const AnalysisApp = lazy(() => import('../../src/components/makeup/MakeupFlow'))
 
 const Loading = () => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
@@ -17,21 +19,21 @@ function SeoShell() {
         AI 퍼스널컬러 메이크업 분석
       </h1>
       <p style={{ color: '#555', lineHeight: 1.6, marginBottom: 24 }}>
-        셀카 한 장으로 퍼스널컬러 진단과 함께 9가지 K-뷰티 메이크업 룩을 AI가 직접 시뮬레이션해 드립니다.
+        셀카 한 장으로 퍼스널컬러 진단과 함께 5가지 K-뷰티 메이크업 룩을 AI가 직접 시뮬레이션해 드립니다.
         피부 톤 분석, 맞춤 화장품 추천까지 한 번에 받아보세요.
       </p>
       <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: 12 }}>분석 과정</h2>
       <ol style={{ color: '#555', lineHeight: 1.8, paddingLeft: 20 }}>
         <li>셀카 사진 업로드</li>
         <li>AI가 피부 톤 &amp; 퍼스널컬러 분석</li>
-        <li>9가지 맞춤 메이크업 룩 시뮬레이션</li>
+        <li>5가지 맞춤 메이크업 룩 시뮬레이션</li>
         <li>화장품 추천 리포트 제공</li>
       </ol>
       <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginTop: 24, marginBottom: 12 }}>제공되는 메이크업 스타일</h2>
       <ul style={{ color: '#555', lineHeight: 1.8, paddingLeft: 20 }}>
-        <li>Natural Glow · Cloud Skin · Blood Lip</li>
-        <li>Maximalist Eye · Metallic Eye · Bold Lip</li>
-        <li>Blush Draping · Grunge Makeup · K-pop Idol</li>
+        <li>Cloudglow Skin · Idol Blur Base · Blurred Gradient Tint</li>
+        <li>Berry Stain Lip · Glazed Lavender Lip · K-Pop Idol Shimmer</li>
+        <li>Watercolor Flush · Lingerie Nude · Copper Auburn Hair</li>
       </ul>
     </div>
   )

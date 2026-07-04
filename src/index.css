@@ -10,8 +10,21 @@
   --color-navy: #070953;
   --color-navy-mid: #121570;
   --color-navy-light: #2a2d8a;
-  --font-display: "Manrope", sans-serif;
-  --font-serif: "Cormorant Garamond", "Noto Serif KR", "Pretendard", serif;
+  /* 도구별 액센트 — 카드의 '액센트 1점'(아이콘 칩 틴트·태그·호버)에만 사용.
+     메인은 네이비+핑크, 도구색은 식별용 포인트로만. (DESIGN_SYSTEM.md) */
+  --color-tool-ai: #eb4763;       /* AI 메이크업 — 시그니처(브랜드 핑크) */
+  --color-tool-mbti: #a855f7;     /* 메이크업 MBTI — 바이올렛 */
+  --color-tool-pc: #f59e0b;       /* 퍼스널 컬러 — 앰버 */
+  --color-tool-face: #10b981;     /* 얼굴형 — 에메랄드 */
+  --color-tool-perfume: #ec4899;  /* 향수 — 로즈 */
+  --color-tool-guide: #0ea5e9;    /* 가이드 — 블루 */
+  /* 디자인 시스템: 폰트 2족만 사용 (DESIGN_SYSTEM.md 단일 소스) */
+  /* 본문(body): Pretendard 우선 + 시스템 폴백 */
+  --font-body: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* legacy 유틸 .font-display 는 전 페이지 본문 래퍼로 쓰여 본문 스택과 동일하게 둔다(Manrope 제거) */
+  --font-display: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* 제목(display serif): 영문 Cormorant Garamond + 한글 Noto Serif KR */
+  --font-serif: "Cormorant Garamond", "Noto Serif KR", serif;
   --radius: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;

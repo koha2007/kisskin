@@ -23,6 +23,7 @@ export default function ReviewsHub() {
           category: p.category,
           categoryLabel: isEn ? meta.enLabel : meta.koLabel,
           categoryColor: meta.color,
+          categoryEmoji: meta.emoji,
           rightMeta: <span>{isEn ? `${p.products.length} compared` : `${p.products.length}개 비교`}</span>,
         }
       }),

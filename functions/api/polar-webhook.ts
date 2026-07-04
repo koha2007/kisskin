@@ -1,5 +1,11 @@
 // Polar Webhook endpoint — receives Polar events and syncs to Supabase
 // Events: subscription.created/updated/active/canceled/revoked, order.created/refunded
+//
+// 크레딧 충전(P1-5 4단계): order.created 가 크레딧 팩 상품이면, checkout 에서 실어보낸
+//   metadata.user_id 로 chargeCredits(ref=order.id) 호출. charge_credits RPC 가 ref 멱등
+//   처리 → 웹훅 재시도에도 한 번만 충전. 기존 orders 기록·구독 로직은 그대로 둔다.
+import { creditsForProduct } from './_packs'
+import { chargeCredits } from './_credits'
 
 interface Env {
   POLAR_WEBHOOK_SECRET: string
@@ -234,6 +240,8 @@ async function handleOrderEvent(
     customer_email?: string
     customer?: { email?: string }
     product_id?: string
+    product?: { id?: string }
+    metadata?: Record<string, unknown>
     amount?: number
     currency?: string
     status?: string
@@ -246,11 +254,12 @@ async function handleOrderEvent(
   }
 
   if (type === 'order.created') {
+    const productId = order.product_id || order.product?.id || null
     const row = {
       polar_order_id: order.id,
       polar_checkout_id: order.checkout_id || null,
       email,
-      product_id: order.product_id || null,
+      product_id: productId,
       amount: order.amount || 0,
       currency: order.currency || 'usd',
       status: 'succeeded',
@@ -268,6 +277,28 @@ async function handleOrderEvent(
       console.error(`[polar-webhook] Order insert failed: ${res.status} ${errText}`)
     } else {
       console.log(`[polar-webhook] Order ${order.id} created (${email})`)
+    }
+
+    // ── 크레딧 충전 (P1-5 4단계) — 크레딧 팩 주문만. 기존 분석/구독 주문은 건너뜀 ──
+    // orders 기록 성공 여부와 독립적으로 시도(충전이 본질). chargeCredits 는 ref=order.id
+    // 멱등이라 웹훅 재시도에도 1회만. 실패해도 throw 하지 않음(웹훅 200 유지).
+    const credits = creditsForProduct(productId)
+    if (credits != null) {
+      const userId = typeof order.metadata?.user_id === 'string' ? order.metadata.user_id : ''
+      if (!userId) {
+        // metadata.user_id 없음 = 비로그인/구버전 checkout. 충전 불가 → 경고만(돈은 받았으니 수동 처리 대상).
+        console.warn(`[polar-webhook] Credit order ${order.id} missing metadata.user_id — skipping charge (${email})`)
+      } else {
+        try {
+          const balance = await chargeCredits(
+            { SUPABASE_SERVICE_ROLE_KEY: serviceKey, VITE_SUPABASE_URL: supabaseUrl },
+            userId, credits, order.id,
+          )
+          console.log(`[polar-webhook] Charged ${credits} credits → ${userId} (order ${order.id}), balance=${balance}`)
+        } catch (e) {
+          console.error(`[polar-webhook] chargeCredits failed for order ${order.id}: ${e instanceof Error ? e.message : String(e)}`)
+        }
+      }
     }
   } else if (type === 'order.refunded') {
     const res = await supabaseRequest(

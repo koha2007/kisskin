@@ -23,6 +23,7 @@ export default function GuidesHub() {
           category: p.category,
           categoryLabel: isEn ? meta.enLabel : meta.koLabel,
           categoryColor: meta.color,
+          categoryEmoji: meta.emoji,
         }
       }),
     [posts, isEn],

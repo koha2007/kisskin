@@ -62,8 +62,8 @@ export default function GuideUpsellCTA({ slug, accentColor, accentColorTo, hook,
         </h2>
         <p className="text-slate-600 text-[15px] md:text-lg leading-relaxed max-w-xl mx-auto mb-6">
           {isEn
-            ? 'One selfie and AI builds six K-beauty makeup looks in about 60 seconds.'
-            : '셀카 한 장이면 AI가 6가지 K-뷰티 메이크업 룩을 약 60초 만에 만들어드려요.'}
+            ? 'One selfie and AI builds five K-beauty makeup looks in about 60 seconds.'
+            : '셀카 한 장이면 AI가 5가지 K-뷰티 메이크업 룩을 약 60초 만에 만들어드려요.'}
         </p>
 
         <div className="flex flex-wrap justify-center gap-2 mb-7">

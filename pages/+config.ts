@@ -10,7 +10,6 @@ export default {
     <script>
       (function() {
         var fonts = [
-          'https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap',
           'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap'
         ];
         fonts.forEach(function(href) {

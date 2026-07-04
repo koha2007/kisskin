@@ -1,14 +1,40 @@
 // Checkout API — supports both subscription and one-time product checkout
 // POLAR_PRODUCT_ID env var determines which product to use (subscription or one-time)
 
-// Checkout API — supports per-analysis (default) and subscription checkout
+// Checkout API — supports per-analysis (default), subscription, and credit-pack checkout
+import { CREDIT_PACKS, isPackId } from './_packs'
+
 interface Env {
   POLAR_ACCESS_TOKEN: string
   POLAR_PRODUCT_ID?: string       // Subscription product ID (set in Cloudflare env)
+  // ── 크레딧 팩(P1-5 4단계, 방안 A) — checkout metadata 에 user_id 주입용 ──
+  SUPABASE_SERVICE_ROLE_KEY?: string
+  VITE_SUPABASE_URL?: string
 }
 
 // Per-analysis one-time product
 const ONE_TIME_PRODUCT_ID = 'e38a68d7-9b32-4ec2-a616-2f62d7dbc41b'
+
+const errJson = (msg: string, status: number, extra?: Record<string, unknown>) =>
+  new Response(JSON.stringify({ error: msg, ...extra }), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+/** Supabase 토큰 → user_id 검증(makeup-edit.ts 와 동일 패턴, auth 무변경). */
+async function verifyUserId(env: Env, token: string): Promise<string | null> {
+  if (!env.VITE_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return null
+  try {
+    const res = await fetch(`${env.VITE_SUPABASE_URL}/auth/v1/user`, {
+      headers: { Authorization: `Bearer ${token}`, apikey: env.SUPABASE_SERVICE_ROLE_KEY },
+    })
+    if (!res.ok) return null
+    const u = (await res.json()) as { id?: string }
+    return u.id || null
+  } catch {
+    return null
+  }
+}
 
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
@@ -21,18 +47,42 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string; type?: string }
+    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string; type?: string; pack?: string }
     const useRedirect = !!body.redirect
     const origin = request.headers.get('Origin') || 'https://kissinskin.net'
 
-    // type=subscription → use subscription product, otherwise one-time
-    const productId = body.type === 'subscription'
-      ? (env.POLAR_PRODUCT_ID || ONE_TIME_PRODUCT_ID)
-      : ONE_TIME_PRODUCT_ID
-
     const checkoutBody: Record<string, unknown> = {
-      products: [productId],
       allow_discount_codes: true,
+    }
+
+    if (body.pack !== undefined) {
+      // ── 크레딧 팩 결제 (P1-5 4단계, 방안 A: metadata 에 user_id) ──
+      // 로그인 토큰 검증 → user_id 를 checkout metadata 에 실어 보낸다. Polar 가
+      // 이 metadata 를 결과 order 로 전파 → 웹훅이 user_id 로 크레딧을 충전한다.
+      if (!isPackId(body.pack)) return errJson('invalid_pack', 400)
+
+      const authHeader = request.headers.get('Authorization') || ''
+      if (!authHeader.startsWith('Bearer ')) {
+        return errJson('login_required', 401, { message: '로그인 후 충전할 수 있어요.' })
+      }
+      const userId = await verifyUserId(env, authHeader.slice(7))
+      if (!userId) {
+        return errJson('invalid_token', 401, { message: '로그인이 만료됐어요. 다시 로그인해 주세요.' })
+      }
+
+      const pack = CREDIT_PACKS[body.pack]
+      checkoutBody.products = [pack.id]
+      checkoutBody.metadata = {
+        user_id: userId,
+        pack: body.pack,
+        credits: String(pack.credits), // Polar metadata 값은 문자열 — 웹훅은 product ID 로 크레딧 결정(이건 참고용)
+      }
+    } else {
+      // ── 기존 흐름 유지: type=subscription → 구독, 그 외 → $2.99 분석 one-time ──
+      const productId = body.type === 'subscription'
+        ? (env.POLAR_PRODUCT_ID || ONE_TIME_PRODUCT_ID)
+        : ONE_TIME_PRODUCT_ID
+      checkoutBody.products = [productId]
     }
 
     // Pre-fill customer email if provided (for subscription linking)

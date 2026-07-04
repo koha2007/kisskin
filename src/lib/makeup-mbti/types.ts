@@ -9,6 +9,8 @@
 //  F/T — Feel          : Feel (blur/soft/mood) vs Technique (sharp/structured/precise)
 //  P/J — Routine       : Playful (mood-driven, flexible) vs Journal (consistent, formulaic)
 
+import type { IdentityCardData } from '../identityCard/types'
+
 export type MbtiCode =
   | 'INTJ' | 'INTP' | 'ENTJ' | 'ENTP'
   | 'INFJ' | 'INFP' | 'ENFJ' | 'ENFP'
@@ -18,6 +20,7 @@ export type MbtiCode =
 export interface MakeupMbtiType {
   code: MbtiCode
   slug: string                     // lowercased for URL
+  card: IdentityCardData           // 9:16 정체성 카드 데이터 (FINAL §3-4/3-5/3-6) — 닉네임 유지+한줄 추가
   emoji: string
   koName: string                   // 한글 페르소나 이름
   enName: string                   // 영문 페르소나 이름
@@ -65,6 +68,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   INTJ: {
     code: 'INTJ',
     slug: 'intj',
+    card: {
+      nickname: '메탈릭 전략가',
+      enName: 'The Architect',
+      identityLine: '절제된 구조의 시크함을 추구하는 타입',
+      hashtags: ['#INTJ메이크업', '#모노톤', '#미니멀시크', '#절제미'],
+      gradient: ['#070953', '#2a2a2a'],
+    },
     emoji: '🖤',
     koName: '메탈릭 전략가',
     enName: 'The Architect',
@@ -104,6 +114,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   INTP: {
     code: 'INTP',
     slug: 'intp',
+    card: {
+      nickname: '컬러 연금술사',
+      enName: 'The Alchemist',
+      identityLine: '군더더기 없는 실험적 미니멀리스트',
+      hashtags: ['#INTP메이크업', '#실험적', '#미니멀', '#연구가'],
+      gradient: ['#070953', '#4a5568'],
+    },
     emoji: '🧪',
     koName: '컬러 연금술사',
     enName: 'The Alchemist',
@@ -143,6 +160,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ENTJ: {
     code: 'ENTJ',
     slug: 'entj',
+    card: {
+      nickname: '파워 레드',
+      enName: 'The Commander',
+      identityLine: '완성도 높은 시그니처 글램의 연출가',
+      hashtags: ['#ENTJ메이크업', '#시그니처글램', '#파워레드', '#완성형'],
+      gradient: ['#070953', '#8b0000'],
+    },
     emoji: '♠️',
     koName: '파워 레드',
     enName: 'The Commander',
@@ -182,6 +206,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ENTP: {
     code: 'ENTP',
     slug: 'entp',
+    card: {
+      nickname: '아이디어 런웨이',
+      enName: 'The Trendsetter',
+      identityLine: '새로운 룩을 겁 없이 시도하는 도전가',
+      hashtags: ['#ENTP메이크업', '#트렌드실험', '#도전적', '#런웨이'],
+      gradient: ['#070953', '#e53e3e'],
+    },
     emoji: '⚡',
     koName: '아이디어 런웨이',
     enName: 'The Trendsetter',
@@ -222,6 +253,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   INFJ: {
     code: 'INFJ',
     slug: 'infj',
+    card: {
+      nickname: '몽환 시인',
+      enName: 'The Dreamweaver',
+      identityLine: '조용히 빛나는 내면의 광채를 가진 타입',
+      hashtags: ['#INFJ메이크업', '#시크릿글로우', '#내면광채', '#은은함'],
+      gradient: ['#070953', '#6b46c1'],
+    },
     emoji: '🌙',
     koName: '몽환 시인',
     enName: 'The Dreamweaver',
@@ -261,6 +299,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   INFP: {
     code: 'INFP',
     slug: 'infp',
+    card: {
+      nickname: '별빛 화가',
+      enName: 'The Stargazer',
+      identityLine: '은은하고 몽환적인 무드의 몽상가',
+      hashtags: ['#INFP메이크업', '#수채화무드', '#몽환적', '#드리머'],
+      gradient: ['#070953', '#d53f8c'],
+    },
     emoji: '✨',
     koName: '별빛 화가',
     enName: 'The Stargazer',
@@ -300,6 +345,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ENFJ: {
     code: 'ENFJ',
     slug: 'enfj',
+    card: {
+      nickname: '뮤즈',
+      enName: 'The Muse',
+      identityLine: '시선을 사로잡는 화사한 글램의 주인공',
+      hashtags: ['#ENFJ메이크업', '#무대의뮤즈', '#화사글램', '#주인공'],
+      gradient: ['#070953', '#ed8936'],
+    },
     emoji: '🌸',
     koName: '뮤즈',
     enName: 'The Muse',
@@ -339,6 +391,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ENFP: {
     code: 'ENFP',
     slug: 'enfp',
+    card: {
+      nickname: '오늘의 팔레트',
+      enName: "Today's Palette",
+      identityLine: '기분 따라 컬러를 바꾸는 자유로운 화가',
+      hashtags: ['#ENFP메이크업', '#컬러부자', '#자유로운', '#오늘의팔레트'],
+      gradient: ['#070953', '#f56565'],
+    },
     emoji: '🎨',
     koName: '오늘의 팔레트',
     enName: "Today's Palette",
@@ -379,6 +438,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ISTJ: {
     code: 'ISTJ',
     slug: 'istj',
+    card: {
+      nickname: '정석 장인',
+      enName: 'The Classicist',
+      identityLine: '변하지 않는 나만의 공식을 지키는 타입',
+      hashtags: ['#ISTJ메이크업', '#베이직클래식', '#나만의공식', '#변함없는'],
+      gradient: ['#070953', '#38a169'],
+    },
     emoji: '🌿',
     koName: '정석 장인',
     enName: 'The Classicist',
@@ -418,6 +484,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ISFJ: {
     code: 'ISFJ',
     slug: 'isfj',
+    card: {
+      nickname: '온기 수호자',
+      enName: 'The Warm Guardian',
+      identityLine: '부드럽고 편안한 데일리 메이크업파',
+      hashtags: ['#ISFJ메이크업', '#포근데일리', '#편안한', '#부드러운'],
+      gradient: ['#070953', '#ed64a6'],
+    },
     emoji: '🌷',
     koName: '온기 수호자',
     enName: 'The Warm Guardian',
@@ -457,6 +530,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ESTJ: {
     code: 'ESTJ',
     slug: 'estj',
+    card: {
+      nickname: '공식의 지휘자',
+      enName: 'The Director',
+      identityLine: '정석 글램을 완벽히 해내는 타입',
+      hashtags: ['#ESTJ메이크업', '#클래식퀸', '#정석글램', '#완벽주의'],
+      gradient: ['#070953', '#9b2c2c'],
+    },
     emoji: '🍷',
     koName: '공식의 지휘자',
     enName: 'The Director',
@@ -496,6 +576,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ESFJ: {
     code: 'ESFJ',
     slug: 'esfj',
+    card: {
+      nickname: '모임의 주연',
+      enName: 'The Hostess',
+      identityLine: '누구에게나 사랑받는 데일리룩 마스터',
+      hashtags: ['#ESFJ메이크업', '#데일리인플루언서', '#사랑받는', '#데일리룩'],
+      gradient: ['#070953', '#ec4899'],
+    },
     emoji: '🌟',
     koName: '모임의 주연',
     enName: 'The Hostess',
@@ -536,6 +623,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ISTP: {
     code: 'ISTP',
     slug: 'istp',
+    card: {
+      nickname: '미니멀 장인',
+      enName: 'The Minimalist',
+      identityLine: '깔끔하고 효율적인 베이직을 좋아하는 타입',
+      hashtags: ['#ISTP메이크업', '#클린미니멀', '#효율적', '#베이직'],
+      gradient: ['#070953', '#4a5568'],
+    },
     emoji: '⚙️',
     koName: '미니멀 장인',
     enName: 'The Minimalist',
@@ -575,6 +669,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ISFP: {
     code: 'ISFP',
     slug: 'isfp',
+    card: {
+      nickname: '꾸안꾸 아티스트',
+      enName: 'The Soft Artist',
+      identityLine: '꾸안꾸 감성의 자연스러운 멋쟁이',
+      hashtags: ['#ISFP메이크업', '#내추럴아티스트', '#꾸안꾸', '#자연스러운'],
+      gradient: ['#070953', '#48bb78'],
+    },
     emoji: '🍃',
     koName: '꾸안꾸 아티스트',
     enName: 'The Soft Artist',
@@ -614,6 +715,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ESTP: {
     code: 'ESTP',
     slug: 'estp',
+    card: {
+      nickname: '포인트 러쉬',
+      enName: 'The Thrillseeker',
+      identityLine: '강렬한 포인트로 승부하는 타입',
+      hashtags: ['#ESTP메이크업', '#볼드스트라이커', '#강렬포인트', '#승부욕'],
+      gradient: ['#070953', '#c53030'],
+    },
     emoji: '🔥',
     koName: '포인트 러쉬',
     enName: 'The Thrillseeker',
@@ -653,6 +761,13 @@ export const MAKEUP_MBTI_TYPES: Record<MbtiCode, MakeupMbtiType> = {
   ESFP: {
     code: 'ESFP',
     slug: 'esfp',
+    card: {
+      nickname: '글로우 파티',
+      enName: 'The Spotlight',
+      identityLine: '반짝임을 즐기는 파티의 중심',
+      hashtags: ['#ESFP메이크업', '#글리터스타', '#파티중심', '#반짝임'],
+      gradient: ['#070953', '#d53f8c'],
+    },
     emoji: '💎',
     koName: '글로우 파티',
     enName: 'The Spotlight',

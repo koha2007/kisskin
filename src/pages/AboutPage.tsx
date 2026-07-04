@@ -41,8 +41,8 @@ function AboutKo() {
     <>
       <h2>운영 주체</h2>
       <p>
-        kissinskin은 대한민국에서 운영되는 1인 인디 프로젝트입니다. 운영자
-        <strong> 김용헌(YONGHUN KIM)</strong>이 모든 도구·콘텐츠·디자인·기술을
+        kissinskin은 대한민국에서 운영되는 1인 인디 프로젝트로,
+        <strong> koha</strong>에서 제작되었습니다. 모든 도구·콘텐츠·디자인·기술을
         직접 만들고 유지하며, 모든 문의에 직접 응답합니다. 외부 투자 없이
         사용자 결제·Google AdSense 광고 수익·쿠팡 파트너스 어필리에이트 수수료로
         운영비를 충당합니다.
@@ -51,7 +51,7 @@ function AboutKo() {
       <h2>사이트 목적</h2>
       <p>
         2024년 K-뷰티 시장이 글로벌로 확장되면서 "한국식 메이크업이 나에게
-        어울릴까?"라는 질문이 늘었습니다. 매장에 가지 않고도 셀카 한 장으로 6가지
+        어울릴까?"라는 질문이 늘었습니다. 매장에 가지 않고도 셀카 한 장으로 5가지
         스타일을 미리 보고, 자신의 퍼스널컬러·얼굴형·취향을 진단하고, 글로벌
         뷰티 산업의 데이터·트렌드를 한 곳에서 읽을 수 있는 사이트가 필요하다고
         생각해 만들었습니다.
@@ -139,8 +139,8 @@ function AboutEn() {
     <>
       <h2>Who runs this site</h2>
       <p>
-        kissinskin is an indie one-person project based in South Korea. The
-        operator, <strong>Yonghun Kim</strong>, builds and maintains every tool,
+        kissinskin is an indie one-person project based in South Korea, created
+        by <strong>koha</strong>, who builds and maintains every tool,
         article, and feature, and personally answers all inquiries. It has been
         running and updated continuously since 2024 — over a year of solo
         development, design, and editorial. There are no investors; the site is
