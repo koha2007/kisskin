@@ -29,7 +29,7 @@ export default function BeforeAfterSlider({
   placeholderNote,
   isEn = false,
 }: Props) {
-  const [pos, setPos] = useState(50) // 0~100, after 가 보이는 비율(왼쪽)
+  const [pos, setPos] = useState(50) // 0~100, 핸들 위치. 오른쪽(pos~100%)이 after(메이크업)
   const wrapRef = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
 
@@ -87,8 +87,8 @@ export default function BeforeAfterSlider({
           <Placeholder which="before" />
         )}
 
-        {/* AFTER (왼쪽 pos% 만 보이게 clip) */}
-        <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+        {/* AFTER (핸들 오른쪽 pos%~100% 만 보이게 clip → 좌:BEFORE 민낯 / 우:AFTER 메이크업) */}
+        <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
           {afterSrc ? (
             <img src={afterSrc} alt="after" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
