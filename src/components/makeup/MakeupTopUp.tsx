@@ -65,9 +65,13 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
       <div className="space-y-2">
         <h1 className="text-2xl font-extrabold">{isEn ? 'Top up credits' : '크레딧 충전'}</h1>
         <p className="text-sm text-white/80 max-w-xs mx-auto">
-          {isEn
-            ? 'Your free tries are used up. Pick a pack to keep creating makeup looks.'
-            : '무료 체험을 다 썼어요. 팩을 선택하면 메이크업을 계속 만들 수 있어요.'}
+          {balance != null && balance > 0
+            ? (isEn
+              ? 'Add more credits anytime to keep creating makeup looks.'
+              : '크레딧을 추가로 충전하면 메이크업을 계속 만들 수 있어요.')
+            : (isEn
+              ? 'Your free tries are used up. Pick a pack to keep creating makeup looks.'
+              : '무료 체험을 다 썼어요. 팩을 선택하면 메이크업을 계속 만들 수 있어요.')}
         </p>
         {balance != null && (
           <p className="text-xs text-white/55">
