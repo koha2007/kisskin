@@ -85,8 +85,14 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       checkoutBody.products = [productId]
     }
 
-    // Pre-fill customer email if provided (for subscription linking)
-    if (body.email) {
+    // Customer 연결은 "반복 결제(구독)"에만 건다.
+    // customer_email 을 넘기면 Polar 가 그 이메일의 기존 고객을 인식하고, 호스티드
+    // 결제창에 그 고객의 "저장된 결제수단(카드)"을 띄운다. 일회성 결제(크레딧 팩·$2.99
+    // 분석)에는 이게 바람직하지 않아 customer 를 연결하지 않는다(매번 새로 입력).
+    //   · 크레딧 충전: 충전은 metadata.user_id 로 처리 → email 불필요.
+    //   · 웹훅/verify/GA: 구매자가 결제창에 입력한 이메일을 그대로 받으므로 무영향.
+    //   · 구독: 반복 청구에 저장 카드가 필요하므로 연결 유지.
+    if (body.email && body.type === 'subscription') {
       checkoutBody.customer_email = body.email
     }
 
