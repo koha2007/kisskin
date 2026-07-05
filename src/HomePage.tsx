@@ -371,6 +371,14 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 {t('auth.login')}
               </button>
             )}
+            {/* 크레딧 충전 진입 — 로그인 버튼 옆 (충전 화면 직행) */}
+            <a
+              href="/analysis/?topup=1"
+              className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-slate-200 hover:text-primary transition-colors px-3 py-1.5 rounded-md border border-slate-500"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>toll</span>
+              {isEn ? 'Credits' : '충전하기'}
+            </a>
             <button
               className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
               onClick={() => onNavigate('analysis')}
@@ -526,6 +534,14 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
             <p className="text-sm font-medium text-slate-500">{t('home.hero.priceSub')}</p>
+            {/* 무료 소진 사용자용 크레딧 충전 진입 (서브 링크) */}
+            <a
+              href="/analysis/?topup=1"
+              className="mt-0.5 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark underline underline-offset-2 decoration-primary/40"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>toll</span>
+              {isEn ? 'Out of free tries? Buy credits' : '무료 다 썼다면 크레딧 충전하기'}
+            </a>
           </div>
 
           {/* 신뢰 배지 3개 — 60초 완성 / 가입 불필요 / 즉시 삭제 */}
