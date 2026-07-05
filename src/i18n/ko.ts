@@ -29,7 +29,7 @@ export default {
   'home.hero.subtitle': '60초 · 무료 체험 · 가입 불필요',
   // free-pivot 메인 리디자인(2026-06-29) 신규 키
   'home.hero.uploadCta': '무료로 셀카 올리기',
-  'home.hero.priceSub': '무료 3회 · 더 필요하면 크레딧 $2.99부터',
+  'home.hero.priceSub': '무료 1회 · 더 필요하면 크레딧 $2.99부터',
   'home.ba.title': '이렇게 바뀌어요',
   'home.ba.subtitle': '당신의 본연의 아름다움을 찾아드립니다',
   'home.slider.title': '트렌디한 K-뷰티 스타일',
@@ -72,7 +72,7 @@ export default {
   'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단, 그리고 심화 가이드까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
   'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',
   'home.toolsShowcase.mainTitle': 'AI 메이크업 시뮬레이터',
-  'home.toolsShowcase.mainDesc': '실시간 AI 분석으로 가장 어울리는 룩을 추천해 드려요. 무료 3회 체험.',
+  'home.toolsShowcase.mainDesc': '실시간 AI 분석으로 가장 어울리는 룩을 추천해 드려요. 무료 1회 체험.',
   'home.toolsShowcase.mainCta': '지금 바로 체험',
   'home.toolsShowcase.cardCta': '시작하기',
   'home.toolsShowcase.seeAllTools': '전체 도구 모음 보기',

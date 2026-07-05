@@ -49,9 +49,8 @@ async function verifyUserId(env: Env, token: string): Promise<string | null> {
   }
 }
 
-// (fingerprint+IP)당 무료 허용 횟수. 출시값 3 — 초기 바이럴 체험 폭을 위해 넉넉히.
-// 데이터 누적 후 전환율 보고 1로 조일 예정.
-const FREE_LIMIT = 3
+// (fingerprint+IP)당 무료 허용 횟수. 2026-07-05: 3 → 1 (무료 1회 체험).
+const FREE_LIMIT = 1
 
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } })

@@ -29,7 +29,7 @@ export default {
   'home.hero.subtitle': '60 seconds · Free trial · No sign-up',
   // free-pivot home redesign (2026-06-29) new keys
   'home.hero.uploadCta': 'Upload your selfie — free',
-  'home.hero.priceSub': '3 free tries · then credits from $2.99',
+  'home.hero.priceSub': '1 free try · then credits from $2.99',
   'home.ba.title': 'See the transformation',
   'home.ba.subtitle': 'We bring out your natural beauty',
   'home.slider.title': 'Trendy K-beauty styles',
@@ -72,7 +72,7 @@ export default {
   'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color & face shape diagnosis, and in-depth guide — all free, no signup required.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
-  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. 3 free tries.',
+  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. 1 free try.',
   'home.toolsShowcase.mainCta': 'Try now',
   'home.toolsShowcase.cardCta': 'Start',
   'home.toolsShowcase.seeAllTools': 'See all tools',

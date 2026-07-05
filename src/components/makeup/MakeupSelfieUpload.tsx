@@ -1,9 +1,12 @@
-// AI 메이크업 — 셀카 업로드 + 성별/피부타입 (FREE_PIVOT_PLAN §2 / 커밋 P1-1, screen2 시안)
+// AI 메이크업 — 셀카 업로드 (2026-07-05: 성별/피부타입 제거, 단일 라인업)
 // ────────────────────────────────────────────────────────────────────
-// Stitch 시안(screen2.png) 레이아웃 채용: 글래스 카드 안에 원형 업로드 존
-// + 카메라 FAB, GENDER / SKIN TYPE 글래스 칩, 프라이버시 문구, "다음" CTA.
-// 시안 폰트·색은 전부 우리 토큰으로 교체(Pretendard / navy #070953 / primary #eb4763).
-// 글래스 칩 언어는 QuizScreen fullscreen variant 의 옵션 칩을 따라간다.
+// 글래스 카드 안에 원형 업로드 존 + 카메라 FAB, 촬영 가이드, 프라이버시 문구, "다음" CTA.
+// 폰트·색은 우리 토큰(Pretendard / navy #070953 / primary #eb4763).
+//
+// GENDER/SKIN TYPE 칩 제거: 성별 분기 없이 단일 9룩 라인업으로 전환했고,
+//   SKIN TYPE 은 프롬프트에 실제로 쓰이지 않던 장식 UI 였다(수집만 하고 버려짐).
+//   → 업로드 화면을 "셀카 한 장"이라는 단일 행동에 집중시킨다.
+//   (실제 개인화에 연결할 때 재도입 가능 — git 히스토리 보관)
 //
 // §8 가짜 이미지 금지: 미리보기는 사용자가 올린 본인 셀카만 표시(AI 생성 X).
 //   업로드 전에는 점선 원 + 아이콘 플레이스홀더.
@@ -15,30 +18,14 @@ const NAVY = '#070953'
 const PRIMARY = '#eb4763'
 const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
 
-export type MakeupGender = 'female' | 'male'
-export type MakeupSkin = 'dry' | 'oily' | 'combination' | 'sensitive'
-
-const GENDERS: { id: MakeupGender; ko: string; en: string }[] = [
-  { id: 'female', ko: '여성', en: 'Female' },
-  { id: 'male', ko: '남성', en: 'Male' },
-]
-const SKINS: { id: MakeupSkin; ko: string; en: string }[] = [
-  { id: 'dry', ko: '건성', en: 'Dry' },
-  { id: 'oily', ko: '지성', en: 'Oily' },
-  { id: 'combination', ko: '복합성', en: 'Combination' },
-  { id: 'sensitive', ko: '민감성', en: 'Sensitive' },
-]
-
 interface Props {
-  onNext: (data: { photo: string; gender: MakeupGender; skin: MakeupSkin }) => void
+  onNext: (data: { photo: string }) => void
   onBack: () => void
   isEn?: boolean
 }
 
 export default function MakeupSelfieUpload({ onNext, onBack, isEn = false }: Props) {
   const [photo, setPhoto] = useState<string | null>(null)
-  const [gender, setGender] = useState<MakeupGender>('female')
-  const [skin, setSkin] = useState<MakeupSkin>('dry')
   const fileRef = useRef<HTMLInputElement>(null)
 
   const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,22 +34,6 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false }: Pro
   }
 
   const ready = !!photo
-
-  // 글래스 칩 (선택형) — QuizScreen 옵션 칩과 동일 언어
-  const Chip = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={`rounded-full px-5 py-2.5 text-sm font-bold transition-all active:scale-[0.97] ${
-        active
-          ? 'bg-white text-navy shadow-lg shadow-black/20'
-          : 'bg-white/12 text-white border border-white/25 backdrop-blur-md hover:bg-white/20'
-      }`}
-    >
-      {children}
-    </button>
-  )
 
   return (
     <div className="min-h-[100dvh] flex flex-col font-display text-white" style={screenBg}>
@@ -139,30 +110,6 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false }: Pro
               ))}
             </ul>
           </div>
-
-          <hr className="my-6 border-white/15" />
-
-          {/* GENDER */}
-          <p className="text-xs font-bold tracking-[0.2em] text-white/55 mb-3 uppercase">{isEn ? 'Gender' : 'Gender'}</p>
-          <div className="flex gap-2.5 mb-6">
-            {GENDERS.map((g) => (
-              <div key={g.id} className="flex-1">
-                <Chip active={gender === g.id} onClick={() => setGender(g.id)}>
-                  <span className="block w-full text-center">{isEn ? g.en : g.ko}</span>
-                </Chip>
-              </div>
-            ))}
-          </div>
-
-          {/* SKIN TYPE */}
-          <p className="text-xs font-bold tracking-[0.2em] text-white/55 mb-3 uppercase">{isEn ? 'Skin type' : 'Skin type'}</p>
-          <div className="grid grid-cols-2 gap-2.5">
-            {SKINS.map((s) => (
-              <Chip key={s.id} active={skin === s.id} onClick={() => setSkin(s.id)}>
-                <span className="block w-full text-center">{isEn ? s.en : s.ko}</span>
-              </Chip>
-            ))}
-          </div>
         </div>
       </main>
 
@@ -178,7 +125,7 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false }: Pro
           {isEn ? 'Your selfie is never stored after analysis' : '셀카는 분석 후 저장되지 않아요'}
         </p>
         <button
-          onClick={() => photo && onNext({ photo, gender, skin })}
+          onClick={() => photo && onNext({ photo })}
           disabled={!ready}
           className="w-full rounded-full py-4 font-extrabold text-[15px] text-white shadow-xl shadow-primary/30 active:scale-[0.98] transition-transform disabled:opacity-40 disabled:active:scale-100"
           style={{ background: PRIMARY }}

@@ -8,8 +8,9 @@
 // 엔진(FaceLandmarker)은 모듈 레벨에서 1회 로드해 캐시.
 
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { navigate } from 'vike/client/router'
 import { useI18n } from '../../i18n/I18nContext'
-import MakeupSelfieUpload, { type MakeupGender, type MakeupSkin } from './MakeupSelfieUpload'
+import MakeupSelfieUpload from './MakeupSelfieUpload'
 import MakeupStyleSelect from './MakeupStyleSelect'
 import MakeupResult from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
@@ -45,7 +46,7 @@ function getEngine(onStatus: (s: string) => void): Promise<Engine> {
 }
 
 type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup'
-interface Selfie { photo: string; gender: MakeupGender; skin: MakeupSkin }
+interface Selfie { photo: string }
 
 export default function MakeupFlow() {
   const { locale } = useI18n()
@@ -53,7 +54,7 @@ export default function MakeupFlow() {
 
   const [step, setStep] = useState<Step>('upload')
   const [selfie, setSelfie] = useState<Selfie | null>(null)
-  const [styleId, setStyleId] = useState<MakeupStyleId>('signature')
+  const [styleId, setStyleId] = useState<MakeupStyleId>('natural-glow')
   const [status, setStatus] = useState('')
   const [errMsg, setErrMsg] = useState<string | null>(null)
   const [errAction, setErrAction] = useState<ErrAction>('restart')
@@ -63,7 +64,7 @@ export default function MakeupFlow() {
   const jobIdRef = useRef('')   // 현재 생성 작업의 차감 멱등 키(재시도 시 유지)
 
   // ── 생성: 마스크 → OpenAI 인페인팅 → 마스크밖 원본합성 → glow (processing 진입 시) ──
-  const runGenerate = useCallback(async (photo: string, id: MakeupStyleId, gender: MakeupGender) => {
+  const runGenerate = useCallback(async (photo: string, id: MakeupStyleId) => {
     const myRun = ++runIdRef.current
     const alive = () => runIdRef.current === myRun
     setErrMsg(null); setAfterSrc(null)
@@ -108,7 +109,7 @@ export default function MakeupFlow() {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ image: baseUrl, mask: toOpenAIMask(result.mask).toDataURL('image/png'), prompt: promptFor(style, gender), styleId: id, fingerprint, jobId: jobIdRef.current, size }),
+        body: JSON.stringify({ image: baseUrl, mask: toOpenAIMask(result.mask).toDataURL('image/png'), prompt: promptFor(style), styleId: id, fingerprint, jobId: jobIdRef.current, size }),
       })
       if (!alive()) return
       const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; tier?: string; error?: string; balance?: number }
@@ -159,7 +160,7 @@ export default function MakeupFlow() {
   }, [isEn])
 
   useEffect(() => {
-    if (step === 'processing' && selfie) runGenerate(selfie.photo, styleId, selfie.gender)
+    if (step === 'processing' && selfie) runGenerate(selfie.photo, styleId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step])
 
@@ -172,7 +173,7 @@ export default function MakeupFlow() {
     return (
       <MakeupSelfieUpload
         isEn={isEn}
-        onBack={reset}
+        onBack={() => { void navigate('/') }}
         onNext={(data) => { jobIdRef.current = ''; setSelfie(data); setStep('style') }}
       />
     )

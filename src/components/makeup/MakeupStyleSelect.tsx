@@ -1,12 +1,10 @@
-// AI 메이크업 — 5스타일 선택 화면 (FREE_PIVOT_PLAN §2-1 / 커밋 P1-1)
+// AI 메이크업 — 9스타일 선택 화면 (2026-07-05: 여성 9룩 복원, 3×3 그리드)
 // ────────────────────────────────────────────────────────────────────
-// Stitch 시안(screen.png) 레이아웃 채용: 2열 글래스 카드 + 가운데 5번째.
-// 시안 폰트(Plus Jakarta Sans)·색(#ffb2b8)은 전부 우리 토큰으로 교체 —
-// Pretendard(font-display) / navy #070953 / primary #eb4763.
+// 폰트·색은 우리 토큰 — Pretendard(font-display) / navy #070953 / primary #eb4763.
 // 무드 그라데이션·글래스 카드 언어는 QuizScreen 의 grid variant 를 그대로 따라간다.
 //
 // §8 가짜 이미지 금지: 카드는 AI 생성 가짜 얼굴/제품 이미지 없이 스타일별
-// "무드 색" 글래스 스와치만 쓴다. (추천 제품·결과 이미지는 P1-3 결과 화면에서
+// "무드 색" 글래스 스와치만 쓴다. (추천 제품·결과 이미지는 결과 화면에서
 //  실제 affiliate ProductGridCard / 텍스트 카드로 처리)
 //
 // 1개 선택 = 1크레딧 = 결과 1장.
@@ -36,9 +34,7 @@ interface Props {
 
 export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle }: Props) {
   const [selected, setSelected] = useState<MakeupStyleId>(initialStyle ?? MAKEUP_STYLES[0].id)
-
-  const grid = MAKEUP_STYLES.slice(0, 4) // 2열 × 2
-  const last = MAKEUP_STYLES[4] // 가운데 5번째
+  const selectedStyle = MAKEUP_STYLES.find((s) => s.id === selected) ?? MAKEUP_STYLES[0]
 
   const handleConfirm = () => {
     gtagEvent('style_selected', { style: selected })
@@ -53,20 +49,20 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
         type="button"
         onClick={() => setSelected(id)}
         aria-pressed={isSel}
-        className={`style-card group relative w-full rounded-2xl aspect-[4/5] p-4 flex flex-col justify-end text-left overflow-hidden transition-all active:scale-[0.97] ${
+        className={`style-card group relative w-full rounded-xl aspect-[4/5] p-2.5 flex flex-col justify-end text-left overflow-hidden transition-all active:scale-[0.97] ${
           isSel
-            ? 'ring-2 ring-white shadow-2xl shadow-black/40 scale-[1.02]'
+            ? 'ring-2 ring-white shadow-2xl shadow-black/40 scale-[1.03]'
             : 'ring-1 ring-white/15 opacity-90 hover:opacity-100'
         }`}
         style={{ background: s.mood }}
       >
         {/* 무드 색 위 하단 스크림 — 흰 텍스트 가독성 (밝은 그라데이션 대비) */}
-        <span className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/60 to-transparent" />
+        <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/65 to-transparent" />
 
-        {/* 선택 체크 (시안 우상단 동그라미 체크) */}
+        {/* 선택 체크 (우상단 동그라미 체크) */}
         {isSel && (
-          <span className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white text-primary flex items-center justify-center shadow-md">
-            <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <span className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-white text-primary flex items-center justify-center shadow-md">
+            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>
               check
             </span>
           </span>
@@ -74,22 +70,19 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
 
         <span className="relative">
           {isEn ? (
-            <span className="block text-white font-extrabold text-[13.5px] leading-tight tracking-wide drop-shadow-md">
+            <span className="block text-white font-extrabold text-[10.5px] leading-tight tracking-tight drop-shadow-md">
               {s.subEn}
             </span>
           ) : (
             <>
-              <span className="block text-white font-extrabold text-[15px] leading-tight drop-shadow-md">
+              <span className="block text-white font-extrabold text-[12px] leading-tight drop-shadow-md">
                 {s.nameKo}
               </span>
-              <span className="block text-white/75 text-[10px] font-bold tracking-wider mt-0.5 drop-shadow">
+              <span className="block text-white/70 text-[7.5px] font-bold tracking-wide mt-0.5 drop-shadow leading-tight">
                 {s.subEn}
               </span>
             </>
           )}
-          <span className="block text-white/85 text-[11px] leading-snug mt-1.5 drop-shadow">
-            {isEn ? s.descEn : s.descKo}
-          </span>
         </span>
       </button>
     )
@@ -125,17 +118,16 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          {grid.map((s) => (
+        <div className="grid grid-cols-3 gap-2.5">
+          {MAKEUP_STYLES.map((s) => (
             <Card key={s.id} id={s.id} />
           ))}
         </div>
-        {/* 가운데 5번째 (시안 레이아웃) */}
-        <div className="mt-3 flex justify-center">
-          <div className="w-1/2 px-1.5">
-            <Card id={last.id} />
-          </div>
-        </div>
+
+        {/* 선택한 스타일 한 줄 설명 (카드 안엔 공간이 없어 그리드 아래에서 안내) */}
+        <p className="mt-4 text-center text-[13px] text-white/75 leading-snug min-h-[1.2em]">
+          {isEn ? selectedStyle.descEn : selectedStyle.descKo}
+        </p>
       </main>
 
       {/* 하단: "1장 생성" 안내 + CTA (sticky) */}
