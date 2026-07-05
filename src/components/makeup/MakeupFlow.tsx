@@ -138,6 +138,13 @@ export default function MakeupFlow() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step])
 
+  // 테스트/직접진입: /analysis/?topup=1 → 크레딧 충전 화면 바로 표시(무료 소진·잔액0 상태를
+  // 만들 필요 없이 결제 흐름을 눈으로 확인·테스트). 충전은 100% 할인코드로 무료 결제 가능.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (new URLSearchParams(window.location.search).get('topup') === '1') setStep('topup')
+  }, [])
+
   const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setStep('upload') }
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
@@ -214,7 +221,7 @@ export default function MakeupFlow() {
   if (step === 'topup') {
     // 충전 성공 → Polar 가 /analysis/ 로 복귀(페이지 리로드). 잔액이 생긴 상태로 재시작.
     // onBack → 에러 화면으로 복귀(같은 작업 재시도 가능).
-    return <MakeupTopUp isEn={isEn} onBack={() => setStep('error')} />
+    return <MakeupTopUp isEn={isEn} onBack={() => setStep(errMsg ? 'error' : 'upload')} />
   }
 
   // result
