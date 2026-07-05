@@ -65,7 +65,7 @@ export interface MakeupStyle {
    * 글래스/데일리 룩의 '촉촉한 광'은 OpenAI가 아니라 이 레이어로 만든다(looksEngine highlight/smooth).
    */
   glow: number
-  /** OpenAI 이미지 편집 프롬프트 — 베이스 피부보정 + 스타일 포인트 + 정체성/구조 불변 */
+  /** 스타일별 "적용할 메이크업" raw 지시문. promptWholeFace(whole-face)/promptFor(마스크)가 프리앰블로 감싼다. */
   prompt: string
 }
 
@@ -96,11 +96,10 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f4b79c',
     maskAreas: ['skinInner', 'lips', 'cheeks'],
     glow: 0.24,
-    prompt: base(
+    prompt:
       'give the skin a dewy, luminous healthy glow (moist but never greasy), add a soft natural peach blush only ' +
         'on the apples of the cheeks kept subtle and narrow, and a soft nude "my-lips-but-better" lip keeping the ' +
         'original lip shape.',
-    ),
   },
   {
     id: 'cloud-skin',
@@ -112,11 +111,10 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#cfc9e8',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.2,
-    prompt: base(
+    prompt:
       'create a soft "cloud skin" complexion — a smooth, poreless-looking soft-matte veil that is noticeably ' +
         'brighter, milkier and more even than bare skin (cloud-like and airy, never cakey), and keep the lips a ' +
         'clean natural tone with no strong color. Do NOT add blush to the cheeks.',
-    ),
   },
   {
     id: 'blood-lip',
@@ -128,10 +126,9 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#8f1728',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.12,
-    prompt: base(
+    prompt:
       'apply a deep, saturated burgundy blood-red lip — bold and clearly the first thing you notice — keeping ' +
         'the original lip shape, and keep the eyes clean and minimal. Do NOT add any blush.',
-    ),
   },
   {
     id: 'maximalist-eye',
@@ -143,11 +140,10 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#6a5cff',
     maskAreas: ['skinInner', 'eyes'],
     glow: 0.1,
-    prompt: base(
+    prompt:
       'apply a bold, colorful maximalist eye look — vivid blended eyeshadow across the lids in purple, blue and ' +
         'green tones with a thick, well-defined eyeliner for dramatic, statement-making eyes, and keep the lips a ' +
         'neutral nude tone. Do NOT change the eye shape; only add makeup on the lids.',
-    ),
   },
   {
     id: 'metallic-eye',
@@ -159,11 +155,10 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#d3b25e',
     maskAreas: ['skinInner', 'eyes'],
     glow: 0.2,
-    prompt: base(
+    prompt:
       'apply a metallic eye look — reflective gold and silver shimmer eyeshadow packed on the lids for a glossy, ' +
         'clearly glinting metallic finish, and keep the lips a soft neutral tone. Do NOT change the eye shape; ' +
         'only add shimmer makeup on the lids.',
-    ),
   },
   {
     id: 'bold-lip',
@@ -175,10 +170,9 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f0384a',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.16,
-    prompt: base(
+    prompt:
       'apply a bright, vivid red-coral bold lip — brighter and more vivid than a deep burgundy — with clear, ' +
         'eye-catching color, keeping the original lip shape. Do NOT add any blush.',
-    ),
   },
   {
     id: 'blush-draping',
@@ -190,11 +184,10 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f18aa0',
     maskAreas: ['skinInner', 'cheeks', 'lips'],
     glow: 0.16,
-    prompt: base(
+    prompt:
       'apply a "blush draping" look — a clearly visible layered pink-coral blush swept from the cheekbones up ' +
         'toward the temples (a diffused, sculpting wash of color, not a small dot), and keep the lips a soft ' +
         'coordinating rosy tone.',
-    ),
   },
   {
     id: 'grunge',
@@ -206,10 +199,9 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#4a3d52',
     maskAreas: ['skinInner', 'eyes', 'lips'],
     glow: 0.06,
-    prompt: base(
+    prompt:
       'create an edgy grunge look — a smudged smoky eye in dark grey-brown tones, a dark berry lip, and a matte ' +
         'skin finish for an intense, moody vibe. Do NOT change the eye or lip shape; only add makeup.',
-    ),
   },
   {
     id: 'kpop-idol',
@@ -221,18 +213,45 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f39ac4',
     maskAreas: ['skinInner', 'lips', 'cheeks'],
     glow: 0.32,
-    prompt: base(
+    prompt:
       'create a K-pop idol look — glossy "glass skin" with a luminous glazed glow, a soft gradient blurred pink ' +
         'lip (deeper in the center fading out), a light pink flush on the apples of the cheeks, and a subtle ' +
         'shimmer highlight on the high points for a fresh, youthful idol finish.',
-    ),
   },
 ]
 
 export const styleById = (id: MakeupStyleId): MakeupStyle =>
   MAKEUP_STYLES.find((s) => s.id === id) ?? MAKEUP_STYLES[0]
 
-/** 편집 프롬프트 (단일 라인업 — 성별 분기 없음). */
+// ── 얼굴 보존(face-lock) 프리앰블 — whole-face 편집용(옛 9룩 방식 복원). ──
+// 마스크가 없으므로 얼굴 동일성은 전적으로 프롬프트에 위임한다(얼굴 변형 리스크 감수).
+// 옛 analyze.ts(c34fb09) FACE_LOCK_MAKEUP 문구를 단일 라인업으로 이식.
+const FACE_LOCK_WHOLEFACE =
+  'ABSOLUTE FACE LOCK — HIGHEST PRIORITY. DO NOT generate a new face. DO NOT re-draw or reshape the face. ' +
+  'Use the EXACT pixels of the original face and composite makeup ON TOP as an overlay. Keep identity, bone ' +
+  'structure, eye shape and size, nose, mouth, jawline, cheekbones, forehead, hairline, ears, face width and ' +
+  'length, skin texture, moles, freckles and scars 100% IDENTICAL. Keep the SAME hair, clothing, background, ' +
+  'lighting, pose, expression, framing and composition. The result MUST be unmistakably the SAME individual — ' +
+  'not a similar-looking or prettier person. Do not add any text, numbers, labels or watermark. If teeth show, ' +
+  'keep them white and clean.'
+
+/**
+ * whole-face 편집 프롬프트(옛 9룩 방식, 마스크 없음). 사진 전체를 재생성하되
+ * FACE_LOCK 프리앰블로 얼굴 동일성을 지시한다. MakeupFlow whole-face 경로가 사용.
+ */
+export function promptWholeFace(style: MakeupStyle): string {
+  return (
+    `You are a top makeup artist. Edit this selfie photo to apply the "${style.subEn}" makeup look. ` +
+    `${FACE_LOCK_WHOLEFACE}\n\n` +
+    `First, ${BASE_RETOUCH}. Then apply the makeup: ${style.prompt}\n\n` +
+    'Again: keep the original face pixels unchanged — only the makeup changes. Photorealistic and natural.'
+  )
+}
+
+/**
+ * 마스크(부분 편집) 프롬프트 — Stage 2(MediaPipe) 경로용. 현재 whole-face 복원에선
+ * 미사용이나 코드 보존을 위해 유지한다. base()가 "마스크 영역 안에서만" 문구로 감싼다.
+ */
 export function promptFor(style: MakeupStyle): string {
-  return style.prompt
+  return base(style.prompt)
 }

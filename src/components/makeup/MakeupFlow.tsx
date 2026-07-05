@@ -1,11 +1,11 @@
 // AI 메이크업 실제 플로우 오케스트레이터 (FREE_PIVOT_PLAN P1-3)
 // ────────────────────────────────────────────────────────────────────
-// 업로드(②) → 스타일 선택(①) → 마스크 생성 + OpenAI 인페인팅 → 결과(③).
-//   · MediaPipe 얼굴 랜드마크 → 선택 스타일 maskAreas 마스크(입술·볼·눈, 페더링).
-//   · /api/makeup-edit (gpt-image-1) 로 마스크 영역만 재생성.
-//   · 결과 합성: 마스크 밖은 원본 픽셀 그대로(§8 얼굴변형 방지) + glow 레이어.
+// 업로드(②) → 스타일 선택(①) → OpenAI whole-face 편집 → 결과(③).
+//   · 옛 9룩 방식 복원(2026-07-05): MediaPipe 마스크 없이 사진 전체를 프롬프트로
+//     재생성한다(promptWholeFace). 얼굴 보존은 프롬프트 FACE_LOCK에 위임(변형 리스크 감수).
+//   · /api/makeup-edit (gpt-image-2) 로 whole-face 편집. 결과 이미지를 그대로 표시.
 //   · 비용 가드: 서버에서 무료 1회(fingerprint+IP). 초과 시 402.
-// 엔진(FaceLandmarker)은 모듈 레벨에서 1회 로드해 캐시.
+//   · Stage 2(MediaPipe 마스크+glow) 코드는 maskBuilder/compose에 보존(재사용 대비).
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { navigate } from 'vike/client/router'
@@ -14,9 +14,8 @@ import MakeupSelfieUpload from './MakeupSelfieUpload'
 import MakeupStyleSelect from './MakeupStyleSelect'
 import MakeupResult from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
-import { styleById, promptFor, type MakeupStyleId } from '../../lib/makeup/styles'
-import { initEngine, detectAndBuildMask, toOpenAIMask, toAlphaMask, type Engine } from '../../lib/makeup/maskBuilder'
-import { fitToSupported, compositeInsideMask, applyGlow } from '../../lib/makeup/compose'
+import { styleById, promptWholeFace, type MakeupStyleId } from '../../lib/makeup/styles'
+import { fitToSupported } from '../../lib/makeup/compose'
 import { deviceFingerprint } from '../../lib/makeup/fingerprint'
 import { supabase } from '../../lib/supabase'
 
@@ -37,13 +36,6 @@ function makeJobId(): string {
 
 // 에러 후 행동: 같은 작업 재생성 / 처음부터 / 로그인 필요 / 크레딧 충전
 type ErrAction = 'regenerate' | 'restart' | 'login' | 'topup'
-
-// 엔진 1회 로드 캐시 (분석 여러 번 해도 모델 재다운로드 없음)
-let enginePromise: Promise<Engine> | null = null
-function getEngine(onStatus: (s: string) => void): Promise<Engine> {
-  if (!enginePromise) enginePromise = initEngine(onStatus)
-  return enginePromise
-}
 
 type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup'
 interface Selfie { photo: string }
@@ -70,34 +62,18 @@ export default function MakeupFlow() {
     setErrMsg(null); setAfterSrc(null)
     const style = styleById(id)
     try {
-      setStatus(isEn ? 'Loading face engine…' : '얼굴 분석 엔진 로딩…')
-      const engine = await getEngine((s) => { if (alive()) setStatus(s) })
-
       const img = new Image()
       img.crossOrigin = 'anonymous'
       await new Promise<void>((res, rej) => { img.onload = () => res(); img.onerror = () => rej(new Error('image load failed')); img.src = photo })
       if (!alive()) return
 
-      setStatus(isEn ? 'Detecting face…' : '얼굴 인식 중…')
-      await new Promise((r) => setTimeout(r, 30)) // 스피너 양보
+      // 지원 사이즈로 맞춘 원본(BEFORE 슬라이더 + OpenAI 입력).
       const { canvas: srcCanvas, size } = fitToSupported(img)
       const baseUrl = srcCanvas.toDataURL('image/png')
       setBaseSrc(baseUrl)
-      const result = detectAndBuildMask(engine, srcCanvas, style.maskAreas)
-      if (!alive()) return
-      if (!result.ok || !result.mask || !result.landmarks) {
-        setErrMsg(result.reason === 'side-angle'
-          ? (isEn
-            ? 'Your face is turned too far to the side. Please upload a front-facing selfie (no hat or sunglasses).'
-            : '얼굴이 너무 옆으로 돌아가 있어요. 모자·선글라스 없이 정면을 바라본 셀카로 다시 올려주세요.')
-          : (isEn
-            ? 'No face detected. Please use a clear, front-facing selfie.'
-            : '얼굴을 찾지 못했어요. 정면이 잘 보이는 셀카로 다시 시도해 주세요.'))
-        setErrAction('restart')   // 새 사진 필요 → 처음부터
-        setStep('error'); return
-      }
 
-      // OpenAI 인페인팅 호출 (서버: 무료 가드 → 소진 시 로그인+크레딧 차감 → gpt-image-1)
+      // whole-face 편집(옛 9룩 방식): 마스크 없이 사진 전체를 프롬프트로 재생성.
+      // (서버: 무료 가드 → 소진 시 로그인+크레딧 차감 → gpt-image-2 whole-face 편집)
       setStatus(isEn ? 'Creating your makeup… (up to ~1 min)' : '메이크업 생성 중… (최대 1분)')
       const fingerprint = await deviceFingerprint()
       if (!jobIdRef.current) jobIdRef.current = makeJobId()   // 재시도면 기존 키 유지(이중차감 방지)
@@ -109,7 +85,7 @@ export default function MakeupFlow() {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ image: baseUrl, mask: toOpenAIMask(result.mask).toDataURL('image/png'), prompt: promptFor(style), styleId: id, fingerprint, jobId: jobIdRef.current, size }),
+        body: JSON.stringify({ image: baseUrl, prompt: promptWholeFace(style), styleId: id, fingerprint, jobId: jobIdRef.current, size }),
       })
       if (!alive()) return
       const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; tier?: string; error?: string; balance?: number }
@@ -135,16 +111,14 @@ export default function MakeupFlow() {
         setStep('error'); return
       }
 
-      // 결과 합성: 마스크 밖은 원본 픽셀 그대로(§8) + glow
+      // whole-face 결과: 편집된 전체 이미지를 그대로 표시(마스크 합성/glow 불필요).
       setStatus(isEn ? 'Finishing…' : '마무리 중…')
       const editedImg = new Image()
       await new Promise<void>((r, j) => { editedImg.onload = () => r(); editedImg.onerror = () => j(new Error('result load failed')); editedImg.src = data.image! })
       if (!alive()) return
-      const composite = compositeInsideMask(srcCanvas, editedImg, toAlphaMask(result.mask))
-      applyGlow(composite, result.landmarks, style.glow)
-      setAfterSrc(composite.toDataURL('image/jpeg', 0.92))
+      setAfterSrc(data.image!)
 
-      gtagEvent('mask_built', { style: id, areas: style.maskAreas.join(',') })
+      gtagEvent('makeup_generated', { style: id })
       if (data.tier === 'free' && data.used === 1) gtagEvent('free_trial_used', { style: id })
       if (data.tier === 'credit') gtagEvent('credit_used', { style: id })
       jobIdRef.current = ''   // 성공 → 다음 생성은 새 작업(새 차감)

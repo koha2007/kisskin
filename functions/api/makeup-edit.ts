@@ -1,9 +1,12 @@
 // ════════════════════════════════════════════════════════════════════
 // AI 메이크업 인페인팅 Worker (FREE_PIVOT_PLAN P1-3)
 // ────────────────────────────────────────────────────────────────────
-// gpt-image-1 /v1/images/edits 호출 (Cloudflare AI Gateway 경유, cf-aig-authorization
-// 키 주입 방식 유지). 입력 마스크 영역만 재생성하고, "마스크 밖 원본 합성"과
-// glow 레이어는 클라이언트가 처리한다(원본 캔버스가 거기 있으므로).
+// gpt-image-2 /v1/images/edits 호출 (Cloudflare AI Gateway 경유, cf-aig-authorization
+// 키 주입 방식 유지).
+//   • whole-face(옛 9룩 방식, 2026-07-05 복원): mask 없이 사진 전체를 프롬프트로
+//     재생성한다. 얼굴 보존은 프롬프트 FACE_LOCK 프리앰블에 위임(얼굴 변형 리스크 감수).
+//   • 부분 편집(Stage 2, MediaPipe 마스크): mask 가 오면 그 영역만 재생성하고
+//     "마스크 밖 원본 합성"·glow 레이어는 클라이언트가 처리한다. (코드 보존 — 재사용 대비)
 //
 // 비용 가드 (fail-closed): (fingerprint + IP) 당 무료 N회. 저장소(env.MAKEUP_USAGE,
 // KV류)가 없으면 OpenAI 를 호출하지 않고 503 → 무방비 과금 노출을 원천 차단.
@@ -87,7 +90,8 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   let body: Body
   try { body = (await request.json()) as Body } catch { return json({ error: 'bad_json' }, 400) }
   const { image, mask, prompt, fingerprint } = body
-  if (!image || !mask || !prompt) return json({ error: 'missing_fields' }, 400)
+  // whole-face 복원: mask 는 선택. 없으면 사진 전체를 편집한다.
+  if (!image || !prompt) return json({ error: 'missing_fields' }, 400)
 
   // ── 비용 가드 (fail-closed) ──
   if (!env.MAKEUP_USAGE) {
@@ -139,9 +143,10 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // ── OpenAI images/edits (AI Gateway 우선) ──
   const base = env.OPENAI_BASE_URL?.replace(/\/$/, '')
   const fd = new FormData()
-  fd.append('model', 'gpt-image-1')
+  fd.append('model', 'gpt-image-2')
   fd.append('image', dataUrlToBlob(image), 'image.png')
-  fd.append('mask', dataUrlToBlob(mask), 'mask.png')
+  // mask 있으면 부분 편집(Stage 2), 없으면 whole-face 편집(옛 9룩 방식).
+  if (mask) fd.append('mask', dataUrlToBlob(mask), 'mask.png')
   fd.append('prompt', prompt)
   fd.append('size', body.size && /^\d+x\d+$/.test(body.size) ? body.size : '1024x1024')
   fd.append('quality', ['low', 'medium', 'high'].includes(body.quality || '') ? body.quality! : 'medium')
