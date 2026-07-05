@@ -18,7 +18,7 @@
 //   • 잔액 부족 → 402, OpenAI 호출 안 함.
 //   service_role 키로만 차감(클라이언트 절대 불가). 토큰 검증은 /auth/v1/user.
 //
-// 설정: medium quality, input_fidelity high (테스트와 동일).
+// 설정: gpt-image-2, medium quality. (input_fidelity 미지원 모델이라 전송 안 함.)
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits } from './_credits'
 
@@ -150,7 +150,10 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   fd.append('prompt', prompt)
   fd.append('size', body.size && /^\d+x\d+$/.test(body.size) ? body.size : '1024x1024')
   fd.append('quality', ['low', 'medium', 'high'].includes(body.quality || '') ? body.quality! : 'medium')
-  fd.append('input_fidelity', body.inputFidelity === 'low' ? 'low' : 'high')
+  // ⚠️ gpt-image-2 는 input_fidelity 파라미터를 지원하지 않는다(보내면 400
+  //    invalid_input_fidelity_model → 생성 전부 실패). 그래서 넣지 않는다.
+  //    얼굴 보존은 프롬프트 FACE_LOCK 에 의존한다(테스트상 gpt-image-2 는 fidelity
+  //    없이도 원본 얼굴을 잘 보존함).
   fd.append('n', '1')
 
   let url: string
