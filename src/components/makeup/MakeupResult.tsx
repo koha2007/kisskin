@@ -1,19 +1,19 @@
 // AI 메이크업 — 비포/애프터 결과 화면 (FREE_PIVOT_PLAN §2 / 커밋 P1-1, screen3 시안)
 // ────────────────────────────────────────────────────────────────────
-// Stitch 시안(screen3.png) 레이아웃 채용: 상단 스타일 칩 → 비포/애프터 슬라이더
-// → 저장/공유/다시 액션 → 룩 설명 → 추천 제품. 시안 폰트·색은 전부 우리 토큰.
-//
-// §8 가짜 이미지 금지(실데이터 연결 전 플레이스홀더):
-//   · 비포/애프터: BeforeAfterSlider 의 텍스트+무드 스와치 플레이스홀더 (AI 가짜 얼굴 X)
-//   · 추천 제품: 실제 affiliate 구조인 ProductGridCard 그대로 (이미지 없는 구조) +
-//     플레이스홀더 ProductRec 데이터. AI 생성 가짜 제품 이미지 X.
-// 실제 비포/애프터(P1-3)·실제 추천(도구 추천 데이터)이 붙으면 props 만 교체.
+// 저장·공유·이메일 3경로 모두 buildMakeupComposite(룩 + 스타일 라벨 + kissinskin
+// 브랜딩) 단일 소스를 쓴다(1-039.jpg 스타일). 옛 AnalysisApp 이 갖고 있던
+//   · 합성 저장(브랜딩 포함)  · /result/{id} 공유 링크(OG 미리보기)  · 이메일 전송
+// 을 free-pivot 흐름에 복원한다. 이 흐름엔 톤 분석 텍스트가 없어 합성/이메일은
+// 룩 이미지 + 스타일명/설명 + 브랜딩으로 구성된다.
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ResultGrid from '../result-grid/ResultGrid'
 import { ProductGridCard } from '../result-grid/ProductGridCard'
 import BeforeAfterSlider from './BeforeAfterSlider'
 import { styleById, type MakeupStyleId } from '../../lib/makeup/styles'
+import { buildMakeupComposite } from '../../lib/makeup/composite'
+import { saveSharedResult } from '../../lib/shareResult'
+import { supabase } from '../../lib/supabase'
 import type { ProductRec } from '../../lib/recommendations/types'
 
 const PRIMARY = '#eb4763'
@@ -25,17 +25,14 @@ function gtagEvent(name: string, params?: Record<string, unknown>) {
   if (typeof w.gtag === 'function') w.gtag('event', name, params)
 }
 
-// afterSrc 는 캔버스에서 만든 로컬 data URL(toDataURL) → CORS 없이 바로 Blob/File 변환 가능.
-function dataUrlToBlob(dataUrl: string): Blob {
-  const [head, body] = dataUrl.split(',')
-  const mime = head.match(/:(.*?);/)?.[1] || 'image/jpeg'
-  const bin = atob(body)
-  const arr = new Uint8Array(bin.length)
-  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i)
-  return new Blob([arr], { type: mime })
+async function canvasToBlob(canvas: HTMLCanvasElement, type = 'image/jpeg', quality = 0.92): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob null'))), type, quality)
+  })
 }
 
 const isAbort = (e: unknown) => e instanceof Error && e.name === 'AbortError'
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 function ActionBtn({ icon, label, onClick, disabled }: { icon: string; label: string; onClick?: () => void; disabled?: boolean }) {
   return (
@@ -99,38 +96,70 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
   // 실제 메이크업 결과가 아직 없으면(P1-3 미연결) 안전한 "생성 준비 중" 상태만 노출.
   const pending = !afterSrc
 
+  const styleName = isEn ? style.subEn : style.nameKo
+  const styleDesc = isEn ? style.descEn : style.descKo
+  const lang = isEn ? 'en' : 'ko'
+
   const [toast, setToast] = useState<string | null>(null)
   const showToast = (msg: string) => {
     setToast(msg)
-    window.setTimeout(() => setToast((cur) => (cur === msg ? null : cur)), 2200)
+    window.setTimeout(() => setToast((cur) => (cur === msg ? null : cur)), 2400)
   }
 
-  const fileName = `kisskin-makeup-${styleId}.jpg`
+  // 공유 링크(/result/{id}) — 최초 공유/저장 시 1회 생성 후 재사용.
+  const [shareId, setShareId] = useState<string | null>(null)
+  const [savingShare, setSavingShare] = useState(false)
 
-  // 저장 — 데스크톱/안드로이드: <a download> 파일 다운로드. iOS Safari 는 blob download 를
-  // 무시하므로 네이티브 공유 시트("이미지 저장")로 우회.
+  // 이메일 — 로그인 사용자는 세션 이메일로 자동 채움. 익명 사용자는 직접 입력.
+  const [email, setEmail] = useState('')
+  const [emailState, setEmailState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  useEffect(() => {
+    let cancelled = false
+    supabase.auth.getSession().then(({ data }) => {
+      const e = data.session?.user?.email
+      if (!cancelled && e) setEmail((cur) => cur || e)
+    }).catch(() => { /* 세션 없음 — 익명 입력 */ })
+    return () => { cancelled = true }
+  }, [])
+
+  const fileName = `kisskin-makeup-${styleId}.jpg`
+  const isMobile = typeof navigator !== 'undefined' && /Mobi|Android|iP(hone|ad|od)/i.test(navigator.userAgent || '')
+
+  const buildComposite = () => buildMakeupComposite({ afterSrc: afterSrc!, styleName, styleDesc, isEn })
+
+  // 결과를 Supabase 에 저장하고 /result/{id} 공유 URL 을 반환(중복 저장 방지).
+  const ensureShareUrl = async (compositeDataUrl: string): Promise<string> => {
+    if (shareId) return `https://kissinskin.net/result/${shareId}`
+    const report = JSON.stringify({ analysis: null, products: [], look: styleName })
+    const id = await saveSharedResult(compositeDataUrl, report, '', [styleName])
+    setShareId(id)
+    return `https://kissinskin.net/result/${id}`
+  }
+
+  // 저장 — 모바일: 네이티브 공유 시트("사진 앨범에 저장"). 데스크톱: 파일 다운로드.
   const handleSave = async () => {
     if (!afterSrc) return
-    const nav = typeof navigator !== 'undefined' ? navigator : undefined
-    const isIOS = !!nav && /iP(hone|ad|od)/.test(nav.userAgent || '')
-    if (isIOS && nav && typeof nav.canShare === 'function') {
-      try {
-        const file = new File([dataUrlToBlob(afterSrc)], fileName, { type: 'image/jpeg' })
-        if (nav.canShare({ files: [file] })) {
-          await nav.share({ files: [file] })
-          gtagEvent('makeup_save', { style: styleId, method: 'ios_share' })
-          return
-        }
-      } catch (e) {
-        if (isAbort(e)) return
-        /* 폴백으로 진행 */
-      }
-    }
     try {
-      const url = URL.createObjectURL(dataUrlToBlob(afterSrc))
+      const canvas = await buildComposite()
+      const blob = await canvasToBlob(canvas, 'image/jpeg', 0.92)
+      const file = new File([blob], fileName, { type: 'image/jpeg' })
+      const nav = navigator
+      if (isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [file] })) {
+        try {
+          await nav.share({ files: [file] })
+          gtagEvent('makeup_save', { style: styleId, method: 'share_sheet' })
+          return
+        } catch (e) {
+          if (isAbort(e)) return
+          /* 폴백으로 진행 */
+        }
+      }
+      const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
       a.download = fileName
+      a.rel = 'noopener'
       document.body.appendChild(a)
       a.click()
       a.remove()
@@ -142,48 +171,103 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
     }
   }
 
-  // 공유 — ① 결과 이미지 파일 자체 공유(모바일 네이티브 시트, 바이럴 핵심)
-  //        ② 파일 미지원 → URL 공유  ③ navigator.share 없음(데스크톱) → 링크 복사
+  // 공유 — ① 결과를 저장해 /result 링크 생성 ② 모바일: 이미지+링크 네이티브 공유
+  //        ③ 데스크톱: 링크 복사(+ 하단 링크바 상시 노출). 데스크톱에서 "복사 링크가
+  //        안 보이던" 문제를 상시 링크바로 확실히 해결.
   const handleShare = async () => {
-    const nav = typeof navigator !== 'undefined' ? navigator : undefined
-    const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
-    const title = isEn ? 'AI Makeup — kisskin' : 'AI 메이크업 — kisskin'
-    const text = isEn
-      ? `I tried the ${style.subEn} look with AI makeup! Try it free 👉`
-      : `AI 메이크업으로 ${style.nameKo} 룩 완성! 나도 무료로 해보기 👉`
-
-    // ① 이미지 파일 공유
-    if (afterSrc && nav && typeof nav.canShare === 'function') {
+    if (!afterSrc) return
+    setSavingShare(true)
+    try {
+      const canvas = await buildComposite()
+      const compositeDataUrl = canvas.toDataURL('image/jpeg', 0.9)
+      let shareUrl = 'https://kissinskin.net/analysis/'
       try {
-        const file = new File([dataUrlToBlob(afterSrc)], fileName, { type: 'image/jpeg' })
-        if (nav.canShare({ files: [file] })) {
-          await nav.share({ files: [file], title, text })
+        shareUrl = await ensureShareUrl(compositeDataUrl)
+      } catch (e) {
+        console.warn('[makeup-share] save failed, falling back to tool URL', e)
+      }
+      const title = isEn ? 'AI Makeup — kisskin' : 'AI 메이크업 — kisskin'
+      const text = isEn
+        ? `I tried the ${styleName} look with AI makeup! Try it free 👉`
+        : `AI 메이크업으로 ${styleName} 룩 완성! 나도 무료로 해보기 👉`
+      const nav = navigator
+      const blob = await canvasToBlob(canvas, 'image/jpeg', 0.92)
+      const file = new File([blob], fileName, { type: 'image/jpeg' })
+
+      // 모바일: 이미지 파일 + 링크 네이티브 공유(바이럴 핵심)
+      if (isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [file] })) {
+        try {
+          await nav.share({ files: [file], title, text, url: shareUrl })
           gtagEvent('makeup_share', { style: styleId, method: 'file' })
           return
+        } catch (e) {
+          if (isAbort(e)) return
         }
-      } catch (e) {
-        if (isAbort(e)) return
-        /* 링크 공유로 폴백 */
       }
-    }
-    // ② URL 공유
-    if (nav && typeof nav.share === 'function') {
+      if (isMobile && typeof nav.share === 'function') {
+        try {
+          await nav.share({ title, text, url: shareUrl })
+          gtagEvent('makeup_share', { style: styleId, method: 'url' })
+          return
+        } catch (e) {
+          if (isAbort(e)) return
+        }
+      }
+      // 데스크톱: 링크 복사(하단 링크바도 함께 노출됨)
       try {
-        await nav.share({ title, text, url: shareUrl })
-        gtagEvent('makeup_share', { style: styleId, method: 'url' })
-        return
-      } catch (e) {
-        if (isAbort(e)) return
-        /* 클립보드로 폴백 */
+        await nav.clipboard.writeText(shareUrl)
+        gtagEvent('makeup_share', { style: styleId, method: 'copy' })
+        showToast(isEn ? 'Link copied to clipboard!' : '공유 링크를 복사했어요!')
+      } catch {
+        showToast(isEn ? 'Link ready below — copy it to share' : '아래 링크를 복사해 공유하세요')
       }
-    }
-    // ③ 데스크톱 폴백 — 링크 복사
-    try {
-      await nav!.clipboard.writeText(shareUrl)
-      gtagEvent('makeup_share', { style: styleId, method: 'copy' })
-      showToast(isEn ? 'Link copied to clipboard!' : '링크를 복사했어요!')
     } catch {
-      showToast(isEn ? 'Copy failed — copy the URL manually' : '복사 실패 — 주소창의 링크를 복사해 주세요')
+      showToast(isEn ? 'Share failed — try again' : '공유에 실패했어요. 다시 시도해 주세요')
+    } finally {
+      setSavingShare(false)
+    }
+  }
+
+  const copyShareLink = async () => {
+    if (!shareId) return
+    try {
+      await navigator.clipboard.writeText(`https://kissinskin.net/result/${shareId}`)
+      showToast(isEn ? 'Link copied!' : '링크를 복사했어요!')
+    } catch {
+      showToast(isEn ? 'Copy failed' : '복사에 실패했어요')
+    }
+  }
+
+  // 이메일 전송 — 합성 이미지를 첨부해 send-report 로 전송(리포트 없는 룩 전용 페이로드).
+  const handleEmail = async () => {
+    if (!afterSrc) return
+    const target = email.trim()
+    if (!EMAIL_RE.test(target)) {
+      setEmailState('error')
+      showToast(isEn ? 'Enter a valid email' : '올바른 이메일을 입력해 주세요')
+      return
+    }
+    setEmailState('sending')
+    try {
+      const canvas = await buildComposite()
+      const compositeDataUrl = canvas.toDataURL('image/jpeg', 0.9)
+      const res = await fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: target,
+          report: { summary: styleDesc || '', products: [] },
+          styles: [styleName],
+          resultImage: compositeDataUrl,
+          lang,
+        }),
+      })
+      if (!res.ok) throw new Error('send failed')
+      setEmailState('sent')
+      gtagEvent('makeup_email_sent', { style: styleId, email_domain: target.split('@')[1] })
+    } catch {
+      setEmailState('error')
+      showToast(isEn ? 'Failed to send — try again' : '전송에 실패했어요. 다시 시도해 주세요')
     }
   }
 
@@ -199,9 +283,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1 className="flex-1 text-center text-base font-bold tracking-tight">{isEn ? 'AI Makeup' : 'AI 메이크업'}</h1>
-        <span className="shrink-0 text-[11px] font-bold bg-white/15 rounded-full px-3 py-1">
-          {isEn ? style.subEn : style.nameKo}
-        </span>
+        <span className="shrink-0 text-[11px] font-bold bg-white/15 rounded-full px-3 py-1">{styleName}</span>
       </header>
 
       <main className="px-5 pt-5 pb-10 max-w-xl w-full mx-auto">
@@ -231,16 +313,74 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
         {/* 액션 — 저장/공유는 결과 이미지가 있어야 의미 있음(생성 준비 중이면 비활성) */}
         <div className="mt-4 flex gap-2.5">
           <ActionBtn icon="download" label={isEn ? 'Save' : '저장'} onClick={handleSave} disabled={pending} />
-          <ActionBtn icon="ios_share" label={isEn ? 'Share' : '공유'} onClick={handleShare} disabled={pending} />
+          <ActionBtn icon="ios_share" label={isEn ? 'Share' : '공유'} onClick={handleShare} disabled={pending || savingShare} />
           <ActionBtn icon="refresh" label={isEn ? 'Retry' : '다시'} onClick={onRetake} />
         </div>
 
+        {/* 공유 링크바 — 생성되면 상시 노출(데스크톱에서도 링크 복사 확실히 보이게) */}
+        {shareId && (
+          <div className="mt-3 flex items-center gap-2 rounded-2xl bg-white/10 border border-white/15 px-3 py-2">
+            <span className="material-symbols-outlined text-base text-white/70 shrink-0">link</span>
+            <span className="flex-1 truncate text-[12px] text-white/75">{`kissinskin.net/result/${shareId}`}</span>
+            <button
+              type="button"
+              onClick={copyShareLink}
+              className="shrink-0 rounded-full bg-white/15 hover:bg-white/25 px-3 py-1 text-[11px] font-bold active:scale-95 transition"
+            >
+              {isEn ? 'Copy' : '복사'}
+            </button>
+          </div>
+        )}
+
+        {/* 이메일로 받기 — 로그인 시 자동 채움, 익명은 직접 입력 */}
+        {!pending && (
+          <section className="mt-4 rounded-2xl bg-white/10 border border-white/15 p-4">
+            {emailState === 'sent' ? (
+              <div className="flex items-center gap-2 text-[13px] font-bold text-emerald-300">
+                <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
+                {isEn ? 'Sent! Check your inbox (and spam).' : '전송 완료! 받은편지함(스팸함)을 확인하세요.'}
+              </div>
+            ) : (
+              <>
+                <label className="flex items-center gap-1.5 text-[12px] font-bold text-white/80 mb-2">
+                  <span className="material-symbols-outlined text-base">mail</span>
+                  {isEn ? 'Email me this result' : '이 결과를 이메일로 받기'}
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); if (emailState === 'error') setEmailState('idle') }}
+                    placeholder={isEn ? 'you@example.com' : '이메일 주소'}
+                    className="flex-1 min-w-0 rounded-xl bg-white/90 text-navy placeholder:text-slate-400 px-3 py-2.5 text-[14px] font-medium outline-none focus:ring-2 focus:ring-white/60"
+                    style={{ color: NAVY }}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleEmail}
+                    disabled={emailState === 'sending'}
+                    className="shrink-0 rounded-xl px-4 py-2.5 text-[13px] font-extrabold text-white active:scale-[0.97] transition disabled:opacity-50"
+                    style={{ background: PRIMARY }}
+                  >
+                    {emailState === 'sending' ? (isEn ? 'Sending…' : '전송 중…') : (isEn ? 'Send' : '보내기')}
+                  </button>
+                </div>
+                <p className="mt-2 text-[11px] text-white/45">
+                  {isEn
+                    ? 'We email the look image + branding. No spam, unsubscribe anytime.'
+                    : '룩 이미지와 브랜딩을 이메일로 보내드려요. 스팸 없이, 언제든 수신 거부 가능.'}
+                </p>
+              </>
+            )}
+          </section>
+        )}
+
         {/* 룩 설명 */}
         <section className="mt-8">
-          <h2 className="text-2xl font-extrabold tracking-tight">{isEn ? style.subEn : style.nameKo}</h2>
-          <p className="mt-2.5 text-[15px] leading-relaxed text-white/80">
-            {isEn ? style.descEn : style.descKo}
-          </p>
+          <h2 className="text-2xl font-extrabold tracking-tight">{styleName}</h2>
+          <p className="mt-2.5 text-[15px] leading-relaxed text-white/80">{styleDesc}</p>
         </section>
 
         {/* 추천 제품 — 실제 ProductGridCard 구조 (플레이스홀더 데이터) */}
