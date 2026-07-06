@@ -45,7 +45,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       toneAnalysis: isEn ? 'Tone Analysis' : '톤 분석',
       advice: isEn ? 'Personalized Advice' : '맞춤 조언',
       makeupResult: isEn ? 'Makeup Simulation Result' : '메이크업 시뮬레이션 결과',
-      makeupStyles: isEn ? '9 Makeup Styles' : '메이크업 스타일 9종',
+      // 룩 개수에 맞춰 동적으로 — 지금은 온디바이스 단일 룩(1장)이라 "9종" 하드코딩 금지.
+      makeupStyles: (() => {
+        const n = styles?.length || 0
+        if (isEn) return n === 1 ? 'Makeup Style' : `${n} Makeup Styles`
+        return n === 1 ? '메이크업 스타일' : `메이크업 스타일 ${n}종`
+      })(),
       productRec: isEn ? 'Personalized Product Recommendations' : '맞춤 화장품 추천',
       buyNow: isEn ? 'Buy Now →' : 'Buy Now →',
       reportTitle: isEn ? 'AI Makeup Analysis Report' : 'AI 메이크업 분석 리포트',
