@@ -177,8 +177,9 @@ export default function AnalysisApp() {
   const [isIos, setIsIos] = useState(false)
   const [showIosGuide, setShowIosGuide] = useState(false)
   const customerEmailRef = useRef<string | null>(null)
-  // 결과당 1회만 자동 저장/이메일 전송하도록 가드.
+  // 결과당 1회만 자동 저장/이메일 전송하도록 가드(저장·이메일 독립).
   const autoSavedRef = useRef(false)
+  const emailSentRef = useRef(false)
   const shareMenuRef = useRef<HTMLDivElement>(null)
   const [dragging, setDragging] = useState(false)
   // True while a picked file is being decoded/compressed — drives the avatar
@@ -594,7 +595,8 @@ export default function AnalysisApp() {
     setShareId(null)
   }, [])
 
-  // 결과당 1회: 룩 이미지 + 리포트가 모두 준비되면 자동 저장(공유링크) + 이메일 전송.
+  // ① 공유 링크 자동 저장 — 공유 결과 페이지는 톤 분석까지 보여주므로 report 필요.
+  //    (report 없이도 링크는 만들 수 있으나, 리치 프리뷰를 위해 report 준비 후 저장)
   useEffect(() => {
     if (autoSavedRef.current) return
     if (!resultImage || !report || !gender) return
@@ -610,13 +612,27 @@ export default function AnalysisApp() {
             .catch(err2 => console.warn('[auto-save] Retry failed:', err2))
         }, 3000)
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resultImage, report, gender])
 
+  // ② 이메일 리포트 자동 전송 — report 에서 분리한다.
+  //    핵심 유료 산출물(메이크업 룩)은 온디바이스라 항상 성공하지만, 텍스트 리포트는
+  //    /api/analyze(Gemini)가 실패/타임아웃하면 null 이 될 수 있다. 예전엔 이메일이
+  //    report 에 묶여 있어 "룩은 나왔는데 메일은 안 옴" 이 발생했다. 이제 룩 이미지가
+  //    준비되고 리포트 로딩이 끝나면(성공/실패 무관) 무조건 1회 전송한다.
+  //    · report 있으면 톤 분석까지 포함, 없으면 룩 이미지 + 스타일만.
+  useEffect(() => {
+    if (emailSentRef.current) return
+    // 룩 이미지 준비 + 리포트 시도 종료(성공이든 실패든) 전까지 대기 → 있으면 report 포함.
+    if (!resultImage || !gender || reportLoading) return
     const targetEmail = customerEmailRef.current
     if (!targetEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(targetEmail)) {
       console.warn('[send-report] No valid email available, skipping email report')
       setEmailWarning(locale === 'ko' ? '이메일 주소가 없어 리포트를 전송할 수 없습니다. 마이페이지에서 확인하세요.' : 'No email address available to send report. Check your account page.')
       return
     }
+    emailSentRef.current = true
+    const names = styleNames
     ;(async () => {
       try {
         let composedImage = ''
@@ -626,18 +642,24 @@ export default function AnalysisApp() {
           const composedCanvas = await buildCompositeCanvas(lookImg, true, names)
           composedImage = composedCanvas.toDataURL('image/jpeg', 0.85)
         } catch (canvasErr) { console.warn('[send-report] canvas failed:', canvasErr) }
-        const parsed = parseReport(report)
-        gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1] })
-        fetch('/api/send-report', {
+        const parsed = report ? parseReport(report) : null
+        gtagEvent('email_report_sent', { email_domain: targetEmail.split('@')[1], has_report: !!report })
+        const res = await fetch('/api/send-report', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: targetEmail, report: parsed || { summary: report, products: [] }, styles: names, resultImage: composedImage, lang: locale }),
-        }).then(res => {
-          if (!res.ok) setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
-        }).catch(() => setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.'))
-      } catch (emailErr) { console.warn('[send-report] email preparation failed:', emailErr) }
+          body: JSON.stringify({ email: targetEmail, report: parsed || { summary: report || '', products: [] }, styles: names, resultImage: composedImage, lang: locale }),
+        })
+        if (!res.ok) {
+          emailSentRef.current = false // 실패 시 다음 트리거에서 재시도 허용
+          setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
+        }
+      } catch (emailErr) {
+        emailSentRef.current = false
+        console.warn('[send-report] email preparation failed:', emailErr)
+        setEmailWarning(locale === 'ko' ? '이메일 리포트 전송에 실패했습니다.' : 'Failed to send email report.')
+      }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resultImage, report, gender])
+  }, [resultImage, reportLoading, gender])
 
   const openCheckout = async (type: 'one-time' | 'subscription' = 'one-time') => {
     const value = type === 'subscription' ? 9.88 : 2.99
@@ -840,7 +862,7 @@ export default function AnalysisApp() {
       })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleReset = () => { setAnalyzed(false); setReportLoading(false); autoSavedRef.current = false; setResultImage(null); setStyleNames([]); setReport(null); setError(null); setShareId(null); setEmailWarning(null) }
+  const handleReset = () => { setAnalyzed(false); setReportLoading(false); autoSavedRef.current = false; emailSentRef.current = false; setResultImage(null); setStyleNames([]); setReport(null); setError(null); setShareId(null); setEmailWarning(null) }
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
