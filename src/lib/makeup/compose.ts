@@ -13,6 +13,22 @@ const SUPPORTED: [string, number][] = [
   ['1024x1536', 1 / 1.5],
 ]
 
+/**
+ * 원본 비율을 그대로 유지한 채(크롭·패딩 없이) 긴 변을 maxDim 이하로만 축소한다.
+ * OpenAI edits 에는 size='auto' 를 함께 보내 출력이 입력 방향(세로/가로)을 따르게 한다.
+ * → 운영자 요구: "사용자 원본 사진과 동일한 비율로 생성"(gpt-image size=auto 방식).
+ * fitToSupported 의 cover-crop(가장자리 잘림) 대신 whole-face 경로의 기본으로 쓴다.
+ */
+export function fitPreserveAspect(img: HTMLImageElement, maxDim = 1024): { canvas: HTMLCanvasElement; size: string } {
+  const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height
+  const scale = Math.min(1, maxDim / Math.max(iw, ih))
+  const w = Math.max(1, Math.round(iw * scale)), h = Math.max(1, Math.round(ih * scale))
+  const c = document.createElement('canvas'); c.width = w; c.height = h
+  const ctx = c.getContext('2d')!
+  ctx.drawImage(img, 0, 0, w, h)
+  return { canvas: c, size: 'auto' }
+}
+
 /** 셀카를 가장 가까운 지원 비율 사이즈로 cover 리사이즈(가장자리만 약간 크롭, 패딩 없음). */
 export function fitToSupported(img: HTMLImageElement): { canvas: HTMLCanvasElement; size: string } {
   const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height

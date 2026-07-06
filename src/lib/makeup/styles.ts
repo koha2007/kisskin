@@ -243,7 +243,11 @@ export function promptWholeFace(style: MakeupStyle): string {
   return (
     `You are a top makeup artist. Edit this selfie photo to apply the "${style.subEn}" makeup look. ` +
     `${FACE_LOCK_WHOLEFACE}\n\n` +
+    'Keep the exact same image aspect ratio, framing and crop as the input photo — do not zoom, pad, ' +
+    'letterbox or change the composition; the output must have the same proportions as the input.\n\n' +
     `First, ${BASE_RETOUCH}. Then apply the makeup: ${style.prompt}\n\n` +
+    'By default give the lips a naturally glossy, hydrated sheen with a soft healthy shine (unless this ' +
+    'specific look calls for a matte finish). ' +
     'Again: keep the original face pixels unchanged — only the makeup changes. Photorealistic and natural.'
   )
 }

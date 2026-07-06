@@ -15,7 +15,7 @@ import MakeupStyleSelect from './MakeupStyleSelect'
 import MakeupResult from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
 import { styleById, promptWholeFace, type MakeupStyleId } from '../../lib/makeup/styles'
-import { fitToSupported } from '../../lib/makeup/compose'
+import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { deviceFingerprint } from '../../lib/makeup/fingerprint'
 import { supabase } from '../../lib/supabase'
 
@@ -67,8 +67,8 @@ export default function MakeupFlow() {
       await new Promise<void>((res, rej) => { img.onload = () => res(); img.onerror = () => rej(new Error('image load failed')); img.src = photo })
       if (!alive()) return
 
-      // 지원 사이즈로 맞춘 원본(BEFORE 슬라이더 + OpenAI 입력).
-      const { canvas: srcCanvas, size } = fitToSupported(img)
+      // 원본 비율 유지(크롭 없이 축소)한 입력 + size='auto' → 출력이 원본 비율을 따른다.
+      const { canvas: srcCanvas, size } = fitPreserveAspect(img)
       const baseUrl = srcCanvas.toDataURL('image/png')
       setBaseSrc(baseUrl)
 

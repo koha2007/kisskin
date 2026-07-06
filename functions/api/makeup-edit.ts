@@ -78,7 +78,7 @@ interface Body {
   styleId?: string
   fingerprint?: string
   jobId?: string   // 차감 멱등 키(생성 작업 id). 같은 작업 재시도 시 이중차감 방지.
-  size?: string    // '1024x1024' | '1536x1024' | '1024x1536'
+  size?: string    // 'auto'(기본, 원본 비율 유지) | '1024x1024' | '1536x1024' | '1024x1536'
   // ── 선택 오버라이드(미지정 시 기존 기본값 유지 → 프로덕션 동작 불변) ──
   inputFidelity?: string // 'high'(기본) | 'low'. low = 마스크영역 더 자유롭게 재생성(메이크업 강하게)
   quality?: string       // 'medium'(기본) | 'low' | 'high'
@@ -148,7 +148,9 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // mask 있으면 부분 편집(Stage 2), 없으면 whole-face 편집(옛 9룩 방식).
   if (mask) fd.append('mask', dataUrlToBlob(mask), 'mask.png')
   fd.append('prompt', prompt)
-  fd.append('size', body.size && /^\d+x\d+$/.test(body.size) ? body.size : '1024x1024')
+  // size='auto' → 출력이 입력 사진의 방향/비율을 따른다(운영자 요구: 원본 비율 유지).
+  // 명시적 WxH 도 허용, 그 외/누락은 auto 로 폴백.
+  fd.append('size', body.size === 'auto' || (body.size && /^\d+x\d+$/.test(body.size)) ? body.size : 'auto')
   fd.append('quality', ['low', 'medium', 'high'].includes(body.quality || '') ? body.quality! : 'medium')
   // ⚠️ gpt-image-2 는 input_fidelity 파라미터를 지원하지 않는다(보내면 400
   //    invalid_input_fidelity_model → 생성 전부 실패). 그래서 넣지 않는다.
