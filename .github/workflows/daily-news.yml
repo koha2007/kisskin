@@ -55,6 +55,8 @@ jobs:
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"
           else
-            git commit -m "chore(news): 일일 글로벌 뷰티 뉴스 자동 발행 [skip ci]"
+            # skip 토큰 금지: Cloudflare Pages 가 '[skip ci]'류를 인식해 배포를 건너뛴다.
+            # GITHUB_TOKEN 푸시는 다른 워크플로를 재트리거하지 않으므로 루프 위험도 없음.
+            git commit -m "chore(news): 일일 글로벌 뷰티 뉴스 자동 발행"
             git push
           fi
