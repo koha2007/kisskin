@@ -657,6 +657,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             {t('home.slider.title')}
           </h2>
           <p className="text-slate-500 text-sm md:text-base mt-2">{t('home.slider.subtitle')}</p>
+          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-pink-50 border border-pink-100 px-4 py-1.5 text-primary-dark text-xs md:text-sm font-semibold">
+            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>touch_app</span>
+            {t('home.slider.selectHint')}
+          </p>
         </div>
         <MarqueeHero onSelect={(styleId) => { window.location.href = `/analysis/?style=${styleId}` }} />
       </section>
@@ -882,7 +886,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <article>
                   <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Why AI makeup simulation helps</h3>
                   <p>
-                    The biggest hesitation before trying a new look is the question <strong className="text-primary">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 5 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
+                    The biggest hesitation before trying a new look is the question <strong className="text-primary">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 9 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
                   </p>
                   <p>
                     The AI reads your facial contours, features, and skin tone, then blends the makeup on naturally. Unlike a Photoshop paste-over, it keeps the direction of light, your skin texture, and the curves of your face intact — adding only the lip, cheek, and skin retouching with precision. The result looks close to “you, actually wearing the makeup,” so any look you like is easy to recreate.
@@ -930,7 +934,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     새로운 메이크업 룩에 도전할 때 가장 큰 부담은 <strong className="text-primary">"내 얼굴에 어울릴까?"</strong>라는 의문과
                     실패할 경우 발생하는 시간·비용 손실입니다. 매장에서 일일이 발색하기에는 매장 동선이 부담스럽고,
                     온라인 색조 화장품을 구매한 뒤에는 환불이 까다롭거나 사실상 불가능한 경우도 많습니다.
-                    kissinskin은 셀카 한 장으로 5가지 K-뷰티 시그니처 룩을 즉시 시뮬레이션해
+                    kissinskin은 셀카 한 장으로 9가지 K-뷰티 시그니처 룩을 즉시 시뮬레이션해
                     실제 발색과 인상 변화를 미리 확인할 수 있게 해 줍니다.
                   </p>
                   <p>
