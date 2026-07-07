@@ -1,6 +1,7 @@
 import ArticleShell, { type RelatedItem } from '../components/ArticleShell'
 import { renderBody } from '../components/ArticleBlocks'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import NewsProductBox from '../components/NewsProductBox'
 import { NEWS_ITEMS, getNewsBySlug } from '../lib/news/items'
 import { NEWS_ITEMS_EN, getNewsBySlugEn } from '../lib/news/items.en'
 import { getCategoryMeta } from '../lib/news/types'
@@ -71,6 +72,8 @@ export default function NewsArticle({ slug }: Props) {
       <article className="article-body prose prose-slate max-w-none text-slate-700 leading-[1.8] text-[16px] md:text-[17px] space-y-6">
         {renderBody(item.body)}
       </article>
+
+      <NewsProductBox category={item.category} slug={item.slug} accentColor={meta.color} />
 
       <script
         type="application/ld+json"

@@ -7,6 +7,7 @@ export type AffiliatePageType =
   | 'perfume_type'
   | 'review'
   | 'guide'
+  | 'news'
   | 'makeup'
 
 export interface AffiliateClickEvent {
