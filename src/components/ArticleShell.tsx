@@ -114,9 +114,9 @@ export default function ArticleShell({
               {summary}
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
-              <span>{isEn ? 'By' : '작성'}</span>
+              <span>{isEn ? 'By' : '편집'}</span>
               <a href={aboutPath} className="font-semibold text-slate-700 hover:text-navy underline">
-                kissinskin Editorial · koha
+                {isEn ? 'kissinskin Global Beauty Desk' : 'kissinskin 글로벌 뷰티 데스크'}
               </a>
             </div>
           </div>
@@ -127,7 +127,7 @@ export default function ArticleShell({
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {children}
 
-            {/* Editorial transparency disclosure — AdSense policy: original content provenance */}
+            {/* Content provenance disclosure — 뉴스·가이드는 공개 출처 기반 정보 피드(AI 지원). 정직 표기. */}
             <div className="mt-12 p-5 md:p-6 bg-slate-50 border border-slate-200 rounded-xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-2">
                 {isEn ? 'About this article' : '이 글에 대해'}
@@ -135,16 +135,13 @@ export default function ArticleShell({
               {isEn ? (
                 <>
                   <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
-                    kissinskin is a one-person indie project; every article is planned and edited by its
-                    operator{' '}
-                    <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
-                      koha
-                    </a>
-                    . Claims are cross-checked against public sources such as BeautyMatter, NIQ, Mintel,
-                    Sephora quarterly reports, and Olive Young bestseller data.
+                    kissinskin's news and guides are information pieces compiled and edited (AI-assisted) from
+                    public sources on the fast-moving global beauty market. Figures and quotes are
+                    cross-referenced against public sources such as BeautyMatter, NIQ, Mintel, Sephora
+                    reports, and Olive Young bestseller data.
                   </p>
                   <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
-                    Personal opinion is kept distinct from generalized guidance, and matters needing medical
+                    Generalized information is kept distinct from personal opinion, and matters needing medical
                     or legal judgment should be taken to a professional. Corrections and feedback are welcome
                     via the{' '}
                     <a href={contactPath} className="font-semibold text-navy underline hover:text-primary">
@@ -156,15 +153,12 @@ export default function ArticleShell({
               ) : (
                 <>
                   <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
-                    kissinskin은 1인 인디 프로젝트로, 모든 글은 운영자{' '}
-                    <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
-                      koha
-                    </a>
-                    가 직접 기획·편집합니다. 사실 확인은 BeautyMatter, NIQ, Mintel, Sephora 분기 보고서, Olive Young 베스트셀러
-                    데이터 등 공개 출처를 교차 참조합니다.
+                    kissinskin의 뉴스·가이드는 매일 급변하는 글로벌 뷰티 시장의 소식을 공개 자료를 바탕으로
+                    정리·편집한 정보 콘텐츠입니다(AI 지원). 수치·인용은 BeautyMatter, NIQ, Mintel, Sephora 보고서,
+                    Olive Young 베스트셀러 데이터 등 공개 출처를 교차 참조합니다.
                   </p>
                   <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
-                    개인 의견과 일반화된 가이드는 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
+                    일반화된 정보와 개인 의견은 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
                     오류 제보·의견은{' '}
                     <a href={contactPath} className="font-semibold text-navy underline hover:text-primary">
                       문의 페이지

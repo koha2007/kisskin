@@ -251,8 +251,8 @@ export function ToolsFooter() {
           <p>{isEn ? 'Contact: ' : '문의: '}<a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
           <p className="max-w-3xl mx-auto leading-relaxed">
             {isEn
-              ? 'All articles are originally planned and edited in-house. Market data is cross-referenced against public reports from BeautyMatter, NIQ, Mintel, Sephora, and Olive Young. For medical or legal questions, please consult a qualified professional.'
-              : '모든 글은 직접 기획·편집한 고유 콘텐츠이며, 시장 데이터는 BeautyMatter · NIQ · Mintel · Sephora · Olive Young 공개 보고서를 교차 참조합니다. 의학·법적 판단이 필요한 내용은 전문가 상담을 권고합니다.'}
+              ? 'News and guides are compiled and edited (AI-assisted) from public sources on the global beauty market. Market data is cross-referenced against public reports from BeautyMatter, NIQ, Mintel, Sephora, and Olive Young. For medical or legal questions, please consult a qualified professional.'
+              : '뉴스·가이드는 글로벌 뷰티 시장 정보를 공개 자료 기반으로 정리·편집한 콘텐츠이며(AI 지원), 시장 데이터는 BeautyMatter · NIQ · Mintel · Sephora · Olive Young 공개 보고서를 교차 참조합니다. 의학·법적 판단이 필요한 내용은 전문가 상담을 권고합니다.'}
           </p>
         </div>
       </div>
