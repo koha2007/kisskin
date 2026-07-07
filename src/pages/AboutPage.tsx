@@ -60,17 +60,18 @@ function AboutKo() {
       <h2>편집·검수 원칙</h2>
       <ul>
         <li>
-          <strong>오리지널 콘텐츠:</strong> 가이드·블로그·뉴스·리뷰는 모두 운영자가
-          직접 기획하고 작성합니다. 다른 사이트에서 복사하지 않습니다.
+          <strong>오리지널 콘텐츠:</strong> 뉴스·가이드는 매일 급변하는 글로벌 뷰티
+          시장 정보를 공개 자료 기반으로 정리·편집한 고유 콘텐츠입니다(AI 지원).
+          다른 사이트에서 복사하지 않습니다.
         </li>
         <li>
           <strong>출처 명시:</strong> 산업 데이터를 인용할 때는 BeautyMatter,
           Mintel, NIQ, NPD Group 등 공개 보고서를 본문에 명시합니다.
         </li>
         <li>
-          <strong>AI 사용 고지:</strong> 본문은 사람이 직접 씁니다. AI는 도구
-          기능(이미지 시뮬레이션·진단)에만 사용되며, 생성된 결과에는 EU AI법
-          요구에 따라 AI 생성 표기를 합니다.
+          <strong>AI 사용 고지:</strong> AI는 도구 기능(이미지 시뮬레이션·진단)과
+          뉴스·가이드의 공개 자료 정리·편집에 활용되며, AI 지원 콘텐츠에는 EU AI법
+          요구에 따라 AI 표기를 합니다.
         </li>
         <li>
           <strong>제품 추천 정직성:</strong> 추천 제품은 글로벌 베스트셀러 데이터
@@ -160,17 +161,18 @@ function AboutEn() {
       <h2>Editorial standards</h2>
       <ul>
         <li>
-          <strong>Original content:</strong> Guides, blog posts, news, and reviews
-          are written by the operator. Nothing is copied from other sites.
+          <strong>Original content:</strong> Our news and guides are compiled and
+          edited (AI-assisted) from public sources on the global beauty market.
+          Nothing is copied from other sites.
         </li>
         <li>
           <strong>Sourced claims:</strong> Industry data references public reports
           (BeautyMatter, Mintel, NIQ, NPD Group, Sephora, and Olive Young) inline.
         </li>
         <li>
-          <strong>AI disclosure:</strong> Editorial text is written by a human.
-          AI is used only inside the tools (image simulation and diagnostics),
-          and AI-generated results are labeled in line with the EU AI Act.
+          <strong>AI disclosure:</strong> AI assists both the tools (image
+          simulation and diagnostics) and the compiling of our news and guides
+          from public sources; AI-assisted content is labeled in line with the EU AI Act.
         </li>
         <li>
           <strong>Product recommendations:</strong> Picks are curated from global

@@ -815,20 +815,20 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </h2>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
             {isEn ? (
-              <>kissinskin is created by <strong>koha</strong>. Every guide, blog post, news piece, and review is planned and written in-house, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
+              <>kissinskin is run by <strong>koha</strong>. Our news and guides are compiled and edited (AI-assisted) from public sources on the fast-moving global beauty market, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
             ) : (
-              <>kissinskin은 <strong>koha</strong>에서 제작되었습니다.
-              모든 가이드·블로그·뉴스·리뷰는 직접 기획·작성하며, 산업 데이터를
-              인용할 때는 BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를
-              본문에 명시합니다.</>
+              <>kissinskin은 <strong>koha</strong>가 운영합니다.
+              뉴스·가이드는 매일 급변하는 글로벌 뷰티 시장 정보를 공개 자료 기반으로
+              정리·편집한 콘텐츠이며(AI 지원), 산업 데이터를 인용할 때는
+              BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를 본문에 명시합니다.</>
             )}
           </p>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
             {isEn ? (
-              <>AI is used only for the tool features (image simulation and diagnostics); the body text is written by a human. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments, Google AdSense revenue, and Coupang Partners affiliate commissions — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
+              <>AI assists both the tool features (image simulation and diagnostics) and the compiling of our news and guides from public sources. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments, Google AdSense revenue, and Coupang Partners affiliate commissions — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
             ) : (
-              <>AI는 도구 기능(이미지 시뮬레이션·진단)에만 사용되며, 본문 텍스트는
-              사람이 직접 씁니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
+              <>AI는 도구 기능(이미지 시뮬레이션·진단)과 뉴스·가이드의 공개 자료
+              정리에 활용됩니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
               Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
               저장되지 않습니다. 사이트 운영비는 사용자 결제·Google AdSense 광고
               수익·쿠팡 파트너스 어필리에이트 수수료로 충당하며, 외부 투자는 없습니다.
