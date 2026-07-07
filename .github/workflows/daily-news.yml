@@ -1,0 +1,60 @@
+name: Daily K-beauty news
+
+# 매일 글로벌 뷰티 뉴스 1편을 Gemini(Google Search 그라운딩)로 생성해 커밋.
+# push → Cloudflare Pages 가 자동 빌드/배포(빌드 중 gen:sitemap 이 사이트맵 자동 갱신).
+#
+# 필요: 저장소 Settings → Secrets and variables → Actions → New repository secret
+#        이름 GEMINI_API_KEY 로 Gemini API 키 등록.
+#
+# 수동 실행: Actions 탭 → Daily K-beauty news → Run workflow (count 입력 가능).
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 매일 21:00 UTC = 06:00 KST
+  workflow_dispatch:
+    inputs:
+      count:
+        description: '생성할 뉴스 편수'
+        required: false
+        default: '1'
+
+concurrency:
+  group: daily-news
+  cancel-in-progress: false
+
+permissions:
+  contents: write            # 생성 결과를 main 에 푸시
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate news article(s)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/gen-news.mjs "${{ github.event.inputs.count || '1' }}"
+
+      - name: Regenerate sitemap
+        run: npm run gen:sitemap
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/lib/news/items.ts public/sitemap.xml
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋 생략"
+          else
+            git commit -m "chore(news): 일일 글로벌 뷰티 뉴스 자동 발행 [skip ci]"
+            git push
+          fi
