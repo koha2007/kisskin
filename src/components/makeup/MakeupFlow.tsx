@@ -14,7 +14,7 @@ import MakeupSelfieUpload from './MakeupSelfieUpload'
 import MakeupStyleSelect from './MakeupStyleSelect'
 import MakeupResult from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
-import { styleById, promptWholeFace, type MakeupStyleId } from '../../lib/makeup/styles'
+import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { deviceFingerprint } from '../../lib/makeup/fingerprint'
 import { supabase } from '../../lib/supabase'
@@ -47,6 +47,9 @@ export default function MakeupFlow() {
   const [step, setStep] = useState<Step>('upload')
   const [selfie, setSelfie] = useState<Selfie | null>(null)
   const [styleId, setStyleId] = useState<MakeupStyleId>('natural-glow')
+  // 홈 캐러셀에서 카드를 골라 들어오면 /analysis/?style=<id> 로 룩이 지정된다.
+  // 이 경우 업로드 후 스타일 선택 단계를 건너뛰고 바로 그 룩으로 생성한다.
+  const [preselected, setPreselected] = useState(false)
   const [status, setStatus] = useState('')
   const [errMsg, setErrMsg] = useState<string | null>(null)
   const [errAction, setErrAction] = useState<ErrAction>('restart')
@@ -142,7 +145,14 @@ export default function MakeupFlow() {
   // 만들 필요 없이 결제 흐름을 눈으로 확인·테스트). 충전은 100% 할인코드로 무료 결제 가능.
   useEffect(() => {
     if (typeof window === 'undefined') return
-    if (new URLSearchParams(window.location.search).get('topup') === '1') setStep('topup')
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('topup') === '1') setStep('topup')
+    // 홈 캐러셀 카드 선택 → ?style=<id> 로 룩 프리셀렉트(유효한 id 만 반영).
+    const s = params.get('style')
+    if (s && MAKEUP_STYLES.some((st) => st.id === s)) {
+      setStyleId(s as MakeupStyleId)
+      setPreselected(true)
+    }
   }, [])
 
   const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setStep('upload') }
@@ -154,8 +164,9 @@ export default function MakeupFlow() {
     return (
       <MakeupSelfieUpload
         isEn={isEn}
+        hintLabel={preselected ? (isEn ? styleById(styleId).subEn : styleById(styleId).nameKo) : undefined}
         onBack={() => { void navigate('/') }}
-        onNext={(data) => { jobIdRef.current = ''; setSelfie(data); setStep('style') }}
+        onNext={(data) => { jobIdRef.current = ''; setSelfie(data); setStep(preselected ? 'processing' : 'style') }}
       />
     )
   }

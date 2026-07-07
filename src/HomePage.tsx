@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
@@ -19,6 +19,13 @@ interface HomePageProps {
 const STYLE_LABELS = [
   'Natural Glow', 'Cloud Skin', 'Blood Lip', 'Maximalist Eye',
   'Metallic Eye', 'Bold Lip', 'Blush Draping', 'Grunge Makeup', 'K-pop Idol',
+]
+
+// 라벨과 1:1 매칭되는 실제 메이크업 스타일 id (src/lib/makeup/styles.ts MAKEUP_STYLES 순서).
+// 카드를 선택하면 이 id 가 /analysis/?style= 로 넘어가 해당 룩으로 바로 생성된다.
+const STYLE_IDS = [
+  'natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye',
+  'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol',
 ]
 
 // 9 models — each has 9 style images
@@ -61,62 +68,121 @@ const MARQUEE_MODELS: { folder: string; images: string[]; label: string }[] = [
   },
 ]
 
-// 스타일 슬라이더 — 9 모델이 3.5s마다 스타일을 순환하는 무한 가로 스크롤 캐러셀.
+// 스타일 슬라이더 — 9 모델이 각자 고유한 룩을 보여주는 무한 가로 스크롤 캐러셀.
 // (시안 "트렌디한 K-뷰티 스타일" 섹션. 실제 /styles/marquee/*.webp 사용, 데모 이미지 없음.)
-function MarqueeHero({ onClick }: { onClick: () => void }) {
-  const [styleIndices, setStyleIndices] = useState<number[]>(
-    MARQUEE_MODELS.map((_, i) => i % 9) // stagger initial styles
-  )
-  // Rotate styles every 3.5s
+//
+// 2026-07-07 개편:
+//   · 3.5s 스타일 순환 제거 — 카드가 중간에 "틱틱" 바뀌던 부자연스러움을 없애고
+//     각 모델은 자기 룩 한 장만 부드럽게 흘려보낸다(model mi → style mi).
+//   · 카드 선택 → 해당 룩 id 를 onSelect 로 넘겨 /analysis/?style= 로 바로 생성 연동.
+//   · CSS 애니메이션 대신 rAF 로 직접 스크롤 → 드래그로 앞/뒤 스크럽 가능.
+function MarqueeHero({ onSelect }: { onSelect: (styleId: string) => void }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const offsetRef = useRef(0)          // 현재 translateX (px, 음수 = 왼쪽으로 진행)
+  const halfRef = useRef(0)            // 카피 1벌 너비 = 전체/2 (루프 지점)
+  const speedRef = useRef(70)          // 자동 스크롤 속도 (px/s)
+  const pausedRef = useRef(false)      // hover 일시정지
+  const drag = useRef({ down: false, startX: 0, startOffset: 0 })
+  const draggedRef = useRef(false)     // 드래그 직후 카드 클릭(선택) 무시용
+
+  // 카피 1벌 너비 측정 → 루프 지점 + 옛 애니메이션 속도(데스크탑 28s/모바일 20s) 재현.
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStyleIndices(prev => prev.map((idx) => (idx + 1) % 9))
-    }, 3500)
-    return () => clearInterval(interval)
+    const measure = () => {
+      const el = trackRef.current
+      if (!el) return
+      halfRef.current = el.scrollWidth / 2
+      const dur = window.innerWidth <= 768 ? 20 : 28
+      if (halfRef.current > 0) speedRef.current = halfRef.current / dur
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
   }, [])
 
-  // Preload every rotation image so the 3.5s style swaps are instant (no blank
-  // pop-in mid-scroll). Deferred so it never competes with first paint.
+  // rAF 자동 스크롤 — JS 로 직접 굴려야 드래그로 앞/뒤 스크럽이 가능하다.
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      MARQUEE_MODELS.forEach(m =>
-        m.images.forEach(file => {
-          const img = new Image()
-          img.src = `/styles/marquee/${m.folder}_${file}`
-        })
-      )
-    }, 1200)
-    return () => window.clearTimeout(id)
+    let raf = 0
+    let last = 0
+    const step = (ts: number) => {
+      const el = trackRef.current
+      if (el) {
+        if (last && !drag.current.down && !pausedRef.current) {
+          const dt = (ts - last) / 1000
+          offsetRef.current -= speedRef.current * Math.min(dt, 0.05) // 탭 전환 후 점프 방지
+        }
+        const half = halfRef.current
+        if (half > 0) {
+          if (offsetRef.current <= -half) offsetRef.current += half
+          else if (offsetRef.current > 0) offsetRef.current -= half
+        }
+        el.style.transform = `translate3d(${offsetRef.current}px,0,0)`
+      }
+      last = ts
+      raf = requestAnimationFrame(step)
+    }
+    raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
   }, [])
 
-  // Render the model cards. The track holds two identical copies (a + b) and the
-  // CSS scrolls it by exactly -50%, so copy B lands where copy A began — a truly
-  // seamless loop. Copy B is decorative: hidden from a11y + focus.
+  // ── 드래그 스크럽 (pointer = 마우스/터치 공용) ──
+  // 트랙에 setPointerCapture 를 걸면 카드 click 이 죽어서 선택이 안 되므로,
+  // 캡처 대신 window 리스너로 드래그를 추적하고 이동량으로 클릭/드래그를 구분한다.
+  const onPointerMove = useCallback((e: PointerEvent) => {
+    if (!drag.current.down) return
+    const dx = e.clientX - drag.current.startX
+    if (Math.abs(dx) > 5) draggedRef.current = true
+    offsetRef.current = drag.current.startOffset + dx
+  }, [])
+
+  const onPointerUp = useCallback(() => {
+    drag.current.down = false
+    window.removeEventListener('pointermove', onPointerMove)
+    window.removeEventListener('pointerup', onPointerUp)
+    // 드래그였으면 이어서 발생할 카드 click 을 삼키고, 다음 tick 에 해제.
+    window.setTimeout(() => { draggedRef.current = false }, 0)
+  }, [onPointerMove])
+
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    drag.current = { down: true, startX: e.clientX, startOffset: offsetRef.current }
+    draggedRef.current = false
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+  }, [onPointerMove, onPointerUp])
+
+  const selectCard = (mi: number) => {
+    if (draggedRef.current) return       // 드래그 제스처는 선택으로 취급하지 않음
+    onSelect(STYLE_IDS[mi])
+  }
+
+  // Render the model cards. The track holds two identical copies (a + b) and rAF
+  // scrolls it by up to one copy width, wrapping seamlessly. Copy B is decorative:
+  // hidden from a11y + focus.
   const renderCards = (copy: 'a' | 'b') =>
     MARQUEE_MODELS.map((model, mi) => {
-      const src = `/styles/marquee/${model.folder}_${model.images[styleIndices[mi]]}`
+      const src = `/styles/marquee/${model.folder}_${model.images[mi]}`
       return (
         <div
           key={`${copy}-${model.folder}`}
           className="ks-card"
-          onClick={onClick}
+          onClick={() => selectCard(mi)}
           role="button"
           tabIndex={copy === 'a' ? 0 : -1}
           aria-hidden={copy === 'b' || undefined}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
-          aria-label={`Try AI makeup — ${STYLE_LABELS[styleIndices[mi]]}`}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(STYLE_IDS[mi]) } }}
+          aria-label={`Try AI makeup — ${STYLE_LABELS[mi]}`}
         >
           <img
             src={src}
-            alt={`${STYLE_LABELS[styleIndices[mi]]} - AI makeup`}
+            alt={`${STYLE_LABELS[mi]} - AI makeup`}
             width={200}
             height={280}
+            draggable={false}
             loading={copy === 'a' && mi < 2 ? 'eager' : 'lazy'}
             decoding="async"
             fetchPriority={copy === 'a' && mi === 0 ? 'high' : 'auto'}
           />
           <div className="ks-card-label">
-            <span>{STYLE_LABELS[styleIndices[mi]]}</span>
+            <span>{STYLE_LABELS[mi]}</span>
             <span className="ks-card-try" aria-hidden="true">Try →</span>
           </div>
         </div>
@@ -157,18 +223,16 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           display: flex;
           gap: 14px;
           width: max-content;
-          animation: ks-scroll 28s linear infinite;
           will-change: transform;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
+          cursor: grab;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: pan-y;   /* 세로 스크롤은 페이지에, 가로 드래그는 스크럽에 */
         }
-        .ks-marquee-track:hover,
-        .ks-marquee-track.ks-paused {
-          animation-play-state: paused;
-        }
-        @keyframes ks-scroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        .ks-marquee-track:active {
+          cursor: grabbing;
         }
         .ks-card {
           position: relative;
@@ -240,18 +304,16 @@ function MarqueeHero({ onClick }: { onClick: () => void }) {
           }
           .ks-marquee-track {
             gap: 10px;
-            animation-duration: 20s;
           }
         }
       `}</style>
       <div className="ks-hero-wrap">
         <div
+          ref={trackRef}
           className="ks-marquee-track"
-          onTouchStart={(e) => e.currentTarget.classList.add('ks-paused')}
-          onTouchEnd={(e) => {
-            const el = e.currentTarget
-            window.setTimeout(() => el.classList.remove('ks-paused'), 1500)
-          }}
+          onPointerDown={onPointerDown}
+          onMouseEnter={() => { pausedRef.current = true }}
+          onMouseLeave={() => { pausedRef.current = false }}
         >
           {renderCards('a')}
           {renderCards('b')}
@@ -596,7 +658,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </h2>
           <p className="text-slate-500 text-sm md:text-base mt-2">{t('home.slider.subtitle')}</p>
         </div>
-        <MarqueeHero onClick={() => onNavigate('analysis')} />
+        <MarqueeHero onSelect={(styleId) => { window.location.href = `/analysis/?style=${styleId}` }} />
       </section>
 
       {/* ── 무료 도구 그리드 (나만을 위한 뷰티 솔루션) ── */}

@@ -22,9 +22,11 @@ interface Props {
   onNext: (data: { photo: string }) => void
   onBack: () => void
   isEn?: boolean
+  /** 홈에서 특정 룩을 골라 들어온 경우 그 룩 이름 — 업로드 화면에 안내 칩으로 표시 */
+  hintLabel?: string
 }
 
-export default function MakeupSelfieUpload({ onNext, onBack, isEn = false }: Props) {
+export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintLabel }: Props) {
   const [photo, setPhoto] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -92,6 +94,14 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false }: Pro
             <h2 className="mt-5 text-xl font-extrabold tracking-tight">
               {isEn ? 'Upload your selfie' : '셀카를 올려주세요'}
             </h2>
+            {hintLabel && (
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3 py-1 text-xs font-semibold">
+                <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  auto_awesome
+                </span>
+                {(isEn ? 'Selected look · ' : '선택한 룩 · ') + hintLabel}
+              </span>
+            )}
             {/* 셀카 가이드 — 좋은 입력이 결과 품질의 절반 (측면/모자/그림자 대응) */}
             <ul className="mt-3 flex flex-col gap-1.5 text-[13px] text-white/75 w-full max-w-[16rem]">
               {(isEn
