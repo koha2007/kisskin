@@ -42,6 +42,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
       '데일리로 무난한 MLBB 톤부터 선명한 레드까지 컬러 구성이 다양해 취향대로 고르기 좋아요.',
       '건조함이 덜해 립밤 위에 가볍게 덧발라 촉촉한 물광 립으로 연출하기도 좋습니다.',
     ],
+    image: '/products/romnd-glasting-water-tint-sample.webp',
     coupangQuery: '롬앤 글래스팅 워터 틴트',
     globalQuery: 'rom&nd Glasting Water Tint',
     clio: true,

@@ -42,6 +42,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Shades range from everyday MLBB tones to vivid reds, so there’s a pick for every taste.',
       'Less drying — it also works layered lightly over lip balm for a dewy glass-lip look.',
     ],
+    image: '/products/romnd-glasting-water-tint-sample.webp',
     coupangQuery: '롬앤 글래스팅 워터 틴트',
     globalQuery: 'rom&nd Glasting Water Tint',
     clio: true,
