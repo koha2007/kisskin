@@ -11,8 +11,10 @@ export type HubItem = {
   category: string
   categoryLabel: string
   categoryColor: string
-  /** Category emoji — powers the moodboard card header (posts carry no image). */
+  /** Category emoji — powers the moodboard card header when there's no image. */
   categoryEmoji: string
+  /** Optional hero image (photo-led cards). Absent → gradient + emoji fallback. */
+  image?: string
   rightMeta?: ReactNode
 }
 
@@ -219,9 +221,13 @@ function MasonryCard({ item, href, isEn }: { item: HubItem; href: string; isEn: 
         className={`relative ${slugAspect(item.slug)} flex items-center justify-center`}
         style={{ background: headerGradient(item.categoryColor) }}
       >
-        <span className="text-5xl md:text-6xl drop-shadow-lg select-none" aria-hidden="true">
-          {item.categoryEmoji}
-        </span>
+        {item.image ? (
+          <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <span className="text-5xl md:text-6xl drop-shadow-lg select-none" aria-hidden="true">
+            {item.categoryEmoji}
+          </span>
+        )}
         <CategoryChip item={item} />
       </div>
       <div className="p-4">
@@ -245,9 +251,13 @@ function FeaturedCard({ item, href, isEn }: { item: HubItem; href: string; isEn:
         className="relative min-h-[200px] md:min-h-[300px] flex items-center justify-center"
         style={{ background: headerGradient(item.categoryColor) }}
       >
-        <span className="text-7xl md:text-8xl drop-shadow-lg select-none" aria-hidden="true">
-          {item.categoryEmoji}
-        </span>
+        {item.image ? (
+          <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <span className="text-7xl md:text-8xl drop-shadow-lg select-none" aria-hidden="true">
+            {item.categoryEmoji}
+          </span>
+        )}
         <CategoryChip item={item} size="md" />
       </div>
       <div className="p-6 md:p-9 flex flex-col justify-center">

@@ -1,12 +1,14 @@
-name: Daily K-beauty news
+name: Daily K-beauty content
 
-# 매일 글로벌 뷰티 뉴스 1편을 Gemini(Google Search 그라운딩)로 생성해 커밋.
+# 매일 06:00 KST:
+#   · 뉴스 1편 (Gemini + Google Search 그라운딩) + EN 자동번역
+#   · 메이크업 제품 1건 (검색 그라운딩 + 무드컷 이미지) + EN 자동번역
 # push → Cloudflare Pages 가 자동 빌드/배포(빌드 중 gen:sitemap 이 사이트맵 자동 갱신).
 #
 # 필요: 저장소 Settings → Secrets and variables → Actions → New repository secret
 #        이름 GEMINI_API_KEY 로 Gemini API 키 등록.
 #
-# 수동 실행: Actions 탭 → Daily K-beauty news → Run workflow (count 입력 가능).
+# 수동 실행: Actions 탭 → Daily K-beauty content → Run workflow (news count 입력 가능).
 
 on:
   schedule:
@@ -19,7 +21,7 @@ on:
         default: '1'
 
 concurrency:
-  group: daily-news
+  group: daily-content
   cancel-in-progress: false
 
 permissions:
@@ -28,7 +30,7 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -39,10 +41,15 @@ jobs:
 
       - run: npm ci
 
-      - name: Generate news article(s)
+      - name: Generate news article(s) + EN
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node scripts/gen-news.mjs "${{ github.event.inputs.count || '1' }}"
+
+      - name: Generate makeup product + EN
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/gen-products.mjs
 
       - name: Regenerate sitemap
         run: npm run gen:sitemap
@@ -51,12 +58,14 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/lib/news/items.ts public/sitemap.xml
+          git add src/lib/news/items.ts src/lib/news/items.en.ts src/lib/news/enSlugs.ts \
+                  src/lib/products/items.ts src/lib/products/items.en.ts src/lib/products/enSlugs.ts \
+                  public/products public/sitemap.xml
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"
           else
             # skip 토큰 금지: Cloudflare Pages 가 '[skip ci]'류를 인식해 배포를 건너뛴다.
             # GITHUB_TOKEN 푸시는 다른 워크플로를 재트리거하지 않으므로 루프 위험도 없음.
-            git commit -m "chore(news): 일일 글로벌 뷰티 뉴스 자동 발행"
+            git commit -m "chore(content): 일일 뉴스·메이크업 제품 자동 발행 (KO+EN)"
             git push
           fi

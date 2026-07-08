@@ -18,6 +18,8 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const ITEMS = resolve('src/lib/news/items.ts')
+const ITEMS_EN = resolve('src/lib/news/items.en.ts')
+const EN_SLUGS = resolve('src/lib/news/enSlugs.ts')
 const MODEL = process.env.GEMINI_NEWS_MODEL || 'gemini-2.5-flash'
 const CATEGORIES = ['trend', 'lip', 'eye', 'base', 'cheek', 'skincare', 'fragrance', 'hair', 'global']
 
@@ -141,14 +143,67 @@ function serialize(item) {
   return lines.join('\n')
 }
 
-function insert(item) {
-  const src = readFileSync(ITEMS, 'utf8')
-  const anchor = 'export const NEWS_ITEMS: NewsItem[] = ['
+function insertAt(file, anchor, text) {
+  const src = readFileSync(file, 'utf8')
   const idx = src.indexOf(anchor)
-  if (idx === -1) throw new Error('NEWS_ITEMS 배열 시작점을 못 찾음')
+  if (idx === -1) throw new Error(`앵커를 못 찾음: ${anchor} (${file})`)
   const at = idx + anchor.length
-  const next = src.slice(0, at) + '\n' + serialize(item) + src.slice(at)
-  writeFileSync(ITEMS, next)
+  writeFileSync(file, src.slice(0, at) + '\n' + text + src.slice(at))
+}
+
+function insert(item) {
+  insertAt(ITEMS, 'export const NEWS_ITEMS: NewsItem[] = [', serialize(item))
+}
+
+// ── EN 자동번역 ── KO 뉴스를 그대로 영어로 옮겨 items.en.ts + enSlugs.ts 에 삽입.
+// slug/category/date/readMinutes/featured 는 그대로, 텍스트만 번역. 본문의 콜아웃
+// 토큰(> TLDR:/DATA:/KEY/WARN/TIP/QUOTE, ## 소제목, | 구분자)은 보존한다.
+const EN_PROMPT = (item) => `You are a bilingual K-beauty news editor. Translate the following Korean news item into natural, fluent English for a global beauty-industry audience.
+
+Rules:
+- Keep the meaning and all facts/numbers exactly. Do not add or invent anything.
+- Preserve every body-array element's leading callout token verbatim if present: "> TLDR:", "> DATA:", "> KEY:", "> WARN:", "> TIP:", "> QUOTE:", and "##" subheadings, and the "|" separators. Translate only the human text after them.
+- Return ONLY one JSON object wrapped in a \`\`\`json code block. Same schema, same number of body elements.
+
+Korean item:
+\`\`\`json
+${JSON.stringify({ title: item.title, summary: item.summary, body: item.body, tags: item.tags }, null, 2)}
+\`\`\`
+
+Output JSON schema:
+{ "title": "...", "summary": "...", "body": ["...", "..."], "tags": ["...", "..."] }`
+
+async function translateAndInsertEn(apiKey, item) {
+  // 번역은 그라운딩 불필요 — 순수 번역 호출.
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: EN_PROMPT(item) }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 4096 },
+    }),
+  })
+  if (!res.ok) throw new Error(`Gemini(EN) ${res.status}: ${(await res.text()).slice(0, 200)}`)
+  const data = await res.json()
+  const text = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('')
+  const en = extractJson(text)
+  if (!en.title || !Array.isArray(en.body) || en.body.length < 3 || !Array.isArray(en.tags)) {
+    throw new Error('EN 번역 검증 실패(필드 부족)')
+  }
+  const enItem = {
+    slug: item.slug,
+    category: item.category,
+    title: en.title,
+    summary: en.summary || en.title,
+    body: en.body,
+    date: item.date,
+    readMinutes: item.readMinutes,
+    tags: en.tags,
+    ...(item.featured ? { featured: true } : {}),
+  }
+  insertAt(ITEMS_EN, 'export const NEWS_ITEMS_EN: NewsItem[] = [', serialize(enItem))
+  insertAt(EN_SLUGS, 'export const EN_NEWS_SLUGS = [', `  ${q(item.slug)},`)
 }
 
 async function main() {
@@ -166,7 +221,14 @@ async function main() {
         const errs = validate(item, ex)
         if (errs.length) { console.warn(`  시도 ${attempt} 검증 실패: ${errs.join('; ')}`); continue }
         insert(item)
-        console.log(`✅ 추가: [${item.category}] ${item.title}  (slug: ${item.slug}, ${item.readMinutes}분)`)
+        console.log(`✅ KO 추가: [${item.category}] ${item.title}  (slug: ${item.slug}, ${item.readMinutes}분)`)
+        try {
+          await translateAndInsertEn(apiKey, item)
+          console.log(`  🌐 EN 번역 추가: ${item.slug}`)
+        } catch (e) {
+          // EN 번역 실패는 치명적이지 않음 — KO 만 발행하고 계속(다음날 재시도 가능).
+          console.warn(`  ⚠️ EN 번역 건너뜀: ${e.message}`)
+        }
         ok = true
       } catch (e) {
         console.warn(`  시도 ${attempt} 오류: ${e.message}`)

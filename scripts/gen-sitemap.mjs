@@ -24,9 +24,10 @@ const SITEMAP = resolve('public/sitemap.xml')
 
 // content type → { 데이터 파일, en 슬러그 파일+상수, URL base }
 const TYPES = [
-  { base: 'news',    data: 'src/lib/news/items.ts',       enFile: 'src/lib/news/enSlugs.ts',       enConst: 'EN_NEWS_SLUGS' },
-  { base: 'guides',  data: 'src/lib/guides/posts.ts',     enFile: 'src/lib/guides/enSlugs.ts',     enConst: 'EN_GUIDE_SLUGS' },
-  { base: 'reviews', data: 'src/lib/reviews/posts.ts',    enFile: 'src/lib/reviews/enSlugs.ts',     enConst: 'EN_REVIEW_SLUGS' },
+  { base: 'news',     data: 'src/lib/news/items.ts',       enFile: 'src/lib/news/enSlugs.ts',       enConst: 'EN_NEWS_SLUGS' },
+  { base: 'products', data: 'src/lib/products/items.ts',    enFile: 'src/lib/products/enSlugs.ts',    enConst: 'EN_PRODUCT_SLUGS' },
+  { base: 'guides',   data: 'src/lib/guides/posts.ts',     enFile: 'src/lib/guides/enSlugs.ts',     enConst: 'EN_GUIDE_SLUGS' },
+  { base: 'reviews',  data: 'src/lib/reviews/posts.ts',    enFile: 'src/lib/reviews/enSlugs.ts',     enConst: 'EN_REVIEW_SLUGS' },
 ]
 
 // 데이터 TS 에서 각 아이템의 {slug,date,featured} 추출.
@@ -83,7 +84,7 @@ for (const t of TYPES) {
 }
 
 // ── 기존 sitemap 에서 콘텐츠 상세 블록만 제거하고 새 블록 삽입 ──
-const DETAIL = /^\/(en\/)?(news|guides|reviews)\/[^/]+\/$/
+const DETAIL = /^\/(en\/)?(news|products|guides|reviews)\/[^/]+\/$/
 let xml = readFileSync(SITEMAP, 'utf8')
 
 let removed = 0

@@ -111,6 +111,14 @@
 
   <!-- News Articles -->
 
+  <!-- Makeup Products Hub -->
+  <url>
+    <loc>https://kissinskin.net/products/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Guides Hub -->
   <url>
     <loc>https://kissinskin.net/guides/</loc>
@@ -343,6 +351,17 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/" />
   </url>
 
+  <!-- EN Makeup Products Hub -->
+  <url>
+    <loc>https://kissinskin.net/en/products/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/" />
+  </url>
+
   <!-- EN News Articles -->
   <url><loc>https://kissinskin.net/news/k-beauty-export-record-h1-2026-us-eu-surge/</loc><lastmod>2026-07-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kissinskin.net/news/olive-young-festa-la-kcon-2026-indie-brands/</loc><lastmod>2026-07-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -379,6 +398,8 @@
   <url><loc>https://kissinskin.net/en/news/sephora-k-beauty-bestsellers-2026/</loc><lastmod>2026-03-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/sephora-k-beauty-bestsellers-2026/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/sephora-k-beauty-bestsellers-2026/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/sephora-k-beauty-bestsellers-2026/" /></url>
   <url><loc>https://kissinskin.net/news/sustainable-cosmetics-2026/</loc><lastmod>2026-03-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kissinskin.net/news/ai-skincare-personalization-2026/</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/products/romnd-glasting-water-tint-sample/</loc><lastmod>2026-07-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/romnd-glasting-water-tint-sample/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/romnd-glasting-water-tint-sample/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/romnd-glasting-water-tint-sample/" /></url>
+  <url><loc>https://kissinskin.net/en/products/romnd-glasting-water-tint-sample/</loc><lastmod>2026-07-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/romnd-glasting-water-tint-sample/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/romnd-glasting-water-tint-sample/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/romnd-glasting-water-tint-sample/" /></url>
   <url><loc>https://kissinskin.net/guides/10-minute-daily-makeup-routine/</loc><lastmod>2026-04-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/guides/10-minute-daily-makeup-routine/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/guides/10-minute-daily-makeup-routine/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/guides/10-minute-daily-makeup-routine/" /></url>
   <url><loc>https://kissinskin.net/en/guides/10-minute-daily-makeup-routine/</loc><lastmod>2026-04-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/guides/10-minute-daily-makeup-routine/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/guides/10-minute-daily-makeup-routine/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/guides/10-minute-daily-makeup-routine/" /></url>
   <url><loc>https://kissinskin.net/guides/lipstick-stay-all-day-7-tips/</loc><lastmod>2026-04-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/guides/lipstick-stay-all-day-7-tips/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/guides/lipstick-stay-all-day-7-tips/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/guides/lipstick-stay-all-day-7-tips/" /></url>
