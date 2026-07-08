@@ -22,6 +22,8 @@ export interface ProductPost {
   summary: string
   /** 2–4 short highlight bullets (why it's worth a look). */
   highlights: string[]
+  /** Longer feature sentences (제형·발색·지속력·컬러 구성·사용팁 등). Detail page only. */
+  details?: string[]
   /** Hero image path — AI mood image at /products/{slug}.webp. Absent → design card. */
   image?: string
   /** Coupang search phrase (attribute/brand based, Korean — Coupang is a KR store). */

@@ -123,6 +123,28 @@ export default function ProductShowcase({ slug }: Props) {
           </ul>
         )}
 
+        {/* Details — longer, concrete feature sentences */}
+        {item.details && item.details.length > 0 && (
+          <section className="mt-7">
+            <h2 className="text-sm font-bold tracking-[0.12em] text-slate-500 uppercase mb-3">
+              {isEn ? 'Details' : '제품 특징'}
+            </h2>
+            <ul className="space-y-2.5">
+              {item.details.map((d) => (
+                <li key={d} className="flex gap-2.5 text-[15px] leading-relaxed text-slate-700">
+                  <span
+                    className="material-symbols-outlined text-[19px] text-primary shrink-0 mt-0.5"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    check_circle
+                  </span>
+                  <span>{d}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {/* Buy — region-aware affiliate buttons */}
         <section className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between gap-3 mb-4">
