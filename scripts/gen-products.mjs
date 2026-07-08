@@ -26,13 +26,19 @@ const ITEMS_EN = resolve('src/lib/products/items.en.ts')
 const EN_SLUGS = resolve('src/lib/products/enSlugs.ts')
 const IMG_DIR = resolve('public/products')
 const MODEL = process.env.GEMINI_PRODUCT_MODEL || 'gemini-2.5-flash'
-const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-fast-generate-001'
-// 카테고리 → 이미지용 영어 제품 명사(브랜드/실물 대신 "그 종류의 연출컷").
-const CAT_NOUN = {
-  lip: 'lip tint', eye: 'eyeshadow palette', base: 'cushion foundation compact',
-  cheek: 'blush compact', skincare: 'skincare serum glass bottle',
-  fragrance: 'perfume glass bottle', hair: 'hair care bottle', trend: 'makeup product',
-  global: 'K-beauty makeup product',
+const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-generate-001'
+// 카테고리 → "제품이 실제로 발린 뷰티 클로즈업" 장면(흰 튜브보다 임팩트↑).
+// 해당 부위에 적용된 모습 — 립=입술, 아이=눈, 치크=볼, 베이스/스킨케어=피부 등.
+const CAT_APPLIED = {
+  lip: "an extreme close-up of a young woman's lips wearing glossy, dewy K-beauty lip tint with a natural plump finish",
+  eye: "a macro beauty close-up of a young woman's eye wearing soft shimmery K-beauty eyeshadow and subtle eyeliner",
+  cheek: "a close-up of a young woman's cheek with soft natural blush and glowing dewy skin",
+  base: "a beauty close-up of a young woman's face with flawless glowing dewy K-beauty base makeup and natural skin texture",
+  skincare: "a beauty close-up of a young woman's face with glowing, dewy, healthy, deeply hydrated skin",
+  fragrance: "an elegant soft-focus close-up of a young woman's neck and collarbone, romantic airy mood, fragrance advertising style",
+  hair: "a close-up of glossy, healthy, smooth K-beauty hair catching soft light",
+  trend: "an editorial beauty close-up of a young Korean woman's face with fresh, natural K-beauty makeup",
+  global: "an editorial beauty close-up of a young Korean woman's face with fresh, natural K-beauty makeup",
 }
 const WANT_IMAGE = process.env.PRODUCT_IMAGES !== '0' // 기본 on, PRODUCT_IMAGES=0 으로 끔
 
@@ -176,14 +182,14 @@ function insertAt(file, anchor, text) {
 
 // ── 무드컷 생성(선택) — Imagen → sharp webp. 실패 시 null 반환(폴백). ──
 async function genImage(apiKey, item) {
-  // 브랜드/실물명은 넣지 않는다(뭉개진 가짜 글자 방지) — 카테고리 종류의 무브랜드 연출컷.
-  const noun = CAT_NOUN[item.category] || 'K-beauty makeup product'
-  const prompt = `A single ${noun}, centered product close-up, on a smooth solid pastel-colored background. Unbranded plain packaging, absolutely no text, letters, numbers, logos or watermark anywhere. Soft even studio lighting, minimal, elegant, high-end beauty e-commerce hero shot. One product only, no clutter, no human. Vertical 3:4.`
+  // "발린 모습" 뷰티 클로즈업 — 브랜드/글자는 넣지 않는다(가짜 로고 방지).
+  const scene = CAT_APPLIED[item.category] || CAT_APPLIED.trend
+  const prompt = `${scene}. Editorial K-beauty advertising photography, soft natural lighting, realistic skin, sharp high detail, tasteful and elegant. Absolutely no text, letters, numbers, logos or watermark anywhere. Horizontal 4:3.`
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:predict?key=${apiKey}`
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: '3:4' } }),
+    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: '4:3' } }),
   })
   if (!res.ok) throw new Error(`imagen ${res.status}: ${(await res.text()).slice(0, 150)}`)
   const data = await res.json()
@@ -193,7 +199,7 @@ async function genImage(apiKey, item) {
   mkdirSync(IMG_DIR, { recursive: true })
   const outPath = resolve(IMG_DIR, `${item.slug}.webp`)
   const sharp = (await import('sharp')).default
-  await sharp(buf).resize(800, 1000, { fit: 'cover' }).webp({ quality: 80 }).toFile(outPath)
+  await sharp(buf).resize(1024, 768, { fit: 'cover' }).webp({ quality: 80 }).toFile(outPath)
   return `/products/${item.slug}.webp`
 }
 
