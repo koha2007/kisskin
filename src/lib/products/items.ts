@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'naming-high-dew-lip-glaze',
+    category: 'lip',
+    brand: '네이밍',
+    name: '하이 듀 립 글레이즈',
+    title: '네이밍 하이 듀 립 글레이즈: 시술 없이도 통통한 오버립 연출!',
+    summary:
+      '맑고 투명한 시럽 글레이즈 텍스처가 입술에 촉촉하게 녹아들어 탱글하고 볼륨감 있는 립을 연출해주는 립 글레이즈입니다. 여러 번 덧발라도 뭉침 없이 맑은 컬러감이 특징입니다.',
+    highlights: ['맑은 시럽 글레이즈', '탱글한 오버립 연출', '덧발라도 맑은 컬러', '끈적임 없는 촉촉함'],
+    details: [
+      '극광의 광택을 선사하는 시럽 글레이즈 텍스처로, 답답함이나 끈적임 없이 가볍고 촉촉하게 입술에 밀착됩니다.',
+      '입술에 부드럽게 녹아들어 자연스럽게 차오르는 플럼핑 효과로 시술 없이도 통통하고 볼륨감 있는 오버립을 연출할 수 있습니다.',
+      '맑은 톤의 빈티지 핑크부터 오묘한 모브 플럼까지, 다채로운 8가지 컬러로 출시되어 피부 톤에 맞춰 생기 있고 매혹적인 립 메이크업을 연출할 수 있습니다.',
+      '덧발라도 뭉침 없이 투명하고 선명한 컬러가 유지되며, 입술 본연의 색과 어우러져 더욱 자연스러운 발색을 자랑합니다.',
+    ],
+    image: '/products/naming-high-dew-lip-glaze.webp',
+    coupangQuery: '네이밍 하이 듀 립 글레이즈',
+    globalQuery: 'naming high dew lip glaze',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-07-08',
+    tags: ['글레이즈틴트', '시럽광택', '오버립', '플럼핑', '촉촉한틴트'],
+  },
+  {
     slug: 'dinto-bare-gloss',
     category: 'lip',
     brand: '딘토',

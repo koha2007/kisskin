@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'naming-high-dew-lip-glaze',
+    category: 'lip',
+    brand: 'NAMING.',
+    name: 'HIGH DEW LIP GLAZE',
+    title: 'NAMING. HIGH DEW LIP GLAZE: Achieve Plump Overlips Without Procedures!',
+    summary:
+      'This lip glaze features a clear, transparent syrup glaze texture that melts moistly onto lips, creating a plump and voluminous look. Its clear color remains even with multiple applications, without clumping.',
+    highlights: ['Clear Syrup Glaze', 'Creates Plump Overlips', 'Clear Color Even When Layered', 'Non-Sticky Moisture'],
+    details: [
+      'The syrup glaze texture delivers extreme shine, adhering lightly and moistly to lips without feeling heavy or sticky.',
+      'It melts smoothly onto lips, providing a natural plumping effect that creates plump, voluminous overlips without the need for cosmetic procedures.',
+      'Available in 8 diverse colors, from clear vintage pink to mysterious mauve plum, allowing you to create vibrant and captivating lip makeup tailored to your skin tone.',
+      'The transparent and vivid color is maintained even with multiple applications without clumping, blending with your natural lip color for a more natural look.',
+    ],
+    image: '/products/naming-high-dew-lip-glaze.webp',
+    coupangQuery: '네이밍 하이 듀 립 글레이즈',
+    globalQuery: 'naming high dew lip glaze',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-07-08',
+    tags: ['GlazeTint', 'SyrupGlow', 'Overlip', 'Plumping', 'MoistTint'],
+  },
+  {
     slug: 'dinto-bare-gloss',
     category: 'lip',
     brand: 'Dinto',

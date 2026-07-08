@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-science-industry-pivot-2026',
+    category: 'global',
+    title: 'K-Beauty Declares Evolution into a \'Science Industry\' Driven by Bio, AI, and Data',
+    summary:
+      'K-Beauty, rooted in Hallyu (the Korean Wave), is evolving into a \'science industry\' that combines biotechnology, artificial intelligence (AI), and data-driven personalized services. This signifies an expansion of the industry\'s scope beyond simple cosmetics manufacturing, to include skin diagnostics, bio-materials, and customized formulations.',
+    body: [
+      '> TLDR: K-Beauty shifts to science industry | Bio, AI, Data at core | Enhanced personalized services',
+      'At \'in-cosmetics Korea 2026\', held on July 3rd at COEX, Seoul, experts emphasized that K-Beauty must evolve into a \'science industry\' by combining biotechnology, artificial intelligence (AI), and data-driven personalized services. Having grown over the past two decades through Hallyu and innovative products, K-Beauty is now at a point where it seeks differentiation through scientific competitiveness.',
+      '> DATA: Park Jae-hong, CEO of The K-Beauty Science, stated that K-Beauty is rapidly expanding its scope beyond simple cosmetics manufacturing and sales, to include skin diagnostics, bio-materials, customized product design, and integration with home beauty devices. Notably, Korea is uniquely positioned to implement personalized services, being the only country in the world to operate a customized cosmetics system.',
+      'Research into skin aging is also evolving beyond merely improving symptoms like wrinkles or hyperpigmentation, to embrace the concept of \'Skin Longevity,\' which focuses on slowing down the root causes of aging at a cellular level. Bioactive ingredients such as PDRN (Polydeoxyribonucleotide) and exosomes are being presented as key pillars, driving the technological advancement of K-Beauty.',
+      'The future of K-Beauty hinges on providing scientific credibility beyond fleeting trends and hyper-personalized solutions. By accurately identifying consumer needs and integrating advanced technologies into its products and services, K-Beauty will further solidify its position in the global market.',
+    ],
+    date: '2026-07-08',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Beauty Tech', 'Bio', 'AI', 'Personalization'],
+  },
+  {
     slug: 'k-beauty-us-overtakes-france-2026',
     category: 'global',
     title: 'US K-Beauty Imports Overtake France for the First Time in 2026',
