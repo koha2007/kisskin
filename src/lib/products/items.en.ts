@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'dinto-bare-gloss',
+    category: 'lip',
+    brand: 'Dinto',
+    name: 'Bare-Gloss',
+    title: 'Dinto Bare-Gloss: Transparent Shine & Vivid Color in One!',
+    summary:
+      'Dinto Bare-Gloss is a lip product that combines transparent gloss with the vivid color payoff of a tint. It enhances your natural lip color for a clear and lively lip makeup look.',
+    highlights: ['Transparent shine', 'Vivid color payoff', 'Non-sticky melting texture', 'Natural-looking colors'],
+    details: [
+      'Experience both the transparent shine of a lip gloss and the vivid color of a lip tint simultaneously.',
+      'Glides on smoothly, melting onto lips for a comfortable, non-sticky finish.',
+      'Features medium-brightness and saturation colors that enhance your natural lip tone for a clear and lively look.',
+      'This is the first lip makeup line from the \'Gumiho Collection,\' reinterpreting the traditional Korean folklore of the \'Gumiho\' (nine-tailed fox).',
+    ],
+    image: '/products/dinto-bare-gloss.webp',
+    coupangQuery: '딘토 베어글로스',
+    globalQuery: 'Dinto Bare Gloss',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-07-08',
+    tags: ['Gloss', 'Lip Tint', 'Transparent Shine', 'Daily Lip'],
+  },
+  {
     slug: 'romnd-glasting-water-tint-sample',
     category: 'lip',
     brand: 'rom&nd',

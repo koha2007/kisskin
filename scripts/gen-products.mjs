@@ -26,7 +26,14 @@ const ITEMS_EN = resolve('src/lib/products/items.en.ts')
 const EN_SLUGS = resolve('src/lib/products/enSlugs.ts')
 const IMG_DIR = resolve('public/products')
 const MODEL = process.env.GEMINI_PRODUCT_MODEL || 'gemini-2.5-flash'
-const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-3.0-generate-002'
+const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-fast-generate-001'
+// 카테고리 → 이미지용 영어 제품 명사(브랜드/실물 대신 "그 종류의 연출컷").
+const CAT_NOUN = {
+  lip: 'lip tint', eye: 'eyeshadow palette', base: 'cushion foundation compact',
+  cheek: 'blush compact', skincare: 'skincare serum glass bottle',
+  fragrance: 'perfume glass bottle', hair: 'hair care bottle', trend: 'makeup product',
+  global: 'K-beauty makeup product',
+}
 const WANT_IMAGE = process.env.PRODUCT_IMAGES !== '0' // 기본 on, PRODUCT_IMAGES=0 으로 끔
 
 const CATEGORIES = ['trend', 'lip', 'eye', 'base', 'cheek', 'skincare', 'fragrance', 'hair', 'global']
@@ -92,7 +99,8 @@ async function callGemini(apiKey, prompt, grounded) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`
   const body = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: { temperature: grounded ? 0.9 : 0.3, maxOutputTokens: 2048 },
+    // thinking off + 넉넉한 토큰 → JSON 잘림 방지(과거 analyze truncation fix 와 동일 원리).
+    generationConfig: { temperature: grounded ? 0.9 : 0.3, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 0 } },
   }
   if (grounded) body.tools = [{ google_search: {} }]
   const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
@@ -168,7 +176,9 @@ function insertAt(file, anchor, text) {
 
 // ── 무드컷 생성(선택) — Imagen → sharp webp. 실패 시 null 반환(폴백). ──
 async function genImage(apiKey, item) {
-  const prompt = `Editorial product mood photograph for a K-beauty ${item.category} item: "${item.name}" by ${item.brand}. High-end beauty magazine still life / flat-lay, soft studio lighting, clean pastel background, elegant and minimal. No text, no logo, no watermark, no human face.`
+  // 브랜드/실물명은 넣지 않는다(뭉개진 가짜 글자 방지) — 카테고리 종류의 무브랜드 연출컷.
+  const noun = CAT_NOUN[item.category] || 'K-beauty makeup product'
+  const prompt = `A single ${noun}, centered product close-up, on a smooth solid pastel-colored background. Unbranded plain packaging, absolutely no text, letters, numbers, logos or watermark anywhere. Soft even studio lighting, minimal, elegant, high-end beauty e-commerce hero shot. One product only, no clutter, no human. Vertical 3:4.`
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:predict?key=${apiKey}`
   const res = await fetch(url, {
     method: 'POST',

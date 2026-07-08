@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'dinto-bare-gloss',
+    category: 'lip',
+    brand: '딘토',
+    name: '베어글로스',
+    title: '딘토 베어글로스, 투명한 광택과 선명한 발색을 한 번에!',
+    summary:
+      '딘토 베어글로스는 투명한 광택감과 틴트의 선명한 발색을 결합한 립 제품입니다. 입술 본연의 색감을 살려 맑고 생기 있는 립 메이크업을 연출해 줍니다.',
+    highlights: ['투명한 광택', '선명한 발색', '끈적임 없는 멜팅', '자연스러운 컬러'],
+    details: [
+      '립글로스의 투명한 광택감과 립틴트의 선명한 발색을 동시에 느낄 수 있는 제품입니다.',
+      '입술에 부드럽게 녹아들 듯 발리며, 끈적임 없이 편안한 마무리감을 선사합니다.',
+      '입술 본연의 색감을 살리는 중간 명도와 채도의 컬러로 맑고 생기 있는 립을 연출합니다.',
+      '한국 전통 설화 \'구미호\'를 재해석한 \'구미호 컬렉션\'의 첫 립 메이크업 라인입니다.',
+    ],
+    image: '/products/dinto-bare-gloss.webp',
+    coupangQuery: '딘토 베어글로스',
+    globalQuery: 'Dinto Bare Gloss',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-07-08',
+    tags: ['글로스', '립틴트', '투명광택', '데일리립'],
+  },
+  {
     slug: 'romnd-glasting-water-tint-sample',
     category: 'lip',
     brand: '롬앤',
