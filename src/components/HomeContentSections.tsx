@@ -63,7 +63,10 @@ export default function HomeContentSections() {
                   {p.image ? (
                     <img src={p.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
-                    <span className="text-5xl drop-shadow-lg select-none" aria-hidden="true">{meta.emoji}</span>
+                    <>
+                      <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />
+                      <span className="relative flex items-center justify-center w-16 h-16 rounded-full bg-white/15 backdrop-blur-sm ring-1 ring-white/25 text-3xl shadow-md select-none" aria-hidden="true">{meta.emoji}</span>
+                    </>
                   )}
                   <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold text-navy backdrop-blur-sm">
                     <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: meta.color }} />

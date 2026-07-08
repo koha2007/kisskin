@@ -72,9 +72,24 @@ export default function ProductShowcase({ slug }: Props) {
           {item.image ? (
             <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
           ) : (
-            <span className="text-8xl md:text-9xl drop-shadow-lg select-none" aria-hidden="true">
-              {meta.emoji}
-            </span>
+            <>
+              <div
+                className="absolute inset-0"
+                style={{ background: 'radial-gradient(circle at 28% 22%, rgba(255,255,255,0.28), transparent 55%)' }}
+              />
+              <span className="pointer-events-none absolute -bottom-3 right-4 font-serif font-bold uppercase tracking-tight text-white/10 text-6xl sm:text-8xl leading-none select-none">
+                {item.brand}
+              </span>
+              <div className="relative flex flex-col items-center gap-4 px-6 text-center">
+                <span
+                  className="flex items-center justify-center w-24 h-24 md:w-28 md:h-28 rounded-full bg-white/15 backdrop-blur-md ring-1 ring-white/30 text-5xl md:text-6xl shadow-lg select-none"
+                  aria-hidden="true"
+                >
+                  {meta.emoji}
+                </span>
+                <span className="text-white/85 text-[13px] font-bold uppercase tracking-[0.15em]">{categoryLabel}</span>
+              </div>
+            </>
           )}
           <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-navy backdrop-blur-sm shadow-sm">
             <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: meta.color }} />
@@ -147,7 +162,10 @@ export default function ProductShowcase({ slug }: Props) {
                       {r.image ? (
                         <img src={r.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
                       ) : (
-                        <span className="text-4xl drop-shadow select-none" aria-hidden="true">{rMeta.emoji}</span>
+                        <>
+                          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />
+                          <span className="relative flex items-center justify-center w-14 h-14 rounded-full bg-white/15 backdrop-blur-sm ring-1 ring-white/25 text-3xl shadow-md select-none" aria-hidden="true">{rMeta.emoji}</span>
+                        </>
                       )}
                     </div>
                     <div className="p-3">

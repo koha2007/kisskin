@@ -224,9 +224,15 @@ function MasonryCard({ item, href, isEn }: { item: HubItem; href: string; isEn: 
         {item.image ? (
           <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         ) : (
-          <span className="text-5xl md:text-6xl drop-shadow-lg select-none" aria-hidden="true">
-            {item.categoryEmoji}
-          </span>
+          <>
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />
+            <span
+              className="relative flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/15 backdrop-blur-sm ring-1 ring-white/25 text-3xl md:text-4xl shadow-md select-none"
+              aria-hidden="true"
+            >
+              {item.categoryEmoji}
+            </span>
+          </>
         )}
         <CategoryChip item={item} />
       </div>
@@ -254,9 +260,15 @@ function FeaturedCard({ item, href, isEn }: { item: HubItem; href: string; isEn:
         {item.image ? (
           <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         ) : (
-          <span className="text-7xl md:text-8xl drop-shadow-lg select-none" aria-hidden="true">
-            {item.categoryEmoji}
-          </span>
+          <>
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.24), transparent 58%)' }} />
+            <span
+              className="relative flex items-center justify-center w-24 h-24 md:w-28 md:h-28 rounded-full bg-white/15 backdrop-blur-md ring-1 ring-white/30 text-5xl md:text-6xl shadow-lg select-none"
+              aria-hidden="true"
+            >
+              {item.categoryEmoji}
+            </span>
+          </>
         )}
         <CategoryChip item={item} size="md" />
       </div>
