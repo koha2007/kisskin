@@ -6,7 +6,7 @@
 // 을 free-pivot 흐름에 복원한다. 이 흐름엔 톤 분석 텍스트가 없어 합성/이메일은
 // 룩 이미지 + 스타일명/설명 + 브랜딩으로 구성된다.
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ResultGrid from '../result-grid/ResultGrid'
 import { ProductGridCard } from '../result-grid/ProductGridCard'
 import BeforeAfterSlider from './BeforeAfterSlider'
@@ -18,6 +18,7 @@ import type { ProductRec } from '../../lib/recommendations/types'
 
 const PRIMARY = '#eb4763'
 const NAVY = '#070953'
+const TOOL_URL = 'https://kissinskin.net/analysis/'
 const screenBg = { background: `linear-gradient(170deg, ${NAVY} 0%, #15123f 60%, #241a52 100%)` }
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
@@ -137,25 +138,72 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
     return `https://kissinskin.net/result/${id}`
   }
 
+  // ── 모바일 공유/저장 안정화(iOS Safari) ──
+  // navigator.share() 는 호출 시점에 "사용자 제스처(transient activation)" 가 살아
+  // 있어야 한다. 합성 캔버스 생성·Supabase 저장 같은 async 를 탭 이후에 await 하면
+  // 활성화가 만료돼 share() 가 NotAllowedError 로 실패하고, 저장 폴백 <a download> 는
+  // iOS 가 무시해 "아무 일도 안 일어남" 이 된다. 그래서 결과가 준비되면 합성 파일을
+  // 미리 만들어 캐시하고, 탭 핸들러는 캐시 파일로 즉시 share() 를 호출한다.
+  type Composite = { file: File; dataUrl: string }
+  const compositeRef = useRef<Composite | null>(null)
+
+  const makeComposite = async (): Promise<Composite> => {
+    const canvas = await buildComposite()
+    const blob = await canvasToBlob(canvas, 'image/jpeg', 0.92)
+    const file = new File([blob], fileName, { type: 'image/jpeg' })
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.9)
+    return { file, dataUrl }
+  }
+
+  const getComposite = async (): Promise<Composite> => {
+    if (compositeRef.current) return compositeRef.current
+    const c = await makeComposite()
+    compositeRef.current = c
+    return c
+  }
+
+  // 결과 준비 → 합성 파일 미리 생성(탭 시 즉시 공유 → iOS 활성화 보존).
+  useEffect(() => {
+    compositeRef.current = null
+    if (!afterSrc) return
+    let cancelled = false
+    makeComposite()
+      .then((c) => { if (!cancelled) compositeRef.current = c })
+      .catch(() => { /* 탭 시 온디맨드로 재시도 */ })
+    return () => { cancelled = true }
+    // styleName/styleDesc 는 styleId 파생값 → afterSrc 만 추적하면 충분.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [afterSrc])
+
   // 저장 — 모바일: 네이티브 공유 시트("사진 앨범에 저장"). 데스크톱: 파일 다운로드.
+  // 캐시된 합성 파일이 있으면 탭 즉시 share() 호출(iOS 활성화 보존).
   const handleSave = async () => {
     if (!afterSrc) return
+    const nav = navigator
+    const cached = compositeRef.current
+    if (cached && isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [cached.file] })) {
+      try {
+        await nav.share({ files: [cached.file] })
+        gtagEvent('makeup_save', { style: styleId, method: 'share_sheet' })
+        return
+      } catch (e) {
+        if (isAbort(e)) return
+        /* 폴백으로 진행 */
+      }
+    }
     try {
-      const canvas = await buildComposite()
-      const blob = await canvasToBlob(canvas, 'image/jpeg', 0.92)
-      const file = new File([blob], fileName, { type: 'image/jpeg' })
-      const nav = navigator
-      if (isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [file] })) {
+      const c = cached ?? await getComposite()
+      // 캐시가 없어 방금 만든 경우에도 모바일이면 공유 시트를 우선 시도.
+      if (!cached && isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [c.file] })) {
         try {
-          await nav.share({ files: [file] })
+          await nav.share({ files: [c.file] })
           gtagEvent('makeup_save', { style: styleId, method: 'share_sheet' })
           return
         } catch (e) {
           if (isAbort(e)) return
-          /* 폴백으로 진행 */
         }
       }
-      const url = URL.createObjectURL(blob)
+      const url = URL.createObjectURL(c.file)
       const a = document.createElement('a')
       a.href = url
       a.download = fileName
@@ -171,33 +219,43 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
     }
   }
 
-  // 공유 — ① 결과를 저장해 /result 링크 생성 ② 모바일: 이미지+링크 네이티브 공유
-  //        ③ 데스크톱: 링크 복사(+ 하단 링크바 상시 노출). 데스크톱에서 "복사 링크가
-  //        안 보이던" 문제를 상시 링크바로 확실히 해결.
+  // 공유 — 모바일: 이미지+링크 네이티브 공유(바이럴 핵심) / 데스크톱: 링크 복사.
+  //   빠른 경로: 캐시된 파일로 탭 즉시 공유(iOS 활성화 보존). /result 링크는 공유를
+  //   막지 않도록 백그라운드로 생성해 하단 복사 링크바에 채운다.
   const handleShare = async () => {
     if (!afterSrc) return
+    const nav = navigator
+    const title = isEn ? 'AI Makeup — kisskin' : 'AI 메이크업 — kisskin'
+    const text = isEn
+      ? `I tried the ${styleName} look with AI makeup! Try it free 👉`
+      : `AI 메이크업으로 ${styleName} 룩 완성! 나도 무료로 해보기 👉`
+    const cached = compositeRef.current
+
+    // 빠른 경로: 캐시된 파일 → 탭 즉시 공유 시트(iOS 활성화 유지).
+    if (cached && isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [cached.file] })) {
+      try {
+        await nav.share({ files: [cached.file], title, text, url: shareId ? `https://kissinskin.net/result/${shareId}` : TOOL_URL })
+        gtagEvent('makeup_share', { style: styleId, method: 'file' })
+        void ensureShareUrl(cached.dataUrl).catch(() => {})   // 하단 복사 링크바용 /result 링크 백그라운드 생성
+        return
+      } catch (e) {
+        if (isAbort(e)) return
+      }
+    }
+
+    // 느린 경로: 합성 생성 + /result 링크 후 공유/복사.
     setSavingShare(true)
     try {
-      const canvas = await buildComposite()
-      const compositeDataUrl = canvas.toDataURL('image/jpeg', 0.9)
-      let shareUrl = 'https://kissinskin.net/analysis/'
+      const c = cached ?? await getComposite()
+      let shareUrl = TOOL_URL
       try {
-        shareUrl = await ensureShareUrl(compositeDataUrl)
+        shareUrl = await ensureShareUrl(c.dataUrl)
       } catch (e) {
         console.warn('[makeup-share] save failed, falling back to tool URL', e)
       }
-      const title = isEn ? 'AI Makeup — kisskin' : 'AI 메이크업 — kisskin'
-      const text = isEn
-        ? `I tried the ${styleName} look with AI makeup! Try it free 👉`
-        : `AI 메이크업으로 ${styleName} 룩 완성! 나도 무료로 해보기 👉`
-      const nav = navigator
-      const blob = await canvasToBlob(canvas, 'image/jpeg', 0.92)
-      const file = new File([blob], fileName, { type: 'image/jpeg' })
-
-      // 모바일: 이미지 파일 + 링크 네이티브 공유(바이럴 핵심)
-      if (isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [file] })) {
+      if (isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [c.file] })) {
         try {
-          await nav.share({ files: [file], title, text, url: shareUrl })
+          await nav.share({ files: [c.file], title, text, url: shareUrl })
           gtagEvent('makeup_share', { style: styleId, method: 'file' })
           return
         } catch (e) {
@@ -249,8 +307,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
     }
     setEmailState('sending')
     try {
-      const canvas = await buildComposite()
-      const compositeDataUrl = canvas.toDataURL('image/jpeg', 0.9)
+      const { dataUrl: compositeDataUrl } = await getComposite()
       const res = await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
