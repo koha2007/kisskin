@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-mna-challenges-global-giants-2026',
+    category: 'global',
+    title: 'K-Beauty M&As by Global Beauty Giants Fall Short of Expectations',
+    summary:
+      'K-beauty brands recently acquired by global beauty giants like Estée Lauder and Unilever have recorded performance below expectations, drawing attention to the underlying reasons. Changing market environments and the loss of K-beauty brands\' inherent agility are cited as key causes.',
+    body: [
+      '> TLDR: K-beauty M&A underperformance | Loss of agility after integration into large corporations | Changing market environment',
+      'An analysis suggests that K-beauty brands recently acquired by global beauty giants such as Estée Lauder, Unilever, and L\'Oréal, which were acquired with investments totaling trillions of won, are, contrary to expectations, receiving below-par performance reports.',
+      '> DATA: Have & Be (operator of Dr. Jart+) reported sales of 178.8 billion won for its 2025 fiscal year (July 2024 - June 2025), a 23% decrease year-on-year, with operating losses expanding to 23.2 billion won. Additionally, Carver Korea (AHC)\'s sales declined from 658 billion won in 2018, the year following its acquisition, to 232 billion won in 2025.',
+      'The industry believes that integration into global conglomerates no longer guarantees K-beauty\'s success. While brand growth was previously possible simply by leveraging global distribution networks, the market environment has now shifted to a consumer pattern where beauty products are discovered via social media platforms like TikTok and Instagram and purchased through online malls.',
+      'The complex procedures of global conglomerates are pointed out as potentially hindering the rapid new product launches and marketing response speeds that are strengths of K-beauty indie brands. This phenomenon suggests that it is crucial for K-beauty brands to maintain an independent identity and agile market responsiveness, going beyond mere global distribution networks.',
+    ],
+    date: '2026-07-08',
+    readMinutes: 3,
+    tags: ['K-beauty M&A', 'Global Beauty', 'Brand Trends', 'Market Changes'],
+  },
+  {
     slug: 'k-beauty-science-industry-pivot-2026',
     category: 'global',
     title: 'K-Beauty Declares Evolution into a \'Science Industry\' Driven by Bio, AI, and Data',

@@ -5,6 +5,28 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'romand-lip-matter',
+    category: 'lip',
+    brand: '롬앤',
+    name: '립 매터',
+    title: '롬앤 립 매터, 어떤 립도 보송 매트립으로! 입술 프라이머 겸용',
+    summary:
+      '촉촉한 립 제품도 보송한 매트 립으로 변신시켜주는 신개념 립 매터. 입술 잔주름을 메꿔주어 매끈하고 블러 처리한 듯한 립 표현을 완성합니다.',
+    highlights: ['매트립 메이커', '입술 주름 커버', '보송한 마무리', '프라이머 효과'],
+    details: [
+      '어떤 립스틱이든 덧바르면 기름기 없이 실키하고 보송한 매트립으로 연출해주는 신박한 제형입니다.',
+      '입술에 블러 처리한 듯 잔주름을 메꿔주어 매끈하고 균일한 립 메이크업을 도와줍니다.',
+      '야자씨드버터, 망고씨드버터, 아보카도 오일 등 보습 성분을 함유하여 건조함 없이 편안하게 마무리됩니다.',
+    ],
+    image: '/products/romand-lip-matter.webp',
+    coupangQuery: '롬앤 립 매터',
+    globalQuery: 'romand lip matter',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-07-08',
+    tags: ['롬앤', '립매터', '매트립', '립프라이머', '보송립'],
+  },
+  {
     slug: 'naming-high-dew-lip-glaze',
     category: 'lip',
     brand: '네이밍',

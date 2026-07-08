@@ -5,6 +5,28 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'romand-lip-matter',
+    category: 'lip',
+    brand: 'rom&nd',
+    name: 'Lip Matter',
+    title: 'rom&nd Lip Matter: Transform Any Lip into a Velvety Matte Finish! Doubles as a Lip Primer',
+    summary:
+      'A new concept lip matter that transforms even dewy lip products into a soft, matte finish. Fills in fine lines for a smooth, blurred lip look.',
+    highlights: ['Matte Lip Maker', 'Lip Wrinkle Cover', 'Soft, Powdery Finish', 'Primer Effect'],
+    details: [
+      'A unique formula that, when applied over any lipstick, creates a silky, powdery matte lip without greasiness.',
+      'Fills in fine lines on the lips for a smooth, even lip makeup, creating a blurred effect.',
+      'Contains moisturizing ingredients like palm seed butter, mango seed butter, and avocado oil for a comfortable finish without dryness.',
+    ],
+    image: '/products/romand-lip-matter.webp',
+    coupangQuery: '롬앤 립 매터',
+    globalQuery: 'romand lip matter',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-07-08',
+    tags: ['rom&nd', 'LipMatter', 'MatteLip', 'LipPrimer', 'SoftLip'],
+  },
+  {
     slug: 'naming-high-dew-lip-glaze',
     category: 'lip',
     brand: 'NAMING.',
