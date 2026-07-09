@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams',
+    category: 'trend',
+    brand: 'Charlotte Tilbury',
+    name: 'Pillow Talk Lip & Cheek Glow (Color of Dreams)',
+    title: 'Charlotte Tilbury Pillow Talk Lip & Cheek Glow: Vibrant Rosebud Pink',
+    summary:
+      'A multi-use cream blush and lip tint from Charlotte Tilbury that brings vitality to lips and cheeks. A popular item from the \'Pillow Talk\' collection, it applies with a chiffon-like lightness for a natural flush.',
+    highlights: ['Chiffon-light texture', 'Moist and radiant finish', 'Vibrant rosebud pink', 'Contains raspberry extract'],
+    details: [
+      'The chiffon-light cream formula glides smoothly onto skin and blends easily without caking.',
+      'Formulated with raspberry leaf stem cell extract and Vitamin E to provide moisture to lips and cheeks, promoting healthy, radiant skin.',
+      'The warm rosebud pink shade, \'Color of Dreams,\' blends naturally like your own flush, adding lovely vitality.',
+      'Applies sheer but can be layered to build desired color intensity, allowing for looks from natural to vibrant.',
+    ],
+    image: '/products/charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams.webp',
+    coupangQuery: '샬롯 틸버리 필로우 토크 립 앤 치크 글로우',
+    globalQuery: 'Charlotte Tilbury Pillow Talk Lip & Cheek Glow Colour of Dreams',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-09',
+    tags: ['multibalm', 'creamblush', 'lipandcheek', 'pillowtalk', 'charlottetilbury'],
+  },
+  {
     slug: 'rare-beauty-soft-pinch-liquid-blush',
     category: 'cheek',
     brand: 'Rare Beauty',

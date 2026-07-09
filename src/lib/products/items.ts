@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams',
+    category: 'trend',
+    brand: '샬롯 틸버리',
+    name: '필로우 토크 립 & 치크 글로우 (컬러 오브 드림즈)',
+    title: '샬롯 틸버리 필로우 토크 립 & 치크 글로우: 생기 가득한 로즈 버드 핑크',
+    summary:
+      '입술과 볼에 생기를 불어넣는 샬롯 틸버리의 멀티 유즈 크림 블러쉬 & 립 틴트. \'필로우 토크\' 컬렉션의 인기 아이템으로, 쉬폰처럼 가볍게 발려 자연스러운 혈색을 연출합니다.',
+    highlights: ['쉬폰처럼 가벼운 텍스처', '촉촉하고 윤기 있는 마무리', '생기 있는 로즈 버드 핑크', '라즈베리 추출물 함유'],
+    details: [
+      '쉬폰처럼 가벼운 크림 제형으로 피부에 부드럽게 미끄러지듯 발리며, 뭉침 없이 쉽게 블렌딩됩니다.',
+      '라즈베리 잎 줄기세포 추출물과 비타민 E 성분이 함유되어 입술과 볼에 보습감을 선사하고 건강하고 윤기 있는 피부 표현을 돕습니다.',
+      '따뜻한 로즈 버드 핑크 색상인 \'컬러 오브 드림즈\'는 본연의 혈색처럼 자연스럽게 스며들어 사랑스러운 생기를 더해줍니다.',
+      '얇게 발리지만 여러 번 덧바르면 원하는 만큼 색감을 조절할 수 있어, 내추럴한 룩부터 선명한 룩까지 다양하게 연출 가능합니다.',
+    ],
+    image: '/products/charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams.webp',
+    coupangQuery: '샬롯 틸버리 필로우 토크 립 앤 치크 글로우',
+    globalQuery: 'Charlotte Tilbury Pillow Talk Lip & Cheek Glow Colour of Dreams',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-09',
+    tags: ['멀티밤', '크림블러셔', '립앤치크', '필로우토크', '샬롯틸버리'],
+  },
+  {
     slug: 'rare-beauty-soft-pinch-liquid-blush',
     category: 'cheek',
     brand: '레어 뷰티',

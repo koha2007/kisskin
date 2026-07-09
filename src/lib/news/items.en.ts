@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-toner-china-sales-decline-2026',
+    category: 'global',
+    title: 'Tmall K-Beauty Toner Market Sees 46.4% Sales Plunge in June 2026',
+    summary:
+      'In June 2026, sales of the top 10 K-beauty toner products on China\'s Tmall platform plummeted by 46.4% year-over-year, indicating a significant contraction in the market. Amidst this downturn, Anua performed relatively well by maintaining its sales volume.',
+    body: [
+      '> TLDR: China\'s K-beauty toner market cools sharply | Sales down 46.4% | Preference for efficacy-focused products',
+      'In June 2026, the total sales volume of the top 10 K-beauty toner products on China\'s Tmall platform was recorded at 19,300 units, a 46.4% decrease year-over-year, signaling a significant market contraction. This decline is attributed to a strengthening trend among Chinese consumers who prefer products with clear efficacy, such as whitening and soothing.',
+      'Mediheal, the market leader, maintained its top position with 5,000 units sold, though this represents a 37.5% decrease from the previous year. Dermafirm and Torriden each sold 3,000 units, securing a joint second place, but experienced sales declines of 50.0% and 40.0% respectively year-over-year.',
+      '> DATA: While the overall market declined by over 46%, Anua performed relatively well by maintaining its sales volume at 2,000 units, identical to the previous year, leading to an increase in its ranking.',
+      'This data suggests that K-beauty brands in the Chinese market are facing a new competitive environment where they must prove actual efficacy and value beyond mere popularity.',
+    ],
+    date: '2026-07-09',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'China Market', 'Toner', 'Tmall', 'Sales Decline'],
+  },
+  {
     slug: 'k-beauty-mna-challenges-global-giants-2026',
     category: 'global',
     title: 'K-Beauty M&As by Global Beauty Giants Fall Short of Expectations',
