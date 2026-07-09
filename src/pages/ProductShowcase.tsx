@@ -66,7 +66,7 @@ export default function ProductShowcase({ slug }: Props) {
 
         {/* Hero — image, or design gradient fallback */}
         <div
-          className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-sm aspect-[4/5] sm:aspect-[16/10] flex items-center justify-center"
+          className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-sm aspect-[4/5] sm:aspect-[3/4] sm:max-w-md sm:mx-auto flex items-center justify-center"
           style={{ background: gradient }}
         >
           {item.image ? (
