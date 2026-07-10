@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'ysl-beauty-luxury-makeup-refill-expansion-2026',
+    category: 'global',
+    title: 'YSL Beauty Introduces Luxury Cushion Foundation Refills to Mark \'World Refill Day\'',
+    summary:
+      'Global luxury brand YSL Beauty has expanded its refill options for luxury makeup products, coinciding with \'World Refill Day\'. Notably, by introducing a tube-type refill for its bestseller, the \'Encre de Peau Cushion\', the brand is setting a new benchmark for the sustainable beauty market.',
+    body: [
+      '> TLDR: Luxury Beauty Refills | YSL Beauty | Cushion Foundation',
+      'Amidst the global sustainability trend, luxury beauty brand YSL Beauty has announced the expansion of its refill system into the makeup sector, commemorating \'World Refill Day\'. This strategic move is seen as a direct response to consumers\' growing demand for environmental protection and ethical consumption.',
+      '> DATA: Designated annually on June 16th, \'World Refill Day\' is a global campaign to reduce single-use packaging and promote resource circulation. YSL Beauty reinforced its commitment by participating for the third time in its parent company L\'Oréal Group\'s \'Join the Refill Movement (#jointherefillmovement)\'.',
+      'Notably, YSL Beauty has introduced a tube-type refill for its bestselling \'Encre de Peau Cushion\', showcasing how sustainability can be integrated even within the makeup category. This initiative is drawing significant attention as an innovative solution that reduces waste while preserving the intrinsic value of luxury products.',
+      'This expansion of refill systems by luxury beauty brands is fostering new consumption habits, allowing consumers to retain their beloved packaging while simply replacing the product contents. It also demonstrates that sustainability and luxury can indeed be mutually complementary.',
+    ],
+    date: '2026-07-10',
+    readMinutes: 3,
+    tags: ['Refill Beauty', 'Sustainability', 'Luxury Makeup', 'YSL Beauty', 'Cushion Foundation'],
+  },
+  {
     slug: 'k-beauty-toner-china-sales-decline-2026',
     category: 'global',
     title: 'Tmall K-Beauty Toner Market Sees 46.4% Sales Plunge in June 2026',

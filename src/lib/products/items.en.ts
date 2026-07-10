@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'anua-heartleaf-silky-moisture-sun-cream',
+    category: 'skincare',
+    brand: 'Anua',
+    name: 'Heartleaf Silky Moisture Sun Cream',
+    title: 'Anua Heartleaf Silky Moisture Sun Cream: Hydrating & Calming Sun Care Without Stickiness',
+    summary:
+      'A comfortable sun cream for all skin types, offering skin soothing with Heartleaf extract and a silky, moist finish. It absorbs freshly without a white cast, making it ideal for use before makeup.',
+    highlights: ['Hydrating, No White Cast', 'Heartleaf Calming Care', 'Fresh Finish', 'Prevents Makeup Slippage'],
+    details: [
+      'Contains 30% Heartleaf extract to help soothe and protect skin, while Panthenol prevents moisture loss, keeping skin hydrated.',
+      'Provides powerful SPF50+ PA++++ UV protection, shielding skin completely from UVA and UVB rays.',
+      'Light, moist lotion texture absorbs quickly without a white cast or stickiness, leaving a fresh finish.',
+      'Helps control excess sebum, maintaining a clean base for makeup for a long time without slippage.',
+    ],
+    image: '/products/anua-heartleaf-silky-moisture-sun-cream.webp',
+    coupangQuery: '아누아 어성초 실키 모이스처 선크림',
+    globalQuery: 'Anua Heartleaf Silky Moisture Sun Cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-10',
+    tags: ['sunscreen', 'heartleaf', 'calming', 'hydration', 'dailysunscreen', 'sensitiveskin'],
+  },
+  {
     slug: 'charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams',
     category: 'trend',
     brand: 'Charlotte Tilbury',

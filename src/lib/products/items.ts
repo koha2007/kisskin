@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'anua-heartleaf-silky-moisture-sun-cream',
+    category: 'skincare',
+    brand: '아누아',
+    name: '어성초 실키 모이스처 선크림',
+    title: '아누아 어성초 실키 모이스처 선크림: 끈적임 없이 촉촉한 진정 선케어',
+    summary:
+      '어성초 추출물로 피부 진정은 물론, 실키하고 촉촉한 사용감으로 모든 피부 타입이 편안하게 사용할 수 있는 선크림입니다. 백탁 현상 없이 산뜻하게 마무리되어 메이크업 전 사용하기 좋습니다.',
+    highlights: ['백탁 없는 촉촉함', '어성초 진정 케어', '산뜻한 마무리감', '메이크업 밀림 방지'],
+    details: [
+      '어성초 추출물이 30% 함유되어 피부 진정 및 보호에 도움을 주며, 판테놀 성분이 수분 손실을 막아 피부를 촉촉하게 유지해 줍니다.',
+      'SPF50+ PA++++의 강력한 자외선 차단 효과로 UVA와 UVB로부터 피부를 빈틈없이 보호합니다.',
+      '가볍고 촉촉한 로션 제형으로 백탁 현상이나 끈적임 없이 피부에 빠르게 흡수되어 산뜻하게 마무리됩니다.',
+      '과도한 피지 분비를 조절하여 메이크업 밀림 없이 오랜 시간 깔끔한 베이스를 유지할 수 있도록 돕습니다.',
+    ],
+    image: '/products/anua-heartleaf-silky-moisture-sun-cream.webp',
+    coupangQuery: '아누아 어성초 실키 모이스처 선크림',
+    globalQuery: 'Anua Heartleaf Silky Moisture Sun Cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-10',
+    tags: ['선크림', '어성초', '진정', '수분', '데일리선크림', '민감성'],
+  },
+  {
     slug: 'charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams',
     category: 'trend',
     brand: '샬롯 틸버리',
