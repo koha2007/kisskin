@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'k18-leave-in-molecular-repair-hair-mask',
+    category: 'hair',
+    brand: 'K18 바이오미메틱 헤어사이언스',
+    name: '리브인 몰레큘러 리페어 헤어 마스크',
+    title: 'K18: 단 4분만에 모발 손상을 되돌리는 기적의 마스크',
+    summary:
+      '염색, 펌, 열기구 등으로 손상된 모발을 단 4분만에 건강하게 되돌려주는 리브인 트리트먼트 마스크입니다. 헹궈낼 필요 없이 간편하게 사용할 수 있습니다.',
+    highlights: ['분자 단위 손상 회복', '4분 초고속 케어', '모든 모발 타입 사용', '실리콘 프리'],
+    details: [
+      'K18PEPTIDE™ 독자 특허 펩타이드 기술이 모발 내부의 끊어진 펩타이드 사슬을 재연결하여 손상된 모발을 근본적으로 복구합니다.',
+      '샴푸 후 타월 드라이한 모발에 바르고 4분만 기다리면 끝! 헹궈낼 필요 없어 빠르고 간편한 손상모 케어가 가능합니다.',
+      '블리치, 염색, 화학 시술 및 열로 인한 손상을 회복하며, 모발에 힘, 부드러움, 매끄러움, 탄력을 되돌려줍니다.',
+      '가볍고 크리미한 제형으로 모든 모발 타입에 부담 없이 사용할 수 있으며, 모발을 부드럽게 하고 엉킴을 줄여줍니다.',
+    ],
+    image: '/products/k18-leave-in-molecular-repair-hair-mask.webp',
+    coupangQuery: 'K18 리브인 몰레큘러 리페어 헤어 마스크',
+    globalQuery: 'K18 Leave-In Molecular Repair Hair Mask',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-11',
+    tags: ['극손상모', '헤어마스크', '리브인트리트먼트', 'K-뷰티'],
+  },
+  {
     slug: 'anua-heartleaf-silky-moisture-sun-cream',
     category: 'skincare',
     brand: '아누아',

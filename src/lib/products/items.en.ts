@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'k18-leave-in-molecular-repair-hair-mask',
+    category: 'hair',
+    brand: 'K18 Biomimetic Hairscience',
+    name: 'Leave-In Molecular Repair Hair Mask',
+    title: 'K18: The Miracle Mask That Reverses Hair Damage in Just 4 Minutes',
+    summary:
+      'This leave-in treatment mask restores damaged hair from coloring, perms, and heat styling to a healthy state in just 4 minutes. It\'s easy to use with no rinsing required.',
+    highlights: ['Molecular Damage Repair', '4-Minute Fast Care', 'Suitable for All Hair Types', 'Silicone-Free'],
+    details: [
+      'K18PEPTIDE™\'s exclusive patented peptide technology reconnects broken peptide chains within the hair, fundamentally repairing damaged hair.',
+      'After shampooing, apply to towel-dried hair and wait just 4 minutes! No rinsing needed, allowing for quick and easy damaged hair care.',
+      'It repairs damage caused by bleach, color, chemical services, and heat, restoring strength, softness, smoothness, and bounce to the hair.',
+      'The light, creamy texture can be used on all hair types without weighing it down, making hair soft and reducing tangles.',
+    ],
+    image: '/products/k18-leave-in-molecular-repair-hair-mask.webp',
+    coupangQuery: 'K18 리브인 몰레큘러 리페어 헤어 마스크',
+    globalQuery: 'K18 Leave-In Molecular Repair Hair Mask',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-11',
+    tags: ['Severely Damaged Hair', 'Hair Mask', 'Leave-In Treatment', 'K-Beauty'],
+  },
+  {
     slug: 'anua-heartleaf-silky-moisture-sun-cream',
     category: 'skincare',
     brand: 'Anua',

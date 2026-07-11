@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-quick-beauty-sisungbi-trend-2026',
+    category: 'trend',
+    title: 'K-Beauty Market Achieves $11.4 Billion in Exports, Driven by \'Time-Performance\' Quick Beauty Trend',
+    summary:
+      'South Korea\'s cosmetics exports reached approximately $11.4 billion in 2025, setting a new all-time high. This surge is attributed to the \'quick beauty\' trend, which emphasizes \'time-performance\' (시성비). High-function minimalism, skip-care makeup, and multi-use formulas are boosting consumer satisfaction and driving market growth.',
+    body: [
+      '> TLDR: Time-performance (시성비) | High-function minimalism | Multi-use formulas',
+      'The global K-Beauty market is focusing on the \'quick beauty\' trend, which champions \'time-performance\' (시성비) as its core value. This reflects modern consumers\' preference for fast and effective products over complex beauty routines.',
+      '> DATA: According to statistics from the Ministry of Trade, Industry and Energy, South Korea\'s cosmetics exports in 2025 reached approximately $11.4 billion, surpassing the previous all-time high of 2024 (approximately $10.2 billion).',
+      'Cosmetics information platform Hwahae, in its August 2025 report, presented \'high-function minimalism\' and \'optimized usability\' as key keywords for 2026. CJ Olive Young and Swedish beauty consulting firm MINTOIRO also supported the trend by emphasizing the importance of skip-care makeup and multi-functional formulas.',
+      'Domestic companies are rapidly responding to the quick beauty strategy, with LG H&H operating a 1-step skincare line and emerging brand SENSEL gaining market attention with its \'quick tint\'. This suggests that the beauty market is being reshaped towards consumers seeking a \'less product, better experience\'.',
+    ],
+    date: '2026-07-11',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Quick Beauty', 'Time-Performance (시성비)', 'Makeup Trends', 'Skip-Care'],
+  },
+  {
     slug: 'ysl-beauty-luxury-makeup-refill-expansion-2026',
     category: 'global',
     title: 'YSL Beauty Introduces Luxury Cushion Foundation Refills to Mark \'World Refill Day\'',
