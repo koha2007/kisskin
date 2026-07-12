@@ -16,6 +16,7 @@ import MakeupResult, { type MakeupUsage } from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
 import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
+import { takePendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
 
 const NAVY = '#070953'
@@ -182,9 +183,19 @@ export default function MakeupFlow() {
     if (params.get('topup') === '1') setStep('topup')
     // 홈 캐러셀 카드 선택 → ?style=<id> 로 룩 프리셀렉트(유효한 id 만 반영).
     const s = params.get('style')
-    if (s && MAKEUP_STYLES.some((st) => st.id === s)) {
+    const hasStyle = !!s && MAKEUP_STYLES.some((st) => st.id === s)
+    if (hasStyle) {
       setStyleId(s as MakeupStyleId)
       setPreselected(true)
+    }
+
+    // 홈 히어로에서 이미 사진을 고르고 왔다면(세션에 맡겨둔 셀카) 업로드 단계를 건너뛴다.
+    // 룩까지 정해져 있으면 곧장 생성으로, 아니면 스타일 선택으로.
+    const pending = takePendingSelfie()
+    if (pending) {
+      setSelfie({ photo: pending })
+      jobIdRef.current = ''
+      setStep(hasStyle ? 'processing' : 'style')
     }
   }, [])
 

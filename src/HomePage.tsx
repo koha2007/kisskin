@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
 import HomeContentSections from './components/HomeContentSections'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
+import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
+import { LOOK_IMAGES } from './lib/makeup/lookImages'
+import { savePendingSelfie } from './lib/makeup/pendingSelfie'
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -15,313 +18,6 @@ interface HomePageProps {
   onNavigate?: (page: string) => void
   user?: { email?: string } | null
   onLogout?: () => void
-}
-
-const STYLE_LABELS = [
-  'Natural Glow', 'Cloud Skin', 'Blood Lip', 'Maximalist Eye',
-  'Metallic Eye', 'Bold Lip', 'Blush Draping', 'Grunge Makeup', 'K-pop Idol',
-]
-
-// 라벨과 1:1 매칭되는 실제 메이크업 스타일 id (src/lib/makeup/styles.ts MAKEUP_STYLES 순서).
-// 카드를 선택하면 이 id 가 /analysis/?style= 로 넘어가 해당 룩으로 바로 생성된다.
-const STYLE_IDS = [
-  'natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye',
-  'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol',
-]
-
-// 9 models — each has 9 style images
-const MARQUEE_MODELS: { folder: string; images: string[]; label: string }[] = [
-  {
-    folder: 'files-01', label: 'Model 1',
-    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
-  },
-  {
-    folder: 'files-02', label: 'Model 2',
-    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
-  },
-  {
-    folder: 'files-04', label: 'Model 3',
-    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
-  },
-  {
-    folder: 'files-12', label: 'Model 4',
-    images: ['01_Natural_Glow.webp', '02_Cloud_Skin.webp', '03_Blood_Lip.webp', '04_Maximalist_Eye.webp', '05_Metallic_Eye.webp', '06_Bold_Lip.webp', '07_Blush_Draping_Layering.webp', '08_Grunge_Makeup.webp', '09_Kpop_Idol_Makeup.webp'],
-  },
-  {
-    folder: 'files-13', label: 'Model 5',
-    images: ['photo7_Natural_Glow.webp', 'photo7_Cloud_Skin.webp', 'photo7_Blood_Lip.webp', 'photo7_Maximalist_Eye.webp', 'photo7_Metallic_Eye.webp', 'photo7_Bold_Lip.webp', 'photo7_Blush_Draping_Layering.webp', 'photo7_Grunge_Makeup.webp', 'photo7_Kpop_Idol_Makeup.webp'],
-  },
-  {
-    folder: 'files-09', label: 'Model 6',
-    images: ['photo2_1.webp', 'photo2_2.webp', 'photo2_3.webp', 'photo2_4.webp', 'photo2_5.webp', 'photo2_6.webp', 'photo2_7.webp', 'photo2_8.webp', 'photo2_9.webp'],
-  },
-  {
-    folder: 'files-11', label: 'Model 7',
-    images: ['photo9_01.webp', 'photo9_02.webp', 'photo9_03.webp', 'photo9_04.webp', 'photo9_05.webp', 'photo9_06.webp', 'photo9_07.webp', 'photo9_08.webp', 'photo9_09.webp'],
-  },
-  {
-    folder: 'files-05', label: 'Model 8',
-    images: ['01_No-Makeup_Makeup.webp', '02_Skincare_Hybrid_Base.webp', '03_Blurred_Lip.webp', '04_Grunge_Smoky_Eye.webp', '05_Monochrome.webp', '06_Utility_Makeup.webp', '07_Blue_Point_Eye.webp', '08_Vampire_Romantic.webp', '09_Kpop_Idol_Makeup.webp'],
-  },
-  {
-    folder: 'files-06', label: 'Model 9',
-    images: ['01_No-Makeup_Makeup.webp', '02_Skincare_Hybrid_Base.webp', '03_Blurred_Lip.webp', '04_Grunge_Smoky_Eye.webp', '05_Monochrome.webp', '06_Utility_Makeup.webp', '07_Blue_Point_Eye.webp', '08_Vampire_Romantic.webp', '09_Kpop_Idol_Makeup.webp'],
-  },
-]
-
-// 스타일 슬라이더 — 9 모델이 각자 고유한 룩을 보여주는 무한 가로 스크롤 캐러셀.
-// (시안 "트렌디한 K-뷰티 스타일" 섹션. 실제 /styles/marquee/*.webp 사용, 데모 이미지 없음.)
-//
-// 2026-07-07 개편:
-//   · 3.5s 스타일 순환 제거 — 카드가 중간에 "틱틱" 바뀌던 부자연스러움을 없애고
-//     각 모델은 자기 룩 한 장만 부드럽게 흘려보낸다(model mi → style mi).
-//   · 카드 선택 → 해당 룩 id 를 onSelect 로 넘겨 /analysis/?style= 로 바로 생성 연동.
-//   · CSS 애니메이션 대신 rAF 로 직접 스크롤 → 드래그로 앞/뒤 스크럽 가능.
-function MarqueeHero({ onSelect }: { onSelect: (styleId: string) => void }) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const offsetRef = useRef(0)          // 현재 translateX (px, 음수 = 왼쪽으로 진행)
-  const halfRef = useRef(0)            // 카피 1벌 너비 = 전체/2 (루프 지점)
-  const speedRef = useRef(70)          // 자동 스크롤 속도 (px/s)
-  const pausedRef = useRef(false)      // hover 일시정지
-  const drag = useRef({ down: false, startX: 0, startOffset: 0 })
-  const draggedRef = useRef(false)     // 드래그 직후 카드 클릭(선택) 무시용
-
-  // 카피 1벌 너비 측정 → 루프 지점 + 옛 애니메이션 속도(데스크탑 28s/모바일 20s) 재현.
-  useEffect(() => {
-    const measure = () => {
-      const el = trackRef.current
-      if (!el) return
-      halfRef.current = el.scrollWidth / 2
-      const dur = window.innerWidth <= 768 ? 20 : 28
-      if (halfRef.current > 0) speedRef.current = halfRef.current / dur
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
-
-  // rAF 자동 스크롤 — JS 로 직접 굴려야 드래그로 앞/뒤 스크럽이 가능하다.
-  useEffect(() => {
-    let raf = 0
-    let last = 0
-    const step = (ts: number) => {
-      const el = trackRef.current
-      if (el) {
-        if (last && !drag.current.down && !pausedRef.current) {
-          const dt = (ts - last) / 1000
-          offsetRef.current -= speedRef.current * Math.min(dt, 0.05) // 탭 전환 후 점프 방지
-        }
-        const half = halfRef.current
-        if (half > 0) {
-          if (offsetRef.current <= -half) offsetRef.current += half
-          else if (offsetRef.current > 0) offsetRef.current -= half
-        }
-        el.style.transform = `translate3d(${offsetRef.current}px,0,0)`
-      }
-      last = ts
-      raf = requestAnimationFrame(step)
-    }
-    raf = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  // ── 드래그 스크럽 (pointer = 마우스/터치 공용) ──
-  // 트랙에 setPointerCapture 를 걸면 카드 click 이 죽어서 선택이 안 되므로,
-  // 캡처 대신 window 리스너로 드래그를 추적하고 이동량으로 클릭/드래그를 구분한다.
-  const onPointerMove = useCallback((e: PointerEvent) => {
-    if (!drag.current.down) return
-    const dx = e.clientX - drag.current.startX
-    if (Math.abs(dx) > 5) draggedRef.current = true
-    offsetRef.current = drag.current.startOffset + dx
-  }, [])
-
-  const onPointerUp = useCallback(() => {
-    drag.current.down = false
-    window.removeEventListener('pointermove', onPointerMove)
-    window.removeEventListener('pointerup', onPointerUp)
-    // 드래그였으면 이어서 발생할 카드 click 을 삼키고, 다음 tick 에 해제.
-    window.setTimeout(() => { draggedRef.current = false }, 0)
-  }, [onPointerMove])
-
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    drag.current = { down: true, startX: e.clientX, startOffset: offsetRef.current }
-    draggedRef.current = false
-    window.addEventListener('pointermove', onPointerMove)
-    window.addEventListener('pointerup', onPointerUp)
-  }, [onPointerMove, onPointerUp])
-
-  const selectCard = (mi: number) => {
-    if (draggedRef.current) return       // 드래그 제스처는 선택으로 취급하지 않음
-    onSelect(STYLE_IDS[mi])
-  }
-
-  // Render the model cards. The track holds two identical copies (a + b) and rAF
-  // scrolls it by up to one copy width, wrapping seamlessly. Copy B is decorative:
-  // hidden from a11y + focus.
-  const renderCards = (copy: 'a' | 'b') =>
-    MARQUEE_MODELS.map((model, mi) => {
-      const src = `/styles/marquee/${model.folder}_${model.images[mi]}`
-      return (
-        <div
-          key={`${copy}-${model.folder}`}
-          className="ks-card"
-          onClick={() => selectCard(mi)}
-          role="button"
-          tabIndex={copy === 'a' ? 0 : -1}
-          aria-hidden={copy === 'b' || undefined}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(STYLE_IDS[mi]) } }}
-          aria-label={`Try AI makeup — ${STYLE_LABELS[mi]}`}
-        >
-          <img
-            src={src}
-            alt={`${STYLE_LABELS[mi]} - AI makeup`}
-            width={200}
-            height={280}
-            draggable={false}
-            loading={copy === 'a' && mi < 2 ? 'eager' : 'lazy'}
-            decoding="async"
-            fetchPriority={copy === 'a' && mi === 0 ? 'high' : 'auto'}
-          />
-          <div className="ks-card-label">
-            <span>{STYLE_LABELS[mi]}</span>
-            <span className="ks-card-try" aria-hidden="true">Try →</span>
-          </div>
-        </div>
-      )
-    })
-
-  return (
-    <>
-      <style>{`
-        .ks-hero-wrap {
-          position: relative;
-          width: 100vw;
-          margin-left: calc(-50vw + 50%);
-          overflow: hidden;
-          padding: 20px 0;
-          min-height: 320px;
-          contain: layout style;
-        }
-        .ks-hero-wrap::before,
-        .ks-hero-wrap::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          width: 120px;
-          height: 100%;
-          z-index: 2;
-          pointer-events: none;
-        }
-        .ks-hero-wrap::before {
-          left: 0;
-          background: linear-gradient(to right, var(--bg, #ffffff) 0%, transparent 100%);
-        }
-        .ks-hero-wrap::after {
-          right: 0;
-          background: linear-gradient(to left, var(--bg, #ffffff) 0%, transparent 100%);
-        }
-        .ks-marquee-track {
-          display: flex;
-          gap: 14px;
-          width: max-content;
-          will-change: transform;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          cursor: grab;
-          user-select: none;
-          -webkit-user-select: none;
-          touch-action: pan-y;   /* 세로 스크롤은 페이지에, 가로 드래그는 스크럽에 */
-        }
-        .ks-marquee-track:active {
-          cursor: grabbing;
-        }
-        .ks-card {
-          position: relative;
-          width: 200px;
-          height: 280px;
-          aspect-ratio: 200 / 280;
-          border-radius: 16px;
-          overflow: hidden;
-          flex-shrink: 0;
-          cursor: pointer;
-          touch-action: manipulation;
-          -webkit-tap-highlight-color: rgba(235, 71, 99, 0.25);
-          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 0.35s ease;
-          background: #111;
-          contain: layout style paint;
-        }
-        .ks-card:hover {
-          transform: translateY(-10px) scale(1.03);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        .ks-card img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: opacity 0.8s ease, transform 0.5s ease;
-        }
-        .ks-card:hover img {
-          transform: scale(1.06);
-        }
-        .ks-card-label {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          padding: 36px 14px 12px;
-          background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
-          color: #fff;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          transition: opacity 0.8s ease;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 6px;
-        }
-        .ks-card-try {
-          flex-shrink: 0;
-          font-size: 10px;
-          font-weight: 700;
-          background: rgba(255, 255, 255, 0.95);
-          color: #eb4763;
-          padding: 3px 8px;
-          border-radius: 999px;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-        @media (max-width: 768px) {
-          .ks-card {
-            width: 155px;
-            height: 220px;
-            aspect-ratio: 155 / 220;
-          }
-          .ks-hero-wrap::before,
-          .ks-hero-wrap::after {
-            width: 50px;
-          }
-          .ks-marquee-track {
-            gap: 10px;
-          }
-        }
-      `}</style>
-      <div className="ks-hero-wrap">
-        <div
-          ref={trackRef}
-          className="ks-marquee-track"
-          onPointerDown={onPointerDown}
-          onMouseEnter={() => { pausedRef.current = true }}
-          onMouseLeave={() => { pausedRef.current = false }}
-        >
-          {renderCards('a')}
-          {renderCards('b')}
-        </div>
-      </div>
-    </>
-  )
 }
 
 function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps) {
@@ -336,6 +32,27 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
   const { t, locale, setLocale } = useI18n()
   const isEn = locale === 'en'
+
+  // ── 히어로 업로드 → /analysis/ 로 사진째 넘김(업로드 단계 중복 제거) ──
+  const heroFileRef = useRef<HTMLInputElement>(null)
+  const onHeroFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0]
+    e.target.value = ''            // 같은 파일 재선택도 발화하도록
+    if (!f) return
+    // 저장에 실패해도(HEIC 디코드 불가 등) 그냥 이동한다 — 그쪽 업로드 화면이 처리한다.
+    await savePendingSelfie(f)
+    window.location.href = '/analysis/'
+  }
+
+  // ── 비포/애프터 섹션 ── 기본은 기존 대표 컷(룩 라벨 없음). 룩 칩/카드를 누르면 그 룩으로 교체.
+  const [baLook, setBaLook] = useState<MakeupStyleId | null>(null)
+  const showLook = (id: MakeupStyleId) => {
+    setBaLook(id)
+    document.getElementById('ba-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+  const baStyle = baLook ? MAKEUP_STYLES.find((s) => s.id === baLook) : null
+  const baBefore = baLook ? LOOK_IMAGES[baLook].before : '/home-ba-before.webp'
+  const baAfter = baLook ? LOOK_IMAGES[baLook].after : '/home-ba-after.webp'
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
   // structured data always matches the visible text in the active language.
   const homeFaq = isEn
@@ -566,59 +283,95 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           }}
         />
 
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col items-center text-center gap-5 md:gap-6">
-          <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            {t('home.hero.badge')}
+        {/* 좌: 카피 / 우: 업로드 박스. 홈에서 바로 사진을 고르면 /analysis/ 가 업로드
+            단계를 건너뛰고 이어받는다(경쟁사 패턴 — 진입 마찰 1단계 제거). */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-5">
+            <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              {t('home.hero.badge')}
+            </div>
+
+            <h1 id="hero-title" className="animate-fade-in-up font-serif text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.12] tracking-tight text-navy">
+              {t('home.hero.title1')}<br />
+              <span className="shimmer-text">{t('home.hero.title2')}</span> {t('home.hero.title3')}
+            </h1>
+
+            <p className="animate-fade-in-up-delay text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
+              {t('home.hero.subtitle')}
+            </p>
+
+            {/* 신뢰 띠 — 배지 그리드보다 가볍게, 카피 바로 아래에서 안심시킨다 */}
+            <div className="animate-fade-in-up-delay2 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-2 text-xs font-semibold text-slate-600">
+              {[t('home.hero.trust1'), t('home.hero.trust2'), t('home.hero.trust3')].map((txt) => (
+                <span key={txt} className="inline-flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  {txt}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <h1 id="hero-title" className="animate-fade-in-up font-serif text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.12] tracking-tight text-navy">
-            {t('home.hero.title1')}<br />
-            <span className="shimmer-text">{t('home.hero.title2')}</span> {t('home.hero.title3')}
-          </h1>
+          {/* 업로드 박스 */}
+          <div className="animate-fade-in-up-delay2 bg-white/90 backdrop-blur border-2 border-dashed border-pink-200 rounded-3xl p-6 md:p-7 text-center shadow-xl shadow-navy/5">
+            <div className="w-14 h-14 rounded-full bg-blush flex items-center justify-center mx-auto mb-3">
+              <span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+            </div>
+            <p className="text-base font-bold text-navy">{isEn ? 'Drop your selfie here' : '여기에 셀카를 올려주세요'}</p>
+            <p className="mt-1 text-xs text-slate-500">
+              {isEn ? 'Click to choose · JPG / PNG / HEIC' : '눌러서 선택 · JPG / PNG / HEIC'}
+            </p>
 
-          <p className="animate-fade-in-up-delay text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
-            {t('home.hero.subtitle')}
-          </p>
-
-          {/* Primary CTA — 무료로 셀카 올리기 */}
-          <div className="animate-fade-in-up-delay2 flex flex-col items-center gap-2 pt-1">
+            <input
+              ref={heroFileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={onHeroFile}
+            />
             <button
-              className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-9 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/25 group"
-              onClick={() => onNavigate('analysis')}
+              onClick={() => heroFileRef.current?.click()}
+              className="mt-4 w-full bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white py-4 rounded-full text-base font-bold transition-all shadow-lg shadow-primary/25"
             >
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
               {t('home.hero.uploadCta')}
-              <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
-            <p className="text-sm font-medium text-slate-500">{t('home.hero.priceSub')}</p>
-            {/* 무료 소진 사용자용 크레딧 충전 진입 (서브 링크) */}
+            <p className="mt-2 text-xs font-medium text-slate-500">{t('home.hero.priceSub')}</p>
+
+            {/* 사진이 없는 방문자용 — 예시 룩을 눌러 결과부터 보게 한다 */}
+            <div className="mt-5 text-left">
+              <p className="text-[11px] text-slate-400 mb-2">
+                {isEn ? 'No photo? See an example first' : '사진이 없다면, 예시로 먼저 볼까요?'}
+              </p>
+              <div className="grid grid-cols-4 gap-1.5">
+                {MAKEUP_STYLES.slice(0, 4).map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => showLook(s.id)}
+                    aria-label={isEn ? `See ${s.subEn} example` : `${s.nameKo} 예시 보기`}
+                    className="rounded-lg overflow-hidden border-2 border-transparent hover:border-primary transition-colors"
+                  >
+                    <img
+                      src={LOOK_IMAGES[s.id].after}
+                      alt=""
+                      loading="lazy"
+                      className="w-full aspect-[3/4] object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <a
               href="/analysis/?topup=1"
-              className="mt-0.5 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark underline underline-offset-2 decoration-primary/40"
+              className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-dark underline underline-offset-2 decoration-primary/40"
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>toll</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>toll</span>
               {isEn ? 'Out of free tries? Buy credits' : '무료 다 썼다면 크레딧 충전하기'}
             </a>
-          </div>
-
-          {/* 신뢰 배지 3개 — 60초 완성 / 카드 불필요 / 즉시 삭제 */}
-          <div className="animate-fade-in-up-delay2 grid grid-cols-3 gap-3 sm:gap-5 w-full max-w-md pt-3">
-            {[
-              { icon: 'bolt', text: t('home.hero.trust1') },
-              { icon: 'credit_card_off', text: t('home.hero.trust2') },
-              { icon: 'delete_sweep', text: t('home.hero.trust3') },
-            ].map((b) => (
-              <div key={b.text} className="flex flex-col items-center gap-2">
-                <div className="w-11 h-11 rounded-full bg-white border border-pink-100 shadow-sm flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{b.icon}</span>
-                </div>
-                <span className="text-xs font-semibold text-slate-600 leading-tight">{b.text}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -631,16 +384,53 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </h2>
           <p className="text-slate-500 text-sm md:text-base mb-8">{t('home.ba.subtitle')}</p>
 
+          {/* 룩 칩 — 누르면 그 룩의 비포/애프터로 교체. 기본(선택 없음)은 대표 컷. */}
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            {MAKEUP_STYLES.map((s) => {
+              const on = baLook === s.id
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setBaLook(on ? null : s.id)}
+                  aria-pressed={on}
+                  className={`rounded-full px-4 py-2 text-[13px] font-bold border transition-colors ${
+                    on
+                      ? 'bg-navy text-white border-navy'
+                      : 'bg-white text-navy border-slate-200 hover:border-primary hover:text-primary'
+                  }`}
+                >
+                  {isEn ? s.subEn : s.nameKo}
+                </button>
+              )
+            })}
+          </div>
+
           {/* 우리 파이프라인으로 직접 생성한 실제 결과. 결과 화면의 드래그 슬라이더 재사용 */}
           <div className="max-w-[300px] sm:max-w-[340px] mx-auto">
             <BeforeAfterSlider
-              beforeSrc="/home-ba-before.webp"
-              afterSrc="/home-ba-after.webp"
+              key={baLook ?? 'hero'}
+              beforeSrc={baBefore}
+              afterSrc={baAfter}
               isEn={isEn}
             />
-            <p className="mt-3 text-xs text-slate-400">
+            {baStyle && (
+              <p className="mt-3 text-sm font-bold text-navy">
+                {isEn ? baStyle.subEn : baStyle.nameKo}
+              </p>
+            )}
+            <p className="mt-2 text-xs text-slate-400">
               {isEn ? 'Drag the handle to compare' : '가운데 손잡이를 좌우로 드래그해 비교해보세요'}
             </p>
+            {baLook && (
+              <a
+                href={`/analysis/?style=${baLook}`}
+                className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-primary/25 hover:bg-primary-dark transition-colors"
+              >
+                {isEn ? 'Try this look on my photo' : '이 룩으로 내 사진 만들기'}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+            )}
           </div>
         </div>
       </section>
@@ -661,7 +451,67 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             {t('home.slider.selectHint')}
           </p>
         </div>
-        <MarqueeHero onSelect={(styleId) => { window.location.href = `/analysis/?style=${styleId}` }} />
+        {/* 9룩 카드 — 각 룩의 실제 결과 이미지. 카드를 누르면 그 룩으로 바로 생성.
+            (2026-07-12: 가로 무한 마퀴 → 3×3 그리드. 룩 9개가 한눈에 안 들어와
+             스크롤 없이는 고를 수 없었다. 이미지도 신규 결과물로 교체.) */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {MAKEUP_STYLES.map((s) => (
+              <a
+                key={s.id}
+                href={`/analysis/?style=${s.id}`}
+                aria-label={isEn ? `Try AI makeup — ${s.subEn}` : `AI 메이크업 — ${s.nameKo}`}
+                className="group relative rounded-2xl overflow-hidden aspect-[4/5] shadow-lg shadow-navy/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <img
+                  src={LOOK_IMAGES[s.id].after}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 to-transparent" />
+                <span className="absolute right-2.5 top-2.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  TRY →
+                </span>
+                <span className="absolute inset-x-3.5 bottom-3 text-left text-white">
+                  <span className="block text-[15px] font-extrabold leading-tight">{isEn ? s.subEn : s.nameKo}</span>
+                  <span className="block text-[10px] font-bold tracking-wider text-white/75 mt-0.5">{s.subEn}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3단계 (네이비 배경) ── */}
+      <section id="how" className="py-20 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14 flex flex-col items-center gap-3">
+            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
+            <h2 id="how-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
+          </div>
+
+          <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
+            <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+            {[
+              { num: '1', icon: 'photo_camera', title: t('home.how.step1'), desc: t('home.how.step1Desc') },
+              { num: '2', icon: 'psychology', title: t('home.how.step2'), desc: t('home.how.step2Desc') },
+              { num: '3', icon: 'auto_awesome', title: t('home.how.step3'), desc: t('home.how.step3Desc') },
+            ].map((step) => (
+              <div key={step.num} className="flex flex-col items-center text-center gap-5 relative">
+                <div className="relative">
+                  <div className="w-28 h-28 rounded-full bg-white/10 border border-white/15 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary text-5xl">{step.icon}</span>
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-pink-500 text-white flex items-center justify-center font-extrabold text-sm shadow-lg">{step.num}</div>
+                </div>
+                <h3 className="text-xl font-bold text-white">{step.title}</h3>
+                <p className="text-slate-300 text-sm leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ── 무료 도구 그리드 (나만을 위한 뷰티 솔루션) ── */}
@@ -752,36 +602,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
       {/* ── 최신 콘텐츠 (메이크업 제품 + 뉴스) — 매일 자동 발행 피드 노출 ── */}
       <HomeContentSections />
-
-      {/* ── 3단계 (네이비 배경) ── */}
-      <section id="how" className="py-20 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14 flex flex-col items-center gap-3">
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
-            <h2 id="how-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
-          </div>
-
-          <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
-            <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
-            {[
-              { num: '1', icon: 'photo_camera', title: t('home.how.step1'), desc: t('home.how.step1Desc') },
-              { num: '2', icon: 'psychology', title: t('home.how.step2'), desc: t('home.how.step2Desc') },
-              { num: '3', icon: 'auto_awesome', title: t('home.how.step3'), desc: t('home.how.step3Desc') },
-            ].map((step) => (
-              <div key={step.num} className="flex flex-col items-center text-center gap-5 relative">
-                <div className="relative">
-                  <div className="w-28 h-28 rounded-full bg-white/10 border border-white/15 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-5xl">{step.icon}</span>
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-pink-500 text-white flex items-center justify-center font-extrabold text-sm shadow-lg">{step.num}</div>
-                </div>
-                <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                <p className="text-slate-300 text-sm leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── 하단 CTA (핑크) ── */}
       <section className="py-20 relative overflow-hidden bg-gradient-to-br from-primary via-pink-500 to-rose-400 text-white">
