@@ -16,7 +16,6 @@ import MakeupResult from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
 import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
-import { deviceFingerprint } from '../../lib/makeup/fingerprint'
 import { supabase } from '../../lib/supabase'
 
 const NAVY = '#070953'
@@ -65,6 +64,19 @@ export default function MakeupFlow() {
     setErrMsg(null); setAfterSrc(null)
     const style = styleById(id)
     try {
+      // ── 로그인 게이트 ── AI 메이크업은 무료 1회도 로그인 필요(익명 무료 남용 차단).
+      // 진단 도구는 무로그인 유지, 생성당 실비용이 나가는 이 기능만 로그인 뒤로.
+      const { data: { session } } = await supabase.auth.getSession()
+      const token = session?.access_token
+      if (!token) {
+        setErrMsg(isEn
+          ? 'Log in to try AI makeup — your 1st try is free, no card needed.'
+          : '로그인하면 AI 메이크업을 무료 1회 체험할 수 있어요. 카드 필요 없어요.')
+        setErrAction('login')
+        setStep('error')
+        return
+      }
+
       const img = new Image()
       img.crossOrigin = 'anonymous'
       await new Promise<void>((res, rej) => { img.onload = () => res(); img.onerror = () => rej(new Error('image load failed')); img.src = photo })
@@ -78,24 +90,21 @@ export default function MakeupFlow() {
       // whole-face 편집(옛 9룩 방식): 마스크 없이 사진 전체를 프롬프트로 재생성.
       // (서버: 무료 가드 → 소진 시 로그인+크레딧 차감 → gpt-image-2 whole-face 편집)
       setStatus(isEn ? 'Creating your makeup… (up to ~1 min)' : '메이크업 생성 중… (최대 1분)')
-      const fingerprint = await deviceFingerprint()
       if (!jobIdRef.current) jobIdRef.current = makeJobId()   // 재시도면 기존 키 유지(이중차감 방지)
-      const { data: { session } } = await supabase.auth.getSession()
-      const token = session?.access_token
       const res = await fetch('/api/makeup-edit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ image: baseUrl, prompt: promptWholeFace(style), styleId: id, fingerprint, jobId: jobIdRef.current, size }),
+        body: JSON.stringify({ image: baseUrl, prompt: promptWholeFace(style), styleId: id, jobId: jobIdRef.current, size }),
       })
       if (!alive()) return
       const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; tier?: string; error?: string; balance?: number }
       if (!res.ok) {
         const code = data.error
-        if (res.status === 402 && code === 'login_required') {
-          setErrMsg(isEn ? 'You’ve used your free tries. Log in to continue with credits.' : '무료 체험을 다 썼어요. 로그인하면 크레딧으로 이어갈 수 있어요.')
+        if (code === 'login_required') {
+          setErrMsg(isEn ? 'Log in to try AI makeup — your 1st try is free, no card needed.' : '로그인하면 AI 메이크업을 무료 1회 체험할 수 있어요. 카드 필요 없어요.')
           setErrAction('login')
         } else if (res.status === 401) {
           setErrMsg(isEn ? 'Your session expired. Please log in again.' : '로그인이 만료됐어요. 다시 로그인해 주세요.')

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
+import { getCreditBalance } from '../lib/credits'
 
 interface SubStatus {
   active: boolean
@@ -99,6 +100,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   const [deleteError, setDeleteError] = useState<string | null>(null)
   const [orders, setOrders] = useState<OrderRow[]>([])
   const [ordersLoading, setOrdersLoading] = useState(false)
+  const [credits, setCredits] = useState<number | null>(null)
 
   const isOAuth = user?.app_metadata?.provider && user.app_metadata.provider !== 'email'
   const isKo = locale === 'ko'
@@ -132,6 +134,16 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   useEffect(() => {
     fetchOrders()
   }, [fetchOrders])
+
+  // 크레딧 잔액 — 로그인 유저의 남은 AI 메이크업 크레딧(RLS 로 본인 것만).
+  useEffect(() => {
+    if (!user?.id) return
+    let cancelled = false
+    getCreditBalance()
+      .then((n) => { if (!cancelled) setCredits(n) })
+      .catch(() => { if (!cancelled) setCredits(0) })
+    return () => { cancelled = true }
+  }, [user?.id])
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -292,6 +304,41 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             )}
           </p>
         </div>
+      </div>
+
+      {/* 내 크레딧 — AI 메이크업 생성에 쓰는 크레딧 잔액 */}
+      <div style={cardStyle}>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>auto_awesome</span>
+          {isKo ? '내 크레딧' : 'My Credits'}
+        </h2>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+            <span style={{ fontSize: '32px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>
+              {credits === null ? '…' : credits}
+            </span>
+            <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+              {isKo ? '개 남음' : credits === 1 ? 'credit left' : 'credits left'}
+            </span>
+          </div>
+          <button
+            onClick={() => { window.location.href = '/analysis/?topup=1' }}
+            style={{
+              padding: '10px 18px', borderRadius: '10px', border: 'none',
+              background: 'linear-gradient(135deg, #ec4899, #f472b6)',
+              color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: '6px',
+            }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add_circle</span>
+            {isKo ? '크레딧 충전' : 'Top up'}
+          </button>
+        </div>
+        <p style={{ fontSize: '12px', color: '#64748b', margin: '12px 0 0', lineHeight: 1.5 }}>
+          {isKo
+            ? '크레딧 1개 = AI 메이크업 1장. 첫 1회는 무료로 체험할 수 있어요.'
+            : '1 credit = 1 AI makeup. Your first try is free.'}
+        </p>
       </div>
 
       {/* 구독 관리 */}

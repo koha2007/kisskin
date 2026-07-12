@@ -58,11 +58,6 @@ const FREE_LIMIT = 1
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } })
 
-async function sha256(s: string): Promise<string> {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s))
-  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('')
-}
-
 function dataUrlToBlob(dataUrl: string, type = 'image/png'): Blob {
   const b64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl
   const bin = atob(b64)
@@ -89,24 +84,34 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
 
   let body: Body
   try { body = (await request.json()) as Body } catch { return json({ error: 'bad_json' }, 400) }
-  const { image, mask, prompt, fingerprint } = body
+  const { image, mask, prompt } = body
   // whole-face 복원: mask 는 선택. 없으면 사진 전체를 편집한다.
   if (!image || !prompt) return json({ error: 'missing_fields' }, 400)
+
+  // ── 로그인 필수 (무료 1회도 로그인 게이트) ──
+  // 익명 무료는 IP·지문 로테이션(모바일 셀룰러/인앱 웹뷰 localStorage 초기화)으로
+  // 무한 우회가 가능했다. 그래서 무료 판정 신원을 user_id 로 고정한다. 진단 도구는
+  // 무로그인 유지, 생성당 실제 비용(~$0.085)이 나가는 AI 메이크업만 로그인 뒤로 게이트.
+  const authHeader = request.headers.get('Authorization') || ''
+  if (!authHeader.startsWith('Bearer ')) {
+    return json({ error: 'login_required', message: '로그인하면 AI 메이크업을 무료 1회 체험할 수 있어요.' }, 401)
+  }
+  const userId = await verifyUserId(env, authHeader.slice(7))
+  if (!userId) {
+    return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
+  }
 
   // ── 비용 가드 (fail-closed) ──
   if (!env.MAKEUP_USAGE) {
     // 저장소 없으면 무료 판정 불가 → OpenAI 호출 안 함(과금 노출 차단).
     return json({ error: 'guard_unconfigured', message: '사용량 저장소가 설정되지 않았습니다.' }, 503)
   }
-  const ip =
-    request.headers.get('cf-connecting-ip') ||
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    'noip'
-  const fp = (fingerprint || 'nofp').slice(0, 200)
-  const key = 'mu:' + (await sha256(`${ip}|${fp}`))
+  // 무료 판정 신원 = user_id (계정당 무료 FREE_LIMIT회). IP·지문을 섞지 않으므로
+  // 셀룰러 IP 로테이션·웹뷰 저장소 초기화로 무료를 리셋하는 우회가 불가능하다.
+  const key = 'mu:user:' + userId
   const used = parseInt((await env.MAKEUP_USAGE.get(key)) || '0', 10) || 0
 
-  // ── 결제 경로 판정: 무료 남으면 free, 소진되면 credit(로그인+차감) ──
+  // ── 결제 경로 판정: 무료 남으면 free, 소진되면 credit(차감) ──
   const tier: 'free' | 'credit' = used >= FREE_LIMIT ? 'credit' : 'free'
   let creditBalance = 0
 
@@ -116,20 +121,10 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
       return json({ error: 'credits_unconfigured', message: '크레딧 서비스가 아직 준비 중이에요.' }, 503)
     }
 
-    // 1) 로그인 토큰 검증
-    const authHeader = request.headers.get('Authorization') || ''
-    if (!authHeader.startsWith('Bearer ')) {
-      return json({ error: 'login_required', message: '무료 체험을 다 썼어요. 로그인 후 크레딧으로 이어가세요.' }, 402)
-    }
-    const creditUserId = await verifyUserId(env, authHeader.slice(7))
-    if (!creditUserId) {
-      return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
-    }
-
-    // 2) 차감 먼저(ref=jobId 멱등). OpenAI 호출 전에 결제 확정.
+    // 차감 먼저(ref=jobId 멱등). OpenAI 호출 전에 결제 확정.
     const jobId = (body.jobId || '').slice(0, 100)
-    const ref = jobId || `${creditUserId}:nojob`
-    const deduct = await deductCredits(env, creditUserId, 1, ref)
+    const ref = jobId || `${userId}:nojob`
+    const deduct = await deductCredits(env, userId, 1, ref)
     if (!deduct.success) {
       if (deduct.reason === 'insufficient' || deduct.reason === 'no_credits') {
         return json({ error: 'insufficient_credits', message: '크레딧이 부족해요. 충전 후 다시 시도해 주세요.', balance: deduct.balance }, 402)

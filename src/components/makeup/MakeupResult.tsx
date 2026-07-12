@@ -14,6 +14,7 @@ import { styleById, type MakeupStyleId } from '../../lib/makeup/styles'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { saveSharedResult } from '../../lib/shareResult'
 import { supabase } from '../../lib/supabase'
+import { getCreditBalance } from '../../lib/credits'
 import type { ProductRec } from '../../lib/recommendations/types'
 
 const PRIMARY = '#eb4763'
@@ -115,14 +116,23 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
   const [email, setEmail] = useState('')
   const [emailState, setEmailState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
+  // 남은 크레딧 — 로그인 유저만. 생성 직후(afterSrc 변경) 최신 잔액 반영.
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [creditsLeft, setCreditsLeft] = useState<number | null>(null)
+
   useEffect(() => {
     let cancelled = false
     supabase.auth.getSession().then(({ data }) => {
       const e = data.session?.user?.email
-      if (!cancelled && e) setEmail((cur) => cur || e)
+      if (cancelled) return
+      if (e) setEmail((cur) => cur || e)
+      if (data.session?.user) {
+        setLoggedIn(true)
+        getCreditBalance().then((n) => { if (!cancelled) setCreditsLeft(n) }).catch(() => {})
+      }
     }).catch(() => { /* 세션 없음 — 익명 입력 */ })
     return () => { cancelled = true }
-  }, [])
+  }, [afterSrc])
 
   const fileName = `kisskin-makeup-${styleId}.jpg`
   const isMobile = typeof navigator !== 'undefined' && /Mobi|Android|iP(hone|ad|od)/i.test(navigator.userAgent || '')
@@ -163,12 +173,18 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
   }
 
   // 결과 준비 → 합성 파일 미리 생성(탭 시 즉시 공유 → iOS 활성화 보존).
+  // 공유 링크(/result/{id})도 백그라운드로 미리 만들어 둔다 → 탭 시 개인화된 결과
+  // 페이지 URL(OG 미리보기 O)을 즉시 공유. 실패해도 탭 때 TOOL_URL 로 폴백.
   useEffect(() => {
     compositeRef.current = null
     if (!afterSrc) return
     let cancelled = false
     makeComposite()
-      .then((c) => { if (!cancelled) compositeRef.current = c })
+      .then((c) => {
+        if (cancelled) return
+        compositeRef.current = c
+        void ensureShareUrl(c.dataUrl).catch(() => { /* 탭 시 폴백 */ })
+      })
       .catch(() => { /* 탭 시 온디맨드로 재시도 */ })
     return () => { cancelled = true }
     // styleName/styleDesc 는 styleId 파생값 → afterSrc 만 추적하면 충분.
@@ -204,6 +220,20 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
         }
       }
       const url = URL.createObjectURL(c.file)
+      // 모바일에서 공유 시트를 못 쓴 경우: <a download> 는 iOS 가 무시해 "아무 일도
+      // 안 일어남" 이 되기 쉽다. 그래서 이미지를 새 탭으로 열어 "길게 눌러 저장" 을
+      // 유도한다(사진첩 저장이 확실히 가능한 네이티브 경로). 캐시가 있으면 탭 직후라
+      // window.open 이 팝업차단 없이 열린다.
+      if (isMobile) {
+        const win = window.open(url, '_blank', 'noopener')
+        if (win) {
+          gtagEvent('makeup_save', { style: styleId, method: 'newtab' })
+          showToast(isEn ? 'Press & hold the image to save it' : '이미지를 길게 눌러 저장하세요')
+          window.setTimeout(() => URL.revokeObjectURL(url), 60000)
+          return
+        }
+        // 팝업 차단 시 다운로드 시도로 폴백(아래 공통 경로)
+      }
       const a = document.createElement('a')
       a.href = url
       a.download = fileName
@@ -373,6 +403,19 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
           <ActionBtn icon="ios_share" label={isEn ? 'Share' : '공유'} onClick={handleShare} disabled={pending || savingShare} />
           <ActionBtn icon="refresh" label={isEn ? 'Retry' : '다시'} onClick={onRetake} />
         </div>
+
+        {/* 남은 크레딧 — 로그인 유저에게 잔액 노출(충전 후 몇 개 남았는지 확인 가능) */}
+        {loggedIn && creditsLeft !== null && (
+          <div className="mt-3 flex items-center justify-center gap-2 text-[12px]">
+            <span className="material-symbols-outlined text-sm text-white/60" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+            <span className="text-white/70">
+              {isEn ? `${creditsLeft} credit${creditsLeft === 1 ? '' : 's'} left` : `크레딧 ${creditsLeft}개 남음`}
+            </span>
+            <a href="/analysis/?topup=1" className="font-bold underline underline-offset-2 text-white/85">
+              {isEn ? 'Top up' : '충전'}
+            </a>
+          </div>
+        )}
 
         {/* 공유 링크바 — 생성되면 상시 노출(데스크톱에서도 링크 복사 확실히 보이게) */}
         {shareId && (
