@@ -165,7 +165,9 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#d3b25e',
     maskAreas: ['skinInner', 'eyes'],
     glow: 0.2,
-    hair: 'a cool silver grey with a metallic sheen and soft darker roots.',
+    // 실버 그레이는 모델을 가리지 않고 "백발(노화)"로 읽힐 위험이 컸다(2026-07-12 실측).
+    // 룩의 핵심인 금속광은 유지하되, 따뜻한 브론즈로 바꿔 의도한 패션 염색으로 읽히게 한다.
+    hair: 'a burnished metallic bronze with warm copper shine and softly darker roots — a deliberate fashion dye, never grey or ageing.',
     prompt:
       'apply a metallic eye look — reflective gold and silver shimmer eyeshadow packed on the lids for a glossy, ' +
         'clearly glinting metallic finish, and keep the lips a soft neutral tone. Do NOT change the eye shape; ' +
@@ -227,7 +229,9 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f39ac4',
     maskAreas: ['skinInner', 'lips', 'cheeks'],
     glow: 0.32,
-    hair: 'a deep navy blue-black that reads black indoors and flashes blue in the light.',
+    // "네이비 블루블랙"은 결과가 그냥 검정으로 읽혀 변화가 보이지 않았다(2026-07-12 실측).
+    // 확실히 파랗게 — 실내에서도 블루로 보이도록 채도를 올린다.
+    hair: 'a vivid sapphire blue — unmistakably, visibly BLUE (not black, not navy-so-dark-it-reads-black), a fresh salon dye with blue light across the strands and softly darker roots.',
     prompt:
       'create a K-pop idol look — glossy "glass skin" with a luminous glazed glow, a soft gradient blurred pink ' +
         'lip (deeper in the center fading out), a light pink flush on the apples of the cheeks, and a subtle ' +

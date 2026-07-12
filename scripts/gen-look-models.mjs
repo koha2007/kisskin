@@ -80,7 +80,8 @@ const MODELS = {
     backdrop: 'dark plum gradient backdrop',
   },
   'metallic-eye': {
-    subject: 'a young Black woman in her mid 20s with deep brown skin and short natural curls',
+    // 짧은 곱슬 + 실버는 "백발"로 읽혔다 → 길고 매끈한 헤어로 바꿔 염색 컬러가 드러나게.
+    subject: 'a young Black woman in her mid 20s with deep brown skin and long sleek shoulder-length hair',
     light: 'crisp specular light that catches highlights on the skin',
     backdrop: 'cool graphite studio background',
   },
