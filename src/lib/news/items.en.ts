@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'shopee-kbeauty-soothing-june-2026',
+    category: 'skincare',
+    title: 'Soothing and Moisture Barrier Products Dominate Shopee K-Beauty in June 2026',
+    summary:
+      'In June 2026, d\'Alba Vital Spray Serum and VT Cosmetics Cica Reti-A Mask Pack garnered significant attention as rapidly rising popular brands in the Shopee K-Beauty market. This surge is attributed to the concentrated demand for soothing and moisture barrier care products, catering to skin easily irritated by Southeast Asia\'s hot climate.',
+    body: [
+      '> TLDR: Shopee K-Beauty | June\'s Top Trending | Soothing & Moisture Barrier Care',
+      'In June 2026, sales trends for K-beauty products on Shopee, Southeast Asia\'s largest e-commerce platform, showed a notable shift. Korean skincare products emphasizing skin soothing and moisture barrier care functions experienced explosive popularity, particularly tailored to Southeast Asia\'s climate ahead of the hot rainy season.',
+      '> DATA: Among Shopee\'s top-ranking rapidly rising popular brands in June, d\'Alba\'s Vital Spray Serum secured 1st and 3rd place, while VT Cosmetics\' Cica Reti-A Mask Pack and Cryo Ice Mask took 2nd and 4th place respectively. These products are characterized by their common focus on \'soothing\' and \'moisture barrier care\'.',
+      'These results suggest that local consumers prioritize practical benefits that quickly alleviate skin irritation and provide hydration in response to seasonal changes. It appears that K-beauty brands\' strategy of precisely understanding regional climate characteristics and consumer needs to offer customized products has been successful.',
+      'Moving forward, the K-beauty market is expected to go beyond simple trends and strengthen its global competitiveness through the development of functional products deeply linked to each region\'s environment and consumer lifestyles.',
+    ],
+    date: '2026-07-12',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Shopee', 'Southeast Asia', 'Skincare', 'Soothing Care', 'Moisture Barrier'],
+  },
+  {
     slug: 'k-beauty-quick-beauty-sisungbi-trend-2026',
     category: 'trend',
     title: 'K-Beauty Market Achieves $11.4 Billion in Exports, Driven by \'Time-Performance\' Quick Beauty Trend',

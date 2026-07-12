@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'nonfiction-santal-cream-hand-cream',
+    category: 'fragrance',
+    brand: '논픽션',
+    name: '상탈크림 핸드크림',
+    title: '논픽션 상탈크림 핸드크림 — 우디 머스크의 따뜻하고 포근한 잔향',
+    summary:
+      '신선한 카다멈과 부드러운 우디 노트가 어우러져 중성적이면서도 깊이 있는 향을 선사하는 논픽션의 베스트셀러 핸드크림.',
+    highlights: ['중성적인 우디 향', '부드러운 시어버터 제형', '빠른 흡수, 끈적임 없음', '지속력 좋은 잔향'],
+    details: [
+      '시어버터와 비타민 E 성분을 함유하여 건조한 손 피부에 촉촉함과 생기를 부여합니다.',
+      '신선한 카다멈 향으로 시작하여 샌달우드, 앰버, 머스크의 부드럽고 따뜻한 우디 노트가 매력적인 향입니다.',
+      '빠르게 흡수되는 산뜻한 제형으로 끈적임 없이 마무리되어 사계절 내내 사용하기 좋습니다.',
+      '향수처럼 깊고 풍부하며 지속력이 좋아 잔향이 오래도록 은은하게 유지됩니다.',
+    ],
+    image: '/products/nonfiction-santal-cream-hand-cream.webp',
+    coupangQuery: '논픽션 상탈크림 핸드크림',
+    globalQuery: 'Nonfiction Santal Cream Hand Cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-12',
+    tags: ['핸드크림', '향수', '우디향', '머스크향', '선물추천', '논픽션'],
+  },
+  {
     slug: 'k18-leave-in-molecular-repair-hair-mask',
     category: 'hair',
     brand: 'K18 바이오미메틱 헤어사이언스',

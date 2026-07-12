@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'nonfiction-santal-cream-hand-cream',
+    category: 'fragrance',
+    brand: 'NONFICTION',
+    name: 'SANTAL CREAM Hand Cream',
+    title: 'NONFICTION SANTAL CREAM Hand Cream — Warm, Cozy Woody Musk Scent',
+    summary:
+      'NONFICTION\'s best-selling hand cream offers a neutral yet profound fragrance, blending fresh cardamom with soft woody notes.',
+    highlights: ['Neutral woody scent', 'Soft shea butter texture', 'Fast absorption, non-sticky', 'Long-lasting lingering scent'],
+    details: [
+      'Formulated with shea butter and Vitamin E to provide moisture and vitality to dry hands.',
+      'Features an attractive scent that begins with fresh cardamom, followed by soft, warm woody notes of sandalwood, amber, and musk.',
+      'Its refreshing, fast-absorbing texture leaves no stickiness, making it suitable for use all year round.',
+      'Deep, rich, and long-lasting like a perfume, its subtle lingering scent endures for a long time.',
+    ],
+    image: '/products/nonfiction-santal-cream-hand-cream.webp',
+    coupangQuery: '논픽션 상탈크림 핸드크림',
+    globalQuery: 'Nonfiction Santal Cream Hand Cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-12',
+    tags: ['Hand Cream', 'Perfume', 'Woody Scent', 'Musk Scent', 'Gift Recommendation', 'NONFICTION'],
+  },
+  {
     slug: 'k18-leave-in-molecular-repair-hair-mask',
     category: 'hair',
     brand: 'K18 Biomimetic Hairscience',
