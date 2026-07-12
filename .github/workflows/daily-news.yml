@@ -30,7 +30,7 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30    # 생성(≈5~10분) + IndexNow 의 배포 대기(최대 10분)
     steps:
       - uses: actions/checkout@v4
 
@@ -55,6 +55,7 @@ jobs:
         run: npm run gen:sitemap
 
       - name: Commit & push if changed
+        id: push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -63,9 +64,29 @@ jobs:
                   public/products public/sitemap.xml
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             # skip 토큰 금지: Cloudflare Pages 가 '[skip ci]'류를 인식해 배포를 건너뛴다.
             # GITHUB_TOKEN 푸시는 다른 워크플로를 재트리거하지 않으므로 루프 위험도 없음.
             git commit -m "chore(content): 일일 뉴스·메이크업 제품 자동 발행 (KO+EN)"
             git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # 새 글을 네이버·Bing 에 즉시 알린다(크롤링 주기를 기다리지 않음).
+      # 구글은 IndexNow 미지원 → Search Console 에서 사람이 요청해야 한다.
+      # 새 URL 은 사이트맵 diff 로 뽑는다(KO/EN 구분 없이 정확). 허브(목록) 페이지는
+      # URL 이 그대로여도 내용이 갱신되므로 함께 알린다.
+      - name: IndexNow 색인 요청 (네이버 + Bing)
+        if: steps.push.outputs.pushed == 'true'
+        continue-on-error: true    # 색인 요청 실패가 콘텐츠 발행을 망치지 않게
+        run: |
+          NEW=$(git show HEAD -- public/sitemap.xml \
+                | grep '^+.*<loc>' \
+                | sed -E 's/.*<loc>([^<]+)<\/loc>.*/\1/' \
+                | sort -u)
+          HUBS="https://kissinskin.net/news/ https://kissinskin.net/products/ https://kissinskin.net/en/news/ https://kissinskin.net/en/products/"
+          echo "새 URL:"; echo "$NEW" | sed 's/^/  /'
+          # --wait: Cloudflare Pages 배포가 끝나 새 글이 실제로 200 을 줄 때까지 기다린다
+          # (배포 전에 알리면 크롤러가 404 를 만나 "없는 페이지"로 학습된다).
+          node scripts/indexnow.mjs --wait $NEW $HUBS

@@ -13,9 +13,11 @@
 //   검색엔진이 키 검증에 실패해 요청이 거부된다.
 //
 // 사용:
-//   node scripts/indexnow.mjs                 # 사이트맵 전체
-//   node scripts/indexnow.mjs --changed       # 이번에 메타를 고친 핵심 URL만
-//   node scripts/indexnow.mjs --dry           # 전송 없이 목록만 출력
+//   node scripts/indexnow.mjs                        # 사이트맵 전체
+//   node scripts/indexnow.mjs --changed              # 메타를 고친 핵심 URL만
+//   node scripts/indexnow.mjs <url> <url> …          # 지정한 URL만(일일 자동 발행용)
+//   node scripts/indexnow.mjs --wait <url> …         # 그 URL이 배포될 때까지 기다렸다 제출
+//   node scripts/indexnow.mjs --dry                  # 전송 없이 목록만 출력
 // ════════════════════════════════════════════════════════════════════
 const KEY = '7a2764f44db55c311d1d17dfbc7e8389'
 const HOST = 'kissinskin.net'
@@ -39,6 +41,25 @@ const CHANGED = [
 const args = process.argv.slice(2)
 const DRY = args.includes('--dry')
 const ONLY_CHANGED = args.includes('--changed')
+const WAIT = args.includes('--wait')
+const EXPLICIT = args.filter((a) => a.startsWith('http'))
+
+/**
+ * 배포가 끝나 URL 이 실제로 200 을 주는지 기다린다.
+ * 새 글은 Cloudflare Pages 빌드가 끝나야 뜬다 — 배포 전에 색인 요청을 보내면
+ * 크롤러가 404 를 만나 오히려 "없는 페이지"로 학습된다.
+ */
+async function waitLive(url, tries = 30, gapMs = 20000) {
+  for (let i = 1; i <= tries; i++) {
+    try {
+      const r = await fetch(url, { method: 'HEAD' })
+      if (r.ok) { console.log(`  ✅ 배포 확인 (${i}회차): ${url}`); return true }
+    } catch { /* 네트워크 순간 실패 — 재시도 */ }
+    await new Promise((r) => setTimeout(r, gapMs))
+  }
+  console.warn(`  ⚠️ 배포 확인 실패(타임아웃): ${url}`)
+  return false
+}
 
 async function urlsFromSitemap() {
   const res = await fetch(`https://${HOST}/sitemap.xml`)
@@ -69,7 +90,8 @@ async function main() {
   }
   console.log(`✅ 키 파일 확인: ${KEY_LOCATION}`)
 
-  const urlList = ONLY_CHANGED ? CHANGED : await urlsFromSitemap()
+  const urlList = EXPLICIT.length ? EXPLICIT : ONLY_CHANGED ? CHANGED : await urlsFromSitemap()
+  if (!urlList.length) { console.log('제출할 URL 없음 — 종료'); return }
   console.log(`제출 대상: ${urlList.length}개 URL`)
 
   if (DRY) {
@@ -77,6 +99,12 @@ async function main() {
     if (urlList.length > 10) console.log(`  … 외 ${urlList.length - 10}개`)
     console.log('\n--dry: 전송하지 않음.')
     return
+  }
+
+  // 새 글은 배포가 끝난 뒤에 알려야 한다(그 전엔 404).
+  if (WAIT) {
+    console.log('배포 대기 중…')
+    await waitLive(urlList[0])
   }
 
   for (const ep of ENDPOINTS) {
