@@ -3,14 +3,16 @@
 // 폰트·색은 우리 토큰 — Pretendard(font-display) / navy #070953 / primary #eb4763.
 // 무드 그라데이션·글래스 카드 언어는 QuizScreen 의 grid variant 를 그대로 따라간다.
 //
-// §8 가짜 이미지 금지: 카드는 AI 생성 가짜 얼굴/제품 이미지 없이 스타일별
-// "무드 색" 글래스 스와치만 쓴다. (추천 제품·결과 이미지는 결과 화면에서
-//  실제 affiliate ProductGridCard / 텍스트 카드로 처리)
+// 카드 이미지(2026-07-12): 무드 그라데이션만으로는 "이 룩이 실제로 어떤 얼굴이 되는지"를
+// 못 보여줘 선택이 어렵다 → 룩별 실제 결과 이미지(LOOK_IMAGES.after)를 깔고 그 위에
+// 라벨을 얹는다. 이 애프터들은 라이브와 동일한 파이프라인(gpt-image-2 + promptWholeFace)의
+// 실제 출력이라 §8 위반이 아니다(가짜 결과 아님). 이미지 로드 실패 시 무드 그라데이션 폴백.
 //
 // 1개 선택 = 1크레딧 = 결과 1장.
 
 import { useState } from 'react'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
+import { lookImage } from '../../lib/makeup/lookImages'
 
 const NAVY = '#070953'
 const PRIMARY = '#eb4763'
@@ -43,6 +45,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
 
   const Card = ({ id }: { id: MakeupStyleId }) => {
     const s = MAKEUP_STYLES.find((x) => x.id === id)!
+    const img = lookImage(id)
     const isSel = selected === id
     return (
       <button
@@ -56,8 +59,21 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
         }`}
         style={{ background: s.mood }}
       >
-        {/* 무드 색 위 하단 스크림 — 흰 텍스트 가독성 (밝은 그라데이션 대비) */}
-        <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/65 to-transparent" />
+        {/* 실제 룩 결과 이미지 — 없거나 실패하면 아래 무드 그라데이션이 그대로 보인다. */}
+        {img && (
+          <img
+            src={img.after}
+            alt=""
+            aria-hidden
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+          />
+        )}
+
+        {/* 하단 스크림 — 흰 텍스트 가독성 (밝은 사진/그라데이션 대비) */}
+        <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 to-transparent" />
 
         {/* 선택 체크 (우상단 동그라미 체크) */}
         {isSel && (

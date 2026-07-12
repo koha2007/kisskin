@@ -65,6 +65,12 @@ export interface MakeupStyle {
    * 글래스/데일리 룩의 '촉촉한 광'은 OpenAI가 아니라 이 레이어로 만든다(looksEngine highlight/smooth).
    */
   glow: number
+  /**
+   * 룩과 함께 바뀌는 헤어 "컬러" (2026-07-12). 룩마다 다른 염색을 입혀 변화를 크게 보여준다.
+   * ⚠ 컬러만 바꾼다 — 헤어스타일/길이/컷/가르마/헤어라인은 FACE_LOCK 이 그대로 고정한다.
+   *   (헤어라인이 움직이면 얼굴 동일성이 깨진다.)
+   */
+  hair: string
   /** 스타일별 "적용할 메이크업" raw 지시문. promptWholeFace(whole-face)/promptFor(마스크)가 프리앰블로 감싼다. */
   prompt: string
 }
@@ -96,6 +102,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f4b79c',
     maskAreas: ['skinInner', 'lips', 'cheeks'],
     glow: 0.24,
+    hair: 'a soft natural dark brown with warm chocolate depth, subtly lighter and glossier than plain black.',
     prompt:
       'give the skin a dewy, luminous healthy glow (moist but never greasy), add a soft natural peach blush only ' +
         'on the apples of the cheeks kept subtle and narrow, and a soft nude "my-lips-but-better" lip keeping the ' +
@@ -111,6 +118,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#cfc9e8',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.2,
+    hair: 'a soft ash brown with a cool, milky tone that echoes the airy complexion.',
     prompt:
       'create a soft "cloud skin" complexion — a smooth, poreless-looking soft-matte veil that is noticeably ' +
         'brighter, milkier and more even than bare skin (cloud-like and airy, never cakey), and keep the lips a ' +
@@ -126,6 +134,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#8f1728',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.12,
+    hair: 'a deep burgundy wine, dark and rich with red light catching the surface.',
     prompt:
       'apply a deep, saturated burgundy blood-red lip — bold and clearly the first thing you notice — keeping ' +
         'the original lip shape, and keep the eyes clean and minimal. Do NOT add any blush.',
@@ -140,6 +149,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#6a5cff',
     maskAreas: ['skinInner', 'eyes'],
     glow: 0.1,
+    hair: 'a glossy jet black with a healthy mirror-like shine, so the bold eyes stay the focus.',
     prompt:
       'apply a bold, colorful maximalist eye look — vivid blended eyeshadow across the lids in purple, blue and ' +
         'green tones with a thick, well-defined eyeliner for dramatic, statement-making eyes, and keep the lips a ' +
@@ -155,6 +165,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#d3b25e',
     maskAreas: ['skinInner', 'eyes'],
     glow: 0.2,
+    hair: 'a cool silver grey with a metallic sheen and soft darker roots.',
     prompt:
       'apply a metallic eye look — reflective gold and silver shimmer eyeshadow packed on the lids for a glossy, ' +
         'clearly glinting metallic finish, and keep the lips a soft neutral tone. Do NOT change the eye shape; ' +
@@ -170,6 +181,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f0384a',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.16,
+    hair: 'a warm caramel brown with sun-lit golden highlights.',
     prompt:
       'apply a bright, vivid red-coral bold lip — brighter and more vivid than a deep burgundy — with clear, ' +
         'eye-catching color, keeping the original lip shape. Do NOT add any blush.',
@@ -184,6 +196,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f18aa0',
     maskAreas: ['skinInner', 'cheeks', 'lips'],
     glow: 0.16,
+    hair: 'a soft rose brown with a mauve-pink cast, romantic and dusty.',
     prompt:
       'apply a "blush draping" look — a clearly visible layered pink-coral blush swept from the cheekbones up ' +
         'toward the temples (a diffused, sculpting wash of color, not a small dot), and keep the lips a soft ' +
@@ -199,6 +212,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#4a3d52',
     maskAreas: ['skinInner', 'eyes', 'lips'],
     glow: 0.06,
+    hair: 'a smoky ash greige — desaturated grey-brown with a matte, lived-in feel.',
     prompt:
       'create an edgy grunge look — a smudged smoky eye in dark grey-brown tones, a dark berry lip, and a matte ' +
         'skin finish for an intense, moody vibe. Do NOT change the eye or lip shape; only add makeup.',
@@ -213,6 +227,7 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f39ac4',
     maskAreas: ['skinInner', 'lips', 'cheeks'],
     glow: 0.32,
+    hair: 'a deep navy blue-black that reads black indoors and flashes blue in the light.',
     prompt:
       'create a K-pop idol look — glossy "glass skin" with a luminous glazed glow, a soft gradient blurred pink ' +
         'lip (deeper in the center fading out), a light pink flush on the apples of the cheeks, and a subtle ' +
@@ -230,7 +245,9 @@ const FACE_LOCK_WHOLEFACE =
   'ABSOLUTE FACE LOCK — HIGHEST PRIORITY. DO NOT generate a new face. DO NOT re-draw or reshape the face. ' +
   'Use the EXACT pixels of the original face and composite makeup ON TOP as an overlay. Keep identity, bone ' +
   'structure, eye shape and size, nose, mouth, jawline, cheekbones, forehead, hairline, ears, face width and ' +
-  'length, skin texture, moles, freckles and scars 100% IDENTICAL. Keep the SAME hair, clothing, background, ' +
+  'length, skin texture, moles, freckles and scars 100% IDENTICAL. Keep the SAME hairstyle — same cut, length, ' +
+  'volume, parting, strand flow and hairline (only the hair COLOUR changes, as specified below; do not restyle, ' +
+  'lengthen, shorten or add hair). Keep the SAME clothing, background, ' +
   'lighting, pose, expression, framing and composition. The result MUST be unmistakably the SAME individual — ' +
   'not a similar-looking or prettier person. Do not add any text, numbers, labels or watermark. If teeth show, ' +
   'keep them white and clean.'
@@ -246,9 +263,15 @@ export function promptWholeFace(style: MakeupStyle): string {
     'Keep the exact same image aspect ratio, framing and crop as the input photo — do not zoom, pad, ' +
     'letterbox or change the composition; the output must have the same proportions as the input.\n\n' +
     `First, ${BASE_RETOUCH}. Then apply the makeup: ${style.prompt}\n\n` +
+    // 헤어 컬러도 룩의 일부 — 염색만 하고 헤어 "형태"는 손대지 않는다(헤어라인이 움직이면 동일인이 아니게 됨).
+    `Then dye the hair: ${style.hair} Recolour ONLY — keep the exact same hairstyle, cut, length, volume, ` +
+    'parting, strand-by-strand flow and hairline as the original photo. The dye must look like real salon-dyed ' +
+    'hair with natural shine, depth and darker roots — not a flat colour overlay, not a wig. Keep the eyebrows ' +
+    'their natural colour unless the look says otherwise.\n\n' +
     'By default give the lips a naturally glossy, hydrated sheen with a soft healthy shine (unless this ' +
     'specific look calls for a matte finish). ' +
-    'Again: keep the original face pixels unchanged — only the makeup changes. Photorealistic and natural.'
+    'Again: keep the original face pixels unchanged — only the makeup and the hair colour change. ' +
+    'Photorealistic and natural.'
   )
 }
 
