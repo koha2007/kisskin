@@ -82,18 +82,30 @@ const PLACEHOLDER_PRODUCTS: ProductRec[] = [
   },
 ]
 
+/** 이번 생성이 무료 체험이었는지 크레딧 차감이었는지 — /api/makeup-edit 응답 그대로. */
+export interface MakeupUsage {
+  tier: 'free' | 'credit'
+  /** free tier: 지금까지 쓴 무료 횟수 / 총 무료 횟수 */
+  used?: number
+  free?: number
+  /** credit tier: 차감 후 잔액(서버 권위값) */
+  balance?: number
+}
+
 interface Props {
   styleId: MakeupStyleId
   /** 원본 셀카 */
   beforeSrc?: string
   /** 실제 인페인팅 결과(P1-3). 없으면 "생성 준비 중" 자리표시 — 디버그 마스크는 노출 안 함. */
   afterSrc?: string
+  /** 이번 생성의 과금 결과. 없으면(재진입 등) 잔액만 조회해 표시. */
+  usage?: MakeupUsage
   onRetake: () => void
   onBack: () => void
   isEn?: boolean
 }
 
-export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, onBack, isEn = false }: Props) {
+export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRetake, onBack, isEn = false }: Props) {
   const style = styleById(styleId)
   // 실제 메이크업 결과가 아직 없으면(P1-3 미연결) 안전한 "생성 준비 중" 상태만 노출.
   const pending = !afterSrc
@@ -134,8 +146,15 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
     return () => { cancelled = true }
   }, [afterSrc])
 
+  // 크레딧 차감 직후에는 서버가 돌려준 잔액이 가장 정확하다(RPC 재조회는 한 박자 늦을 수 있음).
+  const balanceNow =
+    usage?.tier === 'credit' && typeof usage.balance === 'number' ? usage.balance : creditsLeft
+
   const fileName = `kisskin-makeup-${styleId}.jpg`
-  const isMobile = typeof navigator !== 'undefined' && /Mobi|Android|iP(hone|ad|od)/i.test(navigator.userAgent || '')
+  const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : ''
+  const isMobile = /Mobi|Android|iP(hone|ad|od)/i.test(ua)
+  // iPadOS Safari 는 UA 를 Mac 으로 보고하므로 터치 여부로 함께 판별.
+  const isIOS = /iP(hone|ad|od)/i.test(ua) || (/Mac/.test(ua) && typeof document !== 'undefined' && 'ontouchend' in document)
 
   const buildComposite = () => buildMakeupComposite({ afterSrc: afterSrc!, styleName, styleDesc, isEn })
 
@@ -191,59 +210,58 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [afterSrc])
 
-  // 저장 — 모바일: 네이티브 공유 시트("사진 앨범에 저장"). 데스크톱: 파일 다운로드.
-  // 캐시된 합성 파일이 있으면 탭 즉시 share() 호출(iOS 활성화 보존).
+  // 이미지를 새 탭으로 연다(iOS 사진첩 저장 경로). 팝업이 막히면 false.
+  const openImageTab = (file: File): boolean => {
+    const url = URL.createObjectURL(file)
+    const win = window.open(url, '_blank', 'noopener')
+    if (!win) {
+      URL.revokeObjectURL(url)
+      return false
+    }
+    window.setTimeout(() => URL.revokeObjectURL(url), 60000)
+    return true
+  }
+
+  const downloadFile = (file: File) => {
+    const url = URL.createObjectURL(file)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = fileName
+    a.rel = 'noopener'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+    gtagEvent('makeup_save', { style: styleId, method: 'download' })
+    showToast(isEn ? 'Saved to your device' : '이미지를 저장했어요')
+  }
+
+  // 저장 — "저장"은 공유 시트를 열지 않는다(그건 공유 버튼의 일). 실제로 파일이
+  // 기기에 남는 경로만 쓴다:
+  //   · iOS: <a download> 는 Files 앱으로 새거나 인앱 웹뷰에서 무시된다 → 이미지를
+  //     새 탭으로 열어 "길게 눌러 → 사진에 저장"(사진첩에 확실히 들어가는 경로).
+  //   · Android/데스크톱: <a download> 로 바로 저장.
+  // 합성은 결과 표시 시 미리 만들어 두므로 탭 핸들러가 동기적으로 열려 팝업차단이 없다.
   const handleSave = async () => {
     if (!afterSrc) return
-    const nav = navigator
     const cached = compositeRef.current
-    if (cached && isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [cached.file] })) {
-      try {
-        await nav.share({ files: [cached.file] })
-        gtagEvent('makeup_save', { style: styleId, method: 'share_sheet' })
-        return
-      } catch (e) {
-        if (isAbort(e)) return
-        /* 폴백으로 진행 */
-      }
+    const saveHint = isEn
+      ? 'Press & hold the image → "Save to Photos"'
+      : '이미지를 길게 눌러 "사진에 저장"을 선택하세요'
+    if (isIOS && cached && openImageTab(cached.file)) {
+      gtagEvent('makeup_save', { style: styleId, method: 'newtab' })
+      showToast(saveHint)
+      return
     }
     try {
       const c = cached ?? await getComposite()
-      // 캐시가 없어 방금 만든 경우에도 모바일이면 공유 시트를 우선 시도.
-      if (!cached && isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [c.file] })) {
-        try {
-          await nav.share({ files: [c.file] })
-          gtagEvent('makeup_save', { style: styleId, method: 'share_sheet' })
-          return
-        } catch (e) {
-          if (isAbort(e)) return
-        }
+      // 캐시가 없어 방금 만든 경우: await 이후라 팝업이 막힐 수 있다 → 막히면 다운로드.
+      if (isIOS && openImageTab(c.file)) {
+        gtagEvent('makeup_save', { style: styleId, method: 'newtab' })
+        showToast(saveHint)
+        return
       }
-      const url = URL.createObjectURL(c.file)
-      // 모바일에서 공유 시트를 못 쓴 경우: <a download> 는 iOS 가 무시해 "아무 일도
-      // 안 일어남" 이 되기 쉽다. 그래서 이미지를 새 탭으로 열어 "길게 눌러 저장" 을
-      // 유도한다(사진첩 저장이 확실히 가능한 네이티브 경로). 캐시가 있으면 탭 직후라
-      // window.open 이 팝업차단 없이 열린다.
-      if (isMobile) {
-        const win = window.open(url, '_blank', 'noopener')
-        if (win) {
-          gtagEvent('makeup_save', { style: styleId, method: 'newtab' })
-          showToast(isEn ? 'Press & hold the image to save it' : '이미지를 길게 눌러 저장하세요')
-          window.setTimeout(() => URL.revokeObjectURL(url), 60000)
-          return
-        }
-        // 팝업 차단 시 다운로드 시도로 폴백(아래 공통 경로)
-      }
-      const a = document.createElement('a')
-      a.href = url
-      a.download = fileName
-      a.rel = 'noopener'
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000)
-      gtagEvent('makeup_save', { style: styleId, method: 'download' })
-      showToast(isEn ? 'Saved to your device' : '이미지를 저장했어요')
+      downloadFile(c.file)
     } catch {
       showToast(isEn ? 'Save failed — try again' : '저장에 실패했어요. 다시 시도해 주세요')
     }
@@ -404,13 +422,25 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, onRetake, o
           <ActionBtn icon="refresh" label={isEn ? 'Retry' : '다시'} onClick={onRetake} />
         </div>
 
-        {/* 남은 크레딧 — 로그인 유저에게 잔액 노출(충전 후 몇 개 남았는지 확인 가능) */}
-        {loggedIn && creditsLeft !== null && (
-          <div className="mt-3 flex items-center justify-center gap-2 text-[12px]">
+        {/* 이번 생성이 무료였는지 크레딧 차감이었는지 + 남은 잔액.
+            "무료 1회를 쓴 건데 크레딧이 안 줄었다"는 오해가 없도록 사용 내역을 명시한다.
+            credit tier 는 서버가 내려준 차감 후 잔액(권위값)을 우선 쓴다. */}
+        {loggedIn && (usage || creditsLeft !== null) && (
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[12px]">
             <span className="material-symbols-outlined text-sm text-white/60" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-            <span className="text-white/70">
-              {isEn ? `${creditsLeft} credit${creditsLeft === 1 ? '' : 's'} left` : `크레딧 ${creditsLeft}개 남음`}
-            </span>
+            {usage && (
+              <span className="font-bold text-white/90">
+                {usage.tier === 'free'
+                  ? (isEn ? 'Free trial used' : '무료 체험 1회 사용')
+                  : (isEn ? '1 credit used' : '크레딧 1개 사용')}
+              </span>
+            )}
+            {balanceNow !== null && (
+              <span className="text-white/70">
+                {usage ? '· ' : ''}
+                {isEn ? `${balanceNow} credit${balanceNow === 1 ? '' : 's'} left` : `크레딧 ${balanceNow}개 남음`}
+              </span>
+            )}
             <a href="/analysis/?topup=1" className="font-bold underline underline-offset-2 text-white/85">
               {isEn ? 'Top up' : '충전'}
             </a>

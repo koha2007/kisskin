@@ -24,15 +24,29 @@ interface Props {
   isEn?: boolean
   /** 홈에서 특정 룩을 골라 들어온 경우 그 룩 이름 — 업로드 화면에 안내 칩으로 표시 */
   hintLabel?: string
+  /** 미로그인이면 로그인 링크(?next= 포함). 사진을 올리기 전에 미리 알려준다. */
+  loginHref?: string
 }
 
-export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintLabel }: Props) {
+export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintLabel, loginHref }: Props) {
   const [photo, setPhoto] = useState<string | null>(null)
-  const fileRef = useRef<HTMLInputElement>(null)
+  // 앨범 선택과 카메라 촬영은 서로 다른 input 이어야 한다. capture 속성이 붙은 input
+  // 하나만 두면 앨범 선택이 막히고, 없는 input 하나만 두면(과거 버그) 카메라 버튼을
+  // 눌러도 앨범만 열린다. → 두 개를 각각 두고 버튼과 1:1로 연결한다.
+  const albumRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
 
   const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0]
-    if (f) setPhoto(URL.createObjectURL(f))
+    if (!f) return
+    // 교체 시 이전 미리보기만 해제한다. 현재 photo 는 언마운트 후에도 다음 단계
+    // (MakeupFlow 의 이미지 로드 · 결과화면 BEFORE)에서 계속 쓰이므로 해제하면 안 된다.
+    setPhoto((prev) => {
+      if (prev) URL.revokeObjectURL(prev)
+      return URL.createObjectURL(f)
+    })
+    // 같은 파일을 다시 골라도 change 가 발화하도록 초기화.
+    e.target.value = ''
   }
 
   const ready = !!photo
@@ -58,15 +72,36 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
 
       {/* 본문: 글래스 카드 */}
       <main className="flex-1 flex flex-col px-5 pt-6 pb-4 max-w-xl w-full mx-auto">
+        {/* 미로그인 안내 — 생성 직전이 아니라 여기서 미리 알려야 셀카를 올린 뒤
+            로그인 화면으로 튕겨 처음부터 다시 하는 헛수고가 없다. */}
+        {loginHref && (
+          <a
+            href={loginHref}
+            className="mb-4 flex items-center gap-2.5 rounded-2xl bg-white/15 border border-white/25 px-4 py-3 active:scale-[0.99] transition"
+          >
+            <span className="material-symbols-outlined text-xl shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+              lock_open
+            </span>
+            <span className="flex-1 text-[13px] font-semibold leading-snug">
+              {isEn
+                ? 'Log in to try AI makeup — 1st look free, no card needed.'
+                : '로그인하면 AI 메이크업 무료 1회 — 카드 필요 없어요.'}
+            </span>
+            <span className="shrink-0 rounded-full px-3 py-1.5 text-[12px] font-extrabold" style={{ background: PRIMARY }}>
+              {isEn ? 'Log in' : '로그인'}
+            </span>
+          </a>
+        )}
+
         <div className="rounded-3xl bg-white/10 border border-white/15 backdrop-blur-md p-6 shadow-xl shadow-black/20">
           {/* 원형 업로드 존 */}
           <div className="flex flex-col items-center">
             <div className="relative">
               <button
                 type="button"
-                onClick={() => fileRef.current?.click()}
+                onClick={() => albumRef.current?.click()}
                 className="w-32 h-32 rounded-full border-2 border-dashed border-white/45 flex items-center justify-center overflow-hidden bg-white/5 active:scale-[0.97] transition"
-                aria-label={isEn ? 'Upload selfie' : '셀카 올리기'}
+                aria-label={isEn ? 'Choose from album' : '앨범에서 사진 선택'}
               >
                 {photo ? (
                   <img src={photo} alt={isEn ? 'Your selfie' : '내 셀카'} className="w-full h-full object-cover" />
@@ -76,19 +111,41 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
                   </span>
                 )}
               </button>
-              {/* 카메라 FAB */}
+              {/* 카메라 FAB — 앨범이 아니라 전면 카메라를 연다(capture="user") */}
               <button
                 type="button"
-                onClick={() => fileRef.current?.click()}
+                onClick={() => cameraRef.current?.click()}
                 className="absolute bottom-1 right-1 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition"
                 style={{ background: PRIMARY }}
-                aria-label={isEn ? 'Choose photo' : '사진 선택'}
+                aria-label={isEn ? 'Take a selfie' : '카메라로 셀카 촬영'}
               >
                 <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
                   photo_camera
                 </span>
               </button>
-              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onFile} />
+              <input ref={albumRef} type="file" accept="image/*" className="hidden" onChange={onFile} />
+              {/* capture="user" → 모바일에서 전면(셀카) 카메라를 바로 연다. 데스크톱은 무시됨. */}
+              <input ref={cameraRef} type="file" accept="image/*" capture="user" className="hidden" onChange={onFile} />
+            </div>
+
+            {/* 두 경로를 글자로도 명시 — 아이콘만으로는 카메라/앨범 구분이 안 보인다 */}
+            <div className="mt-4 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => cameraRef.current?.click()}
+                className="inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3.5 py-1.5 text-xs font-bold active:scale-95 transition"
+              >
+                <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+                {isEn ? 'Take selfie' : '카메라로 촬영'}
+              </button>
+              <button
+                type="button"
+                onClick={() => albumRef.current?.click()}
+                className="inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3.5 py-1.5 text-xs font-bold active:scale-95 transition"
+              >
+                <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_library</span>
+                {isEn ? 'From album' : '앨범에서 선택'}
+              </button>
             </div>
 
             <h2 className="mt-5 text-xl font-extrabold tracking-tight">

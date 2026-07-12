@@ -8,7 +8,7 @@
 //   • 부분 편집(Stage 2, MediaPipe 마스크): mask 가 오면 그 영역만 재생성하고
 //     "마스크 밖 원본 합성"·glow 레이어는 클라이언트가 처리한다. (코드 보존 — 재사용 대비)
 //
-// 비용 가드 (fail-closed): (fingerprint + IP) 당 무료 N회. 저장소(env.MAKEUP_USAGE,
+// 비용 가드 (fail-closed): 계정(user_id)당 무료 N회. 저장소(env.MAKEUP_USAGE,
 // KV류)가 없으면 OpenAI 를 호출하지 않고 503 → 무방비 과금 노출을 원천 차단.
 //
 // 크레딧 차감 (P1-5 3단계, "결제 토큰" 모델):
@@ -52,7 +52,7 @@ async function verifyUserId(env: Env, token: string): Promise<string | null> {
   }
 }
 
-// (fingerprint+IP)당 무료 허용 횟수. 2026-07-05: 3 → 1 (무료 1회 체험).
+// 계정(user_id)당 무료 허용 횟수. 2026-07-05: 3 → 1 (무료 1회 체험).
 const FREE_LIMIT = 1
 
 const json = (obj: unknown, status = 200) =>
@@ -122,8 +122,11 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
     }
 
     // 차감 먼저(ref=jobId 멱등). OpenAI 호출 전에 결제 확정.
+    // ⚠ jobId 가 없으면 ref 는 반드시 매 요청 고유해야 한다. 고정 문자열(예전의
+    //    `${userId}:nojob`)을 쓰면 deduct_credits 의 ref 멱등성(0002 마이그레이션)에
+    //    걸려 첫 차감 이후 모든 no-job 요청이 "이미 결제됨"으로 통과 → 무한 무료 생성.
     const jobId = (body.jobId || '').slice(0, 100)
-    const ref = jobId || `${userId}:nojob`
+    const ref = jobId || `${userId}:nojob:${crypto.randomUUID()}`
     const deduct = await deductCredits(env, userId, 1, ref)
     if (!deduct.success) {
       if (deduct.reason === 'insufficient' || deduct.reason === 'no_credits') {

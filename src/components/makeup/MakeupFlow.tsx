@@ -12,7 +12,7 @@ import { navigate } from 'vike/client/router'
 import { useI18n } from '../../i18n/I18nContext'
 import MakeupSelfieUpload from './MakeupSelfieUpload'
 import MakeupStyleSelect from './MakeupStyleSelect'
-import MakeupResult from './MakeupResult'
+import MakeupResult, { type MakeupUsage } from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
 import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
@@ -31,6 +31,13 @@ function gtagEvent(name: string, params?: Record<string, unknown>) {
 function makeJobId(): string {
   try { return crypto.randomUUID() } catch { /* secure context 아니면 폴백 */ }
   return 'job-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10)
+}
+
+// 로그인 후 이 화면으로 되돌아오게 한다(?style= 등 현재 쿼리 유지). 로그인 성공 후
+// 홈으로 튕기면 셀카를 처음부터 다시 올려야 한다 — 게이트 직전 이탈의 주원인.
+function loginHref(): string {
+  if (typeof window === 'undefined') return '/auth'
+  return '/auth?next=' + encodeURIComponent(window.location.pathname + window.location.search)
 }
 
 // 에러 후 행동: 같은 작업 재생성 / 처음부터 / 로그인 필요 / 크레딧 충전
@@ -54,6 +61,9 @@ export default function MakeupFlow() {
   const [errAction, setErrAction] = useState<ErrAction>('restart')
   const [baseSrc, setBaseSrc] = useState<string | null>(null)   // 지원사이즈로 맞춘 원본(슬라이더 BEFORE)
   const [afterSrc, setAfterSrc] = useState<string | null>(null) // 합성+glow 최종 결과(AFTER)
+  const [usage, setUsage] = useState<MakeupUsage | null>(null)  // 이번 생성의 과금 결과(무료/크레딧)
+  // 미로그인 여부를 업로드 화면에서 미리 알려준다(사진 올린 뒤 게이트에 걸리는 헛수고 방지).
+  const [loggedOut, setLoggedOut] = useState(false)
   const runIdRef = useRef(0)
   const jobIdRef = useRef('')   // 현재 생성 작업의 차감 멱등 키(재시도 시 유지)
 
@@ -61,7 +71,7 @@ export default function MakeupFlow() {
   const runGenerate = useCallback(async (photo: string, id: MakeupStyleId) => {
     const myRun = ++runIdRef.current
     const alive = () => runIdRef.current === myRun
-    setErrMsg(null); setAfterSrc(null)
+    setErrMsg(null); setAfterSrc(null); setUsage(null)
     const style = styleById(id)
     try {
       // ── 로그인 게이트 ── AI 메이크업은 무료 1회도 로그인 필요(익명 무료 남용 차단).
@@ -100,7 +110,7 @@ export default function MakeupFlow() {
         body: JSON.stringify({ image: baseUrl, prompt: promptWholeFace(style), styleId: id, jobId: jobIdRef.current, size }),
       })
       if (!alive()) return
-      const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; tier?: string; error?: string; balance?: number }
+      const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; free?: number; tier?: 'free' | 'credit'; error?: string; balance?: number }
       if (!res.ok) {
         const code = data.error
         if (code === 'login_required') {
@@ -129,6 +139,11 @@ export default function MakeupFlow() {
       await new Promise<void>((r, j) => { editedImg.onload = () => r(); editedImg.onerror = () => j(new Error('result load failed')); editedImg.src = data.image! })
       if (!alive()) return
       setAfterSrc(data.image!)
+      // 결과화면에 "무료 체험 1회 사용" / "크레딧 1개 사용 · N개 남음" 을 표시하기 위해
+      // 서버가 판정한 과금 결과를 그대로 전달한다.
+      if (data.tier === 'free' || data.tier === 'credit') {
+        setUsage({ tier: data.tier, used: data.used, free: data.free, balance: data.balance })
+      }
 
       gtagEvent('makeup_generated', { style: id })
       if (data.tier === 'free' && data.used === 1) gtagEvent('free_trial_used', { style: id })
@@ -150,6 +165,15 @@ export default function MakeupFlow() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step])
 
+  // 로그인 상태 선확인 — 업로드 화면에 "로그인하면 무료 1회" 안내를 띄우기 위함.
+  useEffect(() => {
+    let cancelled = false
+    supabase.auth.getSession()
+      .then(({ data }) => { if (!cancelled) setLoggedOut(!data.session) })
+      .catch(() => { /* 확인 실패 시 안내를 띄우지 않음(생성 시 게이트가 최종 판정) */ })
+    return () => { cancelled = true }
+  }, [])
+
   // 테스트/직접진입: /analysis/?topup=1 → 크레딧 충전 화면 바로 표시(무료 소진·잔액0 상태를
   // 만들 필요 없이 결제 흐름을 눈으로 확인·테스트). 충전은 100% 할인코드로 무료 결제 가능.
   useEffect(() => {
@@ -164,7 +188,7 @@ export default function MakeupFlow() {
     }
   }, [])
 
-  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setStep('upload') }
+  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); setStep('upload') }
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
 
@@ -174,6 +198,7 @@ export default function MakeupFlow() {
       <MakeupSelfieUpload
         isEn={isEn}
         hintLabel={preselected ? (isEn ? styleById(styleId).subEn : styleById(styleId).nameKo) : undefined}
+        loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => { void navigate('/') }}
         onNext={(data) => { jobIdRef.current = ''; setSelfie(data); setStep(preselected ? 'processing' : 'style') }}
       />
@@ -209,7 +234,7 @@ export default function MakeupFlow() {
         <p className="text-sm text-white/85 max-w-xs">{errMsg}</p>
         {errAction === 'login' ? (
           <div className="flex flex-col items-center gap-3">
-            <a href="/auth" className={btn} style={{ background: PRIMARY }}>
+            <a href={loginHref()} className={btn} style={{ background: PRIMARY }}>
               {isEn ? 'Log in' : '로그인'}
             </a>
             <button onClick={regenerate} className="text-xs text-white/60 underline underline-offset-2">
@@ -251,6 +276,7 @@ export default function MakeupFlow() {
       styleId={styleId}
       beforeSrc={baseSrc ?? selfie?.photo}
       afterSrc={afterSrc ?? undefined}
+      usage={usage ?? undefined}
       onBack={() => setStep('style')}
       onRetake={reset}
     />

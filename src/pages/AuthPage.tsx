@@ -8,12 +8,28 @@ function isInAppBrowser(): boolean {
     || (/wv\)/.test(ua) && /Android/.test(ua))
 }
 
+/**
+ * 로그인 후 돌아갈 경로(?next=). 오픈 리다이렉트를 막기 위해 같은 사이트의
+ * 절대경로만 허용한다("/analysis/" O · "//evil.com" X · "https://…" X).
+ */
+function safeNext(): string | null {
+  if (typeof window === 'undefined') return null
+  const raw = new URLSearchParams(window.location.search).get('next')
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return null
+  return raw
+}
+
 interface AuthPageProps {
   onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
 }
 
 export default function AuthPage({ onNavigate }: AuthPageProps) {
+  // 로그인 성공 시 원래 하던 자리로 복귀(예: AI 메이크업 도중 게이트에 걸린 경우).
+  // next 가 없으면 기존대로 홈.
+  const next = useMemo(() => safeNext(), [])
+
   const nav = (page: string) => {
+    if (next) { window.location.href = next; return }
     const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth')
     else window.location.href = paths[page] || '/'
@@ -67,7 +83,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
+            emailRedirectTo: `${window.location.origin}${next ?? '/'}`,
           },
         })
         if (error) throw error
@@ -419,7 +435,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                  redirectTo: `${window.location.origin}/`,
+                  redirectTo: `${window.location.origin}${next ?? '/'}`,
                 },
               })
               if (error) setError(error.message)
