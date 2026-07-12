@@ -26,7 +26,7 @@ export default {
   'home.hero.title1': 'One selfie,',
   'home.hero.title2': '9 K-beauty',
   'home.hero.title3': 'makeup looks',
-  'home.hero.subtitle': '60 seconds · Free trial · No sign-up',
+  'home.hero.subtitle': '60 seconds · Free trial · No card needed',
   // free-pivot home redesign (2026-06-29) new keys
   'home.hero.uploadCta': 'Upload your selfie — free',
   'home.hero.priceSub': '1 free try · then credits from $2.99',
@@ -51,7 +51,7 @@ export default {
   'home.hero.previewLabel': 'Your Photo',
   'home.hero.previewResultLabel': '9 Looks',
   'home.hero.trust1': '60s done',
-  'home.hero.trust2': 'No sign-up',
+  'home.hero.trust2': 'No card needed',
   'home.hero.trust3': 'Deleted instantly',
   'home.hero.viewQuizzes': '4 Free Quizzes',
   'home.hero.priceLine': '4 free quizzes · AI makeup preview $2.99',

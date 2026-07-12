@@ -605,11 +605,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </a>
           </div>
 
-          {/* 신뢰 배지 3개 — 60초 완성 / 가입 불필요 / 즉시 삭제 */}
+          {/* 신뢰 배지 3개 — 60초 완성 / 카드 불필요 / 즉시 삭제 */}
           <div className="animate-fade-in-up-delay2 grid grid-cols-3 gap-3 sm:gap-5 w-full max-w-md pt-3">
             {[
               { icon: 'bolt', text: t('home.hero.trust1') },
-              { icon: 'no_accounts', text: t('home.hero.trust2') },
+              { icon: 'credit_card_off', text: t('home.hero.trust2') },
               { icon: 'delete_sweep', text: t('home.hero.trust3') },
             ].map((b) => (
               <div key={b.text} className="flex flex-col items-center gap-2">

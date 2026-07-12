@@ -26,7 +26,7 @@ export default {
   'home.hero.title1': '셀카 한 장으로,',
   'home.hero.title2': '9가지 K-뷰티',
   'home.hero.title3': '메이크업',
-  'home.hero.subtitle': '60초 · 무료 체험 · 가입 불필요',
+  'home.hero.subtitle': '60초 · 무료 체험 · 카드 불필요',
   // free-pivot 메인 리디자인(2026-06-29) 신규 키
   'home.hero.uploadCta': '무료로 셀카 올리기',
   'home.hero.priceSub': '무료 1회 · 더 필요하면 크레딧 $2.99부터',
@@ -51,7 +51,7 @@ export default {
   'home.hero.previewLabel': '내 사진',
   'home.hero.previewResultLabel': '9가지 룩',
   'home.hero.trust1': '60초 완성',
-  'home.hero.trust2': '가입 불필요',
+  'home.hero.trust2': '카드 불필요',
   'home.hero.trust3': '즉시 삭제',
   'home.hero.viewQuizzes': '무료 진단 4종',
   'home.hero.priceLine': '무료 진단 4종 · AI 메이크업 미리보기 $2.99',
