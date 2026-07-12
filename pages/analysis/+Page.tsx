@@ -16,17 +16,17 @@ function SeoShell() {
   return (
     <div style={{ maxWidth: 600, margin: '0 auto', padding: '40px 20px', fontFamily: 'system-ui, sans-serif' }}>
       <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: 16 }}>
-        AI 퍼스널컬러 메이크업 분석
+        AI 메이크업 — 9가지 룩 + 헤어 컬러
       </h1>
       <p style={{ color: '#555', lineHeight: 1.6, marginBottom: 24 }}>
-        셀카 한 장으로 퍼스널컬러 진단과 함께 5가지 K-뷰티 메이크업 룩을 AI가 직접 시뮬레이션해 드립니다.
+        셀카 한 장으로 9가지 K-뷰티 메이크업 룩을 AI가 입혀드립니다. 룩에 어울리는 헤어 컬러까지 함께 바뀌고, 얼굴은 그대로 유지됩니다.
         피부 톤 분석, 맞춤 화장품 추천까지 한 번에 받아보세요.
       </p>
       <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: 12 }}>분석 과정</h2>
       <ol style={{ color: '#555', lineHeight: 1.8, paddingLeft: 20 }}>
         <li>셀카 사진 업로드</li>
-        <li>AI가 피부 톤 &amp; 퍼스널컬러 분석</li>
-        <li>5가지 맞춤 메이크업 룩 시뮬레이션</li>
+        <li>얼굴을 그대로 유지한 채 메이크업만 합성</li>
+        <li>9가지 메이크업 룩 + 룩에 맞는 헤어 컬러</li>
         <li>화장품 추천 리포트 제공</li>
       </ol>
       <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginTop: 24, marginBottom: 12 }}>제공되는 메이크업 스타일</h2>

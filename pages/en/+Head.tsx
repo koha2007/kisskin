@@ -9,7 +9,7 @@ export default function Head() {
       <title>AI K-Beauty Makeup Simulator | kissinskin</title>
       <meta
         name="description"
-        content="One selfie · 60 seconds · free preview · no signup. Try 5 K-beauty makeup looks plus personal-color diagnosis and curated K-beauty product picks. Start instantly."
+        content="One selfie · 60 seconds · log in for 1 free try · no card needed. AI applies 9 K-beauty makeup looks and matching hair colour. Compare before/after instantly."
       />
       <link rel="canonical" href="https://kissinskin.net/en/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/" />
@@ -20,7 +20,7 @@ export default function Head() {
       <meta property="og:title" content="AI K-Beauty Makeup Simulator | kissinskin" />
       <meta
         property="og:description"
-        content="One selfie · 60 seconds · free preview · no signup. Try 5 K-beauty makeup looks plus personal-color diagnosis and curated K-beauty product picks. Start instantly."
+        content="One selfie · 60 seconds · log in for 1 free try · no card needed. AI applies 9 K-beauty makeup looks and matching hair colour. Compare before/after instantly."
       />
       <meta property="og:url" content="https://kissinskin.net/en/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
@@ -33,7 +33,7 @@ export default function Head() {
       <meta name="twitter:title" content="AI K-Beauty Makeup Simulator | kissinskin" />
       <meta
         name="twitter:description"
-        content="One selfie · 60 seconds · free preview · no signup. Try 5 K-beauty makeup looks plus personal-color diagnosis and curated K-beauty product picks. Start instantly."
+        content="One selfie · 60 seconds · log in for 1 free try · no card needed. AI applies 9 K-beauty makeup looks and matching hair colour. Compare before/after instantly."
       />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script
@@ -45,7 +45,7 @@ export default function Head() {
             name: 'kissinskin',
             url: 'https://kissinskin.net/en/',
             description:
-              'AI tool that turns one selfie into 5 K-beauty makeup looks plus personal-color analysis and curated product picks.',
+              'AI tool that turns one selfie into 9 K-beauty makeup looks with matching hair colour, plus free personal-color, face-shape, makeup-MBTI and perfume quizzes.',
             applicationCategory: 'BeautyApplication',
             operatingSystem: 'Web, iOS, Android',
             inLanguage: ['en', 'ko'],
@@ -67,17 +67,13 @@ export default function Head() {
             ],
             featureList: [
               'AI personal-color diagnosis',
-              '5 K-beauty makeup simulations',
+              '9 K-beauty makeup simulations',
+              'Matching hair colour change',
+              'Before/after comparison',
               'Skin analysis report',
               'Curated cosmetic product picks',
               'Direct purchase links',
             ],
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '4.8',
-              ratingCount: '150',
-              bestRating: '5',
-            },
             publisher: {
               '@type': 'Organization',
               name: 'kissinskin',

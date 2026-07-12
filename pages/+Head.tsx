@@ -57,7 +57,7 @@ export default function Head() {
         "alternateName": ["키스인스킨", "키스인 스킨"],
         "url": "https://kissinskin.net",
         "logo": "https://kissinskin.net/og-image.png",
-        "description": "셀카 한 장으로 AI가 5가지 K-뷰티 메이크업 룩을 시뮬레이션하고 퍼스널 컬러 진단과 맞춤 화장품을 추천하는 서비스. AI-powered K-beauty makeup simulator with personal color analysis and Korean cosmetics recommendations.",
+        "description": "셀카 한 장으로 AI가 9가지 K-뷰티 메이크업 룩과 헤어 컬러를 입혀주고, 퍼스널 컬러 진단과 맞춤 화장품을 추천하는 서비스. AI-powered K-beauty makeup simulator with personal color analysis and Korean cosmetics recommendations.",
         "sameAs": [],
         "contactPoint": {
           "@type": "ContactPoint",

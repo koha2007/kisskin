@@ -2,8 +2,8 @@ export default function Head() {
   return (
     <>
       {/* GEO #1 - Korean-focused meta for AI citation */}
-      <title>AI 메이크업 시뮬레이터 — 셀카 1장으로 5가지 K-뷰티 룩 | kissinskin</title>
-      <meta name="description" content="셀카 1장 60초 · 무료 체험 1회 · 회원가입 불필요. AI가 5가지 K-뷰티 메이크업 룩 시뮬레이션 + 퍼스널컬러 진단 + 맞춤 화장품 추천까지. 지금 바로 무료 체험." />
+      <title>AI 메이크업 시뮬레이터 — 셀카 1장으로 9가지 K-뷰티 룩 + 헤어 컬러 | kissinskin</title>
+      <meta name="description" content="셀카 1장 60초 · 로그인하면 무료 1회 · 카드 필요 없음. AI가 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러까지 입혀드려요. 비포/애프터로 바로 확인." />
 
       {/* Canonical + hreflang */}
       <link rel="canonical" href="https://kissinskin.net/" />
@@ -14,8 +14,8 @@ export default function Head() {
       {/* GEO #2 - Open Graph for AI sharing/citation */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="kissinskin" />
-      <meta property="og:title" content="AI 메이크업 시뮬레이터 — 셀카 1장으로 5가지 K-뷰티 룩 | kissinskin" />
-      <meta property="og:description" content="셀카 1장 60초 · 무료 체험 1회 · 회원가입 불필요. AI가 5가지 K-뷰티 메이크업 룩 시뮬레이션 + 퍼스널컬러 진단 + 맞춤 화장품 추천까지. 지금 바로 무료 체험." />
+      <meta property="og:title" content="AI 메이크업 시뮬레이터 — 셀카 1장으로 9가지 K-뷰티 룩 + 헤어 컬러 | kissinskin" />
+      <meta property="og:description" content="셀카 1장 60초 · 로그인하면 무료 1회 · 카드 필요 없음. AI가 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러까지 입혀드려요. 비포/애프터로 바로 확인." />
       <meta property="og:url" content="https://kissinskin.net/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:image:width" content="1200" />
@@ -26,8 +26,8 @@ export default function Head() {
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="AI 메이크업 시뮬레이터 — 셀카 1장으로 5가지 K-뷰티 룩 | kissinskin" />
-      <meta name="twitter:description" content="셀카 1장 60초 · 무료 체험 1회 · 회원가입 불필요. AI가 5가지 K-뷰티 메이크업 룩 시뮬레이션 + 퍼스널컬러 진단 + 맞춤 화장품 추천까지. 지금 바로 무료 체험." />
+      <meta name="twitter:title" content="AI 메이크업 시뮬레이터 — 셀카 1장으로 9가지 K-뷰티 룩 + 헤어 컬러 | kissinskin" />
+      <meta name="twitter:description" content="셀카 1장 60초 · 로그인하면 무료 1회 · 카드 필요 없음. AI가 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러까지 입혀드려요. 비포/애프터로 바로 확인." />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
 
       {/* GEO #3 - WebApplication Schema with featureList + multiple offers */}
@@ -36,7 +36,7 @@ export default function Head() {
         "@type": "WebApplication",
         "name": "kissinskin",
         "url": "https://kissinskin.net",
-        "description": "AI가 셀카 한 장을 분석해 5가지 K-뷰티 메이크업 룩을 시뮬레이션하고 퍼스널컬러와 맞춤 제품을 추천하는 서비스",
+        "description": "AI가 셀카 한 장에 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀주는 서비스. 무료 진단 도구(퍼스널컬러·얼굴형·메이크업 MBTI·향수)도 함께 제공",
         "applicationCategory": "BeautyApplication",
         "operatingSystem": "Web, iOS, Android",
         "inLanguage": ["ko", "en"],
@@ -46,7 +46,7 @@ export default function Head() {
             "name": "무료 체험",
             "price": "0",
             "priceCurrency": "USD",
-            "description": "가입 없이 AI 메이크업 무료 1회 — 5가지 K-뷰티 룩 + 무료 진단 도구"
+            "description": "로그인하면 AI 메이크업 무료 1회 — 9가지 K-뷰티 룩 + 헤어 컬러. 진단 도구는 로그인 없이 무제한 무료"
           },
           {
             "@type": "Offer",
@@ -57,18 +57,13 @@ export default function Head() {
           }
         ],
         "featureList": [
-          "AI 퍼스널컬러 진단",
-          "5가지 K-뷰티 메이크업 시뮬레이션",
-          "피부 특성 분석 리포트",
+          "9가지 K-뷰티 메이크업 시뮬레이션",
+          "룩에 맞는 헤어 컬러 변경",
+          "비포/애프터 비교",
+          "무료 퍼스널컬러·얼굴형·메이크업 MBTI·향수 진단",
           "맞춤 코스메틱 제품 추천",
           "구매 링크 제공"
         ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "ratingCount": "150",
-          "bestRating": "5"
-        },
         "publisher": {
           "@type": "Organization",
           "name": "kissinskin",
@@ -85,7 +80,7 @@ export default function Head() {
         "@context": "https://schema.org",
         "@type": "HowTo",
         "name": "kissinskin AI 메이크업 시뮬레이터 사용 방법",
-        "description": "셀카 한 장으로 5가지 K-뷰티 메이크업 룩을 AI로 체험하는 방법",
+        "description": "셀카 한 장으로 9가지 K-뷰티 메이크업과 헤어 컬러를 AI로 체험하는 방법",
         "totalTime": "PT1M",
         "step": [
           {
@@ -98,13 +93,13 @@ export default function Head() {
             "@type": "HowToStep",
             "position": 2,
             "name": "AI 분석",
-            "text": "AI가 얼굴 특징, 피부톤, 피부 특성을 분석해 5가지 메이크업을 시뮬레이션합니다."
+            "text": "9가지 룩 중 하나를 고르면 AI가 얼굴은 그대로 둔 채 메이크업과 헤어 컬러를 입힙니다."
           },
           {
             "@type": "HowToStep",
             "position": 3,
             "name": "결과 확인 및 쇼핑",
-            "text": "5가지 K-뷰티 메이크업 룩과 퍼스널컬러에 맞는 코스메틱 제품 추천 및 구매 링크를 받으세요."
+            "text": "비포/애프터를 비교하고 결과를 저장·공유하세요. 룩에 어울리는 코스메틱 추천도 함께 받습니다."
           }
         ]
       }) }} />
