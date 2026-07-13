@@ -73,19 +73,29 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
       {/* 본문: 글래스 카드 */}
       <main className="flex-1 flex flex-col px-5 pt-6 pb-4 max-w-xl w-full mx-auto">
         {/* 미로그인 안내 — 생성 직전이 아니라 여기서 미리 알려야 셀카를 올린 뒤
-            로그인 화면으로 튕겨 처음부터 다시 하는 헛수고가 없다. */}
+            로그인 화면으로 튕겨 처음부터 다시 하는 헛수고가 없다.
+            문구는 "로그인하면 무료"(혜택)가 아니라 "로그인 필수"(요건)로 못박는다.
+            혜택으로만 읽히면 로그인을 건너뛸 수 있는 줄 알고 진행하다 게이트에 걸린다. */}
         {loginHref && (
           <a
             href={loginHref}
             className="mb-4 flex items-center gap-2.5 rounded-2xl bg-white/15 border border-white/25 px-4 py-3 active:scale-[0.99] transition"
           >
             <span className="material-symbols-outlined text-xl shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-              lock_open
+              lock
             </span>
             <span className="flex-1 text-[13px] font-semibold leading-snug">
-              {isEn
-                ? 'Log in to try AI makeup — 1st look free, no card needed.'
-                : '로그인하면 AI 메이크업 무료 1회 — 카드 필요 없어요.'}
+              {isEn ? (
+                <>
+                  <span className="font-extrabold">Login required</span> to generate AI makeup.
+                  <span className="block text-white/70 text-[11.5px] font-medium mt-0.5">1st try free · no card needed</span>
+                </>
+              ) : (
+                <>
+                  AI 메이크업 생성은 <span className="font-extrabold">로그인 필수</span>예요.
+                  <span className="block text-white/70 text-[11.5px] font-medium mt-0.5">로그인하면 무료 1회 · 카드 필요 없어요</span>
+                </>
+              )}
             </span>
             <span className="shrink-0 rounded-full px-3 py-1.5 text-[12px] font-extrabold" style={{ background: PRIMARY }}>
               {isEn ? 'Log in' : '로그인'}

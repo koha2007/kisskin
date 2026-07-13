@@ -26,6 +26,11 @@ export const GUIDE_CATEGORY_PRODUCTS: Record<GuideCategory, GuideProductRec[]> =
     { label: '수분 토너', desc: '메이크업 전 피부 결을 정돈하는 베이스 케어', brands: ['토리든', '아누아', '라운드랩'], coupangQuery: '수분 토너 진정', clio: false, clioCategory: 'base', labelEn: 'Hydrating toner', descEn: 'Smooths and preps skin texture before makeup', brandsEn: ['Torriden', 'Anua', 'Round Lab'] },
     { label: '메이크업 프라이머', desc: '모공·유분 잡아 화장 지속력을 높이는 첫 단계', brands: ['클리오', '에스쁘아', '롬앤'], coupangQuery: '메이크업 프라이머 모공', clio: true, clioCategory: 'base', labelEn: 'Makeup primer', descEn: 'Blurs pores and oil so makeup lasts longer', brandsEn: ['CLIO', 'espoir', 'rom&nd'] },
   ],
+  // 퍼스널컬러 글은 "톤을 알았으니 뭘 사지?"로 끝난다 — 웜/쿨 양쪽에서 고를 수 있는 색조로 받는다.
+  color: [
+    { label: '립 틴트', desc: '웜톤은 코랄·오렌지, 쿨톤은 푸른기 핑크·베리로 고르면 실패가 적음', brands: ['롬앤', '페리페라', '클리오'], coupangQuery: '립틴트 코랄 베리', clio: true, clioCategory: 'lip', labelEn: 'Lip tint', descEn: 'Coral for warm tones, blue-pink or berry for cool', brandsEn: ['rom&nd', 'peripera', 'CLIO'] },
+    { label: '블러셔', desc: '톤 판단을 얼굴에서 바로 확인해 볼 수 있는 색조', brands: ['클리오', '롬앤', '페리페라'], coupangQuery: '블러셔 코랄 핑크', clio: true, clioCategory: 'cheek', labelEn: 'Blush', descEn: 'The quickest way to see your undertone in action', brandsEn: ['CLIO', 'rom&nd', 'peripera'] },
+  ],
   lip: [
     { label: '립 틴트', desc: 'MLBB 데일리 컬러로 활용도 높은 입술 표현', brands: ['롬앤', '페리페라', '클리오'], coupangQuery: 'MLBB 틴트 립', clio: true, clioCategory: 'lip', labelEn: 'Lip tint', descEn: 'An everyday MLBB color you reach for constantly', brandsEn: ['rom&nd', 'peripera', 'CLIO'] },
     { label: '립라이너', desc: '입술 윤곽을 또렷하게 잡아 번짐을 줄임', brands: ['클리오', '페리페라', '3CE'], coupangQuery: '립라이너 누드', clio: true, clioCategory: 'lip', labelEn: 'Lip liner', descEn: 'Defines the lip line and curbs feathering', brandsEn: ['CLIO', 'peripera', '3CE'] },

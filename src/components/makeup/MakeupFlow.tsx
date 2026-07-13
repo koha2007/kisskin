@@ -221,6 +221,7 @@ export default function MakeupFlow() {
       <MakeupStyleSelect
         isEn={isEn}
         initialStyle={styleId}
+        loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => setStep('upload')}
         onConfirm={(id) => { jobIdRef.current = ''; setStyleId(id); setStep('processing') }}
       />

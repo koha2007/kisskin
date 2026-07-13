@@ -32,11 +32,18 @@ interface Props {
   isEn?: boolean
   /** 진입 시 미리 선택해 둘 스타일 (없으면 첫 스타일) */
   initialStyle?: MakeupStyleId
+  /** 미로그인이면 로그인 링크(?next= 포함). 생성 직전 화면이라 여기서도 못박아 준다. */
+  loginHref?: string
 }
 
-export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle }: Props) {
+export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle, loginHref }: Props) {
   const [selected, setSelected] = useState<MakeupStyleId>(initialStyle ?? MAKEUP_STYLES[0].id)
+  // 큰 프리뷰에서 비포/애프터를 직접 비교한다. 룩을 바꾸면 애프터로 되돌린다.
+  const [showBefore, setShowBefore] = useState(false)
   const selectedStyle = MAKEUP_STYLES.find((s) => s.id === selected) ?? MAKEUP_STYLES[0]
+  const preview = lookImage(selected)
+
+  const pick = (id: MakeupStyleId) => { setSelected(id); setShowBefore(false) }
 
   const handleConfirm = () => {
     gtagEvent('style_selected', { style: selected })
@@ -50,7 +57,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
     return (
       <button
         type="button"
-        onClick={() => setSelected(id)}
+        onClick={() => pick(id)}
         aria-pressed={isSel}
         className={`style-card group relative w-full rounded-xl aspect-[4/5] p-2.5 flex flex-col justify-end text-left overflow-hidden transition-all active:scale-[0.97] ${
           isSel
@@ -123,27 +130,78 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
         </div>
       </header>
 
-      {/* 본문: 제목 + 5 카드 */}
-      <main className="flex-1 flex flex-col px-5 pt-6 pb-4 max-w-xl w-full mx-auto">
-        <div className="mb-6">
-          <h2 className="text-2xl md:text-3xl font-extrabold leading-snug tracking-tight">
-            {isEn ? 'Which makeup shall we try?' : '어떤 메이크업을 입혀볼까요?'}
-          </h2>
-          <p className="text-sm md:text-base text-white/70 mt-2">
-            {isEn ? 'Pick one style to try on.' : '스타일 하나를 골라주세요'}
-          </p>
-        </div>
+      {/* 본문: 큰 프리뷰 + 9카드 그리드 */}
+      <main className="flex-1 flex flex-col px-5 pt-5 pb-4 max-w-xl w-full mx-auto">
+        <h2 className="text-xl md:text-2xl font-extrabold leading-snug tracking-tight mb-4">
+          {isEn ? 'Which makeup shall we try?' : '어떤 메이크업을 입혀볼까요?'}
+        </h2>
+
+        {/* ── 선택한 룩의 애프터를 크게 ──
+            3×3 썸네일만으론 룩이 실제로 어떤 얼굴이 되는지 판단이 안 된다(모바일에서 카드 폭 ~110px).
+            선택 즉시 큰 프리뷰로 보여주고, 비포와 직접 견줘 볼 수 있게 토글을 단다.
+            이 이미지들은 라이브와 같은 파이프라인(gpt-image-2 + promptWholeFace)의 실제 출력이다(§8). */}
+        {preview && (
+          <figure className="relative rounded-3xl overflow-hidden ring-1 ring-white/20 shadow-2xl shadow-black/40 mb-3" style={{ background: selectedStyle.mood }}>
+            <img
+              key={`${selected}-${showBefore ? 'b' : 'a'}`}
+              src={showBefore ? preview.before : preview.after}
+              alt={
+                isEn
+                  ? `${selectedStyle.subEn} — ${showBefore ? 'before (bare face)' : 'after'} example`
+                  : `${selectedStyle.nameKo} — ${showBefore ? '비포(민낯)' : '애프터'} 예시`
+              }
+              className="w-full h-[36vh] min-h-[200px] max-h-[330px] object-cover object-top"
+              decoding="async"
+            />
+
+            {/* 비포/애프터 토글 */}
+            <div className="absolute top-2.5 left-2.5 flex rounded-full bg-black/45 backdrop-blur-sm p-0.5 text-[11px] font-extrabold">
+              {[
+                { key: 'after', label: isEn ? 'After' : '애프터' },
+                { key: 'before', label: isEn ? 'Before' : '비포' },
+              ].map((t) => {
+                const on = (t.key === 'before') === showBefore
+                return (
+                  <button
+                    key={t.key}
+                    type="button"
+                    onClick={() => setShowBefore(t.key === 'before')}
+                    aria-pressed={on}
+                    className={`px-3 py-1.5 rounded-full transition ${on ? 'bg-white text-navy' : 'text-white/75'}`}
+                    style={on ? { color: NAVY } : undefined}
+                  >
+                    {t.label}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* 이건 "내 결과"가 아니라 모델 예시라는 걸 분명히 한다 — 오인 방지. */}
+            <span className="absolute top-3.5 right-3 text-[10px] font-bold text-white/70 drop-shadow">
+              {isEn ? 'Real output · sample model' : '실제 생성 예시 (모델 사진)'}
+            </span>
+
+            <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
+            <figcaption className="absolute inset-x-0 bottom-0 p-4">
+              <span className="block text-white font-extrabold text-[17px] leading-tight drop-shadow">
+                {isEn ? selectedStyle.subEn : selectedStyle.nameKo}
+              </span>
+              <span className="block text-white/80 text-[12.5px] leading-snug mt-1 drop-shadow">
+                {isEn ? selectedStyle.descEn : selectedStyle.descKo}
+              </span>
+            </figcaption>
+          </figure>
+        )}
+
+        <p className="text-[12px] text-white/55 mb-2.5 text-center">
+          {isEn ? 'Tap a look to preview it' : '카드를 누르면 위에서 크게 볼 수 있어요'}
+        </p>
 
         <div className="grid grid-cols-3 gap-2.5">
           {MAKEUP_STYLES.map((s) => (
             <Card key={s.id} id={s.id} />
           ))}
         </div>
-
-        {/* 선택한 스타일 한 줄 설명 (카드 안엔 공간이 없어 그리드 아래에서 안내) */}
-        <p className="mt-4 text-center text-[13px] text-white/75 leading-snug min-h-[1.2em]">
-          {isEn ? selectedStyle.descEn : selectedStyle.descKo}
-        </p>
       </main>
 
       {/* 하단: "1장 생성" 안내 + CTA (sticky) */}
@@ -151,6 +209,23 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
         className="sticky bottom-0 px-5 pt-3 pb-6 max-w-xl w-full mx-auto"
         style={{ background: 'linear-gradient(to top, rgba(7,9,83,0.95) 60%, transparent)' }}
       >
+        {/* 생성 직전 화면 — 로그인이 "필수"임을 여기서도 못박는다(업로드 화면 배너와 같은 톤). */}
+        {loginHref && (
+          <a
+            href={loginHref}
+            className="mb-2.5 flex items-center justify-center gap-1.5 rounded-full bg-white/15 border border-white/25 px-3 py-2 text-[12px] font-semibold active:scale-[0.99] transition"
+          >
+            <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+              lock
+            </span>
+            {isEn ? (
+              <span><span className="font-extrabold">Login required</span> to generate · 1st try free</span>
+            ) : (
+              <span>생성하려면 <span className="font-extrabold">로그인 필수</span> · 무료 1회</span>
+            )}
+            <span className="underline underline-offset-2 opacity-80">{isEn ? 'Log in' : '로그인'}</span>
+          </a>
+        )}
         <p className="text-center text-xs font-bold text-white/80 mb-2.5 inline-flex w-full items-center justify-center gap-1.5">
           <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
             auto_awesome

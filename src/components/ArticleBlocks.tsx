@@ -212,6 +212,39 @@ export function StepList({ items }: { items: StepItem[] }) {
 }
 
 /**
+ * ToolCta — in-article link into one of our free tools.
+ *
+ * SEO 유입은 글에 떨어지는데, 정작 그 글에서 도구로 넘어갈 길이 없었다(본문은 링크를
+ * 지원하지 않는 평문 배열). 검색 키워드로 들어온 독자를 해당 도구로 넘기는 통로다.
+ */
+export function ToolCta({ label, href, desc }: { label: string; href: string; desc?: string }) {
+  return (
+    <a
+      href={href}
+      className="not-prose group my-8 flex items-center gap-4 rounded-2xl border border-primary/25 bg-primary/[0.04] px-5 py-4 no-underline transition-colors hover:bg-primary/[0.09]"
+    >
+      <span
+        className="material-symbols-outlined shrink-0 text-primary text-[26px]"
+        style={{ fontVariationSettings: "'FILL' 1" }}
+        aria-hidden
+      >
+        palette
+      </span>
+      <span className="flex-1">
+        <span className="block font-extrabold text-navy leading-snug">{label}</span>
+        {desc && <span className="mt-0.5 block text-[13.5px] leading-snug text-slate-600">{desc}</span>}
+      </span>
+      <span
+        className="material-symbols-outlined shrink-0 text-primary transition-transform group-hover:translate-x-0.5"
+        aria-hidden
+      >
+        arrow_forward
+      </span>
+    </a>
+  )
+}
+
+/**
  * Body block parser — interpret special string prefixes inside body[] arrays.
  *
  * Markers:
@@ -223,6 +256,7 @@ export function StepList({ items }: { items: StepItem[] }) {
  *   `> QUOTE: text | src`   -> PullQuote source=src
  *   `> VERDICT: text`       -> Verdict (high-emphasis conclusion)
  *   `> SKIP: skip | TRY: t` -> SkipTry decision box
+ *   `> TOOL: label | /href | desc`  -> ToolCta (본문 → 무료 도구 링크)
  *   `## Heading`            -> h2
  */
 export function renderBody(body: string[]): ReactNode[] {
@@ -250,6 +284,10 @@ export function renderBody(body: string[]): ReactNode[] {
     if (p.startsWith('> SKIP: ') && p.includes(' | TRY: ')) {
       const [skip, tryFor] = p.slice(8).split(' | TRY: ')
       return <SkipTry key={i} skip={skip.trim()} tryFor={tryFor.trim()} />
+    }
+    if (p.startsWith('> TOOL: ')) {
+      const [label, href, desc] = p.slice(8).split(' | ').map((s) => s.trim())
+      if (label && href) return <ToolCta key={i} label={label} href={href} desc={desc} />
     }
     if (p.startsWith('> QUOTE: ')) {
       const rest = p.slice(9)
