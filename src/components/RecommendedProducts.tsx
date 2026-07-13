@@ -140,6 +140,15 @@ export default function RecommendedProducts({
                         href={buildAmazonLink(globalQuery)}
                         target="_blank"
                         rel="noopener noreferrer nofollow sponsored"
+                        onClick={() =>
+                          pageType && pageSlug &&
+                          trackAffiliateClick({
+                            merchant: 'amazon',
+                            category: item.icon,
+                            pageType,
+                            pageSlug,
+                          })
+                        }
                         className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 text-sm font-bold text-white shadow-sm hover:shadow-md hover:brightness-105 transition-all"
                       >
                         🛒 {t('region.amazonButton')}
@@ -149,6 +158,15 @@ export default function RecommendedProducts({
                         href={buildYesStyleLink(globalQuery)}
                         target="_blank"
                         rel="noopener noreferrer nofollow sponsored"
+                        onClick={() =>
+                          pageType && pageSlug &&
+                          trackAffiliateClick({
+                            merchant: 'yesstyle',
+                            category: item.icon,
+                            pageType,
+                            pageSlug,
+                          })
+                        }
                         className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-600 hover:bg-amber-50 transition-colors"
                       >
                         ⭐ {t('region.yesstyleButton')}

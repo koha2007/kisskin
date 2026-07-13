@@ -85,6 +85,7 @@ export function ProductGridCard({
             href={buildAmazonLink(globalQuery)}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
+            onClick={() => trackAffiliateClick({ merchant: 'amazon', category: item.icon, pageType, pageSlug })}
             className={`${btn} bg-white`}
             style={{ color: accent, borderColor: `${accent}59` }}
           >
@@ -94,6 +95,7 @@ export function ProductGridCard({
             href={buildYesStyleLink(globalQuery)}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
+            onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: item.icon, pageType, pageSlug })}
             className={`${btn} border border-amber-300 bg-white text-amber-600`}
           >
             ⭐ {t('region.yesstyleButton')}
