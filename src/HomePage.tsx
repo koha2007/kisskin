@@ -871,8 +871,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="grid md:grid-cols-3 gap-10 mb-10">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2">
-                <img src="/logo-sm.webp" alt="kissinskin" className="h-10 w-10 rounded-full object-cover" />
+                <img src="/logo-sm.webp" alt={isEn ? 'kissinskin' : '키스인스킨 kissinskin'} className="h-10 w-10 rounded-full object-cover" />
                 <span className="text-2xl font-bold tracking-tight">kissinskin</span>
+                {!isEn && <span className="text-sm text-slate-400 font-medium">키스인스킨</span>}
               </div>
               <p className="text-slate-300 text-sm leading-relaxed max-w-xs">
                 {t('home.footer.desc')}
@@ -906,7 +907,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </div>
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
-            <p>&copy; 2026 kissinskin · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a> · {isEn ? 'Solo indie project in South Korea' : '대한민국 1인 인디 프로젝트'}</p>
+            <p>&copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a> · {isEn ? 'Solo indie project in South Korea' : '대한민국 1인 인디 프로젝트'}</p>
             <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-06-29">{isEn ? 'As of June 2026' : '2026년 6월 기준'}</time></p>
           </div>
         </div>

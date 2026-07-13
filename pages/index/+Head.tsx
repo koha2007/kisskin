@@ -1,9 +1,12 @@
 export default function Head() {
   return (
     <>
-      {/* GEO #1 - Korean-focused meta for AI citation */}
-      <title>AI 메이크업 시뮬레이터 — 셀카 1장으로 9가지 K-뷰티 룩 + 헤어 컬러 | kissinskin</title>
-      <meta name="description" content="셀카 1장 60초 · 로그인하면 무료 1회 · 카드 필요 없음. AI가 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러까지 입혀드려요. 비포/애프터로 바로 확인." />
+      {/* GEO #1 - Korean-focused meta for AI citation.
+          제목/설명은 자동완성 실수요 기준으로 잡는다. "메이크업 시뮬레이터"는 네이버·구글
+          자동완성에 전혀 뜨지 않는 죽은 키워드라 헤드 term 에서 뺐다. */}
+      <title>AI 메이크업 사이트 · 퍼스널컬러 진단 무료 | 키스인스킨 kissinskin</title>
+      <meta name="description" content="키스인스킨(kissinskin) — 셀카 1장 60초. AI 가상 메이크업으로 9가지 K-뷰티 룩과 헤어 컬러를 입혀보고, 퍼스널컬러 진단·얼굴형 테스트는 회원가입 없이 무료." />
+      <meta name="keywords" content="키스인스킨, kissinskin, AI 메이크업, AI 메이크업 사이트, 가상 메이크업, 퍼스널컬러 진단, 퍼스널컬러 진단 무료, 얼굴형 테스트, 웜톤 쿨톤 테스트, K-뷰티" />
 
       {/* Canonical + hreflang */}
       <link rel="canonical" href="https://kissinskin.net/" />
@@ -14,8 +17,8 @@ export default function Head() {
       {/* GEO #2 - Open Graph for AI sharing/citation */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="kissinskin" />
-      <meta property="og:title" content="AI 메이크업 시뮬레이터 — 셀카 1장으로 9가지 K-뷰티 룩 + 헤어 컬러 | kissinskin" />
-      <meta property="og:description" content="셀카 1장 60초 · 로그인하면 무료 1회 · 카드 필요 없음. AI가 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러까지 입혀드려요. 비포/애프터로 바로 확인." />
+      <meta property="og:title" content="AI 메이크업 사이트 · 퍼스널컬러 진단 무료 | 키스인스킨 kissinskin" />
+      <meta property="og:description" content="키스인스킨(kissinskin) — 셀카 1장 60초. AI 가상 메이크업으로 9가지 K-뷰티 룩과 헤어 컬러를 입혀보고, 퍼스널컬러 진단·얼굴형 테스트는 회원가입 없이 무료." />
       <meta property="og:url" content="https://kissinskin.net/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:image:width" content="1200" />
@@ -26,8 +29,8 @@ export default function Head() {
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="AI 메이크업 시뮬레이터 — 셀카 1장으로 9가지 K-뷰티 룩 + 헤어 컬러 | kissinskin" />
-      <meta name="twitter:description" content="셀카 1장 60초 · 로그인하면 무료 1회 · 카드 필요 없음. AI가 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러까지 입혀드려요. 비포/애프터로 바로 확인." />
+      <meta name="twitter:title" content="AI 메이크업 사이트 · 퍼스널컬러 진단 무료 | 키스인스킨 kissinskin" />
+      <meta name="twitter:description" content="키스인스킨(kissinskin) — 셀카 1장 60초. AI 가상 메이크업으로 9가지 K-뷰티 룩과 헤어 컬러를 입혀보고, 퍼스널컬러 진단·얼굴형 테스트는 회원가입 없이 무료." />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
 
       {/* GEO #3 - WebApplication Schema with featureList + multiple offers */}

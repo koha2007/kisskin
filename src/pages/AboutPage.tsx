@@ -19,7 +19,7 @@ export default function AboutPage() {
             </h1>
             <p className="text-slate-600 text-base md:text-lg leading-relaxed">
               {locale === 'ko'
-                ? 'kissinskin은 K-뷰티 메이크업·퍼스널컬러·얼굴형을 AI로 시뮬레이션하고, 그 옆에 깊이 있는 읽을거리를 함께 제공하는 사이트입니다.'
+                ? '키스인스킨(kissinskin)은 K-뷰티 메이크업·퍼스널컬러·얼굴형을 AI로 시뮬레이션하고, 그 옆에 깊이 있는 읽을거리를 함께 제공하는 사이트입니다.'
                 : 'kissinskin lets you preview K-beauty makeup, personal color, and face-shape advice with AI — alongside in-depth editorial content.'}
             </p>
           </div>

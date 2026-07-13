@@ -4,13 +4,14 @@ import { isExactRoute } from '../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/tools/perfume-type/')) return null
-  const title = '향수 타입 진단 — 5문항 1분 무료 자가 테스트 | kissinskin'
-  const desc = '무료 5문항 1분 진단 · 회원가입 불필요. 플로럴·시트러스·우디·앰버·프레시·구르망 6가지 중 내 향수 타입은? 한국 시장 추천 향수·메이크업·상황 가이드까지.'
+  // "향수 추천" 이 헤드 term(자동완성 상위), "향수 타입 진단" 은 롱테일 → 둘 다 태운다.
+  const title = '향수 추천 테스트 — 1분 무료 향수 타입 진단 | 키스인스킨'
+  const desc = '무료 향수 추천 테스트. 5문항 1분 · 회원가입 불필요. 플로럴·시트러스·우디·앰버·프레시·구르망 6가지 중 내 향수 타입을 진단하고 어울리는 향수·메이크업·상황 가이드까지.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="향수 타입, 향수 추천, 플로럴 향수, 시트러스 향수, 우디 향수, 앰버 향수, 프레시 향수, 구르망 향수, 향수 진단" />
+      <meta name="keywords" content="향수 추천, 향수 추천 테스트, 향수 테스트, 향수 타입 진단, 나에게 맞는 향수, 무료 향수 진단, 플로럴 향수, 시트러스 향수, 우디 향수, 키스인스킨" />
       <link rel="canonical" href="https://kissinskin.net/tools/perfume-type/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/perfume-type/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/perfume-type/" />

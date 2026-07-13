@@ -30,12 +30,19 @@ const ENDPOINTS = [
   { name: 'IndexNow', url: 'https://api.indexnow.org/indexnow' },   // Bing 등에 전파
 ]
 
-// 이번에 메타를 고친 페이지 — 스니펫이 거짓이던 곳이라 최우선 재크롤링 대상.
+// 이번에 메타를 고친 페이지 — 최우선 재크롤링 대상.
+// 2026-07-13: 한글 브랜드명("키스인스킨") 병기 + 검색 자동완성 실수요 기준으로
+//   title/description/keywords 전면 교체 → 4개 도구 랜딩까지 포함해 재제출한다.
 const CHANGED = [
   `https://${HOST}/`,
   `https://${HOST}/analysis/`,
-  `https://${HOST}/en/`,
   `https://${HOST}/tools/`,
+  `https://${HOST}/tools/personal-color/`,
+  `https://${HOST}/tools/face-shape/`,
+  `https://${HOST}/tools/makeup-mbti/`,
+  `https://${HOST}/tools/perfume-type/`,
+  `https://${HOST}/about/`,
+  `https://${HOST}/en/`,
 ]
 
 const args = process.argv.slice(2)

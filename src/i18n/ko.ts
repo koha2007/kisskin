@@ -22,7 +22,9 @@ export default {
   'nav.closeMenu': '메뉴 닫기',
 
   // Home Hero
-  'home.hero.badge': '가장 진보된 AI 메이크업 진단',
+  // 히어로 최상단 배지 = 한글 브랜드명이 본문에 처음 등장하는 지점.
+  // (겸사겸사 "가장 진보된" 이라는 근거 없는 최상급 표현도 걷어냈다.)
+  'home.hero.badge': '키스인스킨 · AI 가상 메이크업',
   'home.hero.title1': '셀카 한 장으로,',
   'home.hero.title2': '9가지 K-뷰티',
   'home.hero.title3': '메이크업',
@@ -145,7 +147,7 @@ export default {
   'home.cta.subtitle': '셀카 한 장이면 충분해요. 60초, 무료로 9가지 K-뷰티 룩을 만나보세요.',
 
   // Footer
-  'home.footer.desc': 'AI K-뷰티 메이크업 시뮬레이션 및 코스메틱 추천 서비스',
+  'home.footer.desc': '키스인스킨(kissinskin) — AI 가상 메이크업 · 퍼스널컬러 진단 · 코스메틱 추천 서비스',
   'home.footer.service': '서비스',
   'home.footer.styles': '9가지 스타일',
   'home.footer.howTo': '이용 방법',

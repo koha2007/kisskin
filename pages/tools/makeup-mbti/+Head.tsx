@@ -4,13 +4,13 @@ import { isExactRoute } from '../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/tools/makeup-mbti/')) return null
-  const title = '메이크업 MBTI 테스트 | kissinskin'
-  const desc = '8문항 무료 메이크업 MBTI. 16가지 유형별 K-뷰티 스타일과 시그니처 룩 공식.'
+  const title = '메이크업 MBTI 테스트 — 8문항 무료 뷰티 성향 진단 | 키스인스킨'
+  const desc = '무료 메이크업 MBTI 테스트. 8문항 1분 · 회원가입 불필요. 16가지 유형 중 내 뷰티 성향은? 유형별 K-뷰티 스타일과 시그니처 룩 공식까지 알려드려요.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="메이크업 MBTI, 메이크업 테스트, 뷰티 성향, K-뷰티 스타일, 메이크업 성향 테스트, makeup mbti, 퍼스널 메이크업, 16가지 뷰티" />
+      <meta name="keywords" content="메이크업 MBTI, 메이크업 테스트, 메이크업 성향 테스트, 뷰티 MBTI, 무료 메이크업 테스트, K-뷰티 스타일, 메이크업 추구미 테스트, makeup mbti, 키스인스킨" />
       <link rel="canonical" href="https://kissinskin.net/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/makeup-mbti/" />

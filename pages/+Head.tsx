@@ -36,8 +36,8 @@ export default function Head() {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="NaverBot" content="All" />
       <meta name="Yeti" content="All" />
-      <meta name="subject" content={isEn ? 'AI K-Beauty Makeup Simulator · Personal Color Analysis' : 'K-뷰티 AI 메이크업 시뮬레이터 · 퍼스널 컬러 진단'} />
-      <meta name="classification" content={isEn ? 'Beauty, Makeup, AI, Personal Color, K-Beauty' : '뷰티, 메이크업, AI, 퍼스널컬러, K-뷰티'} />
+      <meta name="subject" content={isEn ? 'AI Virtual Makeup Try-On · Free Personal Color Analysis' : '키스인스킨 — AI 가상 메이크업 · 퍼스널컬러 진단 무료'} />
+      <meta name="classification" content={isEn ? 'Beauty, Makeup, AI, Personal Color, K-Beauty' : '뷰티, 메이크업, AI, 퍼스널컬러, 키스인스킨, K-뷰티'} />
       <meta name="copyright" content="kissinskin" />
       <meta httpEquiv="Content-Language" content={isEn ? 'en' : 'ko'} />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,7 +54,9 @@ export default function Head() {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "kissinskin",
-        "alternateName": ["키스인스킨", "키스인 스킨"],
+        // 구조화 데이터의 alternateName 만으로는 한글 브랜드 검색에 잡히지 않는다.
+        // 실제 본문(푸터·소개·히어로)에도 "키스인스킨"을 노출해 둔 상태다.
+        "alternateName": ["키스인스킨", "키스인 스킨", "키스인스킨 kissinskin"],
         "url": "https://kissinskin.net",
         "logo": "https://kissinskin.net/og-image.png",
         "description": "셀카 한 장으로 AI가 9가지 K-뷰티 메이크업 룩과 헤어 컬러를 입혀주고, 퍼스널 컬러 진단과 맞춤 화장품을 추천하는 서비스. AI-powered K-beauty makeup simulator with personal color analysis and Korean cosmetics recommendations.",

@@ -6,21 +6,22 @@ export default function Head() {
   if (!isExactRoute(ctx.urlPathname, '/en/')) return null
   return (
     <>
-      <title>AI K-Beauty Makeup Simulator | kissinskin</title>
+      <title>Virtual Makeup Try-On Free — AI K-Beauty Makeup Generator | kissinskin</title>
       <meta
         name="description"
-        content="One selfie · 60 seconds · log in for 1 free try · no card needed. AI applies 9 K-beauty makeup looks and matching hair colour. Compare before/after instantly."
+        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty makeup looks and matching hair colour, then you compare before/after. Log in for 1 free try, no card needed. Free personal color and face shape tests too."
       />
+      <meta name="keywords" content="virtual makeup try on free, virtual makeup try on, ai makeup generator, ai makeup online free, ai makeup app, korean makeup ai, k-beauty makeup, personal color analysis free, face shape test free, kissinskin" />
       <link rel="canonical" href="https://kissinskin.net/en/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="kissinskin" />
-      <meta property="og:title" content="AI K-Beauty Makeup Simulator | kissinskin" />
+      <meta property="og:title" content="Virtual Makeup Try-On Free — AI K-Beauty Makeup Generator | kissinskin" />
       <meta
         property="og:description"
-        content="One selfie · 60 seconds · log in for 1 free try · no card needed. AI applies 9 K-beauty makeup looks and matching hair colour. Compare before/after instantly."
+        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty makeup looks and matching hair colour, then you compare before/after. Log in for 1 free try, no card needed. Free personal color and face shape tests too."
       />
       <meta property="og:url" content="https://kissinskin.net/en/" />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
@@ -30,10 +31,10 @@ export default function Head() {
       <meta property="og:locale" content="en_US" />
       <meta property="og:locale:alternate" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="AI K-Beauty Makeup Simulator | kissinskin" />
+      <meta name="twitter:title" content="Virtual Makeup Try-On Free — AI K-Beauty Makeup Generator | kissinskin" />
       <meta
         name="twitter:description"
-        content="One selfie · 60 seconds · log in for 1 free try · no card needed. AI applies 9 K-beauty makeup looks and matching hair colour. Compare before/after instantly."
+        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty makeup looks and matching hair colour, then you compare before/after. Log in for 1 free try, no card needed. Free personal color and face shape tests too."
       />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script

@@ -4,9 +4,9 @@ import { isExactRoute } from '../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/tools/')) return null
-  const title = 'K-뷰티 AI 도구 모음 | kissinskin'
-  const desc = '메이크업 시뮬레이터·MBTI·퍼스널 컬러·얼굴형 진단 — 무료 K-뷰티 AI 도구 모음.'
-  const keywords = 'K-뷰티 AI 도구, 메이크업 AI, 메이크업 MBTI, 퍼스널 컬러 진단, 얼굴형 진단, 무료 뷰티 테스트, 한국 메이크업, personal color test, kissinskin'
+  const title = '무료 뷰티 테스트 모음 — 퍼스널컬러·얼굴형·향수 진단 | 키스인스킨'
+  const desc = '회원가입 없이 1분. 퍼스널컬러 진단, 얼굴형 테스트, 메이크업 MBTI, 향수 추천 테스트 — 키스인스킨(kissinskin)의 무료 K-뷰티 AI 진단 도구 모음.'
+  const keywords = '무료 퍼스널컬러 진단, 퍼스널컬러 진단 사이트, 얼굴형 테스트, 얼굴형 테스트 사이트, 웜톤 쿨톤 테스트, 메이크업 MBTI, 향수 추천 테스트, 무료 뷰티 테스트, 자가진단 사이트, 키스인스킨, kissinskin'
   return (
     <>
       <title>{title}</title>
@@ -14,7 +14,7 @@ export default function Head() {
       <meta name="keywords" content={keywords} />
       <link rel="canonical" href="https://kissinskin.net/tools/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/" />
-      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/tools/" />
+      <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/tools/" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="kissinskin" />
