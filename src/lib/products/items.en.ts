@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'rare-beauty-soft-pinch-tinted-lip-oil',
+    category: 'lip',
+    brand: 'Rare Beauty',
+    name: 'Soft Pinch Tinted Lip Oil',
+    title: 'Rare Beauty Soft Pinch Tinted Lip Oil: Hydrated, Luminous Lips Without Stickiness',
+    summary:
+      'An innovative gel-to-oil formula that provides comfortable, non-sticky hydration and a subtle tint for luminous lips.',
+    highlights: ['Gel-to-oil texture', 'Non-sticky shine', 'Long-lasting tint', 'Lightweight application'],
+    details: [
+      'Applies like a gel, then transforms into a lightweight oil, providing hydration and comfort to the lips.',
+      'Delivers a transparent, dewy, non-sticky shine with a natural, long-lasting tint that stains the lips over time.',
+      'Achieve a sheer wash of color with one swipe, or build up for a more vibrant, lively look.',
+      'Contains menthol for a light plumping effect, making lips appear healthier and fuller.',
+    ],
+    image: '/products/rare-beauty-soft-pinch-tinted-lip-oil.webp',
+    coupangQuery: '레어 뷰티 소프트 핀치 틴티드 립 오일',
+    globalQuery: 'Rare Beauty Soft Pinch Tinted Lip Oil',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-07-13',
+    tags: ['lip oil', 'tint', 'gloss', 'hydrating', 'vegan'],
+  },
+  {
     slug: 'nonfiction-santal-cream-hand-cream',
     category: 'fragrance',
     brand: 'NONFICTION',

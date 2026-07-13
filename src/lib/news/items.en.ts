@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'keyring-beauty-summer-trend-2026',
+    category: 'global',
+    title: '\'Keyring Beauty\' Surges as Summer Holiday Season Approaches, Monclos PDRN Sun Cream Gains Attention',
+    summary:
+      'The \'Keyring Beauty\' trend, which satisfies both portability and personal preference, is rapidly emerging as the summer holiday season approaches. Monclos is gaining significant consumer interest by introducing its PDRN hydrating sun cream in a keyring format.',
+    body: [
+      '> TLDR: Portability | Personalization | Sun Care Expansion',
+      'As the full-fledged summer holiday season approaches, \'Keyring Beauty\' is emerging as a new trend among consumers who want to pack light while still maintaining their beauty routines. This trend, which began with color cosmetics such as lip products and blushes, is now expanding to include sun care products, an essential for summer.',
+      '> DATA: According to Zigzag, a commerce platform operated by Kakao Style, search volume for \'keyring cosmetics\' in the first quarter of this year surged by 2,450% compared to the same period last year. Search volumes for \'lipstick keyrings\' and \'mini cosmetics\' also increased by 481% and 48% respectively. Furthermore, at Olive Young, \'mini\'-related search queries in August last year showed a 155% increase compared to the same month in the previous year.',
+      'In line with this trend, Monclos is gaining attention by launching its \'PDRN Hydrating Sun Cream\' in a keyring format. At the Monclos Hannam flagship store, they offer a customizable keyring service, allowing customers to combine four types of charms with alphabet initials, and it is reported that approximately 80% of in-store customers chose the keyring-integrated product.',
+      'As such, Keyring Beauty goes beyond simple convenience of use; combined with a consumer culture that views cosmetics as fashion items to express one\'s individuality, it is expected to continue to grow steadily in the future.',
+    ],
+    date: '2026-07-13',
+    readMinutes: 3,
+    tags: ['Keyring Beauty', 'Summer Makeup', 'Portable Cosmetics', 'Monclos', 'Sun Care'],
+  },
+  {
     slug: 'shopee-kbeauty-soothing-june-2026',
     category: 'skincare',
     title: 'Soothing and Moisture Barrier Products Dominate Shopee K-Beauty in June 2026',

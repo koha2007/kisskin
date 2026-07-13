@@ -5,6 +5,29 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'rare-beauty-soft-pinch-tinted-lip-oil',
+    category: 'lip',
+    brand: '레어 뷰티',
+    name: '소프트 핀치 틴티드 립 오일',
+    title: '레어 뷰티 소프트 핀치 틴티드 립 오일: 끈적임 없이 촉촉하게 빛나는 입술',
+    summary:
+      '젤이 오일로 변하는 혁신적인 포뮬러가 입술에 편안함을 선사하며, 끈적임 없이 촉촉하고 은은한 색감으로 마무리되는 립 오일입니다.',
+    highlights: ['젤-투-오일 제형', '끈적임 없는 광택', '오래 지속되는 착색', '가벼운 발림성'],
+    details: [
+      '처음에는 젤처럼 발리지만 이내 가벼운 오일로 변하여 입술에 수분감을 공급하고 편안함을 선사합니다.',
+      '끈적임 없이 투명하고 촉촉한 광택을 연출하며, 시간이 지나도 입술에 자연스러운 컬러가 착색되어 오래 지속됩니다.',
+      '한 번만 발라도 은은한 발색을, 여러 번 덧바르면 더욱 선명하고 생기 있는 컬러를 표현할 수 있습니다.',
+      '멘톨 성분이 가볍게 입술을 플럼핑하여 더욱 건강하고 도톰해 보이는 입술을 연출해줍니다.',
+    ],
+    image: '/products/rare-beauty-soft-pinch-tinted-lip-oil.webp',
+    coupangQuery: '레어 뷰티 소프트 핀치 틴티드 립 오일',
+    globalQuery: 'Rare Beauty Soft Pinch Tinted Lip Oil',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-07-13',
+    tags: ['립오일', '틴트', '글로스', '촉촉', '비건'],
+  },
+  {
     slug: 'nonfiction-santal-cream-hand-cream',
     category: 'fragrance',
     brand: '논픽션',
