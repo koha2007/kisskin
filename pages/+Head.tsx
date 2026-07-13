@@ -9,7 +9,10 @@ export default function Head() {
     <>
       <meta name="google-site-verification" content="pjnJhImk95zvFQwAUOK8YLAAL4kCuMQGc71-C0Hg2ZE" />
       <meta name="naver-site-verification" content="efbca87df560d16f2ce20199b681b86319b65e56" />
-      <meta name="commission-factory-verification" content="a9cdb3796ac44aa1b1f472567138e436" />
+      {/* Commission Factory 퍼블리셔 계정 소유 확인 (2026-07-13 재발급).
+          이전 값(a9cdb379…)은 완결되지 않은 옛 시도의 코드라 교체했다. 태그를 두 개 두면
+          검증기가 앞의 것만 읽고 실패할 수 있으므로 반드시 하나만 남긴다. */}
+      <meta name="commission-factory-verification" content="f1d19eec63034cf0877b6adf7fc2e9a4" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
       {/* Google Consent Mode v2 — default deny until the cookie banner records a choice. */}
       <script
