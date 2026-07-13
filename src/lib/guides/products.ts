@@ -31,6 +31,14 @@ export const GUIDE_CATEGORY_PRODUCTS: Record<GuideCategory, GuideProductRec[]> =
     { label: '립 틴트', desc: '웜톤은 코랄·오렌지, 쿨톤은 푸른기 핑크·베리로 고르면 실패가 적음', brands: ['롬앤', '페리페라', '클리오'], coupangQuery: '립틴트 코랄 베리', clio: true, clioCategory: 'lip', labelEn: 'Lip tint', descEn: 'Coral for warm tones, blue-pink or berry for cool', brandsEn: ['rom&nd', 'peripera', 'CLIO'] },
     { label: '블러셔', desc: '톤 판단을 얼굴에서 바로 확인해 볼 수 있는 색조', brands: ['클리오', '롬앤', '페리페라'], coupangQuery: '블러셔 코랄 핑크', clio: true, clioCategory: 'cheek', labelEn: 'Blush', descEn: 'The quickest way to see your undertone in action', brandsEn: ['CLIO', 'rom&nd', 'peripera'] },
   ],
+  // 얼굴형 글은 헤어·윤곽 이야기로 끝난다 — 집에서 바로 시도할 수 있는 쪽으로 받는다.
+  shape: [
+    { label: '셰이딩 · 컨투어', desc: '얼굴형 보완을 메이크업으로 먼저 시험해 보는 가장 싼 방법', brands: ['클리오', '에스쁘아', '롬앤'], coupangQuery: '셰이딩 컨투어 파우더', clio: true, clioCategory: 'base', labelEn: 'Contour powder', descEn: 'The cheapest way to test face-shape balance before a haircut', brandsEn: ['CLIO', 'espoir', 'rom&nd'] },
+    { label: '헤어 볼륨 제품', desc: '뿌리 볼륨은 얼굴 비율을 바꾸는 가장 빠른 레버', brands: ['미쟝센', '려', '아모스'], coupangQuery: '뿌리 볼륨 헤어', clio: false, clioCategory: 'main', labelEn: 'Root volume product', descEn: 'Root volume is the fastest lever on facial proportion', brandsEn: ['Mise en scène', 'Ryo', 'AMOS'] },
+  ],
+  perfume: [
+    { label: '향수 시향 세트', desc: '한 병 지르기 전에 계열부터 좁히는 가장 안전한 순서', brands: ['조말론', '딥티크', '탬버린즈'], coupangQuery: '향수 미니 시향 세트', clio: false, clioCategory: 'main', labelEn: 'Discovery set', descEn: 'Narrow the family before committing to a full bottle', brandsEn: ['Jo Malone', 'Diptyque', 'tamburins'] },
+  ],
   lip: [
     { label: '립 틴트', desc: 'MLBB 데일리 컬러로 활용도 높은 입술 표현', brands: ['롬앤', '페리페라', '클리오'], coupangQuery: 'MLBB 틴트 립', clio: true, clioCategory: 'lip', labelEn: 'Lip tint', descEn: 'An everyday MLBB color you reach for constantly', brandsEn: ['rom&nd', 'peripera', 'CLIO'] },
     { label: '립라이너', desc: '입술 윤곽을 또렷하게 잡아 번짐을 줄임', brands: ['클리오', '페리페라', '3CE'], coupangQuery: '립라이너 누드', clio: true, clioCategory: 'lip', labelEn: 'Lip liner', descEn: 'Defines the lip line and curbs feathering', brandsEn: ['CLIO', 'peripera', '3CE'] },
