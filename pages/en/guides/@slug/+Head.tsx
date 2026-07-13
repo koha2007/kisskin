@@ -1,6 +1,7 @@
 import { usePageContext } from 'vike-react/usePageContext'
 import { getGuideBySlugEn } from '../../../../src/lib/guides/posts.en'
 import { getGuideCategoryMeta } from '../../../../src/lib/guides/types'
+import { isEnOnlyGuide } from '../../../../src/lib/guides/enOnlySlugs'
 
 export default function Head() {
   const ctx = usePageContext()
@@ -18,7 +19,10 @@ export default function Head() {
 
   const meta = getGuideCategoryMeta(post.category)
   const url = `https://kissinskin.net/en/guides/${post.slug}/`
-  const koUrl = `https://kissinskin.net/guides/${post.slug}/`
+  // English original with no Korean twin → there is no Korean URL to point at.
+  // Emitting one anyway would send crawlers (and hreflang validators) to a 404.
+  const enOnly = isEnOnlyGuide(post.slug)
+  const koUrl = enOnly ? null : `https://kissinskin.net/guides/${post.slug}/`
 
   return (
     <>
@@ -42,9 +46,9 @@ export default function Head() {
       <meta name="twitter:title" content={post.title} />
       <meta name="twitter:description" content={post.summary} />
       <link rel="canonical" href={url} />
-      <link rel="alternate" hrefLang="ko" href={koUrl} />
+      {koUrl && <link rel="alternate" hrefLang="ko" href={koUrl} />}
       <link rel="alternate" hrefLang="en" href={url} />
-      <link rel="alternate" hrefLang="x-default" href={koUrl} />
+      <link rel="alternate" hrefLang="x-default" href={koUrl ?? url} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

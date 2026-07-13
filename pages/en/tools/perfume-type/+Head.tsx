@@ -4,13 +4,14 @@ import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/tools/perfume-type/')) return null
-  const title = 'Perfume Type Quiz — Find Your Fragrance Type in 1 Minute | kissinskin'
-  const desc = 'A free 5-question quiz reveals your perfume type across 6 families — Floral, Citrus, Woody, Amber, Fresh, Gourmand — with matched scent picks plus makeup, occasion, and season guides.'
+  // "what perfume suits me" 는 자동완성 상위 질문형 검색어이고 우리 도구가 그대로 답이다 → 제목에 그대로.
+  const title = 'What Perfume Suits Me? — Free 1-Minute Fragrance Type Quiz | kissinskin'
+  const desc = 'What perfume suits me? Answer 5 questions in 1 minute — free, no signup — and find your fragrance family among Floral, Citrus, Woody, Amber, Fresh and Gourmand, with matched scents and when to wear them.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="perfume quiz, fragrance type test, perfume personality test, what perfume suits me, perfume type, fragrance quiz" />
+      <meta name="keywords" content="what perfume suits me, perfume quiz, fragrance quiz, how to choose perfume, fragrance families, perfume type test, floral citrus woody amber, find my scent" />
       <link rel="canonical" href="https://kissinskin.net/en/tools/perfume-type/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/perfume-type/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/perfume-type/" />

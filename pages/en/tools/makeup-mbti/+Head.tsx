@@ -4,13 +4,13 @@ import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/tools/makeup-mbti/')) return null
-  const title = 'Makeup MBTI — 16 Types from 8 Questions | kissinskin'
-  const desc = 'A free 8-question quiz reads your makeup personality and matches you to one of 16 types, each with a tailored K-beauty look and product formula.'
+  const title = 'Makeup Quiz — What Makeup Style Suits Me? 16 Types, Free | kissinskin'
+  const desc = 'A free 8-question makeup quiz reads your beauty personality and matches you to 1 of 16 types — each with a K-beauty look and product formula that actually suits it. 1 minute, no signup.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="makeup MBTI, makeup personality, 16 types, K-beauty makeup, makeup quiz" />
+      <meta name="keywords" content="makeup quiz, what makeup suits me, makeup style quiz, makeup personality test, makeup MBTI, beauty quiz, korean makeup style, 16 types" />
       <link rel="canonical" href="https://kissinskin.net/en/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/makeup-mbti/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/makeup-mbti/" />

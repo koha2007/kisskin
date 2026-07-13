@@ -4,13 +4,15 @@ import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/tools/personal-color/')) return null
-  const title = 'Personal Color Test & Quiz — Free 4-Season Analysis in 1 Min | kissinskin'
-  const desc = 'Free personal color test · 6-question quiz · 1 minute · no signup. Find your season — Spring Warm, Summer Cool, Autumn Warm, or Winter Cool — with tailored lip, eye, and hair color picks.'
+  // 자동완성 실수요: "personal color analysis" + free/test/korea 조합이 상위.
+  // "korea"가 붙는 건 한국식 진단을 찾는 수요라서, 실제 한국 사이트라는 점을 전면에 세운다.
+  const title = 'Personal Color Analysis Free — Korean 4-Season Test in 1 Min | kissinskin'
+  const desc = 'Free personal color analysis, the Korean way · 6 questions · 1 minute · no signup. Find your season — Spring Warm, Summer Cool, Autumn Warm, Winter Cool — with lip, eye and hair colors that match. Built in Seoul.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="personal color test, personal color quiz, personal color analysis, color analysis test, spring warm, summer cool, autumn warm, winter cool, 4-season, seasonal color" />
+      <meta name="keywords" content="personal color analysis free, personal color analysis, personal color analysis korea, personal color test, personal color quiz, korean color analysis, warm cool undertone test, spring warm, summer cool, autumn warm, winter cool" />
       <link rel="canonical" href="https://kissinskin.net/en/tools/personal-color/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/personal-color/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/personal-color/" />

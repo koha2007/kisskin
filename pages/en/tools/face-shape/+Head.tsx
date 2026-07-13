@@ -4,13 +4,15 @@ import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/tools/face-shape/')) return null
-  const title = 'Face Shape Quiz & Test — Free, 1 Min, 5 Shapes | kissinskin'
-  const desc = 'Free face shape quiz · face shape test in 1 minute · no signup. Find if you are oval, round, square, oblong, or heart. Per-shape contouring, hairstyle, and glasses tips included.'
+  // 영어권은 quiz/test 보다 detector·analyzer 로 검색한다(자동완성: face shape detector /
+  // analyzer / calculator / types / and glasses). 그 단어를 title 에 실어 준다.
+  const title = 'Face Shape Detector — Free Face Shape Test & Analyzer, 1 Min | kissinskin'
+  const desc = 'Free face shape detector · no photo, no signup, 1 minute. Find out if you are oval, round, square, oblong or heart — then get the hairstyles, glasses and contouring that suit that shape.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
-      <meta name="keywords" content="face shape quiz, face shape test, face quiz, face shapes test, oval face, round face, square face, oblong face, heart face, contouring, face shape makeup" />
+      <meta name="keywords" content="face shape detector, face shape analyzer, face shape test, face shape quiz, face shape types, face shape calculator, face shape and glasses, oval face, round face, square face, oblong face, heart face" />
       <link rel="canonical" href="https://kissinskin.net/en/tools/face-shape/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/tools/face-shape/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/tools/face-shape/" />

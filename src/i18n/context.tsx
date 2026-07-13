@@ -4,6 +4,7 @@ import ko from './ko'
 import en from './en'
 import { I18nContext } from './I18nContext'
 import { EN_GUIDE_SLUG_SET } from '../lib/guides/enSlugs'
+import { EN_ONLY_GUIDE_SLUG_SET } from '../lib/guides/enOnlySlugs'
 import { EN_REVIEW_SLUG_SET } from '../lib/reviews/enSlugs'
 import { EN_NEWS_SLUG_SET } from '../lib/news/enSlugs'
 
@@ -117,7 +118,13 @@ function alternateUrl(currentPath: string, target: Locale): string {
   }
   // target === 'ko'
   if (currentPath === '/en' || currentPath === '/en/') return '/'
-  if (currentPath.startsWith('/en/')) return currentPath.replace(/^\/en/, '') || '/'
+  if (currentPath.startsWith('/en/')) {
+    // English originals have no Korean twin — stripping /en would land on a 404.
+    // Send the reader to the Korean guides hub instead.
+    const enGuide = normalize(currentPath).match(/^\/en\/guides\/([^/]+)\/$/)
+    if (enGuide && EN_ONLY_GUIDE_SLUG_SET.has(enGuide[1])) return '/guides/'
+    return currentPath.replace(/^\/en/, '') || '/'
+  }
   return currentPath
 }
 
