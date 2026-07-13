@@ -3,6 +3,7 @@ export type GuideCategory =
   | 'color'
   | 'shape'
   | 'perfume'
+  | 'style'
   | 'lip'
   | 'eye'
   | 'base'
@@ -26,6 +27,7 @@ export const GUIDE_CATEGORIES: GuideCategoryMeta[] = [
   { code: 'color', koLabel: '퍼스널컬러', enLabel: 'Personal Color', emoji: '🎨', color: '#7c5cff' },
   { code: 'shape', koLabel: '얼굴형', enLabel: 'Face Shape', emoji: '🪞', color: '#0ea5e9' },
   { code: 'perfume', koLabel: '향수', enLabel: 'Perfume', emoji: '🌷', color: '#d946ef' },
+  { code: 'style', koLabel: '추구미·스타일', enLabel: 'Style', emoji: '🪄', color: '#f59e0b' },
   { code: 'lip', koLabel: '립', enLabel: 'Lip', emoji: '💋', color: '#f43f5e' },
   { code: 'eye', koLabel: '아이', enLabel: 'Eye', emoji: '👁️', color: '#a855f7' },
   { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#f59e0b' },

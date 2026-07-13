@@ -39,6 +39,11 @@ export const GUIDE_CATEGORY_PRODUCTS: Record<GuideCategory, GuideProductRec[]> =
   perfume: [
     { label: '향수 시향 세트', desc: '한 병 지르기 전에 계열부터 좁히는 가장 안전한 순서', brands: ['조말론', '딥티크', '탬버린즈'], coupangQuery: '향수 미니 시향 세트', clio: false, clioCategory: 'main', labelEn: 'Discovery set', descEn: 'Narrow the family before committing to a full bottle', brandsEn: ['Jo Malone', 'Diptyque', 'tamburins'] },
   ],
+  // 추구미 글은 "이 무드를 내 얼굴에 어떻게?"로 끝난다 — 무드를 가장 싸게 바꾸는 두 품목으로 받는다.
+  style: [
+    { label: '아이섀도 팔레트', desc: '무드를 가장 크게 바꾸는 단일 품목 — 청순/시크/글램이 여기서 갈림', brands: ['클리오', '데이지크', '페리페라'], coupangQuery: '아이섀도 팔레트 무드', clio: true, clioCategory: 'eye', labelEn: 'Eyeshadow palette', descEn: 'The single item that shifts your mood the most', brandsEn: ['CLIO', 'dasique', 'peripera'] },
+    { label: '립 틴트', desc: '같은 얼굴도 립 하나로 인상이 바뀜 — 추구미 실험의 최저 비용', brands: ['롬앤', '페리페라', '클리오'], coupangQuery: '립틴트 무드 데일리', clio: true, clioCategory: 'lip', labelEn: 'Lip tint', descEn: 'The cheapest way to test a new mood on your face', brandsEn: ['rom&nd', 'peripera', 'CLIO'] },
+  ],
   lip: [
     { label: '립 틴트', desc: 'MLBB 데일리 컬러로 활용도 높은 입술 표현', brands: ['롬앤', '페리페라', '클리오'], coupangQuery: 'MLBB 틴트 립', clio: true, clioCategory: 'lip', labelEn: 'Lip tint', descEn: 'An everyday MLBB color you reach for constantly', brandsEn: ['rom&nd', 'peripera', 'CLIO'] },
     { label: '립라이너', desc: '입술 윤곽을 또렷하게 잡아 번짐을 줄임', brands: ['클리오', '페리페라', '3CE'], coupangQuery: '립라이너 누드', clio: true, clioCategory: 'lip', labelEn: 'Lip liner', descEn: 'Defines the lip line and curbs feathering', brandsEn: ['CLIO', 'peripera', '3CE'] },
