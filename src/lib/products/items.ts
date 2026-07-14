@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'hince-signature-brow-shaper-clear',
+    category: 'eye',
+    brand: '힌스',
+    name: '시그니처 브로우 쉐이퍼 클리어',
+    title: '힌스 시그니처 브로우 쉐이퍼: 뭉침 없이 한 올 한 올 완벽 눈썹 고정!',
+    summary:
+      '자연스러운 눈썹 결 연출과 강력한 고정력으로 하루 종일 깔끔한 눈썹을 유지시켜주는 투명 브로우 쉐이퍼입니다. 여러 번 덧발라도 뭉침 없이 섬세한 눈썹 표현이 가능해요.',
+    highlights: ['뭉침 없는 투명 픽싱', '섬세한 눈썹 결 연출', '뛰어난 고정력', '작은 브러쉬로 정교함'],
+    details: [
+      '투명한 젤 타입으로 눈썹 컬러에 상관없이 자연스럽게 눈썹 결을 고정시켜줍니다.',
+      '얇고 섬세한 브러쉬가 눈썹 한 올 한 올에 밀착되어 뭉침 없이 깔끔하게 발립니다.',
+      '강력한 픽싱력으로 눈썹 모양을 완벽하게 고정하고 오랜 시간 흐트러짐 없이 유지시켜줍니다.',
+      '덧바를수록 선명한 볼륨감을 더해주는 빌더블 포뮬러로 원하는 눈썹 스타일을 연출할 수 있습니다.',
+    ],
+    whoFor:
+      '자연스러운 눈썹 결을 살리고 싶거나, 눈썹 숱이 적어 풍성한 볼륨감을 원하는 분들께 추천합니다. 특히 땀과 유분에 강한 고정력을 원하거나, 투명하게 눈썹을 정돈하고 싶은 분들에게 적합합니다.',
+    howTo: [
+      '눈썹 앞머리는 브러쉬를 세워서, 눈썹 꼬리 쪽은 눈썹 결을 따라 쓸어주어 고정합니다.',
+      '고정력을 높이고 싶다면, 눈썹에 바른 후 손가락의 열감으로 5초 정도 지그시 눌러줍니다.',
+    ],
+    pros: [
+      '뭉침 없이 자연스러운 눈썹 결 표현',
+      '하루 종일 유지되는 강력한 고정력',
+      '어떤 헤어 컬러에도 잘 어울리는 투명한 발색',
+    ],
+    cons: [
+      '용량 대비 가격대가 다소 높은 편',
+    ],
+    image: '/products/hince-signature-brow-shaper-clear.webp',
+    coupangQuery: '힌스 시그니처 브로우 쉐이퍼 클리어',
+    globalQuery: 'hince signature brow shaper clear',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-07-14',
+    tags: ['브로우쉐이퍼', '눈썹고정', '결브로우', '투명브로우', '내추럴메이크업'],
+  },
+  {
     slug: 'rare-beauty-soft-pinch-tinted-lip-oil',
     category: 'lip',
     brand: '레어 뷰티',

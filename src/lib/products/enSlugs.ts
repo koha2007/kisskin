@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'hince-signature-brow-shaper-clear',
   'rare-beauty-soft-pinch-tinted-lip-oil',
   'nonfiction-santal-cream-hand-cream',
   'k18-leave-in-molecular-repair-hair-mask',

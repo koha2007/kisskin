@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-sun-serum-surge-2026',
+    category: 'skincare',
+    title: 'K-Beauty\'s Summer 2026 \'Sun Serum\' Craze: Transaction Volume Jumps 149% YoY',
+    summary:
+      'Sun serums are experiencing an explosive surge in popularity within the K-Beauty market in Summer 2026, spearheading a new sun care trend. Hybrid products that combine UV protection with comprehensive skincare benefits are garnering significant consumer interest.',
+    body: [
+      '> TLDR: Sun Serum Popularity Surges | 149% Sales Growth | Hybrid Beauty Trend',
+      'As the sweltering summer approaches, light and refreshing \'sun serums\' are emerging as a new flagship item in the K-Beauty market, replacing traditional sunscreens. With growing consumer aversion to the heavy feel and white cast often associated with conventional sunscreens, sun serums, which apply as lightly as skincare serums, are gaining immense popularity.',
+      '> DATA: According to Musinsa Beauty, from June 1 to June 25, 2026, the transaction volume for sun serums within the sun care category increased by 149% compared to the same period last year. This figure significantly surpasses the growth rates of sunscreens (125%) and sun sticks (106%) during the same period. Mediheal\'s \'Madecassoside Blemish Repair Moisture Sun Serum\' saw its Q2 transaction volume increase by 101%, and COSRX\'s \'Ultra Light Invisible Sun Serum\' also recorded a 94% growth.',
+      'The popularity of sun serums aligns with the consumer trend favoring \'hybrid beauty\' products that offer not only UV protection but also various skincare benefits simultaneously, such as hydration, soothing, brightening, and wrinkle improvement. With their lightweight texture and fast absorption, they can be used effortlessly even before makeup application, garnering significant favor from consumers who prioritize practicality.',
+      'This summer, K-Beauty sun serums are going beyond merely protecting the skin from UV rays, establishing themselves as essential skincare items that also care for skin health, and are expected to gain attention in the global market.',
+    ],
+    date: '2026-07-14',
+    readMinutes: 3,
+    tags: ['Sun Serum', 'K-Beauty', 'Summer Skincare', 'Hybrid Beauty'],
+  },
+  {
     slug: 'keyring-beauty-summer-trend-2026',
     category: 'global',
     title: '\'Keyring Beauty\' Surges as Summer Holiday Season Approaches, Monclos PDRN Sun Cream Gains Attention',

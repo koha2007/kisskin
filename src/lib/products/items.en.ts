@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'hince-signature-brow-shaper-clear',
+    category: 'eye',
+    brand: 'hince',
+    name: 'Signature Brow Shaper Clear',
+    title: 'hince Signature Brow Shaper: Perfect, Clump-Free Brow Fixation, Strand by Strand!',
+    summary:
+      'This clear brow shaper creates natural brow texture and offers strong hold, keeping your brows neat all day. It allows for delicate brow expression without clumping, even with multiple applications.',
+    highlights: ['Clump-free clear fixing', 'Delicate brow texture creation', 'Excellent holding power', 'Precision with a small brush'],
+    details: [
+      'The transparent gel type naturally fixes brow texture regardless of brow color.',
+      'The thin, delicate brush adheres to each brow hair, applying neatly without clumping.',
+      'Strong fixing power perfectly sets brow shape and maintains it for a long time without disarray.',
+      'The buildable formula adds clear volume with each application, allowing you to create your desired brow style.',
+    ],
+    whoFor:
+      'Recommended for those who want to enhance natural brow texture or desire rich volume for sparse brows. Especially suitable for those who need strong hold against sweat and oil, or want to neatly groom brows transparently.',
+    howTo: [
+      'For the front of the brows, use the brush upright; for the tail, sweep along the brow direction to fix.',
+      'To enhance holding power, after applying to brows, gently press with the warmth of your finger for about 5 seconds.',
+    ],
+    pros: [
+      'Clump-free, natural brow texture expression',
+      'Strong holding power that lasts all day',
+      'Transparent color that suits any hair color',
+    ],
+    cons: [
+      'Relatively high price for the volume',
+    ],
+    image: '/products/hince-signature-brow-shaper-clear.webp',
+    coupangQuery: '힌스 시그니처 브로우 쉐이퍼 클리어',
+    globalQuery: 'hince signature brow shaper clear',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-07-14',
+    tags: ['browshaper', 'browfix', 'texturebrow', 'clearbrow', 'naturalmakeup'],
+  },
+  {
     slug: 'rare-beauty-soft-pinch-tinted-lip-oil',
     category: 'lip',
     brand: 'Rare Beauty',
