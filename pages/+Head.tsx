@@ -71,18 +71,18 @@ export default function Head() {
           "availableLanguage": ["Korean", "English"]
         }
       }) }} />
+      {/* ⚠ potentialAction(SearchAction)을 넣지 말 것 — **우리 사이트에는 검색 기능이 없다.**
+          예전에 `target: "https://kissinskin.net/?q={search_term_string}"` 를 선언해 뒀는데,
+          구글이 그 템플릿을 실제 URL 로 알고 긁어가서 서치콘솔에 "적절한 표준 태그가 포함된
+          대체 페이지"로 잡혔다(2026-07-14 제거). 사이트 검색 페이지를 실제로 만들기 전까지는
+          다시 넣지 않는다. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "kissinskin",
         "alternateName": ["키스인스킨", "K-beauty AI Makeup Simulator", "K-뷰티 AI 메이크업"],
         "url": "https://kissinskin.net",
-        "inLanguage": ["en", "ko"],
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://kissinskin.net/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "inLanguage": ["en", "ko"]
       }) }} />
     </>
   )

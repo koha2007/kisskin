@@ -6,12 +6,18 @@ Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/
 
+# ⚠️ 봇은 **자기 이름의 블록이 있으면 `User-agent: *` 블록을 통째로 무시한다.**
+#    그래서 아래 각 블록은 위의 * 블록을 상속하지 않는다 — 규칙을 하나하나 다시 적어야 한다.
+#    실제로 Googlebot 블록에 `/cdn-cgi/` 가 빠져 있어서, 구글봇만 Cloudflare 의 이메일 난독화
+#    링크(/cdn-cgi/l/email-protection)를 긁고 404 를 먹고 있었다(서치콘솔 404 10건 중 1건).
+#    규칙을 추가할 땐 **모든 블록에** 넣을 것.
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
 Disallow: /result/
+Disallow: /cdn-cgi/
 
 # Google AdSense crawler — required for ad serving and policy review
 User-agent: Mediapartners-Google
@@ -19,6 +25,7 @@ Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /cdn-cgi/
 
 # Google AdsBot — landing-page quality crawler
 User-agent: AdsBot-Google
@@ -26,12 +33,14 @@ Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /cdn-cgi/
 
 User-agent: AdsBot-Google-Mobile
 Allow: /
 Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
+Disallow: /cdn-cgi/
 
 User-agent: Bingbot
 Allow: /
@@ -39,6 +48,7 @@ Disallow: /api/
 Disallow: /auth
 Disallow: /mypage
 Disallow: /result/
+Disallow: /cdn-cgi/
 
 User-agent: Yeti
 Allow: /
