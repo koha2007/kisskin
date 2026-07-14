@@ -273,6 +273,13 @@ export function ChipsCard({
 }
 
 /** Collapsible card that preserves long SEO prose under a tap. */
+// ⚠️ `useState` + `{open && …}` 로 만들지 말 것 — 그러면 **본문이 접히는 게 아니라 DOM 에 아예
+//    없다.** 프리렌더 HTML 에도 없고, 구글봇은 클릭을 하지 않으니 영원히 못 본다.
+//    이 컴포넌트는 MBTI·퍼스널컬러·얼굴형·향수 **네 도구의 결과 페이지가 전부** 쓰는데, 여기 담긴
+//    detailParagraphs 가 그 페이지를 다른 유형과 구별해 주는 **유일한 고유 콘텐츠**다. 그게 통째로
+//    안 나가는 바람에 유형 페이지들이 서로 85% 동일해졌고, 구글이 62개를 "크롤링됨 – 색인 안 됨"
+//    으로 버렸다(2026-07-14 수정).
+//    → <details>/<summary> 는 접힘 UX 는 같으면서 본문이 DOM 에 남는다. ToolFaq 도 같은 패턴이다.
 export function AccordionCard({
   title,
   paragraphs,
@@ -282,27 +289,21 @@ export function AccordionCard({
   paragraphs: string[]
   accent?: string
 }) {
-  const [open, setOpen] = useState(false)
   return (
     <GridCard className="p-4" accent={accent}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-2 text-left"
-        aria-expanded={open}
-      >
-        <span className="text-sm font-extrabold text-navy">{title}</span>
-        <span className="material-symbols-outlined text-slate-400 transition-transform" style={{ transform: open ? 'rotate(180deg)' : 'none' }}>
-          expand_more
-        </span>
-      </button>
-      {open && (
+      <details className="group">
+        <summary className="w-full flex items-center justify-between gap-2 text-left cursor-pointer list-none">
+          <span className="text-sm font-extrabold text-navy">{title}</span>
+          <span className="material-symbols-outlined text-slate-400 transition-transform group-open:rotate-180">
+            expand_more
+          </span>
+        </summary>
         <div className="mt-3 space-y-3 text-[13px] text-slate-600 leading-relaxed">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
-      )}
+      </details>
     </GridCard>
   )
 }

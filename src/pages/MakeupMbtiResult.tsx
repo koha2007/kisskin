@@ -42,6 +42,7 @@ export default function MakeupMbtiResult({ code }: Props) {
 
   const displayName = isEn ? en.enPersona : type.koName
   const tagline = isEn ? en.tagline : type.tagline
+  const detailParagraphs = isEn ? en.detailParagraphs : type.detailParagraphs
   const traits = isEn ? en.traits : type.traits
   const signature = isEn ? en.signature : type.signature
   const recWomenReason = isEn ? en.recommended.women.reason : type.recommended.women.reason
@@ -115,7 +116,8 @@ export default function MakeupMbtiResult({ code }: Props) {
             <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{displayName}</h1>
             <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
             <div className="flex flex-wrap gap-2 justify-center mb-8">
-              {type.card.hashtags.map(k => (
+              {/* 영문 페이지에 한글 해시태그(#ESTJ메이크업 …)가 그대로 노출되고 있었다. */}
+              {(isEn ? en.hashtags : type.card.hashtags).map(k => (
                 <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${type.primaryColor}40` }}>{k}</span>
               ))}
             </div>
@@ -166,8 +168,11 @@ export default function MakeupMbtiResult({ code }: Props) {
                 <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="mbti" pageSlug={type.code} />
               ))}
 
-              {!isEn && type.detailParagraphs.length > 0 && (
-                <AccordionCard title={L.more} paragraphs={type.detailParagraphs} accent={accent} />
+              {/* 영문 본문(en.detailParagraphs)이 없어서 `!isEn` 으로 막아뒀던 자리다.
+                  그 결과 영문 유형 페이지는 본문이 통째로 비어 16개가 서로 거의 같아졌고,
+                  구글이 전부 색인에서 버렸다. 이제 양쪽 다 본문이 있다. */}
+              {detailParagraphs.length > 0 && (
+                <AccordionCard title={L.more} paragraphs={detailParagraphs} accent={accent} />
               )}
 
               <BannerCard
