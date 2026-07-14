@@ -23,10 +23,12 @@ const SITE = 'https://kissinskin.net'
 const SITEMAP = resolve('public/sitemap.xml')
 
 // content type → { 데이터 파일, en 슬러그 파일+상수, URL base }
+// enOnly* 는 "한국어 원본이 없는 영문 오리지널" 이 있는 타입만 채운다 — 아래 EN-ONLY 블록 참고.
 const TYPES = [
   { base: 'news',     data: 'src/lib/news/items.ts',       enFile: 'src/lib/news/enSlugs.ts',       enConst: 'EN_NEWS_SLUGS' },
   { base: 'products', data: 'src/lib/products/items.ts',    enFile: 'src/lib/products/enSlugs.ts',    enConst: 'EN_PRODUCT_SLUGS' },
-  { base: 'guides',   data: 'src/lib/guides/posts.ts',     enFile: 'src/lib/guides/enSlugs.ts',     enConst: 'EN_GUIDE_SLUGS' },
+  { base: 'guides',   data: 'src/lib/guides/posts.ts',     enFile: 'src/lib/guides/enSlugs.ts',     enConst: 'EN_GUIDE_SLUGS',
+    enData: 'src/lib/guides/posts.en.ts', enOnlyFile: 'src/lib/guides/enOnlySlugs.ts', enOnlyConst: 'EN_ONLY_GUIDE_SLUGS' },
   { base: 'reviews',  data: 'src/lib/reviews/posts.ts',    enFile: 'src/lib/reviews/enSlugs.ts',     enConst: 'EN_REVIEW_SLUGS' },
 ]
 
@@ -80,6 +82,25 @@ for (const t of TYPES) {
       ko++
     }
   }
+
+  // ── EN-ONLY: 한국어 원본이 없는 영문 오리지널 ──
+  // 위 루프는 한국어 데이터(t.data)를 기준으로 돌기 때문에, 한국어 짝이 없는 글은 여기에
+  // 아예 등장하지 않는다 → 따로 훑지 않으면 사이트맵에서 통째로 빠진다(실제로 빠져 있었다).
+  // hreflang 은 붙이지 않는다 — 짝이 없으므로 ko/x-default 를 쓰면 404 를 가리키게 된다.
+  if (t.enOnlyFile) {
+    const enOnly = parseSlugSet(t.enOnlyFile, t.enOnlyConst)
+    const bySlug = new Map(parseContent(t.enData).map((it) => [it.slug, it]))
+    for (const slug of [...enOnly].sort()) {
+      const it = bySlug.get(slug)
+      if (!it || !it.date) {
+        console.error(`[gen-sitemap] ${t.enOnlyConst} 의 '${slug}' 를 ${t.enData} 에서 찾지 못했습니다 — 중단`)
+        process.exit(1)
+      }
+      blocks.push(urlBlock(`${SITE}/en/${t.base}/${slug}/`, it.date, it.featured ? '0.8' : '0.7'))
+      en++
+    }
+  }
+
   summary[t.base] = { ko, en }
 }
 
