@@ -33,6 +33,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   const { t, locale, setLocale } = useI18n()
   const isEn = locale === 'en'
 
+  // 도구 4종과 도구 허브는 /en/ 아래 완전한 영문 미러가 프리렌더된다 → 영문일 땐 프리픽스를 붙인다.
+  // (/analysis/ 는 예외 — KO·EN 공용 앱이라 프리픽스가 없다.)
+  const toolHref = (path: string) => (isEn ? `/en${path}` : path)
+
   // ── 히어로 업로드 → /analysis/ 로 사진째 넘김(업로드 단계 중복 제거) ──
   const heroFileRef = useRef<HTMLInputElement>(null)
   const onHeroFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -204,7 +208,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </div>
               <ul className="flex-1 overflow-y-auto py-2">
                 {[
-                  { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
+                  { href: toolHref('/tools/'), label: t('common.freeTools') },
                   { href: isEn ? '/en/news/' : '/news/', label: t('nav.news') },
                   { href: isEn ? '/en/products/' : '/products/', label: isEn ? 'Makeup Products' : '메이크업 제품' },
                   { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
@@ -563,15 +567,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </div>
 
           {/* 4 Tool Cards — 공통 ToolCard 재사용, 각 "무료" 뱃지 */}
+          {/* ⚠ 카드 라벨은 t() 라 영어로 나오는데 href 가 한국어로 고정돼 있었다 → 영어권 방문자가
+              영어 카드를 누르면 한국어 페이지로 떨어졌다(2026-07-14 수정). 도구 링크는 반드시 toolHref(). */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {[
-              { href: '/tools/makeup-mbti/', icon: 'quiz', accent: 'var(--color-tool-mbti)',
+              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)',
                 title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc') },
-              { href: '/tools/personal-color/', icon: 'palette', accent: 'var(--color-tool-pc)',
+              { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)',
                 title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc') },
-              { href: '/tools/face-shape/', icon: 'face', accent: 'var(--color-tool-face)',
+              { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)',
                 title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc') },
-              { href: '/tools/perfume-type/', icon: 'local_florist', accent: 'var(--color-tool-perfume)',
+              { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)',
                 title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc') },
             ].map(tool => (
               <ToolCard
@@ -589,7 +595,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
           <div className="text-center mt-10 md:mt-12">
             <a
-              href="/tools/"
+              href={toolHref('/tools/')}
               className="inline-flex items-center gap-2 bg-white hover:bg-pink-50 border border-pink-200 hover:border-primary/40 text-slate-700 hover:text-primary px-8 py-3.5 rounded-full font-bold text-sm md:text-base shadow-sm transition-all"
             >
               <span className="material-symbols-outlined">grid_view</span>
@@ -885,11 +891,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href="/analysis/" className="hover:text-primary transition-colors cursor-pointer">{t('tools.nav.aiMakeup')}</a></li>
                 <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
-                <li><a href={isEn ? '/en/' : '/tools/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Free Tools' : '무료 도구 모음'}</a></li>
-                <li><a href={isEn ? '/en/tools/makeup-mbti/' : '/tools/makeup-mbti/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup MBTI' : '메이크업 MBTI'}</a></li>
-                <li><a href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
-                <li><a href={isEn ? '/en/tools/face-shape/' : '/tools/face-shape/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
-                <li><a href="/tools/perfume-type/" className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
+                <li><a href={toolHref('/tools/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Free Tools' : '무료 도구 모음'}</a></li>
+                <li><a href={toolHref('/tools/makeup-mbti/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup MBTI' : '메이크업 MBTI'}</a></li>
+                <li><a href={toolHref('/tools/personal-color/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
+                <li><a href={toolHref('/tools/face-shape/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
+                <li><a href={toolHref('/tools/perfume-type/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
                 <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
                 <li><a href={isEn ? '/en/products/' : '/products/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Products' : '메이크업 제품'}</a></li>
                 <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>

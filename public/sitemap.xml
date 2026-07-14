@@ -23,9 +23,12 @@
   <!-- Tools Hub -->
   <url>
     <loc>https://kissinskin.net/tools/</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/" />
   </url>
 
   <!-- Makeup MBTI Quiz -->
@@ -313,6 +316,17 @@
   <url><loc>https://kissinskin.net/en/tools/perfume-type/amber/</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/amber/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/amber/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/amber/" /></url>
   <url><loc>https://kissinskin.net/en/tools/perfume-type/fresh/</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/fresh/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/fresh/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/fresh/" /></url>
   <url><loc>https://kissinskin.net/en/tools/perfume-type/gourmand/</loc><lastmod>2026-05-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/gourmand/" /></url>
+
+  <!-- EN Tools Hub -->
+  <url>
+    <loc>https://kissinskin.net/en/tools/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/" />
+  </url>
 
   <!-- EN Guides Hub -->
   <url>

@@ -194,7 +194,7 @@ export default function ShareBar({
             </a>
           )}
           <a
-            href={isEn ? '/en/' : '/tools/'}
+            href={isEn ? '/en/tools/' : '/tools/'}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-primary hover:bg-white transition-all"
           >
             <span className="material-symbols-outlined text-[16px]">apps</span>

@@ -6,10 +6,16 @@ type NavLink = { href: string; label: string }
 
 // Paths under `/tools/...` that have a prerendered /en/... variant.
 // Used to swap nav/footer hrefs when locale === 'en'.
+// ⚠ 여기에 등록하고 **호출부에서도 localePath() 를 쓰지 않으면** 영문 페이지가 한국어로 샌다.
+//   실제로 그랬다(2026-07-14): 이 Set 에 향수가 빠져 있었고 푸터 3개 링크는 아예 하드코딩이라,
+//   영문 페이지 77개 중 73개가 영어 라벨 + 한국어 목적지로 나가고 있었다. 도구를 추가할 땐
+//   이 Set 과 호출부를 같이 볼 것.
 const EN_TOOL_PATHS = new Set<string>([
+  '/tools/',
   '/tools/face-shape/',
   '/tools/personal-color/',
   '/tools/makeup-mbti/',
+  '/tools/perfume-type/',
 ])
 
 function localePath(path: string, isEn: boolean): string {
@@ -48,9 +54,7 @@ export function ToolsNav() {
 
   const links: NavLink[] = [
     // Unified site nav — must match the home nav in src/HomePage.tsx.
-    // EN has no /en/tools/ hub, so EN "Free Tools" points at the EN home, which
-    // surfaces every tool in its showcase section.
-    { href: isEn ? '/en/' : '/tools/', label: t('common.freeTools') },
+    { href: localePath('/tools/', isEn), label: t('common.freeTools') },
     { href: isEn ? '/en/news/' : '/news/', label: isEn ? 'News' : '뉴스' },
     { href: isEn ? '/en/products/' : '/products/', label: isEn ? 'Makeup Products' : '메이크업 제품' },
     { href: localePath('/about/', isEn), label: isEn ? 'About' : '소개' },
@@ -222,10 +226,10 @@ export function ToolsFooter() {
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('tools.footer.toolsTitle')}</h3>
             <ul className="flex flex-col gap-2 text-slate-300 text-sm">
               <li><a href={isEn ? '/en/' : '/analysis/'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
-              <li><a href="/tools/makeup-mbti/" className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
-              <li><a href="/tools/personal-color/" className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
+              <li><a href={localePath('/tools/makeup-mbti/', isEn)} className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
+              <li><a href={localePath('/tools/personal-color/', isEn)} className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href={localePath('/tools/face-shape/', isEn)} className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>
-              <li><a href="/tools/perfume-type/" className="hover:text-primary">{t('tools.footer.perfume')}</a></li>
+              <li><a href={localePath('/tools/perfume-type/', isEn)} className="hover:text-primary">{t('tools.footer.perfume')}</a></li>
               <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary">{isEn ? 'News' : '뉴스'}</a></li>
               <li><a href={isEn ? '/en/products/' : '/products/'} className="hover:text-primary">{isEn ? 'Makeup Products' : '메이크업 제품'}</a></li>
               <li><a href={localePath('/about-makeup-ai/', isEn)} className="hover:text-primary">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>
@@ -249,6 +253,14 @@ export function ToolsFooter() {
             &copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · {isEn ? 'Created by koha · One-person indie project based in South Korea' : '제작: koha · 대한민국 소재 1인 인디 프로젝트'}
           </p>
           <p>{isEn ? 'Contact: ' : '문의: '}<a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
+          {/* 언어 전환은 상단 토글이 하지만 그건 JS 라 크롤러가 못 따라간다. 검색엔진이 반대편
+              언어를 발견하고 링크 가중치를 넘기려면 진짜 <a> 가 하나는 있어야 한다. */}
+          <p>
+            {isEn ? '한국어로 보기: ' : 'Read in English: '}
+            <a href={isEn ? '/' : '/en/'} className="hover:text-primary underline underline-offset-2">
+              {isEn ? '한국어' : 'English'}
+            </a>
+          </p>
           <p className="max-w-3xl mx-auto leading-relaxed">
             {isEn
               ? 'News and guides are compiled and edited (AI-assisted) from public sources on the global beauty market. Market data is cross-referenced against public reports from BeautyMatter, NIQ, Mintel, Sephora, and Olive Young. For medical or legal questions, please consult a qualified professional.'

@@ -55,6 +55,7 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/guides/',
   '/reviews/',
   '/news/',
+  '/tools/',
 ])
 
 // Tool families that have a complete English mirror under /en/tools/<tool>/...
