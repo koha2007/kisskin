@@ -24,6 +24,22 @@ export interface ProductPost {
   highlights: string[]
   /** Longer feature sentences (제형·발색·지속력·컬러 구성·사용팁 등). Detail page only. */
   details?: string[]
+  // ── 아래는 상세 페이지 본문을 두껍게 하려고 2026-07-14 에 추가한 필드들 ──
+  // 배경: 제품 상세가 726자밖에 안 돼 구글이 "크롤링됨 – 색인 안 됨"으로 버렸고(90개 미색인),
+  // Commission Factory 도 같은 이유("콘텐츠가 채워지지 않음")로 퍼블리셔 신청을 반려했다.
+  // 항목 구성은 CF 가 공개한 "좋은 제휴 리뷰란?" 가이드를 그대로 따랐다 —
+  // 누구에게 맞나 / 사용법 / 장점 / 정직한 단점.
+  // 모두 optional 이다: 이 필드들이 생기기 전에 발행된 제품은 없이도 정상 렌더된다.
+  /** 어떤 사람·피부·상황에 맞는지 2문장. */
+  whoFor?: string
+  /** 실제 사용법·팁 2~3문장. */
+  howTo?: string[]
+  /** 장점 2~3개. */
+  pros?: string[]
+  /** 정직한 단점·호불호 1~2개. 없으면 비워 둔다 — 지어내지 말 것. */
+  cons?: string[]
+  /** 색조 제품에 한해 어울리는 퍼스널컬러 + 한 줄 이유(우리 진단 도구로 연결되는 지점). */
+  colorFit?: string
   /** Hero image path — AI mood image at /products/{slug}.webp. Absent → design card. */
   image?: string
   /** Coupang search phrase (attribute/brand based, Korean — Coupang is a KR store). */

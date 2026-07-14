@@ -19,6 +19,23 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Achieve a sheer wash of color with one swipe, or build up for a more vibrant, lively look.',
       'Contains menthol for a light plumping effect, making lips appear healthier and fuller.',
     ],
+    whoFor:
+      'This lip oil is ideal for those seeking comfortable hydration and a natural, dewy finish. It suits daily wear or occasions where a subtle, long-lasting tint is desired.',
+    howTo: [
+      'Apply one swipe for a sheer wash of color and a dewy shine.',
+      'Layer for a more vibrant tint and enhanced plumping effect.',
+    ],
+    pros: [
+      'Comfortable, non-sticky hydration',
+      'Natural, long-lasting tint',
+      'Light plumping effect',
+    ],
+    cons: [
+      'Menthol tingle may not suit all',
+      'Sheer finish may not be for everyone',
+    ],
+    colorFit:
+      'Given the product provides a subtle, buildable tint rather than an opaque color, it is generally versatile and can be adapted to various personal color seasons. The final shade will depend on the specific tint chosen and how it interacts with the individual\'s natural lip color.',
     image: '/products/rare-beauty-soft-pinch-tinted-lip-oil.webp',
     coupangQuery: '레어 뷰티 소프트 핀치 틴티드 립 오일',
     globalQuery: 'Rare Beauty Soft Pinch Tinted Lip Oil',
@@ -41,6 +58,22 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Features an attractive scent that begins with fresh cardamom, followed by soft, warm woody notes of sandalwood, amber, and musk.',
       'Its refreshing, fast-absorbing texture leaves no stickiness, making it suitable for use all year round.',
       'Deep, rich, and long-lasting like a perfume, its subtle lingering scent endures for a long time.',
+    ],
+    whoFor:
+      'Ideal for those seeking a sophisticated, gender-neutral fragrance experience in a hand cream. Suitable for anyone needing daily moisture and a lasting subtle scent.',
+    howTo: [
+      'Apply a small amount to clean, dry hands.',
+      'Gently massage until fully absorbed, focusing on dry areas.',
+      'Reapply as needed throughout the day for continuous hydration and scent.',
+    ],
+    pros: [
+      'Neutral, profound, long-lasting scent.',
+      'Moisturizes with shea butter & Vitamin E.',
+      'Fast-absorbing, non-sticky texture.',
+    ],
+    cons: [
+      'Fragrance may not appeal to all.',
+      'Scent strength might be too subtle for some.',
     ],
     image: '/products/nonfiction-santal-cream-hand-cream.webp',
     coupangQuery: '논픽션 상탈크림 핸드크림',
@@ -65,6 +98,22 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'It repairs damage caused by bleach, color, chemical services, and heat, restoring strength, softness, smoothness, and bounce to the hair.',
       'The light, creamy texture can be used on all hair types without weighing it down, making hair soft and reducing tangles.',
     ],
+    whoFor:
+      'Ideal for anyone with hair damaged by chemical treatments like coloring or perms, and frequent heat styling. Suitable for all hair types seeking to restore strength, softness, and bounce.',
+    howTo: [
+      'After shampooing, gently towel-dry your hair until it\'s damp, not dripping wet.',
+      'Apply a small amount of the mask evenly through your hair, focusing on damaged areas.',
+      'Wait for just 4 minutes for the treatment to activate; do not rinse it out.',
+    ],
+    pros: [
+      'Fundamentally repairs damaged hair',
+      'Quick 4-minute leave-in treatment',
+      'Restores strength, softness, and bounce',
+    ],
+    cons: [
+      'Higher price point',
+      'Requires specific application steps',
+    ],
     image: '/products/k18-leave-in-molecular-repair-hair-mask.webp',
     coupangQuery: 'K18 리브인 몰레큘러 리페어 헤어 마스크',
     globalQuery: 'K18 Leave-In Molecular Repair Hair Mask',
@@ -87,6 +136,21 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Provides powerful SPF50+ PA++++ UV protection, shielding skin completely from UVA and UVB rays.',
       'Light, moist lotion texture absorbs quickly without a white cast or stickiness, leaving a fresh finish.',
       'Helps control excess sebum, maintaining a clean base for makeup for a long time without slippage.',
+    ],
+    whoFor:
+      'This sun cream is ideal for all skin types, especially those seeking a soothing, non-sticky finish under makeup. It\'s perfect for daily use to protect and hydrate skin.',
+    howTo: [
+      'Apply an appropriate amount evenly to face and neck as the last step of your morning skincare routine.',
+      'Reapply every 2-3 hours during prolonged sun exposure, or after sweating/swimming.',
+    ],
+    pros: [
+      'Soothes skin with 30% Heartleaf extract',
+      'SPF50+ PA++++ powerful UV protection',
+      'No white cast, fresh, non-sticky finish',
+    ],
+    cons: [
+      'May require reapplication for full protection',
+      'Specific scent not mentioned, could be a factor',
     ],
     image: '/products/anua-heartleaf-silky-moisture-sun-cream.webp',
     coupangQuery: '아누아 어성초 실키 모이스처 선크림',
@@ -111,6 +175,22 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'The warm rosebud pink shade, \'Color of Dreams,\' blends naturally like your own flush, adding lovely vitality.',
       'Applies sheer but can be layered to build desired color intensity, allowing for looks from natural to vibrant.',
     ],
+    whoFor:
+      'Ideal for those seeking a natural, buildable flush on lips and cheeks. Suits all skin types, especially those who prefer a dewy, youthful finish.',
+    howTo: [
+      'Dab onto the apples of your cheeks with fingertips and blend upwards towards the temples for a natural lift.',
+      'Apply directly to lips with a finger or brush, then gently blot for a soft, diffused tint.',
+      'Layer for increased color intensity on both lips and cheeks.',
+    ],
+    pros: [
+      'Chiffon-light, blendable cream formula',
+      'Moisturizes with raspberry leaf and Vitamin E',
+      'Natural, buildable warm rosebud pink',
+    ],
+    cons: [
+      'Sheer initial application requires layering',
+      'Cream blushes may have shorter wear time',
+    ],
     image: '/products/charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams.webp',
     coupangQuery: '샬롯 틸버리 필로우 토크 립 앤 치크 글로우',
     globalQuery: 'Charlotte Tilbury Pillow Talk Lip & Cheek Glow Colour of Dreams',
@@ -134,6 +214,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Adheres thinly to the skin, blending smoothly without caking or disturbing base makeup.',
       'Formulated with lotus, gardenia, and white water lily extracts to comfort the skin, providing excellent longevity for lasting color.',
     ],
+    whoFor:
+      'This blush is ideal for those seeking buildable, long-lasting color with a natural finish. It suits all skin types looking for a comfortable, non-cakey application.',
+    howTo: [
+      'Apply one or two dots directly onto the apples of your cheeks.',
+      'Gently blend with your fingertips, a brush, or a sponge.',
+      'Layer for a more intense color payoff as desired.',
+    ],
+    pros: [
+      'Highly pigmented, a little goes a long way',
+      'Available in matte and dewy finishes',
+      'Blends seamlessly without caking',
+    ],
+    cons: [
+      'Pigmentation can be intense for beginners',
+      'Requires quick blending due to fast drying',
+    ],
+    colorFit:
+      'This product offers a wide range of shades, making it suitable for all personal color seasons. The key is to select a shade that complements your specific undertones, whether warm or cool.',
     image: '/products/rare-beauty-soft-pinch-liquid-blush.webp',
     coupangQuery: '레어 뷰티 소프트 핀치 리퀴드 블러쉬',
     globalQuery: 'Rare Beauty Soft Pinch Liquid Blush',
@@ -157,6 +255,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'The soft, velvet-like semi-matte texture adheres comfortably to the skin, allowing for natural-looking skin even when reapplied without looking thick.',
       'Contains high-efficacy skincare ingredients for comfortable use on sensitive skin, and is certified vegan by EVE Vegan in France.',
     ],
+    whoFor:
+      'This cushion is ideal for those seeking a velvet matte finish with strong coverage and long-lasting wear. It suits combination to oily skin types looking for a comfortable, non-caking base.',
+    howTo: [
+      'Press the puff lightly into the cushion to pick up a small amount of product.',
+      'Gently pat the puff onto your face, starting from the center and blending outwards.',
+      'For more coverage, layer by lightly patting again on desired areas.',
+    ],
+    pros: [
+      'High-definition, fine powder covers imperfections.',
+      'Strong, fixer-like staying power minimizes transfer.',
+      'Comfortable, velvet-like semi-matte texture.',
+    ],
+    cons: [
+      'Matte finish may not suit dry skin.',
+      'Limited shade range is common for K-beauty cushions.',
+    ],
+    colorFit:
+      'Autumn Warm / Winter Cool. The velvet matte finish and strong coverage often complement the more muted or deeper tones associated with these seasons, providing a sophisticated base without excessive shine.',
     image: '/products/espoir-pro-tailor-be-velvet-cover-cushion-new-class.webp',
     coupangQuery: '에스쁘아 프로 테일러 비벨벳 커버 쿠션 뉴클래스',
     globalQuery: 'Espoir Pro Tailor Be Velvet Cover Cushion New Class',
@@ -180,6 +296,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'High-adherence shimmer pearls deliver noticeable color payoff and sparkle, with a moist feel for a smooth, glossy finish.',
       'The small, cute bento box packaging is easy to carry, and the built-in mirror allows for touch-ups anytime.',
     ],
+    whoFor:
+      'Ideal for those who desire convenient, shimmery eye looks on the go. Suits all skin types seeking a radiant, glossy finish for everyday glamour or special occasions.',
+    howTo: [
+      'Using your finger, gently pat the desired shade onto your eyelids.',
+      'Layer different shades for a more dimensional and personalized look.',
+      'Utilize the built-in mirror for easy application and touch-ups anywhere.',
+    ],
+    pros: [
+      'Smooth, creamy powder texture',
+      'High-adherence shimmer with payoff',
+      'Portable bento box design with mirror',
+    ],
+    cons: [
+      'Limited shade range per trio',
+      'Shimmer finish may not suit all preferences',
+    ],
+    colorFit:
+      'This product, being a shimmer eyeshadow, typically enhances various personal color seasons depending on the specific undertones of the available trios. Without specific shade names, it\'s hard to pinpoint one season; however, shimmer is generally versatile.',
     image: '/products/kaja-beauty-bento-bouncy-shimmer-eyeshadow-trio-orange-blossom.webp',
     coupangQuery: '카자 뷰티 벤토 쉬머 아이섀도우',
     globalQuery: 'Kaja Beauty Bento Bouncy Shimmer Eyeshadow Trio Orange Blossom',
@@ -202,6 +336,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Fills in fine lines on the lips for a smooth, even lip makeup, creating a blurred effect.',
       'Contains moisturizing ingredients like palm seed butter, mango seed butter, and avocado oil for a comfortable finish without dryness.',
     ],
+    whoFor:
+      'Ideal for those who enjoy a matte lip look and want to transform their existing lip product collection. Suitable for all skin tones looking to achieve a blurred, smooth lip appearance.',
+    howTo: [
+      'Apply a small amount onto your finger or a brush after applying your dewy lip product.',
+      'Gently pat and blend over the lips until the desired matte effect is achieved.',
+      'Start with a tiny amount and build up as needed.',
+    ],
+    pros: [
+      'Transforms dewy lips to matte finish',
+      'Blurs fine lines for smooth lips',
+      'Moisturizing with natural butters/oils',
+    ],
+    cons: [
+      'May alter the original lip color slightly',
+      'Requires an extra step in application',
+    ],
+    colorFit:
+      'Not applicable. This product is a finish modifier, not a color, and can be used with any personal color season\'s lip shades.',
     image: '/products/romand-lip-matter.webp',
     coupangQuery: '롬앤 립 매터',
     globalQuery: 'romand lip matter',
@@ -225,6 +377,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Available in 8 diverse colors, from clear vintage pink to mysterious mauve plum, allowing you to create vibrant and captivating lip makeup tailored to your skin tone.',
       'The transparent and vivid color is maintained even with multiple applications without clumping, blending with your natural lip color for a more natural look.',
     ],
+    whoFor:
+      'Ideal for those seeking a glossy, plump lip look without stickiness. Suits individuals who appreciate a natural, buildable tint.',
+    howTo: [
+      'Apply directly to lips using the applicator for a glossy finish.',
+      'For a more subtle tint, dab onto the center of lips and blend outwards.',
+      'Layer for increased color vibrancy and shine.',
+    ],
+    pros: [
+      'Non-sticky, lightweight syrup glaze texture',
+      'Natural plumping effect for fuller lips',
+      'Clear, buildable color without clumping',
+    ],
+    cons: [
+      'Glossy finish may require reapplication',
+      'May transfer easily',
+    ],
+    colorFit:
+      'Its diverse range includes shades for all personal color seasons. For example, clear vintage pink suits Spring Warm, while mysterious mauve plum complements Winter Cool.',
     image: '/products/naming-high-dew-lip-glaze.webp',
     coupangQuery: '네이밍 하이 듀 립 글레이즈',
     globalQuery: 'naming high dew lip glaze',
@@ -248,6 +418,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Features medium-brightness and saturation colors that enhance your natural lip tone for a clear and lively look.',
       'This is the first lip makeup line from the \'Gumiho Collection,\' reinterpreting the traditional Korean folklore of the \'Gumiho\' (nine-tailed fox).',
     ],
+    whoFor:
+      'This gloss-tint hybrid is ideal for those seeking a natural, vibrant lip look without heavy stickiness. It\'s perfect for daily wear or occasions where a clear, lively lip is desired.',
+    howTo: [
+      'Apply directly to clean, dry lips for an initial wash of color and shine.',
+      'For more intensity, apply a second layer after the first has settled.',
+      'Can be dabbed in the center of lips for a gradient effect.',
+    ],
+    pros: [
+      'Combines gloss shine with tint color.',
+      'Smooth, non-sticky application.',
+      'Enhances natural lip tone.',
+    ],
+    cons: [
+      'Medium color saturation may not suit all.',
+      'May require reapplication for sustained shine.',
+    ],
+    colorFit:
+      'All seasons. The medium-brightness and saturation are designed to enhance natural lip tones across a wide spectrum.',
     image: '/products/dinto-bare-gloss.webp',
     coupangQuery: '딘토 베어글로스',
     globalQuery: 'Dinto Bare Gloss',
@@ -271,6 +459,24 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Shades range from everyday MLBB tones to vivid reds, so there’s a pick for every taste.',
       'Less drying — it also works layered lightly over lip balm for a dewy glass-lip look.',
     ],
+    whoFor:
+      'This tint is ideal for those seeking a lightweight, glossy lip color for daily wear. It suits all skin tones, offering natural to vivid shades that build without heaviness.',
+    howTo: [
+      'Apply directly to clean lips for a sheer wash of color.',
+      'For more intensity, layer the tint, allowing a moment between coats.',
+      'Pair with lip balm underneath for extra hydration and a dewy glass-lip effect.',
+    ],
+    pros: [
+      'Lightweight, non-clumping formula',
+      'Buildable, natural color payoff',
+      'Glassy, dewy finish',
+    ],
+    cons: [
+      'May require reapplication after meals',
+      'Glossy finish might not suit all preferences',
+    ],
+    colorFit:
+      'rom&nd Glasting Water Tint offers a diverse range, including options for all personal color seasons. For example, some shades lean Spring Warm for bright, lively looks, while others suit Summer Cool with muted, clear tones.',
     image: '/products/romnd-glasting-water-tint-sample.webp',
     coupangQuery: '롬앤 글래스팅 워터 틴트',
     globalQuery: 'rom&nd Glasting Water Tint',

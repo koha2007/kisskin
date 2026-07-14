@@ -1,53 +1,38 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
+import AnalysisContent from '../../src/components/makeup/AnalysisContent'
 
 // free-pivot P1: 새 무료 플로우(업로드→스타일→마스크→결과)로 교체.
 // 기존 유료 리포트 앱(AnalysisApp)은 P1-5(크레딧) 통합까지 파일 보존.
-const AnalysisApp = lazy(() => import('../../src/components/makeup/MakeupFlow'))
+const MakeupFlow = lazy(() => import('../../src/components/makeup/MakeupFlow'))
 
 const Loading = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
     <div style={{ width: 40, height: 40, border: '3px solid #f3f3f3', borderTop: '3px solid #eb4763', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
     <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
   </div>
 )
 
-/** SSR에서는 SEO용 정적 콘텐츠를 렌더링하고, 클라이언트에서 실제 앱을 로드 */
-function SeoShell() {
-  return (
-    <div style={{ maxWidth: 600, margin: '0 auto', padding: '40px 20px', fontFamily: 'system-ui, sans-serif' }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: 16 }}>
-        AI 메이크업 — 9가지 룩 + 헤어 컬러
-      </h1>
-      <p style={{ color: '#555', lineHeight: 1.6, marginBottom: 24 }}>
-        셀카 한 장으로 9가지 K-뷰티 메이크업 룩을 AI가 입혀드립니다. 룩에 어울리는 헤어 컬러까지 함께 바뀌고, 얼굴은 그대로 유지됩니다.
-        피부 톤 분석, 맞춤 화장품 추천까지 한 번에 받아보세요.
-      </p>
-      <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: 12 }}>분석 과정</h2>
-      <ol style={{ color: '#555', lineHeight: 1.8, paddingLeft: 20 }}>
-        <li>셀카 사진 업로드</li>
-        <li>얼굴을 그대로 유지한 채 메이크업만 합성</li>
-        <li>9가지 메이크업 룩 + 룩에 맞는 헤어 컬러</li>
-        <li>화장품 추천 리포트 제공</li>
-      </ol>
-      <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginTop: 24, marginBottom: 12 }}>제공되는 메이크업 스타일</h2>
-      <ul style={{ color: '#555', lineHeight: 1.8, paddingLeft: 20 }}>
-        <li>Cloudglow Skin · Idol Blur Base · Blurred Gradient Tint</li>
-        <li>Berry Stain Lip · Glazed Lavender Lip · K-Pop Idol Shimmer</li>
-        <li>Watercolor Flush · Lingerie Nude · Copper Auburn Hair</li>
-      </ul>
-    </div>
-  )
-}
-
 export default function Page() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => { setMounted(true) }, [])
 
-  if (!mounted) return <SeoShell />
-
   return (
-    <Suspense fallback={<Loading />}>
-      <AnalysisApp />
-    </Suspense>
+    <>
+      {/* 앱은 브라우저 API 를 쓰므로 클라이언트에서만 뜬다. SSR 에서는 스피너 자리만 잡는다. */}
+      {mounted ? (
+        <Suspense fallback={<Loading />}>
+          <MakeupFlow />
+        </Suspense>
+      ) : (
+        <Loading />
+      )}
+
+      {/* 본문 — SSR 과 클라이언트가 **동일하게** 렌더한다.
+          예전 구조(SeoShell)는 SSR 에서만 SEO 텍스트를 그리고 마운트되면 앱으로 통째로 교체했다.
+          그래서 ① 실제 사용자는 그 글을 영영 못 봤고 ② JS 를 실행하는 구글봇도 앱만 보게 되어
+          그 글이 아무 일도 하지 않았다(서치콘솔 본문 394자). 크롤러와 사용자에게 다른 걸 보여주는
+          모양새라 위험하기도 했다. 이제 둘이 같은 것을 본다. */}
+      <AnalysisContent />
+    </>
   )
 }

@@ -145,6 +145,86 @@ export default function ProductShowcase({ slug }: Props) {
           </section>
         )}
 
+        {/* 누구에게 맞나 / 사용법 / 장단점 — 2026-07-14 신설.
+            제품 상세가 726자뿐이라 구글이 색인을 안 붙였고(“크롤링됨 – 색인 안 됨”),
+            Commission Factory 도 같은 이유로 반려했다. 항목 구성은 CF 가 공개한
+            “좋은 제휴 리뷰란?” 가이드를 따랐다. 필드가 없는 구 제품은 통째로 렌더되지 않는다. */}
+        {item.whoFor && (
+          <section className="mt-7">
+            <h2 className="text-sm font-bold tracking-[0.12em] text-slate-500 uppercase mb-3">
+              {isEn ? 'Who it suits' : '누구에게 맞나'}
+            </h2>
+            <p className="text-[15px] leading-relaxed text-slate-700">{item.whoFor}</p>
+          </section>
+        )}
+
+        {item.colorFit && (
+          <section className="mt-7 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <h2 className="text-sm font-bold tracking-[0.12em] text-slate-500 uppercase mb-2">
+              {isEn ? 'Personal color fit' : '어울리는 퍼스널 컬러'}
+            </h2>
+            <p className="text-[15px] leading-relaxed text-slate-700">{item.colorFit}</p>
+            <a
+              href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'}
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:text-primary"
+            >
+              {isEn ? 'Not sure which you are? Find out free' : '내 퍼스널 컬러가 뭔지 모른다면 — 무료 진단'}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </section>
+        )}
+
+        {item.howTo && item.howTo.length > 0 && (
+          <section className="mt-7">
+            <h2 className="text-sm font-bold tracking-[0.12em] text-slate-500 uppercase mb-3">
+              {isEn ? 'How to use it' : '사용법'}
+            </h2>
+            <ol className="space-y-2.5">
+              {item.howTo.map((h, i) => (
+                <li key={h} className="flex gap-2.5 text-[15px] leading-relaxed text-slate-700">
+                  <span className="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-navy text-white text-[11px] font-bold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        {((item.pros && item.pros.length > 0) || (item.cons && item.cons.length > 0)) && (
+          <section className="mt-7 grid gap-4 sm:grid-cols-2">
+            {item.pros && item.pros.length > 0 && (
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-5">
+                <h2 className="text-sm font-bold text-emerald-800 mb-3">
+                  {isEn ? 'What works' : '좋은 점'}
+                </h2>
+                <ul className="space-y-2">
+                  {item.pros.map((p) => (
+                    <li key={p} className="text-[14px] leading-relaxed text-slate-700">
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {item.cons && item.cons.length > 0 && (
+              <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-5">
+                <h2 className="text-sm font-bold text-amber-800 mb-3">
+                  {isEn ? 'What to know first' : '알아둘 점'}
+                </h2>
+                <ul className="space-y-2">
+                  {item.cons.map((c) => (
+                    <li key={c} className="text-[14px] leading-relaxed text-slate-700">
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        )}
+
         {/* Buy — region-aware affiliate buttons */}
         <section className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between gap-3 mb-4">
@@ -211,17 +291,33 @@ export default function ProductShowcase({ slug }: Props) {
         </div>
       </main>
 
+      {/* Product 스키마가 아니라 Article 이다 — 의도적이다.
+          우리는 이 제품을 **팔지 않는다**(쿠팡·클리오로 보낼 뿐). schema.org/Product 는 리치결과를
+          받으려면 offers / review / aggregateRating 중 하나가 필수인데, 셋 다 우리가 정직하게
+          채울 수 없다(가격 모름, 우리가 매긴 평점 없음). 실제로 서치콘솔이 이 페이지들을
+          "'offers', 'review' 또는 'aggregateRating'을 지정해야 합니다" 오류 7건으로 잡았다.
+          ⚠ 평점을 지어내서 채우지 말 것 — 과거에 가짜 평점(4.8/150)을 넣었다가 구글 정책 위반으로
+          걷어낸 전과가 있다. 이 페이지의 실체는 "제품을 소개하는 글"이므로 Article 이 정직하고 유효하다. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: `${item.brand} ${item.name}`,
-            brand: { '@type': 'Brand', name: item.brand },
+            '@type': 'Article',
+            headline: `${item.brand} ${item.name}`,
             description: item.summary,
-            category: categoryLabel,
+            articleSection: categoryLabel,
+            inLanguage: isEn ? 'en' : 'ko',
+            datePublished: item.date,
+            dateModified: item.date,
             ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
+            author: { '@type': 'Organization', name: 'kissinskin', url: 'https://kissinskin.net/' },
+            publisher: {
+              '@type': 'Organization',
+              name: 'kissinskin',
+              logo: { '@type': 'ImageObject', url: 'https://kissinskin.net/logo-sm.webp' },
+            },
+            about: { '@type': 'Thing', name: `${item.brand} ${item.name}` },
             mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteBase}/${item.slug}/` },
           }),
         }}
