@@ -5,6 +5,42 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'rare-beauty-always-an-optimist-pore-diffusing-primer',
+    category: 'base',
+    brand: '레어 뷰티',
+    name: '올웨이즈 언 옵티미스트 포어 디퓨징 프라이머',
+    title: '레어 뷰티, 모공과 유분을 한 번에 잡아주는 프라이머',
+    summary:
+      '세포라 베스트셀러! 모공과 잔주름을 블러 처리한 듯 커버하며, 메이크업 지속력을 높여주는 가볍고 촉촉한 젤 프라이머입니다. 끈적임 없이 피부에 매끄럽게 밀착되어 하루 종일 산뜻함을 선사해요.',
+    highlights: ['모공, 잔주름 블러링', '메이크업 지속력 강화', '수분 공급 및 유분 조절', '가벼운 젤 텍스처'],
+    details: [
+      '가벼운 젤 제형이 피부에 부드럽게 발려 모공과 잔주름을 블러 처리한 듯 커버하여 피부결을 매끄럽게 정돈합니다.',
+      '히알루론산과 녹차 추출물 성분이 메이크업 전 피부에 수분을 공급하고 진정시켜 편안함을 유지하며, 하루 종일 유분을 조절해 메이크업이 번들거리지 않도록 돕습니다.',
+      '메이크업 지속력을 높여주며, 단독으로 사용 시에도 피부를 보송하고 매끈하게 연출해 줍니다.',
+    ],
+    whoFor:
+      '모공과 잔주름이 고민이거나, 메이크업 지속력을 높이고 싶은 모든 피부 타입에 적합합니다. 특히 유분기가 많아 메이크업이 쉽게 무너지는 복합성 및 지성 피부에 더욱 효과적입니다.',
+    howTo: [
+      '깨끗하게 보습된 피부에 1-2회 펌핑하여 손가락으로 부드럽게 펴 바릅니다.',
+      '파운데이션이나 컨실러 전에 사용하거나, 민낯에 단독으로 발라 매끈한 피부를 연출할 수 있습니다.',
+    ],
+    pros: [
+      '모공과 잔주름을 효과적으로 커버하여 피부결을 매끄럽게 만들어줍니다.',
+      '메이크업 지속력을 높여주고 유분기를 효과적으로 잡아줍니다.',
+      '가벼운 젤 제형으로 답답함 없이 편안하게 사용할 수 있습니다.',
+    ],
+    cons: [
+      '일부 사용자들은 모공 커버 효과가 기대만큼 드라마틱하지 않다고 느낄 수 있습니다.',
+    ],
+    image: '/products/rare-beauty-always-an-optimist-pore-diffusing-primer.webp',
+    coupangQuery: '레어 뷰티 올웨이즈 언 옵티미스트 포어 디퓨징 프라이머',
+    globalQuery: 'Rare Beauty Always an Optimist Pore Diffusing Primer',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-07-15',
+    tags: ['모공프라이머', '메이크업베이스', '지속력', '유분조절', '블러링'],
+  },
+  {
     slug: 'hince-signature-brow-shaper-clear',
     category: 'eye',
     brand: '힌스',

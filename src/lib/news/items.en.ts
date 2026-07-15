@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-odm-record-q3-2026',
+    category: 'global',
+    title: 'Korean ODMs Forecast Record-Breaking Q3 2026 Performance… \'H1 Boom, H2 Bust\' Formula Broken',
+    summary:
+      'The traditional \'H1 boom, H2 bust\' formula in the K-beauty market is being shattered in H2 2026, with Korean cosmetics ODM companies forecasting record-breaking performance even in Q3. Due to an overwhelming surge in orders, production lines are running at full capacity, with some companies even having to decline requests for additional production.',
+    body: [
+      '> TLDR: K-beauty ODM Performance Soars | \'H1 Boom, H2 Bust\' Formula Irrelevant | Order Volume Surges',
+      'The global success of K-beauty continues its strong momentum into H2 2026, leading to exceptional growth for domestic cosmetics ODM (Original Development Manufacturing) companies. The traditional \'H1 boom, H2 bust\' (strong first half, weak second half) formula in the cosmetics market is expected to be rendered irrelevant.',
+      '> DATA: Park Jong-dae, an analyst at Hana Securities, analyzed, "Cosmetics ODM companies\' Q2 performance exceeded market expectations, and Q3 revenue is projected to be even larger than Q2." Kolmar Korea\'s domestic business revenue for Q2 is estimated to increase by 25% year-on-year, while Genic\'s Q2 revenue surged by nearly 50% quarter-on-quarter, surpassing KRW 40 billion.',
+      'Unable to keep up with the influx of orders, some hydrogel mask pack ODM companies have even had to decline requests from major brands for an additional 1 million units. They are overcoming adverse conditions, such as a shortage of operating days in Q3, by transitioning to challenging two-shift work systems and investing in facilities.',
+      'This phenomenon suggests that global demand for K-beauty is not confined to specific periods but continues steadily throughout the year, demonstrating that ODM companies\' innovative production capabilities are a key driver of K-beauty\'s growth.',
+    ],
+    date: '2026-07-15',
+    readMinutes: 3,
+    tags: ['K-beauty', 'ODM', 'Exports', 'Market Trends'],
+  },
+  {
     slug: 'kbeauty-sun-serum-surge-2026',
     category: 'skincare',
     title: 'K-Beauty\'s Summer 2026 \'Sun Serum\' Craze: Transaction Volume Jumps 149% YoY',

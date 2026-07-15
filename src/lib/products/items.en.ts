@@ -5,6 +5,42 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'rare-beauty-always-an-optimist-pore-diffusing-primer',
+    category: 'base',
+    brand: 'Rare Beauty',
+    name: 'Always An Optimist Pore Diffusing Primer',
+    title: 'Rare Beauty Primer: Controls Pores and Oil Simultaneously',
+    summary:
+      'A Sephora bestseller! This lightweight, hydrating gel primer blurs pores and fine lines while extending makeup wear. It adheres smoothly to the skin without stickiness, keeping you fresh all day.',
+    highlights: ['Pore & fine line blurring', 'Enhances makeup longevity', 'Hydrates & controls oil', 'Lightweight gel texture'],
+    details: [
+      'The lightweight gel formula glides smoothly onto the skin, blurring pores and fine lines for a refined skin texture.',
+      'Formulated with hyaluronic acid and green tea extract, it hydrates and soothes the skin before makeup, ensuring comfort and controlling oil throughout the day to prevent makeup from becoming greasy.',
+      'It extends makeup wear and can also be used alone to create a smooth, matte finish.',
+    ],
+    whoFor:
+      'Suitable for all skin types concerned with pores and fine lines, or those looking to extend makeup wear. Particularly effective for combination and oily skin types prone to makeup breakdown due to excess oil.',
+    howTo: [
+      'Pump 1-2 times onto clean, moisturized skin and gently spread with fingers.',
+      'Use before foundation or concealer, or apply alone on bare skin for a smooth finish.',
+    ],
+    pros: [
+      'Effectively covers pores and fine lines, creating a smooth skin texture.',
+      'Enhances makeup longevity and effectively controls oil.',
+      'Lightweight gel formula provides comfortable wear without feeling heavy.',
+    ],
+    cons: [
+      'Some users may find the pore-covering effect less dramatic than expected.',
+    ],
+    image: '/products/rare-beauty-always-an-optimist-pore-diffusing-primer.webp',
+    coupangQuery: '레어 뷰티 올웨이즈 언 옵티미스트 포어 디퓨징 프라이머',
+    globalQuery: 'Rare Beauty Always an Optimist Pore Diffusing Primer',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-07-15',
+    tags: ['poreprimer', 'makeupbase', 'longlasting', 'oilcontrol', 'blurring'],
+  },
+  {
     slug: 'hince-signature-brow-shaper-clear',
     category: 'eye',
     brand: 'hince',
