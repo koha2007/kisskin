@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'romand-better-than-cheek-n02-vine-nude',
+    category: 'cheek',
+    brand: 'rom&nd',
+    name: 'Better Than Cheek N02 Vine Nude',
+    title: 'rom&nd Better Than Cheek N02 Vine Nude: Achieve a Goddess-like Aura with Natural Nude Blush!',
+    summary:
+      'rom&nd Better Than Cheek adds natural vitality with a calm, subtle nude tone, free of fluorescent tints. Its fine particles adhere thinly to the skin, covering pores and imperfections.',
+    highlights: ['Fine powder particles', 'Pore/imperfection coverage', 'Non-fluorescent nude tone', 'Watercolor-like pigmentation'],
+    details: [
+      'It develops clear and transparent color without cakiness, allowing for natural, watercolor-like pigmentation even with multiple layers without clumping.',
+      'Silky powder particles delicately cover skin imperfections and pores, completing a smooth, soft-focus skin finish.',
+      'A calm nude beige color that adds a subtle flush to warm-toned skin, perfect for natural, understated makeup.',
+      'Enhances makeup longevity, maintaining clean cheeks all day without worrying about blush fading.',
+    ],
+    whoFor:
+      'Recommended for warm-toned skin types who prefer a natural flush. Especially suitable for those who want to achieve a soft and smooth skin finish.',
+    howTo: [
+      'Apply a small amount to a brush and gently tap onto the apples of the cheeks when smiling.',
+      'For more vivid color and longer wear, try using a wedge puff or layering over a cream blush.',
+    ],
+    pros: [
+      'Fine particles effectively cover pores and imperfections.',
+      'Develops clear and transparent color without cakiness.',
+      'Natural nude tone is great for daily makeup.',
+    ],
+    cons: [
+      'May appear yellow on cool-toned skin, so not recommended.',
+      'May require multiple applications for those who prefer intense color.',
+    ],
+    colorFit:
+      'Autumn Warm. A nude beige color that best suits Autumn Warm tones. Great for creating a calm and sophisticated atmosphere.',
+    image: '/products/romand-better-than-cheek-n02-vine-nude.webp',
+    coupangQuery: '롬앤 베러 댄 치크 N02 바인 누드',
+    globalQuery: 'romand better than cheek n02 vine nude',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-07-16',
+    tags: ['rom&ndblush', 'nudeblush', 'warmtoneblush', 'powderblush', 'dailyblush'],
+  },
+  {
     slug: 'rare-beauty-always-an-optimist-pore-diffusing-primer',
     category: 'base',
     brand: 'Rare Beauty',

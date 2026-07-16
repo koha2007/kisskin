@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-hair-care-export-surge-2026',
+    category: 'hair',
+    title: 'K-Beauty\'s Hair Product Exports Surge 30.6% in H1…Accelerating Global Expansion of Haircare Market',
+    summary:
+      'The K-Beauty industry is accelerating its global market expansion, showing unprecedented growth in the haircare sector beyond color cosmetics and basic skincare. Notably, from January to May this year, exports of hair products recorded $232.72 million, a 30.6% increase compared to the previous year.',
+    body: [
+      '> TLDR: Haircare exports surge | Jan-May records $230M | US, China, Japan key markets',
+      'K-Beauty is expanding its influence into the haircare sector, moving beyond the existing popularity of color cosmetics and basic skincare in the global market, thereby securing new growth engines. According to customs import/export trade statistics, hair products have shown a sharp increase in exports.',
+      '> DATA: From January to May 2026, exports of hair products amounted to approximately $232.72 million (approximately 350 billion KRW), a 30.6% surge compared to $178.15 million during the same period last year. Key export destinations include the United States, China, and Japan.',
+      'In particular, K-Hair Beauty\'s differentiated competitive edge, including patented technologies related to hair loss, traditional Korean herbal (hanbang) ingredients, and enzyme-based technologies, is highly valued by overseas consumers. Brands like LG H&H\'s \'Dr. Groot\' are leading the market by focusing on hair loss care.',
+      'The expansion of K-Beauty\'s haircare market is expected to be a significant opportunity to showcase Korea\'s innovative technology and hanbang aesthetics to global consumers, going beyond mere product sales. This trend will contribute to the continuous growth and diversification of K-Beauty.',
+    ],
+    date: '2026-07-16',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Haircare', 'Exports', 'Global Market', 'Hair Loss Care'],
+  },
+  {
     slug: 'kbeauty-odm-record-q3-2026',
     category: 'global',
     title: 'Korean ODMs Forecast Record-Breaking Q3 2026 Performance… \'H1 Boom, H2 Bust\' Formula Broken',

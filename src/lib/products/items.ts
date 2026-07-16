@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'romand-better-than-cheek-n02-vine-nude',
+    category: 'cheek',
+    brand: '롬앤',
+    name: '베러 댄 치크 N02 바인 누드',
+    title: '롬앤 베러 댄 치크 N02 바인 누드: 내추럴 누드톤 블러셔로 분위기 여신 등극!',
+    summary:
+      '형광기 없이 차분하고 은은한 누드톤으로 자연스러운 생기를 더해주는 롬앤 베러 댄 치크. 고운 입자가 피부에 얇게 밀착되어 모공과 요철까지 커버해줍니다.',
+    highlights: ['고운 파우더 입자', '모공/요철 커버', '형광기 없는 누드톤', '수채화 발색'],
+    details: [
+      '텁텁함 없이 맑고 투명하게 발색되어 여러 번 덧발라도 뭉침 없이 자연스러운 수채화 발색을 연출할 수 있습니다.',
+      '실키한 파우더 입자가 피부 요철과 모공을 섬세하게 커버하여 블러 처리한 듯 매끈하고 보송한 피부 표현을 완성합니다.',
+      '차분한 누드 베이지 컬러로, 웜톤 피부에 은은한 혈색을 더해주어 과하지 않은 내추럴 메이크업에 활용하기 좋습니다.',
+      '메이크업 지속력을 높여주어 하루 종일 블러셔 무너짐 걱정 없이 깔끔한 치크를 유지할 수 있습니다.',
+    ],
+    whoFor:
+      '자연스러운 혈색을 선호하는 웜톤 피부 타입에게 추천합니다. 특히 뽀송하고 매끈한 피부 표현을 연출하고 싶은 분들에게 잘 어울립니다.',
+    howTo: [
+      '브러쉬에 내용물을 소량 묻혀 웃었을 때 올라오는 앞볼에 가볍게 톡톡 두드리듯 발라줍니다.',
+      '좀 더 선명한 발색과 지속력을 원한다면 웨지 퍼프를 사용하거나, 크림 블러셔 위에 레이어링하여 사용해보세요.',
+    ],
+    pros: [
+      '고운 입자로 모공과 요철을 효과적으로 커버합니다.',
+      '텁텁함 없이 맑고 투명하게 발색됩니다.',
+      '자연스러운 누드톤으로 데일리 메이크업에 활용하기 좋습니다.',
+    ],
+    cons: [
+      '쿨톤 피부에는 자칫 노랗게 보일 수 있어 추천하지 않습니다.',
+      '진한 발색을 선호하는 경우 여러 번 덧발라야 할 수 있습니다.',
+    ],
+    colorFit:
+      '가을 웜톤에 가장 잘 어울리는 누드 베이지 계열의 컬러입니다. 차분하고 고급스러운 분위기를 연출하기 좋습니다.',
+    image: '/products/romand-better-than-cheek-n02-vine-nude.webp',
+    coupangQuery: '롬앤 베러 댄 치크 N02 바인 누드',
+    globalQuery: 'romand better than cheek n02 vine nude',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-07-16',
+    tags: ['롬앤블러셔', '누드블러셔', '웜톤블러셔', '파우더블러셔', '데일리블러셔'],
+  },
+  {
     slug: 'rare-beauty-always-an-optimist-pore-diffusing-primer',
     category: 'base',
     brand: '레어 뷰티',
