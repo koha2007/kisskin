@@ -30,6 +30,7 @@ const RATE_LIMITS: Record<string, { maxRequests: number; windowMs: number }> = {
   '/api/delete-account': { maxRequests: 3, windowMs: 300_000 }, // 3 per 5 minutes
   '/api/refund': { maxRequests: 5, windowMs: 300_000 },        // 5 per 5 minutes
   '/api/makeup-edit': { maxRequests: 6, windowMs: 60_000 },    // 6 per minute (OpenAI 비용 보호)
+  '/api/register-push-token': { maxRequests: 10, windowMs: 60_000 }, // 10 per minute (앱 토큰 등록 스팸 방지)
 }
 
 function checkRateLimit(ip: string, pathname: string): boolean {
