@@ -1,0 +1,61 @@
+name: Send app push notification
+
+# 앱 푸시 수동 발송기 — Actions 탭 → Send app push notification → Run workflow
+# 제목/내용 입력하면 등록된 모든 기기에 발송된다 (기기 언어별 ko/en 문구 분리).
+#
+# 필요: 저장소 Settings → Secrets and variables → Actions → New repository secret
+#        이름 CLOUDFLARE_API_TOKEN — Workers KV Storage:Edit 권한의 Cloudflare API 토큰.
+#        (푸시 토큰 저장소인 PUSH_TOKENS KV 를 읽고, 죽은 토큰을 지우는 데 쓴다)
+
+on:
+  workflow_dispatch:
+    inputs:
+      title_ko:
+        description: '제목 (한국어 기기)'
+        required: false
+      body_ko:
+        description: '내용 (한국어 기기)'
+        required: false
+      title_en:
+        description: 'Title (English devices) — 비우면 KO 문구로 발송'
+        required: false
+      body_en:
+        description: 'Body (English devices)'
+        required: false
+      url:
+        description: '알림 탭 시 이동할 URL'
+        required: false
+        default: 'https://kissinskin.net/'
+      dry_run:
+        description: '1 = 발송 없이 대상 수만 확인'
+        required: false
+        default: ''
+
+concurrency:
+  group: send-push
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Send push via Expo Push API
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TITLE_KO: ${{ github.event.inputs.title_ko }}
+          BODY_KO: ${{ github.event.inputs.body_ko }}
+          TITLE_EN: ${{ github.event.inputs.title_en }}
+          BODY_EN: ${{ github.event.inputs.body_en }}
+          PUSH_URL: ${{ github.event.inputs.url }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: node scripts/send-push.mjs
