@@ -1,1 +1,4 @@
 node_modules/
+
+# Firebase 서비스 계정 키 — 절대 커밋 금지 (EAS 크리덴셜로만 업로드)
+*firebase-adminsdk*.json

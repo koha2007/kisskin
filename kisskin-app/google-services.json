@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "597060049282",
+    "project_id": "kissinskin-4276e",
+    "storage_bucket": "kissinskin-4276e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597060049282:android:4f380d96d2b8c3ab27979b",
+        "android_client_info": {
+          "package_name": "net.kissinskin.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtwIxsxcjs6DecywaTLKGKd86qejA4Zy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
