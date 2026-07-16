@@ -8,11 +8,11 @@ import {
   ActivityIndicator,
   View,
   Alert,
-  NativeModules,
 } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import * as ImagePicker from 'expo-image-picker';
 import * as Notifications from 'expo-notifications';
+import { getLocales } from 'expo-localization';
 // SDK 54: 기본 export 는 신형 API — 구형(writeAsStringAsync 등)은 /legacy 로 이동됨
 import * as FileSystem from 'expo-file-system/legacy';
 import * as MediaLibrary from 'expo-media-library';
@@ -47,15 +47,13 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// 기기 언어 감지 (dependency 없이) — 실패 시 영어로 폴백
+// 기기 언어 감지 — 실패 시 영어로 폴백.
+// ⚠️ NativeModules.I18nManager 방식은 newArchEnabled 에서 undefined 라
+//    한국어 폰이 en 으로 오분류됐음(실기기 실측) → expo-localization 으로 교체.
 function getDeviceLang(): 'ko' | 'en' {
   try {
-    const raw =
-      Platform.OS === 'ios'
-        ? NativeModules.SettingsManager?.settings?.AppleLocale ||
-          NativeModules.SettingsManager?.settings?.AppleLanguages?.[0]
-        : NativeModules.I18nManager?.localeIdentifier;
-    if (typeof raw === 'string' && raw.toLowerCase().startsWith('ko')) return 'ko';
+    const code = getLocales()[0]?.languageCode;
+    if (typeof code === 'string' && code.toLowerCase().startsWith('ko')) return 'ko';
   } catch {
     // ignore — fall through to default
   }
