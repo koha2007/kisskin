@@ -20,9 +20,7 @@ id = "1588216109cc4401b0bfd7356e2a6d46"
 # ── 앱 푸시 알림 토큰 저장소 ──────────────────────────────────────────
 # Expo 앱이 발급한 푸시 토큰을 (register-push-token 함수가) 여기에 저장.
 # 발송기가 이 KV 를 순회하며 Expo Push API 로 알림 발송.
-# ⚠️ 배포 전 네임스페이스 생성 필요:
-#    npx wrangler kv namespace create PUSH_TOKENS
-#    → 출력된 id 를 아래 PLACEHOLDER 자리에 붙여넣기.
+# 네임스페이스는 Cloudflare 대시보드에서 생성됨 (2026-07-16).
 [[kv_namespaces]]
 binding = "PUSH_TOKENS"
-id = "PLACEHOLDER_RUN_wrangler_kv_namespace_create_PUSH_TOKENS"
+id = "f1e845e643b3461e959ad8a3ef827659"
