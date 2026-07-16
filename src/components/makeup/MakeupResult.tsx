@@ -13,6 +13,7 @@ import BeforeAfterSlider from './BeforeAfterSlider'
 import { styleById, type MakeupStyleId } from '../../lib/makeup/styles'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { saveSharedResult } from '../../lib/shareResult'
+import { isNativeApp, nativeSaveImage, nativeShareImage } from '../../lib/nativePicker'
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import type { ProductRec } from '../../lib/recommendations/types'
@@ -244,6 +245,22 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
   // 합성은 결과 표시 시 미리 만들어 두므로 탭 핸들러가 동기적으로 열려 팝업차단이 없다.
   const handleSave = async () => {
     if (!afterSrc) return
+    // 앱 웹뷰: <a download> 가 무반응이라 네이티브 갤러리 저장 브릿지를 쓴다.
+    if (isNativeApp()) {
+      try {
+        const c = compositeRef.current ?? await getComposite()
+        const ok = await nativeSaveImage(c.dataUrl)
+        if (ok) {
+          gtagEvent('makeup_save', { style: styleId, method: 'native' })
+          showToast(isEn ? 'Saved to your gallery' : '갤러리에 저장했어요')
+        } else {
+          showToast(isEn ? 'Save failed — allow photo permission and try again' : '저장에 실패했어요. 사진 권한을 허용하고 다시 시도해 주세요')
+        }
+      } catch {
+        showToast(isEn ? 'Save failed — try again' : '저장에 실패했어요. 다시 시도해 주세요')
+      }
+      return
+    }
     const cached = compositeRef.current
     const saveHint = isEn
       ? 'Press & hold the image → "Save to Photos"'
@@ -278,6 +295,20 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
       ? `I tried the ${styleName} look with AI makeup! Try it free 👉`
       : `AI 메이크업으로 ${styleName} 룩 완성! 나도 무료로 해보기 👉`
     const cached = compositeRef.current
+
+    // 앱 웹뷰: navigator.share 가 없어 클립보드 폴백으로 새던 것 → 네이티브 공유 시트.
+    if (isNativeApp()) {
+      try {
+        const c = cached ?? await getComposite()
+        void ensureShareUrl(c.dataUrl).catch(() => {})   // 하단 복사 링크바용 /result 링크
+        const ok = await nativeShareImage(c.dataUrl)
+        if (ok) gtagEvent('makeup_share', { style: styleId, method: 'native' })
+        else showToast(isEn ? 'Share failed — try again' : '공유에 실패했어요. 다시 시도해 주세요')
+      } catch {
+        showToast(isEn ? 'Share failed — try again' : '공유에 실패했어요. 다시 시도해 주세요')
+      }
+      return
+    }
 
     // 빠른 경로: 캐시된 파일 → 탭 즉시 공유 시트(iOS 활성화 유지).
     if (cached && isMobile && typeof nav.canShare === 'function' && nav.canShare({ files: [cached.file] })) {

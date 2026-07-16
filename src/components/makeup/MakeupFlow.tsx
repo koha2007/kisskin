@@ -16,7 +16,7 @@ import MakeupResult, { type MakeupUsage } from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
 import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
-import { takePendingSelfie } from '../../lib/makeup/pendingSelfie'
+import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
 
 const NAVY = '#070953'
@@ -36,9 +36,14 @@ function makeJobId(): string {
 
 // 로그인 후 이 화면으로 되돌아오게 한다(?style= 등 현재 쿼리 유지). 로그인 성공 후
 // 홈으로 튕기면 셀카를 처음부터 다시 올려야 한다 — 게이트 직전 이탈의 주원인.
-function loginHref(): string {
+// style 을 주면 next 에 ?style= 을 실어, 복귀 시 (세션에 보관된 셀카와 함께)
+// 스타일 선택까지 건너뛰고 곧장 생성으로 이어진다.
+function loginHref(style?: MakeupStyleId): string {
   if (typeof window === 'undefined') return '/auth'
-  return '/auth?next=' + encodeURIComponent(window.location.pathname + window.location.search)
+  const params = new URLSearchParams(window.location.search)
+  if (style) params.set('style', style)
+  const qs = params.toString()
+  return '/auth?next=' + encodeURIComponent(window.location.pathname + (qs ? '?' + qs : ''))
 }
 
 // 에러 후 행동: 같은 작업 재생성 / 처음부터 / 로그인 필요 / 크레딧 충전
@@ -150,6 +155,7 @@ export default function MakeupFlow() {
       if (data.tier === 'free' && data.used === 1) gtagEvent('free_trial_used', { style: id })
       if (data.tier === 'credit') gtagEvent('credit_used', { style: id })
       jobIdRef.current = ''   // 성공 → 다음 생성은 새 작업(새 차감)
+      clearPendingSelfie()    // 왕복 보존용 셀카 정리(다음 방문에 옛 사진 부활 방지)
       setStep('result')
     } catch (e) {
       if (!alive()) return
@@ -193,13 +199,16 @@ export default function MakeupFlow() {
     // 룩까지 정해져 있으면 곧장 생성으로, 아니면 스타일 선택으로.
     const pending = takePendingSelfie()
     if (pending) {
+      // 로그인 게이트 → /auth 왕복에도 살아남도록 되돌려 놓는다.
+      // (생성 성공/다시 찍기에서 clearPendingSelfie 로 정리됨)
+      keepPendingSelfie(pending)
       setSelfie({ photo: pending })
       jobIdRef.current = ''
       setStep(hasStyle ? 'processing' : 'style')
     }
   }, [])
 
-  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); setStep('upload') }
+  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); clearPendingSelfie(); setStep('upload') }
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
 
@@ -211,7 +220,14 @@ export default function MakeupFlow() {
         hintLabel={preselected ? (isEn ? styleById(styleId).subEn : styleById(styleId).nameKo) : undefined}
         loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => { void navigate('/') }}
-        onNext={(data) => { jobIdRef.current = ''; setSelfie(data); setStep(preselected ? 'processing' : 'style') }}
+        onNext={(data) => {
+          jobIdRef.current = ''
+          setSelfie(data)
+          // 로그인/충전으로 페이지를 떠나도 사진이 살아있도록 세션에 보관해 둔다
+          // (실패해도 진행에는 지장 없음 — 그 경우만 왕복 시 재업로드).
+          void savePendingSelfieFromSrc(data.photo)
+          setStep(preselected ? 'processing' : 'style')
+        }}
       />
     )
   }
@@ -246,7 +262,8 @@ export default function MakeupFlow() {
         <p className="text-sm text-white/85 max-w-xs">{errMsg}</p>
         {errAction === 'login' ? (
           <div className="flex flex-col items-center gap-3">
-            <a href={loginHref()} className={btn} style={{ background: PRIMARY }}>
+            {/* 로그인 복귀 시 셀카(세션 보관)+선택한 룩(?style=)으로 곧장 생성 재개 */}
+            <a href={loginHref(styleId)} className={btn} style={{ background: PRIMARY }}>
               {isEn ? 'Log in' : '로그인'}
             </a>
             <button onClick={regenerate} className="text-xs text-white/60 underline underline-offset-2">

@@ -44,6 +44,13 @@
         {
           "color": "#eb4763"
         }
+      ],
+      [
+        "expo-media-library",
+        {
+          "savePhotosPermission": "생성한 메이크업 이미지를 갤러리에 저장하려면 권한이 필요합니다.",
+          "isAccessMediaLocationEnabled": false
+        }
       ]
     ],
     "owner": "kissinskin",

@@ -57,6 +57,10 @@ export function pickImage(mode: 'gallery' | 'camera'): Promise<File | null> {
   }
 
   // 브라우저 폴백 — input 은 매번 새로 만든다(재사용하면 웹뷰/일부 브라우저가 얼어붙음).
+  return browserPickImage(mode)
+}
+
+function browserPickImage(mode: 'gallery' | 'camera'): Promise<File | null> {
   return new Promise((resolve) => {
     const input = document.createElement('input')
     input.type = 'file'
@@ -80,4 +84,38 @@ export function pickImage(mode: 'gallery' | 'camera'): Promise<File | null> {
     document.body.appendChild(input)
     input.click()
   })
+}
+
+// ── 저장/공유 브릿지 ──────────────────────────────────────────────────
+// 앱 웹뷰에는 <a download> 도 navigator.share 도 없다(각각 무반응/클립보드 폴백).
+// → 이미지를 네이티브로 넘겨 갤러리 저장 / 시스템 공유 시트를 연다.
+// 브릿지 요청 → 결과 CustomEvent 1회 수신. 응답이 없으면(브릿지 없는 옛 APK 등)
+// timeoutMs 후 false — 호출부는 false 면 실패 토스트를 띄운다.
+function bridgeRequest(message: object, resultEvent: string, timeoutMs: number): Promise<boolean> {
+  const rn = getBridge()
+  if (!rn) return Promise.resolve(false)
+  return new Promise((resolve) => {
+    let timer = 0
+    const onResult = (e: Event) => {
+      window.clearTimeout(timer)
+      window.removeEventListener(resultEvent, onResult)
+      resolve(!!(e as CustomEvent<{ ok: boolean }>).detail?.ok)
+    }
+    timer = window.setTimeout(() => {
+      window.removeEventListener(resultEvent, onResult)
+      resolve(false)
+    }, timeoutMs)
+    window.addEventListener(resultEvent, onResult)
+    rn.postMessage(JSON.stringify(message))
+  })
+}
+
+/** 앱 전용: 이미지를 갤러리에 저장. (권한 다이얼로그 시간 고려해 30초 대기) */
+export function nativeSaveImage(dataUrl: string): Promise<boolean> {
+  return bridgeRequest({ type: 'saveImage', dataUrl }, 'nativeSaveResult', 30_000)
+}
+
+/** 앱 전용: 시스템 공유 시트로 이미지 공유. (시트를 열어둔 시간만큼 대기) */
+export function nativeShareImage(dataUrl: string): Promise<boolean> {
+  return bridgeRequest({ type: 'shareImage', dataUrl }, 'nativeShareResult', 120_000)
 }

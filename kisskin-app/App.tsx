@@ -13,6 +13,10 @@ import {
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import * as ImagePicker from 'expo-image-picker';
 import * as Notifications from 'expo-notifications';
+// SDK 54: 기본 export 는 신형 API — 구형(writeAsStringAsync 등)은 /legacy 로 이동됨
+import * as FileSystem from 'expo-file-system/legacy';
+import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from 'expo-sharing';
 
 const SITE_URL = 'https://kissinskin.net';
 
@@ -70,7 +74,53 @@ const REENGAGE_COPY = {
   },
 } as const;
 
-type PickMessage = { type: 'pickGallery' | 'pickCamera' };
+// 웹 → 네이티브 브릿지 메시지 (웹 쪽 대응: src/lib/nativePicker.ts)
+type BridgeMessage =
+  | { type: 'pickGallery' | 'pickCamera' }
+  | { type: 'saveImage'; dataUrl: string }    // 결과 이미지를 갤러리에 저장
+  | { type: 'shareImage'; dataUrl: string };  // 결과 이미지를 시스템 공유 시트로
+
+// dataURL 의 base64 본문을 캐시 파일로 내려 파일 URI 를 돌려준다.
+// (MediaLibrary/Sharing 은 dataURL 을 못 받고 파일 URI 만 받는다)
+async function dataUrlToCacheFile(dataUrl: string, name: string): Promise<string | null> {
+  const base64 = dataUrl.split(',')[1];
+  if (!base64) return null;
+  const fileUri = `${FileSystem.cacheDirectory}${name}`;
+  await FileSystem.writeAsStringAsync(fileUri, base64, {
+    encoding: FileSystem.EncodingType.Base64,
+  });
+  return fileUri;
+}
+
+// 갤러리 저장. 성공 여부를 돌려준다(실패해도 앱은 안 죽는다).
+async function saveImageToGallery(dataUrl: string): Promise<boolean> {
+  try {
+    // writeOnly=true: 저장만 할 거라 사진 읽기 권한까지 요구하지 않는다
+    const perm = await MediaLibrary.requestPermissionsAsync(true);
+    if (!perm.granted) return false;
+    const fileUri = await dataUrlToCacheFile(dataUrl, `kisskin-makeup-${Date.now()}.jpg`);
+    if (!fileUri) return false;
+    await MediaLibrary.saveToLibraryAsync(fileUri);
+    return true;
+  } catch (err) {
+    console.warn('[bridge] save failed:', err);
+    return false;
+  }
+}
+
+// 시스템 공유 시트로 이미지 공유. 시트가 닫힌 뒤 resolve 된다.
+async function shareImageFile(dataUrl: string): Promise<boolean> {
+  try {
+    if (!(await Sharing.isAvailableAsync())) return false;
+    const fileUri = await dataUrlToCacheFile(dataUrl, `kisskin-share-${Date.now()}.jpg`);
+    if (!fileUri) return false;
+    await Sharing.shareAsync(fileUri, { mimeType: 'image/jpeg', dialogTitle: 'kissinskin' });
+    return true;
+  } catch (err) {
+    console.warn('[bridge] share failed:', err);
+    return false;
+  }
+}
 
 // 알림 권한 요청 + Expo 푸시 토큰 발급. 실패해도 절대 앱을 죽이지 않는다.
 async function registerForPushAsync(): Promise<string | null> {
@@ -210,14 +260,35 @@ export default function App() {
     );
   };
 
+  // 저장/공유 결과를 웹으로 돌려준다 (웹 쪽: nativeSaveResult/nativeShareResult 리스너)
+  const sendBridgeResult = (eventName: string, ok: boolean) => {
+    const ref = webViewRef.current;
+    if (!ref) return;
+    ref.injectJavaScript(
+      `window.dispatchEvent(new CustomEvent(${JSON.stringify(eventName)}, { detail: { ok: ${ok} } })); true;`
+    );
+  };
+
   const handleMessage = async (event: WebViewMessageEvent) => {
-    let msg: PickMessage | null = null;
+    let msg: BridgeMessage | null = null;
     try {
       msg = JSON.parse(event.nativeEvent.data);
     } catch {
       return;
     }
-    if (!msg || (msg.type !== 'pickGallery' && msg.type !== 'pickCamera')) return;
+    if (!msg) return;
+
+    if (msg.type === 'saveImage') {
+      const ok = await saveImageToGallery(msg.dataUrl);
+      sendBridgeResult('nativeSaveResult', ok);
+      return;
+    }
+    if (msg.type === 'shareImage') {
+      const ok = await shareImageFile(msg.dataUrl);
+      sendBridgeResult('nativeShareResult', ok);
+      return;
+    }
+    if (msg.type !== 'pickGallery' && msg.type !== 'pickCamera') return;
 
     const isCamera = msg.type === 'pickCamera';
     try {
