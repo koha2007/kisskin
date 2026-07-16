@@ -251,6 +251,7 @@ export default {
   'auth.logout': '로그아웃',
   'auth.mypage': '마이페이지',
   'auth.inAppBrowser': '인앱 브라우저에서는 Google 로그인이 지원되지 않습니다.\n외부 브라우저(Chrome, Safari)에서 열어주세요.',
+  'auth.appUseEmail': '앱에서는 Google 로그인 대신\n위의 이메일 로그인을 이용해 주세요.',
   'auth.copyUrl': 'URL 복사하기',
   'auth.urlCopied': 'URL이 복사되었습니다! 브라우저에 붙여넣기 해주세요.',
   'auth.openExternal': '외부 브라우저로 열기',

@@ -16,6 +16,13 @@ import * as Notifications from 'expo-notifications';
 
 const SITE_URL = 'https://kissinskin.net';
 
+// 웹뷰 기본 UA 에는 "; wv)" 토큰이 들어가 Google OAuth 가 403(disallowed_useragent)으로
+// 차단되고, 사이트의 인앱브라우저 판정에도 걸린다. → 일반 크롬 UA 로 교체해
+// 구글 로그인이 앱 안에서 그대로 되게 한다. (앱 식별은 UA 가 아니라
+// window.ReactNativeWebView 존재 여부로 한다 — 웹 쪽 isNativeApp())
+const CHROME_UA =
+  'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36';
+
 // EAS project id — expo-notifications 토큰 발급에 필수 (app.json extra.eas.projectId 와 동일해야 함)
 const PROJECT_ID = 'dbe9cc76-db58-41e5-8aaf-0532309e1198';
 
@@ -278,6 +285,7 @@ export default function App() {
           }
         }}
         onMessage={handleMessage}
+        userAgent={CHROME_UA}
         javaScriptEnabled
         domStorageEnabled
         allowsBackForwardNavigationGestures

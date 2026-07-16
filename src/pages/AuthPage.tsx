@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
+import { isNativeApp } from '../lib/nativePicker'
 
 function isInAppBrowser(): boolean {
   const ua = navigator.userAgent || navigator.vendor || ''
@@ -37,6 +38,11 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
 
   const { t, locale } = useI18n()
   const inApp = useMemo(() => isInAppBrowser(), [])
+  // 우리 Expo 앱 웹뷰: "외부 브라우저로 열기"는 동작하지 않고(intent 미지원),
+  // 동작해도 세션이 크롬에 생겨 앱은 비로그인 그대로라 안내 자체가 잘못이다.
+  // → 앱에서는 이메일 로그인 안내만 보여준다. (UA 스푸핑된 새 APK 는 inApp
+  //   판정 자체를 통과해 Google 버튼이 그대로 보인다)
+  const nativeApp = useMemo(() => typeof window !== 'undefined' && isNativeApp(), [])
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -386,7 +392,20 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         </div>}
 
         {/* Google Login - 비밀번호 찾기 모드에서는 숨김 */}
-        {mode !== 'forgot' && (inApp ? (
+        {mode !== 'forgot' && (nativeApp && inApp ? (
+          /* 우리 앱(구형 APK): 외부 브라우저 안내는 무의미 → 이메일 로그인 유도 */
+          <div style={{
+            padding: '14px',
+            borderRadius: '10px',
+            background: 'rgba(148, 163, 184, 0.12)',
+            border: '1px solid rgba(148, 163, 184, 0.25)',
+            textAlign: 'center',
+          }}>
+            <p style={{ color: '#94a3b8', fontSize: '13px', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+              {t('auth.appUseEmail')}
+            </p>
+          </div>
+        ) : inApp ? (
           /* 인앱 브라우저: Google OAuth 차단됨 → 외부 브라우저 안내 */
           <div style={{
             padding: '14px',

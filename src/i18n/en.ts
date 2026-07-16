@@ -249,6 +249,7 @@ export default {
   'auth.logout': 'Logout',
   'auth.mypage': 'My Page',
   'auth.inAppBrowser': 'Google login is not supported in in-app browsers.\nPlease open in an external browser (Chrome, Safari).',
+  'auth.appUseEmail': 'In the app, please use the email\nlogin above instead of Google.',
   'auth.copyUrl': 'Copy URL',
   'auth.urlCopied': 'URL copied! Paste it in your browser.',
   'auth.openExternal': 'Open in Browser',
