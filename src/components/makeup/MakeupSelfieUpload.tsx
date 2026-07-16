@@ -12,7 +12,8 @@
 //   업로드 전에는 점선 원 + 아이콘 플레이스홀더.
 // 프라이버시: "셀카는 분석 후 저장되지 않아요" 문구 유지.
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
+import { pickImage } from '../../lib/nativePicker'
 
 const NAVY = '#070953'
 const PRIMARY = '#eb4763'
@@ -30,23 +31,20 @@ interface Props {
 
 export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintLabel, loginHref }: Props) {
   const [photo, setPhoto] = useState<string | null>(null)
-  // 앨범 선택과 카메라 촬영은 서로 다른 input 이어야 한다. capture 속성이 붙은 input
-  // 하나만 두면 앨범 선택이 막히고, 없는 input 하나만 두면(과거 버그) 카메라 버튼을
-  // 눌러도 앨범만 열린다. → 두 개를 각각 두고 버튼과 1:1로 연결한다.
-  const albumRef = useRef<HTMLInputElement>(null)
-  const cameraRef = useRef<HTMLInputElement>(null)
 
-  const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]
-    if (!f) return
-    // 교체 시 이전 미리보기만 해제한다. 현재 photo 는 언마운트 후에도 다음 단계
-    // (MakeupFlow 의 이미지 로드 · 결과화면 BEFORE)에서 계속 쓰이므로 해제하면 안 된다.
-    setPhoto((prev) => {
-      if (prev) URL.revokeObjectURL(prev)
-      return URL.createObjectURL(f)
+  // pickImage: 앱 웹뷰에선 네이티브 픽커(카메라/갤러리 각각), 브라우저에선
+  // 클릭마다 일회용 <input> 을 만든다. 숨긴 input 재사용은 안드로이드 웹뷰에서
+  // 첫 닫힘 이후 얼어붙는 버그(2026-07-16 실기기)가 있어 금지.
+  const pick = (mode: 'gallery' | 'camera') => {
+    pickImage(mode).then((f) => {
+      if (!f) return
+      // 교체 시 이전 미리보기만 해제한다. 현재 photo 는 언마운트 후에도 다음 단계
+      // (MakeupFlow 의 이미지 로드 · 결과화면 BEFORE)에서 계속 쓰이므로 해제하면 안 된다.
+      setPhoto((prev) => {
+        if (prev) URL.revokeObjectURL(prev)
+        return URL.createObjectURL(f)
+      })
     })
-    // 같은 파일을 다시 골라도 change 가 발화하도록 초기화.
-    e.target.value = ''
   }
 
   const ready = !!photo
@@ -109,7 +107,7 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
             <div className="relative">
               <button
                 type="button"
-                onClick={() => albumRef.current?.click()}
+                onClick={() => pick('gallery')}
                 className="w-32 h-32 rounded-full border-2 border-dashed border-white/45 flex items-center justify-center overflow-hidden bg-white/5 active:scale-[0.97] transition"
                 aria-label={isEn ? 'Choose from album' : '앨범에서 사진 선택'}
               >
@@ -121,10 +119,10 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
                   </span>
                 )}
               </button>
-              {/* 카메라 FAB — 앨범이 아니라 전면 카메라를 연다(capture="user") */}
+              {/* 카메라 FAB — 앨범이 아니라 전면(셀카) 카메라를 연다 */}
               <button
                 type="button"
-                onClick={() => cameraRef.current?.click()}
+                onClick={() => pick('camera')}
                 className="absolute bottom-1 right-1 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition"
                 style={{ background: PRIMARY }}
                 aria-label={isEn ? 'Take a selfie' : '카메라로 셀카 촬영'}
@@ -133,16 +131,13 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
                   photo_camera
                 </span>
               </button>
-              <input ref={albumRef} type="file" accept="image/*" className="hidden" onChange={onFile} />
-              {/* capture="user" → 모바일에서 전면(셀카) 카메라를 바로 연다. 데스크톱은 무시됨. */}
-              <input ref={cameraRef} type="file" accept="image/*" capture="user" className="hidden" onChange={onFile} />
             </div>
 
             {/* 두 경로를 글자로도 명시 — 아이콘만으로는 카메라/앨범 구분이 안 보인다 */}
             <div className="mt-4 flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => cameraRef.current?.click()}
+                onClick={() => pick('camera')}
                 className="inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3.5 py-1.5 text-xs font-bold active:scale-95 transition"
               >
                 <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
@@ -150,7 +145,7 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
               </button>
               <button
                 type="button"
-                onClick={() => albumRef.current?.click()}
+                onClick={() => pick('gallery')}
                 className="inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3.5 py-1.5 text-xs font-bold active:scale-95 transition"
               >
                 <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_library</span>

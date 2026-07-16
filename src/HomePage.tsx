@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
@@ -8,6 +8,7 @@ import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
 import { savePendingSelfie } from './lib/makeup/pendingSelfie'
+import { pickImage } from './lib/nativePicker'
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -38,14 +39,15 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   const toolHref = (path: string) => (isEn ? `/en${path}` : path)
 
   // ── 히어로 업로드 → /analysis/ 로 사진째 넘김(업로드 단계 중복 제거) ──
-  const heroFileRef = useRef<HTMLInputElement>(null)
-  const onHeroFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]
-    e.target.value = ''            // 같은 파일 재선택도 발화하도록
-    if (!f) return
-    // 저장에 실패해도(HEIC 디코드 불가 등) 그냥 이동한다 — 그쪽 업로드 화면이 처리한다.
-    await savePendingSelfie(f)
-    window.location.href = '/analysis/'
+  // pickImage: 앱 웹뷰에선 네이티브 픽커, 브라우저에선 일회용 <input>.
+  // (숨긴 input 재사용은 안드로이드 웹뷰에서 두 번째부터 얼어붙어 금지)
+  const onHeroPick = () => {
+    pickImage('gallery').then(async (f) => {
+      if (!f) return
+      // 저장에 실패해도(HEIC 디코드 불가 등) 그냥 이동한다 — 그쪽 업로드 화면이 처리한다.
+      await savePendingSelfie(f)
+      window.location.href = '/analysis/'
+    })
   }
 
   // ── 비포/애프터 섹션 ── 기본은 기존 대표 컷(룩 라벨 없음). 룩 칩/카드를 누르면 그 룩으로 교체.
@@ -329,15 +331,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               {isEn ? 'Click to choose · JPG / PNG / HEIC' : '눌러서 선택 · JPG / PNG / HEIC'}
             </p>
 
-            <input
-              ref={heroFileRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={onHeroFile}
-            />
             <button
-              onClick={() => heroFileRef.current?.click()}
+              onClick={onHeroPick}
               className="mt-4 w-full bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white py-4 rounded-full text-base font-bold transition-all shadow-lg shadow-primary/25"
             >
               {t('home.hero.uploadCta')}
