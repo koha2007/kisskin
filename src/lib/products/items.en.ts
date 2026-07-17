@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'nars-the-multiple',
+    category: 'trend',
+    brand: 'NARS',
+    name: 'The Multiple',
+    title: 'NARS The Multiple: A Multi-Use Stick for Luminous Cheeks, Lips, and Eyes',
+    summary:
+      'NARS\' iconic multi-use stick has been reborn with more vibrant and versatile shades. Its cream-to-powder formula delivers natural color to cheeks, lips, and eyes.',
+    highlights: ['Vivid color in one touch', 'Cream-to-powder formula', 'Up to 16-hour wear', 'Soft-focus blurring effect'],
+    details: [
+      'A multi-use stick for cheeks, lips, and eyes, perfect for on-the-go touch-ups.',
+      'Achieve vivid and lively color with just one touch, and build up layers without caking for a natural look.',
+      'The smooth cream formula melts into the skin, adhering closely, and finishes powdery for smudge-proof wear that lasts up to 16 hours.',
+      'Infused with peach kernel oil and rhubarb root extract to nourish the skin, while soft-focus powders smooth and refine the complexion.',
+    ],
+    whoFor:
+      'Recommended for anyone who wants to achieve a vibrant makeup look with ease. Ideal for those who dislike carrying multiple products or need quick and easy touch-ups.',
+    howTo: [
+      'Apply directly to desired areas like cheeks, lips, or eyes, or gently tap with fingers to blend for a natural finish.',
+      'For more intense color, use The Multiple as a base before applying powder blush for a unique layered effect.',
+      'For contouring, choose a shade one or two tones darker than your skin tone, apply below the cheekbones, and blend upwards.',
+    ],
+    pros: [
+      'Create various makeup looks with one product',
+      'Portable stick format',
+      'Smooth and easy-to-blend formula',
+    ],
+    cons: [
+      'The cream-to-powder formula might feel slightly dry for those with dry skin',
+    ],
+    colorFit:
+      'Available in a variety of shades to suit all personal color types, making it easy to choose based on your skin tone. Colors that add a natural flush are particularly well-suited for both warm and cool tones.',
+    image: '/products/nars-the-multiple.webp',
+    coupangQuery: '나스 더 멀티플',
+    globalQuery: 'NARS The Multiple multi-purpose stick',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-17',
+    tags: ['multibalm', 'stickblusher', 'multiuse', 'easymakeup', 'creamblusher', 'NARS', 'sephorabestseller'],
+  },
+  {
     slug: 'romand-better-than-cheek-n02-vine-nude',
     category: 'cheek',
     brand: 'rom&nd',

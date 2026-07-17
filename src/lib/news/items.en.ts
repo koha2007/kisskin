@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-etf-us-launch-2026',
+    category: 'global',
+    title: 'K-Beauty ETF Listing Imminent on US NYSE, Unlocking Global Investment',
+    summary:
+      'As K-Beauty exports hit an all-time high in the first half of 2026, the listing of a specialized K-Beauty ETF on the US New York Stock Exchange is taking shape. This is projected to positively influence global investor sentiment towards the K-Beauty industry and contribute to mid-to-long-term supply and demand stability.',
+    body: [
+      '> TLDR: K-Beauty ETF | US Stock Market Listing | Value Chain Investment',
+      'With K-Beauty exports surpassing $7 billion in the first half of 2026, marking an all-time high, the imminent launch of an ETF (Exchange Traded Fund) exclusively focused on K-Beauty companies on the New York Stock Exchange (NYSE Arca) is generating significant anticipation within the industry.',
+      '> DATA: On July 10 (local time), the prospectus for the \'Guinness Atkinson K-Beauty (ticker KBTY)\' ETF was filed with the U.S. Securities and Exchange Commission (SEC). This ETF plans to invest 80% of its net assets across the entire K-Beauty value chain, including domestic cosmetic brands, ODMs, distribution, and aesthetic medical services.',
+      'This ETF listing is expected to alleviate market concerns about H2 growth rates, especially as the order books for the three key ODM companies in the K-Beauty value chain are at an all-time high, and contribute to improving the mid-to-long-term investment environment.',
+      'This demonstrates that K-Beauty is moving beyond being a mere consumer product and establishing itself as an independent investment theme in the global capital market, serving as a crucial stepping stone for the continued growth of the K-Beauty industry in the future.',
+    ],
+    date: '2026-07-17',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'ETF', 'Global Investment', 'US Stock Market'],
+  },
+  {
     slug: 'kbeauty-hair-care-export-surge-2026',
     category: 'hair',
     title: 'K-Beauty\'s Hair Product Exports Surge 30.6% in H1…Accelerating Global Expansion of Haircare Market',
