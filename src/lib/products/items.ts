@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'round-lab-birch-juice-moisturizing-sun-cream',
+    category: 'skincare',
+    brand: '라운드랩',
+    name: '자작나무 수분 선크림',
+    title: '라운드랩 자작나무 수분 선크림: 끈적임 없이 촉촉한 국민 선크림',
+    summary:
+      '올리브영 선크림 부문 3년 연속 1위를 차지한 라운드랩의 베스트셀러로, 수분 에센스처럼 촉촉하고 산뜻하게 발리는 것이 특징입니다.',
+    highlights: ['수분 에센스 제형', '백탁 없는 투명함', '강력한 자외선 차단', '민감 피부 진정'],
+    details: [
+      '수분 에센스를 바른 듯 촉촉하게 스며들어 끈적임 없이 산뜻한 마무리감을 선사하며, 메이크업 밀림 걱정을 덜어줍니다.',
+      '백탁 현상 없이 투명하게 발려 어떤 피부 톤에도 자연스럽게 어우러지며, 답답함 없이 편안한 사용감을 제공합니다.',
+      'SPF 50+ PA++++의 강력한 자외선 차단 효과로 자외선으로부터 피부를 효과적으로 보호하며, 10시간 지속력이 입증되었습니다.',
+      '자작나무 수액과 히알루론산 성분이 피부에 수분을 공급하고, 민감해진 피부를 진정시키는 데 도움을 줍니다.',
+    ],
+    whoFor:
+      '모든 피부 타입에 적합하며, 특히 건조하거나 민감하여 촉촉하고 순한 선크림을 찾는 분들께 추천합니다. 끈적임이나 백탁 없이 가벼운 선크림을 선호하는 분들에게도 좋은 선택입니다.',
+    howTo: [
+      '스킨케어 마지막 단계에서 적당량을 취해 자외선에 노출되는 얼굴과 목 등 전신에 골고루 펴 바릅니다.',
+      '야외 활동 30분 전 미리 바르면 더욱 효과적인 자외선 차단 효과를 얻을 수 있습니다.',
+      '메이크업 전에 사용 시 파운데이션이나 쿠션과 밀리지 않고 매끄러운 피부 표현을 돕습니다.',
+    ],
+    pros: [
+      '수분감 가득한 에센스 제형으로 촉촉하고 부드럽게 발립니다.',
+      '백탁 현상이나 끈적임 없이 산뜻하게 마무리됩니다.',
+      '민감성 피부도 안심하고 사용할 수 있는 순한 성분입니다.',
+    ],
+    cons: [
+      '유기자차 특유의 눈 시림이 있을 수 있어 민감한 눈가에는 테스트 후 사용하는 것이 좋습니다.',
+    ],
+    image: '/products/round-lab-birch-juice-moisturizing-sun-cream.webp',
+    coupangQuery: '라운드랩 자작나무 수분 선크림',
+    globalQuery: 'round lab birch juice moisturizing sun cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-18',
+    tags: ['선크림', '수분', '진정', '자외선차단', '올리브영', '국민템'],
+  },
+  {
     slug: 'nars-the-multiple',
     category: 'trend',
     brand: '나스',

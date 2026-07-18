@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'round-lab-birch-juice-moisturizing-sun-cream',
+    category: 'skincare',
+    brand: 'ROUND LAB',
+    name: 'Birch Juice Moisturizing Sun Cream',
+    title: 'ROUND LAB Birch Juice Moisturizing Sun Cream: The Nation\'s Favorite Hydrating Sun Cream, Non-Sticky & Moisturizing',
+    summary:
+      'ROUND LAB\'s best-seller, ranked #1 in Olive Young\'s sun cream category for 3 consecutive years. It applies like a hydrating essence, feeling moist and refreshing.',
+    highlights: ['Hydrating essence texture', 'Transparent, no white cast', 'Powerful UV protection', 'Soothes sensitive skin'],
+    details: [
+      'Absorbs like a hydrating essence, providing a non-sticky, refreshing finish and preventing makeup from pilling.',
+      'Applies transparently with no white cast, blending naturally with any skin tone and offering comfortable wear without feeling heavy.',
+      'Offers powerful SPF 50+ PA++++ UV protection, effectively shielding skin from UV rays, with proven 10-hour lasting power.',
+      'Birch sap and hyaluronic acid provide hydration to the skin and help soothe sensitive skin.',
+    ],
+    whoFor:
+      'Suitable for all skin types, especially recommended for those with dry or sensitive skin seeking a moisturizing and gentle sun cream. Also a great choice for those who prefer a lightweight sun cream without stickiness or white cast.',
+    howTo: [
+      'In the final step of your skincare routine, take an appropriate amount and spread evenly over the face, neck, and any other areas exposed to UV rays.',
+      'For more effective UV protection, apply 30 minutes before outdoor activities.',
+      'When used before makeup, it helps create a smooth skin base without pilling with foundation or cushion.',
+    ],
+    pros: [
+      'Rich, hydrating essence texture applies moist and smoothly.',
+      'Finishes fresh without white cast or stickiness.',
+      'Gentle ingredients safe for sensitive skin.',
+    ],
+    cons: [
+      'As an organic sunscreen, it may cause temporary eye stinging, so it\'s recommended to test on a small area around the eyes first if you have sensitive eyes.',
+    ],
+    image: '/products/round-lab-birch-juice-moisturizing-sun-cream.webp',
+    coupangQuery: '라운드랩 자작나무 수분 선크림',
+    globalQuery: 'round lab birch juice moisturizing sun cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-18',
+    tags: ['sunscreen', 'hydration', 'soothing', 'UVprotection', 'OliveYoung', 'nation\'sfavorite'],
+  },
+  {
     slug: 'nars-the-multiple',
     category: 'trend',
     brand: 'NARS',

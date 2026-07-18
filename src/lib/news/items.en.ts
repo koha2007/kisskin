@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-global-sales-surge-niq-2026-july',
+    category: 'global',
+    title: 'NIQ Report: K-Beauty Global Sales Surge 53%, Social Commerce Drives Growth',
+    summary:
+      'According to global consumer intelligence company NIQ, K-beauty\'s worldwide sales grew 53% year-over-year and 131% over the past two years. Strong growth on social commerce platforms and regional innovation are driving K-beauty\'s global expansion.',
+    body: [
+      '> TLDR: K-Beauty Sales Surge 53% | Spread via Social Commerce | Accelerated Regional Innovation',
+      'The global K-beauty market is experiencing unprecedented growth, driving dynamism across the worldwide beauty industry. A recent NIQ report indicates that K-beauty product value sales surged 53% year-over-year and 131% over the past two years.',
+      '> DATA: According to the NIQ report \'K-Beauty Goes Global\', K-beauty search volume on TikTok Shop in the UK increased by 125% in 2025, and TikTok Shop K-beauty brand value sales grew 430% year-over-year in the UK, US, Spain, and Germany markets. Notably, in Latin America, Brazil and Mexico emerged as new growth drivers, showing 135% value growth.',
+      'This growth demonstrates K-beauty\'s status beyond a mere trend, analyzed as a result of innovation tailored to regional consumer demands combined with the influence of social commerce.',
+      'This suggests the necessity for global beauty companies to anticipate new trends and rapidly respond to changing markets.',
+    ],
+    date: '2026-07-18',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global Market', 'NIQ', 'Social Commerce', 'Market Trends'],
+  },
+  {
     slug: 'k-beauty-etf-us-launch-2026',
     category: 'global',
     title: 'K-Beauty ETF Listing Imminent on US NYSE, Unlocking Global Investment',
