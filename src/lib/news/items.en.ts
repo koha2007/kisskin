@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'amazon-prime-day-2026-kbeauty-skinnification-pdrn',
+    category: 'skincare',
+    title: 'Amazon Prime Day 2026 K-Beauty: Skinification and PDRN Ingredient Trends Emerge',
+    summary:
+      'Recent data analysis from Amazon Prime Day reveals that the \'skinification\' trend is expanding into the scalp and hair care sectors within the K-beauty market, alongside a surge in interest for PDRN ingredients. Medicube\'s \'Zero Pore Pad\' secured the top spot in the Beauty & Personal Care category for two consecutive years, demonstrating K-beauty\'s strong performance, particularly in skincare.',
+    body: [
+      '> TLDR: Skinification expands | PDRN ingredients surge | Medicube pad strong performance',
+      'Analysis of K-beauty search and sales data from \'Amazon Prime Day 2026,\' held from June 23rd to 26th, revealed new trends emerging, even as skincare continues to be the market\'s core.',
+      'Notably, the \'skinification\' trend, which involves treating the scalp and hair like facial skin, has spread, indicating an expansion of K-beauty interest into the scalp and hair care sectors. While traditional hair care focused on cleansing and hair strand management, the emphasis has now shifted to improving scalp health and utilizing functional ingredients.',
+      '> DATA: According to K-Glowing\'s analysis, search rankings for PDRN (salmon DNA-derived ingredient) products saw significant year-over-year increases: Anua PDRN rose from 118,610th to 653rd place, and Medicube\'s \'PDRN Pink Collagen Multi Balm Stick\' climbed from 1,417,557th to 531st place. Medicube\'s \'Zero Pore Pad\' ranked 1st in the overall Beauty & Personal Care category for two consecutive years and 1st in the toner segment for three consecutive years.',
+      'Concurrently, Medicube became the top overall search term on Amazon US, while Laneige\'s \'Lip Glowy Balm\' and \'Lip Sleeping Mask\' secured 1st and 2nd place in the lip balm category. COSRX\'s \'Snail Mucin Serum\' also ranked 26th overall in Beauty & Personal Care, demonstrating the strong performance of major K-beauty brands.',
+      'These Prime Day results indicate that K-beauty is expanding its credibility beyond simple skincare into adjacent categories like functional ingredient-based scalp and hair care. It also suggests that consumers are making purchasing decisions based on high trust in proven efficacy and ingredients.',
+    ],
+    date: '2026-07-19',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Amazon', 'Prime Day', 'Skinification', 'PDRN', 'Medicube'],
+  },
+  {
     slug: 'k-beauty-global-sales-surge-niq-2026-july',
     category: 'global',
     title: 'NIQ Report: K-Beauty Global Sales Surge 53%, Social Commerce Drives Growth',

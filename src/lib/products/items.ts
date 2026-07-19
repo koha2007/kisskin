@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'kerastase-elixir-ultime-l-huile-originale',
+    category: 'hair',
+    brand: '케라스타즈',
+    name: '엘릭서 얼팀 오리지널 헤어 오일',
+    title: '케라스타즈 엘릭서 얼팀 오리지널 헤어 오일: 빛나는 머릿결을 위한 베스트셀러',
+    summary:
+      '모든 모발 타입에 깊은 영양과 윤기를 선사하는 멀티 유즈 헤어 오일로, 전 세계적으로 사랑받는 베스트셀러입니다. 끈적임 없이 부드러운 마무리감이 특징입니다.',
+    highlights: ['모든 모발용', '끈적임 없는 오일', '열 보호 기능', '윤기 및 부드러움'],
+    details: [
+      '마룰라, 아르간, 동백 오일 등의 블렌딩이 모발에 깊은 영양을 공급하고 활력을 되찾아줍니다.',
+      '가볍고 산뜻한 세럼 같은 제형으로 끈적임 없이 모발에 빠르게 흡수되어 부드러움과 윤기를 더합니다.',
+      '최대 230°C의 열 보호 기능을 제공하여 드라이나 스타일링 기기 사용 시 모발 손상을 방지합니다.',
+      '곱슬거림을 효과적으로 줄여주고 모발 섬유를 매끄럽게 정돈하여 하루 종일 차분하고 윤기나는 머릿결을 유지해줍니다.',
+    ],
+    whoFor:
+      '모든 모발 타입에 적합하며, 특히 푸석하고 윤기 없는 모발에 생기를 더하고 싶은 분들에게 추천합니다. 잦은 열 스타일링으로 인해 손상이 걱정되는 분들도 열 보호 효과를 기대할 수 있습니다.',
+    howTo: [
+      '타월 드라이한 모발 또는 마른 모발의 중간부터 끝 부분까지 2~4회 펌핑하여 골고루 바른 후 스타일링합니다.',
+      '샴푸 전 모발에 발라 불순물을 제거하거나, 헤어 마스크에 섞어 사용하면 영양 효과를 높일 수 있습니다.',
+      '드라이 전 열 보호제로, 또는 마무리 단계에서 사용하면 윤기와 부드러움을 더하고 잔머리를 정돈할 수 있습니다.',
+    ],
+    pros: [
+      '모든 모발 타입에 적합하며 끈적임 없이 빠르게 흡수됩니다.',
+      '모발에 즉각적인 윤기와 부드러움을 선사하며 곱슬거림을 효과적으로 줄여줍니다.',
+      '열 보호 기능이 있어 드라이나 고데기 사용 시 모발 손상을 최소화합니다.',
+    ],
+    cons: [
+      '일부 성분(사이클로펜타실록세인)에 대한 유해성 논란이 있을 수 있습니다.',
+      '향에 대한 개인적인 호불호가 갈릴 수 있습니다.',
+    ],
+    image: '/products/kerastase-elixir-ultime-l-huile-originale.webp',
+    coupangQuery: '케라스타즈 엘릭서 얼팀 오리지널 헤어 오일',
+    globalQuery: 'Kérastase Elixir Ultime L\'Huile Originale',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-19',
+    tags: ['헤어오일', '손상모케어', '윤기', '열보호', '산뜻한마무리'],
+  },
+  {
     slug: 'round-lab-birch-juice-moisturizing-sun-cream',
     category: 'skincare',
     brand: '라운드랩',

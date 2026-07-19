@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'kerastase-elixir-ultime-l-huile-originale',
+    category: 'hair',
+    brand: 'Kérastase',
+    name: 'Elixir Ultime Original Hair Oil',
+    title: 'Kérastase Elixir Ultime Original Hair Oil: Bestseller for Radiant Hair',
+    summary:
+      'A multi-use hair oil that provides deep nourishment and shine to all hair types, a beloved bestseller worldwide. Characterized by a non-sticky, smooth finish.',
+    highlights: ['For all hair types', 'Non-sticky oil', 'Heat protection', 'Shine & softness'],
+    details: [
+      'A blend of Marula, Argan, and Camellia oils deeply nourishes and revitalizes hair.',
+      'Its light, refreshing, serum-like texture absorbs quickly into hair without stickiness, adding softness and shine.',
+      'Provides heat protection up to 230°C, preventing hair damage during blow-drying or styling tool use.',
+      'Effectively reduces frizz and smooths hair fibers, maintaining calm and shiny hair all day long.',
+    ],
+    whoFor:
+      'Suitable for all hair types, especially recommended for those who want to add vitality to dull and lackluster hair. Those concerned about damage from frequent heat styling can also expect heat protection benefits.',
+    howTo: [
+      'Pump 2-4 times and apply evenly from mid-lengths to ends of towel-dried or dry hair, then style.',
+      'Apply to hair before shampooing to remove impurities, or mix with a hair mask to enhance nourishing effects.',
+      'Use as a heat protectant before blow-drying, or as a finishing step to add shine, softness, and tame flyaways.',
+    ],
+    pros: [
+      'Suitable for all hair types and absorbs quickly without stickiness.',
+      'Provides instant shine and softness to hair and effectively reduces frizz.',
+      'Has heat protection to minimize hair damage when using blow dryers or curling irons.',
+    ],
+    cons: [
+      'There may be controversy regarding the harmfulness of some ingredients (Cyclopentasiloxane).',
+      'Personal preferences for the scent may vary.',
+    ],
+    image: '/products/kerastase-elixir-ultime-l-huile-originale.webp',
+    coupangQuery: '케라스타즈 엘릭서 얼팀 오리지널 헤어 오일',
+    globalQuery: 'Kérastase Elixir Ultime L\'Huile Originale',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-19',
+    tags: ['Hair Oil', 'Damaged Hair Care', 'Shine', 'Heat Protection', 'Light Finish'],
+  },
+  {
     slug: 'round-lab-birch-juice-moisturizing-sun-cream',
     category: 'skincare',
     brand: 'ROUND LAB',
