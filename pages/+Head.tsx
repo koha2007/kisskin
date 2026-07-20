@@ -50,9 +50,18 @@ export default function Head() {
         crossOrigin="anonymous"
         defer
       />
-      <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap" />
-      </noscript>
+      {/*
+        아이콘 폰트는 <head> 에서 동기 로드한다. 예전엔 bodyHtmlEnd 에서 media="print"
+        트릭으로 비동기 주입했는데, 그러면 CSS 가 붙기 전까지 @font-face 자체가 없어서
+        <span class="material-symbols-outlined">menu</span> 가 글자 "menu" 로 그대로
+        보인다. 첫 화면이 "face 얼굴형 자가 진단 / 진단 시작하기 arrow_forward" 처럼
+        깨져 보였고, 네이버 인앱 웹뷰 유입이 1~14초 만에 튕기던 유력 원인이다.
+        display=block 이면 폰트 대기 중 글자가 '투명'으로 잡혀 리거처 텍스트가 새지 않는다.
+      */}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=block"
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Organization",

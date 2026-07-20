@@ -67,6 +67,11 @@ export default function MakeupMbtiResult({ code }: Props) {
   const tints = [type.primaryColor, type.accentColor, type.card.gradient[1]]
   const tint = (i: number) => tints[i % tints.length]
 
+  // 제품 카드가 그리드 맨 뒤라 2단 masonry 바닥에 깔렸다(affiliate_click 28일 0건).
+  // 대표 1장만 상단으로 올리고 나머지는 원래 자리에 둔다.
+  const recs = MBTI_RECOMMENDATIONS[type.code] ?? []
+  const [leadRec, ...restRecs] = recs
+
   const L = isEn
     ? {
         axisTitle: 'Your axes', sigTitle: 'Signature look', match: 'Compatible type', contrast: 'Contrast type',
@@ -145,6 +150,10 @@ export default function MakeupMbtiResult({ code }: Props) {
                 <IconCard key={`trait-${i}`} icon={tr.icon} label={tr.title} text={tr.desc} accent={accent} tint={tint(i + 1)} />
               ))}
 
+              {leadRec && (
+                <ProductGridCard item={leadRec} accent={accent} pageType="mbti" pageSlug={type.code} />
+              )}
+
               <IconCard icon="favorite" label={`${L.sigTitle} · ${L.lip}`} text={signature.lip} accent={accent} tint={tint(0)} />
               <IconCard icon="visibility" label={`${L.sigTitle} · ${L.eye}`} text={signature.eye} accent={accent} tint={tint(1)} />
               <IconCard icon="auto_fix_high" label={`${L.sigTitle} · ${L.base}`} text={signature.base} accent={accent} tint={tint(2)} />
@@ -164,7 +173,7 @@ export default function MakeupMbtiResult({ code }: Props) {
                 tint={tint(2)}
               />
 
-              {(MBTI_RECOMMENDATIONS[type.code] ?? []).map((item, i) => (
+              {restRecs.map((item, i) => (
                 <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="mbti" pageSlug={type.code} />
               ))}
 

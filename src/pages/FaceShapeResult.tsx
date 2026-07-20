@@ -43,6 +43,11 @@ export default function FaceShapeResult({ code }: Props) {
   const tints = [t.primaryColor, t.accentColor, t.card.gradient[1]]
   const tint = (i: number) => tints[i % tints.length]
 
+  // 제품 카드가 그리드 맨 뒤라 2단 masonry 바닥에 깔렸다(affiliate_click 28일 0건).
+  // 대표 1장만 상단으로 올리고 나머지는 원래 자리에 둔다.
+  const recs = FS_RECOMMENDATIONS[t.code] ?? []
+  const [leadRec, ...restRecs] = recs
+
   const L = isEn
     ? {
         feature: 'Core feature', contour: 'Contouring', style: 'Styling', avoid: 'Style to avoid',
@@ -103,6 +108,10 @@ export default function FaceShapeResult({ code }: Props) {
                 <IconCard key={`feat-${i}`} icon={featureIcons[i % featureIcons.length]} label={L.feature} text={f} accent={accent} tint={tint(i)} />
               ))}
 
+              {leadRec && (
+                <ProductGridCard item={leadRec} accent={accent} pageType="face_shape" pageSlug={t.code} />
+              )}
+
               <IconCard icon="grid_3x3" label={`${L.contour} · ${L.forehead}`} text={contouring.forehead} accent={accent} tint={tint(0)} />
               <IconCard icon="face" label={`${L.contour} · ${L.cheekbone}`} text={contouring.cheekbone} accent={accent} tint={tint(1)} />
               <IconCard icon="call_to_action" label={`${L.contour} · ${L.jawline}`} text={contouring.jawline} accent={accent} tint={tint(2)} />
@@ -122,7 +131,7 @@ export default function FaceShapeResult({ code }: Props) {
               <IconCard icon="male" label={`${L.look} · ${L.male}`} text={t.kissinskin.men} accent={accent} tint={tint(1)} />
               <IconCard icon="recommend" label={L.look} text={kissinskinReason} accent={accent} tint={tint(2)} />
 
-              {(FS_RECOMMENDATIONS[t.code] ?? []).map((item, i) => (
+              {restRecs.map((item, i) => (
                 <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="face_shape" pageSlug={t.code} />
               ))}
 

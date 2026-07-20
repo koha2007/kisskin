@@ -102,6 +102,7 @@ export const REVIEW_POSTS_EN: ReviewPost[] = [
     outro: [
       'What the data says: (1) Six of the global top 10 are Korean brands — a measure of K-beauty’s reach. (2) Prices span $11 to $40 as the market spreads from luxury into the mid-range. (3) Glossy finishes (7) outnumber matte (3), but the next wave — a matte comeback — is already clear.',
       'Before you buy: (1) Pick a color family that suits your personal color. (2) Decide your finish — matte, satin, or glossy. (3) If your lips run dry, lean glossy or a mask-type balm. (4) On a budget, Korean mid-range ($10–15) gives up little to luxury on performance.',
+      '> TOOL: Not sure which shade family is yours? | /en/tools/makeup-mbti/ | Free makeup MBTI · 12 questions · no signup · each of the 16 types comes with its own lip shade shortlist',
       '> KEY: Final verdict — rom&nd Juicy Lasting Tint (#1) best balances value, payoff, and wear. For luxury, Charlotte Tilbury Pillow Talk Matte (#4); for a classic red, MAC Russian Red (#5).',
     ],
     date: '2026-04-30',

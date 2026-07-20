@@ -7,21 +7,6 @@ export default {
   htmlAttributes: { class: 'light', dir: 'ltr', style: 'scroll-behavior: smooth' },
   bodyHtmlEnd: `
     <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;}</style>
-    <script>
-      (function() {
-        var fonts = [
-          'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap'
-        ];
-        fonts.forEach(function(href) {
-          var l = document.createElement('link');
-          l.rel = 'stylesheet';
-          l.href = href;
-          l.media = 'print';
-          l.onload = function() { this.media = 'all'; };
-          document.head.appendChild(l);
-        });
-      })();
-    </script>
     <script src="/pwa-register.js" defer></script>
     <script src="https://unpkg.com/@polar-sh/checkout@0.2.0/dist/embed.global.js" defer></script>
     <script>

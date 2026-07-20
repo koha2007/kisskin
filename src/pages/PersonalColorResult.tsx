@@ -45,6 +45,12 @@ export default function PersonalColorResult({ code }: Props) {
   const pal = mood.palette.map(p => p.hex)
   const tint = (i: number) => pal[i % pal.length] ?? accent
 
+  // 제품 카드는 원래 그리드 20장 중 18번째라 2단 masonry 기준 마지막 단 바닥에 깔렸고,
+  // GA4 상 affiliate_click 이 28일간 0건이었다. 대표 1장만 상단(3번째 카드)으로 올려
+  // 첫 화면에 들여보내고 나머지는 원래 자리에 둔다 — 전부 올리면 광고부터 보이는 페이지가 된다.
+  const recs = PC_RECOMMENDATIONS[t.code] ?? []
+  const [leadRec, ...restRecs] = recs
+
   const L = isEn
     ? {
         palette: 'Signature palette', best: 'Best colors', avoid: 'Colors to avoid',
@@ -100,6 +106,10 @@ export default function PersonalColorResult({ code }: Props) {
 
               <PaletteCard title={L.palette} swatches={mood.palette} accent={accent} />
 
+              {leadRec && (
+                <ProductGridCard item={leadRec} accent={accent} pageType="personal_color" pageSlug={t.code} />
+              )}
+
               <IconCard icon="face" label={L.skin} text={traits.skin} accent={accent} tint={tint(0)} />
               <IconCard icon="favorite" label={`${L.makeup} · ${L.lip}`} text={bestColors.makeup.lip} accent={accent} tint={tint(3)} />
               <ChipsCard title={L.best} chips={bestColors.clothing} accent={accent} tint={tint(1)} />
@@ -120,7 +130,7 @@ export default function PersonalColorResult({ code }: Props) {
                 <TipCard key={`tip-${i}`} tip={tip} accent={accent} tint={tint(i + 2)} />
               ))}
 
-              {(PC_RECOMMENDATIONS[t.code] ?? []).map((item, i) => (
+              {restRecs.map((item, i) => (
                 <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="personal_color" pageSlug={t.code} />
               ))}
 
