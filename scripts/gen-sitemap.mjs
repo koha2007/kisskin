@@ -16,6 +16,7 @@
 // 데이터가 기계 생성으로 바뀌어도 `slug: '...'` / `date: '...'` 형식만 지키면 됨.
 // 빌드 첫 단계로 실행(package.json) → public/ 이 dist 로 복사되기 전에 최신화.
 // ════════════════════════════════════════════════════════════════════
+import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -114,6 +115,73 @@ xml = xml.replace(/^[ \t]*<url>[\s\S]*?<\/url>[ \t]*\n?/gm, (block) => {
   if (DETAIL.test(loc.replace(SITE, ''))) { removed++; return '' }
   return block
 })
+
+// ── 정적/도구 URL 의 <lastmod> 를 git 커밋 날짜로 갱신 ──
+// 왜: 이 블록들은 위에서 "그대로 보존"되기 때문에 손으로 적은 날짜가 그대로 굳는다.
+//     2026-07-20 기준 홈이 2026-05-15, 도구 결과 31개가 5월 날짜였다 — 그날 실제로
+//     레이아웃을 바꿨는데도 구글엔 "안 바뀐 페이지"로 보인다. lastmod 가 안 움직이면
+//     사이트맵 재제출은 아무 일도 하지 않는다.
+// 방식: URL → 그 라우트를 실제로 렌더하는 소스 경로들 → 그중 최신 커밋 날짜(%cs).
+//     매 빌드마다 오늘 날짜를 찍지 않는다 — 그러면 lastmod 가 거짓말이 되고
+//     구글이 이 신호를 통째로 무시하게 된다. 실제로 코드가 바뀐 날만 움직인다.
+// 제외: pages/+Head.tsx · pages/+config.ts 같은 전역 파일은 매핑에 넣지 않는다.
+//     넣으면 head 한 줄만 고쳐도 236개 URL 이 전부 오늘로 바뀌어 의미가 사라진다.
+const TOOL_SOURCES = {
+  'personal-color': ['src/pages/PersonalColorQuiz.tsx', 'src/pages/PersonalColorResult.tsx', 'src/lib/personal-color', 'src/lib/recommendations/personal-color.ts'],
+  'face-shape':     ['src/pages/FaceShapeQuiz.tsx', 'src/pages/FaceShapeResult.tsx', 'src/lib/face-shape', 'src/lib/recommendations/face-shape.ts'],
+  'makeup-mbti':    ['src/pages/MakeupMbtiQuiz.tsx', 'src/pages/MakeupMbtiResult.tsx', 'src/lib/makeup-mbti', 'src/lib/recommendations/makeup-mbti.ts'],
+  'perfume-type':   ['src/pages/PerfumeTypeQuiz.tsx', 'src/pages/PerfumeTypeResult.tsx', 'src/lib/perfume-type', 'src/lib/recommendations/perfume-type.ts'],
+}
+// 도구 결과 카드(제품 카드 포함)는 이 공용 컴포넌트들이 만든다 → 4개 도구 전부에 물린다.
+const RESULT_SHARED = ['src/components/result-grid']
+const PATH_SOURCES = [
+  { test: (p) => p === '/',                    files: ['pages/index'] },
+  { test: (p) => p === '/analysis/',           files: ['pages/analysis', 'src/components/makeup'] },
+  { test: (p) => p === '/tools/',              files: ['pages/tools/+Page.tsx', 'src/pages/ToolsHub.tsx'] },
+  { test: (p) => p === '/news/',               files: ['src/pages/NewsHub.tsx'] },
+  { test: (p) => p === '/guides/',             files: ['src/pages/GuidesHub.tsx'] },
+  { test: (p) => p === '/reviews/',            files: ['src/pages/ReviewsHub.tsx'] },
+  { test: (p) => p === '/products/',           files: ['src/pages/ProductsHub.tsx'] },
+  { test: (p) => p === '/about/',              files: ['pages/about', 'src/pages/AboutPage.tsx'] },
+  { test: (p) => p === '/about-makeup-ai/',    files: ['pages/about-makeup-ai', 'src/pages/AboutMakeupAi.tsx'] },
+  { test: (p) => p === '/contact/',            files: ['src/pages/contact.tsx'] },
+  { test: (p) => p === '/privacy/',            files: ['src/pages/privacy.tsx'] },
+  { test: (p) => p === '/terms/',              files: ['src/pages/terms.tsx'] },
+  { test: (p) => p === '/refund/',             files: ['src/pages/refund.tsx'] },
+]
+
+const gitDateCache = new Map()
+function gitDate(files) {
+  const key = files.join('|')
+  if (gitDateCache.has(key)) return gitDateCache.get(key)
+  let out = null
+  try {
+    const r = execFileSync('git', ['log', '-1', '--format=%cs', '--', ...files], { encoding: 'utf8' }).trim()
+    if (/^\d{4}-\d{2}-\d{2}$/.test(r)) out = r
+  } catch { /* 파일이 아직 없거나 git 이 없는 환경 — 기존 날짜를 그대로 둔다 */ }
+  gitDateCache.set(key, out)
+  return out
+}
+
+/** URL 경로 → 소스 파일 목록. 매핑이 없으면 null(=기존 lastmod 유지). */
+function sourcesFor(path) {
+  const p = path.startsWith('/en/') ? path.slice(3) : path === '/en/' ? '/' : path
+  const tool = p.match(/^\/tools\/([a-z-]+)\/(?:[a-z0-9-]+\/)?$/)
+  if (tool && TOOL_SOURCES[tool[1]]) return [...TOOL_SOURCES[tool[1]], ...RESULT_SHARED]
+  const hit = PATH_SOURCES.find((e) => e.test(p))
+  return hit ? hit.files : null
+}
+
+let bumped = 0
+xml = xml.replace(/<loc>([^<]+)<\/loc>(\s*)<lastmod>([^<]+)<\/lastmod>/g, (m, loc, gap, old) => {
+  const files = sourcesFor(loc.replace(SITE, ''))
+  if (!files) return m
+  const d = gitDate(files)
+  if (!d || d === old) return m
+  bumped++
+  return `<loc>${loc}</loc>${gap}<lastmod>${d}</lastmod>`
+})
+console.log(`[gen-sitemap] 정적/도구 lastmod 갱신: ${bumped}개`)
 
 if (!xml.includes('</urlset>')) {
   console.error('[gen-sitemap] </urlset> 를 찾지 못했습니다 — 중단'); process.exit(1)
