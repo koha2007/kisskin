@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-latin-america-tiktok-surge-2026',
+    category: 'global',
+    title: 'NIQ Report: K-Beauty Sees 135% Explosive Growth in Latin American Market and 430% Surge in Global Sales via TikTok Shop',
+    summary:
+      'According to the latest report from global market research firm NIQ, K-Beauty recorded 131% global sales growth over the past two years, establishing itself as a new growth engine for the global beauty market. Notably, sales in the Latin American market surged by 135%, and K-Beauty brand sales via TikTok Shop increased by 430% year-on-year, highlighting significant regional and channel diversification.',
+    body: [
+      '> TLDR: Latin American beauty market grows 135% | TikTok Shop sales surge 430% | K-Beauty enters global \'Phase 3\'',
+      'According to NIQ\'s recently released \'K-Beauty Global Expansion\' report, K-Beauty has achieved remarkable sales growth globally, up 53% year-on-year and a cumulative 131% over the past two years, reshaping the global beauty industry landscape. This growth is attributed to the synergy of innovative products, social commerce, and digitally-driven consumer demand.',
+      '> DATA: According to the NIQ report, as of July 2026, K-Beauty sales in the Latin American market, primarily driven by Brazil and Mexico, increased by 135% year-on-year, emerging as the most notable growth region. Furthermore, K-Beauty brand sales on TikTok Shop in the UK, US, Spain, and Germany surged by 430% year-on-year in 2025, demonstrating the significant influence of social commerce.',
+      'The European market also recorded a sales growth rate of 58% year-on-year, and the strength of online channels continues in North America, where e-commerce accounts for 76% of K-Beauty sales. This demonstrates K-Beauty\'s successful diversification of its export markets beyond China, into various regions including North America, Europe, and Latin America.',
+      'The industry assesses that K-Beauty has moved beyond its past reliance on specific countries or channels, entering a \'Phase 3\' growth stage where regions, channels, and product categories are expanding simultaneously. Expansion into adjacent categories such as derma, hair care, and wellness, beyond skincare, is projected to be the main driver of future growth.',
+      'This data suggests that K-Beauty brands can achieve sustained growth by accurately identifying the evolving needs of global consumers, and by utilizing tailored strategies for each market and leveraging digital channels.',
+    ],
+    date: '2026-07-20',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global Market', 'Latin America', 'TikTok Shop', 'NIQ Report'],
+  },
+  {
     slug: 'amazon-prime-day-2026-kbeauty-skinnification-pdrn',
     category: 'skincare',
     title: 'Amazon Prime Day 2026 K-Beauty: Skinification and PDRN Ingredient Trends Emerge',

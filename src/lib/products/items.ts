@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'tamburins-perfume-hand-000',
+    category: 'fragrance',
+    brand: '탬버린즈',
+    name: '퍼퓸 핸드 [000]',
+    title: '탬버린즈 퍼퓸 핸드 [000]: 흙내음 머금은 풀내음, 유니크한 우디 시트러스 향',
+    summary:
+      '탬버린즈 000은 베르가못과 샌달우드, 패츌리의 조화로 흙내음 섞인 풀내음을 선사하는 퍼퓸 핸드크림입니다. 빠르게 흡수되어 끈적임 없이 산뜻하며, 향수처럼 풍성한 잔향이 오래 지속되는 것이 특징입니다.',
+    highlights: ['시원한 우디 시트러스', '빠른 흡수, 산뜻한 마무리', '향수 같은 긴 지속력'],
+    details: [
+      '탑노트의 베르가못과 쌉쌀한 청귤이 청량한 첫인상을 주며, 이어지는 라임 카다멈이 신선함을 더합니다.',
+      '미들노트의 패츌리와 샌달우드가 어우러져 촉촉한 흙내음을 머금은 듯한 우디하고 중성적인 향을 느낄 수 있습니다.',
+      '끈적임 없이 빠르게 흡수되어 손을 부드럽게 가꿔주며, 향이 오래 지속되어 향수 대용으로도 활용하기 좋습니다.',
+    ],
+    whoFor:
+      '자연의 활기, 흙내음이 섞인 풀내음을 선호하며, 독특하고 중성적인 향을 찾는 분에게 적합합니다. 끈적임 없이 산뜻한 사용감을 선호하는 모든 피부 타입이 사용하기 좋습니다.',
+    howTo: [
+      '손을 씻은 후 물기가 완전히 마르기 전, 적당량을 덜어 손 전체에 부드럽게 펴 바릅니다.',
+      '움직임이 많고 피부가 얇은 손목 부위에도 발라 마사지하듯 흡수시켜주면 향을 더욱 풍부하게 즐길 수 있습니다.',
+    ],
+    pros: [
+      '유니크하고 중성적인 우디 시트러스 향이 매력적입니다.',
+      '향수처럼 긴 지속력으로 하루 종일 은은한 잔향을 느낄 수 있습니다.',
+      '끈적임 없이 산뜻하게 흡수되어 부담 없이 사용할 수 있습니다.',
+    ],
+    cons: [
+      '향이 강하게 느껴질 수 있어 호불호가 갈릴 수 있습니다.',
+      '보습력이 아주 뛰어난 편은 아니어서 건성 피부에는 부족하게 느껴질 수 있습니다.',
+    ],
+    image: '/products/tamburins-perfume-hand-000.webp',
+    coupangQuery: '탬버린즈 퍼퓸 핸드 000',
+    globalQuery: 'Tamburins Perfume Hand 000',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-20',
+    tags: ['핸드크림', '향수핸드크림', '우디향', '시트러스향', '중성적인향', '탬버린즈'],
+  },
+  {
     slug: 'kerastase-elixir-ultime-l-huile-originale',
     category: 'hair',
     brand: '케라스타즈',

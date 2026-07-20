@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'tamburins-perfume-hand-000',
+    category: 'fragrance',
+    brand: 'tamburins',
+    name: 'Perfume Hand [000]',
+    title: 'tamburins Perfume Hand [000]: Grassy Scent with Earthy Undertones, Unique Woody Citrus Fragrance',
+    summary:
+      'tamburins 000 is a perfume hand cream that delivers a grassy scent mixed with earthy notes, created by the harmony of bergamot, sandalwood, and patchouli. It absorbs quickly without stickiness, leaving a refreshing feel, and features a rich, long-lasting fragrance like a perfume.',
+    highlights: ['Cool Woody Citrus', 'Fast absorption, refreshing finish', 'Long-lasting like a perfume'],
+    details: [
+      'The top notes of bergamot and bitter green tangerine create a refreshing first impression, followed by lime cardamom adding freshness.',
+      'The middle notes of patchouli and sandalwood blend to create a woody, gender-neutral scent that feels like moist earth.',
+      'It absorbs quickly without stickiness, leaving hands soft, and its long-lasting scent makes it suitable as a perfume substitute.',
+    ],
+    whoFor:
+      'Suitable for those who prefer the vitality of nature, a grassy scent mixed with earthy notes, and are looking for a unique, gender-neutral fragrance. It\'s great for all skin types who prefer a non-sticky, refreshing feel.',
+    howTo: [
+      'After washing hands and before they are completely dry, dispense an appropriate amount and gently spread it over the entire hands.',
+      'For a richer fragrance, apply to the wrists, where there is more movement and thinner skin, and massage until absorbed.',
+    ],
+    pros: [
+      'The unique and gender-neutral woody citrus scent is appealing.',
+      'Long-lasting like a perfume, allowing you to enjoy a subtle lingering scent all day.',
+      'Absorbs refreshingly without stickiness, making it comfortable to use.',
+    ],
+    cons: [
+      'The scent might be perceived as strong, which could be polarizing.',
+      'Moisturizing power is not exceptionally high, so it might feel insufficient for very dry skin.',
+    ],
+    image: '/products/tamburins-perfume-hand-000.webp',
+    coupangQuery: '탬버린즈 퍼퓸 핸드 000',
+    globalQuery: 'Tamburins Perfume Hand 000',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-20',
+    tags: ['hand cream', 'perfume hand cream', 'woody scent', 'citrus scent', 'gender-neutral scent', 'tamburins'],
+  },
+  {
     slug: 'kerastase-elixir-ultime-l-huile-originale',
     category: 'hair',
     brand: 'Kérastase',

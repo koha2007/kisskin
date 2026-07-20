@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kissinskin.net/</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/" />
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/analysis/</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/analysis/" />
@@ -23,7 +23,7 @@
   <!-- Tools Hub -->
   <url>
     <loc>https://kissinskin.net/tools/</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -99,7 +99,7 @@
   <!-- Long-form Guide -->
   <url>
     <loc>https://kissinskin.net/about-makeup-ai/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -107,7 +107,7 @@
   <!-- News Hub -->
   <url>
     <loc>https://kissinskin.net/news/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -117,7 +117,7 @@
   <!-- Makeup Products Hub -->
   <url>
     <loc>https://kissinskin.net/products/</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -125,7 +125,7 @@
   <!-- Guides Hub -->
   <url>
     <loc>https://kissinskin.net/guides/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -135,7 +135,7 @@
   <!-- Reviews Hub -->
   <url>
     <loc>https://kissinskin.net/reviews/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -145,31 +145,31 @@
   <!-- Legal -->
   <url>
     <loc>https://kissinskin.net/terms/</loc>
-    <lastmod>2026-06-17</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/privacy/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/refund/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/contact/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/about/</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about/" />
@@ -180,7 +180,7 @@
   <!-- English (/en/*) URLs — pages with bilingual content -->
   <url>
     <loc>https://kissinskin.net/en/</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/" />
@@ -189,7 +189,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/about/</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.55</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about/" />
@@ -198,7 +198,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/contact/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/contact/" />
@@ -207,7 +207,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/privacy/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/privacy/" />
@@ -216,7 +216,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/terms/</loc>
-    <lastmod>2026-06-17</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/terms/" />
@@ -225,7 +225,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/refund/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/refund/" />
@@ -234,7 +234,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/about-makeup-ai/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about-makeup-ai/" />
@@ -320,7 +320,7 @@
   <!-- EN Tools Hub -->
   <url>
     <loc>https://kissinskin.net/en/tools/</loc>
-    <lastmod>2026-07-14</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -331,7 +331,7 @@
   <!-- EN Guides Hub -->
   <url>
     <loc>https://kissinskin.net/en/guides/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/guides/" />
@@ -344,7 +344,7 @@
   <!-- EN Reviews Hub -->
   <url>
     <loc>https://kissinskin.net/en/reviews/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/reviews/" />
@@ -357,7 +357,7 @@
   <!-- EN News Hub -->
   <url>
     <loc>https://kissinskin.net/en/news/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/" />
@@ -368,7 +368,7 @@
   <!-- EN Makeup Products Hub -->
   <url>
     <loc>https://kissinskin.net/en/products/</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/" />
@@ -377,6 +377,8 @@
   </url>
 
   <!-- EN News Articles -->
+  <url><loc>https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-latin-america-tiktok-surge-2026/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/" /></url>
+  <url><loc>https://kissinskin.net/en/news/k-beauty-latin-america-tiktok-surge-2026/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-latin-america-tiktok-surge-2026/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/" /></url>
   <url><loc>https://kissinskin.net/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/</loc><lastmod>2026-07-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/" /></url>
   <url><loc>https://kissinskin.net/en/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/</loc><lastmod>2026-07-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn/" /></url>
   <url><loc>https://kissinskin.net/news/k-beauty-global-sales-surge-niq-2026-july/</loc><lastmod>2026-07-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-global-sales-surge-niq-2026-july/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-global-sales-surge-niq-2026-july/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-global-sales-surge-niq-2026-july/" /></url>
@@ -438,6 +440,8 @@
   <url><loc>https://kissinskin.net/en/news/sephora-k-beauty-bestsellers-2026/</loc><lastmod>2026-03-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/sephora-k-beauty-bestsellers-2026/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/sephora-k-beauty-bestsellers-2026/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/sephora-k-beauty-bestsellers-2026/" /></url>
   <url><loc>https://kissinskin.net/news/sustainable-cosmetics-2026/</loc><lastmod>2026-03-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kissinskin.net/news/ai-skincare-personalization-2026/</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/products/tamburins-perfume-hand-000/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/tamburins-perfume-hand-000/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/tamburins-perfume-hand-000/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/tamburins-perfume-hand-000/" /></url>
+  <url><loc>https://kissinskin.net/en/products/tamburins-perfume-hand-000/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/tamburins-perfume-hand-000/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/tamburins-perfume-hand-000/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/tamburins-perfume-hand-000/" /></url>
   <url><loc>https://kissinskin.net/products/kerastase-elixir-ultime-l-huile-originale/</loc><lastmod>2026-07-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/kerastase-elixir-ultime-l-huile-originale/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/kerastase-elixir-ultime-l-huile-originale/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/kerastase-elixir-ultime-l-huile-originale/" /></url>
   <url><loc>https://kissinskin.net/en/products/kerastase-elixir-ultime-l-huile-originale/</loc><lastmod>2026-07-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/kerastase-elixir-ultime-l-huile-originale/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/kerastase-elixir-ultime-l-huile-originale/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/kerastase-elixir-ultime-l-huile-originale/" /></url>
   <url><loc>https://kissinskin.net/products/round-lab-birch-juice-moisturizing-sun-cream/</loc><lastmod>2026-07-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/round-lab-birch-juice-moisturizing-sun-cream/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/round-lab-birch-juice-moisturizing-sun-cream/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/round-lab-birch-juice-moisturizing-sun-cream/" /></url>
