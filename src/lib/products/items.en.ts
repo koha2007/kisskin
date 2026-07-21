@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'fenty-skin-cherry-treat-conditioning-strengthening-lip-oil',
+    category: 'lip',
+    brand: 'FENTY SKIN',
+    name: 'Cherry Treat Conditioning + Strengthening Lip Oil',
+    title: 'FENTY SKIN Cherry Treat Lip Oil: The Hydration of a Balm, The Shine of a Gloss, All in One!',
+    summary:
+      'Rihanna\'s FENTY SKIN introduces an ultra-hydrating lip oil that nourishes dry, chapped lips and strengthens the moisture barrier. It delivers non-sticky, dewy, and glossy lips with an appealing subtle cherry scent.',
+    highlights: ['Non-sticky, dewy glow', 'Intense hydration and nourishment', 'Plush applicator', 'Sweet cherry scent'],
+    details: [
+      'Triple cherry ingredients including cherry seed oil, Barbados cherry extract, and wild cherry extract provide rich nourishment and conditioning to the lips.',
+      'Jojoba seed oil and rosehip fruit oil prevent moisture evaporation and soothe dry lips, maintaining long-lasting hydration.',
+      'The plush, soft applicator allows for easy and sufficient application to the entire lip with just one swipe, and layering enhances the glossy finish.',
+      'The transparent, non-sticky texture adheres comfortably to the lips, providing a natural shine. It\'s perfect for use alone or layered over lip color.',
+    ],
+    whoFor:
+      'Suitable for all skin types concerned with dry, easily chapped lips, especially recommended for those who prefer a hydrating yet non-sticky lip oil. Ideal for individuals seeking natural color and glossy lip expression.',
+    howTo: [
+      'Apply directly to clean, dry lips using the plush applicator.',
+      'Use alone or layer over lipstick or lip tint for added shine and hydration.',
+      'Apply generously before bed as an overnight lip conditioning treatment for softer lips the next morning.',
+    ],
+    pros: [
+      'Provides deep hydration and nourishment to the lips, alleviating dryness and making them smooth.',
+      'Applies refreshingly without stickiness while delivering a plump, glossy effect.',
+      'The lovely cherry scent is pleasant, a charming advantage if you are not sensitive to fragrances.',
+    ],
+    cons: [
+      'The cherry scent might be strong for those sensitive to fragrances.',
+      'It is relatively more expensive than other lip oils, which might be a drawback if value for money is a priority.',
+    ],
+    colorFit:
+      'Suits all personal colors. Its transparent finish enhances the natural lip color with a dewy, vibrant shine.',
+    image: '/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil.webp',
+    coupangQuery: '펜티 스킨 체리 트릿 립 오일',
+    globalQuery: 'Fenty Skin Cherry Treat Conditioning + Strengthening Lip Oil',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-07-21',
+    tags: ['lipoil', 'dewyglow', 'cherryscent', 'nonsticky', 'dailylip'],
+  },
+  {
     slug: 'tamburins-perfume-hand-000',
     category: 'fragrance',
     brand: 'tamburins',

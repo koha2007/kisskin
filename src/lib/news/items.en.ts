@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-mongolia-market-surge-cepa-2026-july',
+    category: 'global',
+    title: 'K-retail and K-beauty Accelerate Mongolian Market Penetration Amidst Principal Agreement on Korea-Mongolia CEPA: K-beauty Imports Hit $44.93 Million in 2025',
+    summary:
+      'South Korea and Mongolia have recently reached a principal agreement on the Comprehensive Economic Partnership Agreement (CEPA), signaling further expansion for K-beauty in the Mongolian market. K-retail brands such as CU and GS25 are already experiencing significant local success, while K-beauty product imports reached $44.93 million in 2025, a 21.6% increase from the previous year.',
+    body: [
+      '> TLDR: Korea-Mongolia CEPA Agreement | K-retail Brands\' Strong Performance | K-beauty Imports Surge 21.6%',
+      'Following the recent principal agreement on the Comprehensive Economic Partnership Agreement (CEPA) between South Korea and Mongolia, South Korean brands, including K-beauty, are gaining significant momentum in penetrating the Mongolian market. This agreement is expected to bring tariff benefits and expand cooperation across various sectors.',
+      'In Mongolia, CU already operates approximately 600 stores and GS25 around 300, establishing themselves as essential local lifestyle infrastructure. The expansion of K-retail is further highlighted by E-Mart, which opened its first No Brand specialty store, the largest overseas, on July 10th.',
+      '> DATA: Mongolia\'s imports of South Korean cosmetics reached $44.93 million (approximately KRW 67.1 billion) in 2025, marking a 21.6% increase year-on-year and setting a new all-time high.',
+      'This strong performance of K-beauty is attributed to a combination of factors: high brand recognition, excellent quality at reasonable prices, rapid trend adoption, strong skincare competitiveness, and effective SNS-based marketing.',
+      'The \'2026 Korea-Mongolia K-Beauty & Culture Festival\' is scheduled to be held in Ulaanbaatar this coming August. This event is expected to further contribute to K-beauty\'s local establishment and foster a foundation for long-term cultural exchange.',
+    ],
+    date: '2026-07-21',
+    readMinutes: 3,
+    tags: ['Mongolia', 'K-beauty', 'CEPA', 'Export Data', 'Retail'],
+  },
+  {
     slug: 'k-beauty-latin-america-tiktok-surge-2026',
     category: 'global',
     title: 'NIQ Report: K-Beauty Sees 135% Explosive Growth in Latin American Market and 430% Surge in Global Sales via TikTok Shop',
