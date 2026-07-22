@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'romand-han-all-fix-mascara-long-ash',
+    category: 'eye',
+    brand: 'rom&nd',
+    name: 'Han All Fix Mascara [L02 Long Ash]',
+    title: 'rom&nd Han All Fix Mascara Long Ash: Effortless Daily Eye Makeup!',
+    summary:
+      'This mascara features a natural ash-brown color to reduce the typical heaviness of mascara, and it stays neatly fixed all day without drooping.',
+    highlights: ['Waterproof, resistant to water and sweat', 'Clump-free, individual lash definition', 'Natural ash-brown color', 'Strong curling hold'],
+    details: [
+      'Its strong waterproof function resists water and sweat, keeping your eye makeup clean without smudging.',
+      'The mascara formula is light and thin, allowing for multiple coats without clumping, naturally extending each lash as if individually coated.',
+      'The ash-brown color is softer than black yet more defined than brown, creating a natural yet clear eye look.',
+      'The slim mascara brush meticulously curls even short lashes, boasting a strong, non-drooping hold.',
+    ],
+    whoFor:
+      'Recommended for those who want to create a natural yet defined eye look. It is especially satisfying for those concerned about mascara smudging and drooping, seeking a long-lasting product.',
+    howTo: [
+      'After sufficiently curling your lashes with an eyelash curler, lightly sweep the mascara brush from the roots to the tips of your lashes.',
+      'It applies neatly to each lash without clumping, so you can apply multiple coats for your desired length and volume.',
+    ],
+    pros: [
+      'Strongly holds curls all day without drooping.',
+      'Waterproof function resists water and sweat, minimizing smudging.',
+      'Natural ash-brown color is perfect for effortless daily makeup.',
+    ],
+    cons: [
+      'This product focuses more on lengthening than volumizing, so those with sparse lashes might find the volume insufficient.',
+      'The mascara dries a bit slowly, so it might transfer if you blink immediately after application.',
+    ],
+    colorFit:
+      'The Long Ash color is a natural ash-brown that suits both warm and cool tones, making it an excellent choice for those who find black mascara too harsh.',
+    image: '/products/romand-han-all-fix-mascara-long-ash.webp',
+    coupangQuery: '롬앤 한올 픽스 마스카라 롱 애쉬',
+    globalQuery: 'romand han all fix mascara long ash',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-07-22',
+    tags: ['rom&ndmascara', 'hanallfixmascara', 'longash', 'dailymascara', 'smudgeproofmascara', 'curlingmascara', 'waterproofmascara', 'naturalmascara'],
+  },
+  {
     slug: 'fenty-skin-cherry-treat-conditioning-strengthening-lip-oil',
     category: 'lip',
     brand: 'FENTY SKIN',

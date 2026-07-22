@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-ai-hair-platform-lianhair-2026-july',
+    category: 'global',
+    title: 'K-Beauty\'s AI Transformation Accelerates: Fasoo AI Partners with Lian Hair to Build \'Hyper-Personalized Beauty Platform\'',
+    summary:
+      'As the Artificial Intelligence (AI) transformation (AX) of the K-Beauty market accelerates, domestic company Fasoo AI is collaborating with hair salon franchise Lian Hair to build an AI beauty platform. This platform will offer virtual simulations and customized hairstyle recommendations based on hyper-personalized data, aiming to target the global beauty tech market.',
+    body: [
+      '> TLDR: AI Beauty Platform | Hyper-personalized Hair | K-Beauty AX Acceleration',
+      'Domestic hair salon franchise Lian Hair has been selected as the lead company for the \'2026 AX One-Stop Voucher Support Project\' promoted by the Ministry of Science and ICT and the National IT Industry Promotion Agency (NIPA), and will collaborate with Fasoo AI. The two companies plan to jointly build an AI beauty platform for the AI transformation (AX) in the K-Beauty sector.',
+      'This platform will provide virtual simulations based on hyper-personalized data that reflects real facial features and preferences, and will include features that custom-recommend optimal hairstyles and designers to users.',
+      '> DATA: In this project, which is part of the \'AX One-Stop Voucher Support Project\' totaling 26 billion KRW, Fasoo AI will be responsible for AI development based on its agentic AX platform \'Ellm\', while Naver Cloud and LabQ will support the cloud infrastructure and data aspects.',
+      'Utilizing operational data from Lian Hair\'s 500 stores, which is celebrating its 25th anniversary, an optimized AI system will be built, and plans include implementing both a customer-facing app and an in-store web app.',
+      'This move is interpreted as a strategy for K-Beauty to expand beyond simple product sales into personalized services incorporating AI technology, thereby strengthening its competitiveness in the global beauty tech market.',
+    ],
+    date: '2026-07-22',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'AI', 'Beauty Tech', 'Hyper-personalization', 'Lian Hair'],
+  },
+  {
     slug: 'k-beauty-mongolia-market-surge-cepa-2026-july',
     category: 'global',
     title: 'K-retail and K-beauty Accelerate Mongolian Market Penetration Amidst Principal Agreement on Korea-Mongolia CEPA: K-beauty Imports Hit $44.93 Million in 2025',

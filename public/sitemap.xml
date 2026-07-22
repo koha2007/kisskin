@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kissinskin.net/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/" />
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/analysis/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/analysis/" />
@@ -23,7 +23,7 @@
   <!-- Tools Hub -->
   <url>
     <loc>https://kissinskin.net/tools/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -34,72 +34,72 @@
   <!-- Makeup MBTI Quiz -->
   <url>
     <loc>https://kissinskin.net/tools/makeup-mbti/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <!-- Makeup MBTI: 16 Type Result Pages -->
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/intj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/intp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/entj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/entp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/infj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/infp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/enfj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/enfp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/istj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/isfj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/estj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/esfj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/istp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/isfp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/estp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kissinskin.net/tools/makeup-mbti/esfp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/intj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/intp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/entj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/entp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/infj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/infp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/enfj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/enfp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/istj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/isfj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/estj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/esfj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/istp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/isfp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/estp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/tools/makeup-mbti/esfp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <!-- Personal Color Tool -->
   <url>
     <loc>https://kissinskin.net/tools/personal-color/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
-  <url><loc>https://kissinskin.net/tools/personal-color/spring-warm/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/personal-color/summer-cool/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/personal-color/autumn-warm/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/personal-color/winter-cool/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/spring-warm/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/summer-cool/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/autumn-warm/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/personal-color/winter-cool/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
   <!-- Face Shape Tool -->
   <url>
     <loc>https://kissinskin.net/tools/face-shape/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
-  <url><loc>https://kissinskin.net/tools/face-shape/oval/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/face-shape/round/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/face-shape/square/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/face-shape/oblong/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/face-shape/heart/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/oval/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/round/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/square/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/oblong/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/face-shape/heart/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
   <!-- Perfume Type Tool -->
   <url>
     <loc>https://kissinskin.net/tools/perfume-type/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
-  <url><loc>https://kissinskin.net/tools/perfume-type/floral/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/perfume-type/citrus/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/perfume-type/woody/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/perfume-type/amber/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/perfume-type/fresh/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/perfume-type/gourmand/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/floral/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/citrus/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/woody/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/amber/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/fresh/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/perfume-type/gourmand/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
   <!-- Long-form Guide -->
   <url>
     <loc>https://kissinskin.net/about-makeup-ai/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -107,7 +107,7 @@
   <!-- News Hub -->
   <url>
     <loc>https://kissinskin.net/news/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -117,7 +117,7 @@
   <!-- Makeup Products Hub -->
   <url>
     <loc>https://kissinskin.net/products/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -125,7 +125,7 @@
   <!-- Guides Hub -->
   <url>
     <loc>https://kissinskin.net/guides/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -135,7 +135,7 @@
   <!-- Reviews Hub -->
   <url>
     <loc>https://kissinskin.net/reviews/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -145,31 +145,31 @@
   <!-- Legal -->
   <url>
     <loc>https://kissinskin.net/terms/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/privacy/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/refund/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/contact/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/about/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about/" />
@@ -180,7 +180,7 @@
   <!-- English (/en/*) URLs — pages with bilingual content -->
   <url>
     <loc>https://kissinskin.net/en/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/" />
@@ -189,7 +189,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/about/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.55</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about/" />
@@ -198,7 +198,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/contact/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/contact/" />
@@ -207,7 +207,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/privacy/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/privacy/" />
@@ -216,7 +216,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/terms/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/terms/" />
@@ -225,7 +225,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/refund/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/refund/" />
@@ -234,7 +234,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/about-makeup-ai/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about-makeup-ai/" />
@@ -245,82 +245,82 @@
   <!-- EN Face Shape Tool -->
   <url>
     <loc>https://kissinskin.net/en/tools/face-shape/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/" />
   </url>
-  <url><loc>https://kissinskin.net/en/tools/face-shape/oval/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/oval/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/oval/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/oval/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/face-shape/round/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/round/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/round/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/round/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/face-shape/square/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/square/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/square/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/square/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/face-shape/oblong/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/oblong/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/oblong/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/oblong/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/face-shape/heart/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/heart/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/heart/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/heart/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/face-shape/oval/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/oval/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/oval/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/oval/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/face-shape/round/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/round/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/round/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/round/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/face-shape/square/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/square/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/square/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/square/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/face-shape/oblong/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/oblong/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/oblong/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/oblong/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/face-shape/heart/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/face-shape/heart/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/face-shape/heart/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/face-shape/heart/" /></url>
 
   <!-- EN Personal Color Tool -->
   <url>
     <loc>https://kissinskin.net/en/tools/personal-color/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/" />
   </url>
-  <url><loc>https://kissinskin.net/en/tools/personal-color/spring-warm/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/spring-warm/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/spring-warm/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/spring-warm/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/personal-color/summer-cool/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/summer-cool/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/summer-cool/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/summer-cool/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/personal-color/autumn-warm/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/autumn-warm/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/autumn-warm/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/autumn-warm/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/personal-color/winter-cool/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/winter-cool/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/winter-cool/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/winter-cool/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/spring-warm/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/spring-warm/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/spring-warm/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/spring-warm/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/summer-cool/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/summer-cool/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/summer-cool/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/summer-cool/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/autumn-warm/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/autumn-warm/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/autumn-warm/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/autumn-warm/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/personal-color/winter-cool/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/personal-color/winter-cool/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/personal-color/winter-cool/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/personal-color/winter-cool/" /></url>
 
   <!-- EN Makeup MBTI Tool -->
   <url>
     <loc>https://kissinskin.net/en/tools/makeup-mbti/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/" />
   </url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/intj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/intj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/intj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/intj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/intp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/intp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/intp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/intp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/entj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/entj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/entj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/entj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/entp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/entp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/entp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/entp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/infj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/infj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/infj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/infj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/infp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/infp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/infp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/infp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/enfj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/enfj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/enfj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/enfj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/enfp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/enfp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/enfp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/enfp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/istj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/istj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/istj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/istj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/isfj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/isfj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/isfj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/isfj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/estj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/estj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/estj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/estj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/esfj/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/esfj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/esfj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/esfj/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/istp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/istp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/istp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/istp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/isfp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/isfp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/isfp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/isfp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/estp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/estp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/estp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/estp/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/esfp/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/esfp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/esfp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/esfp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/intj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/intj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/intj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/intj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/intp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/intp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/intp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/intp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/entj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/entj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/entj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/entj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/entp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/entp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/entp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/entp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/infj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/infj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/infj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/infj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/infp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/infp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/infp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/infp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/enfj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/enfj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/enfj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/enfj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/enfp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/enfp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/enfp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/enfp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/istj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/istj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/istj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/istj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/isfj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/isfj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/isfj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/isfj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/estj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/estj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/estj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/estj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/esfj/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/esfj/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/esfj/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/esfj/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/istp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/istp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/istp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/istp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/isfp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/isfp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/isfp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/isfp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/estp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/estp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/estp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/estp/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/makeup-mbti/esfp/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.65</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/makeup-mbti/esfp/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/makeup-mbti/esfp/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/makeup-mbti/esfp/" /></url>
 
   <!-- EN Perfume Type Tool -->
   <url>
     <loc>https://kissinskin.net/en/tools/perfume-type/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/" />
   </url>
-  <url><loc>https://kissinskin.net/en/tools/perfume-type/floral/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/floral/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/floral/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/floral/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/perfume-type/citrus/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/citrus/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/citrus/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/citrus/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/perfume-type/woody/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/woody/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/woody/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/woody/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/perfume-type/amber/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/amber/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/amber/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/amber/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/perfume-type/fresh/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/fresh/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/fresh/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/fresh/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/perfume-type/gourmand/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/gourmand/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/perfume-type/floral/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/floral/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/floral/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/floral/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/perfume-type/citrus/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/citrus/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/citrus/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/citrus/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/perfume-type/woody/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/woody/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/woody/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/woody/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/perfume-type/amber/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/amber/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/amber/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/amber/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/perfume-type/fresh/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/fresh/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/fresh/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/fresh/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/perfume-type/gourmand/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/gourmand/" /></url>
 
   <!-- EN Tools Hub -->
   <url>
     <loc>https://kissinskin.net/en/tools/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -331,7 +331,7 @@
   <!-- EN Guides Hub -->
   <url>
     <loc>https://kissinskin.net/en/guides/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/guides/" />
@@ -344,7 +344,7 @@
   <!-- EN Reviews Hub -->
   <url>
     <loc>https://kissinskin.net/en/reviews/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/reviews/" />
@@ -357,7 +357,7 @@
   <!-- EN News Hub -->
   <url>
     <loc>https://kissinskin.net/en/news/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/" />
@@ -368,7 +368,7 @@
   <!-- EN Makeup Products Hub -->
   <url>
     <loc>https://kissinskin.net/en/products/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-07-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/" />
@@ -377,6 +377,8 @@
   </url>
 
   <!-- EN News Articles -->
+  <url><loc>https://kissinskin.net/news/k-beauty-ai-hair-platform-lianhair-2026-july/</loc><lastmod>2026-07-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-ai-hair-platform-lianhair-2026-july/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-ai-hair-platform-lianhair-2026-july/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-ai-hair-platform-lianhair-2026-july/" /></url>
+  <url><loc>https://kissinskin.net/en/news/k-beauty-ai-hair-platform-lianhair-2026-july/</loc><lastmod>2026-07-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-ai-hair-platform-lianhair-2026-july/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-ai-hair-platform-lianhair-2026-july/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-ai-hair-platform-lianhair-2026-july/" /></url>
   <url><loc>https://kissinskin.net/news/k-beauty-mongolia-market-surge-cepa-2026-july/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-mongolia-market-surge-cepa-2026-july/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-mongolia-market-surge-cepa-2026-july/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-mongolia-market-surge-cepa-2026-july/" /></url>
   <url><loc>https://kissinskin.net/en/news/k-beauty-mongolia-market-surge-cepa-2026-july/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-mongolia-market-surge-cepa-2026-july/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-mongolia-market-surge-cepa-2026-july/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-mongolia-market-surge-cepa-2026-july/" /></url>
   <url><loc>https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-latin-america-tiktok-surge-2026/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-latin-america-tiktok-surge-2026/" /></url>
@@ -442,6 +444,8 @@
   <url><loc>https://kissinskin.net/en/news/sephora-k-beauty-bestsellers-2026/</loc><lastmod>2026-03-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/sephora-k-beauty-bestsellers-2026/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/sephora-k-beauty-bestsellers-2026/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/sephora-k-beauty-bestsellers-2026/" /></url>
   <url><loc>https://kissinskin.net/news/sustainable-cosmetics-2026/</loc><lastmod>2026-03-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kissinskin.net/news/ai-skincare-personalization-2026/</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kissinskin.net/products/romand-han-all-fix-mascara-long-ash/</loc><lastmod>2026-07-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/romand-han-all-fix-mascara-long-ash/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/romand-han-all-fix-mascara-long-ash/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/romand-han-all-fix-mascara-long-ash/" /></url>
+  <url><loc>https://kissinskin.net/en/products/romand-han-all-fix-mascara-long-ash/</loc><lastmod>2026-07-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/romand-han-all-fix-mascara-long-ash/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/romand-han-all-fix-mascara-long-ash/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/romand-han-all-fix-mascara-long-ash/" /></url>
   <url><loc>https://kissinskin.net/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/" /></url>
   <url><loc>https://kissinskin.net/en/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/</loc><lastmod>2026-07-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil/" /></url>
   <url><loc>https://kissinskin.net/products/tamburins-perfume-hand-000/</loc><lastmod>2026-07-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/tamburins-perfume-hand-000/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/tamburins-perfume-hand-000/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/tamburins-perfume-hand-000/" /></url>
