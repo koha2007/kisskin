@@ -18,7 +18,16 @@ export interface ToolMood {
 }
 
 // 운영자 편집 지점: oval: { image: '/mood/face-oval.jpg', makeupImage: '…' } 형태로 추가.
-const OVERRIDES: Partial<Record<FaceShapeCode, ToolMood>> = {}
+const OVERRIDES: Partial<Record<FaceShapeCode, ToolMood>> = {
+  // 2026-07-22 생성(scripts/gen-mood-images.mjs). 여기만 인물을 쓴다 —
+  // 얼굴 윤곽 자체가 진단 내용이라 정물로는 전달이 안 된다.
+  // 메이크업을 최소화해 턱선·이마 폭이 그대로 읽히도록 생성했다.
+  oval: { image: '/mood/fs-oval.webp' },
+  round: { image: '/mood/fs-round.webp' },
+  square: { image: '/mood/fs-square.webp' },
+  oblong: { image: '/mood/fs-oblong.webp' },
+  heart: { image: '/mood/fs-heart.webp' },
+}
 
 export const FACE_SHAPE_MOOD: Record<FaceShapeCode, ToolMood> = Object.fromEntries(
   FACE_SHAPE_ORDER.map((c) => [c, OVERRIDES[c] ?? {}]),
