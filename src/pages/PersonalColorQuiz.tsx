@@ -70,11 +70,24 @@ export default function PersonalColorQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#seasons-preview"
           previewLabel={t('tools.pc.previewCta')}
-          chips={[
-            { icon: 'schedule', label: t('tools.common.about2min') },
-            { icon: 'lock', label: t('tools.common.freeNoLogin') },
-            { icon: 'share', label: t('tools.common.shareable') },
+          stats={[
+            { value: '6', label: isEn ? 'questions' : '문항' },
+            { value: '4', label: isEn ? 'seasons' : '계절' },
+            { value: isEn ? '~1 min' : '약 1분', label: isEn ? 'to finish' : '소요' },
+            { value: isEn ? 'Free' : '무료', label: isEn ? 'no sign-up' : '가입 불필요' },
           ]}
+          /* 1번 문항을 히어로 안에서 바로 받는다 — "시작" 버튼 단계가 사라진다.
+             보기를 누르면 곧바로 2번 문항으로 넘어간다. */
+          firstQuestion={{
+            tag: 'Q1',
+            text: isEn && PC_QUESTIONS[0].questionEn ? PC_QUESTIONS[0].questionEn : PC_QUESTIONS[0].question,
+            options: PC_QUESTIONS[0].options.map((opt, i) => ({
+              key: i,
+              label: isEn && opt.textEn ? opt.textEn : opt.text,
+              emoji: opt.emoji,
+              onSelect: () => { setPhase('quiz'); onSelect(opt.value) },
+            })),
+          }}
         />
 
         <ToolWhySection title={isEn ? 'What is personal color?' : '퍼스널 컬러란?'}>

@@ -17,6 +17,11 @@ interface Tool {
   accent: string
   badge?: 'NEW' | 'POPULAR' | 'CORE'
   available: boolean
+  /** 실제 수치 — 문항 수·소요 시간. 지어낸 값은 쓰지 않는다. */
+  koMeta?: string
+  enMeta?: string
+  /** 카드 상단 결과 사진(룩 이미지 재사용) */
+  image?: string
 }
 
 // 도구색은 토큰(--color-tool-*)에서만 가져온다 — 단일 소스. 설명은 한 줄 핵심.
@@ -42,6 +47,9 @@ const TOOLS: Tool[] = [
     enHref: '/en/tools/makeup-mbti/',
     icon: 'quiz',
     koTitle: '메이크업 MBTI 테스트',
+    koMeta: '8문항 · 약 2분 · 16유형',
+    enMeta: '8 questions · ~2 min · 16 types',
+    image: LOOK_IMAGES['maximalist-eye'].after,
     enTitle: 'Makeup MBTI Quiz',
     koDesc: '8문항으로 보는 내 메이크업 성향 16타입.',
     enDesc: '8 questions → your makeup personality, 16 types.',
@@ -56,6 +64,9 @@ const TOOLS: Tool[] = [
     enHref: '/en/tools/personal-color/',
     icon: 'palette',
     koTitle: '퍼스널 컬러 자가 진단',
+    koMeta: '6문항 · 약 1분 · 4계절',
+    enMeta: '6 questions · ~1 min · 4 seasons',
+    image: LOOK_IMAGES['cloud-skin'].after,
     enTitle: 'Personal Color Analyzer',
     koDesc: '6문항으로 찾는 봄·여름·가을·겨울 타입.',
     enDesc: '6 questions → Spring, Summer, Autumn or Winter.',
@@ -69,6 +80,9 @@ const TOOLS: Tool[] = [
     enHref: '/en/tools/face-shape/',
     icon: 'face',
     koTitle: '얼굴형 자가 진단',
+    koMeta: '6문항 · 약 1분 · 5가지 얼굴형',
+    enMeta: '6 questions · ~1 min · 5 shapes',
+    image: LOOK_IMAGES['natural-glow'].after,
     enTitle: 'Face Shape Detector',
     koDesc: '6문항으로 보는 5가지 얼굴형 맞춤 가이드.',
     enDesc: '6 questions → 5 face shapes, each with its own guide.',
@@ -82,6 +96,9 @@ const TOOLS: Tool[] = [
     enHref: '/en/tools/perfume-type/',
     icon: 'local_florist',
     koTitle: '나에게 어울리는 향수',
+    koMeta: '5문항 · 약 1분 · 6가지 향',
+    enMeta: '5 questions · ~1 min · 6 scents',
+    image: LOOK_IMAGES['blush-draping'].after,
     enTitle: 'What Perfume Suits Me',
     koDesc: '5문항으로 찾는 6가지 향 타입.',
     enDesc: '5 questions → 6 scent families matched to you.',
@@ -96,6 +113,9 @@ const TOOLS: Tool[] = [
     enHref: '/en/about-makeup-ai/',
     icon: 'menu_book',
     koTitle: 'K-뷰티 메이크업 완전 가이드',
+    koMeta: '장문 가이드 · 읽는 데 약 12분',
+    enMeta: 'Long-form · ~12 min read',
+    image: LOOK_IMAGES['kpop-idol'].after,
     enTitle: 'The Complete K-Beauty Makeup Guide',
     koDesc: 'K-뷰티 메이크업을 깊이 이해하는 심화 가이드.',
     enDesc: 'A long-form guide to how K-beauty makeup actually works.',
@@ -215,6 +235,8 @@ export default function ToolsHub() {
                   tag={tool.badge ? BADGE_LABEL[tool.badge][isEn ? 'en' : 'ko'] : undefined}
                   cta={isEn ? tool.enCta : tool.koCta}
                   available={tool.available}
+                  image={tool.image}
+                  meta={isEn ? tool.enMeta : tool.koMeta}
                 />
               ))}
             </div>

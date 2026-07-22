@@ -3,6 +3,9 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode } from '../lib/makeup-mbti
 import { computeTypeConfidence, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
+import { LOOK_NAME_TO_ID } from '../lib/makeup-mbti/groupColors'
+import { LOOK_IMAGES } from '../lib/makeup/lookImages'
+import type { MakeupStyleId } from '../lib/makeup/styles'
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import RegionToggle from '../components/RegionToggle'
@@ -25,6 +28,12 @@ import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
   code: MbtiCode
+}
+
+// 유형의 추천 룩 → 실제 결과 사진. moodImages 가 채워지면 그쪽이 우선한다.
+function lookPhoto(name: string): string | undefined {
+  const id = LOOK_NAME_TO_ID[name] as MakeupStyleId | undefined
+  return id ? LOOK_IMAGES[id]?.after : undefined
 }
 
 export default function MakeupMbtiResult({ code }: Props) {
@@ -203,7 +212,7 @@ export default function MakeupMbtiResult({ code }: Props) {
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {AFFILIATE_ENABLED && <RegionToggle pageType="mbti" className="mb-7" />}
             <ResultGrid>
-              <MoodCard image={mood.image} caption={tagline} emoji={type.emoji} gradient={type.card.gradient} />
+              <MoodCard image={mood.image ?? lookPhoto(type.recommended.women.primary)} caption={tagline} emoji={type.emoji} gradient={type.card.gradient} />
 
               <AxisCard title={L.axisTitle} axes={axes} accent={accent} tint={tint(0)} />
 

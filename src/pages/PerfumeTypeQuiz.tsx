@@ -84,10 +84,24 @@ export default function PerfumeTypeQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#types-preview"
           previewLabel={isEn ? 'See the 6 types first' : '6가지 타입 먼저 보기'}
-          chips={[
-            { icon: 'schedule', label: isEn ? '~1 minute' : '약 1분' },
-            { icon: 'lock', label: isEn ? 'Free · no sign-up' : '무료 · 회원가입 불필요' },
+          stats={[
+            { value: '5', label: isEn ? 'questions' : '문항' },
+            { value: '6', label: isEn ? 'scent types' : '향 타입' },
+            { value: isEn ? '~1 min' : '약 1분', label: isEn ? 'to finish' : '소요' },
+            { value: isEn ? 'Free' : '무료', label: isEn ? 'no sign-up' : '가입 불필요' },
           ]}
+          /* 1번 문항을 히어로 안에서 바로 받는다 — "시작" 버튼 단계가 사라진다.
+             보기를 누르면 곧바로 2번 문항으로 넘어간다. */
+          firstQuestion={{
+            tag: 'Q1',
+            text: isEn && PT_QUESTIONS[0].questionEn ? PT_QUESTIONS[0].questionEn : PT_QUESTIONS[0].question,
+            options: PT_QUESTIONS[0].options.map((opt, i) => ({
+              key: i,
+              label: isEn && opt.textEn ? opt.textEn : opt.text,
+              emoji: opt.emoji,
+              onSelect: () => { setPhase('quiz'); onSelect(opt) },
+            })),
+          }}
         />
 
         <ToolWhySection title={isEn ? 'Why does your perfume type matter?' : '향수 타입 진단이 왜 중요한가요?'}>

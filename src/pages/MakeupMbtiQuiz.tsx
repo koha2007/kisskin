@@ -4,11 +4,19 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
-import { mbtiGroupColor } from '../lib/makeup-mbti/groupColors'
+import { mbtiGroupColor, LOOK_NAME_TO_ID } from '../lib/makeup-mbti/groupColors'
+import { LOOK_IMAGES } from '../lib/makeup/lookImages'
+import type { MakeupStyleId } from '../lib/makeup/styles'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
+
+// 유형의 추천 룩을 실제 결과 사진으로 바꾼다. 매핑에 없으면 undefined → 이모지 폴백.
+function lookPhoto(name: string): string | undefined {
+  const id = LOOK_NAME_TO_ID[name] as MakeupStyleId | undefined
+  return id ? LOOK_IMAGES[id]?.after : undefined
+}
 
 export default function MakeupMbtiQuiz() {
   const { t, locale } = useI18n()
@@ -80,11 +88,24 @@ export default function MakeupMbtiQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#types-preview"
           previewLabel={t('tools.mbti.previewCta')}
-          chips={[
-            { icon: 'schedule', label: t('tools.common.about2min') },
-            { icon: 'lock', label: t('tools.common.freeNoLogin') },
-            { icon: 'share', label: t('tools.common.shareable') },
+          stats={[
+            { value: '8', label: isEn ? 'questions' : '문항' },
+            { value: '16', label: isEn ? 'types' : '유형' },
+            { value: isEn ? '~2 min' : '약 2분', label: isEn ? 'to finish' : '소요' },
+            { value: isEn ? 'Free' : '무료', label: isEn ? 'no sign-up' : '가입 불필요' },
           ]}
+          /* 1번 문항을 히어로 안에서 바로 받는다 — "시작" 버튼 단계가 사라진다.
+             보기를 누르면 곧바로 2번 문항으로 넘어간다. */
+          firstQuestion={{
+            tag: 'Q1',
+            text: isEn && QUESTIONS[0].questionEn ? QUESTIONS[0].questionEn : QUESTIONS[0].question,
+            options: QUESTIONS[0].options.map((opt, i) => ({
+              key: i,
+              label: isEn && opt.textEn ? opt.textEn : opt.text,
+              emoji: opt.emoji,
+              onSelect: () => { setPhase('quiz'); onSelect(opt.letter) },
+            })),
+          }}
         />
 
         {/* What is Makeup MBTI */}
@@ -174,6 +195,7 @@ export default function MakeupMbtiQuiz() {
                 name={isEn ? en.enPersona : mt.koName}
                 sub={mt.code}
                 accent={mbtiGroupColor(code)}
+                image={lookPhoto(mt.recommended.women.primary)}
               />
             )
           })}

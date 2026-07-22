@@ -8,7 +8,31 @@ import type { ReactNode } from 'react'
 
 export type HeroChip = { icon: string; label: string }
 
-/** Navy+pink hero shared by every tool landing. */
+/** 히어로 수치 스트립 한 칸 — 값이 먼저, 라벨이 뒤. */
+export type HeroStat = { value: string; label: string }
+
+/** 히어로 안에서 바로 답하는 1번 문항. */
+export type HeroFirstQuestion = {
+  tag: string
+  text: string
+  options: { key: string | number; label: string; emoji?: string; onSelect: () => void }[]
+}
+
+/**
+ * 도구 랜딩 히어로 (2026-07-22 구조 개편).
+ *
+ * 이전 구조: 제목 → 설명 → [테스트 시작] 버튼 → 아이콘 칩 3개.
+ * 문제 ① 시작하려면 버튼을 한 번 눌러 화면을 갈아엎어야 했다. 진단 도구에서
+ *        이 한 단계가 통째로 이탈 지점이다.
+ *      ② 아이콘 칩("약 2분", "무료")은 장식에 가까웠고, 정작 사람이 알고 싶은
+ *        "몇 문항이고 결과가 몇 가지냐"는 어디에도 없었다.
+ *
+ * 바꾼 것:
+ * · YouCam 이 업로드존을 히어로에 박아 "시작" 단계를 없앤 것처럼,
+ *   **1번 문항을 히어로 안에 그대로 노출**한다. 보기를 누르면 곧바로 2번 문항이다.
+ * · 16Personalities 가 규모("10억 회 응시")를 앞세우듯 **수치 스트립**을 올린다.
+ *   단, 지어낸 숫자는 쓰지 않는다 — 문항 수·소요 시간·유형 수는 전부 사실이다.
+ */
 export function ToolHero({
   badge,
   badgeIcon,
@@ -18,7 +42,8 @@ export function ToolHero({
   onStart,
   previewHref,
   previewLabel,
-  chips,
+  stats,
+  firstQuestion,
 }: {
   badge: string
   badgeIcon: string
@@ -28,48 +53,65 @@ export function ToolHero({
   onStart: () => void
   previewHref?: string
   previewLabel?: string
-  chips: HeroChip[]
+  stats: HeroStat[]
+  firstQuestion?: HeroFirstQuestion
 }) {
   return (
-    // 2026-07-22 개편: blur blob 2겹(2020~21년 SaaS 랜딩 관용구) 제거, 핑크 그라디언트
-    // 알약 배지 → 담백한 eyebrow, 그라디언트+대형 그림자 CTA → 단색 각진 버튼.
-    // 구글 클릭의 43%가 도구 랜딩으로 직행하므로 홈보다 오히려 여기가 첫인상이다.
-    <section className="relative py-14 md:py-24 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative">
-        <p className="t-eyebrow inline-flex items-center gap-2 text-primary mb-5">
+    <section className="relative bg-white py-14 md:py-20">
+      <div className="relative mx-auto max-w-3xl px-4 sm:px-6 text-center">
+        <p className="t-eyebrow mb-5 inline-flex items-center gap-2 text-primary">
           <span className="material-symbols-outlined text-sm">{badgeIcon}</span>
           {badge}
         </p>
-        <h1 className="t-display text-navy mb-5">
-          {title}
-        </h1>
-        <p className="t-body text-slate-600 mb-8 max-w-2xl mx-auto">
-          {subtitle}
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+        <h1 className="t-display mb-5 text-navy">{title}</h1>
+        <p className="t-body mx-auto mb-8 max-w-2xl text-slate-600">{subtitle}</p>
+
+        {/* 수치 스트립 — 값이 크고 라벨이 작다. 전부 실제 값이다. */}
+        <dl className="mx-auto mb-10 flex max-w-lg justify-center divide-x divide-slate-200 border-y border-slate-200">
+          {stats.map((s) => (
+            <div key={s.label} className="flex-1 px-3 py-4">
+              <dd className="t-h2 tabular-nums text-navy">{s.value}</dd>
+              <dt className="t-label mt-1 text-slate-500">{s.label}</dt>
+            </div>
+          ))}
+        </dl>
+
+        {firstQuestion ? (
+          /* 첫 문항을 여기서 바로 받는다 — "시작" 버튼 단계가 사라진다 */
+          <div className="mx-auto max-w-xl border border-navy/20 bg-cream p-5 text-left md:p-7">
+            <p className="t-eyebrow mb-2 text-primary">{firstQuestion.tag}</p>
+            <p className="t-h2 mb-5 text-navy">{firstQuestion.text}</p>
+            <div className="flex flex-col gap-2.5">
+              {firstQuestion.options.map((o) => (
+                <button
+                  key={o.key}
+                  type="button"
+                  onClick={o.onSelect}
+                  className="flex w-full items-center gap-3 border border-slate-300 bg-white px-4 py-3.5 text-left transition-colors hover:border-navy"
+                >
+                  {o.emoji && <span className="shrink-0 text-xl">{o.emoji}</span>}
+                  <span className="t-body flex-1 font-semibold text-navy">{o.label}</span>
+                  <span className="material-symbols-outlined shrink-0 text-slate-400">arrow_forward</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
           <button
             onClick={onStart}
-            className="bg-primary hover:bg-primary-dark text-white px-10 py-4 text-lg font-bold flex items-center justify-center gap-2 transition-colors"
+            className="bg-primary px-10 py-4 text-lg font-bold text-white transition-colors hover:bg-primary-dark"
           >
             {startLabel}
-            <span className="material-symbols-outlined">arrow_forward</span>
           </button>
-          {previewHref && previewLabel && (
-            <a
-              href={previewHref}
-              className="border border-navy/25 hover:border-navy px-10 py-4 text-lg font-bold flex items-center justify-center gap-2 text-navy transition-colors"
-            >
+        )}
+
+        {previewHref && previewLabel && (
+          <p className="mt-6">
+            <a href={previewHref} className="t-caption font-bold text-navy underline underline-offset-4 hover:text-primary">
               {previewLabel}
             </a>
-          )}
-        </div>
-        <div className="flex items-center justify-center gap-6 text-sm text-slate-500 flex-wrap">
-          {chips.map((c) => (
-            <span key={c.label} className="flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-base">{c.icon}</span> {c.label}
-            </span>
-          ))}
-        </div>
+          </p>
+        )}
       </div>
     </section>
   )
@@ -108,12 +150,15 @@ export function TypePreviewCard({
   name,
   sub,
   accent,
+  image,
 }: {
   href: string
   emoji: string
   name: string
   sub: string
   accent: string
+  /** 실제 결과 사진. 없으면 기존 이모지 + 틴트 면으로 폴백한다. */
+  image?: string
 }) {
   return (
     <a
@@ -123,13 +168,26 @@ export function TypePreviewCard({
       {/* 2026-07-22: 2색 그라디언트 패널 + 그림자 이모지 → 단색 틴트 면.
           그라디언트는 면을 가득 칠해 '액센트 1점' 원칙(DESIGN_SYSTEM.md)을 깨고 있었고,
           카드 16장이 나란히 놓이면 색면 16개가 서로 싸워 목록 전체가 시끄러웠다. */}
+      {/* 2026-07-22: 이모지 + 색면이던 자리에 **실제 결과 사진**을 넣는다.
+          유형 16개가 전부 이모지 하나로 구분되던 상태라, 목록을 훑어도 무엇이
+          어떻게 다른지 보이지 않았다. 우리 최대 자산은 결과물 사진이다. */}
       <div
-        className={`relative ${typeAspect(name)} flex items-center justify-center`}
+        className={`relative ${typeAspect(name)} flex items-center justify-center overflow-hidden`}
         style={{ background: `color-mix(in srgb, ${accent} 10%, white)` }}
       >
-        <span className="text-6xl md:text-7xl select-none" aria-hidden="true">
-          {emoji}
-        </span>
+        {image ? (
+          <img
+            src={image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-top"
+          />
+        ) : (
+          <span className="text-6xl md:text-7xl select-none" aria-hidden="true">
+            {emoji}
+          </span>
+        )}
       </div>
       <div className="border-t border-slate-100 p-3.5 text-center">
         <div className="t-caption font-bold text-navy group-hover:text-primary transition-colors">

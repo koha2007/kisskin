@@ -38,3 +38,19 @@ export function mbtiGroup(code: MbtiCode): MbtiGroup {
 export function mbtiGroupColor(code: MbtiCode): string {
   return MBTI_GROUPS[mbtiGroup(code)]
 }
+
+
+// 유형별 추천 룩 이름 → 실제 결과 사진의 스타일 id.
+// 랜딩의 16타입 카드가 이모지 하나로만 구분되던 것을 실제 사진으로 바꾸기 위한 다리다.
+// (recommended.women.primary 는 사람이 읽는 이름이라 그대로는 파일 경로가 안 된다)
+export const LOOK_NAME_TO_ID: Record<string, string> = {
+  'Natural Glow': 'natural-glow',
+  'Cloud Skin': 'cloud-skin',
+  'Blood Lip': 'blood-lip',
+  'Maximalist Eye': 'maximalist-eye',
+  'Metallic Eye': 'metallic-eye',
+  'Bold Lip': 'bold-lip',
+  'Blush Draping': 'blush-draping',
+  'Grunge Makeup': 'grunge',
+  'Kpop Idol Makeup': 'kpop-idol',
+}
