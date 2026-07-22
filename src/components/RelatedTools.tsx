@@ -24,7 +24,7 @@ const TOOLS: Tool[] = [
     titleEn: 'AI Makeup Simulator',
     descKo: '셀카 한 장으로 5가지 K-뷰티 룩을 즉시',
     descEn: 'One selfie, 5 K-beauty looks instantly',
-    accent: '#eb4763',
+    accent: '#d8503c',
   },
   {
     key: 'perfume-type',
@@ -110,7 +110,7 @@ export default function RelatedTools({ exclude, titleKo, titleEn }: Props) {
               <a
                 key={tool.key}
                 href={href}
-                className="group bg-white rounded-2xl p-5 border hover:shadow-lg transition-all hover:-translate-y-0.5 flex flex-col gap-2"
+                className="group bg-white rounded-lg p-5 border transition-colors hover:border-navy flex flex-col gap-2"
                 style={{ borderColor: `${tool.accent}30` }}
               >
                 <div className="text-3xl mb-1">{tool.emoji}</div>

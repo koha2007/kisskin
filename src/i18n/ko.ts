@@ -25,10 +25,13 @@ export default {
   // 히어로 최상단 배지 = 한글 브랜드명이 본문에 처음 등장하는 지점.
   // (겸사겸사 "가장 진보된" 이라는 근거 없는 최상급 표현도 걷어냈다.)
   'home.hero.badge': '키스인스킨 · AI 가상 메이크업',
-  'home.hero.title1': '셀카 한 장으로,',
-  'home.hero.title2': '9가지 K-뷰티',
-  'home.hero.title3': '메이크업',
-  'home.hero.subtitle': '60초 · 무료 체험 · 카드 불필요',
+  // 2026-07-21 카피 교체. 이전 "셀카 한 장으로, 9가지 K-뷰티 메이크업"은 우리가 하는 일
+  // (기능)만 말하고 사용자가 얻는 것을 말하지 않았다. 어필리에이트 수익 구조와도 맞물리게
+  // "사기 전에 먼저 발라본다"는 효익으로 바꾼다. 키워드는 subtitle 이 받는다.
+  'home.hero.title1': '사보기 전에,',
+  'home.hero.title2': '내 얼굴에',
+  'home.hero.title3': '발라본다',
+  'home.hero.subtitle': '셀카 한 장이면 끝. 키스인스킨 AI가 K-뷰티 메이크업 9룩을 60초 만에 입혀드려요.',
   // free-pivot 메인 리디자인(2026-06-29) 신규 키
   'home.hero.uploadCta': '무료로 셀카 올리기',
   'home.hero.priceSub': '무료 1회 · 더 필요하면 크레딧 $2.99부터',

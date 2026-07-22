@@ -200,7 +200,7 @@ export default function ArticleShell({
             <div className="grid sm:grid-cols-3 gap-3">
               <a
                 href={isEn ? '/en/tools/makeup-mbti/' : '/tools/makeup-mbti/'}
-                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
+                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-primary/5/30 transition-colors"
               >
                 <div className="text-2xl mb-2">💄</div>
                 <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
@@ -212,7 +212,7 @@ export default function ArticleShell({
               </a>
               <a
                 href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'}
-                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
+                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-primary/5/30 transition-colors"
               >
                 <div className="text-2xl mb-2">🎨</div>
                 <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">
@@ -224,7 +224,7 @@ export default function ArticleShell({
               </a>
               <a
                 href={isEn ? '/en/tools/face-shape/' : '/tools/face-shape/'}
-                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-rose-50/30 transition-colors"
+                className="group block p-5 border border-slate-200 rounded-xl hover:border-primary/40 hover:bg-primary/5/30 transition-colors"
               >
                 <div className="text-2xl mb-2">👤</div>
                 <div className="text-[13px] font-bold text-navy mb-1 group-hover:text-primary">

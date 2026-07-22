@@ -23,10 +23,12 @@ interface ToolCardProps {
 export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true }: ToolCardProps) {
   const tint = `color-mix(in srgb, ${accent} 12%, white)`
   return (
+    // 2026-07-22: 라운드를 조이고 hover 리프트+큰 그림자를 뺐다. 떠오르는 카드는
+    // 2019~20년 머티리얼 문법이라 그 자체로 연식을 드러낸다. 상태 변화는 보더로만 준다.
     <a
       href={available ? href : undefined}
-      className={`group flex flex-col rounded-2xl border border-slate-200 bg-white p-5 md:p-6 transition-all ${
-        available ? 'hover:-translate-y-1 hover:shadow-xl hover:border-slate-300' : 'opacity-60 cursor-not-allowed'
+      className={`group flex flex-col rounded-lg border border-slate-200 bg-white p-5 md:p-6 transition-colors ${
+        available ? 'hover:border-navy' : 'opacity-60 cursor-not-allowed'
       }`}
     >
       <div className="mb-4 flex items-center justify-between gap-2">

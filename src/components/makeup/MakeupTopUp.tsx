@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
+const NAVY = '#232a52'
+const PRIMARY = '#d8503c'
 const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {

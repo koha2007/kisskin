@@ -46,7 +46,7 @@ export default function ProductBuyButtons({
           onClick={() =>
             trackAffiliateClick({ merchant: 'amazon', category: trackCategory, pageType, pageSlug })
           }
-          className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 text-sm font-bold text-white shadow-sm hover:shadow-md hover:brightness-105 transition-all"
+          className="inline-flex items-center gap-1.5 rounded-md bg-amber-500 hover:bg-amber-600 px-4 py-2 text-sm font-bold text-white transition-colors"
         >
           🛒 {t('region.amazonButton')}
           <span className="material-symbols-outlined text-base">arrow_outward</span>
@@ -58,7 +58,7 @@ export default function ProductBuyButtons({
           onClick={() =>
             trackAffiliateClick({ merchant: 'yesstyle', category: trackCategory, pageType, pageSlug })
           }
-          className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-600 hover:bg-amber-50 transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-md border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-600 hover:bg-amber-50 transition-colors"
         >
           ⭐ {t('region.yesstyleButton')}
           <span className="material-symbols-outlined text-base">arrow_outward</span>
@@ -76,7 +76,7 @@ export default function ProductBuyButtons({
         onClick={() =>
           trackAffiliateClick({ merchant: 'coupang', category: trackCategory, pageType, pageSlug })
         }
-        className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-primary to-pink-500 px-4 py-2 text-sm font-bold text-white shadow-sm hover:shadow-md hover:brightness-105 transition-all"
+        className="inline-flex items-center gap-1.5 rounded-md bg-primary hover:bg-primary-dark px-4 py-2 text-sm font-bold text-white transition-colors"
       >
         🛒 {t('recProducts.findProducts')}
         <span className="material-symbols-outlined text-base">arrow_outward</span>
@@ -90,7 +90,7 @@ export default function ProductBuyButtons({
           onClick={() =>
             trackAffiliateClick({ merchant: 'clubclio', category: trackCategory, pageType, pageSlug })
           }
-          className="inline-flex items-center gap-1.5 rounded-full border border-rose-300 bg-white px-4 py-2 text-sm font-bold text-rose-500 hover:bg-rose-50 transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-md border border-primary/30 bg-white px-4 py-2 text-sm font-bold text-primary hover:bg-primary/5 transition-colors"
         >
           🌹 {t('recProducts.findOnClio')}
           <span className="material-symbols-outlined text-base">arrow_outward</span>

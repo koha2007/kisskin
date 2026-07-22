@@ -261,7 +261,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   return (
     <div style={{
       minHeight: '100dvh',
-      background: 'linear-gradient(135deg, #070953 0%, #121570 50%, #070953 100%)',
+      background: 'linear-gradient(135deg, #232a52 0%, #2f3766 50%, #232a52 100%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -280,7 +280,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 내 정보 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#e0a63c', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
           {t('mypage.info')}
         </h2>
@@ -308,7 +308,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 내 크레딧 — AI 메이크업 생성에 쓰는 크레딧 잔액 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#e0a63c', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>auto_awesome</span>
           {isKo ? '내 크레딧' : 'My Credits'}
         </h2>
@@ -325,7 +325,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             onClick={() => { window.location.href = '/analysis/?topup=1' }}
             style={{
               padding: '10px 18px', borderRadius: '10px', border: 'none',
-              background: 'linear-gradient(135deg, #ec4899, #f472b6)',
+              background: 'linear-gradient(135deg, #ec4899, #e0a63c)',
               color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: '6px',
             }}
@@ -343,7 +343,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 구독 관리 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#e0a63c', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>card_membership</span>
           {isKo ? '구독 관리' : 'Subscription'}
         </h2>
@@ -458,7 +458,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 결제 내역 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#e0a63c', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>receipt_long</span>
           {isKo ? '결제 내역' : 'Payment History'}
         </h2>
@@ -504,7 +504,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       {/* 비밀번호 변경 - OAuth가 아닌 경우만 */}
       {!isOAuth && (
         <div style={cardStyle}>
-          <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#e0a63c', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>lock_reset</span>
             {t('mypage.changePassword')}
           </h2>
@@ -554,7 +554,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
                 padding: '10px',
                 borderRadius: '10px',
                 border: 'none',
-                background: passwordLoading ? '#64748b' : 'linear-gradient(135deg, #ec4899, #f472b6)',
+                background: passwordLoading ? '#64748b' : 'linear-gradient(135deg, #ec4899, #e0a63c)',
                 color: '#fff',
                 fontSize: '14px',
                 fontWeight: 600,

@@ -18,7 +18,7 @@ export interface NewsCategoryMeta {
 }
 
 export const NEWS_CATEGORIES: NewsCategoryMeta[] = [
-  { code: 'trend', koLabel: '트렌드', enLabel: 'Trend', emoji: '✨', color: '#eb4763' },
+  { code: 'trend', koLabel: '트렌드', enLabel: 'Trend', emoji: '✨', color: '#d8503c' },
   { code: 'lip', koLabel: '립', enLabel: 'Lip', emoji: '💋', color: '#f43f5e' },
   { code: 'eye', koLabel: '아이', enLabel: 'Eye', emoji: '👁️', color: '#a855f7' },
   { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#f59e0b' },

@@ -1,6 +1,6 @@
 // AI 메이크업 — 9스타일 선택 화면 (2026-07-05: 여성 9룩 복원, 3×3 그리드)
 // ────────────────────────────────────────────────────────────────────
-// 폰트·색은 우리 토큰 — Pretendard(font-display) / navy #070953 / primary #eb4763.
+// 폰트·색은 우리 토큰 — Pretendard(font-display) / navy #232a52 / primary #d8503c.
 // 무드 그라데이션·글래스 카드 언어는 QuizScreen 의 grid variant 를 그대로 따라간다.
 //
 // 카드 이미지(2026-07-12): 무드 그라데이션만으로는 "이 룩이 실제로 어떤 얼굴이 되는지"를
@@ -14,8 +14,8 @@ import { useState } from 'react'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { lookImage } from '../../lib/makeup/lookImages'
 
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
+const NAVY = '#232a52'
+const PRIMARY = '#d8503c'
 
 // 화면 배경: 결과 IdentityCard·QuizScreen 과 동일한 navy → primary 그라데이션.
 const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }

@@ -83,8 +83,8 @@ export default function PersonalColorQuiz() {
                   <p>Personal color is the family of colors that harmonizes with your natural body coloring — skin, hair, and eyes — and makes your face look its most alive. The four-season system (Spring, Summer, Autumn, Winter) systematized by American colorist Carole Jackson in "Color Me Beautiful" in the 1980s remains the most widely used framework worldwide. In Korea, a finer 16-type "tone-in-tone" classification is often layered on top.</p>
                   <p className="font-semibold text-navy-mid mt-6">Two axes do most of the work:</p>
                   <ul className="space-y-3 list-none pl-0">
-                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">Warm · Cool</span><span><strong>Undertone</strong> — whether the bedrock color under your skin leans yellow (warm) or blue (cool).</span></li>
-                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">Light · Deep</span><span><strong>Brightness</strong> — whether your overall coloring reads bright and clear (Spring / Summer) or deep and rich (Autumn / Winter).</span></li>
+                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">Warm · Cool</span><span><strong>Undertone</strong> — whether the bedrock color under your skin leans yellow (warm) or blue (cool).</span></li>
+                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">Light · Deep</span><span><strong>Brightness</strong> — whether your overall coloring reads bright and clear (Spring / Summer) or deep and rich (Autumn / Winter).</span></li>
                   </ul>
                   <p className="mt-6">Together, these two axes pin you to <strong>one of four seasons</strong>. Each season has its own flattering wardrobe, makeup, and hair-color palettes — once you know yours, you make far fewer expensive shopping mistakes.</p>
                 </>
@@ -93,8 +93,8 @@ export default function PersonalColorQuiz() {
                   <p>퍼스널 컬러(Personal Color)는 개인이 가진 고유의 신체 색(피부·모발·눈동자)과 조화를 이루어 얼굴을 가장 생기 있게 만들어주는 색 군을 말합니다. 1980년대 미국 컬러리스트 Carole Jackson이 "Color Me Beautiful"에서 체계화한 4계절 시스템(봄·여름·가을·겨울)이 전 세계에서 가장 널리 쓰이며, 한국에서는 여기에 세부 16타입(Tone in Tone) 분류가 추가되기도 합니다.</p>
                   <p className="font-semibold text-navy-mid mt-6">핵심은 2가지 축:</p>
                   <ul className="space-y-3 list-none pl-0">
-                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">Warm · Cool</span><span><strong>언더톤</strong> — 피부 아래 깔린 바탕색이 노란 기운(웜)인지, 푸른 기운(쿨)인지.</span></li>
-                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">Light · Deep</span><span><strong>명도</strong> — 밝고 화사한 톤(봄·여름)인지, 깊고 풍부한 톤(가을·겨울)인지.</span></li>
+                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">Warm · Cool</span><span><strong>언더톤</strong> — 피부 아래 깔린 바탕색이 노란 기운(웜)인지, 푸른 기운(쿨)인지.</span></li>
+                    <li className="flex items-start gap-3"><span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">Light · Deep</span><span><strong>명도</strong> — 밝고 화사한 톤(봄·여름)인지, 깊고 풍부한 톤(가을·겨울)인지.</span></li>
                   </ul>
                   <p className="mt-6">이 2가지 축의 조합으로 <strong>4가지 시즌</strong>이 결정됩니다. 각 시즌마다 어울리는 의상·메이크업·헤어 컬러가 다르며, 내 시즌을 알면 쇼핑·메이크업 실수가 크게 줄어듭니다.</p>
                 </>

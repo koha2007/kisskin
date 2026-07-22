@@ -47,7 +47,7 @@ export default function ProductShowcase({ slug }: Props) {
 
   const meta = getCategoryMeta(item.category)
   const categoryLabel = isEn ? meta.enLabel : meta.koLabel
-  const gradient = `linear-gradient(150deg, ${meta.color}, color-mix(in srgb, ${meta.color} 55%, #070953))`
+  const gradient = `linear-gradient(150deg, ${meta.color}, color-mix(in srgb, ${meta.color} 55%, #232a52))`
   const related = items.filter((p) => p.category === item.category && p.slug !== item.slug).slice(0, 4)
 
   return (
@@ -195,7 +195,7 @@ export default function ProductShowcase({ slug }: Props) {
         {((item.pros && item.pros.length > 0) || (item.cons && item.cons.length > 0)) && (
           <section className="mt-7 grid gap-4 sm:grid-cols-2">
             {item.pros && item.pros.length > 0 && (
-              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-5">
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-5">
                 <h2 className="text-sm font-bold text-emerald-800 mb-3">
                   {isEn ? 'What works' : '좋은 점'}
                 </h2>
@@ -209,7 +209,7 @@ export default function ProductShowcase({ slug }: Props) {
               </div>
             )}
             {item.cons && item.cons.length > 0 && (
-              <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-5">
+              <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-5">
                 <h2 className="text-sm font-bold text-amber-800 mb-3">
                   {isEn ? 'What to know first' : '알아둘 점'}
                 </h2>
@@ -259,7 +259,7 @@ export default function ProductShowcase({ slug }: Props) {
                   >
                     <div
                       className="relative aspect-[4/5] flex items-center justify-center"
-                      style={{ background: `linear-gradient(150deg, ${rMeta.color}, color-mix(in srgb, ${rMeta.color} 55%, #070953))` }}
+                      style={{ background: `linear-gradient(150deg, ${rMeta.color}, color-mix(in srgb, ${rMeta.color} 55%, #232a52))` }}
                     >
                       {r.image ? (
                         <img src={r.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />

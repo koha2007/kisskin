@@ -3,8 +3,8 @@
 // Visual language matches the result IdentityCard gradient (navy → type color).
 // IMPORTANT: this is shell-only — question content, option counts and scoring stay in each page.
 
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
+const NAVY = '#232a52'
+const PRIMARY = '#d8503c'
 
 export function quizBg(accent: string = PRIMARY) {
   return { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 42%, ${accent} 125%)` }
@@ -65,8 +65,8 @@ export function QuizScreen({
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <div className="flex-1">
-          <div className="flex items-center justify-between text-xs font-bold text-white/70 mb-2">
-            <span className="uppercase tracking-wider">{toolLabel}</span>
+          <div className="t-eyebrow flex items-center justify-between text-white/70 mb-2">
+            <span>{toolLabel}</span>
             <span>{isEn ? `Question ${step} / ${total}` : `질문 ${step} / ${total}`}</span>
           </div>
           <div className="flex gap-1.5" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={total}>
@@ -87,12 +87,12 @@ export function QuizScreen({
       >
         <div className="mb-8">
           {questionTag && (
-            <p className="text-xs font-bold tracking-[0.25em] text-white/55 mb-3 uppercase">{questionTag}</p>
+            <p className="t-eyebrow text-white/55 mb-3">{questionTag}</p>
           )}
-          <h2 className="text-2xl md:text-3xl font-extrabold leading-snug tracking-tight">{question}</h2>
-          {description && <p className="text-sm md:text-base text-white/70 mt-3 leading-relaxed">{description}</p>}
+          <h2 className="t-h1">{question}</h2>
+          {description && <p className="t-body text-white/70 mt-3">{description}</p>}
           {half && (
-            <p className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-white bg-white/15 rounded-full px-3 py-1">
+            <p className="t-label mt-5 inline-flex items-center gap-1.5 text-white/70">
               {isEn ? 'Halfway there! ✨' : '✨ 벌써 절반이에요!'}
             </p>
           )}
@@ -104,30 +104,26 @@ export function QuizScreen({
               <button
                 key={o.key}
                 onClick={o.onSelect}
-                className="quiz-card relative rounded-2xl aspect-[4/5] p-4 flex flex-col justify-end text-left overflow-hidden border border-white/20 active:scale-[0.97] transition-transform"
+                className="quiz-card relative rounded-lg aspect-[4/5] p-4 flex flex-col justify-end text-left overflow-hidden border border-white/20 active:scale-[0.97] transition-transform"
                 style={{ background: o.gradient ?? 'rgba(255,255,255,0.12)' }}
               >
                 {/* bottom scrim keeps white text readable even on light gradients */}
                 <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/60 to-transparent" />
                 {o.emoji && <span className="relative text-3xl mb-2 drop-shadow-lg">{o.emoji}</span>}
-                <span className="relative text-white font-bold text-sm leading-snug drop-shadow-lg">{o.text}</span>
+                <span className="relative t-caption font-bold text-white drop-shadow-lg">{o.text}</span>
               </button>
             ))}
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {options.map((o, i) => (
+            {options.map((o) => (
               <button
                 key={o.key}
                 onClick={o.onSelect}
-                className={`w-full text-left rounded-2xl px-5 py-4 flex items-center gap-3 active:scale-[0.98] transition-all ${
-                  i === 0
-                    ? 'bg-white text-navy shadow-xl shadow-black/20'
-                    : 'bg-white/12 text-white border border-white/25 backdrop-blur-md hover:bg-white/20'
-                }`}
+                className="w-full text-left rounded-lg px-5 py-4 flex items-center gap-3 bg-white/10 text-white border border-white/25 hover:bg-white/20 active:scale-[0.98] transition-all"
               >
                 {o.emoji && <span className="text-2xl shrink-0">{o.emoji}</span>}
-                <span className="flex-1 font-semibold text-[15px] md:text-base leading-snug">{o.text}</span>
+                <span className="flex-1 t-body font-semibold">{o.text}</span>
               </button>
             ))}
           </div>
@@ -141,7 +137,7 @@ export function QuizRedirecting({ isEn = false, accent = PRIMARY }: { isEn?: boo
   return (
     <div className="min-h-[100dvh] flex flex-col items-center justify-center gap-5 font-display text-white" style={quizBg(accent)}>
       <div className="w-12 h-12 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
-      <p className="text-sm text-white/80">{isEn ? 'Analyzing…' : '분석 중…'}</p>
+      <p className="t-caption text-white/80">{isEn ? 'Analyzing…' : '분석 중…'}</p>
     </div>
   )
 }

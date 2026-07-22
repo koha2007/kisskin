@@ -109,7 +109,7 @@ export function ToolsNav() {
           {/* Desktop AI CTA */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
+            className="hidden sm:flex bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
@@ -117,7 +117,7 @@ export function ToolsNav() {
           {/* Mobile-only AI button + hamburger */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="sm:hidden bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
+            className="sm:hidden bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
@@ -196,7 +196,7 @@ export function ToolsNav() {
               <a
                 href={isEn ? '/en/' : '/analysis/'}
                 onClick={() => setOpen(false)}
-                className="w-full bg-gradient-to-r from-primary to-pink-500 text-white py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                className="w-full bg-primary hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
               >
                 {t('tools.nav.aiMakeup')}
               </a>

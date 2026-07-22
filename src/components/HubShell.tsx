@@ -50,7 +50,7 @@ function slugAspect(slug: string) {
 
 // Category-color gradient header (color → toward navy) — the single accent point.
 function headerGradient(color: string) {
-  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #070953))`
+  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #232a52))`
 }
 
 export default function HubShell({
@@ -170,7 +170,7 @@ export default function HubShell({
             </p>
             <a
               href={isEn ? '/en/' : '/analysis/'}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-pink-500 text-white px-7 py-3.5 rounded-full text-sm md:text-base font-bold shadow-xl shadow-primary/25 hover:from-primary/90 hover:to-pink-500/90 transition-all"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-7 py-3.5 text-sm md:text-base font-bold transition-colors"
             >
               {isEn ? 'Start AI Makeup' : 'AI 메이크업 시작'}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
@@ -215,7 +215,7 @@ function MasonryCard({ item, href, isEn }: { item: HubItem; href: string; isEn: 
   return (
     <a
       href={href}
-      className="group mb-4 block break-inside-avoid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:border-slate-300"
+      className="group mb-4 block break-inside-avoid overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors hover:border-navy"
     >
       <div
         className={`relative ${slugAspect(item.slug)} flex items-center justify-center`}
@@ -251,7 +251,7 @@ function FeaturedCard({ item, href, isEn }: { item: HubItem; href: string; isEn:
   return (
     <a
       href={href}
-      className="group mb-6 grid md:grid-cols-2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl hover:border-slate-300"
+      className="group mb-6 grid md:grid-cols-2 overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors hover:border-navy"
     >
       <div
         className="relative min-h-[200px] md:min-h-[300px] flex items-center justify-center"

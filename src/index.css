@@ -1,30 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #eb4763;
-  --color-primary-dark: #c9304a;
-  --color-background-light: #f8f6f6;
-  --color-background-dark: #211114;
-  --color-cream: #faf7f2;
-  --color-blush: #f8f1ec;
-  --color-navy: #070953;
-  --color-navy-mid: #121570;
-  --color-navy-light: #2a2d8a;
+  --color-primary: #d8503c;
+  --color-primary-dark: #b03e2d;
+  /* 배경 3종 — 흰색 대신 힐다의 '종이' 크림 계열. 색은 사진이 담당하고 배경은 물러난다. */
+  --color-background-light: #f5efe3;
+  --color-background-dark: #1b1f3a;
+  --color-cream: #f2ead9;
+  --color-blush: #ede3d1;
+  --color-navy: #232a52;
+  --color-navy-mid: #2f3766;
+  --color-navy-light: #434c82;
   /* 도구별 액센트 — 카드의 '액센트 1점'(아이콘 칩 틴트·태그·호버)에만 사용.
-     메인은 네이비+핑크, 도구색은 식별용 포인트로만. (DESIGN_SYSTEM.md) */
-  --color-tool-ai: #eb4763;       /* AI 메이크업 — 시그니처(브랜드 핑크) */
-  --color-tool-mbti: #a855f7;     /* 메이크업 MBTI — 바이올렛 */
-  --color-tool-pc: #f59e0b;       /* 퍼스널 컬러 — 앰버 */
-  --color-tool-face: #10b981;     /* 얼굴형 — 에메랄드 */
-  --color-tool-perfume: #ec4899;  /* 향수 — 로즈 */
-  --color-tool-guide: #0ea5e9;    /* 가이드 — 블루 */
-  /* 디자인 시스템: 폰트 2족만 사용 (DESIGN_SYSTEM.md 단일 소스) */
-  /* 본문(body): Pretendard 우선 + 시스템 폴백 */
-  --font-body: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+     2026-07-22: 바이올렛/앰버/에메랄드/로즈/블루는 서로 다른 색상환에서 온 형광 계열이라
+     6장이 한 화면에 모이면 통일감이 깨졌다. 힐다(Hilda) 팔레트의 낮은 채도 플랫 컬러로 교체.
+     같은 팔레트에서 뽑았기 때문에 나란히 놓여도 서로 부딪히지 않는다. */
+  --color-tool-ai: #d8503c;       /* AI 메이크업 — 시그니처(버밀리언) */
+  --color-tool-mbti: #4e9fa6;     /* 메이크업 MBTI — 틸 */
+  --color-tool-pc: #c79340;       /* 퍼스널 컬러 — 머스터드 */
+  --color-tool-face: #7e9b6a;     /* 얼굴형 — 세이지 */
+  --color-tool-perfume: #8e6e9e;  /* 향수 — 플럼 */
+  --color-tool-guide: #4a5488;    /* 가이드 — 인디고 */
+  /* 디자인 시스템: 폰트 1족(Pretendard Variable)만 사용 (DESIGN_SYSTEM.md 단일 소스) */
+  /* 본문(body): Pretendard Variable — index.html/+Head.tsx 에서 실제 로드됨 */
+  --font-body: "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
   /* legacy 유틸 .font-display 는 전 페이지 본문 래퍼로 쓰여 본문 스택과 동일하게 둔다(Manrope 제거) */
-  --font-display: "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
-  /* 제목(display serif): 영문 Cormorant Garamond + 한글 Noto Serif KR */
-  --font-serif: "Cormorant Garamond", "Noto Serif KR", serif;
+  --font-display: "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* 제목(display) — 2026-07-22 벤치마킹 후 재조정.
+     ① 문제였던 건 세리프 자체가 아니라 **한글 명조**(Noto Serif KR)였다. 한글 명조가
+        2010년대 쇼핑몰 느낌을 내 "옛스럽다"의 주원인이었으므로 Noto Serif KR 은 계속 뺀다.
+     ② 반대로 영문 세리프는 지금 뷰티/에디토리얼의 표준 문법이다(Rhode·MERIT·Glossier
+        모두 세리프 디스플레이 + 산세리프 본문 대비로 위계를 만든다).
+     → 그래서 스택을 "Cormorant Garamond → Pretendard" 순으로 둔다. 브라우저 폰트 폴백은
+       **글리프 단위**로 동작하므로 Cormorant 에 없는 한글은 자동으로 Pretendard(산세리프)로
+       떨어진다. 결과: 영문 제목=세리프, 한글 제목=산세리프. 한 토큰으로 양쪽을 동시에 만족. */
+  --font-serif: "Cormorant Garamond", "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
   --radius: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
@@ -38,7 +48,7 @@
   line-height: 1.5;
   font-weight: 400;
   color: #333;
-  background-color: #f8f6f6;
+  background-color: #f5efe3;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -49,6 +59,22 @@ html {
   width: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+}
+
+/* 아이콘 폰트 CLS 방지 (2026-07-22).
+   Material Symbols 는 <span>auto_awesome</span> 처럼 리거처 '텍스트'로 쓰인다.
+   아이콘 웹폰트가 도착하기 전까지 그 자리는 폴백 폰트로 잰 "auto_awesome" 11글자
+   너비를 차지하고, 폰트가 붙는 순간 아이콘 1글자 폭으로 확 줄어든다.
+   → 아이콘이 들어간 모든 뱃지/버튼/pill 이 site-wide 로 밀린다(Clarity CLS 0.56 = 나쁨).
+   글립 실제 폭이 1em 이므로 미리 1em 박스를 잡아두면 시프트가 0 이 된다.
+   overflow:hidden 은 폰트 로드 실패 시 리거처 텍스트가 새는 것도 함께 막는다. */
+.material-symbols-outlined {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  overflow: hidden;
+  vertical-align: -0.125em;
 }
 
 body {
@@ -76,11 +102,73 @@ summary {
   cursor: pointer;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   타입 스케일 (2026-07-22) — 단 6단계. 이 밖의 크기는 쓰지 않는다.
+
+   왜: "폰트가 너무 많다"는 지적을 코드로 확인해 보니 실제 폰트는 2종이고
+   font-family 선언은 0곳이었다. 진짜 원인은 **크기 단계가 통제되지 않은 것**으로,
+   MBTI 결과 페이지 한 장에만 크기가 9종(text-[0.65rem] ~ text-5xl) 섞여 있었다.
+   크기가 제각각이면 사람 눈에는 폰트가 여러 개인 것처럼 읽힌다.
+   16Personalities(45개 언어·10억 회 응시)가 같은 구조를 4~5단계로 통제하고,
+   Typology 는 3~4단계, Glow Recipe 는 3단으로 끝낸다. 우리는 6단계로 맞춘다.
+
+   clamp() 를 쓰는 이유: 각 호출부에서 `text-3xl md:text-[2.5rem]` 처럼 브레이크포인트
+   변형을 매번 다시 쓰면 결국 또 단계가 늘어난다. 크기 결정을 이 파일 한 곳으로 모은다.
+   ───────────────────────────────────────────────────────────────────────── */
+.t-display {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5.5vw, 4rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+.t-h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+.t-h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.t-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+.t-caption {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+/* 소형 라벨 — 칩·스와치 라벨·보조 표기.
+   ⚠️ 크기 단계는 6개 그대로다. 아래 .t-eyebrow 는 새로운 '크기'가 아니라 이 라벨의
+   대문자 변형이다. 한글에는 uppercase 가 무의미하고 0.18em 자간이 너무 벌어져
+   읽기 나쁘므로, 한글 소형 텍스트에는 .t-label 을, 영문 eyebrow 에는 .t-eyebrow 를 쓴다. */
+.t-label {
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.t-eyebrow {
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 /* Drop cap — magazine-style first-letter for article body */
 .article-body > p:first-of-type::first-letter {
   font-family: var(--font-serif);
-  font-size: 3.6rem;
-  font-weight: 600;
+  font-size: 3.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   float: left;
   line-height: 0.85;
   margin: 0.35rem 0.65rem 0 0;

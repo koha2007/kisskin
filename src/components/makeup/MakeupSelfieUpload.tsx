@@ -1,7 +1,7 @@
 // AI 메이크업 — 셀카 업로드 (2026-07-05: 성별/피부타입 제거, 단일 라인업)
 // ────────────────────────────────────────────────────────────────────
 // 글래스 카드 안에 원형 업로드 존 + 카메라 FAB, 촬영 가이드, 프라이버시 문구, "다음" CTA.
-// 폰트·색은 우리 토큰(Pretendard / navy #070953 / primary #eb4763).
+// 폰트·색은 우리 토큰(Pretendard / navy #232a52 / primary #d8503c).
 //
 // GENDER/SKIN TYPE 칩 제거: 성별 분기 없이 단일 9룩 라인업으로 전환했고,
 //   SKIN TYPE 은 프롬프트에 실제로 쓰이지 않던 장식 UI 였다(수집만 하고 버려짐).
@@ -15,8 +15,8 @@
 import { useState } from 'react'
 import { pickImage } from '../../lib/nativePicker'
 
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
+const NAVY = '#232a52'
+const PRIMARY = '#d8503c'
 const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
 
 interface Props {

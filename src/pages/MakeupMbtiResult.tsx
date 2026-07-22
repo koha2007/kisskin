@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode } from '../lib/makeup-mbti/types'
+import { computeTypeConfidence, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
@@ -11,12 +12,12 @@ import ToolFaq, { MBTI_FAQ_BASE, MBTI_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
+import ToolLongform from '../components/tools/ToolLongform'
 import ResultGrid, {
   MoodCard,
   IconCard,
   TipCard,
   AxisCard,
-  AccordionCard,
   BannerCard,
 } from '../components/result-grid/ResultGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
@@ -43,6 +44,7 @@ export default function MakeupMbtiResult({ code }: Props) {
   const displayName = isEn ? en.enPersona : type.koName
   const tagline = isEn ? en.tagline : type.tagline
   const detailParagraphs = isEn ? en.detailParagraphs : type.detailParagraphs
+  const LF_EYEBROW = isEn ? 'Makeup MBTI · In depth' : '메이크업 MBTI · 자세히'
   const traits = isEn ? en.traits : type.traits
   const signature = isEn ? en.signature : type.signature
   const recWomenReason = isEn ? en.recommended.women.reason : type.recommended.women.reason
@@ -55,11 +57,19 @@ export default function MakeupMbtiResult({ code }: Props) {
     if (typeof window === 'undefined') return
     const flag = sessionStorage.getItem('makeup-mbti-answers')
     if (!flag) return
+    // 지우기 전에 실제 응답으로 일치도를 계산한다. 숫자를 만들어 내지 않는다.
+    try {
+      const parsed = JSON.parse(flag) as QuizOption['letter'][]
+      if (Array.isArray(parsed)) setConfidence(computeTypeConfidence(parsed))
+    } catch { /* 형식이 깨졌으면 그냥 안 보여준다 */ }
     sessionStorage.removeItem('makeup-mbti-answers')
     const raf = requestAnimationFrame(() => setConfetti(true))
     const hide = window.setTimeout(() => setConfetti(false), 1800)
     return () => { cancelAnimationFrame(raf); window.clearTimeout(hide) }
   }, [])
+
+  // 응답 일치도 — 퀴즈를 방금 푼 사람에게만 뜬다(검색으로 바로 들어오면 근거가 없어 안 뜬다).
+  const [confidence, setConfidence] = useState<number | null>(null)
 
   const accent = type.primaryColor
   // Rotate the type's two signature colors as soft card tints so the grid reads
@@ -120,6 +130,31 @@ export default function MakeupMbtiResult({ code }: Props) {
             <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{type.code}</p>
             <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{displayName}</h1>
             <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
+
+            {/* 응답 일치도 — BeautySpark 가 결과에 "94% Match" 를 붙여 공유 동기를 만드는 장치를
+                가져왔다. 다만 저쪽 숫자가 무엇을 재는지는 알 수 없으므로 그대로 흉내내지 않고,
+                **사용자의 실제 8문항 응답이 이 유형 쪽으로 얼마나 일관되게 기울었는지**를 계산해
+                쓴다. 퀴즈를 풀지 않고 검색으로 바로 들어온 방문자에겐 근거가 없으므로 뜨지 않는다.
+                (가짜 평점 4.8/150 을 올렸다가 정책 위반으로 내린 전례를 반복하지 않는다.) */}
+            {confidence !== null && (
+              <div className="mb-6 inline-flex flex-col items-center gap-1">
+                <span
+                  className="inline-flex items-baseline gap-1.5 border px-4 py-2"
+                  style={{ borderColor: `${type.primaryColor}55`, background: `${type.primaryColor}0f` }}
+                >
+                  <b className="t-h2 tabular-nums" style={{ color: type.primaryColor }}>{confidence}%</b>
+                  <span className="t-caption font-bold text-navy">
+                    {isEn ? 'answer consistency' : '응답 일치도'}
+                  </span>
+                </span>
+                <span className="t-label text-slate-500">
+                  {isEn
+                    ? 'How consistently your 8 answers pointed to this type'
+                    : '8문항 응답이 이 유형 쪽으로 기운 정도'}
+                </span>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-2 justify-center mb-8">
               {/* 영문 페이지에 한글 해시태그(#ESTJ메이크업 …)가 그대로 노출되고 있었다. */}
               {(isEn ? en.hashtags : type.card.hashtags).map(k => (
@@ -127,17 +162,43 @@ export default function MakeupMbtiResult({ code }: Props) {
               ))}
             </div>
             {!isEn && (
-              <IdentityCard label="메이크업 MBTI" emoji={type.emoji} card={type.card} fileSlug={`makeup-mbti-${type.slug}`} saveLabel={L.save} />
+              <IdentityCard
+                label="메이크업 MBTI"
+                emoji={type.emoji}
+                card={type.card}
+                fileSlug={`makeup-mbti-${type.slug}`}
+                saveLabel={L.save}
+                share={{
+                  url: `https://kissinskin.net${basePath}/${type.slug}/`,
+                  text: isEn
+                    ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
+                    : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`,
+                  title: isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`,
+                }}
+                shareLabel={isEn ? 'Share' : '공유하기'}
+              />
             )}
             <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border-2 border-pink-100 hover:border-primary px-6 py-2.5 rounded-full font-bold text-sm text-navy-mid">
+              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
               </a>
             </div>
           </div>
         </section>
 
-        {/* Masonry grid — 산문을 카드 1개=정보 1조각으로 분해 (재설계 지시 §3) */}
+        {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
+            이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다
+            정보 한 조각 취급을 받아 유형 페이지들이 서로 85% 유사해졌었다(2026-07-14
+            색인 이탈 62건). 16Personalities 처럼 긴 단일 컬럼으로 낸다. */}
+        <ToolLongform
+          eyebrow={LF_EYEBROW}
+          title={L.more}
+          paragraphs={detailParagraphs}
+          image={mood.image}
+          imageAlt={tagline}
+        />
+
+        {/* 보조 무드보드 — 색·제품처럼 카드가 나은 정보만 남긴다 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {AFFILIATE_ENABLED && <RegionToggle pageType="mbti" className="mb-7" />}
@@ -180,9 +241,6 @@ export default function MakeupMbtiResult({ code }: Props) {
               {/* 영문 본문(en.detailParagraphs)이 없어서 `!isEn` 으로 막아뒀던 자리다.
                   그 결과 영문 유형 페이지는 본문이 통째로 비어 16개가 서로 거의 같아졌고,
                   구글이 전부 색인에서 버렸다. 이제 양쪽 다 본문이 있다. */}
-              {detailParagraphs.length > 0 && (
-                <AccordionCard title={L.more} paragraphs={detailParagraphs} accent={accent} />
-              )}
 
               <BannerCard
                 title={L.bannerTitle}
@@ -260,7 +318,7 @@ function ConfettiBurst() {
   const [bits, setBits] = useState<ConfettiBit[]>([])
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
-      const colors = ['#eb4763', '#f472b6', '#c084fc', '#fbbf24', '#60a5fa']
+      const colors = ['#d8503c', '#e0a63c', '#c084fc', '#fbbf24', '#60a5fa']
       setBits(Array.from({ length: 24 }, (_, i) => ({
         left: Math.random() * 100,
         delay: Math.random() * 0.3,

@@ -9,13 +9,13 @@ import ToolFaq, { PERSONAL_COLOR_FAQ_BASE, PERSONAL_COLOR_FAQ_BASE_EN } from '..
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
+import ToolLongform from '../components/tools/ToolLongform'
 import ResultGrid, {
   MoodCard,
   PaletteCard,
   IconCard,
   TipCard,
   ChipsCard,
-  AccordionCard,
   BannerCard,
 } from '../components/result-grid/ResultGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
@@ -37,6 +37,7 @@ export default function PersonalColorResult({ code }: Props) {
   const bestColors = isEn && t.bestColorsEn ? t.bestColorsEn : t.bestColors
   const avoidColors = isEn && t.avoidColorsEn ? t.avoidColorsEn : t.avoidColors
   const detailParagraphs = isEn && t.detailParagraphsEn ? t.detailParagraphsEn : t.detailParagraphs
+  const LF_EYEBROW = isEn ? 'Personal Color · In depth' : '퍼스널 컬러 · 자세히'
   const shoppingTips = isEn && t.shoppingTipsEn ? t.shoppingTipsEn : t.shoppingTips
   const basePath = isEn ? '/en/tools/personal-color' : '/tools/personal-color'
   const accent = t.primaryColor
@@ -86,17 +87,43 @@ export default function PersonalColorResult({ code }: Props) {
               ))}
             </div>
             {!isEn && (
-              <IdentityCard label="퍼스널컬러" emoji={t.emoji} card={t.card} fileSlug={`personal-color-${t.code}`} saveLabel={L.save} />
+              <IdentityCard
+                label="퍼스널컬러"
+                emoji={t.emoji}
+                card={t.card}
+                fileSlug={`personal-color-${t.code}`}
+                saveLabel={L.save}
+                share={{
+                  url: `https://kissinskin.net${basePath}/${t.slug}/`,
+                  text: isEn
+                    ? `My personal color is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
+                    : `나의 퍼스널 컬러는 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
+                  title: isEn ? `Personal Color: ${t.enName}` : `퍼스널 컬러: ${t.koName}`,
+                }}
+                shareLabel={isEn ? 'Share' : '공유하기'}
+              />
             )}
             <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border-2 border-amber-100 hover:border-amber-500 px-6 py-2.5 rounded-full font-bold text-sm text-navy-mid">
+              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
               </a>
             </div>
           </div>
         </section>
 
-        {/* Masonry grid — 산문을 카드 1개=정보 1조각으로 분해 (재설계 지시 §3) */}
+        {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
+            이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다
+            정보 한 조각 취급을 받아 유형 페이지들이 서로 85% 유사해졌었다(2026-07-14
+            색인 이탈 62건). 16Personalities 처럼 긴 단일 컬럼으로 낸다. */}
+        <ToolLongform
+          eyebrow={LF_EYEBROW}
+          title={L.more}
+          paragraphs={detailParagraphs}
+          image={mood.image}
+          imageAlt={tagline}
+        />
+
+        {/* 보조 무드보드 — 색·제품처럼 카드가 나은 정보만 남긴다 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {/* 구매 지역 토글 — 쿠팡/클리오(한국) ↔ Amazon/YesStyle(글로벌) */}
@@ -134,7 +161,6 @@ export default function PersonalColorResult({ code }: Props) {
                 <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="personal_color" pageSlug={t.code} />
               ))}
 
-              <AccordionCard title={L.more} paragraphs={detailParagraphs} accent={accent} />
 
               <BannerCard
                 title={L.bannerTitle}

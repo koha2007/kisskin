@@ -18,8 +18,8 @@ import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import type { ProductRec } from '../../lib/recommendations/types'
 
-const PRIMARY = '#eb4763'
-const NAVY = '#070953'
+const PRIMARY = '#d8503c'
+const NAVY = '#232a52'
 const TOOL_URL = 'https://kissinskin.net/analysis/'
 const screenBg = { background: `linear-gradient(170deg, ${NAVY} 0%, #15123f 60%, #241a52 100%)` }
 

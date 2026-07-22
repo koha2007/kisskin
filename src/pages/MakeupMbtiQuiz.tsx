@@ -4,6 +4,7 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
+import { mbtiGroupColor } from '../lib/makeup-mbti/groupColors'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -99,19 +100,19 @@ export default function MakeupMbtiQuiz() {
                   <p className="font-semibold text-navy-mid mt-6">The four axes:</p>
                   <ul className="space-y-3 list-none pl-0">
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">E · I</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">E · I</span>
                       <span><strong>Expression</strong> — bold, high-impact accents (E) vs. a subtle, private glow (I).</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">N · S</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">N · S</span>
                       <span><strong>Source</strong> — drawn to new experiments and trends (N) vs. a verified personal formula (S).</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">F · T</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">F · T</span>
                       <span><strong>Feel</strong> — blurred, soft, mood-driven (F) vs. sharp lines and structure (T).</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">P · J</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">P · J</span>
                       <span><strong>Routine</strong> — improvise by mood (P) vs. a consistent, formulaic ritual (J).</span>
                     </li>
                   </ul>
@@ -130,19 +131,19 @@ export default function MakeupMbtiQuiz() {
                   <p className="font-semibold text-navy-mid mt-6">4가지 축:</p>
                   <ul className="space-y-3 list-none pl-0">
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">E · I</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">E · I</span>
                       <span><strong>표현(Expression)</strong> — 강렬한 포인트를 선호하는가(E), 은은한 내면 글로우를 선호하는가(I).</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">N · S</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">N · S</span>
                       <span><strong>영감(Source)</strong> — 새로운 실험·트렌드에서 영감을 얻는가(N), 검증된 내 공식을 신뢰하는가(S).</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">F · T</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">F · T</span>
                       <span><strong>무드(Feel)</strong> — 블러·소프트 무드를 선호하는가(F), 샤프한 라인·구조를 선호하는가(T).</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="shrink-0 px-2.5 py-0.5 bg-pink-100 text-primary-dark text-xs font-bold rounded-full">P · J</span>
+                      <span className="shrink-0 px-2.5 py-0.5 bg-primary/10 text-primary-dark text-xs font-bold rounded-full">P · J</span>
                       <span><strong>루틴(Routine)</strong> — 기분 따라 즉흥적으로 스타일링하는가(P), 공식화된 루틴을 유지하는가(J).</span>
                     </li>
                   </ul>
@@ -172,7 +173,7 @@ export default function MakeupMbtiQuiz() {
                 emoji={mt.emoji}
                 name={isEn ? en.enPersona : mt.koName}
                 sub={mt.code}
-                accent={mt.primaryColor}
+                accent={mbtiGroupColor(code)}
               />
             )
           })}

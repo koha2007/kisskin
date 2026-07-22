@@ -15,11 +15,34 @@ interface Props {
   /** PNG 파일명 슬러그 — e.g. "perfume-floral" */
   fileSlug: string
   saveLabel?: string
+  /** 카드 바로 옆 공유 버튼. 넘기지 않으면 버튼이 뜨지 않는다. */
+  share?: { url: string; text: string; title: string }
+  shareLabel?: string
 }
 
-export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel }: Props) {
+export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, share, shareLabel }: Props) {
   const [saving, setSaving] = useState(false)
+  const [shared, setShared] = useState(false)
   const [from, to] = card.gradient
+
+  // 2026-07-22: GA4 30일 기준 makeup_save 4명 / makeup_share 3명.
+  // 기능이 없어서가 아니라 **공유 UI가 페이지 한참 아래(ShareBar)에만 있어서** 도달을 못 했다.
+  // Colorwise 는 결과가 뜨는 순간 저장/공유를 나란히 1급으로 놓는다. 그 자리를 여기로 올린다.
+  const onShare = async () => {
+    if (!share) return
+    const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> }
+    try {
+      if (nav.share) {
+        await nav.share({ title: share.title, text: share.text, url: share.url })
+        return
+      }
+      await navigator.clipboard.writeText(`${share.text}${share.url}`)
+      setShared(true)
+      setTimeout(() => setShared(false), 2000)
+    } catch {
+      /* 사용자가 공유 시트를 닫은 경우 — 조용히 통과 */
+    }
+  }
 
   const onSave = async () => {
     if (saving) return
@@ -68,15 +91,31 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel }
         </div>
       </div>
 
+      <div className="flex flex-wrap items-center justify-center gap-2.5">
       <button
         type="button"
         onClick={onSave}
         disabled={saving}
-        className="inline-flex items-center gap-2 bg-navy text-white px-7 py-3 rounded-full font-bold text-sm md:text-base shadow-lg disabled:opacity-60"
+        // 카드 내부 타이포는 건드리지 않는다 — 이 미리보기는 src/lib/cardToPng.ts 의
+        // 1080×1920 캔버스 렌더러와 레이아웃이 1:1로 맞춰져 있어서, 여기만 바꾸면
+        // 화면과 저장되는 PNG가 어긋난다. 버튼(카드 밖)만 새 언어로 맞춘다.
+        className="inline-flex items-center gap-2 bg-navy hover:bg-navy-mid transition-colors text-white px-7 py-3.5 font-bold t-body disabled:opacity-60"
       >
         <span className="material-symbols-outlined">{saving ? 'hourglass_top' : 'download'}</span>
         {saving ? '저장 중…' : (saveLabel ?? '이미지로 저장')}
       </button>
+
+        {share && (
+          <button
+            type="button"
+            onClick={onShare}
+            className="inline-flex items-center gap-2 border border-navy/25 hover:border-navy transition-colors text-navy px-7 py-3.5 font-bold t-body"
+          >
+            <span className="material-symbols-outlined">{shared ? 'check' : 'share'}</span>
+            {shared ? (shareLabel === 'Share' ? 'Copied' : '복사됨') : (shareLabel ?? '공유하기')}
+          </button>
+        )}
+      </div>
     </div>
   )
 }

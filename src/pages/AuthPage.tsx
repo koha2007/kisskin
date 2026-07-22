@@ -119,7 +119,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   return (
     <div style={{
       minHeight: '100dvh',
-      background: 'linear-gradient(135deg, #070953 0%, #121570 50%, #070953 100%)',
+      background: 'linear-gradient(135deg, #232a52 0%, #2f3766 50%, #232a52 100%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -164,7 +164,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.2s',
-              background: mode === 'login' ? 'linear-gradient(135deg, #ec4899, #f472b6)' : 'transparent',
+              background: mode === 'login' ? 'linear-gradient(135deg, #ec4899, #e0a63c)' : 'transparent',
               color: mode === 'login' ? '#fff' : '#94a3b8',
             }}
           >
@@ -181,7 +181,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.2s',
-              background: mode === 'signup' ? 'linear-gradient(135deg, #ec4899, #f472b6)' : 'transparent',
+              background: mode === 'signup' ? 'linear-gradient(135deg, #ec4899, #e0a63c)' : 'transparent',
               color: mode === 'signup' ? '#fff' : '#94a3b8',
             }}
           >
@@ -329,7 +329,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               padding: '12px',
               borderRadius: '10px',
               border: 'none',
-              background: loading ? '#64748b' : 'linear-gradient(135deg, #ec4899, #f472b6)',
+              background: loading ? '#64748b' : 'linear-gradient(135deg, #ec4899, #e0a63c)',
               color: '#fff',
               fontSize: '15px',
               fontWeight: 700,
@@ -437,7 +437,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 padding: '10px 20px',
                 borderRadius: '8px',
                 border: 'none',
-                background: 'linear-gradient(135deg, #ec4899, #f472b6)',
+                background: 'linear-gradient(135deg, #ec4899, #e0a63c)',
                 color: '#fff',
                 fontSize: '13px',
                 fontWeight: 600,

@@ -7,8 +7,11 @@ import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
-import { savePendingSelfie } from './lib/makeup/pendingSelfie'
+import { savePendingSelfie, savePendingSelfieFromSrc } from './lib/makeup/pendingSelfie'
 import { pickImage } from './lib/nativePicker'
+
+// 예시 얼굴로 쓸 룩 4종 — 서로 피부톤이 다른 모델이 걸리도록 고른 조합.
+const SAMPLE_FACES: MakeupStyleId[] = ['natural-glow', 'blush-draping', 'metallic-eye', 'kpop-idol']
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -50,13 +53,15 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
     })
   }
 
-  // ── 비포/애프터 섹션 ── 기본은 기존 대표 컷(룩 라벨 없음). 룩 칩/카드를 누르면 그 룩으로 교체.
-  const [baLook, setBaLook] = useState<MakeupStyleId | null>(null)
-  const showLook = (id: MakeupStyleId) => {
-    setBaLook(id)
-    document.getElementById('ba-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  // 예시 얼굴 4장 — 피부톤이 서로 다른 모델을 고른다(글로벌 방문자 비중 42%).
+  // 이미지는 룩 카드의 '민낯 원본'을 재사용하므로 새로 만들 자산이 없다.
+  const onSamplePick = async (id: MakeupStyleId) => {
+    await savePendingSelfieFromSrc(LOOK_IMAGES[id].before)
+    window.location.href = `/analysis/?style=${id}&sample=1`
   }
-  const baStyle = baLook ? MAKEUP_STYLES.find((s) => s.id === baLook) : null
+
+  // ── 히어로 비포/애프터 ── 기본은 대표 컷(룩 라벨 없음). 히어로의 룩 칩을 누르면 제자리에서 교체.
+  const [baLook, setBaLook] = useState<MakeupStyleId | null>(null)
   const baBefore = baLook ? LOOK_IMAGES[baLook].before : '/home-ba-before.webp'
   const baAfter = baLook ? LOOK_IMAGES[baLook].after : '/home-ba-after.webp'
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
@@ -110,7 +115,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         .animate-fade-in-up-delay { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
         .animate-fade-in-up-delay2 { animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
         .shimmer-text {
-          background: linear-gradient(90deg, #eb4763, #f472b6, #eb4763);
+          background: linear-gradient(90deg, #d8503c, #e0a63c, #d8503c);
           background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -165,7 +170,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               {isEn ? 'Credits' : '충전하기'}
             </a>
             <button
-              className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
+              className="hidden sm:flex bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
               onClick={() => onNavigate('analysis')}
             >
               {t('tools.nav.aiMakeup')}
@@ -174,7 +179,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             {/* Mobile-only AI button + hamburger */}
             <button
               onClick={() => onNavigate('analysis')}
-              className="sm:hidden bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
+              className="sm:hidden bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
             >
               {t('tools.nav.aiMakeup')}
             </button>
@@ -264,7 +269,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     onNavigate('analysis')
                     setMobileMenuOpen(false)
                   }}
-                  className="w-full bg-gradient-to-r from-primary to-pink-500 text-white py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                  className="w-full bg-primary hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
                 >
                   {t('tools.nav.aiMakeup')}
                 </button>
@@ -276,160 +281,163 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
       <main>
       {/* ── 히어로 ── */}
-      <section className="relative py-10 md:py-20 overflow-hidden bg-cream" aria-labelledby="hero-title">
-        {/* Soft mesh gradient (muted K-beauty palette) */}
+      {/* 2026-07-21 리디자인 — "결과물 우선" 히어로.
+          이전 히어로는 좌:설명문 / 우:빈 점선 업로드 박스라 첫 화면에 우리 제품의 유일한
+          무기(비포/애프터)가 없었다. Lensa·Remini 패턴대로 결과물 자체를 히어로로 올리고,
+          핑크 메시 그라데이션(4겹 radial)은 뉴트럴 배경으로 교체했다. */}
+      <section className="relative py-12 md:py-20 overflow-hidden bg-cream" aria-labelledby="hero-title">
+        {/* 액센트는 한 겹만 — 우상단에 아주 옅은 웜 워시 */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(at 22% 18%, rgba(251, 207, 232, 0.7) 0px, transparent 55%),' +
-              'radial-gradient(at 78% 28%, rgba(254, 215, 170, 0.55) 0px, transparent 50%),' +
-              'radial-gradient(at 55% 85%, rgba(244, 232, 255, 0.55) 0px, transparent 60%),' +
-              'radial-gradient(at 12% 90%, rgba(255, 228, 230, 0.5) 0px, transparent 45%)',
-          }}
+          style={{ background: 'radial-gradient(at 82% 8%, rgba(216, 80, 60, 0.07) 0px, transparent 55%)' }}
         />
 
-        {/* 좌: 카피 / 우: 업로드 박스. 홈에서 바로 사진을 고르면 /analysis/ 가 업로드
-            단계를 건너뛰고 이어받는다(경쟁사 패턴 — 진입 마찰 1단계 제거). */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-5">
-            <div className="animate-fade-in-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider w-fit">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              {t('home.hero.badge')}
-            </div>
-
-            <h1 id="hero-title" className="animate-fade-in-up font-serif text-4xl md:text-5xl lg:text-[3.25rem] font-semibold leading-[1.12] tracking-tight text-navy">
-              {t('home.hero.title1')}<br />
-              <span className="shimmer-text">{t('home.hero.title2')}</span> {t('home.hero.title3')}
-            </h1>
-
-            <p className="animate-fade-in-up-delay text-base md:text-lg text-slate-600 max-w-md leading-relaxed">
-              {t('home.hero.subtitle')}
-            </p>
-
-            {/* 신뢰 띠 — 배지 그리드보다 가볍게, 카피 바로 아래에서 안심시킨다 */}
-            <div className="animate-fade-in-up-delay2 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-2 text-xs font-semibold text-slate-600">
-              {[t('home.hero.trust1'), t('home.hero.trust2'), t('home.hero.trust3')].map((txt) => (
-                <span key={txt} className="inline-flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                  {txt}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* 업로드 박스 */}
-          <div className="animate-fade-in-up-delay2 bg-white/90 backdrop-blur border-2 border-dashed border-pink-200 rounded-3xl p-6 md:p-7 text-center shadow-xl shadow-navy/5">
-            <div className="w-14 h-14 rounded-full bg-blush flex items-center justify-center mx-auto mb-3">
-              <span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
-            </div>
-            <p className="text-base font-bold text-navy">{isEn ? 'Drop your selfie here' : '여기에 셀카를 올려주세요'}</p>
-            <p className="mt-1 text-xs text-slate-500">
-              {isEn ? 'Click to choose · JPG / PNG / HEIC' : '눌러서 선택 · JPG / PNG / HEIC'}
-            </p>
-
-            <button
-              onClick={onHeroPick}
-              className="mt-4 w-full bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white py-4 rounded-full text-base font-bold transition-all shadow-lg shadow-primary/25"
-            >
-              {t('home.hero.uploadCta')}
-            </button>
-            <p className="mt-2 text-xs font-medium text-slate-500">{t('home.hero.priceSub')}</p>
-
-            {/* 사진이 없는 방문자용 — 예시 룩을 눌러 결과부터 보게 한다 */}
-            <div className="mt-5 text-left">
-              <p className="text-[11px] text-slate-400 mb-2">
-                {isEn ? 'No photo? See an example first' : '사진이 없다면, 예시로 먼저 볼까요?'}
+        {/* items-center 였는데, 우측 컬럼이 슬라이더+9썸네일로 길어지자 좌측 카피가 수직
+            중앙으로 밀려 헤드라인이 첫 화면(fold) 밖으로 나갔다. 주의의 57%가 첫 화면에
+            머문다는 게 히어로 개편의 전제였으므로 상단 정렬로 되돌린다. */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-10 lg:gap-16 items-start">
+          {/* 좌: 카피.
+              모바일에선 이 래퍼가 display:contents 라 아래 두 덩어리(카피 상단 / CTA 하단)가
+              그리드 컨테이너의 직계 자식이 된다 → 그 사이에 결과물(order-2)을 끼워 넣는다.
+              · 예전에 이미지를 통째로 맨 위(order-1)로 올렸더니 첫 화면이 사진+쿠키 배너로
+                가득 차 헤드라인이 아예 안 보였다. 그래서 헤드라인은 계속 맨 위에 둔다.
+              · 하지만 CTA 2개가 세로로 쌓이면서 결과물이 첫 화면 밖으로 밀렸는데,
+                우리 사용자의 75%가 모바일이다(GA4). 그래서 헤드라인 → 결과물 → CTA 순으로
+                모바일만 재배치한다. 데스크톱은 기존 2단 레이아웃 그대로. */}
+          <div className="contents md:flex md:flex-col md:items-start md:gap-6">
+            <div className="order-1 md:order-none flex flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
+              {/* 눈에 띄는 알약 배지 → 담백한 eyebrow 라벨. 브랜드 한글명은 SEO 위해 유지 */}
+              <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                {t('home.hero.badge')}
               </p>
-              <div className="grid grid-cols-4 gap-1.5">
-                {MAKEUP_STYLES.slice(0, 4).map((s) => (
+
+              <h1
+                id="hero-title"
+                className="animate-fade-in-up text-[2.6rem] md:text-[3.4rem] lg:text-[4rem] font-extrabold leading-[1.04] tracking-[-0.035em] text-navy"
+              >
+                {t('home.hero.title1')}<br />
+                <span className="text-primary">{t('home.hero.title2')}</span> {t('home.hero.title3')}
+              </h1>
+
+              <p className="animate-fade-in-up-delay text-[15px] md:text-lg text-slate-600 max-w-md leading-relaxed">
+                {t('home.hero.subtitle')}
+              </p>
+            </div>
+
+            <div className="order-3 md:order-none flex w-full flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
+            <div className="animate-fade-in-up-delay2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              <button
+                onClick={onHeroPick}
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 text-base font-bold transition-colors"
+              >
+                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+                {t('home.hero.uploadCta')}
+              </button>
+              <a
+                href="#styles"
+                className="inline-flex items-center justify-center gap-1.5 px-6 py-4 text-base font-bold text-navy border border-navy/25 hover:border-navy transition-colors"
+              >
+                {t('home.hero.viewStyles')}
+              </a>
+            </div>
+
+            {/* 신뢰 띠 — 핑크 점 대신 가운뎃점 구분자로 담백하게 */}
+            <p className="animate-fade-in-up-delay2 text-xs font-medium text-slate-500">
+              {[t('home.hero.trust1'), t('home.hero.trust2'), t('home.hero.trust3')].join(' · ')}
+            </p>
+            <p className="animate-fade-in-up-delay2 -mt-3 text-xs text-slate-400">{t('home.hero.priceSub')}</p>
+
+            {/* ── 예시 얼굴로 체험 (2026-07-22) ──────────────────────────────────
+                GA4 30일: 방문 46명 → style_selected 7명 → makeup_generated 5명.
+                **89%가 생성까지 못 간다.** 첫 칸이 "셀카를 올려라"인 게 병목이다.
+                지금 셀카가 없거나, 올릴 마음이 아직 없는 사람은 여기서 전부 나간다.
+                YouCam 은 업로드 드롭존 바로 밑에 예시 모델 사진 4장을 깔아
+                "사진 없이도 지금 당장" 체험하게 만든다. 그 패턴을 가져왔다.
+                우리는 룩 이미지의 '민낯 원본'을 이미 갖고 있어 새 자산이 필요 없고,
+                savePendingSelfieFromSrc 가 URL 을 그대로 받으므로 배관도 그대로 쓴다. */}
+            <div className="animate-fade-in-up-delay2 w-full">
+              <p className="t-label text-slate-500 mb-2">
+                {isEn ? 'No photo handy? Try it on a sample face' : '사진이 없다면, 예시 얼굴로 먼저 체험해보세요'}
+              </p>
+              <div className="flex gap-2 justify-center md:justify-start">
+                {SAMPLE_FACES.map((id) => (
                   <button
-                    key={s.id}
+                    key={id}
                     type="button"
-                    onClick={() => showLook(s.id)}
-                    aria-label={isEn ? `See ${s.subEn} example` : `${s.nameKo} 예시 보기`}
-                    className="rounded-lg overflow-hidden border-2 border-transparent hover:border-primary transition-colors"
+                    onClick={() => onSamplePick(id)}
+                    aria-label={isEn ? 'Try this sample face' : '이 예시 얼굴로 체험하기'}
+                    className="h-14 w-14 overflow-hidden rounded-full ring-1 ring-slate-300 transition-all hover:ring-2 hover:ring-primary"
                   >
                     <img
-                      src={LOOK_IMAGES[s.id].after}
+                      src={LOOK_IMAGES[id].before}
                       alt=""
                       loading="lazy"
-                      className="w-full aspect-[3/4] object-cover"
+                      decoding="async"
+                      className="h-full w-full object-cover"
                     />
                   </button>
                 ))}
               </div>
             </div>
-
-            <a
-              href="/analysis/?topup=1"
-              className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-dark underline underline-offset-2 decoration-primary/40"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>toll</span>
-              {isEn ? 'Out of free tries? Buy credits' : '무료 다 썼다면 크레딧 충전하기'}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Before / After ── */}
-      <section className="py-16 md:py-20 bg-white" aria-labelledby="ba-title">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 id="ba-title" className="font-serif text-3xl md:text-[2.5rem] font-semibold tracking-tight text-navy leading-tight mb-2">
-            {t('home.ba.title')}
-          </h2>
-          <p className="text-slate-500 text-sm md:text-base mb-8">{t('home.ba.subtitle')}</p>
-
-          {/* 룩 칩 — 누르면 그 룩의 비포/애프터로 교체. 기본(선택 없음)은 대표 컷. */}
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
-            {MAKEUP_STYLES.map((s) => {
-              const on = baLook === s.id
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => setBaLook(on ? null : s.id)}
-                  aria-pressed={on}
-                  className={`rounded-full px-4 py-2 text-[13px] font-bold border transition-colors ${
-                    on
-                      ? 'bg-navy text-white border-navy'
-                      : 'bg-white text-navy border-slate-200 hover:border-primary hover:text-primary'
-                  }`}
-                >
-                  {isEn ? s.subEn : s.nameKo}
-                </button>
-              )
-            })}
+            </div>
           </div>
 
-          {/* 우리 파이프라인으로 직접 생성한 실제 결과. 결과 화면의 드래그 슬라이더 재사용 */}
-          <div className="max-w-[300px] sm:max-w-[340px] mx-auto">
+          {/* 우: 결과물. 예전엔 홈 중반에 있던 비포/애프터를 첫 화면으로 끌어올렸다 */}
+          <div className="order-2 md:order-none animate-fade-in-up-delay w-full max-w-[340px] md:max-w-[380px] mx-auto">
             <BeforeAfterSlider
               key={baLook ?? 'hero'}
               beforeSrc={baBefore}
               afterSrc={baAfter}
               isEn={isEn}
             />
-            {baStyle && (
-              <p className="mt-3 text-sm font-bold text-navy">
-                {isEn ? baStyle.subEn : baStyle.nameKo}
-              </p>
-            )}
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-3 text-center text-xs text-slate-400">
               {isEn ? 'Drag the handle to compare' : '가운데 손잡이를 좌우로 드래그해 비교해보세요'}
             </p>
-            {baLook && (
-              <a
-                href={`/analysis/?style=${baLook}`}
-                className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-primary/25 hover:bg-primary-dark transition-colors"
-              >
-                {isEn ? 'Try this look on my photo' : '이 룩으로 내 사진 만들기'}
-                <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </a>
-            )}
+
+            {/* 룩 선택 — 누르면 위 슬라이더가 그 룩으로 제자리 교체된다(스크롤 이동 없음).
+                2026-07-22: 글자만 있는 알약 칩이었는데 "샘플이 안 보여 눌러볼 이유가 없다"는
+                지적을 받아 각 룩의 실제 결과 썸네일로 바꿨다. 우리 제품은 결과물이 곧 카피다. */}
+            <div className="mt-4 grid grid-cols-3 gap-1.5" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
+              {MAKEUP_STYLES.map((s) => {
+                const on = baLook === s.id
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => setBaLook(on ? null : s.id)}
+                    aria-pressed={on}
+                    className={`group relative block overflow-hidden rounded-lg transition-all ${
+                      on ? 'ring-2 ring-navy ring-offset-1' : 'ring-1 ring-slate-200 hover:ring-navy/40'
+                    }`}
+                  >
+                    <span className="block aspect-square">
+                      <img
+                        src={LOOK_IMAGES[s.id].after}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                      />
+                    </span>
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-1 pb-1 pt-4">
+                      <span className="block truncate text-[10px] font-bold leading-tight text-white">
+                        {isEn ? s.subEn : s.nameKo}
+                      </span>
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <a
+              href={baLook ? `/analysis/?style=${baLook}` : '/analysis/'}
+              className="mt-3 flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors"
+            >
+              {baLook
+                ? (isEn ? 'Try this look on my photo' : '이 룩으로 내 사진 만들기')
+                : (isEn ? 'Try it on my photo' : '내 사진으로 만들어보기')}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
@@ -437,15 +445,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* ── 스타일 슬라이더 (트렌디한 K-뷰티 스타일) ── */}
       <section id="styles" className="py-16 md:py-20 bg-cream scroll-mt-16" aria-labelledby="slider-title">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-2">
-          <span className="inline-flex items-center gap-2 text-primary-dark text-xs font-bold uppercase tracking-widest bg-pink-50 px-4 py-1.5 rounded-full border border-pink-100 mb-3">
-            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+          {/* 핑크 알약 배지 → 담백한 eyebrow. 배경이 색을 쥐지 않게 하고 색은 사진이 담당한다
+              (Rhode·MERIT·Glossier 공통 패턴). 아래 '선택하면 바로 생성' 힌트는 운영자가
+              유지 요청한 부분이라 그대로 둔다. */}
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
             {t('home.styles.badge')}
-          </span>
+          </p>
           <h2 id="slider-title" className="font-serif text-3xl md:text-[2.5rem] font-semibold tracking-tight text-navy leading-tight">
             {t('home.slider.title')}
           </h2>
           <p className="text-slate-500 text-sm md:text-base mt-2">{t('home.slider.subtitle')}</p>
-          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-pink-50 border border-pink-100 px-4 py-1.5 text-primary-dark text-xs md:text-sm font-semibold">
+          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-primary/5 border border-primary/15 px-4 py-1.5 text-primary-dark text-xs md:text-sm font-semibold">
             <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>touch_app</span>
             {t('home.slider.selectHint')}
           </p>
@@ -486,26 +496,23 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* ── 3단계 (네이비 배경) ── */}
       <section id="how" className="py-20 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14 flex flex-col items-center gap-3">
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">{t('home.how.badge')}</span>
+          {/* 2026-07-22 개편: 원형 아이콘 배지 + 그라디언트 번호 → 초대형 넘버링 타이포.
+              YouCam(Perfect Corp)이 기능을 01~11 넘버로 끌고 가는 방식이 근거. 장식을 빼고
+              번호 자체를 조판 요소로 쓰면 정보 위계가 아이콘 장식보다 훨씬 또렷해진다. */}
+          <div className="mb-14 md:mb-20 max-w-4xl mx-auto text-center md:text-left">
+            <p className="text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-3">{t('home.how.badge')}</p>
             <h2 id="how-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
           </div>
 
-          <div className="relative grid md:grid-cols-3 gap-8 lg:gap-16 max-w-4xl mx-auto">
-            <div className="hidden md:block absolute top-14 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+          <div className="grid md:grid-cols-3 gap-10 md:gap-8 lg:gap-14 max-w-4xl mx-auto">
             {[
-              { num: '1', icon: 'photo_camera', title: t('home.how.step1'), desc: t('home.how.step1Desc') },
-              { num: '2', icon: 'psychology', title: t('home.how.step2'), desc: t('home.how.step2Desc') },
-              { num: '3', icon: 'auto_awesome', title: t('home.how.step3'), desc: t('home.how.step3Desc') },
+              { num: '01', title: t('home.how.step1'), desc: t('home.how.step1Desc') },
+              { num: '02', title: t('home.how.step2'), desc: t('home.how.step2Desc') },
+              { num: '03', title: t('home.how.step3'), desc: t('home.how.step3Desc') },
             ].map((step) => (
-              <div key={step.num} className="flex flex-col items-center text-center gap-5 relative">
-                <div className="relative">
-                  <div className="w-28 h-28 rounded-full bg-white/10 border border-white/15 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-5xl">{step.icon}</span>
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-pink-500 text-white flex items-center justify-center font-extrabold text-sm shadow-lg">{step.num}</div>
-                </div>
-                <h3 className="text-xl font-bold text-white">{step.title}</h3>
+              <div key={step.num} className="flex flex-col gap-3 border-t border-white/20 pt-5 text-left">
+                <span className="font-serif text-[2.75rem] md:text-[3.25rem] leading-none text-primary">{step.num}</span>
+                <h3 className="text-lg md:text-xl font-bold text-white">{step.title}</h3>
                 <p className="text-slate-300 text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
@@ -517,13 +524,14 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 bg-white" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-primary-dark text-xs font-bold uppercase tracking-wider mb-5">
-              <span className="text-base">💄</span>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-4">
               {isEn ? 'ALL FREE · No signup' : 'ALL FREE · 로그인 불필요'}
-            </div>
+            </p>
+            {/* 3색 그라디언트 텍스트 → 단색. 그라디언트 글자는 2020~21년 SaaS 랜딩의 관용구라
+                지금은 그 자체로 연식을 드러낸다. 강조는 색 하나(primary)로만 준다. */}
             <h2 id="tools-title" className="font-serif text-4xl md:text-[3rem] font-semibold tracking-tight text-navy leading-[1.1] mb-4">
               {t('home.toolsShowcase.title1')}<br />
-              <span className="bg-gradient-to-r from-primary via-pink-500 to-purple-600 bg-clip-text text-transparent">{t('home.toolsShowcase.title2')}</span>
+              <span className="text-primary">{t('home.toolsShowcase.title2')}</span>
             </h2>
             <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
               {t('home.toolsShowcase.subtitle')}
@@ -534,28 +542,35 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="mb-6">
             <a
               href="/analysis/"
-              className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy via-navy-mid to-navy-light p-6 md:p-10 text-white shadow-xl shadow-navy/20 hover:shadow-2xl transition-all hover:-translate-y-0.5"
+              className="group block relative overflow-hidden bg-navy text-white transition-colors hover:bg-navy-mid"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
-                <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white/15 backdrop-blur-sm flex items-center justify-center text-6xl md:text-7xl shadow-inner">
-                  💄
+              {/* 💄 이모지 블록 + 그라디언트 + blur blob 을 걷어내고 실제 결과물을 넣었다.
+                  이모지 히어로는 2019년 앱스토어 스크린샷 문법이고, 무엇보다 우리 제품이
+                  뭘 만들어 주는지 한 글자도 보여주지 못한다. */}
+              <div className="relative flex flex-col md:flex-row md:items-stretch">
+                <div className="md:w-2/5 lg:w-1/3 shrink-0">
+                  <img
+                    src={LOOK_IMAGES[MAKEUP_STYLES[0].id].after}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="h-56 w-full object-cover object-top md:h-full"
+                  />
                 </div>
-                <div className="flex-1 text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/90 rounded-full text-xs font-bold uppercase tracking-widest mb-3">
-                    <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-3">
                     {t('home.toolsShowcase.signatureBadge')}
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-extrabold mb-2 leading-tight">
+                  </p>
+                  <h3 className="font-serif text-2xl md:text-[2.25rem] font-semibold mb-3 leading-tight tracking-tight">
                     {t('home.toolsShowcase.mainTitle')}
                   </h3>
-                  <p className="text-white/85 text-sm md:text-base mb-5 max-w-xl">
+                  <p className="text-white/80 text-sm md:text-base mb-6 max-w-xl leading-relaxed">
                     {t('home.toolsShowcase.mainDesc')}
                   </p>
-                  <div className="inline-flex items-center gap-2 font-bold text-sm md:text-base bg-white text-navy px-6 py-3 rounded-full shadow-lg group-hover:gap-3 transition-all">
+                  <span className="inline-flex w-fit items-center gap-2 font-bold text-sm md:text-base bg-white text-navy px-6 py-3.5 group-hover:gap-3 transition-all">
                     {t('home.toolsShowcase.mainCta')}
                     <span className="material-symbols-outlined">arrow_forward</span>
-                  </div>
+                  </span>
                 </div>
               </div>
             </a>
@@ -591,9 +606,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="text-center mt-10 md:mt-12">
             <a
               href={toolHref('/tools/')}
-              className="inline-flex items-center gap-2 bg-white hover:bg-pink-50 border border-pink-200 hover:border-primary/40 text-slate-700 hover:text-primary px-8 py-3.5 rounded-full font-bold text-sm md:text-base shadow-sm transition-all"
+              className="inline-flex items-center gap-2 border border-navy/25 hover:border-navy text-navy px-8 py-3.5 font-bold text-sm md:text-base transition-colors"
             >
-              <span className="material-symbols-outlined">grid_view</span>
               {t('home.toolsShowcase.seeAllTools')}
               <span className="material-symbols-outlined">arrow_forward</span>
             </a>
@@ -605,20 +619,26 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       <HomeContentSections />
 
       {/* ── 하단 CTA (핑크) ── */}
-      <section className="py-20 relative overflow-hidden bg-gradient-to-br from-primary via-pink-500 to-rose-400 text-white">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-white/15 rounded-full blur-2xl pointer-events-none"></div>
-        <div className="absolute bottom-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div className="max-w-3xl mx-auto px-4 text-center relative">
-          <span className="material-symbols-outlined text-white text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-          <h2 className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight mb-4 leading-tight">
+      {/* 2026-07-22 개편: 핑크 3색 그라디언트 + blur blob + 떠 있는 알약 버튼을 전부 뺐다.
+          벤치마킹한 3사(Rhode·MERIT·Glossier)는 배경에 색을 칠하지 않고 사진과 조판으로만
+          마무리한다. 여기서는 결과물 한 장을 배경으로 깔고 그 위에 조판을 올렸다. */}
+      <section className="relative overflow-hidden bg-navy text-white">
+        <img
+          src="/home-ba-after.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-25"
+        />
+        <div className="relative max-w-3xl mx-auto px-4 py-24 md:py-32 text-center">
+          <h2 className="font-serif text-[2.25rem] md:text-[3.25rem] font-semibold tracking-tight mb-5 leading-[1.08]">
             {t('home.cta.title1')}<br />{t('home.cta.title2')}
           </h2>
-          <p className="text-base text-white/85 mb-8 max-w-md mx-auto">
+          <p className="text-base text-white/80 mb-9 max-w-md mx-auto leading-relaxed">
             {t('home.cta.subtitle')}
           </p>
           <button
-            className="bg-white text-primary px-12 py-5 rounded-full text-xl font-extrabold transition-all shadow-2xl shadow-black/10 inline-flex items-center gap-3 hover:scale-[1.02]"
+            className="bg-white text-navy px-12 py-5 text-lg font-bold transition-colors hover:bg-slate-100 inline-flex items-center gap-3"
             onClick={() => onNavigate('analysis')}
           >
             {t('home.cta.button')}
@@ -673,7 +693,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-slate-500">
             <span className="font-semibold uppercase tracking-[0.18em] text-slate-400">{isEn ? 'Editorial standards' : '편집 기준'}</span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-rose-500 text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+              <span className="material-symbols-outlined text-primary text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
               {isEn ? 'Original content' : '고유 콘텐츠'}
             </span>
             <span className="inline-flex items-center gap-1.5">
@@ -691,7 +711,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* ── 심화 가이드 + FAQ (홈 하단 접기 — DOM 유지로 SEO 손실 0) ── */}
       <section id="guide" className="py-12 md:py-16 bg-cream scroll-mt-16" aria-labelledby="guide-title">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <details className="group rounded-2xl border border-pink-100 bg-white open:shadow-sm">
+          <details className="group border border-slate-200 bg-white">
             <summary className="cursor-pointer list-none p-6 flex items-center justify-between gap-3">
               <span className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary">menu_book</span>
@@ -830,7 +850,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   {homeFaq.map((item, i) => (
                     <details
                       key={i}
-                      className="group/q bg-cream rounded-2xl border border-pink-100 hover:border-primary/30 transition-colors"
+                      className="group/q bg-white border border-slate-200 hover:border-navy/40 transition-colors"
                     >
                       <summary className="cursor-pointer list-none p-5 flex items-start gap-3">
                         <span className="material-symbols-outlined text-primary shrink-0 mt-0.5 group-open/q:rotate-180 transition-transform">expand_more</span>

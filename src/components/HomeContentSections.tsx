@@ -10,7 +10,7 @@ function byDateDesc<T extends { date: string }>(a: T, b: T) {
   return a.date < b.date ? 1 : -1
 }
 function gradient(color: string) {
-  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #070953))`
+  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #232a52))`
 }
 function fmt(iso: string) {
   const d = new Date(iso)
@@ -57,7 +57,7 @@ export default function HomeContentSections() {
               <a
                 key={p.slug}
                 href={`${base}/products/${p.slug}/`}
-                className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="group block overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors hover:border-navy"
               >
                 <div className="relative aspect-[4/5] flex items-center justify-center" style={{ background: gradient(meta.color) }}>
                   {p.image ? (
@@ -106,7 +106,7 @@ export default function HomeContentSections() {
               <a
                 key={n.slug}
                 href={`${base}/news/${n.slug}/`}
-                className="group flex gap-3 items-start rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                className="group flex gap-3 items-start rounded-lg border border-slate-200 bg-white p-4 transition-colors hover:border-navy"
               >
                 <span
                   className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center text-xl"

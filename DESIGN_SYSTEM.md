@@ -3,24 +3,43 @@
 통일된 시각 언어의 **단일 소스**. 새 UI를 만들 때 이 문서의 토큰·규칙을 따른다.
 실제 토큰 정의는 `src/index.css` 의 `@theme` 블록에 있다(이 문서와 항상 일치시킬 것).
 
-> 원칙: **메인 2색(네이비+핑크) + 폰트 2족 + 통일된 카드.** "미니멀이 고급."
+> 원칙: **메인 2색(네이비+핑크) + 통일된 카드.** "미니멀이 고급."
 > 도구별 색은 식별용 **액센트 1점**으로만 쓰고, 면을 가득 칠하지 않는다.
+> **배경은 색을 쥐지 않는다 — 색은 사진이 담당한다.**
 
 ---
 
-## 1. 폰트 (2족만)
+## 1. 폰트
 
 | 용도 | 토큰 | 스택 | 사용처 |
 |------|------|------|--------|
-| 제목 (serif display) | `--font-serif` | "Cormorant Garamond"(영문) + "Noto Serif KR"(한글) | 큰 헤드라인 — `font-serif` 유틸 / `.article-body` 드롭캡 |
-| 본문 (sans) | `--font-body` | "Pretendard" + system-ui 폴백 | 그 외 모든 텍스트 |
+| 제목 (display) | `--font-serif` | "Cormorant Garamond" → "Pretendard Variable" → system-ui | 큰 헤드라인 — `font-serif` 유틸 / `.article-body` 드롭캡 |
+| 본문 | `--font-body` | "Pretendard Variable" + system-ui 폴백 | 그 외 모든 텍스트 |
 
 - **Manrope 제거됨.** (이전 본문 폰트 → Pretendard 로 대체)
+- **2026-07-21: 세리프 제목 폐기 → 2026-07-22 부분 복원.** 문제였던 건 세리프 자체가 아니라
+  **한글 명조**(Noto Serif KR)였다. 한글 명조가 2010년대 쇼핑몰 느낌을 내 "옛스럽다"의
+  주원인이었으므로 **Noto Serif KR 은 계속 제외**한다. 반대로 영문 세리프는 지금 뷰티
+  에디토리얼의 표준 문법이라(Rhode·MERIT·Glossier 모두 세리프 디스플레이 + 산세리프 본문)
+  **Cormorant Garamond 만 되살렸다.**
+- 핵심 트릭: 스택을 `Cormorant → Pretendard` 순으로 두면 브라우저 폰트 폴백이 **글리프
+  단위**로 동작하므로, Cormorant 에 없는 한글은 자동으로 Pretendard(산세리프)가 받는다.
+  → **영문 제목=세리프 / 한글 제목=산세리프**가 토큰 하나로 동시에 성립한다.
+  `font-serif` 유틸이 40여 곳에 박혀 있어 토큰 값만으로 전 페이지가 함께 움직인다.
+- 제목 스케일 기준: 히어로 `text-[2.6rem] md:text-[3.4rem] lg:text-[4rem]` /
+  섹션 제목 `text-3xl md:text-[2.5rem]`. 한글 제목 굵기는 `font-extrabold`, 자간 `-0.03em` 내외.
 - `font-display` 유틸(전 페이지 본문 래퍼, ~20곳)은 호환 위해 값만 `--font-body` 와
   동일하게 둔 **legacy 별칭**이다. 신규 코드는 `--font-body`/기본 상속을 쓰고, 여유 될 때
   `font-display` → 제거 또는 `font-body` 로 정리한다.
-- 웹폰트 로드: `index.html`(Cormorant + Noto Serif KR, 렌더 차단) · `pages/+config.ts`
-  (Material Symbols 아이콘, 지연 로드). Pretendard 는 로컬 우선 + system-ui 폴백(미로드).
+- 웹폰트 로드: `index.html` + `pages/+Head.tsx` (Pretendard Variable **동적 서브셋**,
+  jsDelivr CDN / Cormorant Garamond, Google Fonts **`display=optional`**) ·
+  `pages/+Head.tsx` (Material Symbols 아이콘, `display=block`).
+  ⚠️ Cormorant 가 `optional` 인 건 CLS 방어다 — 늦게 도착하면 폴백을 유지하고 바꿔치지
+  않는다. Clarity 에서 CLS 0.56(나쁨)이 찍힌 상태라 제목 폰트 스왑을 추가로 허용할 수 없었다.
+  아이콘 폰트도 같은 이유로 `.material-symbols-outlined` 에 1em 박스를 고정해 뒀다
+  (`src/index.css`) — 리거처 텍스트 폭 때문에 site-wide 시프트가 나던 것을 막는다.
+  ⚠️ 그전까지 Pretendard 는 스택에 **이름만 있고 실제 로드된 적이 없어** 한글이 시스템
+  폴백(Windows=맑은 고딕)으로 렌더됐다. 폰트 스택을 바꿀 땐 실제 로드 여부를 함께 확인할 것.
 
 ## 2. 색상
 

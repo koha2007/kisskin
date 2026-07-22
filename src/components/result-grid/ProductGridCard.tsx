@@ -23,7 +23,7 @@ const btn = 'flex items-center justify-center gap-1.5 w-full text-[12px] font-bo
 
 export function ProductGridCard({
   item,
-  accent = '#eb4763',
+  accent = '#d8503c',
   pageType,
   pageSlug,
 }: {
@@ -119,7 +119,7 @@ export function ProductGridCard({
               target="_blank"
               rel="sponsored noopener noreferrer"
               onClick={() => trackAffiliateClick({ merchant: 'clubclio', category: clioCategory ?? 'main', pageType, pageSlug })}
-              className={`${btn} border border-rose-300 bg-white text-rose-500`}
+              className={`${btn} border border-primary/30 bg-white text-primary`}
             >
               🌹 {t('recProducts.findOnClio')}
             </a>

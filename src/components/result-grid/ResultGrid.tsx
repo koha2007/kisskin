@@ -27,7 +27,7 @@ export function GridCard({
   const edge = tint ?? accent
   return (
     <div
-      className={`mb-3 break-inside-avoid rounded-2xl border shadow-sm active:scale-[0.98] transition-transform ${className}`}
+      className={`mb-3 break-inside-avoid rounded-lg border active:scale-[0.98] transition-transform ${className}`}
       style={{
         borderColor: edge ? `${edge}33` : '#e9e4dd',
         background: tint ? `${tint}1f` : '#fff',
@@ -95,7 +95,7 @@ export function MoodCard({
       <div className="relative aspect-[3/4]">
         <MoodImage src={image} alt={caption} gradient={gradient} emoji={emoji} />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent p-3.5">
-          <p className="text-white text-sm font-semibold leading-snug">{caption}</p>
+          <p className="t-caption font-semibold text-white">{caption}</p>
         </div>
       </div>
     </GridCard>
@@ -114,15 +114,15 @@ export function PaletteCard({
 }) {
   return (
     <GridCard className="p-4" accent={accent}>
-      <h3 className="text-sm font-extrabold text-navy mb-3">{title}</h3>
+      <h3 className="t-body font-bold text-navy mb-3">{title}</h3>
       <div className="grid grid-cols-4 gap-2.5">
         {swatches.map((s) => (
           <div key={s.label} className="flex flex-col items-center gap-1.5">
             <span
-              className="w-full aspect-square rounded-xl border border-black/5 shadow-inner"
+              className="w-full aspect-square rounded-md border border-black/5"
               style={{ background: s.hex }}
             />
-            <span className="text-[10px] font-medium text-slate-500 text-center leading-tight">{s.label}</span>
+            <span className="t-label text-slate-500 text-center">{s.label}</span>
           </div>
         ))}
       </div>
@@ -138,7 +138,7 @@ export function IconCard({
   icon,
   label,
   text,
-  accent = '#eb4763',
+  accent = '#d8503c',
   tint,
 }: {
   icon: string
@@ -150,15 +150,15 @@ export function IconCard({
   return (
     <GridCard className="p-4" accent={accent} tint={tint}>
       <div
-        className="w-9 h-9 rounded-xl flex items-center justify-center mb-2.5"
+        className="w-9 h-9 rounded-md flex items-center justify-center mb-2.5"
         style={{ background: `${accent}1f`, color: accent }}
       >
         <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
           {icon}
         </span>
       </div>
-      <div className="text-[0.62rem] uppercase tracking-wider font-bold text-slate-400 mb-1">{label}</div>
-      <p className="text-[13px] text-slate-600 leading-relaxed">{text}</p>
+      <div className="t-eyebrow text-slate-400 mb-1">{label}</div>
+      <p className="t-caption text-slate-600">{text}</p>
     </GridCard>
   )
 }
@@ -185,9 +185,9 @@ export function ImageCard({
         <MoodImage src={image} alt={caption} gradient={gradient} emoji={emoji} />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent p-3">
           {label && (
-            <div className="text-[0.6rem] uppercase tracking-wider font-bold text-white/80 mb-0.5">{label}</div>
+            <div className="t-eyebrow text-white/80 mb-0.5">{label}</div>
           )}
-          <p className="text-white text-[13px] font-semibold leading-snug">{caption}</p>
+          <p className="t-caption font-semibold text-white">{caption}</p>
         </div>
       </div>
     </GridCard>
@@ -199,7 +199,7 @@ export function ImageCard({
 export function AxisCard({
   title,
   axes,
-  accent = '#eb4763',
+  accent = '#d8503c',
   tint,
 }: {
   title: string
@@ -209,11 +209,11 @@ export function AxisCard({
 }) {
   return (
     <GridCard className="p-4" accent={accent} tint={tint}>
-      <h3 className="text-sm font-extrabold text-navy mb-3">{title}</h3>
+      <h3 className="t-body font-bold text-navy mb-3">{title}</h3>
       <div className="space-y-3">
         {axes.map((a) => (
           <div key={a.label}>
-            <div className="flex items-center justify-between text-[0.68rem] text-slate-500 mb-1">
+            <div className="t-label flex items-center justify-between text-slate-500 mb-1">
               <span>{a.left}</span>
               <span>{a.right}</span>
             </div>
@@ -228,13 +228,13 @@ export function AxisCard({
 }
 
 /** Single tip with a bulb glyph. */
-export function TipCard({ tip, accent = '#eb4763', tint }: { tip: string; accent?: string; tint?: string }) {
+export function TipCard({ tip, accent = '#d8503c', tint }: { tip: string; accent?: string; tint?: string }) {
   return (
     <GridCard className="p-4" accent={accent} tint={tint}>
       <span className="material-symbols-outlined text-lg mb-2 block" style={{ color: accent }}>
         lightbulb
       </span>
-      <p className="text-[13px] text-slate-600 leading-relaxed">{tip}</p>
+      <p className="t-caption text-slate-600">{tip}</p>
     </GridCard>
   )
 }
@@ -255,12 +255,12 @@ export function ChipsCard({
 }) {
   return (
     <GridCard className="p-4" accent={accent} tint={tint}>
-      <h3 className="text-sm font-extrabold text-navy mb-3">{title}</h3>
+      <h3 className="t-body font-bold text-navy mb-3">{title}</h3>
       <div className="flex flex-wrap gap-1.5">
         {chips.map((c) => (
           <span
             key={c}
-            className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${
+            className={`t-label px-2.5 py-1 rounded-full border ${
               strike ? 'text-slate-400 border-slate-200 line-through' : 'text-slate-700 border-slate-200 bg-slate-50'
             }`}
           >
@@ -283,7 +283,7 @@ export function ChipsCard({
 export function AccordionCard({
   title,
   paragraphs,
-  accent = '#eb4763',
+  accent = '#d8503c',
 }: {
   title: string
   paragraphs: string[]
@@ -293,12 +293,12 @@ export function AccordionCard({
     <GridCard className="p-4" accent={accent}>
       <details className="group">
         <summary className="w-full flex items-center justify-between gap-2 text-left cursor-pointer list-none">
-          <span className="text-sm font-extrabold text-navy">{title}</span>
+          <span className="t-body font-bold text-navy">{title}</span>
           <span className="material-symbols-outlined text-slate-400 transition-transform group-open:rotate-180">
             expand_more
           </span>
         </summary>
-        <div className="mt-3 space-y-3 text-[13px] text-slate-600 leading-relaxed">
+        <div className="mt-3 space-y-3 t-caption text-slate-600">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -332,9 +332,9 @@ export function BannerCard({
         <span className="material-symbols-outlined text-2xl mb-2 block" style={{ fontVariationSettings: "'FILL' 1" }}>
           auto_awesome
         </span>
-        <h3 className="text-base font-extrabold mb-1.5 leading-snug">{title}</h3>
-        <p className="text-[12px] text-white/85 leading-relaxed mb-3">{desc}</p>
-        <span className="inline-flex items-center gap-1 text-[13px] font-bold bg-white/20 rounded-full px-3.5 py-1.5">
+        <h3 className="t-body font-bold mb-1.5">{title}</h3>
+        <p className="t-caption text-white/85 mb-3">{desc}</p>
+        <span className="t-caption inline-flex items-center gap-1 font-bold bg-white/20 px-3.5 py-2">
           {ctaLabel}
           <span className="material-symbols-outlined text-base">arrow_forward</span>
         </span>

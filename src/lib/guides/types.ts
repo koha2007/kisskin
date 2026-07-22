@@ -22,7 +22,7 @@ export interface GuideCategoryMeta {
 }
 
 export const GUIDE_CATEGORIES: GuideCategoryMeta[] = [
-  { code: 'basics', koLabel: '기초', enLabel: 'Basics', emoji: '✨', color: '#eb4763' },
+  { code: 'basics', koLabel: '기초', enLabel: 'Basics', emoji: '✨', color: '#d8503c' },
   // 아래 3개는 검색 수요(자동완성 상위) 기준으로 연 축 — 각 무료 도구로 보내는 유입 글이 쌓인다.
   { code: 'color', koLabel: '퍼스널컬러', enLabel: 'Personal Color', emoji: '🎨', color: '#7c5cff' },
   { code: 'shape', koLabel: '얼굴형', enLabel: 'Face Shape', emoji: '🪞', color: '#0ea5e9' },
