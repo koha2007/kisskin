@@ -49,11 +49,11 @@ function TermsKo() {
       <h2>2. 서비스 설명</h2>
       <p>kissinskin은 AI 기반 메이크업 시뮬레이션 및 뷰티 추천 서비스입니다. 이용자가 사진을 제출하면 AI가 다음을 생성합니다.</p>
       <ul>
-        <li>이용자 얼굴에 5가지 맞춤 메이크업 스타일 적용</li>
+        <li>이용자 얼굴에 9가지 맞춤 메이크업 스타일 적용</li>
         <li>피부 타입 및 톤 분석</li>
         <li>맞춤형 화장품 추천</li>
       </ul>
-      <p>결과물은 OpenAI의 이미지 생성 및 언어 모델로 생성되며, 브라우저에서 즉시 제공됩니다. 서비스는 자동화된 의사결정과 AI 처리를 사용하며, 결과 생성 과정에 사람의 검토는 포함되지 않습니다.</p>
+      <p>결과물은 OpenAI의 이미지 생성 모델과 Google Gemini 언어 모델로 생성되며, 브라우저에서 즉시 제공됩니다. 서비스는 자동화된 의사결정과 AI 처리를 사용하며, 결과 생성 과정에 사람의 검토는 포함되지 않습니다.</p>
 
       <h2>3. 결제 및 과금</h2>
       <ul>
@@ -111,7 +111,7 @@ function TermsKo() {
       <h2>9. AI 투명성 및 면책</h2>
       <ul>
         <li>AI가 생성한 메이크업 시뮬레이션은 <strong>예술적 근사치</strong>이며 실제 외모의 보장이 아닙니다.</li>
-        <li>서비스는 자동화된 처리(OpenAI의 gpt-image-1.5 및 gpt-4.1 모델)를 사용합니다. 사람의 검토나 큐레이션은 없습니다.</li>
+        <li>서비스는 자동화된 처리(OpenAI의 이미지 생성 모델 및 Google Gemini 언어 모델, 장애 시 OpenAI 언어 모델로 대체)를 사용합니다. 사람의 검토나 큐레이션은 없습니다.</li>
         <li>제품 추천은 피부 분석에 기반한 AI 제안이며, kissinskin은 어떠한 제품도 제조·판매·보증하지 않습니다.</li>
         <li>AI 추천에 따른 구매 결정에 대해 당사는 책임지지 않습니다.</li>
         <li>AI 결과는 사진 품질, 조명, 각도 등에 따라 달라질 수 있습니다.</li>
@@ -160,7 +160,7 @@ function TermsKo() {
       </ul>
 
       <h2>15. 불가항력</h2>
-      <p>kissinskin은 천재지변, 전쟁, 테러, 팬데믹, 정부 조치, 정전, 인터넷 장애, 제3자 서비스 장애(OpenAI, Polar 포함) 등 합리적 통제를 벗어난 사정으로 인한 이행 실패나 지연에 대해 책임지지 않습니다.</p>
+      <p>kissinskin은 천재지변, 전쟁, 테러, 팬데믹, 정부 조치, 정전, 인터넷 장애, 제3자 서비스 장애(OpenAI, Google, Polar 포함) 등 합리적 통제를 벗어난 사정으로 인한 이행 실패나 지연에 대해 책임지지 않습니다.</p>
 
       <h2>16. 준거법 및 분쟁 해결</h2>
       <ul>
@@ -218,11 +218,11 @@ function TermsEn() {
       <h2>2. Service Description</h2>
       <p>kissinskin is an AI-powered makeup simulation and beauty recommendation service. When you submit a photo, our AI generates:</p>
       <ul>
-        <li>6 personalized makeup style previews applied to your face</li>
+        <li>9 personalized makeup style previews applied to your face</li>
         <li>Skin type and tone analysis</li>
         <li>Customized cosmetic product recommendations</li>
       </ul>
-      <p>Results are generated using OpenAI's image generation and language models, delivered instantly in your browser. The Service uses automated decision-making and AI processing; no human review is involved in generating results.</p>
+      <p>Results are generated using OpenAI's image generation model and Google's Gemini language model, delivered instantly in your browser. The Service uses automated decision-making and AI processing; no human review is involved in generating results.</p>
 
       <h2>3. Payment & Billing</h2>
       <ul>
@@ -280,7 +280,7 @@ function TermsEn() {
       <h2>9. AI Transparency & Disclaimer</h2>
       <ul>
         <li>AI-generated makeup simulations are <strong>artistic approximations</strong>, not guarantees of real-world appearance.</li>
-        <li>The Service uses automated processing (OpenAI's gpt-image-1.5 and gpt-4.1 models) to generate results. No human reviews or curates the output.</li>
+        <li>The Service uses automated processing (OpenAI's image generation model and Google's Gemini language model, with an OpenAI language model as fallback) to generate results. No human reviews or curates the output.</li>
         <li>Product recommendations are AI-generated suggestions based on your skin analysis. kissinskin does not manufacture, sell, or endorse any recommended products.</li>
         <li>kissinskin is not liable for any purchasing decisions you make based on AI recommendations.</li>
         <li>AI results may vary based on photo quality, lighting, angle, and other factors.</li>
@@ -329,7 +329,7 @@ function TermsEn() {
       </ul>
 
       <h2>15. Force Majeure</h2>
-      <p>kissinskin shall not be liable for any failure or delay in performance due to circumstances beyond our reasonable control, including but not limited to natural disasters, war, terrorism, pandemics, government actions, power failures, internet disruptions, or third-party service outages (including OpenAI or Polar).</p>
+      <p>kissinskin shall not be liable for any failure or delay in performance due to circumstances beyond our reasonable control, including but not limited to natural disasters, war, terrorism, pandemics, government actions, power failures, internet disruptions, or third-party service outages (including OpenAI, Google, or Polar).</p>
 
       <h2>16. Governing Law & Dispute Resolution</h2>
       <ul>
