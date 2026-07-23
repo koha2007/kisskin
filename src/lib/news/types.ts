@@ -19,14 +19,14 @@ export interface NewsCategoryMeta {
 
 export const NEWS_CATEGORIES: NewsCategoryMeta[] = [
   { code: 'trend', koLabel: '트렌드', enLabel: 'Trend', emoji: '✨', color: '#d8503c' },
-  { code: 'lip', koLabel: '립', enLabel: 'Lip', emoji: '💋', color: '#f43f5e' },
-  { code: 'eye', koLabel: '아이', enLabel: 'Eye', emoji: '👁️', color: '#a855f7' },
-  { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#f59e0b' },
-  { code: 'cheek', koLabel: '치크', enLabel: 'Cheek', emoji: '🌸', color: '#ec4899' },
-  { code: 'skincare', koLabel: '스킨케어', enLabel: 'Skincare', emoji: '💧', color: '#06b6d4' },
-  { code: 'fragrance', koLabel: '향수', enLabel: 'Fragrance', emoji: '🌹', color: '#8b5cf6' },
-  { code: 'hair', koLabel: '헤어', enLabel: 'Hair', emoji: '💇', color: '#10b981' },
-  { code: 'global', koLabel: '글로벌', enLabel: 'Global', emoji: '🌏', color: '#3b82f6' },
+  { code: 'lip', koLabel: '립', enLabel: 'Lip', emoji: '💋', color: '#d8503c' },
+  { code: 'eye', koLabel: '아이', enLabel: 'Eye', emoji: '👁️', color: '#8e6e9e' },
+  { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#c79340' },
+  { code: 'cheek', koLabel: '치크', enLabel: 'Cheek', emoji: '🌸', color: '#b03e2d' },
+  { code: 'skincare', koLabel: '스킨케어', enLabel: 'Skincare', emoji: '💧', color: '#4e9fa6' },
+  { code: 'fragrance', koLabel: '향수', enLabel: 'Fragrance', emoji: '🌹', color: '#4a5488' },
+  { code: 'hair', koLabel: '헤어', enLabel: 'Hair', emoji: '💇', color: '#7e9b6a' },
+  { code: 'global', koLabel: '글로벌', enLabel: 'Global', emoji: '🌏', color: '#4a5488' },
 ]
 
 export interface NewsItem {
