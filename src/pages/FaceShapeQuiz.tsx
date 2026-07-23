@@ -6,6 +6,7 @@ import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { FACE_SHAPE_MOOD } from '../lib/face-shape/moodImages'
 import { useI18n } from '../i18n/I18nContext'
+import ToolFaq, { FACE_SHAPE_FAQ_BASE, FACE_SHAPE_FAQ_BASE_EN } from '../components/ToolFaq'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
@@ -127,6 +128,12 @@ export default function FaceShapeQuiz() {
             )
           })}
         </TypePreviewSection>
+
+        {/* FAQ 는 랜딩에만 — 유형 페이지 복제가 색인 누락을 만들고 있었다 */}
+        <ToolFaq
+          title={isEn ? 'Face shape FAQ' : '얼굴형 진단 자주 묻는 질문'}
+          items={isEn ? FACE_SHAPE_FAQ_BASE_EN : FACE_SHAPE_FAQ_BASE}
+        />
 
         </main>
         <ToolsFooter />

@@ -8,6 +8,7 @@ import { mbtiGroupColor, LOOK_NAME_KO } from '../lib/makeup-mbti/groupColors'
 import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { useI18n } from '../i18n/I18nContext'
+import ToolFaq, { MBTI_FAQ_BASE, MBTI_FAQ_BASE_EN } from '../components/ToolFaq'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
@@ -201,6 +202,14 @@ export default function MakeupMbtiQuiz() {
             )
           })}
         </TypePreviewSection>
+
+        {/* FAQ 는 여기(랜딩)에만 둔다 — 유형 페이지 16장에 복제하면 페이지 간
+            문장 중복률이 67% 까지 올라가 구글이 대부분을 색인에서 뺐다.
+            겸사겸사 `mbti makeup`(평균 9.2위)로 노출이 가장 많은 이 페이지가 두터워진다. */}
+        <ToolFaq
+          title={isEn ? 'Makeup MBTI FAQ' : '메이크업 MBTI 자주 묻는 질문'}
+          items={isEn ? MBTI_FAQ_BASE_EN : MBTI_FAQ_BASE}
+        />
 
         </main>
         <ToolsFooter />

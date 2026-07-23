@@ -5,7 +5,6 @@ import { PC_RECOMMENDATIONS } from '../lib/recommendations/personal-color'
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import RegionToggle from '../components/RegionToggle'
 import { useRegion } from '../hooks/useRegion'
-import ToolFaq, { PERSONAL_COLOR_FAQ_BASE, PERSONAL_COLOR_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
@@ -203,11 +202,13 @@ export default function PersonalColorResult({ code }: Props) {
         </section>
 
         {/* FAQ — SEO 보존 */}
-        <ToolFaq
-          title={isEn ? `FAQ — ${name}` : `${name} FAQ`}
-          items={isEn ? PERSONAL_COLOR_FAQ_BASE_EN : PERSONAL_COLOR_FAQ_BASE}
-          accentColor={t.primaryColor}
-        />
+        {/* FAQ 는 **도구 랜딩에만** 둔다 (2026-07-23).
+            같은 FAQ 5개가 유형 페이지 16장에 그대로 복제되면서 페이지 간 문장 중복률이
+            54~67% 까지 올라갔고, 구글이 "사실상 같은 페이지"로 보고 유형별로 1~2개만
+            색인했다(크롤링됨-색인 미생성 24건 중 15건이 도구 결과 페이지였다).
+            FAQ 는 "이 도구가 뭔가"에 답하므로 진단 **전** 사용자를 위한 것이고,
+            그 자리는 랜딩이다. 결과 페이지는 이미 진단을 받은 사람이 본다. */
+        }
 
         {/* Share */}
         <ShareBar

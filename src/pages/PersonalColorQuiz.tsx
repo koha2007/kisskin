@@ -6,6 +6,7 @@ import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { SEASON_MOOD } from '../lib/personal-color/moodImages'
 import { useI18n } from '../i18n/I18nContext'
+import ToolFaq, { PERSONAL_COLOR_FAQ_BASE, PERSONAL_COLOR_FAQ_BASE_EN } from '../components/ToolFaq'
 
 // Back-compat re-exports (FaceShape pages import these names from this file)
 export { ToolsNav as ToolNav, ToolsFooter as ToolFooter } from '../components/ToolsLayout'
@@ -137,6 +138,12 @@ export default function PersonalColorQuiz() {
             )
           })}
         </TypePreviewSection>
+
+        {/* FAQ 는 랜딩에만 — 유형 페이지 복제가 색인 누락을 만들고 있었다 */}
+        <ToolFaq
+          title={isEn ? 'Personal color FAQ' : '퍼스널 컬러 자주 묻는 질문'}
+          items={isEn ? PERSONAL_COLOR_FAQ_BASE_EN : PERSONAL_COLOR_FAQ_BASE}
+        />
 
         </main>
         <ToolsFooter />
