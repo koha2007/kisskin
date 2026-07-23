@@ -152,6 +152,8 @@ export function TypePreviewCard({
   accent,
   image,
   note,
+  current = false,
+  aspectClass,
 }: {
   href: string
   emoji: string
@@ -162,11 +164,18 @@ export function TypePreviewCard({
   image?: string
   /** 사진이 무엇을 가리키는지 한 줄 — 예: 추천 룩 이름. 없으면 표시하지 않는다. */
   note?: string
+  /** 지금 보고 있는 유형 — 결과 페이지의 '전체 보기'에서 내 유형을 표시한다. */
+  current?: boolean
+  /** 높이 고정용 aspect 클래스. 없으면 이름 해시로 벽돌 리듬을 만든다(마소니 전용). */
+  aspectClass?: string
 }) {
   return (
     <a
       href={href}
-      className="group mb-3 block break-inside-avoid overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors hover:border-navy"
+      aria-current={current ? 'page' : undefined}
+      className={`group mb-3 block break-inside-avoid overflow-hidden rounded-lg border bg-white transition-colors ${
+        current ? 'border-navy ring-2 ring-navy/25' : 'border-slate-200 hover:border-navy'
+      }`}
     >
       {/* 2026-07-22: 2색 그라디언트 패널 + 그림자 이모지 → 단색 틴트 면.
           그라디언트는 면을 가득 칠해 '액센트 1점' 원칙(DESIGN_SYSTEM.md)을 깨고 있었고,
@@ -175,7 +184,7 @@ export function TypePreviewCard({
           유형 16개가 전부 이모지 하나로 구분되던 상태라, 목록을 훑어도 무엇이
           어떻게 다른지 보이지 않았다. 우리 최대 자산은 결과물 사진이다. */}
       <div
-        className={`relative ${typeAspect(name)} flex items-center justify-center overflow-hidden`}
+        className={`relative ${aspectClass ?? typeAspect(name)} flex items-center justify-center overflow-hidden`}
         style={{ background: `color-mix(in srgb, ${accent} 10%, white)` }}
       >
         {image ? (

@@ -18,6 +18,7 @@ import BentoGrid, {
 } from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
+import { TypePreviewCard } from '../components/tools/ToolLanding'
 
 interface Props { code: PerfumeTypeCode }
 
@@ -231,12 +232,17 @@ export default function PerfumeTypeResult({ code }: Props) {
                 const s = PERFUME_TYPES[c]
                 const isMe = s.code === t.code
                 return (
-                  <a key={c} href={`${basePath}/${s.slug}/`} className={`rounded-2xl p-5 border transition-all ${isMe ? 'ring-2' : 'hover:shadow-md'}`} style={{ background: isMe ? `${s.primaryColor}10` : 'white', borderColor: `${s.primaryColor}30` }}>
-                    <div className="text-3xl mb-1.5">{s.emoji}</div>
-                    <div className="text-[0.65rem] mb-0.5" style={{ color: s.primaryColor }}>{isMe ? L.me : ''}</div>
-                    <div className="text-sm font-bold text-navy-mid">{isEn ? s.enName : s.koName}</div>
-                    {!isEn && <div className="text-[0.65rem] text-slate-400 mt-0.5">{s.enName}</div>}
-                  </a>
+                  <TypePreviewCard
+                    key={c}
+                    href={`${basePath}/${s.slug}/`}
+                    emoji={s.emoji}
+                    name={isEn ? s.enName : s.koName}
+                    sub={isMe ? L.me : (isEn ? s.koName : s.enName)}
+                    accent={s.primaryColor}
+                    image={PERFUME_MOOD[c].image}
+                    current={isMe}
+                    aspectClass="aspect-[4/5]"
+                  />
                 )
               })}
             </div>

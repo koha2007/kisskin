@@ -3,7 +3,7 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode } from '../lib/makeup-mbti
 import { computeTypeConfidence, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
-import { LOOK_NAME_TO_ID } from '../lib/makeup-mbti/groupColors'
+import { LOOK_NAME_TO_ID, mbtiGroupColor } from '../lib/makeup-mbti/groupColors'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
 import type { MakeupStyleId } from '../lib/makeup/styles'
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
@@ -27,6 +27,7 @@ import BentoGrid, {
 } from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
+import { TypePreviewCard } from '../components/tools/ToolLanding'
 
 interface Props {
   code: MbtiCode
@@ -338,11 +339,17 @@ export default function MakeupMbtiResult({ code }: Props) {
                 const mtEn = MAKEUP_MBTI_EN[c]
                 const isMe = c === type.code
                 return (
-                  <a key={c} href={`${basePath}/${mt.slug}/`} className={`rounded-2xl p-4 border transition-all ${isMe ? 'ring-2' : 'hover:shadow-md'}`} style={{ background: isMe ? `${mt.primaryColor}10` : 'white', borderColor: `${mt.primaryColor}30` }}>
-                    <div className="text-2xl md:text-3xl mb-1.5">{mt.emoji}</div>
-                    <div className="text-[0.65rem] font-mono text-slate-400 mb-0.5">{mt.code}{isMe ? ` · ${L.me}` : ''}</div>
-                    <div className="text-sm font-bold text-navy-mid leading-tight">{isEn ? mtEn.enPersona : mt.koName}</div>
-                  </a>
+                  <TypePreviewCard
+                    key={c}
+                    href={`${basePath}/${mt.slug}/`}
+                    emoji={mt.emoji}
+                    name={isEn ? mtEn.enPersona : mt.koName}
+                    sub={`${mt.code}${isMe ? ` · ${L.me}` : ''}`}
+                    accent={mbtiGroupColor(c)}
+                    image={MBTI_MOOD[c].image}
+                    current={isMe}
+                    aspectClass="aspect-[4/5]"
+                  />
                 )
               })}
             </div>
