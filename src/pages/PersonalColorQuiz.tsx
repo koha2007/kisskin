@@ -4,6 +4,7 @@ import { PERSONAL_COLOR_TYPES, SEASON_ORDER } from '../lib/personal-color/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
+import { SEASON_MOOD } from '../lib/personal-color/moodImages'
 import { useI18n } from '../i18n/I18nContext'
 
 // Back-compat re-exports (FaceShape pages import these names from this file)
@@ -131,6 +132,7 @@ export default function PersonalColorQuiz() {
                 name={isEn ? pt.enName : pt.koName}
                 sub={isEn && pt.toneEn ? pt.toneEn : pt.tone}
                 accent={pt.primaryColor}
+                image={SEASON_MOOD[c].image}
               />
             )
           })}

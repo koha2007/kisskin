@@ -4,7 +4,8 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
-import { mbtiGroupColor, mbtiMoodImage, LOOK_NAME_KO } from '../lib/makeup-mbti/groupColors'
+import { mbtiGroupColor, LOOK_NAME_KO } from '../lib/makeup-mbti/groupColors'
+import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -194,7 +195,7 @@ export default function MakeupMbtiQuiz() {
                 name={isEn ? en.enPersona : mt.koName}
                 sub={mt.code}
                 accent={mbtiGroupColor(code)}
-                image={mbtiMoodImage(code)}
+                image={MBTI_MOOD[code].image}
                 note={lookLabel(mt.recommended.women.primary, isEn)}
               />
             )

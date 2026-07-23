@@ -4,6 +4,7 @@ import { PERFUME_TYPES, PERFUME_TYPE_ORDER } from '../lib/perfume-type/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting, type QuizOptionView } from '../components/quiz/QuizScreen'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
+import { PERFUME_MOOD } from '../lib/perfume-type/moodImages'
 import { useI18n } from '../i18n/I18nContext'
 
 // 2-B color/mood grid gradients, keyed by question id, in option order.
@@ -138,6 +139,7 @@ export default function PerfumeTypeQuiz() {
                 name={isEn ? pt.enName : pt.koName}
                 sub={isEn ? pt.koName : pt.enName}
                 accent={pt.primaryColor}
+                image={PERFUME_MOOD[c].image}
               />
             )
           })}

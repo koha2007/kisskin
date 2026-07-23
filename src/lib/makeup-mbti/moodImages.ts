@@ -18,7 +18,35 @@ export interface ToolMood {
 }
 
 // 운영자 편집 지점: ENFP: { image: '/mood/mbti-enfp.jpg' } 형태로 추가.
-const OVERRIDES: Partial<Record<MbtiCode, ToolMood>> = {}
+//
+// 2026-07-23 생성(scripts/gen-mood-images.mjs). **여기만 정물이다** — 얼굴형이
+// 인물을 쓰는 것과 반대 이유다. 16장이 랜딩 한 그리드에 깔리는데 인물을 세우면
+// 유형을 가르는 색이 얼굴에 묻힌다. 색은 groupColors.ts 의 4역할군
+// (NT 틸 / NF 세이지 / SJ 인디고 / SP 머스터드)으로 묶어, 개별 유형보다
+// 그룹이 먼저 읽히게 했다.
+//
+// ⚠️ 결과 페이지의 격자는 이 사진이 아니라 **추천 룩의 실제 결과 사진**을 우선한다
+// (MakeupMbtiResult.tsx 의 `lookPhoto(...) ?? mood.image`). 우리가 진짜로 만들어내는
+// 결과물은 결과 페이지에서만 보여준다는 원칙이다. 여기 사진은 랜딩 카드와
+// 롱폼 본문의 무드용이다.
+const OVERRIDES: Partial<Record<MbtiCode, ToolMood>> = {
+  INTJ: { image: '/mood/mb-intj.webp' },
+  INTP: { image: '/mood/mb-intp.webp' },
+  ENTJ: { image: '/mood/mb-entj.webp' },
+  ENTP: { image: '/mood/mb-entp.webp' },
+  INFJ: { image: '/mood/mb-infj.webp' },
+  INFP: { image: '/mood/mb-infp.webp' },
+  ENFJ: { image: '/mood/mb-enfj.webp' },
+  ENFP: { image: '/mood/mb-enfp.webp' },
+  ISTJ: { image: '/mood/mb-istj.webp' },
+  ISFJ: { image: '/mood/mb-isfj.webp' },
+  ESTJ: { image: '/mood/mb-estj.webp' },
+  ESFJ: { image: '/mood/mb-esfj.webp' },
+  ISTP: { image: '/mood/mb-istp.webp' },
+  ISFP: { image: '/mood/mb-isfp.webp' },
+  ESTP: { image: '/mood/mb-estp.webp' },
+  ESFP: { image: '/mood/mb-esfp.webp' },
+}
 
 export const MBTI_MOOD: Record<MbtiCode, ToolMood> = Object.fromEntries(
   MBTI_ORDER.map((c) => [c, OVERRIDES[c] ?? {}]),

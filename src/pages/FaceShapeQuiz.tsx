@@ -4,6 +4,7 @@ import { FACE_SHAPE_TYPES, FACE_SHAPE_ORDER } from '../lib/face-shape/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
+import { FACE_SHAPE_MOOD } from '../lib/face-shape/moodImages'
 import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
@@ -121,6 +122,7 @@ export default function FaceShapeQuiz() {
                 name={isEn ? ft.enName : ft.koName}
                 sub={isEn ? ft.koName : ft.enName}
                 accent={ft.primaryColor}
+                image={FACE_SHAPE_MOOD[c].image}
               />
             )
           })}
