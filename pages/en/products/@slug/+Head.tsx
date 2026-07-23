@@ -21,7 +21,7 @@ export default function Head() {
   const koUrl = `https://kissinskin.net/products/${item.slug}/`
   const seoTitle = item.seoTitle ?? `${item.brand} ${item.name} · kissinskin Makeup Products`
   const seoDesc = item.seoDescription ?? item.summary
-  const ogImage = item.image ? `https://kissinskin.net${item.image}` : 'https://kissinskin.net/og-image.png'
+  const ogImage = item.image ? `https://kissinskin.net${item.image}` : 'https://kissinskin.net/og-image-en.png'
 
   return (
     <>

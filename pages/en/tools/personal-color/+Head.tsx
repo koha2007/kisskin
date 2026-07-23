@@ -21,14 +21,14 @@ export default function Head() {
       <meta property="og:url" content="https://kissinskin.net/en/tools/personal-color/" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={desc} />
-      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:locale:alternate" content="ko_KR" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={desc} />
-      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image-en.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "Quiz",
         "name": "Personal Color Self-Diagnosis", "description": desc,

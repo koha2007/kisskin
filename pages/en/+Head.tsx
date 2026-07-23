@@ -24,7 +24,7 @@ export default function Head() {
         content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty makeup looks and matching hair colour, then you compare before/after. Log in for 1 free try, no card needed. Free personal color and face shape tests too."
       />
       <meta property="og:url" content="https://kissinskin.net/en/" />
-      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:type" content="image/png" />
@@ -36,7 +36,7 @@ export default function Head() {
         name="twitter:description"
         content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty makeup looks and matching hair colour, then you compare before/after. Log in for 1 free try, no card needed. Free personal color and face shape tests too."
       />
-      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image-en.png" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

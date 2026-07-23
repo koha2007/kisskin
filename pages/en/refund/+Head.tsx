@@ -17,7 +17,7 @@ export default function Head() {
         property="og:description"
         content="Automatic and manual refunds, plus consumer rights by jurisdiction."
       />
-      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:locale:alternate" content="ko_KR" />
       <meta name="twitter:card" content="summary" />
