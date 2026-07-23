@@ -9,15 +9,16 @@ import ToolFaq, { PERSONAL_COLOR_FAQ_BASE, PERSONAL_COLOR_FAQ_BASE_EN } from '..
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
-import ResultGrid, {
-  MoodCard,
-  PaletteCard,
-  IconCard,
-  TipCard,
-  ChipsCard,
-  AccordionCard,
-  BannerCard,
-} from '../components/result-grid/ResultGrid'
+import ToolLongform from '../components/tools/ToolLongform'
+import BentoGrid, {
+  BentoPalette,
+  BentoFacts,
+  BentoNote,
+  BentoChips,
+  BentoBanner,
+  insertScattered,
+  scatterSlot,
+} from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -37,19 +38,14 @@ export default function PersonalColorResult({ code }: Props) {
   const bestColors = isEn && t.bestColorsEn ? t.bestColorsEn : t.bestColors
   const avoidColors = isEn && t.avoidColorsEn ? t.avoidColorsEn : t.avoidColors
   const detailParagraphs = isEn && t.detailParagraphsEn ? t.detailParagraphsEn : t.detailParagraphs
+  const LF_EYEBROW = isEn ? 'Personal Color · In depth' : '퍼스널 컬러 · 자세히'
   const shoppingTips = isEn && t.shoppingTipsEn ? t.shoppingTipsEn : t.shoppingTips
   const basePath = isEn ? '/en/tools/personal-color' : '/tools/personal-color'
   const accent = t.primaryColor
-  // Rotate the season's signature swatches as soft card tints so the grid reads
-  // as a moodboard (재설계 지시 §3). Falls back to accent if a swatch is missing.
-  const pal = mood.palette.map(p => p.hex)
-  const tint = (i: number) => pal[i % pal.length] ?? accent
 
-  // 제품 카드는 원래 그리드 20장 중 18번째라 2단 masonry 기준 마지막 단 바닥에 깔렸고,
-  // GA4 상 affiliate_click 이 28일간 0건이었다. 대표 1장만 상단(3번째 카드)으로 올려
-  // 첫 화면에 들여보내고 나머지는 원래 자리에 둔다 — 전부 올리면 광고부터 보이는 페이지가 된다.
+  // ④ 제품 카드는 시즌 코드 해시로 격자 안에 흩는다(결정적 분산).
+  // 늘 마지막 자리라 20장 중 18번째였고 affiliate_click 이 28일간 0건이었다.
   const recs = PC_RECOMMENDATIONS[t.code] ?? []
-  const [leadRec, ...restRecs] = recs
 
   const L = isEn
     ? {
@@ -69,6 +65,64 @@ export default function PersonalColorResult({ code }: Props) {
         skin: '피부', hair: '모발', eye: '눈동자', vibe: '인상', base: '베이스', lip: '립', eyeMk: '아이', blush: '블러쉬', accessory: '액세서리', hairColor: '헤어',
       }
 
+  // ⑤ 벤토 타일 — 퍼스널컬러는 **색 자체가 진단 내용**이라 팔레트가 히어로다.
+  // 무드 사진은 바로 위 롱폼이 이미 크게 쓰고 있어 여기서 또 쓰면 같은 사진이 두 번 나온다.
+  // 예전엔 `메이크업 · 립/베이스/아이/블러쉬` 4장 + 컬러링 4장이 전부 따로 박스였다.
+  const baseTiles = [
+    <BentoPalette key="palette" title={L.palette} swatches={mood.palette} accent={accent} span="full" />,
+    <BentoFacts
+      key="coloring"
+      title={L.traits}
+      accent={accent}
+      rows={[
+        { label: L.skin, text: traits.skin },
+        { label: L.eye, text: traits.eye },
+        { label: L.hair, text: traits.hair },
+        { label: L.vibe, text: traits.vibe },
+      ]}
+    />,
+    <BentoFacts
+      key="makeup"
+      title={L.makeup}
+      accent={accent}
+      rows={[
+        { label: L.lip, text: bestColors.makeup.lip },
+        { label: L.base, text: bestColors.makeup.foundation },
+        { label: L.eyeMk, text: bestColors.makeup.eye },
+        { label: L.blush, text: bestColors.makeup.blush },
+      ]}
+    />,
+    <BentoChips key="best" title={L.best} chips={bestColors.clothing} accent={accent} />,
+    <BentoChips key="avoid" title={L.avoid} chips={avoidColors} strike accent={accent} />,
+    <BentoFacts
+      key="styling"
+      accent={accent}
+      rows={[
+        { label: L.accessory, text: bestColors.accessory },
+        { label: L.hairColor, text: bestColors.hair },
+      ]}
+    />,
+    ...shoppingTips.map((tip, i) => (
+      <BentoNote key={`tip-${i}`} icon="lightbulb" label={L.tips} text={tip} accent={accent} />
+    )),
+  ]
+
+  const tiles = insertScattered(
+    baseTiles,
+    recs.map((item, i) => (
+      <ProductGridCard
+        key={`prod-${i}`}
+        item={item}
+        accent={accent}
+        pageType="personal_color"
+        pageSlug={t.code}
+        span="sm"
+        slot={scatterSlot(t.code, i, recs.length, baseTiles.length)}
+      />
+    )),
+    t.code,
+  )
+
   return (
     <div className="font-display bg-background-light min-h-screen">
       <ToolsNav />
@@ -86,64 +140,57 @@ export default function PersonalColorResult({ code }: Props) {
               ))}
             </div>
             {!isEn && (
-              <IdentityCard label="퍼스널컬러" emoji={t.emoji} card={t.card} fileSlug={`personal-color-${t.code}`} saveLabel={L.save} />
+              <IdentityCard
+                label="퍼스널컬러"
+                emoji={t.emoji}
+                card={t.card}
+                fileSlug={`personal-color-${t.code}`}
+                saveLabel={L.save}
+                share={{
+                  url: `https://kissinskin.net${basePath}/${t.slug}/`,
+                  text: isEn
+                    ? `My personal color is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
+                    : `나의 퍼스널 컬러는 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
+                  title: isEn ? `Personal Color: ${t.enName}` : `퍼스널 컬러: ${t.koName}`,
+                }}
+                shareLabel={isEn ? 'Share' : '공유하기'}
+              />
             )}
             <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border-2 border-amber-100 hover:border-amber-500 px-6 py-2.5 rounded-full font-bold text-sm text-navy-mid">
+              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
               </a>
             </div>
           </div>
         </section>
 
-        {/* Masonry grid — 산문을 카드 1개=정보 1조각으로 분해 (재설계 지시 §3) */}
+        {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
+            이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다
+            정보 한 조각 취급을 받아 유형 페이지들이 서로 85% 유사해졌었다(2026-07-14
+            색인 이탈 62건). 16Personalities 처럼 긴 단일 컬럼으로 낸다. */}
+        <ToolLongform
+          eyebrow={LF_EYEBROW}
+          title={L.more}
+          paragraphs={detailParagraphs}
+          image={mood.image}
+          imageAlt={tagline}
+        />
+
+        {/* 결과 벤토 — 팔레트가 히어로, 한 줄 팩트는 한 타일에 묶어서 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {/* 구매 지역 토글 — 쿠팡/클리오(한국) ↔ Amazon/YesStyle(글로벌) */}
             {AFFILIATE_ENABLED && <RegionToggle pageType="personal_color" className="mb-7" />}
-            <ResultGrid>
-              <MoodCard image={mood.image} caption={tagline} emoji={t.emoji} gradient={t.card.gradient} />
-
-              <PaletteCard title={L.palette} swatches={mood.palette} accent={accent} />
-
-              {leadRec && (
-                <ProductGridCard item={leadRec} accent={accent} pageType="personal_color" pageSlug={t.code} />
-              )}
-
-              <IconCard icon="face" label={L.skin} text={traits.skin} accent={accent} tint={tint(0)} />
-              <IconCard icon="favorite" label={`${L.makeup} · ${L.lip}`} text={bestColors.makeup.lip} accent={accent} tint={tint(3)} />
-              <ChipsCard title={L.best} chips={bestColors.clothing} accent={accent} tint={tint(1)} />
-              <IconCard icon="content_cut" label={L.hair} text={traits.hair} accent={accent} tint={tint(2)} />
-
-              <IconCard icon="visibility" label={L.eye} text={traits.eye} accent={accent} tint={tint(4)} />
-              <IconCard icon="palette" label={`${L.makeup} · ${L.base}`} text={bestColors.makeup.foundation} accent={accent} tint={tint(0)} />
-
-              <ChipsCard title={L.avoid} chips={avoidColors} strike accent={accent} tint={tint(1)} />
-              <IconCard icon="visibility" label={`${L.makeup} · ${L.eyeMk}`} text={bestColors.makeup.eye} accent={accent} tint={tint(2)} />
-              <IconCard icon="mood" label={L.vibe} text={traits.vibe} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="spa" label={`${L.makeup} · ${L.blush}`} text={bestColors.makeup.blush} accent={accent} tint={tint(4)} />
-              <IconCard icon="diamond" label={L.accessory} text={bestColors.accessory} accent={accent} tint={tint(0)} />
-              <IconCard icon="brush" label={L.hairColor} text={bestColors.hair} accent={accent} tint={tint(1)} />
-
-              {shoppingTips.map((tip, i) => (
-                <TipCard key={`tip-${i}`} tip={tip} accent={accent} tint={tint(i + 2)} />
-              ))}
-
-              {restRecs.map((item, i) => (
-                <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="personal_color" pageSlug={t.code} />
-              ))}
-
-              <AccordionCard title={L.more} paragraphs={detailParagraphs} accent={accent} />
-
-              <BannerCard
+            <BentoGrid>
+              {tiles}
+              <BentoBanner
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
                 gradient={t.card.gradient}
               />
-            </ResultGrid>
+            </BentoGrid>
             {AFFILIATE_ENABLED && (
               <p className="mt-7 text-center text-[11px] text-slate-400 max-w-2xl mx-auto leading-relaxed">
                 {i18n(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}

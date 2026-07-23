@@ -4,6 +4,41 @@ import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
 import { getCreditBalance } from '../lib/credits'
 
+/**
+ * 브랜드 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
+ * 인라인 스타일 덩어리라 Tailwind @theme 이 닿지 않는다. index.css 와 함께 고칠 것.
+ */
+const C = {
+  cream: '#f8f6f6',
+  surface: '#ffffff',
+  navy: '#070953',
+  muted: '#6b6f8c',
+  line: 'rgba(7, 9, 83, 0.16)',
+  primary: '#eb4763',
+  primaryDark: '#c9304a',
+  mustard: '#c79340',
+  sage: '#7e9b6a',
+} as const
+
+const RAD = '4px'
+
+/**
+ * 파괴적 동작(회원 탈퇴) 전용 색.
+ * 시그니처 핑크(#eb4763)와 같은 계열이면 "탈퇴"가 메인 CTA 처럼 보인다.
+ * 채도를 낮추고 확실히 어둡게 잡아 팔레트 안에 있으면서도 구분되게 한다.
+ */
+const DANGER = '#8f2d20'
+
+const sectionTitleStyle: React.CSSProperties = {
+  fontSize: '15px',
+  fontWeight: 700,
+  color: C.navy,
+  marginBottom: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+}
+
 interface SubStatus {
   active: boolean
   checked: boolean
@@ -216,32 +251,31 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   const inputStyle: React.CSSProperties = {
     width: '100%',
     padding: '12px 14px',
-    borderRadius: '10px',
-    border: '1px solid rgba(148, 163, 184, 0.3)',
-    background: 'rgba(7, 9, 83, 0.6)',
-    color: '#fff',
-    fontSize: '14px',
+    borderRadius: RAD,
+    border: `1px solid ${C.line}`,
+    background: '#fff',
+    color: C.navy,
+    fontSize: '15px',
     outline: 'none',
     boxSizing: 'border-box',
   }
 
   const cardStyle: React.CSSProperties = {
-    background: 'rgba(18, 21, 112, 0.8)',
-    backdropFilter: 'blur(20px)',
-    borderRadius: '16px',
+    background: C.surface,
+    borderRadius: RAD,
     padding: 'clamp(16px, 4vw, 24px)',
     width: '100%',
     maxWidth: '440px',
-    border: '1px solid rgba(148, 163, 184, 0.2)',
+    border: `1px solid ${C.line}`,
     marginBottom: '16px',
   }
 
   const labelStyle: React.CSSProperties = {
-    fontSize: '12px', color: '#94a3b8',
+    fontSize: '12px', color: C.muted,
   }
 
   const valueStyle: React.CSSProperties = {
-    fontSize: '14px', color: '#fff', margin: '4px 0 0',
+    fontSize: '14px', color: C.navy, margin: '4px 0 0',
   }
 
   // Subscription info
@@ -251,8 +285,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       ? (isKo ? '무료 체험 (Trial)' : 'Free Trial')
       : (isKo ? 'Pro 구독' : 'Pro Subscription')
 
-  const planColor = !subStatus.active ? '#94a3b8'
-    : subStatus.status === 'trialing' ? '#fbbf24' : '#34d399'
+  const planColor = !subStatus.active ? C.muted
+    : subStatus.status === 'trialing' ? C.mustard : C.sage
 
   const usageText = subStatus.limit === -1
     ? `${subStatus.usage} / ${isKo ? '무제한' : 'Unlimited'}`
@@ -261,7 +295,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   return (
     <div style={{
       minHeight: '100dvh',
-      background: 'linear-gradient(135deg, #070953 0%, #121570 50%, #070953 100%)',
+      background: C.cream,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -271,16 +305,16 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       <div style={{ width: '100%', maxWidth: '440px', display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
         <button
           onClick={() => nav('home')}
-          style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: '4px' }}
+          style={{ background: 'none', border: 'none', color: C.navy, cursor: 'pointer', padding: '4px' }}
         >
           <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>arrow_back</span>
         </button>
-        <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', margin: 0 }}>{t('mypage.title')}</h1>
+        <h1 className="t-h2" style={{ color: C.navy, margin: 0 }}>{t('mypage.title')}</h1>
       </div>
 
       {/* 내 정보 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={sectionTitleStyle}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
           {t('mypage.info')}
         </h2>
@@ -308,24 +342,24 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 내 크레딧 — AI 메이크업 생성에 쓰는 크레딧 잔액 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={sectionTitleStyle}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>auto_awesome</span>
           {isKo ? '내 크레딧' : 'My Credits'}
         </h2>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-            <span style={{ fontSize: '32px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>
+            <span style={{ fontSize: '32px', fontWeight: 800, color: C.primary, lineHeight: 1 }}>
               {credits === null ? '…' : credits}
             </span>
-            <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+            <span style={{ fontSize: '13px', color: C.muted }}>
               {isKo ? '개 남음' : credits === 1 ? 'credit left' : 'credits left'}
             </span>
           </div>
           <button
             onClick={() => { window.location.href = '/analysis/?topup=1' }}
             style={{
-              padding: '10px 18px', borderRadius: '10px', border: 'none',
-              background: 'linear-gradient(135deg, #ec4899, #f472b6)',
+              padding: '10px 18px', borderRadius: RAD, border: 'none',
+              background: C.primary,
               color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: '6px',
             }}
@@ -334,7 +368,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             {isKo ? '크레딧 충전' : 'Top up'}
           </button>
         </div>
-        <p style={{ fontSize: '12px', color: '#64748b', margin: '12px 0 0', lineHeight: 1.5 }}>
+        <p style={{ fontSize: '12px', color: C.muted, margin: '12px 0 0', lineHeight: 1.5 }}>
           {isKo
             ? '크레딧 1개 = AI 메이크업 1장. 첫 1회는 무료로 체험할 수 있어요.'
             : '1 credit = 1 AI makeup. Your first try is free.'}
@@ -343,7 +377,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 구독 관리 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={sectionTitleStyle}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>card_membership</span>
           {isKo ? '구독 관리' : 'Subscription'}
         </h2>
@@ -356,7 +390,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
               display: 'inline-block',
               background: planColor,
               color: '#fff',
-              borderRadius: '20px',
+              borderRadius: RAD,
               padding: '4px 14px',
               fontSize: '13px',
               fontWeight: 700,
@@ -366,9 +400,9 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             {subStatus.cancelAtPeriodEnd && (
               <span style={{
                 fontSize: '12px',
-                color: '#fbbf24',
-                background: 'rgba(251, 191, 36, 0.15)',
-                borderRadius: '20px',
+                color: '#7a5a20',
+                background: 'rgba(199, 147, 64, 0.16)',
+                borderRadius: RAD,
                 padding: '3px 10px',
               }}>
                 {isKo ? '해지 예정' : 'Canceling'}
@@ -385,19 +419,17 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
               <div style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px',
               }}>
-                <span style={{ fontSize: '14px', color: '#fff', fontWeight: 600 }}>{usageText}</span>
+                <span style={{ fontSize: '14px', color: C.navy, fontWeight: 600 }}>{usageText}</span>
               </div>
               {subStatus.limit > 0 && (
                 <div style={{
                   width: '100%', height: '6px', borderRadius: '3px',
-                  background: 'rgba(148, 163, 184, 0.2)',
+                  background: C.line,
                 }}>
                   <div style={{
                     width: `${Math.min(100, (subStatus.usage / subStatus.limit) * 100)}%`,
                     height: '100%', borderRadius: '3px',
-                    background: subStatus.usage >= subStatus.limit
-                      ? 'linear-gradient(90deg, #ef4444, #f87171)'
-                      : 'linear-gradient(90deg, #34d399, #6ee7b7)',
+                    background: subStatus.usage >= subStatus.limit ? C.primary : C.sage,
                   }} />
                 </div>
               )}
@@ -429,9 +461,9 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             <button
               onClick={() => window.open('https://polar.sh/kisskin-makeup7/portal', '_blank')}
               style={{
-                width: '100%', padding: '12px', borderRadius: '10px',
-                border: '1px solid rgba(148, 163, 184, 0.3)',
-                background: 'transparent', color: '#e2e8f0',
+                width: '100%', padding: '12px', borderRadius: RAD,
+                border: `1px solid ${C.line}`,
+                background: 'transparent', color: C.navy,
                 fontSize: '14px', fontWeight: 600, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
               }}
@@ -441,11 +473,11 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             </button>
             {subStatus.cancelAtPeriodEnd && (
               <div style={{
-                background: 'rgba(251, 191, 36, 0.1)', borderRadius: '10px',
-                padding: '12px 14px', border: '1px solid rgba(251, 191, 36, 0.2)',
+                background: 'rgba(199, 147, 64, 0.12)', borderRadius: RAD,
+                padding: '12px 14px', border: `1px solid ${C.mustard}44`,
                 marginTop: '12px',
               }}>
-                <p style={{ fontSize: '13px', color: '#fbbf24', margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontSize: '13px', color: '#7a5a20', margin: 0, lineHeight: 1.5 }}>
                   {isKo
                     ? `구독이 ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''} 에 만료됩니다. 포털에서 다시 구독할 수 있습니다.`
                     : `Your subscription expires on ${subStatus.periodEnd ? formatDate(subStatus.periodEnd) : ''}. You can resubscribe from the portal.`}
@@ -458,15 +490,15 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 결제 내역 */}
       <div style={cardStyle}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={sectionTitleStyle}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>receipt_long</span>
           {isKo ? '결제 내역' : 'Payment History'}
         </h2>
 
         {ordersLoading ? (
-          <p style={{ fontSize: '13px', color: '#94a3b8' }}>{isKo ? '불러오는 중...' : 'Loading...'}</p>
+          <p style={{ fontSize: '13px', color: C.muted }}>{isKo ? '불러오는 중...' : 'Loading...'}</p>
         ) : orders.length === 0 ? (
-          <p style={{ fontSize: '13px', color: '#64748b' }}>{isKo ? '결제 내역이 없습니다.' : 'No payment history.'}</p>
+          <p style={{ fontSize: '13px', color: C.muted }}>{isKo ? '결제 내역이 없습니다.' : 'No payment history.'}</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {orders.map(order => (
@@ -474,24 +506,24 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
                 key={order.polar_order_id}
                 style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  padding: '10px 12px', borderRadius: '10px',
-                  background: 'rgba(7, 9, 83, 0.5)',
-                  border: '1px solid rgba(148, 163, 184, 0.1)',
+                  padding: '10px 12px', borderRadius: RAD,
+                  background: C.cream,
+                  border: `1px solid ${C.line}`,
                 }}
               >
                 <div>
-                  <p style={{ fontSize: '13px', color: '#fff', margin: 0, fontWeight: 600 }}>
+                  <p style={{ fontSize: '13px', color: C.navy, margin: 0, fontWeight: 600 }}>
                     ${(order.amount / 100).toFixed(2)} {order.currency.toUpperCase()}
                   </p>
-                  <p style={{ fontSize: '11px', color: '#94a3b8', margin: '2px 0 0' }}>
+                  <p style={{ fontSize: '11px', color: C.muted, margin: '2px 0 0' }}>
                     {formatDate(order.created_at)}
                   </p>
                 </div>
                 <span style={{
                   fontSize: '11px', fontWeight: 600,
-                  color: order.status === 'refunded' ? '#fbbf24' : '#34d399',
-                  background: order.status === 'refunded' ? 'rgba(251, 191, 36, 0.15)' : 'rgba(52, 211, 153, 0.15)',
-                  borderRadius: '20px', padding: '3px 10px',
+                  color: order.status === 'refunded' ? '#7a5a20' : '#4c6339',
+                  background: order.status === 'refunded' ? 'rgba(199, 147, 64, 0.16)' : 'rgba(126, 155, 106, 0.16)',
+                  borderRadius: RAD, padding: '3px 10px',
                 }}>
                   {order.status === 'refunded' ? (isKo ? '환불됨' : 'Refunded') : (isKo ? '완료' : 'Paid')}
                 </span>
@@ -504,13 +536,13 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       {/* 비밀번호 변경 - OAuth가 아닌 경우만 */}
       {!isOAuth && (
         <div style={cardStyle}>
-          <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h2 style={sectionTitleStyle}>
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>lock_reset</span>
             {t('mypage.changePassword')}
           </h2>
           <form onSubmit={handlePasswordReset}>
             <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '12px', color: C.muted, marginBottom: '6px' }}>
                 {t('mypage.newPassword')}
               </label>
               <input
@@ -522,7 +554,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
               />
             </div>
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: '#94a3b8', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '12px', color: C.muted, marginBottom: '6px' }}>
                 {t('mypage.confirmNewPassword')}
               </label>
               <input
@@ -536,10 +568,10 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             {passwordMsg && (
               <div style={{
                 padding: '10px 14px',
-                borderRadius: '8px',
-                background: passwordMsg.type === 'success' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                border: `1px solid ${passwordMsg.type === 'success' ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                color: passwordMsg.type === 'success' ? '#86efac' : '#fca5a5',
+                borderRadius: RAD,
+                background: passwordMsg.type === 'success' ? 'rgba(126, 155, 106, 0.14)' : 'rgba(176, 62, 45, 0.1)',
+                border: `1px solid ${passwordMsg.type === 'success' ? `${C.sage}66` : `${C.primaryDark}44`}`,
+                color: passwordMsg.type === 'success' ? '#4c6339' : C.primaryDark,
                 fontSize: '13px',
                 marginBottom: '12px',
               }}>
@@ -552,9 +584,9 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
               style={{
                 width: '100%',
                 padding: '10px',
-                borderRadius: '10px',
+                borderRadius: RAD,
                 border: 'none',
-                background: passwordLoading ? '#64748b' : 'linear-gradient(135deg, #ec4899, #f472b6)',
+                background: passwordLoading ? C.muted : C.primary,
                 color: '#fff',
                 fontSize: '14px',
                 fontWeight: 600,
@@ -578,10 +610,10 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           style={{
             width: '100%',
             padding: '12px',
-            borderRadius: '10px',
-            border: '1px solid rgba(148, 163, 184, 0.3)',
+            borderRadius: RAD,
+            border: `1px solid ${C.line}`,
             background: 'transparent',
-            color: '#94a3b8',
+            color: C.muted,
             fontSize: '14px',
             fontWeight: 600,
             cursor: 'pointer',
@@ -597,12 +629,12 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       </div>
 
       {/* 회원 탈퇴 */}
-      <div style={{ ...cardStyle, border: '1px solid rgba(239, 68, 68, 0.2)' }}>
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#ef4444', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ ...cardStyle, border: `1px solid ${DANGER}33` }}>
+        <h2 style={{ ...sectionTitleStyle, color: DANGER, marginBottom: '12px' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>warning</span>
           {t('mypage.deleteAccount')}
         </h2>
-        <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px', lineHeight: 1.5 }}>
+        <p style={{ fontSize: '13px', color: C.muted, marginBottom: '16px', lineHeight: 1.5 }}>
           {t('mypage.deleteWarning')}
         </p>
         {!showDeleteConfirm ? (
@@ -611,10 +643,10 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             style={{
               width: '100%',
               padding: '10px',
-              borderRadius: '10px',
-              border: '1px solid rgba(239, 68, 68, 0.4)',
+              borderRadius: RAD,
+              border: `1px solid ${DANGER}66`,
               background: 'transparent',
-              color: '#f87171',
+              color: DANGER,
               fontSize: '14px',
               fontWeight: 600,
               cursor: 'pointer',
@@ -624,16 +656,16 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           </button>
         ) : (
           <div>
-            <p style={{ fontSize: '13px', color: '#fca5a5', marginBottom: '12px', fontWeight: 600 }}>
+            <p style={{ fontSize: '13px', color: DANGER, marginBottom: '12px', fontWeight: 600 }}>
               {t('mypage.deleteConfirm')}
             </p>
             {deleteError && (
               <div style={{
                 padding: '10px 14px',
-                borderRadius: '8px',
-                background: 'rgba(239, 68, 68, 0.15)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                color: '#fca5a5',
+                borderRadius: RAD,
+                background: `${DANGER}14`,
+                border: `1px solid ${DANGER}44`,
+                color: DANGER,
                 fontSize: '13px',
                 marginBottom: '12px',
               }}>
@@ -646,10 +678,10 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
                 style={{
                   flex: 1,
                   padding: '10px',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(148, 163, 184, 0.3)',
+                  borderRadius: RAD,
+                  border: `1px solid ${C.line}`,
                   background: 'transparent',
-                  color: '#94a3b8',
+                  color: C.muted,
                   fontSize: '14px',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -663,9 +695,9 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
                 style={{
                   flex: 1,
                   padding: '10px',
-                  borderRadius: '10px',
+                  borderRadius: RAD,
                   border: 'none',
-                  background: deleteLoading ? '#64748b' : '#ef4444',
+                  background: deleteLoading ? C.muted : DANGER,
                   color: '#fff',
                   fontSize: '14px',
                   fontWeight: 600,

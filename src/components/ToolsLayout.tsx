@@ -61,7 +61,7 @@ export function ToolsNav() {
   ]
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50" role="navigation">
+    <nav className="palette-brand sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50" role="navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <a href={isEn ? '/en/' : '/'} className="flex items-center gap-2 rounded-md -ml-1 px-1 py-1 hover:bg-navy-light/30 transition-colors" aria-label="kissinskin home">
           <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
@@ -109,7 +109,7 @@ export function ToolsNav() {
           {/* Desktop AI CTA */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="hidden sm:flex bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20 items-center gap-1.5"
+            className="hidden sm:flex bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
@@ -117,7 +117,7 @@ export function ToolsNav() {
           {/* Mobile-only AI button + hamburger */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="sm:hidden bg-gradient-to-r from-primary to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5"
+            className="sm:hidden bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
@@ -196,7 +196,7 @@ export function ToolsNav() {
               <a
                 href={isEn ? '/en/' : '/analysis/'}
                 onClick={() => setOpen(false)}
-                className="w-full bg-gradient-to-r from-primary to-pink-500 text-white py-3 rounded-full text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                className="w-full bg-primary hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
               >
                 {t('tools.nav.aiMakeup')}
               </a>
@@ -212,7 +212,7 @@ export function ToolsFooter() {
   const { t, locale } = useI18n()
   const isEn = locale === 'en'
   return (
-    <footer className="bg-navy text-white pt-14 pb-8">
+    <footer className="palette-brand bg-navy text-white pt-14 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-10 mb-10">
           <div className="flex flex-col gap-4">

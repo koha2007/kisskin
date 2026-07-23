@@ -5,10 +5,10 @@ type CalloutType = 'key' | 'warn' | 'data' | 'tip'
 
 const CALLOUT_STYLES: Record<CalloutType, { border: string; label: string; labelEn: string; labelColor: string }> = {
   key: {
-    border: 'border-rose-400',
+    border: 'border-primary',
     label: '핵심',
     labelEn: 'Key',
-    labelColor: 'text-rose-500',
+    labelColor: 'text-primary',
   },
   warn: {
     border: 'border-amber-500',
@@ -61,7 +61,7 @@ export function TLDR({ points }: { points: string[] }) {
       <ul className="space-y-2.5">
         {points.map((p, i) => (
           <li key={i} className="flex gap-3 text-[14px] md:text-[15px] text-slate-700 leading-[1.6]">
-            <span className="shrink-0 mt-2 w-1 h-1 rounded-full bg-rose-400" />
+            <span className="shrink-0 mt-2 w-1 h-1 rounded-full bg-primary" />
             <span>{p}</span>
           </li>
         ))}
@@ -77,12 +77,12 @@ export function TLDR({ points }: { points: string[] }) {
  */
 export function Verdict({ children, label = 'Final Verdict' }: { children: ReactNode; label?: string }) {
   return (
-    <aside className="not-prose my-10 p-6 md:p-7 bg-gradient-to-br from-rose-50/60 to-pink-50/40 border border-rose-200/70 rounded-xl">
+    <aside className="not-prose my-10 p-6 md:p-7 bg-primary/5 border border-primary/20 rounded-lg">
       <div className="flex items-center gap-2 mb-3">
-        <span className="material-symbols-outlined text-rose-500 text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+        <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
           stars
         </span>
-        <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-rose-500">
+        <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
           {label}
         </div>
       </div>

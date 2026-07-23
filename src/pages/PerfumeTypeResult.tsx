@@ -8,12 +8,14 @@ import { useRegion } from '../hooks/useRegion'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
-import ResultGrid, {
-  MoodCard,
-  IconCard,
-  AccordionCard,
-  BannerCard,
-} from '../components/result-grid/ResultGrid'
+import ToolLongform from '../components/tools/ToolLongform'
+import BentoGrid, {
+  BentoFacts,
+  BentoNote,
+  BentoBanner,
+  insertScattered,
+  scatterSlot,
+} from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -31,21 +33,16 @@ export default function PerfumeTypeResult({ code }: Props) {
   const tagline = isEn && t.taglineEn ? t.taglineEn : t.tagline
   const features = isEn && t.featuresEn ? t.featuresEn : t.features
   const detailParagraphs = isEn && t.detailParagraphsEn ? t.detailParagraphsEn : t.detailParagraphs
+  const LF_EYEBROW = isEn ? 'Perfume Type · In depth' : '향수 타입 · 자세히'
   const scene = isEn && t.sceneEn ? t.sceneEn : t.scene
   const makeupMatch = isEn && t.makeupMatchEn ? t.makeupMatchEn : t.makeupMatch
   const cautions = isEn && t.cautionsEn ? t.cautionsEn : t.cautions
   const kissinskinReason = isEn && t.kissinskinReasonEn ? t.kissinskinReasonEn : t.kissinskin.reason
 
   const accent = t.primaryColor
-  // Rotate the type's two signature colors as soft card tints so the grid reads
-  // as a moodboard rather than a wall of identical white cards (재설계 지시 §3).
-  const tints = [t.primaryColor, t.accentColor, t.card.gradient[1]]
-  const tint = (i: number) => tints[i % tints.length]
 
-  // 제품 카드가 그리드 맨 뒤라 2단 masonry 바닥에 깔렸다(affiliate_click 28일 0건).
-  // 대표 1장만 상단으로 올리고 나머지는 원래 자리에 둔다.
+  // ④ 제품 카드는 향수 타입 코드 해시로 격자 안에 흩는다(결정적 분산).
   const recs = PERFUME_TYPE_RECOMMENDATIONS[t.code] ?? []
-  const [leadRec, ...restRecs] = recs
 
   const L = isEn
     ? {
@@ -67,7 +64,69 @@ export default function PerfumeTypeResult({ code }: Props) {
         base: '베이스', lip: '립', eye: '아이', cheek: '치크',
       }
 
-  const featureIcons = ['auto_awesome', 'star', 'favorite', 'spa', 'bolt']
+  // ⑤ 벤토 타일 — `상황 · 계절/장소/시간/피할곳`, `메이크업 · 베이스/립/아이/치크` 가
+  // 각각 카드 4장이었다. 접두사가 같은 팩트는 한 타일 안의 행으로 접는다.
+  // 무드 사진(정물)은 바로 위 롱폼이 이미 쓰고 있어 여기서 다시 쓰지 않는다.
+  const baseTiles = [
+    <BentoFacts
+      key="features"
+      title={L.feature}
+      accent={accent}
+      span="full"
+      rows={features.map((f, i) => ({ label: `0${i + 1}`, text: f }))}
+    />,
+    <BentoFacts
+      key="scene"
+      title={L.scene}
+      accent={accent}
+      rows={[
+        { label: L.season, text: scene.season },
+        { label: L.occasion, text: scene.occasion },
+        { label: L.time, text: scene.timeOfDay },
+        { label: L.avoid, text: scene.avoidSituation },
+      ]}
+    />,
+    <BentoFacts
+      key="makeup"
+      title={L.makeup}
+      accent={accent}
+      rows={[
+        { label: L.base, text: makeupMatch.base },
+        { label: L.lip, text: makeupMatch.lip },
+        { label: L.eye, text: makeupMatch.eye },
+        { label: L.cheek, text: makeupMatch.cheek },
+      ]}
+    />,
+    <BentoFacts
+      key="look"
+      title={L.look}
+      accent={accent}
+      rows={[
+        { label: L.female, text: t.kissinskin.women },
+        { label: L.male, text: t.kissinskin.men },
+      ]}
+    />,
+    <BentoNote key="reason" icon="recommend" label={L.look} text={kissinskinReason} accent={accent} />,
+    ...cautions.map((c, i) => (
+      <BentoNote key={`caution-${i}`} icon="do_not_disturb_on" label={L.caution} text={c} accent={accent} />
+    )),
+  ]
+
+  const tiles = insertScattered(
+    baseTiles,
+    recs.map((item, i) => (
+      <ProductGridCard
+        key={`prod-${i}`}
+        item={item}
+        accent={accent}
+        pageType="perfume_type"
+        pageSlug={t.code}
+        span="sm"
+        slot={scatterSlot(t.code, i, recs.length, baseTiles.length)}
+      />
+    )),
+    t.code,
+  )
 
   return (
     <div className="font-display bg-background-light min-h-screen">
@@ -86,63 +145,56 @@ export default function PerfumeTypeResult({ code }: Props) {
               ))}
             </div>
             {!isEn && (
-              <IdentityCard label="향수 타입" emoji={t.emoji} card={t.card} fileSlug={`perfume-${t.code}`} saveLabel={L.save} />
+              <IdentityCard
+                label="향수 타입"
+                emoji={t.emoji}
+                card={t.card}
+                fileSlug={`perfume-${t.code}`}
+                saveLabel={L.save}
+                share={{
+                  url: `https://kissinskin.net${basePath}/${t.slug}/`,
+                  text: isEn
+                    ? `My perfume type is "${t.enName}" ${t.emoji}\n${tagline}\n\n`
+                    : `나의 향수 타입은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
+                  title: isEn ? `Perfume type: ${t.enName}` : `향수 타입: ${t.koName}`,
+                }}
+                shareLabel={isEn ? 'Share' : '공유하기'}
+              />
             )}
             <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border-2 border-rose-100 hover:border-rose-500 px-6 py-2.5 rounded-full font-bold text-sm text-navy-mid">
+              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
               </a>
             </div>
           </div>
         </section>
 
-        {/* Masonry grid — 산문을 카드 1개=정보 1조각으로 분해 (재설계 지시 §3) */}
+        {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
+            이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다
+            정보 한 조각 취급을 받아 유형 페이지들이 서로 85% 유사해졌었다(2026-07-14
+            색인 이탈 62건). 16Personalities 처럼 긴 단일 컬럼으로 낸다. */}
+        <ToolLongform
+          eyebrow={LF_EYEBROW}
+          title={L.more}
+          paragraphs={detailParagraphs}
+          image={mood.image}
+          imageAlt={tagline}
+        />
+
+        {/* 결과 벤토 — 상황·메이크업 매치는 한 타일 안 행으로 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {AFFILIATE_ENABLED && <RegionToggle pageType="perfume_type" className="mb-7" />}
-            <ResultGrid>
-              <MoodCard image={mood.image} caption={tagline} emoji={t.emoji} gradient={t.card.gradient} />
-
-              {features.map((f, i) => (
-                <IconCard key={`feat-${i}`} icon={featureIcons[i % featureIcons.length]} label={L.feature} text={f} accent={accent} tint={tint(i)} />
-              ))}
-
-              {leadRec && (
-                <ProductGridCard item={leadRec} accent={accent} pageType="perfume_type" pageSlug={t.code} />
-              )}
-
-              <IconCard icon="calendar_month" label={`${L.scene} · ${L.season}`} text={scene.season} accent={accent} tint={tint(0)} />
-              <IconCard icon="event" label={`${L.scene} · ${L.occasion}`} text={scene.occasion} accent={accent} tint={tint(1)} />
-              <IconCard icon="schedule" label={`${L.scene} · ${L.time}`} text={scene.timeOfDay} accent={accent} tint={tint(2)} />
-              <IconCard icon="block" label={`${L.scene} · ${L.avoid}`} text={scene.avoidSituation} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="palette" label={`${L.makeup} · ${L.base}`} text={makeupMatch.base} accent={accent} tint={tint(1)} />
-              <IconCard icon="favorite" label={`${L.makeup} · ${L.lip}`} text={makeupMatch.lip} accent={accent} tint={tint(2)} />
-              <IconCard icon="visibility" label={`${L.makeup} · ${L.eye}`} text={makeupMatch.eye} accent={accent} tint={tint(3)} />
-              <IconCard icon="spa" label={`${L.makeup} · ${L.cheek}`} text={makeupMatch.cheek} accent={accent} tint={tint(4)} />
-
-              {cautions.map((c, i) => (
-                <IconCard key={`caution-${i}`} icon="do_not_disturb_on" label={L.caution} text={c} accent={accent} tint={tint(i + 2)} />
-              ))}
-
-              <IconCard icon="female" label={`${L.look} · ${L.female}`} text={t.kissinskin.women} accent={accent} tint={tint(0)} />
-              <IconCard icon="male" label={`${L.look} · ${L.male}`} text={t.kissinskin.men} accent={accent} tint={tint(1)} />
-              <IconCard icon="recommend" label={L.look} text={kissinskinReason} accent={accent} tint={tint(2)} />
-
-              {restRecs.map((item, i) => (
-                <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="perfume_type" pageSlug={t.code} />
-              ))}
-
-              <AccordionCard title={L.more} paragraphs={detailParagraphs} accent={accent} />
-
-              <BannerCard
+            <BentoGrid>
+              {tiles}
+              <BentoBanner
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
                 gradient={t.card.gradient}
               />
-            </ResultGrid>
+            </BentoGrid>
             {AFFILIATE_ENABLED && (
               <p className="mt-7 text-center text-[11px] text-slate-400 max-w-2xl mx-auto leading-relaxed">
                 {i18n(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}

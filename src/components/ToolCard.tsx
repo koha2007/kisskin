@@ -18,17 +18,31 @@ interface ToolCardProps {
   cta?: string
   /** 기본 true. false면 비활성(흐림) */
   available?: boolean
+  /** 카드 상단 실물 이미지. 없으면 기존 아이콘 칩만 나온다. */
+  image?: string
+  /** "6문항 · 약 1분" 처럼 실제 수치. 진단 도구를 누르게 만드는 유일한 정보다. */
+  meta?: string
 }
 
-export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true }: ToolCardProps) {
+export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true, image, meta }: ToolCardProps) {
   const tint = `color-mix(in srgb, ${accent} 12%, white)`
   return (
+    // 2026-07-22: 라운드를 조이고 hover 리프트+큰 그림자를 뺐다. 떠오르는 카드는
+    // 2019~20년 머티리얼 문법이라 그 자체로 연식을 드러낸다. 상태 변화는 보더로만 준다.
     <a
       href={available ? href : undefined}
-      className={`group flex flex-col rounded-2xl border border-slate-200 bg-white p-5 md:p-6 transition-all ${
-        available ? 'hover:-translate-y-1 hover:shadow-xl hover:border-slate-300' : 'opacity-60 cursor-not-allowed'
+      className={`group flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors ${
+        available ? 'hover:border-navy' : 'opacity-60 cursor-not-allowed'
       }`}
     >
+      {/* 2026-07-22: 도구 카드에 실물이 한 장도 없어 "무엇을 해 주는지" 안 보였다.
+          결과 사진을 상단에 깐다(YouCam 이 기능마다 결과를 먼저 보여주는 방식). */}
+      {image && (
+        <span className="block aspect-[16/9] overflow-hidden bg-cream">
+          <img src={image} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
+        </span>
+      )}
+      <div className="flex flex-1 flex-col p-5 md:p-6">
       <div className="mb-4 flex items-center justify-between gap-2">
         <div
           className="flex h-11 w-11 items-center justify-center rounded-xl"
@@ -46,7 +60,9 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
       </div>
 
       <h3 className="mb-1.5 text-base md:text-lg font-bold leading-snug text-navy">{title}</h3>
-      <p className="mb-4 flex-1 text-sm leading-relaxed text-slate-600">{desc}</p>
+      <p className="mb-3 flex-1 text-sm leading-relaxed text-slate-600">{desc}</p>
+
+      {meta && <p className="t-label mb-4 tabular-nums text-slate-500">{meta}</p>}
 
       {available && cta && (
         <div className="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 transition-all group-hover:gap-1.5">
@@ -54,6 +70,7 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
           <span className="material-symbols-outlined text-base" style={{ color: accent }}>arrow_forward</span>
         </div>
       )}
+      </div>
     </a>
   )
 }

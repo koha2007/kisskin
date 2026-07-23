@@ -1,7 +1,7 @@
 /* ===== Legal Pages (Terms, Privacy, Refund) ===== */
 .legal-page {
   min-height: 100vh;
-  background: #f8f6f6;
+  background: #f8f6f6;            /* 힐다 크림 — 사이트 배경과 통일 */
 }
 
 .legal-header {
@@ -9,16 +9,18 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(7, 9, 83, 0.16);
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
 .legal-header h1 {
-  font-size: 18px;
+  font-family: var(--font-serif);
+  font-size: 20px;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: #070953;
   margin: 0;
   flex: 1;
@@ -36,8 +38,8 @@
 
 .legal-lang {
   background: none;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  border: 1px solid rgba(7, 9, 83, 0.16);
+  border-radius: 4px;
   padding: 4px 10px;
   font-size: 12px;
   font-weight: 600;
@@ -46,8 +48,8 @@
 }
 
 .legal-lang:hover {
-  border-color: #6366f1;
-  color: #6366f1;
+  border-color: #eb4763;
+  color: #eb4763;
 }
 
 .legal-content {
@@ -56,18 +58,20 @@
   padding: 24px 20px 60px;
   color: #2a2d8a;
   line-height: 1.7;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .legal-content .legal-date {
-  color: #94a3b8;
+  color: #6b6f8c;
   font-size: 13px;
   margin-bottom: 24px;
 }
 
 .legal-content h2 {
-  font-size: 16px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: #070953;
   margin: 28px 0 10px;
 }
@@ -93,7 +97,7 @@
 }
 
 .legal-content a {
-  color: #6366f1;
+  color: #c9304a;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -112,13 +116,13 @@
 
 .legal-table th,
 .legal-table td {
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(7, 9, 83, 0.16);
   padding: 8px 12px;
   text-align: left;
 }
 
 .legal-table th {
-  background: #f1f5f9;
+  background: #f8f1ec;
   font-weight: 600;
   color: #070953;
 }
@@ -128,7 +132,7 @@
 }
 
 .legal-link {
-  color: #6366f1;
+  color: #c9304a;
   text-decoration: underline;
   cursor: pointer;
 }

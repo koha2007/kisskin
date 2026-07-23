@@ -60,7 +60,7 @@ function PrivacyKo() {
       <h3>3.1 업로드한 사진 (생체/얼굴 데이터)</h3>
       <ul>
         <li>서비스 이용 시 AI 분석을 위해 얼굴 사진을 업로드합니다.</li>
-        <li>사진은 처리를 위해 <strong>OpenAI API</strong>로 전송되며, <strong>당사 서버에 저장되지 않습니다</strong>.</li>
+        <li>사진은 처리를 위해 <strong>OpenAI API</strong>(메이크업 이미지 생성)와 <strong>Google Gemini API</strong>(톤·제품 분석 리포트)로 전송되며, <strong>당사 서버에 저장되지 않습니다</strong>.</li>
         <li>사진은 실시간 메모리에서 처리되며 결과 생성 후 <strong>즉시 폐기</strong>됩니다.</li>
         <li>당사는 사진을 어떠한 형태로도 보관, 보존, 백업하지 않습니다.</li>
         <li><strong>생체 데이터 고지:</strong> 얼굴 사진은 일부 법률(예: 미국 일리노이 BIPA, 텍사스 CUBI, 워싱턴주 법)상 생체 데이터에 해당할 수 있습니다. 당사는 사진에서 생체 식별자 또는 템플릿을 추출, 저장, 생성하지 않습니다. 사진은 오직 AI 메이크업 시뮬레이션 생성 목적으로만 사용되며 보관되지 않습니다.</li>
@@ -150,7 +150,7 @@ function PrivacyKo() {
       <h2>6. 자동화된 의사결정 및 프로파일링</h2>
       <p>GDPR 제22조에 따라:</p>
       <ul>
-        <li>서비스는 메이크업 시뮬레이션 및 피부 분석 리포트 생성을 위해 <strong>자동화된 처리</strong>(OpenAI 모델)를 사용합니다.</li>
+        <li>서비스는 메이크업 시뮬레이션 및 분석 리포트 생성을 위해 <strong>자동화된 처리</strong>(OpenAI 및 Google Gemini 모델)를 사용합니다.</li>
         <li>이 자동 처리는 <strong>예술적/화장적 성격</strong>의 결과를 생성하며, 법적 효과나 이에 준하는 중대한 영향을 발생시키지 않습니다.</li>
         <li>당사는 이용자의 데이터를 프로파일링, 타겟 광고, 신용 평가 또는 법적·중대한 영향을 미치는 의사결정에 <strong>이용하지 않습니다</strong>.</li>
         <li>본 자동 처리의 법적 근거는 사진 업로드 및 분석 개시 시 제공된 이용자의 명시적 동의입니다.</li>
@@ -163,17 +163,18 @@ function PrivacyKo() {
           <tr><th>서비스</th><th>역할</th><th>목적</th><th>전송 데이터</th><th>위치</th><th>개인정보처리방침</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>OpenAI</strong></td><td>처리자</td><td>AI 이미지 생성 및 텍스트 분석</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+          <tr><td><strong>OpenAI</strong></td><td>처리자</td><td>AI 메이크업 이미지 생성</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+          <tr><td><strong>Google (Gemini API)</strong></td><td>처리자</td><td>톤·제품 분석 리포트 생성</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">ai.google.dev/terms</a></td></tr>
           <tr><td><strong>Polar</strong></td><td>독립 관리자</td><td>결제 처리 (MoR)</td><td>결제 및 청구 정보</td><td>미국 / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
           <tr><td><strong>Cloudflare</strong></td><td>처리자</td><td>웹사이트 호스팅, CDN, 보안</td><td>익명 분석, IP (일시적)</td><td>글로벌 (엣지 네트워크)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
         </tbody>
       </table>
-      <p><strong>중요:</strong> OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 이용자 사진은 OpenAI 또는 당사에 의해 AI 학습에 사용되지 않습니다.</p>
+      <p><strong>중요:</strong> OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 당사는 Google Gemini API 를 <strong>유료 등급</strong>으로 이용하며, <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>상 유료 등급에서는 구글이 프롬프트·업로드 파일·응답을 <strong>자사 제품 개선에 사용하지 않습니다</strong>. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
 
       <h2>8. 국경 간 데이터 이전</h2>
       <p>데이터는 거주 국가 외 국가(미국 포함)로 이전·처리될 수 있습니다. 당사는 적절한 보호 장치를 마련합니다.</p>
       <ul>
-        <li><strong>EU/EEA → 미국:</strong> OpenAI 및 Polar로의 이전은 EU 집행위원회가 채택한 표준계약조항(SCC) 및/또는 해당하는 경우 EU-미국 데이터 프라이버시 프레임워크로 보호됩니다.</li>
+        <li><strong>EU/EEA → 미국:</strong> OpenAI, Google 및 Polar로의 이전은 EU 집행위원회가 채택한 표준계약조항(SCC) 및/또는 해당하는 경우 EU-미국 데이터 프라이버시 프레임워크로 보호됩니다.</li>
         <li><strong>영국:</strong> 이전은 UK 국제데이터이전협약(IDTA) 또는 EU SCC에 대한 UK 부록으로 보호됩니다.</li>
         <li><strong>대한민국:</strong> 국경 간 이전은 개인정보 보호법 제17조 요구사항을 준수합니다. 서비스 이용에 대한 동의는 명시된 목적의 국경 간 데이터 이전에 대한 동의에 해당합니다.</li>
         <li><strong>브라질:</strong> LGPD 제33조에 따라 동의 및 적절한 보호 장치 기반으로 이전됩니다.</li>
@@ -185,7 +186,7 @@ function PrivacyKo() {
       <ul>
         <li>이름, 전화번호, 주소를 직접 수집하지 않습니다(결제 시 Polar에 제공되는 경우, 분석 리포트 발송용 이메일 입력 시 제외).</li>
         <li>사용자 계정이나 프로필을 강제 생성하지 않습니다.</li>
-        <li>업로드한 사진을 AI 모델 학습에 이용하지 않습니다 — OpenAI API 사용 시 학습 비활용 옵션이 적용됩니다.</li>
+        <li>업로드한 사진을 당사의 AI 모델 학습에 이용하지 않습니다 — OpenAI 는 API 데이터 미학습 정책이, Google 은 유료 등급의 데이터 미사용 정책이 적용됩니다.</li>
         <li>생체 식별자(얼굴 임베딩 벡터·해시·템플릿)를 생성하거나 저장하지 않습니다.</li>
         <li>당사 자체적으로는 개인정보를 판매·대여하지 않습니다. 다만 Google AdSense를 통해 게재되는 광고는 Google이 자체 정책에 따라 이용자의 일반 인구 통계 추정치를 활용할 수 있으며, 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 거부할 수 있습니다.</li>
       </ul>
@@ -193,7 +194,7 @@ function PrivacyKo() {
       <h2>10. 데이터 보안</h2>
       <ul>
         <li>모든 데이터 전송은 <strong>HTTPS/TLS</strong>(TLS 1.2 이상)로 암호화됩니다.</li>
-        <li>사진은 브라우저에서 당사의 안전한 서버리스 함수를 거쳐 OpenAI API로 직접 전송됩니다 — 중간 저장이 없습니다.</li>
+        <li>사진은 브라우저에서 당사의 안전한 서버리스 함수를 거쳐 OpenAI · Google Gemini API로 직접 전송됩니다 — 중간 저장이 없습니다.</li>
         <li>인프라는 <strong>Cloudflare Workers</strong>(서버리스)에서 실행되므로 데이터가 저장되거나 접근될 수 있는 영구 서버가 존재하지 않습니다.</li>
         <li>무단 접근, 변경, 공개 또는 파기로부터 데이터를 보호하기 위한 적절한 기술적·조직적 조치를 구현합니다.</li>
       </ul>
@@ -324,7 +325,7 @@ function PrivacyEn() {
       <h3>3.1 Photos You Upload (Biometric/Facial Data)</h3>
       <ul>
         <li>When you use our Service, you upload a facial photo for AI analysis.</li>
-        <li>Your photo is sent to <strong>OpenAI's API</strong> for processing and is <strong>not stored on our servers</strong>.</li>
+        <li>Your photo is sent to <strong>OpenAI's API</strong> (makeup image generation) and <strong>Google's Gemini API</strong> (tone and product analysis report) for processing, and is <strong>not stored on our servers</strong>.</li>
         <li>Photos are processed in real-time memory and <strong>discarded immediately</strong> after your analysis results are generated.</li>
         <li>We do not keep, archive, or back up your photos in any form.</li>
         <li><strong>Biometric data notice:</strong> Your facial photo may constitute biometric data under certain laws (e.g., Illinois BIPA, Texas CUBI, Washington state law). We do not extract, store, or create biometric identifiers or templates from your photos. The photo is used solely for the purpose of generating AI makeup simulations and is not retained.</li>
@@ -414,7 +415,7 @@ function PrivacyEn() {
       <h2>6. Automated Decision-Making & Profiling</h2>
       <p>In accordance with GDPR Article 22:</p>
       <ul>
-        <li>The Service uses <strong>automated processing</strong> (AI models by OpenAI) to generate makeup simulations and skin analysis reports.</li>
+        <li>The Service uses <strong>automated processing</strong> (AI models by OpenAI and Google Gemini) to generate makeup simulations and analysis reports.</li>
         <li>This automated processing produces results that are <strong>artistic/cosmetic in nature</strong> and do not produce legal effects or similarly significantly affect you.</li>
         <li>We do <strong>not</strong> use your data for profiling, targeted advertising, credit scoring, or any automated decision-making that produces legal or similarly significant effects.</li>
         <li>The legal basis for this automated processing is your explicit consent provided when you upload your photo and initiate the analysis.</li>
@@ -427,17 +428,18 @@ function PrivacyEn() {
           <tr><th>Service</th><th>Role</th><th>Purpose</th><th>Data Transferred</th><th>Location</th><th>Privacy Policy</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>OpenAI</strong></td><td>Data Processor</td><td>AI image generation & text analysis</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+          <tr><td><strong>OpenAI</strong></td><td>Data Processor</td><td>AI makeup image generation</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+          <tr><td><strong>Google (Gemini API)</strong></td><td>Data Processor</td><td>Tone &amp; product analysis report</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">ai.google.dev/terms</a></td></tr>
           <tr><td><strong>Polar</strong></td><td>Independent Controller</td><td>Payment processing (MoR)</td><td>Payment & billing info</td><td>United States / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
           <tr><td><strong>Cloudflare</strong></td><td>Data Processor</td><td>Website hosting, CDN, security</td><td>Anonymous analytics, IP (transient)</td><td>Global (edge network)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
         </tbody>
       </table>
-      <p><strong>Important:</strong> OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. Your photos are not used for AI training by OpenAI or by us.</p>
+      <p><strong>Important:</strong> OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. We use the Google Gemini API on a <strong>paid tier</strong>; under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>, Google <strong>does not use</strong> prompts, uploaded files, or responses from paid services to improve its products. We never use your photos to train any model of our own.</p>
 
       <h2>8. International Data Transfers</h2>
       <p>Your data may be transferred to and processed in countries outside your country of residence, including the United States. We ensure appropriate safeguards are in place:</p>
       <ul>
-        <li><strong>EU/EEA to US:</strong> Transfers to OpenAI and Polar are protected by Standard Contractual Clauses (SCCs) as adopted by the European Commission, and/or the EU-U.S. Data Privacy Framework where applicable.</li>
+        <li><strong>EU/EEA to US:</strong> Transfers to OpenAI, Google and Polar are protected by Standard Contractual Clauses (SCCs) as adopted by the European Commission, and/or the EU-U.S. Data Privacy Framework where applicable.</li>
         <li><strong>UK:</strong> Transfers are protected by the UK International Data Transfer Agreement (IDTA) or UK Addendum to EU SCCs.</li>
         <li><strong>South Korea:</strong> Cross-border transfers comply with PIPA Article 17 requirements. Your consent to use the Service constitutes consent to cross-border data transfer for the stated purposes.</li>
         <li><strong>Brazil:</strong> Transfers comply with LGPD Article 33, based on your consent and adequate safeguards.</li>
@@ -449,7 +451,7 @@ function PrivacyEn() {
       <ul>
         <li>We do not directly collect your name, phone number, or address (except information you provide to Polar during payment, or the email you enter to receive your analysis report).</li>
         <li>We do not force you to create user accounts or profiles.</li>
-        <li>We do not use your uploaded photos for AI model training — we use OpenAI's API with the no-training option enabled.</li>
+        <li>We do not use your uploaded photos to train any model of our own — OpenAI's API no-training policy and Google's paid-tier no-improvement policy apply to the photos we send there.</li>
         <li>We do not create or store biometric identifiers (face embeddings, hashes, or templates).</li>
         <li>We do not sell or rent your personal information ourselves. Note: ads served via Google AdSense may use Google's general demographic estimates; you can opt out at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>.</li>
       </ul>
@@ -457,7 +459,7 @@ function PrivacyEn() {
       <h2>10. Data Security</h2>
       <ul>
         <li>All data transmission is encrypted using <strong>HTTPS/TLS</strong> (TLS 1.2 or higher).</li>
-        <li>Photos are transmitted directly from your browser to OpenAI's API via our secure serverless function — no intermediate storage.</li>
+        <li>Photos are transmitted directly from your browser to the OpenAI and Google Gemini APIs via our secure serverless function — no intermediate storage.</li>
         <li>Our infrastructure runs on <strong>Cloudflare Workers</strong> (serverless), meaning there is no persistent server where data could be stored or accessed.</li>
         <li>We implement appropriate technical and organizational measures to protect against unauthorized access, alteration, disclosure, or destruction of data.</li>
       </ul>

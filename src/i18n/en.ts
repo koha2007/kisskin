@@ -22,11 +22,14 @@ export default {
   'nav.closeMenu': 'Close menu',
 
   // Home Hero
-  'home.hero.badge': 'The most advanced AI makeup',
-  'home.hero.title1': 'One selfie,',
-  'home.hero.title2': '9 K-beauty',
-  'home.hero.title3': 'makeup looks',
-  'home.hero.subtitle': '60 seconds · Free trial · No card needed',
+  'home.hero.badge': 'kissinskin · AI virtual makeup',
+  // 2026-07-21 copy swap — benefit ("see it before you buy") over feature ("9 looks").
+  // Search keywords now live in the subtitle: "personal color analysis korea" is our
+  // one real advantage in EN search (we are actually in Seoul).
+  'home.hero.title1': 'Try it on your face',
+  'home.hero.title2': 'before',
+  'home.hero.title3': 'you buy.',
+  'home.hero.subtitle': 'One selfie. 9 K-beauty makeup looks in 60 seconds — free AI personal color and makeup analysis from Seoul, Korea.',
   // free-pivot home redesign (2026-06-29) new keys
   'home.hero.uploadCta': 'Upload your selfie — free',
   'home.hero.priceSub': '1 free try · then credits from $2.99',

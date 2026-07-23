@@ -18,7 +18,16 @@ export interface ToolMood {
 }
 
 // 운영자 편집 지점: floral: { image: '/mood/perfume-floral.jpg' } 형태로 추가.
-const OVERRIDES: Partial<Record<PerfumeTypeCode, ToolMood>> = {}
+const OVERRIDES: Partial<Record<PerfumeTypeCode, ToolMood>> = {
+  // 2026-07-22 생성(scripts/gen-mood-images.mjs). 향은 눈에 보이지 않으므로
+  // 그 향이 떠오르는 정물/장면으로 간다. 얼굴 없음.
+  floral: { image: '/mood/pt-floral.webp' },
+  citrus: { image: '/mood/pt-citrus.webp' },
+  woody: { image: '/mood/pt-woody.webp' },
+  amber: { image: '/mood/pt-amber.webp' },
+  fresh: { image: '/mood/pt-fresh.webp' },
+  gourmand: { image: '/mood/pt-gourmand.webp' },
+}
 
 export const PERFUME_MOOD: Record<PerfumeTypeCode, ToolMood> = Object.fromEntries(
   PERFUME_TYPE_ORDER.map((c) => [c, OVERRIDES[c] ?? {}]),

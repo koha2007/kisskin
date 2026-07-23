@@ -25,7 +25,7 @@ export default function Head() {
       <meta property="og:url" content="https://kissinskin.net/en/tools/" />
       <meta property="og:title" content="kissinskin Tools · Free K-beauty self-diagnosis" />
       <meta property="og:description" content={desc} />
-      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="en_US" />
@@ -33,7 +33,7 @@ export default function Head() {
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="kissinskin Tools · Free K-beauty self-diagnosis" />
       <meta name="twitter:description" content={desc} />
-      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image-en.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [

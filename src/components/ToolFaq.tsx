@@ -9,7 +9,7 @@ interface Props {
   accentColor?: string
 }
 
-export default function ToolFaq({ title = '자주 묻는 질문', items, accentColor = '#eb4763' }: Props) {
+export default function ToolFaq({ title = '자주 묻는 질문', items, accentColor = '#d8503c' }: Props) {
   return (
     <section className="py-14 md:py-16 bg-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">

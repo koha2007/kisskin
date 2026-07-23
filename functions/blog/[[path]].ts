@@ -33,13 +33,13 @@ const GONE_HTML = `<!doctype html>
 <title>없어진 글입니다 · kissinskin</title>
 <style>
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       font-family:system-ui,-apple-system,"Pretendard",sans-serif;background:#fff;color:#1e293b}
+       font-family:system-ui,-apple-system,"Pretendard",sans-serif;background:#f5efe3;color:#232a52}
   .box{max-width:28rem;padding:2rem;text-align:center}
-  h1{font-size:1.25rem;margin:0 0 .75rem;color:#070953}
-  p{margin:0 0 1.5rem;line-height:1.7;color:#64748b;font-size:.95rem}
-  a{display:inline-block;margin:0 .25rem;padding:.6rem 1.1rem;border-radius:999px;
-    background:#eb4763;color:#fff;text-decoration:none;font-weight:700;font-size:.875rem}
-  a.ghost{background:#fff;color:#070953;border:1px solid #cbd5e1}
+  h1{font-size:1.25rem;margin:0 0 .75rem;color:#232a52}
+  p{margin:0 0 1.5rem;line-height:1.7;color:#6b6558;font-size:.95rem}
+  a{display:inline-block;margin:0 .25rem;padding:.6rem 1.1rem;border-radius:4px;
+    background:#d8503c;color:#fff;text-decoration:none;font-weight:700;font-size:.875rem}
+  a.ghost{background:#fff;color:#232a52;border:1px solid #232a5240}
 </style></head>
 <body><div class="box">
   <h1>이 글은 삭제되었습니다</h1>

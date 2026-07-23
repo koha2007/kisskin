@@ -128,7 +128,7 @@ export default function AboutMakeupAiBodyEn() {
           <p className="mb-6">kissinskin simulates the nine most representative Korean women\'s makeup styles for 2026 (eight makeup looks plus one hair color), all rendered on your device. The essentials of each:</p>
           <div className="space-y-5 not-prose">
             {WOMEN_STYLES_EN.map((s) => (
-              <div key={s.name} className="bg-white rounded-2xl p-5 border border-pink-100">
+              <div key={s.name} className="bg-white rounded-2xl p-5 border border-primary/15">
                 <h3 className="font-extrabold text-primary-dark mb-1">{s.name}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">{s.desc}</p>
               </div>
@@ -174,7 +174,7 @@ export default function AboutMakeupAiBodyEn() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">7. Frequently asked questions</h2>
           <div className="space-y-4">
             {FAQ_EN.map((f) => (
-              <details key={f.q} className="bg-white rounded-2xl p-5 border border-pink-100">
+              <details key={f.q} className="bg-white rounded-2xl p-5 border border-primary/15">
                 <summary className="font-bold text-navy-mid cursor-pointer">{f.q}</summary>
                 <p className="mt-3 text-sm text-slate-600 leading-relaxed">{f.a}</p>
               </details>
@@ -183,7 +183,7 @@ export default function AboutMakeupAiBodyEn() {
         </section>
 
         <section className="mb-14">
-          <div className="bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 rounded-3xl p-8 md:p-10 text-center">
+          <div className="bg-cream border border-primary/15 rounded-lg p-8 md:p-10 text-center">
             <span
               className="material-symbols-outlined text-primary text-5xl mb-4 block"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -196,7 +196,7 @@ export default function AboutMakeupAiBodyEn() {
             </p>
             <a
               href="/analysis/"
-              className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2"
+              className="bg-primary hover:bg-primary-dark transition-colors text-white px-10 py-4 text-lg font-bold inline-flex items-center gap-2"
             >
               {t('tools.common.aiMakeupStart')}
               <span className="material-symbols-outlined">arrow_forward</span>

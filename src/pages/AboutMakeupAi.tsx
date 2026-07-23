@@ -29,10 +29,10 @@ export default function AboutMakeupAi() {
       <main>
 
       {/* Hero */}
-      <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-pink-200/40 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/4 pointer-events-none" />
+      <section className="relative py-16 md:py-24 overflow-hidden bg-cream">
+        
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-primary/25 text-primary text-xs font-bold uppercase tracking-wider mb-6">
             <span className="material-symbols-outlined text-sm">menu_book</span>
             {hero.badge}
           </div>
@@ -46,7 +46,7 @@ export default function AboutMakeupAi() {
       </section>
 
       {/* TOC */}
-      <section className="py-10 bg-white border-y border-pink-100">
+      <section className="py-10 bg-white border-y border-primary/15">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-sm font-extrabold text-slate-400 uppercase tracking-widest mb-4">{hero.tocLabel}</h2>
           <ol className="grid md:grid-cols-2 gap-y-2 gap-x-6 text-sm">
@@ -97,7 +97,7 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
             <p className="mb-6">kissinskin은 2026년 기준 가장 대표적인 9가지 여성 K-뷰티 스타일을 온디바이스 시뮬레이션으로 제공합니다. 각 스타일의 핵심을 정리합니다.</p>
             <div className="space-y-5 not-prose">
               {WOMEN_STYLES.map(s => (
-                <div key={s.name} className="bg-white rounded-2xl p-5 border border-pink-100">
+                <div key={s.name} className="bg-white rounded-2xl p-5 border border-primary/15">
                   <h3 className="font-extrabold text-primary-dark mb-1">{s.name} <span className="text-xs font-mono text-slate-400 ml-1">{s.en}</span></h3>
                   <p className="text-sm text-slate-600 leading-relaxed">{s.desc}</p>
                 </div>
@@ -147,7 +147,7 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
             <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">7. 자주 묻는 질문</h2>
             <div className="space-y-4">
               {FAQ.map(f => (
-                <details key={f.q} className="bg-white rounded-2xl p-5 border border-pink-100">
+                <details key={f.q} className="bg-white rounded-2xl p-5 border border-primary/15">
                   <summary className="font-bold text-navy-mid cursor-pointer">{f.q}</summary>
                   <p className="mt-3 text-sm text-slate-600 leading-relaxed">{f.a}</p>
                 </details>
@@ -157,11 +157,11 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
 
           {/* CTA */}
           <section className="mb-14">
-            <div className="bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 rounded-3xl p-8 md:p-10 text-center">
+            <div className="bg-cream border border-primary/15 rounded-lg p-8 md:p-10 text-center">
               <span className="material-symbols-outlined text-primary text-5xl mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-navy mb-3">이론은 충분히 이해하셨나요?</h2>
               <p className="text-slate-600 mb-6 max-w-lg mx-auto text-sm md:text-base">직접 본인 얼굴에 6가지 스타일을 시뮬레이션해 보세요. 무엇이 가장 잘 어울리는지 바로 확인할 수 있습니다.</p>
-              <a href="/analysis/" className="bg-gradient-to-r from-primary to-pink-500 text-white px-10 py-4 rounded-full text-lg font-bold shadow-xl shadow-primary/25 inline-flex items-center gap-2">
+              <a href="/analysis/" className="bg-primary hover:bg-primary-dark transition-colors text-white px-10 py-4 text-lg font-bold inline-flex items-center gap-2">
                 {t('tools.common.aiMakeupStart')}
                 <span className="material-symbols-outlined">arrow_forward</span>
               </a>

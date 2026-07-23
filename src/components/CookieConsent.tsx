@@ -93,10 +93,10 @@ export default function CookieConsent() {
       aria-label={t.title}
       className="fixed bottom-0 inset-x-0 z-[100] p-3 md:p-4 pointer-events-none"
     >
-      <div className="max-w-3xl mx-auto bg-white border border-slate-200 shadow-[0_-4px_24px_rgba(15,23,42,0.08)] rounded-2xl p-4 md:p-5 pointer-events-auto">
+      <div className="max-w-3xl mx-auto bg-[#fffdf8] border border-navy/15 shadow-[0_-4px_24px_rgba(35,42,82,0.10)] rounded p-4 md:p-5 pointer-events-auto">
         <div className="flex flex-col md:flex-row gap-4 md:items-start">
           <div className="flex-1 min-w-0">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-1.5">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 mb-1.5">
               {t.title}
             </div>
             <p className="text-sm text-slate-700 leading-relaxed">{t.body}</p>
@@ -122,14 +122,14 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => decide('denied')}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-navy border border-slate-300 hover:border-navy rounded-full transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-navy border border-navy/20 hover:border-navy rounded transition-colors"
             >
               {t.deny}
             </button>
             <button
               type="button"
               onClick={() => decide('granted')}
-              className="px-4 py-2 text-sm font-semibold bg-navy text-white hover:bg-navy-mid rounded-full transition-colors"
+              className="px-4 py-2 text-sm font-semibold bg-navy text-white hover:bg-navy-mid rounded transition-colors"
             >
               {t.accept}
             </button>

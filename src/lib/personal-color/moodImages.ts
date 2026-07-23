@@ -16,7 +16,14 @@ export interface SeasonMood {
 }
 
 // 운영자 편집 지점: spring: { image: '/mood/pc-spring.jpg' } 형태로 추가.
-const OVERRIDE_IMAGES: Partial<Record<SeasonCode, string>> = {}
+const OVERRIDE_IMAGES: Partial<Record<SeasonCode, string>> = {
+  // 2026-07-22 생성(scripts/gen-mood-images.mjs). 얼굴이 아니라 **계절 팔레트**가 주인공이다
+  // — 색 자체가 진단 내용이라, 인물을 세우면 오히려 그 색이 안 보인다.
+  spring: '/mood/pc-spring.webp',
+  summer: '/mood/pc-summer.webp',
+  autumn: '/mood/pc-autumn.webp',
+  winter: '/mood/pc-winter.webp',
+}
 
 const PALETTES: Record<SeasonCode, { label: string; hex: string }[]> = {
   spring: [

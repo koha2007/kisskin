@@ -11,7 +11,7 @@ export interface IdentityCardData {
   identityLine: string
   /** 해시태그 3~5개 (# 포함, nowrap 칩) */
   hashtags: string[]
-  /** 배경 그라데이션 [시작(navy #070953), 끝(유형색)] */
+  /** 배경 그라데이션 [시작(navy #232a52), 끝(유형색)] */
   gradient: [string, string]
   /** 영문 닉네임 (선택, EN 카드용 — 추후 i18n 패스에서 채움) */
   nicknameEn?: string
@@ -20,4 +20,4 @@ export interface IdentityCardData {
 }
 
 /** 모든 카드 그라데이션 시작점 — navy (FINAL §1, §3-6) */
-export const CARD_NAVY = '#070953'
+export const CARD_NAVY = '#232a52'

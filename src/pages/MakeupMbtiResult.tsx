@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER, type MbtiCode } from '../lib/makeup-mbti/types'
+import { computeTypeConfidence, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { MBTI_MOOD } from '../lib/makeup-mbti/moodImages'
+import { LOOK_NAME_TO_ID } from '../lib/makeup-mbti/groupColors'
+import { LOOK_IMAGES } from '../lib/makeup/lookImages'
+import type { MakeupStyleId } from '../lib/makeup/styles'
 import { MBTI_RECOMMENDATIONS } from '../lib/recommendations/makeup-mbti'
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import RegionToggle from '../components/RegionToggle'
@@ -11,19 +15,27 @@ import ToolFaq, { MBTI_FAQ_BASE, MBTI_FAQ_BASE_EN } from '../components/ToolFaq'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
-import ResultGrid, {
-  MoodCard,
-  IconCard,
-  TipCard,
-  AxisCard,
-  AccordionCard,
-  BannerCard,
-} from '../components/result-grid/ResultGrid'
+import ToolLongform from '../components/tools/ToolLongform'
+import BentoGrid, {
+  BentoPhoto,
+  BentoFacts,
+  BentoNote,
+  BentoAxes,
+  BentoBanner,
+  insertScattered,
+  scatterSlot,
+} from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Props {
   code: MbtiCode
+}
+
+// 유형의 추천 룩 → 실제 결과 사진. moodImages 가 채워지면 그쪽이 우선한다.
+function lookPhoto(name: string): string | undefined {
+  const id = LOOK_NAME_TO_ID[name] as MakeupStyleId | undefined
+  return id ? LOOK_IMAGES[id]?.after : undefined
 }
 
 export default function MakeupMbtiResult({ code }: Props) {
@@ -43,6 +55,7 @@ export default function MakeupMbtiResult({ code }: Props) {
   const displayName = isEn ? en.enPersona : type.koName
   const tagline = isEn ? en.tagline : type.tagline
   const detailParagraphs = isEn ? en.detailParagraphs : type.detailParagraphs
+  const LF_EYEBROW = isEn ? 'Makeup MBTI · In depth' : '메이크업 MBTI · 자세히'
   const traits = isEn ? en.traits : type.traits
   const signature = isEn ? en.signature : type.signature
   const recWomenReason = isEn ? en.recommended.women.reason : type.recommended.women.reason
@@ -55,26 +68,31 @@ export default function MakeupMbtiResult({ code }: Props) {
     if (typeof window === 'undefined') return
     const flag = sessionStorage.getItem('makeup-mbti-answers')
     if (!flag) return
+    // 지우기 전에 실제 응답으로 일치도를 계산한다. 숫자를 만들어 내지 않는다.
+    try {
+      const parsed = JSON.parse(flag) as QuizOption['letter'][]
+      if (Array.isArray(parsed)) setConfidence(computeTypeConfidence(parsed))
+    } catch { /* 형식이 깨졌으면 그냥 안 보여준다 */ }
     sessionStorage.removeItem('makeup-mbti-answers')
     const raf = requestAnimationFrame(() => setConfetti(true))
     const hide = window.setTimeout(() => setConfetti(false), 1800)
     return () => { cancelAnimationFrame(raf); window.clearTimeout(hide) }
   }, [])
 
-  const accent = type.primaryColor
-  // Rotate the type's two signature colors as soft card tints so the grid reads
-  // as a moodboard rather than a wall of identical white cards (재설계 지시 §3).
-  const tints = [type.primaryColor, type.accentColor, type.card.gradient[1]]
-  const tint = (i: number) => tints[i % tints.length]
+  // 응답 일치도 — 퀴즈를 방금 푼 사람에게만 뜬다(검색으로 바로 들어오면 근거가 없어 안 뜬다).
+  const [confidence, setConfidence] = useState<number | null>(null)
 
-  // 제품 카드가 그리드 맨 뒤라 2단 masonry 바닥에 깔렸다(affiliate_click 28일 0건).
-  // 대표 1장만 상단으로 올리고 나머지는 원래 자리에 둔다.
+  const accent = type.primaryColor
+
+  // ④ 제품 카드는 맨 뒤에 몰아두지 않고 유형 코드 해시로 격자 안에 흩는다.
+  // 늘 마지막 자리에 두었더니 affiliate_click 이 28일간 0건이었다(마소니 18/20번째).
+  // 순수 랜덤이 아니라 결정적 분산이라 같은 페이지는 항상 같은 자리 → CLS 0, GA4 측정 가능.
   const recs = MBTI_RECOMMENDATIONS[type.code] ?? []
-  const [leadRec, ...restRecs] = recs
 
   const L = isEn
     ? {
-        axisTitle: 'Your axes', sigTitle: 'Signature look', match: 'Compatible type', contrast: 'Contrast type',
+        axisTitle: 'Your axes', sigTitle: 'Signature look', match: 'Compatible', contrast: 'Contrast',
+        traitsTitle: 'What defines you', matchTitle: 'Type chemistry',
         avoid: 'Pitfall to avoid', boost: 'Play to your strength', look: 'Recommended look',
         more: 'My story', allTypes: 'All 16 Makeup MBTI types', me: i18n('tools.common.me'),
         retake: 'Retake', save: 'Save image', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
@@ -84,6 +102,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       }
     : {
         axisTitle: '나의 4가지 축', sigTitle: '시그니처 룩', match: '잘 맞는 유형', contrast: '대조되는 유형',
+        traitsTitle: '나를 설명하는 것', matchTitle: '유형 궁합',
         avoid: '피해야 할 함정', boost: '강점을 살리는 법', look: '추천 룩',
         more: '나에 대한 이야기', allTypes: '16가지 메이크업 MBTI 전체 보기', me: i18n('tools.common.me'),
         retake: '다시 진단', save: '이미지 저장하기', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
@@ -106,6 +125,76 @@ export default function MakeupMbtiResult({ code }: Props) {
         { label: '루틴', left: '일관 J', right: '즉흥 P', value: type.axisScores.p },
       ]
 
+  // ⑤ 벤토 타일 — 정보의 종류가 칸 크기를 정한다.
+  // 예전엔 `시그니처 · 립/아이/베이스/블러쉬` 가 카드 4장, `추천 룩 · 여성/남성` 이 2장,
+  // 특징이 3~4장이라 한 줄짜리 회색 박스만 10개 넘게 깔렸다. 전부 BentoFacts 한 장에
+  // 행으로 접어 타일 수를 절반 이하로 줄인다.
+  const baseTiles = [
+    <BentoPhoto
+      key="photo"
+      // 롱폼 본문이 이미 mood.image 를 크게 쓰고 있다. 여기까지 같은 사진을 또 쓰면
+      // 한 페이지에 동일 이미지가 두 번 나오므로 추천 룩 실제 결과 사진을 우선한다.
+      image={lookPhoto(type.recommended.women.primary) ?? mood.image}
+      caption={tagline}
+      emoji={type.emoji}
+      gradient={type.card.gradient}
+    />,
+    <BentoAxes key="axes" title={L.axisTitle} axes={axes} accent={accent} />,
+    <BentoFacts
+      key="signature"
+      title={L.sigTitle}
+      accent={accent}
+      rows={[
+        { label: L.lip, text: signature.lip },
+        { label: L.eye, text: signature.eye },
+        { label: L.base, text: signature.base },
+        { label: L.blush, text: signature.blush },
+      ]}
+    />,
+    <BentoFacts
+      key="traits"
+      title={L.traitsTitle}
+      accent={accent}
+      rows={traits.map((tr) => ({ label: tr.title, text: tr.desc }))}
+    />,
+    <BentoNote key="avoid" icon="warning" label={L.avoid} text={avoidTip} accent={accent} />,
+    <BentoNote key="boost" icon="lightbulb" label={L.boost} text={boostTip} accent={accent} />,
+    <BentoFacts
+      key="look"
+      title={L.look}
+      accent={accent}
+      rows={[
+        { label: L.female, text: `${type.recommended.women.primary} — ${recWomenReason}` },
+        { label: L.male, text: `${type.recommended.men.primary} — ${recMenReason}` },
+      ]}
+    />,
+    <BentoFacts
+      key="match"
+      title={L.matchTitle}
+      accent={accent}
+      rows={[
+        { label: L.match, text: `${isEn ? goodEn.enPersona : good.koName} (${good.code})` },
+        { label: L.contrast, text: `${isEn ? oppEn.enPersona : opp.koName} (${opp.code})` },
+      ]}
+    />,
+  ]
+
+  const tiles = insertScattered(
+    baseTiles,
+    recs.map((item, i) => (
+      <ProductGridCard
+        key={`prod-${i}`}
+        item={item}
+        accent={accent}
+        pageType="mbti"
+        pageSlug={type.code}
+        span="sm"
+        slot={scatterSlot(type.code, i, recs.length, baseTiles.length)}
+      />
+    )),
+    type.code,
+  )
+
   return (
     <div className="font-display bg-background-light min-h-screen">
       <style>{styles}</style>
@@ -120,6 +209,31 @@ export default function MakeupMbtiResult({ code }: Props) {
             <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{type.code}</p>
             <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{displayName}</h1>
             <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
+
+            {/* 응답 일치도 — BeautySpark 가 결과에 "94% Match" 를 붙여 공유 동기를 만드는 장치를
+                가져왔다. 다만 저쪽 숫자가 무엇을 재는지는 알 수 없으므로 그대로 흉내내지 않고,
+                **사용자의 실제 8문항 응답이 이 유형 쪽으로 얼마나 일관되게 기울었는지**를 계산해
+                쓴다. 퀴즈를 풀지 않고 검색으로 바로 들어온 방문자에겐 근거가 없으므로 뜨지 않는다.
+                (가짜 평점 4.8/150 을 올렸다가 정책 위반으로 내린 전례를 반복하지 않는다.) */}
+            {confidence !== null && (
+              <div className="mb-6 inline-flex flex-col items-center gap-1">
+                <span
+                  className="inline-flex items-baseline gap-1.5 border px-4 py-2"
+                  style={{ borderColor: `${type.primaryColor}55`, background: `${type.primaryColor}0f` }}
+                >
+                  <b className="t-h2 tabular-nums" style={{ color: type.primaryColor }}>{confidence}%</b>
+                  <span className="t-caption font-bold text-navy">
+                    {isEn ? 'answer consistency' : '응답 일치도'}
+                  </span>
+                </span>
+                <span className="t-label text-slate-500">
+                  {isEn
+                    ? 'How consistently your 8 answers pointed to this type'
+                    : '8문항 응답이 이 유형 쪽으로 기운 정도'}
+                </span>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-2 justify-center mb-8">
               {/* 영문 페이지에 한글 해시태그(#ESTJ메이크업 …)가 그대로 노출되고 있었다. */}
               {(isEn ? en.hashtags : type.card.hashtags).map(k => (
@@ -127,71 +241,56 @@ export default function MakeupMbtiResult({ code }: Props) {
               ))}
             </div>
             {!isEn && (
-              <IdentityCard label="메이크업 MBTI" emoji={type.emoji} card={type.card} fileSlug={`makeup-mbti-${type.slug}`} saveLabel={L.save} />
+              <IdentityCard
+                label="메이크업 MBTI"
+                emoji={type.emoji}
+                card={type.card}
+                fileSlug={`makeup-mbti-${type.slug}`}
+                saveLabel={L.save}
+                share={{
+                  url: `https://kissinskin.net${basePath}/${type.slug}/`,
+                  text: isEn
+                    ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
+                    : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`,
+                  title: isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`,
+                }}
+                shareLabel={isEn ? 'Share' : '공유하기'}
+              />
             )}
             <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border-2 border-pink-100 hover:border-primary px-6 py-2.5 rounded-full font-bold text-sm text-navy-mid">
+              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
               </a>
             </div>
           </div>
         </section>
 
-        {/* Masonry grid — 산문을 카드 1개=정보 1조각으로 분해 (재설계 지시 §3) */}
+        {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
+            이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다
+            정보 한 조각 취급을 받아 유형 페이지들이 서로 85% 유사해졌었다(2026-07-14
+            색인 이탈 62건). 16Personalities 처럼 긴 단일 컬럼으로 낸다. */}
+        <ToolLongform
+          eyebrow={LF_EYEBROW}
+          title={L.more}
+          paragraphs={detailParagraphs}
+          image={mood.image}
+          imageAlt={tagline}
+        />
+
+        {/* 결과 벤토 — 사진·데이터 패널은 넓게, 한 줄 팩트는 한 타일에 묶어서 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {AFFILIATE_ENABLED && <RegionToggle pageType="mbti" className="mb-7" />}
-            <ResultGrid>
-              <MoodCard image={mood.image} caption={tagline} emoji={type.emoji} gradient={type.card.gradient} />
-
-              <AxisCard title={L.axisTitle} axes={axes} accent={accent} tint={tint(0)} />
-
-              {traits.map((tr, i) => (
-                <IconCard key={`trait-${i}`} icon={tr.icon} label={tr.title} text={tr.desc} accent={accent} tint={tint(i + 1)} />
-              ))}
-
-              {leadRec && (
-                <ProductGridCard item={leadRec} accent={accent} pageType="mbti" pageSlug={type.code} />
-              )}
-
-              <IconCard icon="favorite" label={`${L.sigTitle} · ${L.lip}`} text={signature.lip} accent={accent} tint={tint(0)} />
-              <IconCard icon="visibility" label={`${L.sigTitle} · ${L.eye}`} text={signature.eye} accent={accent} tint={tint(1)} />
-              <IconCard icon="auto_fix_high" label={`${L.sigTitle} · ${L.base}`} text={signature.base} accent={accent} tint={tint(2)} />
-              <IconCard icon="spa" label={`${L.sigTitle} · ${L.blush}`} text={signature.blush} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="warning" label={L.avoid} text={avoidTip} accent={accent} tint={tint(2)} />
-              <TipCard tip={boostTip} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="female" label={`${L.look} · ${L.female}`} text={`${type.recommended.women.primary} — ${recWomenReason}`} accent={accent} tint={tint(0)} />
-              <IconCard icon="male" label={`${L.look} · ${L.male}`} text={`${type.recommended.men.primary} — ${recMenReason}`} accent={accent} tint={tint(1)} />
-
-              <IconCard
-                icon="favorite_border"
-                label={L.match}
-                text={`${isEn ? goodEn.enPersona : good.koName} (${good.code}) · ${isEn ? oppEn.enPersona : opp.koName} (${opp.code}) ${isEn ? '— a contrast to learn from' : '— 배울 점 있는 반대 유형'}`}
-                accent={accent}
-                tint={tint(2)}
-              />
-
-              {restRecs.map((item, i) => (
-                <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="mbti" pageSlug={type.code} />
-              ))}
-
-              {/* 영문 본문(en.detailParagraphs)이 없어서 `!isEn` 으로 막아뒀던 자리다.
-                  그 결과 영문 유형 페이지는 본문이 통째로 비어 16개가 서로 거의 같아졌고,
-                  구글이 전부 색인에서 버렸다. 이제 양쪽 다 본문이 있다. */}
-              {detailParagraphs.length > 0 && (
-                <AccordionCard title={L.more} paragraphs={detailParagraphs} accent={accent} />
-              )}
-
-              <BannerCard
+            <BentoGrid>
+              {tiles}
+              <BentoBanner
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
                 gradient={type.card.gradient}
               />
-            </ResultGrid>
+            </BentoGrid>
             {AFFILIATE_ENABLED && (
               <p className="mt-7 text-center text-[11px] text-slate-400 max-w-2xl mx-auto leading-relaxed">
                 {i18n(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}
@@ -260,7 +359,7 @@ function ConfettiBurst() {
   const [bits, setBits] = useState<ConfettiBit[]>([])
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
-      const colors = ['#eb4763', '#f472b6', '#c084fc', '#fbbf24', '#60a5fa']
+      const colors = ['#d8503c', '#c79340', '#4e9fa6', '#8e6e9e', '#7e9b6a']
       setBits(Array.from({ length: 24 }, (_, i) => ({
         left: Math.random() * 100,
         delay: Math.random() * 0.3,

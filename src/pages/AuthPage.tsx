@@ -20,6 +20,47 @@ function safeNext(): string | null {
   return raw
 }
 
+/**
+ * 브랜드 팔레트 토큰 (2026-07-23).
+ * 로그인은 '외피'라 브랜드(네이비+핑크)를 쓴다. 힐다 크림/버밀리언은
+ * 무료 도구·콘텐츠 본문 전용이다(src/index.css 팔레트 2층 구조 주석 참고).
+ * 이 페이지는 인라인 스타일 덩어리라 Tailwind 토큰(@theme)이 닿지 않으므로
+ * 값을 한 곳에 모아 index.css 의 @theme 과 1:1 로 대응시킨다.
+ */
+const C = {
+  cream: '#f8f6f6',
+  surface: '#ffffff',
+  navy: '#070953',
+  muted: '#6b6f8c',
+  line: 'rgba(7, 9, 83, 0.16)',
+  primary: '#eb4763',
+  primaryDark: '#c9304a',
+  mustard: '#c79340',
+  sage: '#7e9b6a',
+} as const
+
+const R = { sm: '4px', md: '4px' } as const
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '12px 14px',
+  borderRadius: R.sm,
+  border: `1px solid ${C.line}`,
+  background: '#fff',
+  color: C.navy,
+  fontSize: '15px',
+  outline: 'none',
+  boxSizing: 'border-box',
+}
+
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  fontSize: '13px',
+  color: C.muted,
+  marginBottom: '6px',
+  fontWeight: 500,
+}
+
 interface AuthPageProps {
   onNavigate?: (page: 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth') => void
 }
@@ -119,7 +160,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   return (
     <div style={{
       minHeight: '100dvh',
-      background: 'linear-gradient(135deg, #070953 0%, #121570 50%, #070953 100%)',
+      background: C.cream,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -132,24 +173,25 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         onClick={() => nav('home')}
       >
         <img src="/logo.png" alt="kissinskin" style={{ width: 40, height: 40, borderRadius: '50%' }} />
-        <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#fff' }}>kissinskin</span>
+        {/* 워드마크는 제목이 아니라 브랜드 록업이다 — 네비(ToolsLayout·HomePage)와 같은
+            산세리프 볼드로 두고, t-h2(세리프) 를 쓰지 않는다 */}
+        <span className="text-xl font-bold tracking-tight" style={{ color: C.navy }}>kissinskin</span>
       </div>
 
       {/* Auth Card */}
       <div style={{
-        background: 'rgba(18, 21, 112, 0.8)',
-        backdropFilter: 'blur(20px)',
-        borderRadius: '16px',
+        background: C.surface,
+        borderRadius: R.md,
         padding: 'clamp(20px, 5vw, 32px)',
         width: '100%',
         maxWidth: '400px',
-        border: '1px solid rgba(148, 163, 184, 0.2)',
+        border: `1px solid ${C.line}`,
       }}>
         {/* Tab Toggle */}
         <div style={{
           display: 'flex',
-          background: 'rgba(7, 9, 83, 0.6)',
-          borderRadius: '10px',
+          background: C.cream,
+          borderRadius: R.sm,
           padding: '4px',
           marginBottom: '24px',
         }}>
@@ -158,14 +200,14 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             style={{
               flex: 1,
               padding: '10px',
-              borderRadius: '8px',
+              borderRadius: R.sm,
               border: 'none',
               fontSize: '14px',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.2s',
-              background: mode === 'login' ? 'linear-gradient(135deg, #ec4899, #f472b6)' : 'transparent',
-              color: mode === 'login' ? '#fff' : '#94a3b8',
+              background: mode === 'login' ? C.navy : 'transparent',
+              color: mode === 'login' ? '#fff' : C.muted,
             }}
           >
             {t('auth.login')}
@@ -175,14 +217,14 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             style={{
               flex: 1,
               padding: '10px',
-              borderRadius: '8px',
+              borderRadius: R.sm,
               border: 'none',
               fontSize: '14px',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.2s',
-              background: mode === 'signup' ? 'linear-gradient(135deg, #ec4899, #f472b6)' : 'transparent',
-              color: mode === 'signup' ? '#fff' : '#94a3b8',
+              background: mode === 'signup' ? C.navy : 'transparent',
+              color: mode === 'signup' ? '#fff' : C.muted,
             }}
           >
             {t('auth.signup')}
@@ -194,15 +236,15 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           display: 'flex',
           alignItems: 'flex-start',
           gap: '10px',
-          background: 'rgba(251, 191, 36, 0.12)',
-          border: '1px solid rgba(251, 191, 36, 0.45)',
-          borderRadius: '10px',
+          background: 'rgba(199, 147, 64, 0.12)',
+          border: `1px solid ${C.mustard}55`,
+          borderRadius: R.sm,
           padding: '12px 14px',
           marginBottom: '20px',
         }}>
           <span
             className="material-symbols-outlined"
-            style={{ color: '#fbbf24', fontSize: '20px', lineHeight: 1.2, marginTop: '1px', flexShrink: 0 }}
+            style={{ color: C.mustard, fontSize: '20px', lineHeight: 1.2, marginTop: '1px', flexShrink: 0 }}
             aria-hidden="true"
           >
             warning
@@ -211,7 +253,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             margin: 0,
             fontSize: '12.5px',
             lineHeight: 1.55,
-            color: '#fde68a',
+            color: '#7a5a20',
             fontWeight: 500,
           }}>
             {t('auth.emailNotice')}
@@ -221,7 +263,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px', fontWeight: 500 }}>
+            <label style={labelStyle}>
               {t('auth.email')}
             </label>
             <input
@@ -229,23 +271,13 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="example@email.com"
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                borderRadius: '10px',
-                border: '1px solid rgba(148, 163, 184, 0.3)',
-                background: 'rgba(7, 9, 83, 0.6)',
-                color: '#fff',
-                fontSize: '14px',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
+              style={inputStyle}
             />
           </div>
 
           {mode !== 'forgot' && (
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px', fontWeight: 500 }}>
+              <label style={labelStyle}>
                 {t('auth.password')}
               </label>
               <input
@@ -253,24 +285,14 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                style={{
-                  width: '100%',
-                  padding: '12px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(148, 163, 184, 0.3)',
-                  background: 'rgba(7, 9, 83, 0.6)',
-                  color: '#fff',
-                  fontSize: '14px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
+                style={inputStyle}
               />
             </div>
           )}
 
           {mode === 'signup' && (
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '13px', color: '#94a3b8', marginBottom: '6px', fontWeight: 500 }}>
+              <label style={labelStyle}>
                 {t('auth.confirmPassword')}
               </label>
               <input
@@ -278,17 +300,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                style={{
-                  width: '100%',
-                  padding: '12px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(148, 163, 184, 0.3)',
-                  background: 'rgba(7, 9, 83, 0.6)',
-                  color: '#fff',
-                  fontSize: '14px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
+                style={inputStyle}
               />
             </div>
           )}
@@ -296,10 +308,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           {error && (
             <div style={{
               padding: '10px 14px',
-              borderRadius: '8px',
-              background: 'rgba(239, 68, 68, 0.15)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              color: '#fca5a5',
+              borderRadius: R.sm,
+              background: 'rgba(176, 62, 45, 0.1)',
+              border: `1px solid ${C.primaryDark}44`,
+              color: C.primaryDark,
               fontSize: '13px',
               marginBottom: '16px',
             }}>
@@ -310,10 +322,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           {success && (
             <div style={{
               padding: '10px 14px',
-              borderRadius: '8px',
-              background: 'rgba(34, 197, 94, 0.15)',
-              border: '1px solid rgba(34, 197, 94, 0.3)',
-              color: '#86efac',
+              borderRadius: R.sm,
+              background: 'rgba(126, 155, 106, 0.14)',
+              border: `1px solid ${C.sage}66`,
+              color: '#4c6339',
               fontSize: '13px',
               marginBottom: '16px',
             }}>
@@ -327,9 +339,9 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             style={{
               width: '100%',
               padding: '12px',
-              borderRadius: '10px',
+              borderRadius: R.sm,
               border: 'none',
-              background: loading ? '#64748b' : 'linear-gradient(135deg, #ec4899, #f472b6)',
+              background: loading ? C.muted : C.primary,
               color: '#fff',
               fontSize: '15px',
               fontWeight: 700,
@@ -348,8 +360,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#94a3b8',
+                color: C.muted,
                 fontSize: '13px',
+                textDecoration: 'underline',
+                textUnderlineOffset: '3px',
                 cursor: 'pointer',
                 marginTop: '12px',
                 width: '100%',
@@ -366,8 +380,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#94a3b8',
+                color: C.muted,
                 fontSize: '13px',
+                textDecoration: 'underline',
+                textUnderlineOffset: '3px',
                 cursor: 'pointer',
                 marginTop: '12px',
                 width: '100%',
@@ -386,9 +402,9 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           gap: '12px',
           margin: '20px 0',
         }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(148, 163, 184, 0.3)' }} />
-          <span style={{ fontSize: '12px', color: '#94a3b8' }}>OR</span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(148, 163, 184, 0.3)' }} />
+          <div style={{ flex: 1, height: '1px', background: C.line }} />
+          <span className="t-eyebrow" style={{ color: C.muted }}>OR</span>
+          <div style={{ flex: 1, height: '1px', background: C.line }} />
         </div>}
 
         {/* Google Login - 비밀번호 찾기 모드에서는 숨김 */}
@@ -396,12 +412,12 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           /* 우리 앱(구형 APK): 외부 브라우저 안내는 무의미 → 이메일 로그인 유도 */
           <div style={{
             padding: '14px',
-            borderRadius: '10px',
-            background: 'rgba(148, 163, 184, 0.12)',
-            border: '1px solid rgba(148, 163, 184, 0.25)',
+            borderRadius: R.sm,
+            background: C.cream,
+            border: `1px solid ${C.line}`,
             textAlign: 'center',
           }}>
-            <p style={{ color: '#94a3b8', fontSize: '13px', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+            <p style={{ color: C.muted, fontSize: '13px', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
               {t('auth.appUseEmail')}
             </p>
           </div>
@@ -409,12 +425,12 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           /* 인앱 브라우저: Google OAuth 차단됨 → 외부 브라우저 안내 */
           <div style={{
             padding: '14px',
-            borderRadius: '10px',
-            background: 'rgba(251, 191, 36, 0.12)',
-            border: '1px solid rgba(251, 191, 36, 0.3)',
+            borderRadius: R.sm,
+            background: 'rgba(199, 147, 64, 0.12)',
+            border: `1px solid ${C.mustard}55`,
             textAlign: 'center',
           }}>
-            <p style={{ color: '#fbbf24', fontSize: '13px', margin: '0 0 12px', lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+            <p style={{ color: '#7a5a20', fontSize: '13px', margin: '0 0 12px', lineHeight: 1.5, whiteSpace: 'pre-line' }}>
               {t('auth.inAppBrowser')}
             </p>
             <button
@@ -435,9 +451,9 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               }}
               style={{
                 padding: '10px 20px',
-                borderRadius: '8px',
+                borderRadius: R.sm,
                 border: 'none',
-                background: 'linear-gradient(135deg, #ec4899, #f472b6)',
+                background: C.primary,
                 color: '#fff',
                 fontSize: '13px',
                 fontWeight: 600,
@@ -462,10 +478,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             style={{
               width: '100%',
               padding: '12px',
-              borderRadius: '10px',
-              border: '1px solid rgba(148, 163, 184, 0.3)',
+              borderRadius: R.sm,
+              border: `1px solid ${C.line}`,
               background: '#fff',
-              color: '#333',
+              color: C.navy,
               fontSize: '14px',
               fontWeight: 600,
               cursor: 'pointer',

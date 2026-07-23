@@ -17,7 +17,7 @@ export default function Head() {
         property="og:description"
         content="Reach kissinskin for support, billing, privacy, and business inquiries."
       />
-      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:locale:alternate" content="ko_KR" />
@@ -27,7 +27,7 @@ export default function Head() {
         name="twitter:description"
         content="Support, billing, privacy, and business inquiries."
       />
-      <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
+      <meta name="twitter:image" content="https://kissinskin.net/og-image-en.png" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

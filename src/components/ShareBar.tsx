@@ -118,7 +118,7 @@ export default function ShareBar({
           <button
             type="button"
             onClick={copyLink}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-slate-200 hover:border-primary hover:shadow-md text-navy-mid hover:text-primary text-sm font-semibold transition-all"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white border border-slate-200 hover:border-primary text-navy-mid hover:text-primary t-caption font-bold transition-colors"
             aria-label={isEn ? 'Copy link' : '링크 복사'}
           >
             <span className="material-symbols-outlined text-[18px]">{copied ? 'check' : 'link'}</span>
@@ -130,7 +130,7 @@ export default function ShareBar({
             <button
               type="button"
               onClick={nativeShare}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white border border-slate-200 hover:border-primary hover:shadow-md text-navy-mid hover:text-primary text-sm font-semibold transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white border border-slate-200 hover:border-primary text-navy-mid hover:text-primary t-caption font-bold transition-colors"
               aria-label={isEn ? 'Share' : '공유하기'}
             >
               <span className="material-symbols-outlined text-[18px]">ios_share</span>
@@ -143,7 +143,7 @@ export default function ShareBar({
             <button
               type="button"
               onClick={kakaoShare}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#FEE500] text-[#191919] hover:bg-[#fdd835] hover:shadow-md text-sm font-semibold transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[#FEE500] text-[#191919] hover:bg-[#fdd835] t-caption font-bold transition-colors"
               aria-label="카카오톡으로 공유"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-[15px] h-[15px]">
@@ -158,7 +158,7 @@ export default function ShareBar({
             href={twitterUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-black text-white hover:bg-zinc-800 hover:shadow-md text-sm font-semibold transition-all"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-black text-white hover:bg-zinc-800 t-caption font-bold transition-colors"
             aria-label={isEn ? 'Share on X' : 'X(Twitter)에 공유'}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-[15px] h-[15px]">

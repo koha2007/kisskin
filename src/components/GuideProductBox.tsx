@@ -17,7 +17,7 @@ interface Props {
 // Picks products from the guide's category — no per-guide curation needed.
 // Localized: KO copy on /guides/*, EN copy on /en/guides/* (the Coupang search
 // query stays Korean because Coupang is a Korea-market store).
-export default function GuideProductBox({ category, slug, accentColor = '#eb4763' }: Props) {
+export default function GuideProductBox({ category, slug, accentColor = '#d8503c' }: Props) {
   const { locale } = useI18n()
   const recs = GUIDE_CATEGORY_PRODUCTS[category]
   if (!AFFILIATE_ENABLED || !recs || recs.length === 0) return null

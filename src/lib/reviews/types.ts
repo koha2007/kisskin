@@ -17,14 +17,14 @@ export interface ReviewCategoryMeta {
 }
 
 export const REVIEW_CATEGORIES: ReviewCategoryMeta[] = [
-  { code: 'lip', koLabel: '립 제품', enLabel: 'Lip', emoji: '💋', color: '#f43f5e' },
-  { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#f59e0b' },
-  { code: 'eye', koLabel: '아이 제품', enLabel: 'Eye', emoji: '👁️', color: '#a855f7' },
-  { code: 'skincare', koLabel: '스킨케어', enLabel: 'Skincare', emoji: '💧', color: '#06b6d4' },
-  { code: 'tools', koLabel: '도구', enLabel: 'Tools', emoji: '🖌️', color: '#8b5cf6' },
-  { code: 'vegan', koLabel: '비건', enLabel: 'Vegan', emoji: '🌱', color: '#10b981' },
-  { code: 'budget', koLabel: '가성비', enLabel: 'Budget', emoji: '💰', color: '#3b82f6' },
-  { code: 'mens', koLabel: '남성', enLabel: "Men's", emoji: '🧔', color: '#475569' },
+  { code: 'lip', koLabel: '립 제품', enLabel: 'Lip', emoji: '💋', color: '#d8503c' },
+  { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#c79340' },
+  { code: 'eye', koLabel: '아이 제품', enLabel: 'Eye', emoji: '👁️', color: '#8e6e9e' },
+  { code: 'skincare', koLabel: '스킨케어', enLabel: 'Skincare', emoji: '💧', color: '#4e9fa6' },
+  { code: 'tools', koLabel: '도구', enLabel: 'Tools', emoji: '🖌️', color: '#4a5488' },
+  { code: 'vegan', koLabel: '비건', enLabel: 'Vegan', emoji: '🌱', color: '#7e9b6a' },
+  { code: 'budget', koLabel: '가성비', enLabel: 'Budget', emoji: '💰', color: '#4a5488' },
+  { code: 'mens', koLabel: '남성', enLabel: "Men's", emoji: '🧔', color: '#232a52' },
 ]
 
 export interface ReviewProduct {

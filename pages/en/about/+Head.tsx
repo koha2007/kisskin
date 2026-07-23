@@ -17,7 +17,7 @@ export default function Head() {
         property="og:description"
         content="Indie one-person K-beauty AI site. Editorial, AI, advertising, and privacy policy."
       />
-      <meta property="og:image" content="https://kissinskin.net/og-image.png" />
+      <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:site_name" content="kissinskin" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:locale:alternate" content="ko_KR" />

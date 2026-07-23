@@ -147,3 +147,33 @@ export function computeAxisStrength(answers: QuizOption['letter'][]): {
     p: pct(counts.P, counts.J),
   }
 }
+
+/**
+ * 응답 일치도 (50..100). "당신의 8문항 응답이 이 유형 쪽으로 얼마나 일관되게 기울었나".
+ *
+ * ⚠️ 이건 마케팅용으로 지어낸 점수가 아니라 **사용자의 실제 응답에서 계산한 값**이다.
+ * 예전에 가짜 평점(4.8/150)을 올렸다가 구글 정책 위반으로 내린 적이 있으므로,
+ * 근거 없는 숫자는 화면에 올리지 않는다. 응답이 없으면(검색으로 유형 페이지에 바로
+ * 들어온 경우) 계산할 수 없으므로 null 을 돌려주고, 호출부는 아무것도 그리지 않는다.
+ *
+ * 각 축마다 이긴 쪽의 비율(50~100%)을 구해 4축 평균을 낸다.
+ * 모든 문항이 한쪽으로 쏠리면 100, 정확히 반반이면 50.
+ */
+export function computeTypeConfidence(answers: QuizOption['letter'][]): number | null {
+  if (!answers.length) return null
+  const counts = { E: 0, I: 0, N: 0, S: 0, F: 0, T: 0, P: 0, J: 0 }
+  for (const a of answers) counts[a]++
+  const axis = (a: number, b: number) => {
+    const total = a + b
+    if (!total) return null
+    return (Math.max(a, b) / total) * 100
+  }
+  const parts = [
+    axis(counts.E, counts.I),
+    axis(counts.N, counts.S),
+    axis(counts.F, counts.T),
+    axis(counts.P, counts.J),
+  ].filter((v): v is number => v !== null)
+  if (!parts.length) return null
+  return Math.round(parts.reduce((s, v) => s + v, 0) / parts.length)
+}
