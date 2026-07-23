@@ -192,6 +192,8 @@ export default function PerfumeTypeResult({ code }: Props) {
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
+                tool="perfume_type"
+                slug={t.code}
                 gradient={t.card.gradient}
               />
             </BentoGrid>

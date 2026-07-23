@@ -16,6 +16,7 @@
 // 내용은 위로 정렬된다 — 전형적인 벤토이고, 텍스트 길이가 달라져도 깨지지 않는다.
 
 import { useState, type ReactNode } from 'react'
+import { isInternalTraffic } from '../../lib/internalTraffic'
 
 // 타일 제목 공통 스타일.
 // ⚠️ uppercase / tracking 확장을 붙이지 말 것 — 이 제목들은 대부분 한글이고(`시그니처 룩`,
@@ -313,17 +314,45 @@ export function BentoBanner({
   ctaLabel,
   href,
   gradient,
+  tool,
+  slug,
 }: {
   title: string
   desc: string
   ctaLabel: string
   href: string
   gradient: [string, string]
+  /** GA4 프로모션 추적용 도구 식별자(예: 'personal_color'). 없으면 추적하지 않는다. */
+  tool?: string
+  /** 결과 유형 슬러그. */
+  slug?: string
 }) {
+  /**
+   * 무료 도구 결과 → AI 메이크업으로 넘어가는 유일한 지점이라 측정이 필요하다.
+   *
+   * 2026-06-17 그리드 재설계(b4821e1)에서 ToolUpsellCTA 가 결과 페이지 4종에서
+   * 빠지면서 `select_promotion` 이 5주 넘게 한 번도 발화하지 않았다(GA4 이벤트
+   * 목록에 이름조차 없었다). 그 자리를 이 배너가 대신하고 있었는데 이벤트가
+   * 붙어 있지 않아, 결과를 본 사람 중 몇 명이 넘어가는지 알 수 없었다.
+   *
+   * 이벤트 이름·파라미터는 옛 ToolUpsellCTA 와 똑같이 맞춘다 — 이름을 바꾸면
+   * 5월~6월 데이터와 이어 볼 수 없다. creative_slot 만 'bento_banner' 로 구분한다.
+   */
+  const trackClick = () => {
+    if (!tool || isInternalTraffic()) return
+    ;(window as unknown as { gtag?: (...a: unknown[]) => void }).gtag?.('event', 'select_promotion', {
+      promotion_id: `tool_cta_${tool}`,
+      promotion_name: `${tool} result → AI analysis`,
+      creative_slot: 'bento_banner',
+      items: slug ? [{ item_id: slug, item_name: `${tool}:${slug}` }] : undefined,
+    })
+  }
+
   return (
     <BentoTile span="full">
       <a
         href={href}
+        onClick={trackClick}
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 md:p-6 text-white"
         style={{ background: `linear-gradient(120deg, ${gradient[0]}, ${gradient[1]})` }}
       >

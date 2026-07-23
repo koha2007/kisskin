@@ -188,6 +188,8 @@ export default function PersonalColorResult({ code }: Props) {
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
+                tool="personal_color"
+                slug={t.code}
                 gradient={t.card.gradient}
               />
             </BentoGrid>

@@ -288,6 +288,8 @@ export default function MakeupMbtiResult({ code }: Props) {
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
+                tool="mbti"
+                slug={type.code}
                 gradient={type.card.gradient}
               />
             </BentoGrid>

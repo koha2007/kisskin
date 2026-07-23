@@ -193,6 +193,8 @@ export default function FaceShapeResult({ code }: Props) {
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
+                tool="face_shape"
+                slug={t.code}
                 gradient={t.card.gradient}
               />
             </BentoGrid>
