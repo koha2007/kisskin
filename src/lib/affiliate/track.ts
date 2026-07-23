@@ -25,6 +25,11 @@ export interface AffiliateClickEvent {
   category: string
   pageType: AffiliatePageType
   pageSlug: string
+  /** 결과 벤토에서 이 제품 카드가 앉은 슬롯 번호(0-based).
+   *  제품 카드를 유형 코드 해시로 페이지마다 다른 자리에 앉히기 때문에(배너
+   *  블라인드니스 회피), "몇 번째 자리가 실제로 눌리는가"를 재지 않으면 분산이
+   *  효과가 있었는지 알 수 없다. 순수 랜덤 대신 결정적 분산을 택한 이유가 이것이다. */
+  slot?: number
 }
 
 /** 머천트로 구매 지역을 판정 — GA4 에서 국내/해외 구매 의도를 바로 쪼개 보기 위함. */
@@ -39,6 +44,7 @@ export function trackAffiliateClick(event: AffiliateClickEvent): void {
     category: event.category,
     page_type: event.pageType,
     page_slug: event.pageSlug,
+    slot: event.slot,
     region: regionOf(event.merchant),
     // 어필리에이트 미승인 머천트는 클릭이 나가도 수익이 0이다. GA4 에서 "클릭은 있는데
     // 수익이 없는" 구간을 구분해 볼 수 있어야 승인 우선순위를 판단할 수 있다.

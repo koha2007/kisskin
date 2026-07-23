@@ -10,11 +10,13 @@ import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
 import ToolLongform from '../components/tools/ToolLongform'
-import ResultGrid, {
-  MoodCard,
-  IconCard,
-  BannerCard,
-} from '../components/result-grid/ResultGrid'
+import BentoGrid, {
+  BentoFacts,
+  BentoNote,
+  BentoBanner,
+  insertScattered,
+  scatterSlot,
+} from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -39,15 +41,9 @@ export default function FaceShapeResult({ code }: Props) {
   const basePath = isEn ? '/en/tools/face-shape' : '/tools/face-shape'
 
   const accent = t.primaryColor
-  // Rotate the type's two signature colors as soft card tints so the grid reads
-  // as a moodboard rather than a wall of identical white cards (재설계 지시 §3).
-  const tints = [t.primaryColor, t.accentColor, t.card.gradient[1]]
-  const tint = (i: number) => tints[i % tints.length]
 
-  // 제품 카드가 그리드 맨 뒤라 2단 masonry 바닥에 깔렸다(affiliate_click 28일 0건).
-  // 대표 1장만 상단으로 올리고 나머지는 원래 자리에 둔다.
+  // ④ 제품 카드는 얼굴형 코드 해시로 격자 안에 흩는다(결정적 분산).
   const recs = FS_RECOMMENDATIONS[t.code] ?? []
-  const [leadRec, ...restRecs] = recs
 
   const L = isEn
     ? {
@@ -69,7 +65,69 @@ export default function FaceShapeResult({ code }: Props) {
         brow: '눈썹', lip: '립', blush: '블러쉬', hair: '헤어', glasses: '안경',
       }
 
-  const featureIcons = ['face', 'star', 'auto_awesome', 'verified', 'bolt']
+  // ⑤ 벤토 타일 — 컨투어링 4장·스타일 5장이 전부 따로 회색 박스였다. 각각 한 타일에 접는다.
+  // 무드 사진은 바로 위 롱폼이 이미 본문 안에서 크게 쓰고 있어 여기서 다시 쓰지 않는다.
+  const baseTiles = [
+    <BentoFacts
+      key="features"
+      title={L.feature}
+      accent={accent}
+      span="full"
+      rows={features.map((f, i) => ({ label: `0${i + 1}`, text: f }))}
+    />,
+    <BentoFacts
+      key="contour"
+      title={L.contour}
+      accent={accent}
+      rows={[
+        { label: L.forehead, text: contouring.forehead },
+        { label: L.cheekbone, text: contouring.cheekbone },
+        { label: L.jawline, text: contouring.jawline },
+        { label: L.highlighter, text: contouring.highlighter },
+      ]}
+    />,
+    <BentoFacts
+      key="style"
+      title={L.style}
+      accent={accent}
+      rows={[
+        { label: L.brow, text: recommendedStyle.brow },
+        { label: L.lip, text: recommendedStyle.lip },
+        { label: L.blush, text: recommendedStyle.blush },
+        { label: L.hair, text: recommendedStyle.hair },
+        { label: L.glasses, text: recommendedStyle.glasses },
+      ]}
+    />,
+    <BentoFacts
+      key="look"
+      title={L.look}
+      accent={accent}
+      rows={[
+        { label: L.female, text: t.kissinskin.women },
+        { label: L.male, text: t.kissinskin.men },
+      ]}
+    />,
+    <BentoNote key="reason" icon="recommend" label={L.look} text={kissinskinReason} accent={accent} />,
+    ...avoidStyle.map((a, i) => (
+      <BentoNote key={`avoid-${i}`} icon="do_not_disturb_on" label={L.avoid} text={a} accent={accent} />
+    )),
+  ]
+
+  const tiles = insertScattered(
+    baseTiles,
+    recs.map((item, i) => (
+      <ProductGridCard
+        key={`prod-${i}`}
+        item={item}
+        accent={accent}
+        pageType="face_shape"
+        pageSlug={t.code}
+        span="sm"
+        slot={scatterSlot(t.code, i, recs.length, baseTiles.length)}
+      />
+    )),
+    t.code,
+  )
 
   return (
     <div className="font-display bg-background-light min-h-screen">
@@ -124,53 +182,20 @@ export default function FaceShapeResult({ code }: Props) {
           imageAlt={tagline}
         />
 
-        {/* 보조 무드보드 — 색·제품처럼 카드가 나은 정보만 남긴다 */}
+        {/* 결과 벤토 — 컨투어링·스타일은 한 타일 안 행으로 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {AFFILIATE_ENABLED && <RegionToggle pageType="face_shape" className="mb-7" />}
-            <ResultGrid>
-              <MoodCard image={mood.image} caption={tagline} emoji={t.emoji} gradient={t.card.gradient} />
-
-              {features.map((f, i) => (
-                <IconCard key={`feat-${i}`} icon={featureIcons[i % featureIcons.length]} label={L.feature} text={f} accent={accent} tint={tint(i)} />
-              ))}
-
-              {leadRec && (
-                <ProductGridCard item={leadRec} accent={accent} pageType="face_shape" pageSlug={t.code} />
-              )}
-
-              <IconCard icon="grid_3x3" label={`${L.contour} · ${L.forehead}`} text={contouring.forehead} accent={accent} tint={tint(0)} />
-              <IconCard icon="face" label={`${L.contour} · ${L.cheekbone}`} text={contouring.cheekbone} accent={accent} tint={tint(1)} />
-              <IconCard icon="call_to_action" label={`${L.contour} · ${L.jawline}`} text={contouring.jawline} accent={accent} tint={tint(2)} />
-              <IconCard icon="auto_awesome" label={`${L.contour} · ${L.highlighter}`} text={contouring.highlighter} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="visibility" label={`${L.style} · ${L.brow}`} text={recommendedStyle.brow} accent={accent} tint={tint(1)} />
-              <IconCard icon="favorite" label={`${L.style} · ${L.lip}`} text={recommendedStyle.lip} accent={accent} tint={tint(2)} />
-              <IconCard icon="spa" label={`${L.style} · ${L.blush}`} text={recommendedStyle.blush} accent={accent} tint={tint(3)} />
-              <IconCard icon="content_cut" label={`${L.style} · ${L.hair}`} text={recommendedStyle.hair} accent={accent} tint={tint(4)} />
-              <IconCard icon="eyeglasses" label={`${L.style} · ${L.glasses}`} text={recommendedStyle.glasses} accent={accent} tint={tint(0)} />
-
-              {avoidStyle.map((a, i) => (
-                <IconCard key={`avoid-${i}`} icon="do_not_disturb_on" label={L.avoid} text={a} accent={accent} tint={tint(i + 2)} />
-              ))}
-
-              <IconCard icon="female" label={`${L.look} · ${L.female}`} text={t.kissinskin.women} accent={accent} tint={tint(0)} />
-              <IconCard icon="male" label={`${L.look} · ${L.male}`} text={t.kissinskin.men} accent={accent} tint={tint(1)} />
-              <IconCard icon="recommend" label={L.look} text={kissinskinReason} accent={accent} tint={tint(2)} />
-
-              {restRecs.map((item, i) => (
-                <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="face_shape" pageSlug={t.code} />
-              ))}
-
-
-              <BannerCard
+            <BentoGrid>
+              {tiles}
+              <BentoBanner
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
                 gradient={t.card.gradient}
               />
-            </ResultGrid>
+            </BentoGrid>
             {AFFILIATE_ENABLED && (
               <p className="mt-7 text-center text-[11px] text-slate-400 max-w-2xl mx-auto leading-relaxed">
                 {i18n(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}

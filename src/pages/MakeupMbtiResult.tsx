@@ -16,13 +16,15 @@ import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import RelatedTools from '../components/RelatedTools'
 import ToolLongform from '../components/tools/ToolLongform'
-import ResultGrid, {
-  MoodCard,
-  IconCard,
-  TipCard,
-  AxisCard,
-  BannerCard,
-} from '../components/result-grid/ResultGrid'
+import BentoGrid, {
+  BentoPhoto,
+  BentoFacts,
+  BentoNote,
+  BentoAxes,
+  BentoBanner,
+  insertScattered,
+  scatterSlot,
+} from '../components/result-grid/BentoGrid'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -81,19 +83,16 @@ export default function MakeupMbtiResult({ code }: Props) {
   const [confidence, setConfidence] = useState<number | null>(null)
 
   const accent = type.primaryColor
-  // Rotate the type's two signature colors as soft card tints so the grid reads
-  // as a moodboard rather than a wall of identical white cards (재설계 지시 §3).
-  const tints = [type.primaryColor, type.accentColor, type.card.gradient[1]]
-  const tint = (i: number) => tints[i % tints.length]
 
-  // 제품 카드가 그리드 맨 뒤라 2단 masonry 바닥에 깔렸다(affiliate_click 28일 0건).
-  // 대표 1장만 상단으로 올리고 나머지는 원래 자리에 둔다.
+  // ④ 제품 카드는 맨 뒤에 몰아두지 않고 유형 코드 해시로 격자 안에 흩는다.
+  // 늘 마지막 자리에 두었더니 affiliate_click 이 28일간 0건이었다(마소니 18/20번째).
+  // 순수 랜덤이 아니라 결정적 분산이라 같은 페이지는 항상 같은 자리 → CLS 0, GA4 측정 가능.
   const recs = MBTI_RECOMMENDATIONS[type.code] ?? []
-  const [leadRec, ...restRecs] = recs
 
   const L = isEn
     ? {
-        axisTitle: 'Your axes', sigTitle: 'Signature look', match: 'Compatible type', contrast: 'Contrast type',
+        axisTitle: 'Your axes', sigTitle: 'Signature look', match: 'Compatible', contrast: 'Contrast',
+        traitsTitle: 'What defines you', matchTitle: 'Type chemistry',
         avoid: 'Pitfall to avoid', boost: 'Play to your strength', look: 'Recommended look',
         more: 'My story', allTypes: 'All 16 Makeup MBTI types', me: i18n('tools.common.me'),
         retake: 'Retake', save: 'Save image', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
@@ -103,6 +102,7 @@ export default function MakeupMbtiResult({ code }: Props) {
       }
     : {
         axisTitle: '나의 4가지 축', sigTitle: '시그니처 룩', match: '잘 맞는 유형', contrast: '대조되는 유형',
+        traitsTitle: '나를 설명하는 것', matchTitle: '유형 궁합',
         avoid: '피해야 할 함정', boost: '강점을 살리는 법', look: '추천 룩',
         more: '나에 대한 이야기', allTypes: '16가지 메이크업 MBTI 전체 보기', me: i18n('tools.common.me'),
         retake: '다시 진단', save: '이미지 저장하기', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
@@ -124,6 +124,76 @@ export default function MakeupMbtiResult({ code }: Props) {
         { label: '무드', left: '구조 T', right: '감성 F', value: type.axisScores.f },
         { label: '루틴', left: '일관 J', right: '즉흥 P', value: type.axisScores.p },
       ]
+
+  // ⑤ 벤토 타일 — 정보의 종류가 칸 크기를 정한다.
+  // 예전엔 `시그니처 · 립/아이/베이스/블러쉬` 가 카드 4장, `추천 룩 · 여성/남성` 이 2장,
+  // 특징이 3~4장이라 한 줄짜리 회색 박스만 10개 넘게 깔렸다. 전부 BentoFacts 한 장에
+  // 행으로 접어 타일 수를 절반 이하로 줄인다.
+  const baseTiles = [
+    <BentoPhoto
+      key="photo"
+      // 롱폼 본문이 이미 mood.image 를 크게 쓰고 있다. 여기까지 같은 사진을 또 쓰면
+      // 한 페이지에 동일 이미지가 두 번 나오므로 추천 룩 실제 결과 사진을 우선한다.
+      image={lookPhoto(type.recommended.women.primary) ?? mood.image}
+      caption={tagline}
+      emoji={type.emoji}
+      gradient={type.card.gradient}
+    />,
+    <BentoAxes key="axes" title={L.axisTitle} axes={axes} accent={accent} />,
+    <BentoFacts
+      key="signature"
+      title={L.sigTitle}
+      accent={accent}
+      rows={[
+        { label: L.lip, text: signature.lip },
+        { label: L.eye, text: signature.eye },
+        { label: L.base, text: signature.base },
+        { label: L.blush, text: signature.blush },
+      ]}
+    />,
+    <BentoFacts
+      key="traits"
+      title={L.traitsTitle}
+      accent={accent}
+      rows={traits.map((tr) => ({ label: tr.title, text: tr.desc }))}
+    />,
+    <BentoNote key="avoid" icon="warning" label={L.avoid} text={avoidTip} accent={accent} />,
+    <BentoNote key="boost" icon="lightbulb" label={L.boost} text={boostTip} accent={accent} />,
+    <BentoFacts
+      key="look"
+      title={L.look}
+      accent={accent}
+      rows={[
+        { label: L.female, text: `${type.recommended.women.primary} — ${recWomenReason}` },
+        { label: L.male, text: `${type.recommended.men.primary} — ${recMenReason}` },
+      ]}
+    />,
+    <BentoFacts
+      key="match"
+      title={L.matchTitle}
+      accent={accent}
+      rows={[
+        { label: L.match, text: `${isEn ? goodEn.enPersona : good.koName} (${good.code})` },
+        { label: L.contrast, text: `${isEn ? oppEn.enPersona : opp.koName} (${opp.code})` },
+      ]}
+    />,
+  ]
+
+  const tiles = insertScattered(
+    baseTiles,
+    recs.map((item, i) => (
+      <ProductGridCard
+        key={`prod-${i}`}
+        item={item}
+        accent={accent}
+        pageType="mbti"
+        pageSlug={type.code}
+        span="sm"
+        slot={scatterSlot(type.code, i, recs.length, baseTiles.length)}
+      />
+    )),
+    type.code,
+  )
 
   return (
     <div className="font-display bg-background-light min-h-screen">
@@ -207,58 +277,20 @@ export default function MakeupMbtiResult({ code }: Props) {
           imageAlt={tagline}
         />
 
-        {/* 보조 무드보드 — 색·제품처럼 카드가 나은 정보만 남긴다 */}
+        {/* 결과 벤토 — 사진·데이터 패널은 넓게, 한 줄 팩트는 한 타일에 묶어서 */}
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-3 sm:px-6">
             {AFFILIATE_ENABLED && <RegionToggle pageType="mbti" className="mb-7" />}
-            <ResultGrid>
-              <MoodCard image={mood.image ?? lookPhoto(type.recommended.women.primary)} caption={tagline} emoji={type.emoji} gradient={type.card.gradient} />
-
-              <AxisCard title={L.axisTitle} axes={axes} accent={accent} tint={tint(0)} />
-
-              {traits.map((tr, i) => (
-                <IconCard key={`trait-${i}`} icon={tr.icon} label={tr.title} text={tr.desc} accent={accent} tint={tint(i + 1)} />
-              ))}
-
-              {leadRec && (
-                <ProductGridCard item={leadRec} accent={accent} pageType="mbti" pageSlug={type.code} />
-              )}
-
-              <IconCard icon="favorite" label={`${L.sigTitle} · ${L.lip}`} text={signature.lip} accent={accent} tint={tint(0)} />
-              <IconCard icon="visibility" label={`${L.sigTitle} · ${L.eye}`} text={signature.eye} accent={accent} tint={tint(1)} />
-              <IconCard icon="auto_fix_high" label={`${L.sigTitle} · ${L.base}`} text={signature.base} accent={accent} tint={tint(2)} />
-              <IconCard icon="spa" label={`${L.sigTitle} · ${L.blush}`} text={signature.blush} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="warning" label={L.avoid} text={avoidTip} accent={accent} tint={tint(2)} />
-              <TipCard tip={boostTip} accent={accent} tint={tint(3)} />
-
-              <IconCard icon="female" label={`${L.look} · ${L.female}`} text={`${type.recommended.women.primary} — ${recWomenReason}`} accent={accent} tint={tint(0)} />
-              <IconCard icon="male" label={`${L.look} · ${L.male}`} text={`${type.recommended.men.primary} — ${recMenReason}`} accent={accent} tint={tint(1)} />
-
-              <IconCard
-                icon="favorite_border"
-                label={L.match}
-                text={`${isEn ? goodEn.enPersona : good.koName} (${good.code}) · ${isEn ? oppEn.enPersona : opp.koName} (${opp.code}) ${isEn ? '— a contrast to learn from' : '— 배울 점 있는 반대 유형'}`}
-                accent={accent}
-                tint={tint(2)}
-              />
-
-              {restRecs.map((item, i) => (
-                <ProductGridCard key={`prod-${i}`} item={item} accent={accent} pageType="mbti" pageSlug={type.code} />
-              ))}
-
-              {/* 영문 본문(en.detailParagraphs)이 없어서 `!isEn` 으로 막아뒀던 자리다.
-                  그 결과 영문 유형 페이지는 본문이 통째로 비어 16개가 서로 거의 같아졌고,
-                  구글이 전부 색인에서 버렸다. 이제 양쪽 다 본문이 있다. */}
-
-              <BannerCard
+            <BentoGrid>
+              {tiles}
+              <BentoBanner
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
                 href={isEn ? '/en/' : '/analysis/'}
                 gradient={type.card.gradient}
               />
-            </ResultGrid>
+            </BentoGrid>
             {AFFILIATE_ENABLED && (
               <p className="mt-7 text-center text-[11px] text-slate-400 max-w-2xl mx-auto leading-relaxed">
                 {i18n(region === 'global' ? 'recProducts.disclosureGlobal' : 'recProducts.disclosure')}

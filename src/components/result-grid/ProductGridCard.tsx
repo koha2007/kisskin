@@ -3,6 +3,7 @@
 // when the category maps to a Clio link), Global → Amazon + YesStyle. Reuses the
 // shared link builders + click tracking so affiliate revenue keeps working.
 
+import type { ReactNode } from 'react'
 import type { ProductRec } from '../../lib/recommendations/types'
 import {
   AFFILIATE_ENABLED,
@@ -16,6 +17,7 @@ import { AFFILIATE_CONFIG } from '../../config/affiliate'
 import { getClioCategoryByIcon, getClioLinkByIcon } from '../../lib/affiliate/categoryMapping'
 import { trackAffiliateClick, type AffiliatePageType } from '../../lib/affiliate/track'
 import { GridCard } from './ResultGrid'
+import { BentoTile, type BentoSpan } from './BentoGrid'
 
 // Calm, compact buttons — outline chips instead of a loud full-bleed fill
 // (재설계 지시 §4). `border` here sets width only; color comes per-variant.
@@ -26,11 +28,18 @@ export function ProductGridCard({
   accent = '#d8503c',
   pageType,
   pageSlug,
+  span,
+  slot,
 }: {
   item: ProductRec
   accent?: string
   pageType: AffiliatePageType
   pageSlug: string
+  /** 지정하면 벤토 그리드 타일로, 생략하면 기존 column 마소니 카드로 렌더한다.
+   *  도구 결과 4종은 벤토, AI 메이크업 결과(MakeupResult)는 아직 마소니를 쓴다. */
+  span?: BentoSpan
+  /** 벤토에서 이 카드가 앉은 슬롯 번호 — GA4 affiliate_click 에 실린다. */
+  slot?: number
 }) {
   const [region] = useRegion()
   const { t, locale } = useI18n()
@@ -47,8 +56,10 @@ export function ProductGridCard({
   const clioCategory = showClio ? getClioCategoryByIcon(item.icon) : null
   const clioLink = showClio ? getClioLinkByIcon(item.icon) : null
 
-  return (
-    <GridCard className="p-4" accent={accent}>
+  // 래퍼를 컴포넌트로 정의하면 렌더마다 새 타입이 되어 내용이 통째로 언마운트된다.
+  // 내용을 먼저 만들고 껍데기만 갈아 끼운다.
+  const inner: ReactNode = (
+    <>
       <div className="flex items-center gap-2.5 mb-3">
         <div
           className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
@@ -60,7 +71,9 @@ export function ProductGridCard({
         </div>
         <div className="min-w-0">
           <div className="text-[0.6rem] uppercase tracking-wider font-bold text-slate-400">{category}</div>
-          <div className="text-[13px] font-bold text-navy leading-snug truncate">{title}</div>
+          {/* truncate 였을 때 벤토 1칸 폭에서 "메탈릭 싱글 아이…" 처럼 제품명이 잘려
+              무엇을 파는 카드인지 알 수 없었다. 두 줄까지 허용한다. */}
+          <div className="text-[13px] font-bold text-navy leading-snug line-clamp-2">{title}</div>
         </div>
       </div>
 
@@ -85,7 +98,7 @@ export function ProductGridCard({
             href={buildAmazonLink(globalQuery)}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
-            onClick={() => trackAffiliateClick({ merchant: 'amazon', category: item.icon, pageType, pageSlug })}
+            onClick={() => trackAffiliateClick({ merchant: 'amazon', category: item.icon, pageType, pageSlug, slot })}
             className={`${btn} bg-white`}
             style={{ color: accent, borderColor: `${accent}59` }}
           >
@@ -95,7 +108,7 @@ export function ProductGridCard({
             href={buildYesStyleLink(globalQuery)}
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
-            onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: item.icon, pageType, pageSlug })}
+            onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: item.icon, pageType, pageSlug, slot })}
             className={`${btn} border border-amber-300 bg-white text-amber-600`}
           >
             ⭐ {t('region.yesstyleButton')}
@@ -107,7 +120,7 @@ export function ProductGridCard({
             href={coupangLink}
             target="_blank"
             rel="sponsored noopener noreferrer"
-            onClick={() => trackAffiliateClick({ merchant: 'coupang', category: item.icon, pageType, pageSlug })}
+            onClick={() => trackAffiliateClick({ merchant: 'coupang', category: item.icon, pageType, pageSlug, slot })}
             className={`${btn} bg-white`}
             style={{ color: accent, borderColor: `${accent}59` }}
           >
@@ -118,7 +131,7 @@ export function ProductGridCard({
               href={clioLink}
               target="_blank"
               rel="sponsored noopener noreferrer"
-              onClick={() => trackAffiliateClick({ merchant: 'clubclio', category: clioCategory ?? 'main', pageType, pageSlug })}
+              onClick={() => trackAffiliateClick({ merchant: 'clubclio', category: clioCategory ?? 'main', pageType, pageSlug, slot })}
               className={`${btn} border border-primary/30 bg-white text-primary`}
             >
               🌹 {t('recProducts.findOnClio')}
@@ -126,6 +139,16 @@ export function ProductGridCard({
           )}
         </div>
       )}
+    </>
+  )
+
+  return span ? (
+    <BentoTile span={span} surface="card" accent={accent} className="p-4">
+      {inner}
+    </BentoTile>
+  ) : (
+    <GridCard className="p-4" accent={accent}>
+      {inner}
     </GridCard>
   )
 }
