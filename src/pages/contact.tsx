@@ -23,9 +23,9 @@ export default function Contact({ onNavigate }: ContactProps) {
       </div>
       <div className="legal-content">
         <div style={{ textAlign: 'center', padding: '20px 0 32px' }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 48, color: '#ec4899' }}>mail</span>
+          <span className="material-symbols-outlined" style={{ fontSize: 48, color: '#d8503c' }}>mail</span>
           <p style={{ fontSize: 16, color: '#232a52', fontWeight: 600, margin: '12px 0 4px' }}>We'd love to hear from you</p>
-          <p style={{ color: '#64748b', fontSize: 14 }}>Questions, feedback, or support — reach out anytime.</p>
+          <p style={{ color: '#6b6f8c', fontSize: 14 }}>Questions, feedback, or support — reach out anytime.</p>
         </div>
 
         <h2>General & Support</h2>

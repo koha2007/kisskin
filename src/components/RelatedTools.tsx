@@ -24,7 +24,7 @@ const TOOLS: Tool[] = [
     titleEn: 'AI Makeup Simulator',
     descKo: '셀카 한 장으로 5가지 K-뷰티 룩을 즉시',
     descEn: 'One selfie, 5 K-beauty looks instantly',
-    accent: '#d8503c',
+    accent: '#d8503c', // --color-tool-ai
   },
   {
     key: 'perfume-type',
@@ -35,7 +35,7 @@ const TOOLS: Tool[] = [
     titleEn: 'Perfume Type Quiz',
     descKo: '5문항으로 6가지 향수 타입 + 맞춤 향 추천',
     descEn: '5 questions → 6 perfume types + matched notes',
-    accent: '#ec4899',
+    accent: '#8e6e9e', // --color-tool-perfume
   },
   {
     key: 'face-shape',
@@ -46,7 +46,7 @@ const TOOLS: Tool[] = [
     titleEn: 'Face Shape Quiz',
     descKo: '6문항으로 5가지 얼굴형 + 컨투어링 가이드',
     descEn: '6 questions → 5 shapes + contour guide',
-    accent: '#10b981',
+    accent: '#7e9b6a', // --color-tool-face
   },
   {
     key: 'personal-color',
@@ -57,7 +57,7 @@ const TOOLS: Tool[] = [
     titleEn: 'Personal Color Quiz',
     descKo: '6문항으로 봄웜·여름쿨·가을웜·겨울쿨 분석',
     descEn: '6 questions → 4-season color analysis',
-    accent: '#f59e0b',
+    accent: '#c79340', // --color-tool-pc
   },
   {
     key: 'makeup-mbti',
@@ -68,7 +68,7 @@ const TOOLS: Tool[] = [
     titleEn: 'Makeup MBTI',
     descKo: '8문항으로 16가지 메이크업 성향 진단',
     descEn: '8 questions → 16 makeup personality types',
-    accent: '#a855f7',
+    accent: '#4e9fa6', // --color-tool-mbti
   },
 ]
 

@@ -207,7 +207,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
       {/* 하단: "1장 생성" 안내 + CTA (sticky) */}
       <footer
         className="sticky bottom-0 px-5 pt-3 pb-6 max-w-xl w-full mx-auto"
-        style={{ background: 'linear-gradient(to top, rgba(7,9,83,0.95) 60%, transparent)' }}
+        style={{ background: 'linear-gradient(to top, rgba(35,42,82,0.95) 60%, transparent)' }}
       >
         {/* 생성 직전 화면 — 로그인이 "필수"임을 여기서도 못박는다(업로드 화면 배너와 같은 톤). */}
         {loginHref && (

@@ -188,7 +188,7 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
       {/* 프라이버시 + CTA */}
       <footer
         className="sticky bottom-0 px-5 pt-3 pb-6 max-w-xl w-full mx-auto"
-        style={{ background: 'linear-gradient(to top, rgba(7,9,83,0.95) 60%, transparent)' }}
+        style={{ background: 'linear-gradient(to top, rgba(35,42,82,0.95) 60%, transparent)' }}
       >
         <p className="text-center text-xs font-medium text-white/75 mb-3 inline-flex w-full items-center justify-center gap-1.5">
           <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
