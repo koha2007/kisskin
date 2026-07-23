@@ -85,26 +85,26 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const a = report.analysis
     // summary 폴백 (analysis가 없을 때 텍스트라도 표시)
     const summaryHtml = (!a && report.summary) ? `
-      <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
-        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">✨ ${labels.skinAnalysis}</h2>
+      <div style="background:#f2ead9;border-radius:12px;padding:24px;margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#232a52;">✨ ${labels.skinAnalysis}</h2>
         <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;white-space:pre-wrap;">${report.summary}</p>
       </div>
     ` : ''
     const analysisHtml = a ? `
-      <div style="background:#fdf2f8;border-radius:12px;padding:24px;margin-bottom:24px;">
-        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">
+      <div style="background:#f2ead9;border-radius:12px;padding:24px;margin-bottom:24px;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#232a52;">
           ✨ ${labels.skinAnalysis}
         </h2>
         <div style="margin-bottom:12px;">
-          <span style="display:inline-block;background:#f9a8d4;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.gender}</span>
-          <span style="display:inline-block;background:#fbbf24;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;">${a.tone}</span>
+          <span style="display:inline-block;background:#4e9fa6;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-right:6px;">${a.gender}</span>
+          <span style="display:inline-block;background:#c79340;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;">${a.tone}</span>
         </div>
         <div style="background:#fff;border-radius:8px;padding:16px;margin-bottom:10px;">
-          <h4 style="margin:0 0 6px;font-size:14px;color:#6366f1;">🎨 ${labels.toneAnalysis}</h4>
+          <h4 style="margin:0 0 6px;font-size:14px;color:#232a52;">🎨 ${labels.toneAnalysis}</h4>
           <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.toneDetail}</p>
         </div>
         <div style="background:#fff;border-radius:8px;padding:16px;">
-          <h4 style="margin:0 0 6px;font-size:14px;color:#f59e0b;">💡 ${labels.advice}</h4>
+          <h4 style="margin:0 0 6px;font-size:14px;color:#c79340;">💡 ${labels.advice}</h4>
           <p style="margin:0;font-size:14px;color:#334155;line-height:1.6;">${a.advice}</p>
         </div>
       </div>
@@ -112,26 +112,26 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
     const stylesHtml = styles.length > 0 ? `
       <div style="margin-bottom:24px;">
-        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">💄 ${labels.makeupStyles}</h2>
+        <h2 style="margin:0 0 16px;font-size:18px;color:#232a52;">💄 ${labels.makeupStyles}</h2>
         <div>
-          ${styles.map((s, i) => `<span style="display:inline-block;background:#f1f5f9;border-radius:20px;padding:6px 14px;font-size:13px;color:#334155;margin:0 6px 6px 0;">${i + 1}. ${s}</span>`).join('')}
+          ${styles.map((s, i) => `<span style="display:inline-block;background:#ede3d1;border-radius:20px;padding:6px 14px;font-size:13px;color:#334155;margin:0 6px 6px 0;">${i + 1}. ${s}</span>`).join('')}
         </div>
       </div>
     ` : ''
 
     const productsHtml = report.products.length > 0 ? `
       <div style="margin-bottom:24px;">
-        <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🛍️ ${labels.productRec}</h2>
+        <h2 style="margin:0 0 16px;font-size:18px;color:#232a52;">🛍️ ${labels.productRec}</h2>
         ${report.products.map(p => `
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin-bottom:10px;">
             <div style="margin-bottom:8px;">
-              <span style="display:inline-block;background:#f0abfc;color:#fff;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;margin-right:8px;vertical-align:middle;">${p.category}</span>
-              <span style="font-size:14px;font-weight:700;color:#0f172a;vertical-align:middle;">${p.name}</span>
+              <span style="display:inline-block;background:#8e6e9e;color:#fff;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;margin-right:8px;vertical-align:middle;">${p.category}</span>
+              <span style="font-size:14px;font-weight:700;color:#232a52;vertical-align:middle;">${p.name}</span>
             </div>
             <p style="margin:0 0 4px;font-size:13px;color:#64748b;">${p.brand} · ${p.price}</p>
             <p style="margin:0;font-size:13px;color:#334155;line-height:1.5;">${p.reason}</p>
             <a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(p.brand + ' ' + p.name)}"
-               style="display:inline-block;margin-top:10px;background:#6366f1;color:#fff;text-decoration:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;">
+               style="display:inline-block;margin-top:10px;background:#232a52;color:#fff;text-decoration:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;">
               ${labels.buyNow}
             </a>
           </div>
@@ -160,7 +160,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
       imageHtml = `
         <div style="margin-bottom:24px;text-align:center;">
-          <h2 style="margin:0 0 16px;font-size:18px;color:#0f172a;">🖼️ ${labels.makeupResult}</h2>
+          <h2 style="margin:0 0 16px;font-size:18px;color:#232a52;">🖼️ ${labels.makeupResult}</h2>
           <img src="cid:${contentId}" alt="Makeup Result" style="max-width:100%;border-radius:12px;" />
         </div>
       `
@@ -174,13 +174,13 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <!--[if mso]><style>table{border-collapse:collapse;}td{font-family:Arial,sans-serif;}</style><![endif]-->
       </head>
-      <body style="margin:0;padding:0;background:#f8f6f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f6f6;">
+      <body style="margin:0;padding:0;background:#f5efe3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5efe3;">
           <tr><td align="center" style="padding:24px 16px;">
             <!--[if mso]><table width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
             <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;">
               <tr><td style="text-align:center;padding-bottom:32px;">
-                <h1 style="margin:0;font-size:24px;color:#ec4899;">kissinskin</h1>
+                <h1 style="margin:0;font-size:24px;color:#d8503c;">kissinskin</h1>
                 <p style="margin:4px 0 0;font-size:14px;color:#94a3b8;">${labels.reportTitle}</p>
               </td></tr>
               <tr><td>
@@ -193,7 +193,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
               <tr><td style="text-align:center;padding-top:24px;border-top:1px solid #e2e8f0;">
                 <p style="font-size:12px;color:#94a3b8;margin:0;">
                   &copy; 2026 kissinskin. All rights reserved.<br/>
-                  <a href="https://kissinskin.net" style="color:#6366f1;">kissinskin.net</a>
+                  <a href="https://kissinskin.net" style="color:#232a52;">kissinskin.net</a>
                 </p>
               </td></tr>
             </table>

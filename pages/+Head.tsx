@@ -25,7 +25,9 @@ export default function Head() {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5109067049933124"
         crossOrigin="anonymous"
       />
-      <meta name="theme-color" content="#eb4763" />
+      {/* 상단 네비가 bg-navy 라 모바일 브라우저 크롬을 같은 색으로 이어 붙인다.
+          힐다 팔레트 전환(2026-07-22) 전까지 옛 핑크 #eb4763 이 남아 있었다. */}
+      <meta name="theme-color" content="#232a52" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <meta name="apple-mobile-web-app-title" content="Kissinskin" />
