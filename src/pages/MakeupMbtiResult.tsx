@@ -63,6 +63,9 @@ export default function MakeupMbtiResult({ code }: Props) {
   const avoidTip = isEn ? en.avoidTip : type.avoidTip
   const boostTip = isEn ? en.boostTip : type.boostTip
 
+  // 응답 일치도 — 퀴즈를 방금 푼 사람에게만 뜬다(검색으로 바로 들어오면 근거가 없어 안 뜬다).
+  const [confidence, setConfidence] = useState<number | null>(null)
+
   useEffect(() => {
     // Light celebration on first landing (not re-entry)
     if (typeof window === 'undefined') return
@@ -71,6 +74,9 @@ export default function MakeupMbtiResult({ code }: Props) {
     // 지우기 전에 실제 응답으로 일치도를 계산한다. 숫자를 만들어 내지 않는다.
     try {
       const parsed = JSON.parse(flag) as QuizOption['letter'][]
+      // sessionStorage 는 서버에 없다. 렌더 중(lazy initializer)에 읽으면 SSR 결과와
+      // 하이드레이션이 어긋나므로, 마운트 후 effect 에서 읽어 상태로 올리는 게 정답이다.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (Array.isArray(parsed)) setConfidence(computeTypeConfidence(parsed))
     } catch { /* 형식이 깨졌으면 그냥 안 보여준다 */ }
     sessionStorage.removeItem('makeup-mbti-answers')
@@ -78,9 +84,6 @@ export default function MakeupMbtiResult({ code }: Props) {
     const hide = window.setTimeout(() => setConfetti(false), 1800)
     return () => { cancelAnimationFrame(raf); window.clearTimeout(hide) }
   }, [])
-
-  // 응답 일치도 — 퀴즈를 방금 푼 사람에게만 뜬다(검색으로 바로 들어오면 근거가 없어 안 뜬다).
-  const [confidence, setConfidence] = useState<number | null>(null)
 
   const accent = type.primaryColor
 
