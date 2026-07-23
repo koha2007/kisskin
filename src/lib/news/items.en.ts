@@ -5,6 +5,60 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-ai-hair-platform-lianhair-2026-july',
+    category: 'global',
+    title: 'K-Beauty\'s AI Transformation Accelerates: Fasoo AI Partners with Lian Hair to Build \'Hyper-Personalized Beauty Platform\'',
+    summary:
+      'As the Artificial Intelligence (AI) transformation (AX) of the K-Beauty market accelerates, domestic company Fasoo AI is collaborating with hair salon franchise Lian Hair to build an AI beauty platform. This platform will offer virtual simulations and customized hairstyle recommendations based on hyper-personalized data, aiming to target the global beauty tech market.',
+    body: [
+      '> TLDR: AI Beauty Platform | Hyper-personalized Hair | K-Beauty AX Acceleration',
+      'Domestic hair salon franchise Lian Hair has been selected as the lead company for the \'2026 AX One-Stop Voucher Support Project\' promoted by the Ministry of Science and ICT and the National IT Industry Promotion Agency (NIPA), and will collaborate with Fasoo AI. The two companies plan to jointly build an AI beauty platform for the AI transformation (AX) in the K-Beauty sector.',
+      'This platform will provide virtual simulations based on hyper-personalized data that reflects real facial features and preferences, and will include features that custom-recommend optimal hairstyles and designers to users.',
+      '> DATA: In this project, which is part of the \'AX One-Stop Voucher Support Project\' totaling 26 billion KRW, Fasoo AI will be responsible for AI development based on its agentic AX platform \'Ellm\', while Naver Cloud and LabQ will support the cloud infrastructure and data aspects.',
+      'Utilizing operational data from Lian Hair\'s 500 stores, which is celebrating its 25th anniversary, an optimized AI system will be built, and plans include implementing both a customer-facing app and an in-store web app.',
+      'This move is interpreted as a strategy for K-Beauty to expand beyond simple product sales into personalized services incorporating AI technology, thereby strengthening its competitiveness in the global beauty tech market.',
+    ],
+    date: '2026-07-22',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'AI', 'Beauty Tech', 'Hyper-personalization', 'Lian Hair'],
+  },
+  {
+    slug: 'k-beauty-mongolia-market-surge-cepa-2026-july',
+    category: 'global',
+    title: 'K-retail and K-beauty Accelerate Mongolian Market Penetration Amidst Principal Agreement on Korea-Mongolia CEPA: K-beauty Imports Hit $44.93 Million in 2025',
+    summary:
+      'South Korea and Mongolia have recently reached a principal agreement on the Comprehensive Economic Partnership Agreement (CEPA), signaling further expansion for K-beauty in the Mongolian market. K-retail brands such as CU and GS25 are already experiencing significant local success, while K-beauty product imports reached $44.93 million in 2025, a 21.6% increase from the previous year.',
+    body: [
+      '> TLDR: Korea-Mongolia CEPA Agreement | K-retail Brands\' Strong Performance | K-beauty Imports Surge 21.6%',
+      'Following the recent principal agreement on the Comprehensive Economic Partnership Agreement (CEPA) between South Korea and Mongolia, South Korean brands, including K-beauty, are gaining significant momentum in penetrating the Mongolian market. This agreement is expected to bring tariff benefits and expand cooperation across various sectors.',
+      'In Mongolia, CU already operates approximately 600 stores and GS25 around 300, establishing themselves as essential local lifestyle infrastructure. The expansion of K-retail is further highlighted by E-Mart, which opened its first No Brand specialty store, the largest overseas, on July 10th.',
+      '> DATA: Mongolia\'s imports of South Korean cosmetics reached $44.93 million (approximately KRW 67.1 billion) in 2025, marking a 21.6% increase year-on-year and setting a new all-time high.',
+      'This strong performance of K-beauty is attributed to a combination of factors: high brand recognition, excellent quality at reasonable prices, rapid trend adoption, strong skincare competitiveness, and effective SNS-based marketing.',
+      'The \'2026 Korea-Mongolia K-Beauty & Culture Festival\' is scheduled to be held in Ulaanbaatar this coming August. This event is expected to further contribute to K-beauty\'s local establishment and foster a foundation for long-term cultural exchange.',
+    ],
+    date: '2026-07-21',
+    readMinutes: 3,
+    tags: ['Mongolia', 'K-beauty', 'CEPA', 'Export Data', 'Retail'],
+  },
+  {
+    slug: 'k-beauty-latin-america-tiktok-surge-2026',
+    category: 'global',
+    title: 'NIQ Report: K-Beauty Sees 135% Explosive Growth in Latin American Market and 430% Surge in Global Sales via TikTok Shop',
+    summary:
+      'According to the latest report from global market research firm NIQ, K-Beauty recorded 131% global sales growth over the past two years, establishing itself as a new growth engine for the global beauty market. Notably, sales in the Latin American market surged by 135%, and K-Beauty brand sales via TikTok Shop increased by 430% year-on-year, highlighting significant regional and channel diversification.',
+    body: [
+      '> TLDR: Latin American beauty market grows 135% | TikTok Shop sales surge 430% | K-Beauty enters global \'Phase 3\'',
+      'According to NIQ\'s recently released \'K-Beauty Global Expansion\' report, K-Beauty has achieved remarkable sales growth globally, up 53% year-on-year and a cumulative 131% over the past two years, reshaping the global beauty industry landscape. This growth is attributed to the synergy of innovative products, social commerce, and digitally-driven consumer demand.',
+      '> DATA: According to the NIQ report, as of July 2026, K-Beauty sales in the Latin American market, primarily driven by Brazil and Mexico, increased by 135% year-on-year, emerging as the most notable growth region. Furthermore, K-Beauty brand sales on TikTok Shop in the UK, US, Spain, and Germany surged by 430% year-on-year in 2025, demonstrating the significant influence of social commerce.',
+      'The European market also recorded a sales growth rate of 58% year-on-year, and the strength of online channels continues in North America, where e-commerce accounts for 76% of K-Beauty sales. This demonstrates K-Beauty\'s successful diversification of its export markets beyond China, into various regions including North America, Europe, and Latin America.',
+      'The industry assesses that K-Beauty has moved beyond its past reliance on specific countries or channels, entering a \'Phase 3\' growth stage where regions, channels, and product categories are expanding simultaneously. Expansion into adjacent categories such as derma, hair care, and wellness, beyond skincare, is projected to be the main driver of future growth.',
+      'This data suggests that K-Beauty brands can achieve sustained growth by accurately identifying the evolving needs of global consumers, and by utilizing tailored strategies for each market and leveraging digital channels.',
+    ],
+    date: '2026-07-20',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global Market', 'Latin America', 'TikTok Shop', 'NIQ Report'],
+  },
+  {
     slug: 'amazon-prime-day-2026-kbeauty-skinnification-pdrn',
     category: 'skincare',
     title: 'Amazon Prime Day 2026 K-Beauty: Skinification and PDRN Ingredient Trends Emerge',

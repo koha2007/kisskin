@@ -5,6 +5,124 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'romand-han-all-fix-mascara-long-ash',
+    category: 'eye',
+    brand: 'rom&nd',
+    name: 'Han All Fix Mascara [L02 Long Ash]',
+    title: 'rom&nd Han All Fix Mascara Long Ash: Effortless Daily Eye Makeup!',
+    summary:
+      'This mascara features a natural ash-brown color to reduce the typical heaviness of mascara, and it stays neatly fixed all day without drooping.',
+    highlights: ['Waterproof, resistant to water and sweat', 'Clump-free, individual lash definition', 'Natural ash-brown color', 'Strong curling hold'],
+    details: [
+      'Its strong waterproof function resists water and sweat, keeping your eye makeup clean without smudging.',
+      'The mascara formula is light and thin, allowing for multiple coats without clumping, naturally extending each lash as if individually coated.',
+      'The ash-brown color is softer than black yet more defined than brown, creating a natural yet clear eye look.',
+      'The slim mascara brush meticulously curls even short lashes, boasting a strong, non-drooping hold.',
+    ],
+    whoFor:
+      'Recommended for those who want to create a natural yet defined eye look. It is especially satisfying for those concerned about mascara smudging and drooping, seeking a long-lasting product.',
+    howTo: [
+      'After sufficiently curling your lashes with an eyelash curler, lightly sweep the mascara brush from the roots to the tips of your lashes.',
+      'It applies neatly to each lash without clumping, so you can apply multiple coats for your desired length and volume.',
+    ],
+    pros: [
+      'Strongly holds curls all day without drooping.',
+      'Waterproof function resists water and sweat, minimizing smudging.',
+      'Natural ash-brown color is perfect for effortless daily makeup.',
+    ],
+    cons: [
+      'This product focuses more on lengthening than volumizing, so those with sparse lashes might find the volume insufficient.',
+      'The mascara dries a bit slowly, so it might transfer if you blink immediately after application.',
+    ],
+    colorFit:
+      'The Long Ash color is a natural ash-brown that suits both warm and cool tones, making it an excellent choice for those who find black mascara too harsh.',
+    image: '/products/romand-han-all-fix-mascara-long-ash.webp',
+    coupangQuery: '롬앤 한올 픽스 마스카라 롱 애쉬',
+    globalQuery: 'romand han all fix mascara long ash',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-07-22',
+    tags: ['rom&ndmascara', 'hanallfixmascara', 'longash', 'dailymascara', 'smudgeproofmascara', 'curlingmascara', 'waterproofmascara', 'naturalmascara'],
+  },
+  {
+    slug: 'fenty-skin-cherry-treat-conditioning-strengthening-lip-oil',
+    category: 'lip',
+    brand: 'FENTY SKIN',
+    name: 'Cherry Treat Conditioning + Strengthening Lip Oil',
+    title: 'FENTY SKIN Cherry Treat Lip Oil: The Hydration of a Balm, The Shine of a Gloss, All in One!',
+    summary:
+      'Rihanna\'s FENTY SKIN introduces an ultra-hydrating lip oil that nourishes dry, chapped lips and strengthens the moisture barrier. It delivers non-sticky, dewy, and glossy lips with an appealing subtle cherry scent.',
+    highlights: ['Non-sticky, dewy glow', 'Intense hydration and nourishment', 'Plush applicator', 'Sweet cherry scent'],
+    details: [
+      'Triple cherry ingredients including cherry seed oil, Barbados cherry extract, and wild cherry extract provide rich nourishment and conditioning to the lips.',
+      'Jojoba seed oil and rosehip fruit oil prevent moisture evaporation and soothe dry lips, maintaining long-lasting hydration.',
+      'The plush, soft applicator allows for easy and sufficient application to the entire lip with just one swipe, and layering enhances the glossy finish.',
+      'The transparent, non-sticky texture adheres comfortably to the lips, providing a natural shine. It\'s perfect for use alone or layered over lip color.',
+    ],
+    whoFor:
+      'Suitable for all skin types concerned with dry, easily chapped lips, especially recommended for those who prefer a hydrating yet non-sticky lip oil. Ideal for individuals seeking natural color and glossy lip expression.',
+    howTo: [
+      'Apply directly to clean, dry lips using the plush applicator.',
+      'Use alone or layer over lipstick or lip tint for added shine and hydration.',
+      'Apply generously before bed as an overnight lip conditioning treatment for softer lips the next morning.',
+    ],
+    pros: [
+      'Provides deep hydration and nourishment to the lips, alleviating dryness and making them smooth.',
+      'Applies refreshingly without stickiness while delivering a plump, glossy effect.',
+      'The lovely cherry scent is pleasant, a charming advantage if you are not sensitive to fragrances.',
+    ],
+    cons: [
+      'The cherry scent might be strong for those sensitive to fragrances.',
+      'It is relatively more expensive than other lip oils, which might be a drawback if value for money is a priority.',
+    ],
+    colorFit:
+      'Suits all personal colors. Its transparent finish enhances the natural lip color with a dewy, vibrant shine.',
+    image: '/products/fenty-skin-cherry-treat-conditioning-strengthening-lip-oil.webp',
+    coupangQuery: '펜티 스킨 체리 트릿 립 오일',
+    globalQuery: 'Fenty Skin Cherry Treat Conditioning + Strengthening Lip Oil',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-07-21',
+    tags: ['lipoil', 'dewyglow', 'cherryscent', 'nonsticky', 'dailylip'],
+  },
+  {
+    slug: 'tamburins-perfume-hand-000',
+    category: 'fragrance',
+    brand: 'tamburins',
+    name: 'Perfume Hand [000]',
+    title: 'tamburins Perfume Hand [000]: Grassy Scent with Earthy Undertones, Unique Woody Citrus Fragrance',
+    summary:
+      'tamburins 000 is a perfume hand cream that delivers a grassy scent mixed with earthy notes, created by the harmony of bergamot, sandalwood, and patchouli. It absorbs quickly without stickiness, leaving a refreshing feel, and features a rich, long-lasting fragrance like a perfume.',
+    highlights: ['Cool Woody Citrus', 'Fast absorption, refreshing finish', 'Long-lasting like a perfume'],
+    details: [
+      'The top notes of bergamot and bitter green tangerine create a refreshing first impression, followed by lime cardamom adding freshness.',
+      'The middle notes of patchouli and sandalwood blend to create a woody, gender-neutral scent that feels like moist earth.',
+      'It absorbs quickly without stickiness, leaving hands soft, and its long-lasting scent makes it suitable as a perfume substitute.',
+    ],
+    whoFor:
+      'Suitable for those who prefer the vitality of nature, a grassy scent mixed with earthy notes, and are looking for a unique, gender-neutral fragrance. It\'s great for all skin types who prefer a non-sticky, refreshing feel.',
+    howTo: [
+      'After washing hands and before they are completely dry, dispense an appropriate amount and gently spread it over the entire hands.',
+      'For a richer fragrance, apply to the wrists, where there is more movement and thinner skin, and massage until absorbed.',
+    ],
+    pros: [
+      'The unique and gender-neutral woody citrus scent is appealing.',
+      'Long-lasting like a perfume, allowing you to enjoy a subtle lingering scent all day.',
+      'Absorbs refreshingly without stickiness, making it comfortable to use.',
+    ],
+    cons: [
+      'The scent might be perceived as strong, which could be polarizing.',
+      'Moisturizing power is not exceptionally high, so it might feel insufficient for very dry skin.',
+    ],
+    image: '/products/tamburins-perfume-hand-000.webp',
+    coupangQuery: '탬버린즈 퍼퓸 핸드 000',
+    globalQuery: 'Tamburins Perfume Hand 000',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-20',
+    tags: ['hand cream', 'perfume hand cream', 'woody scent', 'citrus scent', 'gender-neutral scent', 'tamburins'],
+  },
+  {
     slug: 'kerastase-elixir-ultime-l-huile-originale',
     category: 'hair',
     brand: 'Kérastase',
