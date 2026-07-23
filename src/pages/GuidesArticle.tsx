@@ -7,6 +7,7 @@ import { GUIDE_POSTS, getGuideBySlug } from '../lib/guides/posts'
 import { GUIDE_POSTS_EN, getGuideBySlugEn } from '../lib/guides/posts.en'
 import { getGuideCategoryMeta } from '../lib/guides/types'
 import { useI18n } from '../i18n/I18nContext'
+import { pickRelated } from '../lib/seo/pickRelated'
 
 interface Props {
   slug: string
@@ -44,16 +45,16 @@ export default function GuidesArticle({ slug }: Props) {
 
   const meta = getGuideCategoryMeta(post.category)
   const categoryLabel = isEn ? meta.enLabel : meta.koLabel
-  const related: RelatedItem[] = posts
-    .filter((p) => p.category === post.category && p.slug !== post.slug)
-    .slice(0, 3)
-    .map((r) => ({
+  const related: RelatedItem[] = pickRelated(posts, post, 3).map((r) => {
+    const rm = getGuideCategoryMeta(r.category)
+    return {
       slug: r.slug,
       title: r.title,
       date: r.date,
-      categoryLabel,
-      categoryColor: meta.color,
-    }))
+      categoryLabel: isEn ? rm.enLabel : rm.koLabel,
+      categoryColor: rm.color,
+    }
+  })
 
   return (
     <ArticleShell

@@ -10,6 +10,7 @@ import { getReviewCategoryMeta, type ReviewCategory } from '../lib/reviews/types
 import { clioBrandMatch } from '../config/affiliate'
 import { getClioLinkByReviewCategory } from '../lib/affiliate/categoryMapping'
 import { useI18n } from '../i18n/I18nContext'
+import { pickRelated } from '../lib/seo/pickRelated'
 
 interface Props {
   slug: string
@@ -100,16 +101,16 @@ export default function ReviewsArticle({ slug }: Props) {
 
   const meta = getReviewCategoryMeta(post.category)
   const categoryLabel = isEn ? meta.enLabel : meta.koLabel
-  const related: RelatedItem[] = posts
-    .filter((p) => p.category === post.category && p.slug !== post.slug)
-    .slice(0, 3)
-    .map((r) => ({
+  const related: RelatedItem[] = pickRelated(posts, post, 3).map((r) => {
+    const rm = getReviewCategoryMeta(r.category)
+    return {
       slug: r.slug,
       title: r.title,
       date: r.date,
-      categoryLabel,
-      categoryColor: meta.color,
-    }))
+      categoryLabel: isEn ? rm.enLabel : rm.koLabel,
+      categoryColor: rm.color,
+    }
+  })
 
   return (
     <ArticleShell

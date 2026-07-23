@@ -23,7 +23,7 @@
   <!-- Tools Hub -->
   <url>
     <loc>https://kissinskin.net/tools/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -320,7 +320,7 @@
   <!-- EN Tools Hub -->
   <url>
     <loc>https://kissinskin.net/en/tools/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />

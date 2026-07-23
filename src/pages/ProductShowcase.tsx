@@ -7,6 +7,7 @@ import { PRODUCT_ITEMS_EN, getProductBySlugEn } from '../lib/products/items.en'
 import { getCategoryMeta } from '../lib/products/types'
 import { CLIO_CATEGORY_LINKS } from '../config/affiliate'
 import { useI18n } from '../i18n/I18nContext'
+import { pickRelated } from '../lib/seo/pickRelated'
 
 interface Props {
   slug: string
@@ -48,7 +49,9 @@ export default function ProductShowcase({ slug }: Props) {
   const meta = getCategoryMeta(item.category)
   const categoryLabel = isEn ? meta.enLabel : meta.koLabel
   const gradient = `linear-gradient(150deg, ${meta.color}, color-mix(in srgb, ${meta.color} 55%, #232a52))`
-  const related = items.filter((p) => p.category === item.category && p.slug !== item.slug).slice(0, 4)
+  // 같은 카테고리 앞 4개만 뽑으면 그 4개만 계속 링크를 받는다(뉴스·가이드와 같은 문제).
+  // 현재 글 위치에서 한 칸씩 밀어 원형으로 뽑아 모든 제품 글이 인바운드를 갖게 한다.
+  const related = pickRelated(items, item, 4)
 
   return (
     <div className="font-display bg-background-light min-h-screen">

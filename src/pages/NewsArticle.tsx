@@ -6,6 +6,7 @@ import { NEWS_ITEMS, getNewsBySlug } from '../lib/news/items'
 import { NEWS_ITEMS_EN, getNewsBySlugEn } from '../lib/news/items.en'
 import { getCategoryMeta } from '../lib/news/types'
 import { useI18n } from '../i18n/I18nContext'
+import { pickRelated } from '../lib/seo/pickRelated'
 
 interface Props {
   slug: string
@@ -43,16 +44,18 @@ export default function NewsArticle({ slug }: Props) {
 
   const meta = getCategoryMeta(item.category)
   const categoryLabel = isEn ? meta.enLabel : meta.koLabel
-  const related: RelatedItem[] = items
-    .filter((n) => n.category === item.category && n.slug !== item.slug)
-    .slice(0, 3)
-    .map((r) => ({
+  // 링크를 고루 퍼뜨린다 — 카테고리 앞 3개만 뽑던 코드가 미색인의 원인이었다
+  // (src/lib/seo/pickRelated.ts 주석 참고). 라벨/색은 **그 글 자신의** 카테고리를 쓴다.
+  const related: RelatedItem[] = pickRelated(items, item, 3).map((r) => {
+    const rm = getCategoryMeta(r.category)
+    return {
       slug: r.slug,
       title: r.title,
       date: r.date,
-      categoryLabel,
-      categoryColor: meta.color,
-    }))
+      categoryLabel: isEn ? rm.enLabel : rm.koLabel,
+      categoryColor: rm.color,
+    }
+  })
 
   return (
     <ArticleShell
