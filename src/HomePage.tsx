@@ -115,7 +115,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         .animate-fade-in-up-delay { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
         .animate-fade-in-up-delay2 { animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
         .shimmer-text {
-          background: linear-gradient(90deg, #d8503c, #c79340, #d8503c);
+          background: linear-gradient(90deg, #eb4763, #e0a63c, #eb4763);
           background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;

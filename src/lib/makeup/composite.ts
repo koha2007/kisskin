@@ -86,7 +86,7 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   let y = imgY + imgH + Math.round(pad * 0.9)
   ctx.textAlign = 'left'
   ctx.textBaseline = 'top'
-  ctx.fillStyle = '#232a52'
+  ctx.fillStyle = '#070953'
   ctx.font = `800 ${fontName}px Pretendard, system-ui, sans-serif`
   ctx.fillText(styleName, pad, y)
   y += Math.round(fontName * 1.4)
@@ -145,10 +145,10 @@ function drawBrandText(
 ) {
   ctx.textAlign = align
   ctx.textBaseline = 'middle'
-  ctx.fillStyle = '#232a52'
+  ctx.fillStyle = '#070953'
   ctx.font = `800 ${brandFont}px Pretendard, system-ui, sans-serif`
   ctx.fillText('kissinskin', x, brandY + brandH * 0.42)
-  ctx.fillStyle = '#d8503c'
+  ctx.fillStyle = '#eb4763'
   ctx.font = `600 ${urlFont}px Pretendard, system-ui, sans-serif`
   ctx.fillText('kissinskin.net', x, brandY + brandH * 0.66)
 }

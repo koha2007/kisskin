@@ -19,8 +19,8 @@ import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
 
-const NAVY = '#232a52'
-const PRIMARY = '#d8503c'
+const NAVY = '#070953'
+const PRIMARY = '#eb4763'
 const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {

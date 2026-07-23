@@ -17,7 +17,7 @@ html, body {
 .analysis-page {
   font-family: var(--font-body, 'Pretendard', system-ui, sans-serif);
   background: #f8f6f6;
-  color: #232a52;
+  color: #070953;
   min-height: 100vh;
   min-height: 100dvh;
   max-width: 448px;
@@ -54,7 +54,7 @@ html, body {
   flex-shrink: 0;
   border: none;
   background: none;
-  color: #232a52;
+  color: #070953;
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.2s;
@@ -132,7 +132,7 @@ html, body {
   border-radius: 24px;
   border: 1.5px solid rgba(235, 71, 99, 0.35);
   background: #fff;
-  color: #d8503c;
+  color: #eb4763;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -141,13 +141,13 @@ html, body {
 
 .upload-action-btn:hover {
   background: rgba(235, 71, 99, 0.06);
-  border-color: #d8503c;
+  border-color: #eb4763;
 }
 
 .upload-action-btn.camera {
-  background: #d8503c;
+  background: #eb4763;
   color: #fff;
-  border-color: #d8503c;
+  border-color: #eb4763;
 }
 
 .upload-action-btn.camera:hover {
@@ -176,14 +176,14 @@ html, body {
 
 .avatar-circle:hover,
 .avatar-circle.dragging {
-  border-color: #d8503c;
+  border-color: #eb4763;
   background: rgba(235, 71, 99, 0.1);
   transform: scale(1.05);
 }
 
 .avatar-circle.has-photo {
   border-style: solid;
-  border-color: #d8503c;
+  border-color: #eb4763;
 }
 
 .avatar-img {
@@ -221,7 +221,7 @@ html, body {
 
 .avatar-placeholder-icon {
   font-size: 40px;
-  color: #d8503c;
+  color: #eb4763;
   opacity: 0.6;
 }
 
@@ -239,7 +239,7 @@ html, body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #d8503c;
+  background: #eb4763;
   color: #fff;
   display: flex;
   align-items: center;
@@ -267,7 +267,7 @@ html, body {
   width: 40px;
   height: 40px;
   border: 4px solid rgba(235, 71, 99, 0.25);
-  border-top-color: #d8503c;
+  border-top-color: #eb4763;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -294,7 +294,7 @@ html, body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #d8503c;
+  color: #eb4763;
 }
 
 .section-label-row {
@@ -339,8 +339,8 @@ html, body {
 }
 
 .gender-btn.selected {
-  border-color: #d8503c;
-  background: #d8503c;
+  border-color: #eb4763;
+  background: #eb4763;
   color: #fff;
 }
 
@@ -370,7 +370,7 @@ html, body {
 }
 
 .skin-card.selected {
-  border-color: #d8503c;
+  border-color: #eb4763;
   background: rgba(235, 71, 99, 0.05);
 }
 
@@ -393,7 +393,7 @@ html, body {
 
 .skin-card-icon {
   font-size: 22px;
-  color: #d8503c;
+  color: #eb4763;
   opacity: 0.6;
 }
 
@@ -403,7 +403,7 @@ html, body {
 
 .skin-card-check {
   font-size: 18px;
-  color: #d8503c;
+  color: #eb4763;
 }
 
 .skin-card-chevron {
@@ -414,7 +414,7 @@ html, body {
 .skin-card-name {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #232a52;
+  color: #070953;
 }
 
 .skin-card-desc {
@@ -445,7 +445,7 @@ html, body {
 
 .info-tip .material-symbols-outlined {
   font-size: 20px;
-  color: #d8503c;
+  color: #eb4763;
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -476,7 +476,7 @@ html, body {
 .pricing-amount {
   font-size: 1.75rem;
   font-weight: 800;
-  color: #d8503c;
+  color: #eb4763;
   letter-spacing: -0.02em;
 }
 
@@ -500,13 +500,13 @@ html, body {
   align-items: center;
   gap: 8px;
   font-size: 0.85rem;
-  color: #434c82;
+  color: #2a2d8a;
   text-align: left;
 }
 
 .pricing-features li .material-symbols-outlined {
   font-size: 18px;
-  color: #d8503c;
+  color: #eb4763;
   flex-shrink: 0;
 }
 
@@ -562,7 +562,7 @@ html, body {
   justify-content: center;
   gap: 8px;
   height: 56px;
-  background: #d8503c;
+  background: #eb4763;
   color: #fff;
   font-weight: 700;
   font-size: 1.05rem;
@@ -618,7 +618,7 @@ html, body {
   width: 48px;
   height: 48px;
   border: 4px solid rgba(235, 71, 99, 0.2);
-  border-top-color: #d8503c;
+  border-top-color: #eb4763;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -631,7 +631,7 @@ html, body {
   margin-top: 24px;
   font-size: 1rem;
   font-weight: 700;
-  color: #232a52;
+  color: #070953;
 }
 
 .loading-sub {
@@ -659,13 +659,13 @@ html, body {
 
 .ai-analysis-header .material-symbols-outlined {
   font-size: 22px;
-  color: #d8503c;
+  color: #eb4763;
 }
 
 .ai-analysis-header h3 {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #232a52;
+  color: #070953;
   letter-spacing: -0.3px;
 }
 
@@ -678,7 +678,7 @@ html, body {
 
 .analysis-badge {
   background: rgba(235, 71, 99, 0.06);
-  color: #d8503c;
+  color: #eb4763;
   font-size: 0.78rem;
   font-weight: 600;
   padding: 5px 14px;
@@ -716,7 +716,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #d8503c;
+  color: #eb4763;
 }
 
 .analysis-card-icon .material-symbols-outlined {
@@ -740,7 +740,7 @@ html, body {
 .analysis-card-content p {
   font-size: 0.85rem;
   line-height: 1.6;
-  color: #434c82;
+  color: #2a2d8a;
   word-break: keep-all;
 }
 
@@ -756,7 +756,7 @@ html, body {
 
 .analysis-advice .material-symbols-outlined {
   font-size: 20px;
-  color: #d8503c;
+  color: #eb4763;
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -810,7 +810,7 @@ html, body {
   font-size: 0.65rem;
   font-weight: 700;
   text-align: center;
-  color: #232a52;
+  color: #070953;
   letter-spacing: -0.2px;
   line-height: 1.2;
 }
@@ -820,10 +820,10 @@ html, body {
   align-items: center;
   gap: 6px;
   padding: 10px 24px;
-  border: 2px solid #d8503c;
+  border: 2px solid #eb4763;
   border-radius: 10px;
   background: #fff;
-  color: #d8503c;
+  color: #eb4763;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -905,7 +905,7 @@ html, body {
   margin: 0;
   font-size: 15px;
   font-weight: 700;
-  color: #2f3766;
+  color: #121570;
 }
 
 .share-modal-close {
@@ -1063,7 +1063,7 @@ div.st-custom-button.share-option {
 
 .pwa-install-text strong {
   font-size: 14px;
-  color: #2f3766;
+  color: #121570;
 }
 
 .pwa-install-text span {
@@ -1076,7 +1076,7 @@ div.st-custom-button.share-option {
 
 .pwa-install-btn {
   flex-shrink: 0;
-  background: #d8503c;
+  background: #eb4763;
   color: #fff;
   border: none;
   padding: 8px 20px;
@@ -1126,7 +1126,7 @@ div.st-custom-button.share-option {
 .legal-header h1 {
   font-size: 18px;
   font-weight: 700;
-  color: #232a52;
+  color: #070953;
   margin: 0;
 }
 
@@ -1135,7 +1135,7 @@ div.st-custom-button.share-option {
   border: none;
   cursor: pointer;
   padding: 4px;
-  color: #232a52;
+  color: #070953;
   display: flex;
   align-items: center;
 }
@@ -1144,7 +1144,7 @@ div.st-custom-button.share-option {
   max-width: 720px;
   margin: 0 auto;
   padding: 24px 20px 60px;
-  color: #434c82;
+  color: #2a2d8a;
   line-height: 1.7;
   font-size: 14px;
 }
@@ -1158,14 +1158,14 @@ div.st-custom-button.share-option {
 .legal-content h2 {
   font-size: 16px;
   font-weight: 700;
-  color: #232a52;
+  color: #070953;
   margin: 28px 0 10px;
 }
 
 .legal-content h3 {
   font-size: 14px;
   font-weight: 600;
-  color: #2f3766;
+  color: #121570;
   margin: 16px 0 6px;
 }
 
@@ -1210,11 +1210,11 @@ div.st-custom-button.share-option {
 .legal-table th {
   background: #f1f5f9;
   font-weight: 600;
-  color: #232a52;
+  color: #070953;
 }
 
 .legal-table td {
-  color: #434c82;
+  color: #2a2d8a;
 }
 
 .legal-link {
@@ -1230,21 +1230,21 @@ div.st-custom-button.share-option {
 }
 
 .report-section .section-heading {
-  color: #d8503c;
+  color: #eb4763;
   font-size: 1.05rem;
 }
 
 .report-content {
   font-size: 0.9rem;
   line-height: 1.6;
-  color: #434c82;
+  color: #2a2d8a;
   word-break: keep-all;
 }
 
 .report-content .report-h3 {
   font-size: 1rem;
   font-weight: 700;
-  color: #d8503c;
+  color: #eb4763;
   margin: 14px 0 6px;
 }
 
@@ -1269,7 +1269,7 @@ div.st-custom-button.share-option {
 }
 
 .report-content strong {
-  color: #232a52;
+  color: #070953;
 }
 
 /* ===== Product Cards ===== */
@@ -1318,7 +1318,7 @@ div.st-custom-button.share-option {
 .product-category-label {
   font-size: 0.6rem;
   font-weight: 700;
-  color: #d8503c;
+  color: #eb4763;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 1px;
@@ -1327,7 +1327,7 @@ div.st-custom-button.share-option {
 .product-name {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #232a52;
+  color: #070953;
   line-height: 1.3;
   white-space: nowrap;
   overflow: hidden;
@@ -1357,7 +1357,7 @@ div.st-custom-button.share-option {
   align-items: center;
   justify-content: center;
   padding: 10px 14px;
-  background: #d8503c;
+  background: #eb4763;
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
@@ -1573,7 +1573,7 @@ img {
   margin: 0;
   font-size: 14px;
   font-weight: 700;
-  color: #232a52;
+  color: #070953;
 }
 
 .email-sent-text p {
@@ -1604,7 +1604,7 @@ img {
   margin: 0 0 8px;
   font-size: 16px;
   font-weight: 800;
-  color: #232a52;
+  color: #070953;
 }
 
 .refund-failed-card > p {

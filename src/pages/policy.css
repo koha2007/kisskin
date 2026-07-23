@@ -1,7 +1,7 @@
 /* ===== Legal Pages (Terms, Privacy, Refund) ===== */
 .legal-page {
   min-height: 100vh;
-  background: #f5efe3;            /* 힐다 크림 — 사이트 배경과 통일 */
+  background: #f8f6f6;            /* 힐다 크림 — 사이트 배경과 통일 */
 }
 
 .legal-header {
@@ -9,8 +9,8 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: #fffdf8;
-  border-bottom: 1px solid rgba(35, 42, 82, 0.16);
+  background: #ffffff;
+  border-bottom: 1px solid rgba(7, 9, 83, 0.16);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -21,7 +21,7 @@
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #232a52;
+  color: #070953;
   margin: 0;
   flex: 1;
 }
@@ -31,32 +31,32 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-  color: #232a52;
+  color: #070953;
   display: flex;
   align-items: center;
 }
 
 .legal-lang {
   background: none;
-  border: 1px solid rgba(35, 42, 82, 0.16);
+  border: 1px solid rgba(7, 9, 83, 0.16);
   border-radius: 4px;
   padding: 4px 10px;
   font-size: 12px;
   font-weight: 600;
-  color: #232a52;
+  color: #070953;
   cursor: pointer;
 }
 
 .legal-lang:hover {
-  border-color: #d8503c;
-  color: #d8503c;
+  border-color: #eb4763;
+  color: #eb4763;
 }
 
 .legal-content {
   max-width: 720px;
   margin: 0 auto;
   padding: 24px 20px 60px;
-  color: #434c82;
+  color: #2a2d8a;
   line-height: 1.7;
   font-size: 15px;
 }
@@ -72,14 +72,14 @@
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #232a52;
+  color: #070953;
   margin: 28px 0 10px;
 }
 
 .legal-content h3 {
   font-size: 14px;
   font-weight: 600;
-  color: #2f3766;
+  color: #121570;
   margin: 16px 0 6px;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .legal-content a {
-  color: #b03e2d;
+  color: #c9304a;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -116,23 +116,23 @@
 
 .legal-table th,
 .legal-table td {
-  border: 1px solid rgba(35, 42, 82, 0.16);
+  border: 1px solid rgba(7, 9, 83, 0.16);
   padding: 8px 12px;
   text-align: left;
 }
 
 .legal-table th {
-  background: #ede3d1;
+  background: #f8f1ec;
   font-weight: 600;
-  color: #232a52;
+  color: #070953;
 }
 
 .legal-table td {
-  color: #434c82;
+  color: #2a2d8a;
 }
 
 .legal-link {
-  color: #b03e2d;
+  color: #c9304a;
   text-decoration: underline;
   cursor: pointer;
 }

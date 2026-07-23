@@ -10,7 +10,7 @@ function byDateDesc<T extends { date: string }>(a: T, b: T) {
   return a.date < b.date ? 1 : -1
 }
 function gradient(color: string) {
-  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #232a52))`
+  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #070953))`
 }
 function fmt(iso: string) {
   const d = new Date(iso)

@@ -21,19 +21,20 @@ function safeNext(): string | null {
 }
 
 /**
- * 힐다 팔레트 토큰 (2026-07-23).
- * 이 페이지는 인라인 스타일 덩어리라 Tailwind 토큰(@theme)이 닿지 않는다.
- * 값을 흩뿌리지 않고 한 곳에 모아 index.css 의 @theme 과 1:1 로 대응시킨다.
- * 값이 바뀌면 index.css → 여기 순으로 같이 고칠 것.
+ * 브랜드 팔레트 토큰 (2026-07-23).
+ * 로그인은 '외피'라 브랜드(네이비+핑크)를 쓴다. 힐다 크림/버밀리언은
+ * 무료 도구·콘텐츠 본문 전용이다(src/index.css 팔레트 2층 구조 주석 참고).
+ * 이 페이지는 인라인 스타일 덩어리라 Tailwind 토큰(@theme)이 닿지 않으므로
+ * 값을 한 곳에 모아 index.css 의 @theme 과 1:1 로 대응시킨다.
  */
 const C = {
-  cream: '#f5efe3',
-  surface: '#fffdf8',
-  navy: '#232a52',
+  cream: '#f8f6f6',
+  surface: '#ffffff',
+  navy: '#070953',
   muted: '#6b6f8c',
-  line: 'rgba(35, 42, 82, 0.16)',
-  primary: '#d8503c',
-  primaryDark: '#b03e2d',
+  line: 'rgba(7, 9, 83, 0.16)',
+  primary: '#eb4763',
+  primaryDark: '#c9304a',
   mustard: '#c79340',
   sage: '#7e9b6a',
 } as const

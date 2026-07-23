@@ -109,7 +109,7 @@ export default function MakeupStudio({ photo, gender, onRender }: Props) {
 
       {ready && !noFace && !engineErr && look && (
         <p className="makeup-look-caption" style={{ marginTop: 12, textAlign: 'center', fontSize: 13.5, color: '#555' }}>
-          <span style={{ fontWeight: 700, color: '#434c82' }}>{ko ? look.nameKo : look.name}</span>
+          <span style={{ fontWeight: 700, color: '#2a2d8a' }}>{ko ? look.nameKo : look.name}</span>
           {ko && <span style={{ display: 'block', fontSize: 12, opacity: 0.8, marginTop: 2 }}>{look.point}</span>}
         </p>
       )}

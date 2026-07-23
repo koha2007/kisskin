@@ -262,7 +262,7 @@ export function maskCoverage(mask: HTMLCanvasElement): number {
 }
 
 /** 사진 위에 마스크(흰=편집) 영역만 색으로 덮은 디버그 오버레이(dataURL). */
-export function buildDebugOverlay(img: HTMLImageElement | HTMLCanvasElement, mask: HTMLCanvasElement, tint = '#d8503c', alpha = 0.5): string {
+export function buildDebugOverlay(img: HTMLImageElement | HTMLCanvasElement, mask: HTMLCanvasElement, tint = '#eb4763', alpha = 0.5): string {
   const w = mask.width, h = mask.height
   // 마스크는 흑백 모두 alpha=255(불투명)라 그대로 쓰면 전체가 칠해진다.
   // 흰색 명도를 alpha 로 옮겨(흰→불투명, 검정→투명) 흰 영역에만 tint 가 남게 한다.

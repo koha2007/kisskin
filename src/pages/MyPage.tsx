@@ -5,17 +5,17 @@ import { useAuth } from '../hooks/useAuth'
 import { getCreditBalance } from '../lib/credits'
 
 /**
- * 힐다 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
+ * 브랜드 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
  * 인라인 스타일 덩어리라 Tailwind @theme 이 닿지 않는다. index.css 와 함께 고칠 것.
  */
 const C = {
-  cream: '#f5efe3',
-  surface: '#fffdf8',
-  navy: '#232a52',
+  cream: '#f8f6f6',
+  surface: '#ffffff',
+  navy: '#070953',
   muted: '#6b6f8c',
-  line: 'rgba(35, 42, 82, 0.16)',
-  primary: '#d8503c',
-  primaryDark: '#b03e2d',
+  line: 'rgba(7, 9, 83, 0.16)',
+  primary: '#eb4763',
+  primaryDark: '#c9304a',
   mustard: '#c79340',
   sage: '#7e9b6a',
 } as const
@@ -24,7 +24,7 @@ const RAD = '4px'
 
 /**
  * 파괴적 동작(회원 탈퇴) 전용 색.
- * 시그니처 버밀리언(#d8503c)과 같은 계열이면 "탈퇴"가 메인 CTA 처럼 보인다.
+ * 시그니처 핑크(#eb4763)와 같은 계열이면 "탈퇴"가 메인 CTA 처럼 보인다.
  * 채도를 낮추고 확실히 어둡게 잡아 팔레트 안에 있으면서도 구분되게 한다.
  */
 const DANGER = '#8f2d20'

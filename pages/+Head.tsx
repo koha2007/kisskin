@@ -26,8 +26,9 @@ export default function Head() {
         crossOrigin="anonymous"
       />
       {/* 상단 네비가 bg-navy 라 모바일 브라우저 크롬을 같은 색으로 이어 붙인다.
-          힐다 팔레트 전환(2026-07-22) 전까지 옛 핑크 #eb4763 이 남아 있었다. */}
-      <meta name="theme-color" content="#232a52" />
+          2026-07-23: 브랜드 팔레트를 네이비+핑크로 되돌리면서 #070953 로 복귀
+          (힐다 크림/버밀리언은 /tools/* 본문 전용 — src/index.css 팔레트 2층 구조 참고). */}
+      <meta name="theme-color" content="#070953" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <meta name="apple-mobile-web-app-title" content="Kissinskin" />

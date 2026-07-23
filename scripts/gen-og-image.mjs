@@ -29,14 +29,18 @@ const dataUri = (rel) => {
   return `data:image/webp;base64,${buf.toString('base64')}`
 }
 
-/** 팔레트 — src/index.css @theme 과 1:1 */
+/**
+ * 팔레트 — src/index.css @theme(브랜드 기본값)과 1:1.
+ * OG 카드는 링크로 나가는 '외피'라 브랜드(네이비+핑크)를 쓴다.
+ * 힐다 크림/버밀리언은 무료 도구·콘텐츠 본문 전용이다.
+ */
 const C = {
-  cream: '#f5efe3',
-  surface: '#fffdf8',
-  navy: '#232a52',
+  cream: '#f8f6f6',
+  surface: '#ffffff',
+  navy: '#070953',
   muted: '#6b6f8c',
-  primary: '#d8503c',
-  line: 'rgba(35, 42, 82, 0.16)',
+  primary: '#eb4763',
+  line: 'rgba(7, 9, 83, 0.16)',
 }
 
 const COPY = {

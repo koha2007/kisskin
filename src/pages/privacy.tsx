@@ -169,7 +169,7 @@ function PrivacyKo() {
           <tr><td><strong>Cloudflare</strong></td><td>처리자</td><td>웹사이트 호스팅, CDN, 보안</td><td>익명 분석, IP (일시적)</td><td>글로벌 (엣지 네트워크)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
         </tbody>
       </table>
-      <p><strong>중요:</strong> OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. Google Gemini API로 전송되는 데이터는 <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>에 따라 처리됩니다. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
+      <p><strong>중요:</strong> OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 당사는 Google Gemini API 를 <strong>유료 등급</strong>으로 이용하며, <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>상 유료 등급에서는 구글이 프롬프트·업로드 파일·응답을 <strong>자사 제품 개선에 사용하지 않습니다</strong>. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
 
       <h2>8. 국경 간 데이터 이전</h2>
       <p>데이터는 거주 국가 외 국가(미국 포함)로 이전·처리될 수 있습니다. 당사는 적절한 보호 장치를 마련합니다.</p>
@@ -186,7 +186,7 @@ function PrivacyKo() {
       <ul>
         <li>이름, 전화번호, 주소를 직접 수집하지 않습니다(결제 시 Polar에 제공되는 경우, 분석 리포트 발송용 이메일 입력 시 제외).</li>
         <li>사용자 계정이나 프로필을 강제 생성하지 않습니다.</li>
-        <li>업로드한 사진을 당사의 AI 모델 학습에 이용하지 않습니다 — OpenAI API 사용 시 학습 비활용 정책이 적용됩니다.</li>
+        <li>업로드한 사진을 당사의 AI 모델 학습에 이용하지 않습니다 — OpenAI 는 API 데이터 미학습 정책이, Google 은 유료 등급의 데이터 미사용 정책이 적용됩니다.</li>
         <li>생체 식별자(얼굴 임베딩 벡터·해시·템플릿)를 생성하거나 저장하지 않습니다.</li>
         <li>당사 자체적으로는 개인정보를 판매·대여하지 않습니다. 다만 Google AdSense를 통해 게재되는 광고는 Google이 자체 정책에 따라 이용자의 일반 인구 통계 추정치를 활용할 수 있으며, 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 거부할 수 있습니다.</li>
       </ul>
@@ -434,7 +434,7 @@ function PrivacyEn() {
           <tr><td><strong>Cloudflare</strong></td><td>Data Processor</td><td>Website hosting, CDN, security</td><td>Anonymous analytics, IP (transient)</td><td>Global (edge network)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
         </tbody>
       </table>
-      <p><strong>Important:</strong> OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. Data sent to the Google Gemini API is handled under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>. We never use your photos to train any model of our own.</p>
+      <p><strong>Important:</strong> OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. We use the Google Gemini API on a <strong>paid tier</strong>; under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>, Google <strong>does not use</strong> prompts, uploaded files, or responses from paid services to improve its products. We never use your photos to train any model of our own.</p>
 
       <h2>8. International Data Transfers</h2>
       <p>Your data may be transferred to and processed in countries outside your country of residence, including the United States. We ensure appropriate safeguards are in place:</p>
@@ -451,7 +451,7 @@ function PrivacyEn() {
       <ul>
         <li>We do not directly collect your name, phone number, or address (except information you provide to Polar during payment, or the email you enter to receive your analysis report).</li>
         <li>We do not force you to create user accounts or profiles.</li>
-        <li>We do not use your uploaded photos to train any model of our own — and OpenAI's API no-training policy applies to the photos we send there.</li>
+        <li>We do not use your uploaded photos to train any model of our own — OpenAI's API no-training policy and Google's paid-tier no-improvement policy apply to the photos we send there.</li>
         <li>We do not create or store biometric identifiers (face embeddings, hashes, or templates).</li>
         <li>We do not sell or rent your personal information ourselves. Note: ads served via Google AdSense may use Google's general demographic estimates; you can opt out at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>.</li>
       </ul>

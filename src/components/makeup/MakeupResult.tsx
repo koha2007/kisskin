@@ -18,8 +18,8 @@ import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import type { ProductRec } from '../../lib/recommendations/types'
 
-const PRIMARY = '#d8503c'
-const NAVY = '#232a52'
+const PRIMARY = '#eb4763'
+const NAVY = '#070953'
 const TOOL_URL = 'https://kissinskin.net/analysis/'
 const screenBg = { background: `linear-gradient(170deg, ${NAVY} 0%, #15123f 60%, #241a52 100%)` }
 
@@ -427,7 +427,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
           /* P1-3 인페인팅 미연결 — 디버그 마스크 대신 안전한 "생성 준비 중" 자리표시 */
           <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-navy border border-white/10">
             {beforeSrc && <img src={beforeSrc} alt={isEn ? 'Your selfie' : '내 셀카'} className="absolute inset-0 w-full h-full object-cover opacity-35" />}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-6" style={{ background: 'linear-gradient(180deg, rgba(35,42,82,0.55), rgba(35,42,82,0.78))' }}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-6" style={{ background: 'linear-gradient(180deg, rgba(7,9,83,0.55), rgba(7,9,83,0.78))' }}>
               <span className="material-symbols-outlined text-4xl text-white/85" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               <p className="text-base font-extrabold">{isEn ? 'Preparing your makeup…' : '메이크업 생성 준비 중'}</p>
               <p className="text-xs text-white/70 leading-relaxed max-w-[15rem]">

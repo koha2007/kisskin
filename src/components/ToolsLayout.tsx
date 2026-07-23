@@ -61,7 +61,7 @@ export function ToolsNav() {
   ]
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50" role="navigation">
+    <nav className="palette-brand sticky top-0 z-40 w-full bg-navy border-b border-navy-light/50" role="navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <a href={isEn ? '/en/' : '/'} className="flex items-center gap-2 rounded-md -ml-1 px-1 py-1 hover:bg-navy-light/30 transition-colors" aria-label="kissinskin home">
           <img src="/logo-sm.webp" alt="kissinskin" className="h-9 w-9 rounded-full object-cover" width={36} height={36} />
@@ -212,7 +212,7 @@ export function ToolsFooter() {
   const { t, locale } = useI18n()
   const isEn = locale === 'en'
   return (
-    <footer className="bg-navy text-white pt-14 pb-8">
+    <footer className="palette-brand bg-navy text-white pt-14 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-10 mb-10">
           <div className="flex flex-col gap-4">
