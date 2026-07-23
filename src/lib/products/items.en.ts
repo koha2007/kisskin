@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'charlotte-tilbury-beautiful-skin-foundation',
+    category: 'base',
+    brand: 'Charlotte Tilbury',
+    name: 'Beautiful Skin Foundation',
+    title: 'Charlotte Tilbury Beautiful Skin Foundation: Radiant, Healthy Skin All Day Long!',
+    summary:
+      'Charlotte Tilbury Beautiful Skin Foundation is a medium-coverage foundation infused with skincare ingredients, leaving skin moisturized, smooth, and with a healthy glow.',
+    highlights: ['Healthy Glow', 'Medium Buildable Coverage', '16-Hour Wear', 'Contains Skincare Ingredients'],
+    details: [
+      'Contains skincare ingredients like hyaluronic acid and rose complex to hydrate the skin and impart a healthy vitality.',
+      'Naturally corrects blemishes and evens skin tone even with a thin layer, offering medium buildable coverage that can be increased with additional application.',
+      'Adheres smoothly to the skin without caking or flaking, maintaining a beautiful complexion for 16 hours.',
+      'Achieves a natural finish with a healthy glow, creating comfortable and smooth skin that feels like your own.',
+    ],
+    whoFor:
+      'Especially recommended for those with dry or combination skin. Ideal for anyone looking to add moisture and radiance to their skin for a healthy and vibrant complexion.',
+    howTo: [
+      'Pump an appropriate amount and gently spread from the center of the face outwards.',
+      'For areas requiring more coverage, apply a small amount additionally and blend naturally.',
+      'Finish by pressing into the skin with a Magic Complexion Brush, fingers, or a sponge.',
+    ],
+    pros: [
+      'Delivers a healthy glow that appears to emanate from within the skin.',
+      'Lightweight and comfortable, allowing the skin to breathe.',
+      'Excellent moisturizing power keeps dry skin hydrated all day long.',
+    ],
+    cons: [
+      'Oily skin types may experience oiliness in the T-zone, potentially requiring powder application.',
+      'Coverage is not extremely high; a concealer may be needed for those desiring perfect, flawless coverage.',
+    ],
+    colorFit:
+      'Available in 30 shades for various skin tones and undertones (cool, warm, neutral), making it easy to find your perfect match.',
+    image: '/products/charlotte-tilbury-beautiful-skin-foundation.webp',
+    coupangQuery: '샬롯 틸버리 뷰티풀 스킨 파운데이션',
+    globalQuery: 'Charlotte Tilbury Beautiful Skin Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-07-23',
+    tags: ['Foundation', 'Glow', 'HydratingFoundation', 'CharlotteTilbury', 'MediumCoverage', 'SkincareFoundation'],
+  },
+  {
     slug: 'romand-han-all-fix-mascara-long-ash',
     category: 'eye',
     brand: 'rom&nd',

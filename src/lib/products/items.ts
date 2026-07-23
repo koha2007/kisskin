@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'charlotte-tilbury-beautiful-skin-foundation',
+    category: 'base',
+    brand: '샬롯 틸버리',
+    name: '뷰티풀 스킨 파운데이션',
+    title: '샬롯 틸버리 뷰티풀 스킨 파운데이션: 하루 종일 빛나는 건강한 피부!',
+    summary:
+      '샬롯 틸버리 뷰티풀 스킨 파운데이션은 스킨케어 성분을 함유한 미디엄 커버리지 파운데이션으로, 피부를 촉촉하고 매끄럽게 가꿔주며 건강한 윤기를 선사합니다.',
+    highlights: ['건강한 윤기', '미디엄 빌더블 커버리지', '16시간 지속', '스킨케어 성분 함유'],
+    details: [
+      '히알루론산과 로즈 콤플렉스 등 스킨케어 성분을 함유하여 피부에 수분을 공급하고 건강한 활력을 부여합니다.',
+      '얇게 발라도 잡티와 피부 톤을 자연스럽게 보정해주며, 덧바를수록 커버력을 높일 수 있는 미디엄 빌더블 커버리지입니다.',
+      '피부에 뭉치거나 들뜨지 않고 매끄럽게 밀착되어 16시간 동안 아름다운 피부 표현을 유지합니다.',
+      '건강한 윤기가 도는 자연스러운 마무리감으로, 마치 내 피부처럼 편안하고 매끄러운 피부를 연출합니다.',
+    ],
+    whoFor:
+      '건조하거나 복합성 피부를 가진 분들에게 특히 추천합니다. 피부에 촉촉함과 윤기를 더해주어 건강하고 생기 있는 피부를 연출하고 싶은 분들에게 적합합니다.',
+    howTo: [
+      '적당량을 펌핑하여 얼굴 중앙에서 바깥쪽으로 부드럽게 펴 바릅니다.',
+      '더 많은 커버리지를 원하는 부위에는 소량을 덧발라 자연스럽게 블렌딩합니다.',
+      '매직 컴플렉션 브러쉬나 손가락, 스폰지 등으로 피부에 밀착시켜 마무리합니다.',
+    ],
+    pros: [
+      '피부 속부터 차오르는 듯한 건강한 윤기를 선사합니다.',
+      '답답하지 않은 가벼운 사용감으로 피부가 편안합니다.',
+      '뛰어난 보습력으로 건조한 피부도 하루 종일 촉촉하게 유지됩니다.',
+    ],
+    cons: [
+      '지성 피부의 경우 T존에 유분이 올라올 수 있어 파우더 처리가 필요할 수 있습니다.',
+      '커버력이 아주 높지 않아 완벽한 무결점 커버를 원하는 경우 컨실러 사용이 필요합니다.',
+    ],
+    colorFit:
+      '다양한 피부 톤과 언더톤(쿨, 웜, 뉴트럴)을 위한 30가지 쉐이드로 출시되어 자신에게 맞는 색상을 찾기 좋습니다.',
+    image: '/products/charlotte-tilbury-beautiful-skin-foundation.webp',
+    coupangQuery: '샬롯 틸버리 뷰티풀 스킨 파운데이션',
+    globalQuery: 'Charlotte Tilbury Beautiful Skin Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-07-23',
+    tags: ['파운데이션', '글로우', '촉촉한파운데이션', '샬롯틸버리', '미디엄커버리지', '스킨케어파운데이션'],
+  },
+  {
     slug: 'romand-han-all-fix-mascara-long-ash',
     category: 'eye',
     brand: '롬앤',

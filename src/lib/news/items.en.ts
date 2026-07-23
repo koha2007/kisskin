@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-packaging-sustainability-recycling-challenge-2026-july',
+    category: 'global',
+    title: 'K-Beauty Under Pressure: 62.6% of Packaging \'Difficult to Recycle\' Amidst Global Sustainability Push',
+    summary:
+      'As demand for sustainability intensifies in the K-Beauty market, a significant challenge has emerged: over 60% of domestic cosmetic packaging is classified as difficult to recycle. Major global markets, including the European Union (EU), are set to enforce stringent mandatory recycling and refill regulations for cosmetic packaging from 2026, compelling the industry to adapt.',
+    body: [
+      '> TLDR: K-Beauty Packaging Recycling Struggles | Stricter Global Regulations | Pressure for Refill System Adoption',
+      'The environmental issues associated with cosmetic packaging, often obscured by beautiful designs, are now coming to the forefront. Recent investigations reveal that a substantial amount of cosmetic packaging circulated in South Korea is, in reality, difficult to recycle, often ending up as \'pretty waste.\'',
+      '> DATA: A 2023 survey by the Korea Consumer Agency revealed that among 294 representative products from the top 15 domestic cosmetic distributors and retailers, 62.6% (184 items) were classified as \'difficult to recycle\' under legal standards. This indicates that over six out of ten items possess a structure that renders them unrecyclable, with \'excellent\' grade packaging accounting for a mere 0.7% (2 items).',
+      'These recycling challenges are primarily attributed to factors such as colored plastics, composite materials that blend glass with metal pumps, and small-sized containers. Even when consumers diligently separate their waste, most of these items are rejected at sorting facilities, perpetuating a vicious cycle of incineration or landfill disposal.',
+      'Consequently, both the government and the beauty industry are moving to implement stringent regulations, such as mandating the use of recycled materials, and developing self-help measures. Notably, the EU is introducing powerful regulations, including mandating the attachment of material identification and disposal instruction labels on all beauty packaging by August 2026, and requiring the adoption of refillable systems by 2027.',
+      'These shifts necessitate technological innovation and investment from K-Beauty brands for the development of sustainable packaging and the adoption of refill systems. This implies that only brands demonstrating eco-friendly competitiveness will earn consumer trust and achieve success in the global market.',
+    ],
+    date: '2026-07-23',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Sustainability', 'Recycling', 'Cosmetic Packaging', 'Eco-friendly'],
+  },
+  {
     slug: 'k-beauty-ai-hair-platform-lianhair-2026-july',
     category: 'global',
     title: 'K-Beauty\'s AI Transformation Accelerates: Fasoo AI Partners with Lian Hair to Build \'Hyper-Personalized Beauty Platform\'',
