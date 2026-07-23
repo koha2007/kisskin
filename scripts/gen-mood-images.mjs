@@ -186,19 +186,65 @@ const MBTI = [
   ].join(' '),
 }))
 
+// ── 무료 도구 허브 카드 5종 (2026-07-23 추가, 16:9) ──
+// 왜 따로 만드나: ToolCard 의 이미지 틀이 `aspect-[16/9]` + `object-top` 이다.
+// 여기에 3:4 인물 사진을 넣으면 위쪽 가로 띠만 남아 **다섯 장이 전부 "눈만 보이는
+// 사진"** 이 됐다. 도구가 무엇인지 구분이 안 되는 상태였다.
+// → 가로 프레임에 맞춰 처음부터 구성한 그림을 따로 만든다. 얼굴형도 인물 대신
+//   정물로 간다 — 16:9 로 자르면 얼굴에서 턱선(진단 내용)이 반드시 잘리기 때문이다.
+//   (결과·유형 카드는 3:4 라 얼굴형만 인물을 유지한다. 틀이 다르면 답도 다르다.)
+const TOOL_CARDS = [
+  {
+    slug: 'tool-mbti',
+    label: 'MBTI 카드',
+    ratio: '16:9',
+    prompt:
+      'A wide horizontal flat-lay of an open eyeshadow palette with sixteen distinct shades in four color families — teal, sage green, indigo, mustard — arranged in a long row across the frame, three clean brushes laid diagonally beside it. Warm cream paper surface, soft daylight from the left, no people.',
+  },
+  {
+    slug: 'tool-personal-color',
+    label: '퍼스널컬러 카드',
+    ratio: '16:9',
+    prompt:
+      'A wide horizontal still life of four fabric swatches laid side by side in a continuous band across the frame, in this exact left-to-right order: bright coral peach, soft dusty lavender, deep mustard ochre, cool burgundy with black. Each fabric gently folded, a few dried petals scattered on the seams. Warm cream surface, soft even daylight, no people.',
+  },
+  {
+    slug: 'tool-face-shape',
+    label: '얼굴형 카드',
+    ratio: '16:9',
+    prompt:
+      'A wide horizontal still life about facial contouring: a small oval hand mirror lying flat on the left reflecting soft light, an open contour palette with light and deep shade pans in the middle, two angled contour brushes and a blending sponge on the right. Warm cream surface, soft directional daylight casting long gentle shadows, no people, no reflection of a face in the mirror.',
+  },
+  {
+    slug: 'tool-perfume',
+    label: '향수 카드',
+    ratio: '16:9',
+    prompt:
+      'A wide horizontal still life of perfume materials arranged in a long line across the frame: fresh peony and jasmine petals on the left, a halved bergamot in the centre-left, one unlabelled clear glass perfume bottle in the centre, cedar wood blocks and dried vetiver on the right, amber resin at the far right. Warm cream surface, soft daylight, no people, no text on the bottle.',
+  },
+  {
+    slug: 'tool-guide',
+    label: 'K-뷰티 가이드 카드',
+    ratio: '16:9',
+    prompt:
+      'A wide horizontal still life of a K-beauty routine laid out in a row: a cushion compact, a glass skin essence bottle, a gradient lip tint, a cream blush pot and one fan brush, all unlabelled, with an open blank notebook and a pen at the right end. Warm cream surface, soft morning daylight, calm and instructional, no people, no text.',
+  },
+]
+
 const ALL = [
   ...PERSONAL_COLOR.map((x) => ({ ...x, tool: '퍼스널컬러' })),
   ...FACE_SHAPE.map((x) => ({ ...x, tool: '얼굴형' })),
   ...PERFUME.map((x) => ({ ...x, tool: '향수' })),
   ...MBTI.map((x) => ({ ...x, tool: 'MBTI' })),
+  ...TOOL_CARDS.map((x) => ({ ...x, tool: '도구카드' })),
 ].map((x) => ({ ...x, prompt: x.prompt.includes(EDITORIAL) ? x.prompt : `${x.prompt} ${EDITORIAL}` }))
 
-async function imagen(apiKey, prompt) {
+async function imagen(apiKey, prompt, aspectRatio = '3:4') {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:predict?key=${apiKey}`
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: '3:4' } }),
+    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio } }),
   })
   if (!res.ok) throw new Error(`imagen ${res.status}: ${(await res.text()).slice(0, 200)}`)
   const j = await res.json()
@@ -235,9 +281,11 @@ async function main() {
       continue
     }
     try {
-      const raw = await imagen(apiKey, t.prompt)
-      // 결과 카드가 3:4 로 렌더되므로 같은 비율로 맞춰 저장한다(레이아웃 시프트 방지).
-      const webp = await sharp(raw).resize(900, 1200, { fit: 'cover' }).webp({ quality: 82 }).toBuffer()
+      const raw = await imagen(apiKey, t.prompt, t.ratio ?? '3:4')
+      // 렌더되는 비율과 같게 저장한다(레이아웃 시프트 방지).
+      // 결과/유형 카드는 3:4 세로, 도구 허브 카드는 16:9 가로다.
+      const [rw, rh] = t.ratio === '16:9' ? [1280, 720] : [900, 1200]
+      const webp = await sharp(raw).resize(rw, rh, { fit: 'cover' }).webp({ quality: 82 }).toBuffer()
       writeFileSync(out, webp)
       console.log(`✓ ${t.slug} · ${t.tool} ${t.label}  (${Math.round(webp.length / 1024)}KB)`)
       made++
