@@ -4,18 +4,17 @@ import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { QuizScreen, QuizRedirecting } from '../components/quiz/QuizScreen'
-import { mbtiGroupColor, LOOK_NAME_TO_ID } from '../lib/makeup-mbti/groupColors'
-import { LOOK_IMAGES } from '../lib/makeup/lookImages'
-import type { MakeupStyleId } from '../lib/makeup/styles'
+import { mbtiGroupColor, mbtiMoodImage, LOOK_NAME_KO } from '../lib/makeup-mbti/groupColors'
 import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '../components/tools/ToolLanding'
 import { useI18n } from '../i18n/I18nContext'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
-// 유형의 추천 룩을 실제 결과 사진으로 바꾼다. 매핑에 없으면 undefined → 이모지 폴백.
-function lookPhoto(name: string): string | undefined {
-  const id = LOOK_NAME_TO_ID[name] as MakeupStyleId | undefined
-  return id ? LOOK_IMAGES[id]?.after : undefined
+// 추천 룩 이름을 카드에 적는다. 유형이 달라도 추천 룩은 겹칠 수 있으므로
+// (Natural Glow 하나를 ENFJ·ISTJ·ISTP 가 함께 쓴다) 적어 두지 않으면 실수처럼 보인다.
+function lookLabel(name: string, isEn: boolean): string | undefined {
+  if (!name) return undefined
+  return isEn ? name : LOOK_NAME_KO[name] ?? name
 }
 
 export default function MakeupMbtiQuiz() {
@@ -195,7 +194,8 @@ export default function MakeupMbtiQuiz() {
                 name={isEn ? en.enPersona : mt.koName}
                 sub={mt.code}
                 accent={mbtiGroupColor(code)}
-                image={lookPhoto(mt.recommended.women.primary)}
+                image={mbtiMoodImage(code)}
+                note={lookLabel(mt.recommended.women.primary, isEn)}
               />
             )
           })}

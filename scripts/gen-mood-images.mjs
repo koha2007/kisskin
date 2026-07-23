@@ -128,10 +128,69 @@ const PERFUME = [
   },
 ]
 
+// ── 메이크업 MBTI 16종 (2026-07-23 추가) ──
+// 왜 이제 와서: 무드 사진 15장을 만들 때 MBTI 만 빠져 있었다. 그래서 랜딩의 16타입
+// 카드가 AI 메이크업 9룩 사진을 빌려 쓰고 있었고, 16개가 9장을 나눠 쓰니 서로 다른
+// 유형이 같은 얼굴로 보였다(Natural Glow 하나를 ENFJ·ISTJ·ISTP 셋이 공유).
+//
+// 왜 인물이 아니라 정물인가:
+//   ① 얼굴을 세우면 색이 묻힌다. 16장이 한 그리드에 깔리는 화면이라 유형을 가르는 건
+//      색인데, 인물 16명이 늘어서면 얼굴이 주인공이 되고 색은 배경으로 밀린다.
+//      퍼스널컬러를 계절 팔레트 정물로 만든 것과 같은 이유다.
+//   ② 9룩 사진은 **우리 서비스가 실제로 만드는 결과물**이다. 얼굴 16장을 새로 생성하면
+//      실제 결과가 아닌 이미지가 '결과 미리보기' 자리에 앉는다. 정물은 애초에 무드라
+//      그 오해가 없다. 결과 페이지는 지금처럼 추천 룩 실제 사진을 계속 쓴다.
+//   ③ MBTI 결과에는 제품 추천 카드(어필리에이트)가 붙는다. 유형 카드가 '이 유형의
+//      아이템'을 보여주면 그 아래 제품 카드로 시선이 이어진다.
+//
+// 색은 groupColors.ts 의 4역할군을 따른다 — NT 틸 / NF 세이지 / SJ 인디고 / SP 머스터드.
+// 16장을 나란히 놓았을 때 개별 유형보다 **그룹이 먼저 읽혀야** 한다(16Personalities 방식).
+const MBTI_SURFACE = {
+  NT: 'Set on a cool teal-grey stone surface with a slate-teal backdrop; analytical, graphic, precise.',
+  NF: 'Set on a soft sage-green linen surface with a muted eucalyptus backdrop; poetic, hazy, gentle.',
+  SJ: 'Set on a deep indigo matte surface with a navy-blue backdrop; orderly, composed, quietly formal.',
+  SP: 'Set on a warm mustard-ochre textured surface with a golden tan backdrop; spontaneous, sunlit, playful.',
+}
+
+const MBTI = [
+  // NT · 분석가 (틸)
+  { slug: 'mb-intj', label: 'INTJ 메탈릭 전략가', group: 'NT', subject: 'A single open eyeshadow pan of gunmetal chrome pigment, a slim steel spatula and one sharply squared-off nude lipstick bullet, arranged at exact right angles with generous empty space between them.' },
+  { slug: 'mb-intp', label: 'INTP 컬러 연금술사', group: 'NT', subject: 'Loose pigment powders in six different shades poured into small glass dishes, a few colours half-mixed on a mixing palette with a spatula mid-stroke, fine dust in the air.' },
+  { slug: 'mb-entj', label: 'ENTJ 파워 레드', group: 'NT', subject: 'One bold true-red lipstick bullet standing upright and perfectly centred, its cap set down beside it, lit with a single hard directional light that throws one long clean shadow.' },
+  { slug: 'mb-entp', label: 'ENTP 아이디어 런웨이', group: 'NT', subject: 'A worn black kohl pencil with a smudged swatch dragged across the surface, a cracked eyeshadow pan, and a crumpled square of tissue — deliberately imperfect and mid-experiment.' },
+
+  // NF · 외교관 (세이지)
+  { slug: 'mb-infj', label: 'INFJ 몽환 시인', group: 'NF', subject: 'An open peach-rose blush compact with a soft round powder puff resting on its edge, a few dried petals scattered nearby, everything slightly out of focus at the edges.' },
+  { slug: 'mb-infp', label: 'INFP 별빛 화가', group: 'NF', subject: 'A small open pot of pearlescent shimmer pigment catching the light, fine glitter dust scattered in an arc across the surface like a small galaxy, one thin fan brush beside it.' },
+  { slug: 'mb-enfj', label: 'ENFJ 뮤즈', group: 'NF', subject: 'One unlabelled glass dropper bottle of dewy skin tint with a single glossy drop suspended at the tip, a folded square of silk, and a wide soft brush laid flat.' },
+  { slug: 'mb-enfp', label: 'ENFP 오늘의 팔레트', group: 'NF', subject: 'A wide open eyeshadow palette of twelve pastel and bright shades, several pans already dipped into and swirled, three brushes tossed casually across it.' },
+
+  // SJ · 관리자 (인디고)
+  { slug: 'mb-istj', label: 'ISTJ 정석 장인', group: 'SJ', subject: 'Three base-makeup items — a foundation bottle, a compact and a concealer tube — lined up in a precise row with identical spacing, all facing the same direction, nothing else in frame.' },
+  { slug: 'mb-isfj', label: 'ISFJ 온기 수호자', group: 'SJ', subject: 'An open cushion compact with a plush air puff resting inside it, the surface of the cushion gently dimpled from use, a folded cream cotton cloth beneath.' },
+  { slug: 'mb-estj', label: 'ESTJ 공식의 지휘자', group: 'SJ', subject: 'One deep burgundy lipstick standing upright beside its own reflection in a small square mirror lying flat, edges crisp, composition strictly symmetrical.' },
+  { slug: 'mb-esfj', label: 'ESFJ 모임의 주연', group: 'SJ', subject: 'A coral-pink lip tint with the applicator laid beside a bright glossy swatch, fine gold glitter scattered around, a few small confetti-like foil flakes catching light.' },
+
+  // SP · 탐험가 (머스터드)
+  { slug: 'mb-istp', label: 'ISTP 미니멀 장인', group: 'SP', subject: 'Exactly two objects: one tinted lip balm stick with the cap off and one small flat brush, placed apart with a lot of empty surface around them.' },
+  { slug: 'mb-isfp', label: 'ISFP 꾸안꾸 아티스트', group: 'SP', subject: 'A soft-focus loose powder jar with its sifter open, a light dusting of powder spilled in a soft cloud, a worn natural-hair brush resting in it.' },
+  { slug: 'mb-estp', label: 'ESTP 포인트 러쉬', group: 'SP', subject: 'A liquid eyeliner pen with its tip drawing one bold decisive stroke across the surface, the stroke still glossy and wet, cap knocked over beside it.' },
+  { slug: 'mb-esfp', label: 'ESFP 글로우 파티', group: 'SP', subject: 'Gold and champagne glitter scattered generously across the surface, one open highlighter compact reflecting light, a fan brush loaded with shimmer.' },
+].map((m) => ({
+  ...m,
+  prompt: [
+    `A styled beauty still life, no people and no faces: ${m.subject}`,
+    MBTI_SURFACE[m.group],
+    'Unlabelled, unbranded products only — plain surfaces, no text, no packaging design.',
+    EDITORIAL,
+  ].join(' '),
+}))
+
 const ALL = [
   ...PERSONAL_COLOR.map((x) => ({ ...x, tool: '퍼스널컬러' })),
   ...FACE_SHAPE.map((x) => ({ ...x, tool: '얼굴형' })),
   ...PERFUME.map((x) => ({ ...x, tool: '향수' })),
+  ...MBTI.map((x) => ({ ...x, tool: 'MBTI' })),
 ].map((x) => ({ ...x, prompt: x.prompt.includes(EDITORIAL) ? x.prompt : `${x.prompt} ${EDITORIAL}` }))
 
 async function imagen(apiKey, prompt) {

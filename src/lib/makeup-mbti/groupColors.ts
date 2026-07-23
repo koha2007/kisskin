@@ -40,8 +40,42 @@ export function mbtiGroupColor(code: MbtiCode): string {
 }
 
 
+/**
+ * 유형별 무드 사진 (2026-07-23 신설).
+ *
+ * 그 전까지 랜딩의 16타입 카드는 AI 메이크업 9룩 사진을 빌려 썼다. 무드 사진을 만들 때
+ * MBTI 만 빠져 있었기 때문인데(퍼스널컬러 4 · 얼굴형 5 · 향수 6 = 15장), 16개가 9장을
+ * 나눠 쓰다 보니 서로 다른 유형이 같은 얼굴로 보였다(Natural Glow 하나를 ENFJ·ISTJ·ISTP
+ * 셋이 공유). 유형 수만큼 사진을 만들어 1:1 로 붙인다.
+ *
+ * 인물이 아니라 정물인 이유는 scripts/gen-mood-images.mjs 의 MBTI 블록 주석 참고.
+ * 요약하면 ① 16장이 한 그리드에 깔리는 화면이라 얼굴을 세우면 유형을 가르는 색이 묻히고
+ * ② 9룩 사진은 우리 서비스의 실제 결과물이라 그 자리를 생성 이미지로 대체하면 안 된다.
+ * **결과 페이지는 지금처럼 추천 룩 실제 사진을 계속 쓴다** — 역할이 다르다.
+ */
+export function mbtiMoodImage(code: MbtiCode): string {
+  return `/mood/mb-${code.toLowerCase()}.webp`
+}
+
+/**
+ * 룩 영문 이름 → 한글 표기.
+ * 카드에 추천 룩을 적어 두면 "왜 이 유형에 이 사진인가"가 드러난다.
+ * 뷰티 용어라 의역하지 않고 음차한다(업계 표기 관행).
+ */
+export const LOOK_NAME_KO: Record<string, string> = {
+  'Natural Glow': '내추럴 글로우',
+  'Cloud Skin': '클라우드 스킨',
+  'Blood Lip': '블러드 립',
+  'Maximalist Eye': '맥시멀리스트 아이',
+  'Metallic Eye': '메탈릭 아이',
+  'Bold Lip': '볼드 립',
+  'Blush Draping': '블러쉬 드레이핑',
+  'Grunge Makeup': '그런지 메이크업',
+  'Kpop Idol Makeup': '케이팝 아이돌',
+}
+
 // 유형별 추천 룩 이름 → 실제 결과 사진의 스타일 id.
-// 랜딩의 16타입 카드가 이모지 하나로만 구분되던 것을 실제 사진으로 바꾸기 위한 다리다.
+// 결과 페이지에서 추천 룩을 실제 사진으로 보여줄 때 쓴다.
 // (recommended.women.primary 는 사람이 읽는 이름이라 그대로는 파일 경로가 안 된다)
 export const LOOK_NAME_TO_ID: Record<string, string> = {
   'Natural Glow': 'natural-glow',

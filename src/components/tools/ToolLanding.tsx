@@ -151,14 +151,17 @@ export function TypePreviewCard({
   sub,
   accent,
   image,
+  note,
 }: {
   href: string
   emoji: string
   name: string
   sub: string
   accent: string
-  /** 실제 결과 사진. 없으면 기존 이모지 + 틴트 면으로 폴백한다. */
+  /** 유형 사진(무드/결과). 없으면 기존 이모지 + 틴트 면으로 폴백한다. */
   image?: string
+  /** 사진이 무엇을 가리키는지 한 줄 — 예: 추천 룩 이름. 없으면 표시하지 않는다. */
+  note?: string
 }) {
   return (
     <a
@@ -181,7 +184,7 @@ export function TypePreviewCard({
             alt=""
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-top"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
         ) : (
           <span className="text-6xl md:text-7xl select-none" aria-hidden="true">
@@ -194,6 +197,9 @@ export function TypePreviewCard({
           {name}
         </div>
         <div className="t-eyebrow text-slate-400 mt-1">{sub}</div>
+        {/* 사진이 무엇인지 밝힌다. 유형이 다른데 추천 룩이 같을 수 있으므로,
+            적어 두지 않으면 겹치는 게 실수처럼 보인다. */}
+        {note && <div className="t-label mt-1.5 text-slate-500">{note}</div>}
       </div>
     </a>
   )
