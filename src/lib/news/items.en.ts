@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-indonesia-halal-certification-2026-oct',
+    category: 'global',
+    title: 'Indonesia Mandates Halal Certification for K-Beauty from October; MFDS Dispatches Public-Private Support Team',
+    summary:
+      'Indonesia will mandate halal certification for imported cosmetics starting October 17th, necessitating swift action from domestic beauty companies. In response, Korea\'s Ministry of Food and Drug Safety (MFDS) plans to dispatch a public-private joint support team to Indonesia to discuss system improvements and ease the export burden on Korean firms.',
+    body: [
+      '> TLDR: Indonesia mandates halal certification | K-beauty export barrier | MFDS dispatches public-private support team',
+      'The Indonesian government has announced that it will mandate halal certification for all imported cosmetics starting October 17th, introducing a new regulatory environment for K-beauty companies. This is expected to become a prerequisite for entering the Indonesian market, which boasts a population of approximately 280 million.',
+      'Halal certification, which verifies that ingredients and production/distribution processes comply with Islamic law, is emerging as a critical factor for penetrating the Middle Eastern and Southeast Asian markets. In Indonesia, it is expected to become an \'essential license\' for market entry.',
+      '> DATA: Among the top 20 countries by cosmetic export value in the first half of this year, Indonesia saw a 33% increase compared to the same period last year. Furthermore, 78.8% of consumers in major halal markets reported considering halal certification as essential when purchasing consumer goods.',
+      'To alleviate the export burden on Korean companies, the Ministry of Food and Drug Safety (MFDS) plans to dispatch a 27-member public-private joint support team, led by the Director-General of the Biopharmaceuticals Bureau, to Indonesia. The team will engage with local regulatory authorities to discuss improvements to sample import procedures and the application of a grace period for products cleared through customs before the system\'s implementation.',
+      'This regulatory change will present a significant opportunity for K-beauty companies to deeply understand local culture and regulations, formulate tailored strategies, and ultimately strengthen their competitiveness in the global market.',
+    ],
+    date: '2026-07-24',
+    readMinutes: 3,
+    tags: ['Halal Certification', 'K-Beauty Exports', 'Indonesia', 'MFDS', 'Southeast Asia'],
+  },
+  {
     slug: 'k-beauty-packaging-sustainability-recycling-challenge-2026-july',
     category: 'global',
     title: 'K-Beauty Under Pressure: 62.6% of Packaging \'Difficult to Recycle\' Amidst Global Sustainability Push',

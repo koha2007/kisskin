@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'lilybyred-love-beam-cheek-balm-06-peach-beam',
   'charlotte-tilbury-beautiful-skin-foundation',
   'romand-han-all-fix-mascara-long-ash',
   'fenty-skin-cherry-treat-conditioning-strengthening-lip-oil',

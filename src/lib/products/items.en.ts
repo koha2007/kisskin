@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'lilybyred-love-beam-cheek-balm-06-peach-beam',
+    category: 'cheek',
+    brand: 'lilybyred',
+    name: 'Luv Beam Cheek Balm #06 Peach Beam',
+    title: 'lilybyred Luv Beam Cheek Balm Peach Beam: Juicy, Vibrant Cheeks!',
+    summary:
+      'A cheek balm that tints both cheeks with a clear, lively peach color. The moist balm texture adheres smoothly to the skin, providing a natural flush.',
+    highlights: ['Moist balm texture', 'Clear peach color payoff', 'Natural flush', 'Portable mini size'],
+    details: [
+      'This balm-type formula offers the moisture of a cream blush and the soft finish of a powder blush simultaneously. It applies clearly without clumping, even when layered.',
+      'The clear peach color becomes more vivid with each layer, adding vitality to the face, and can be layered multiple times to adjust the desired intensity.',
+      'It adheres thinly and evenly to the skin, creating a natural flush that looks like your own skin, maintaining vibrant cheeks for a long time.',
+      'Its mini size fits perfectly in the palm of your hand, making it highly portable for easy touch-ups anytime, anywhere.',
+    ],
+    whoFor:
+      'Especially recommended for Spring Warm tones who prefer warm and bright makeup. It\'s great for those who want to brighten their skin tone with a peachy color that has a hint of white, creating a youthful effect.',
+    howTo: [
+      'Dispense an appropriate amount using your finger, a sponge, or the included puff. (The included puff may be sold separately.)',
+      'Gently tap and spread onto the apple of your cheeks when you smile. Blend naturally to avoid harsh lines.',
+      'For a more vibrant color, apply small amounts multiple times to adjust the intensity.',
+    ],
+    pros: [
+      'Clear and transparent peach color adds vitality to the skin.',
+      'Moist balm texture adheres smoothly to the skin without flaking.',
+      'Applies clearly without clumping or pilling, even when layered multiple times.',
+    ],
+    cons: [
+      'The absence of an included puff can be inconvenient, requiring a separate purchase.',
+      'Due to the nature of the balm texture, it may melt or smudge slightly in hot summer weather.',
+    ],
+    colorFit:
+      'A clear and bright peach color that particularly suits Spring Warm tones. With a slight hint of white, this peach shade adds vitality to the face and creates a lovely atmosphere.',
+    image: '/products/lilybyred-love-beam-cheek-balm-06-peach-beam.webp',
+    coupangQuery: '릴리바이레드 러브빔 치크밤 복숭빔',
+    globalQuery: 'lilybyred love beam cheek balm 06 peach beam',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-07-24',
+    tags: ['Blusher', 'Cheek Balm', 'Peach Blusher', 'Cream Blusher', 'Moist Blusher', 'Spring Warm', 'lilybyred'],
+  },
+  {
     slug: 'charlotte-tilbury-beautiful-skin-foundation',
     category: 'base',
     brand: 'Charlotte Tilbury',
