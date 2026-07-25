@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-phase3-europe-offline-surge-2026-july',
+    category: 'global',
+    title: 'K-Beauty\'s \'Phase 3\' Structural Growth Takes Off as European Exports Surpass North America',
+    summary:
+      'K-Beauty has entered \'Phase 3,\' moving beyond its China and US-centric growth to record explosive growth in the European market. This phase is accompanied by expansion beyond online channels into local offline stores and diversification of product categories, including sun care and hair.',
+    body: [
+      '> TLDR: European Market Surge | Offline Channel Expansion | Product Category Diversification',
+      'K-Beauty has entered \'Phase 3,\' a new phase of structural growth in the global market. Moving beyond its past growth centered on China, the US, and Japan, export regions are now diversifying to include Europe, the Middle East, and Latin America, and distribution channels are also expanding from online to local offline stores.',
+      '> DATA: From July 1 to 10, 2026, European exports surged by 73.8% compared to the same period last year, recording a 25% share of total exports and surpassing North America (22%) for the first time. In the first half of 2026, domestic cosmetics exports reached an all-time high of $7 billion, with the US accounting for $1.45 billion, becoming the largest export country.',
+      'In terms of product categories, beyond traditional basic skincare, expansion into derma, sun care, and hair & body care is securing new growth engines. Notably, in the US market, K-Beauty\'s penetration rate has reached 28.7%, and Morgan Stanley projects US market sales to exceed $4 billion this year.',
+      'These changes indicate that K-Beauty is no longer concentrated on specific trends or regions but has entered a popularization phase, deeply penetrating the daily lives of consumers worldwide. It is now time for brands to pursue sustained growth through localization strategies that reflect the characteristics and consumer needs of each market.',
+    ],
+    date: '2026-07-25',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global Market', 'Europe', 'Offline Distribution', 'Export Data'],
+  },
+  {
     slug: 'k-beauty-indonesia-halal-certification-2026-oct',
     category: 'global',
     title: 'Indonesia Mandates Halal Certification for K-Beauty from October; MFDS Dispatches Public-Private Support Team',

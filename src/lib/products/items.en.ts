@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'dior-backstage-rosy-glow-blush',
+    category: 'trend',
+    brand: 'Dior',
+    name: 'Backstage Rosy Glow Blush',
+    title: 'Dior Backstage Rosy Glow Blush: An Essential for Your Own Vibrant Cheeks',
+    summary:
+      'Dior\'s iconic blush reacts to skin\'s pH upon application, delivering a natural flush. Its clear, transparent color creates lively cheeks.',
+    highlights: ['pH-reactive color', 'Clear watercolor-like payoff', 'Lightweight and comfortable adherence', 'Variety of colors'],
+    details: [
+      'Features \'Color Reviver\' technology that reacts to skin\'s pH and moisture level, providing a customized rosy glow tailored to your natural skin tone.',
+      'The fine, lightweight powder texture glides smoothly onto the skin and blends naturally without caking, creating a clear, watercolor-like finish.',
+      'Even with multiple layers, it adds a transparent, healthy radiance without feeling heavy, maintaining fresh and bright cheeks for a long time.',
+      'The formula adheres to clean beauty standards for more comfortable use, and new shades have been added to suit various skin tones.',
+    ],
+    whoFor:
+      'Suitable for all skin types who prefer natural and vibrant cheek makeup. Especially recommended for those aiming for a \'no-makeup makeup\' or \'clean girl\' look.',
+    howTo: [
+      'Using the Dior Backstage Blush Brush N°16, sweep the blush in a circular motion on the highest part of the cheekbones.',
+      'For a more vibrant and radiant complexion, layer with the Rosy Glow Blush Stick.',
+    ],
+    pros: [
+      'Develops color according to skin tone, creating a natural flush.',
+      'Light and soft texture makes it easy to blend and applies without caking.',
+      'Vibrant color lasts for a long time, offering good longevity.',
+    ],
+    cons: [
+      'Some deeper shades may appear less vibrant on darker skin tones.',
+      'Certain colors have a subtle gold shimmer, which may be a matter of personal preference.',
+    ],
+    colorFit:
+      'Composed mainly of pink, coral, and rose shades, so colors suitable for both warm and cool tones can be found. Specifically, 001 Pink suits Cool tones, and 077 Candy suits Warm tones.',
+    image: '/products/dior-backstage-rosy-glow-blush.webp',
+    coupangQuery: '디올 백스테이지 로지 글로우 블러쉬',
+    globalQuery: 'Dior Backstage Rosy Glow Blush',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-25',
+    tags: ['Blush', 'Cheek', 'DiorBlush', 'pHBlush', 'VibrantBlush', 'NaturalMakeup'],
+  },
+  {
     slug: 'lilybyred-love-beam-cheek-balm-06-peach-beam',
     category: 'cheek',
     brand: 'lilybyred',
