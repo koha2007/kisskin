@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'dr-g-red-blemish-clear-soothing-cream-ex',
+    category: 'skincare',
+    brand: 'Dr.G',
+    name: 'Red Blemish Clear Soothing Cream EX',
+    title: 'Dr.G Red Blemish Clear Soothing Cream EX: The Nation\'s Soothing Hydrating Cream for Heated Skin',
+    summary:
+      'Dr.G\'s best-selling hydrating soothing cream for sensitive, reddened skin. It absorbs moistly without stickiness, helping to strengthen the skin barrier.',
+    highlights: ['Contains 5-Cica Complex', '100 hours of hydration', 'Non-comedogenic tested', 'Jelly-like bouncy moist texture'],
+    details: [
+      'Five Centella asiatica active ingredients, including Madecassoside and Centella Asiatica Extract, effectively soothe sensitive skin.',
+      'Ultra-fine moisture particles, smaller than pores, penetrate deep into 10 layers of the skin\'s stratum corneum, maintaining moisture for 100 hours.',
+      'Completed non-comedogenic testing, making it safe for acne-prone skin, and the tube type allows for hygienic use.',
+      'The white, opaque, jelly-like texture applies smoothly without stickiness, leaving a refreshing finish.',
+    ],
+    whoFor:
+      'Suitable for skin that is reddened and sensitive due to heat, or irritated by dryness. Recommended for those seeking a mild hydrating soothing cream that can be used without burden on acne-prone skin.',
+    howTo: [
+      'After cleansing, at the last step of your skincare routine, dispense an appropriate amount and gently spread it over the entire face, then lightly pat to absorb.',
+      'Especially on days when you feel heat, store it in the refrigerator before use, or apply a thick layer like a sleeping mask for even more effective soothing.',
+    ],
+    pros: [
+      'Excellent for rapid skin soothing and hydration.',
+      'Absorbs refreshingly without stickiness, suitable for all skin types.',
+      'Helps strengthen the skin barrier, promoting healthy skin.',
+    ],
+    cons: [
+      'Some users may find the moisturizing effect slightly insufficient.',
+      'Preference for the scent may vary.',
+    ],
+    image: '/products/dr-g-red-blemish-clear-soothing-cream-ex.webp',
+    coupangQuery: '닥터지 레드 블레미쉬 클리어 수딩 크림',
+    globalQuery: 'Dr.G Red Blemish Clear Soothing Cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-26',
+    tags: ['hydrating cream', 'soothing cream', 'cica cream', 'sensitive skin', 'acne-prone skin', 'Olive Young recommended', 'national hydrating cream', 'Dr.G'],
+  },
+  {
     slug: 'dior-backstage-rosy-glow-blush',
     category: 'trend',
     brand: 'Dior',

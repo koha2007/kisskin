@@ -5,6 +5,24 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-third-phase-europe-suncare-haircare-2026-july',
+    category: 'global',
+    title: 'K-Beauty Enters \'Third Growth Phase\' Driven by Europe, Suncare, and Haircare',
+    summary:
+      'Analysis suggests the K-Beauty market has entered a \'third growth phase,\' expanding beyond its traditional focus on China and the US to new regions like Europe, the Middle East, and Latin America. Notably, strong growth in the European market, coupled with suncare and haircare products, is driving this new export momentum.',
+    body: [
+      '> TLDR: Rise of European Market | Suncare & Haircare Exports Surge | Offline Channel Expansion Beyond Online',
+      'K-Beauty has moved past its first growth phase, which was centered on China, and its second phase, driven by indie brands in the US and Japan. It has now entered a \'third growth phase\' characterized by simultaneous expansion across regions, channels, and categories. This marks a departure from previous patterns, which focused heavily on specific countries, distribution channels, and a limited range of products.',
+      'According to a recent report, K-Beauty\'s center of gravity is rapidly shifting towards Europe. From July 1 to 20, 2026, cosmetics exports recorded $623 million, a 32.8% increase year-on-year. Of this, exports to Europe surged by 70.5% to $161 million, surpassing North America ($146 million). Growth was particularly steep in the UK and the Netherlands.',
+      '> DATA: In the first half of 2026, Europe\'s export growth rate was 63.1% year-on-year, significantly outperforming the US (37.5%) and Southeast Asia (13.6%), emerging as a new growth axis.',
+      'By product category, color cosmetics exports decreased by 5.8%, contrasting sharply with suncare products (unclassified), which surged by 59.3%, and haircare, which rose by 30.1%. Suncare is driving export growth as its concept expands beyond seasonal use to everyday skincare products, while haircare is also seeing increased popularity for shampoos and scalp serums in the European and Latin American markets.',
+      'Distribution channels are also actively expanding beyond online platforms into local offline retail networks. In the US, market entry has broadened beyond ULTA and Sephora to include major retailers like Target, Walmart, and Costco. In Europe, sales are also expanding through key channels such as Boots in the UK and Douglas in Germany.',
+    ],
+    date: '2026-07-26',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'European Market', 'Suncare', 'Haircare', 'Export Trends'],
+  },
+  {
     slug: 'k-beauty-phase3-europe-offline-surge-2026-july',
     category: 'global',
     title: 'K-Beauty\'s \'Phase 3\' Structural Growth Takes Off as European Exports Surpass North America',

@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'dr-g-red-blemish-clear-soothing-cream-ex',
+    category: 'skincare',
+    brand: '닥터지',
+    name: '레드 블레미쉬 클리어 수딩 크림 EX',
+    title: '닥터지 레드 블레미쉬 클리어 수딩 크림 EX: 열 오른 피부 위한 국민 진정 수분크림',
+    summary:
+      '민감하고 붉어진 피부를 위한 닥터지 베스트셀러 수분 진정 크림. 끈적임 없이 촉촉하게 흡수되어 피부 장벽 강화에 도움을 줍니다.',
+    highlights: ['5-시카 콤플렉스 함유', '100시간 수분 지속력', '논코메도제닉 테스트 완료', '젤리 같은 탱글 촉촉 제형'],
+    details: [
+      '마데카소사이드, 병풀추출물 등 5가지 병풀 유효 성분이 민감해진 피부를 효과적으로 진정시켜줍니다.',
+      '모공보다 작은 초미세 수분 입자가 피부 각질층 10층까지 깊숙이 침투하여 100시간 동안 촉촉함을 유지시켜줍니다.',
+      '여드름성 피부도 안심하고 사용할 수 있는 논코메도제닉 테스트를 완료했으며, 튜브 타입으로 위생적인 사용이 가능합니다.',
+      '하얗고 불투명한 젤리 같은 제형이 끈적임 없이 부드럽게 발려 산뜻하게 마무리됩니다.',
+    ],
+    whoFor:
+      '열감으로 붉어지고 민감해진 피부, 건조함으로 인해 자극받은 피부에 적합합니다. 여드름성 피부도 부담 없이 사용할 수 있는 순한 수분 진정 크림을 찾는 분들에게 추천합니다.',
+    howTo: [
+      '세안 후 스킨케어 마지막 단계에서 적당량을 덜어 얼굴 전체에 부드럽게 펴 바르고 가볍게 두드려 흡수시켜줍니다.',
+      '특히 열감이 느껴지는 날에는 냉장고에 보관 후 사용하거나, 도톰하게 발라 수면팩처럼 활용하면 더욱 효과적인 진정 효과를 얻을 수 있습니다.',
+    ],
+    pros: [
+      '빠른 피부 진정 및 수분 공급 효과가 뛰어납니다.',
+      '끈적임 없이 산뜻하게 흡수되어 모든 피부 타입에 적합합니다.',
+      '피부 장벽 강화에 도움을 주어 건강한 피부로 가꿔줍니다.',
+    ],
+    cons: [
+      '일부 사용자에게는 보습감이 다소 부족하다고 느껴질 수 있습니다.',
+      '향에 대한 호불호가 갈릴 수 있습니다.',
+    ],
+    image: '/products/dr-g-red-blemish-clear-soothing-cream-ex.webp',
+    coupangQuery: '닥터지 레드 블레미쉬 클리어 수딩 크림',
+    globalQuery: 'Dr.G Red Blemish Clear Soothing Cream',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-26',
+    tags: ['수분크림', '진정크림', '시카크림', '민감성피부', '여드름성피부', '올리브영추천템', '국민수분크림', '닥터지'],
+  },
+  {
     slug: 'dior-backstage-rosy-glow-blush',
     category: 'trend',
     brand: '디올',
