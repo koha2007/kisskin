@@ -7,6 +7,7 @@ import RegionToggle from '../components/RegionToggle'
 import { useRegion } from '../hooks/useRegion'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
+import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
@@ -41,6 +42,10 @@ export default function FaceShapeResult({ code }: Props) {
   const basePath = isEn ? '/en/tools/face-shape' : '/tools/face-shape'
 
   const accent = t.primaryColor
+
+  // 카드 본문(닉네임·한 줄 문장·해시태그)을 로케일에 맞춰 한 번만 갈아끼운다.
+  // 화면 미리보기와 저장되는 1080×1920 PNG 가 같은 객체를 읽으므로 자동으로 같이 맞는다.
+  const card = localizeCard(t.card, isEn)
 
   // ④ 제품 카드는 얼굴형 코드 해시로 격자 안에 흩는다(결정적 분산).
   const recs = FS_RECOMMENDATIONS[t.code] ?? []
@@ -141,27 +146,27 @@ export default function FaceShapeResult({ code }: Props) {
             <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{name}</h1>
             <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
             <div className="flex flex-wrap gap-2 justify-center mb-8">
-              {t.card.hashtags.map(k => (
+              {card.hashtags.map(k => (
                 <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>{k}</span>
               ))}
             </div>
-            {!isEn && (
-              <IdentityCard
-                label="얼굴형"
-                emoji={t.emoji}
-                card={t.card}
-                fileSlug={`face-shape-${t.code}`}
-                saveLabel={L.save}
-                share={{
-                  url: `https://kissinskin.net${basePath}/${t.slug}/`,
-                  text: isEn
-                    ? `My face shape is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
-                    : `나의 얼굴형은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
-                  title: isEn ? `Face shape: ${t.enName}` : `얼굴형: ${t.koName}`,
-                }}
-                shareLabel={isEn ? 'Share' : '공유하기'}
-              />
-            )}
+            <IdentityCard
+              label={isEn ? 'Face Shape' : '얼굴형'}
+              emoji={t.emoji}
+              card={card}
+              fileSlug={`face-shape-${t.code}`}
+              saveLabel={L.save}
+              isEn={isEn}
+              share={{
+                url: `https://kissinskin.net${basePath}/${t.slug}/`,
+                text: isEn
+                  ? `My face shape is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
+                  : `나의 얼굴형은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
+                title: isEn ? `Face shape: ${t.enName}` : `얼굴형: ${t.koName}`,
+              }}
+              shareLabel={isEn ? 'Share' : '공유하기'}
+            />
+
             <div className="mt-7">
               <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}

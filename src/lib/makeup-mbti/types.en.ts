@@ -13,7 +13,13 @@ export interface MakeupMbtiTypeEn {
   shortDesc: string
   /** Long-form body — the only thing that makes this page different from the other 15. */
   detailParagraphs: string[]
-  /** English hashtags. Without these the Korean ones leak onto the English page. */
+  /**
+   * English hashtags.
+   * ⚠️ 2026-07-26: 결과 페이지는 더 이상 이 필드를 렌더하지 않는다 —
+   * 히어로 칩과 9:16 카드가 같은 배열을 읽어야 해서 `types.ts` 의
+   * `card.hashtagsEn` 하나로 출처를 합쳤다. 여기 값과 저기 값이 갈리면
+   * 저기가 이긴다. 새 태그는 `card.hashtagsEn` 에 쓸 것.
+   */
   hashtags: string[]
   traits: { icon: string; title: string; desc: string }[]
   signature: { lip: string; eye: string; base: string; blush: string }

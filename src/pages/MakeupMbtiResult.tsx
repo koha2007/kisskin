@@ -13,6 +13,7 @@ import { useRegion } from '../hooks/useRegion'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
+import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
@@ -62,6 +63,10 @@ export default function MakeupMbtiResult({ code }: Props) {
   const recMenReason = isEn ? en.recommended.men.reason : type.recommended.men.reason
   const avoidTip = isEn ? en.avoidTip : type.avoidTip
   const boostTip = isEn ? en.boostTip : type.boostTip
+
+  // 카드 본문(닉네임·한 줄 문장·해시태그)을 로케일에 맞춰 한 번만 갈아끼운다.
+  // 화면 미리보기와 저장되는 1080×1920 PNG 가 같은 객체를 읽으므로 자동으로 같이 맞는다.
+  const card = localizeCard(type.card, isEn)
 
   // 응답 일치도 — 퀴즈를 방금 푼 사람에게만 뜬다(검색으로 바로 들어오면 근거가 없어 안 뜬다).
   const [confidence, setConfidence] = useState<number | null>(null)
@@ -238,28 +243,30 @@ export default function MakeupMbtiResult({ code }: Props) {
             )}
 
             <div className="flex flex-wrap gap-2 justify-center mb-8">
-              {/* 영문 페이지에 한글 해시태그(#ESTJ메이크업 …)가 그대로 노출되고 있었다. */}
-              {(isEn ? en.hashtags : type.card.hashtags).map(k => (
+              {/* 영문 페이지에 한글 해시태그(#ESTJ메이크업 …)가 그대로 노출되고 있었다.
+                  칩과 카드가 같은 배열을 읽도록 `card.hashtags` 하나로 통일했다 —
+                  전에는 칩이 types.en.ts, 카드가 types.ts 를 읽어 출처가 둘이었다. */}
+              {card.hashtags.map(k => (
                 <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${type.primaryColor}40` }}>{k}</span>
               ))}
             </div>
-            {!isEn && (
-              <IdentityCard
-                label="메이크업 MBTI"
-                emoji={type.emoji}
-                card={type.card}
-                fileSlug={`makeup-mbti-${type.slug}`}
-                saveLabel={L.save}
-                share={{
-                  url: `https://kissinskin.net${basePath}/${type.slug}/`,
-                  text: isEn
-                    ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
-                    : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`,
-                  title: isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`,
-                }}
-                shareLabel={isEn ? 'Share' : '공유하기'}
-              />
-            )}
+            <IdentityCard
+              label={isEn ? 'Makeup MBTI' : '메이크업 MBTI'}
+              emoji={type.emoji}
+              card={card}
+              fileSlug={`makeup-mbti-${type.slug}`}
+              saveLabel={L.save}
+              isEn={isEn}
+              share={{
+                url: `https://kissinskin.net${basePath}/${type.slug}/`,
+                text: isEn
+                  ? `My Makeup MBTI is "${en.enPersona}" (${type.code}) 💄\n${en.tagline}\n\n`
+                  : `나의 메이크업 MBTI는 "${type.koName}" (${type.code}) 💄\n${type.tagline}\n\n`,
+                title: isEn ? `Makeup MBTI: ${en.enPersona}` : `메이크업 MBTI: ${type.koName}`,
+              }}
+              shareLabel={isEn ? 'Share' : '공유하기'}
+            />
+
             <div className="mt-7">
               <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}

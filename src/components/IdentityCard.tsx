@@ -18,9 +18,15 @@ interface Props {
   /** 카드 바로 옆 공유 버튼. 넘기지 않으면 버튼이 뜨지 않는다. */
   share?: { url: string; text: string; title: string }
   shareLabel?: string
+  /**
+   * 버튼 안에서만 쓰는 로케일 플래그 — 진행/완료 문구("저장 중…", "복사됨")는
+   * 부모가 넘기는 라벨에 없어서 여기서 갈라야 한다. 카드 본문 텍스트는
+   * `localizeCard()` 가 이미 로케일에 맞게 넘겨 주므로 여기서 손대지 않는다.
+   */
+  isEn?: boolean
 }
 
-export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, share, shareLabel }: Props) {
+export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, share, shareLabel, isEn = false }: Props) {
   const [saving, setSaving] = useState(false)
   const [shared, setShared] = useState(false)
   const [from, to] = card.gradient
@@ -102,7 +108,9 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
         className="inline-flex items-center gap-2 bg-navy hover:bg-navy-mid transition-colors text-white px-7 py-3.5 font-bold t-body disabled:opacity-60"
       >
         <span className="material-symbols-outlined">{saving ? 'hourglass_top' : 'download'}</span>
-        {saving ? '저장 중…' : (saveLabel ?? '이미지로 저장')}
+        {saving
+          ? (isEn ? 'Saving…' : '저장 중…')
+          : (saveLabel ?? (isEn ? 'Save image' : '이미지로 저장'))}
       </button>
 
         {share && (
@@ -112,7 +120,9 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
             className="inline-flex items-center gap-2 border border-navy/25 hover:border-navy transition-colors text-navy px-7 py-3.5 font-bold t-body"
           >
             <span className="material-symbols-outlined">{shared ? 'check' : 'share'}</span>
-            {shared ? (shareLabel === 'Share' ? 'Copied' : '복사됨') : (shareLabel ?? '공유하기')}
+            {shared
+              ? (isEn ? 'Copied' : '복사됨')
+              : (shareLabel ?? (isEn ? 'Share' : '공유하기'))}
           </button>
         )}
       </div>

@@ -7,6 +7,7 @@ import RegionToggle from '../components/RegionToggle'
 import { useRegion } from '../hooks/useRegion'
 import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
+import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
@@ -42,6 +43,10 @@ export default function PersonalColorResult({ code }: Props) {
   const shoppingTips = isEn && t.shoppingTipsEn ? t.shoppingTipsEn : t.shoppingTips
   const basePath = isEn ? '/en/tools/personal-color' : '/tools/personal-color'
   const accent = t.primaryColor
+
+  // 카드 본문(닉네임·한 줄 문장·해시태그)을 로케일에 맞춰 한 번만 갈아끼운다.
+  // 화면 미리보기와 저장되는 1080×1920 PNG 가 같은 객체를 읽으므로 자동으로 같이 맞는다.
+  const card = localizeCard(t.card, isEn)
 
   // ④ 제품 카드는 시즌 코드 해시로 격자 안에 흩는다(결정적 분산).
   // 늘 마지막 자리라 20장 중 18번째였고 affiliate_click 이 28일간 0건이었다.
@@ -139,23 +144,23 @@ export default function PersonalColorResult({ code }: Props) {
                 <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>#{k}</span>
               ))}
             </div>
-            {!isEn && (
-              <IdentityCard
-                label="퍼스널컬러"
-                emoji={t.emoji}
-                card={t.card}
-                fileSlug={`personal-color-${t.code}`}
-                saveLabel={L.save}
-                share={{
-                  url: `https://kissinskin.net${basePath}/${t.slug}/`,
-                  text: isEn
-                    ? `My personal color is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
-                    : `나의 퍼스널 컬러는 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
-                  title: isEn ? `Personal Color: ${t.enName}` : `퍼스널 컬러: ${t.koName}`,
-                }}
-                shareLabel={isEn ? 'Share' : '공유하기'}
-              />
-            )}
+            <IdentityCard
+              label={isEn ? 'Personal Color' : '퍼스널컬러'}
+              emoji={t.emoji}
+              card={card}
+              fileSlug={`personal-color-${t.code}`}
+              saveLabel={L.save}
+              isEn={isEn}
+              share={{
+                url: `https://kissinskin.net${basePath}/${t.slug}/`,
+                text: isEn
+                  ? `My personal color is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
+                  : `나의 퍼스널 컬러는 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
+                title: isEn ? `Personal Color: ${t.enName}` : `퍼스널 컬러: ${t.koName}`,
+              }}
+              shareLabel={isEn ? 'Share' : '공유하기'}
+            />
+
             <div className="mt-7">
               <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
                 <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
