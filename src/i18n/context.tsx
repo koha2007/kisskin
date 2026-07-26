@@ -19,10 +19,34 @@ function localeFromPath(pathname: string): Locale | null {
   return null
 }
 
+// Interactive app routes — the only pages with no prerendered English twin.
+// Here the browser's language is all we have to go on, so the fallback below
+// still applies. Every *other* non-/en/ path is a page we prerendered as
+// Korean, and the URL decides its language.
+const APP_ROUTE_PREFIXES = ['/analysis/', '/auth/', '/mypage/', '/result/', '/maketest/']
+
+function isAppRoute(normalizedPath: string): boolean {
+  return APP_ROUTE_PREFIXES.some(prefix => normalizedPath.startsWith(prefix))
+}
+
 function readLocale(): Locale {
   // URL prefix wins — `/en/...` is canonical English.
-  const fromUrl = localeFromPath(window.location.pathname)
+  const path = window.location.pathname
+  const fromUrl = localeFromPath(path)
   if (fromUrl) return fromUrl
+
+  // ⚠️ 2026-07-26: 여기서 navigator.language 로 폴백하면 **한글 URL이 영어로
+  // 렌더된다.** `/tools/face-shape/oval/` 은 한글 HTML 로 프리렌더되는데,
+  // 브라우저 로케일이 한국어가 아니면 하이드레이션 직후 영어로 갈아엎히고
+  // `<html lang>` 까지 en 이 됐다(canonical 은 한글 URL 그대로). useSyncExternalStore
+  // 라 하이드레이션 경고도 안 떠서 오래 안 보였다.
+  // Googlebot 렌더러는 en-US 다 → 구글에겐 한글 URL과 `/en/` URL이 같은 영어
+  // 문서로 보이는데 hreflang 은 둘을 ko/en 짝이라고 선언하는 모순이 생긴다.
+  // 그래서 프리렌더된 콘텐츠 경로에서는 **URL이 유일한 기준**이다.
+  // 저장된 'en' 선호는 여기서 무시하고, 아래 useEffect 가 진짜 `/en/` URL로
+  // 보내 준다 — 내용과 URL이 어긋나지 않게.
+  if (!isAppRoute(normalize(path))) return 'ko'
+
   try {
     const saved = localStorage.getItem('kisskin_locale') as Locale | null
     if (saved === 'ko' || saved === 'en') return saved
@@ -56,6 +80,9 @@ const EN_AVAILABLE_PATHS = new Set<string>([
   '/reviews/',
   '/news/',
   '/tools/',
+  // /en/products/ 는 진작 프리렌더되고 있었는데 여기 빠져 있어서, /products/ 에서
+  // 언어를 바꾸면 영문 제품 페이지가 아니라 영문 홈으로 튕겼다.
+  '/products/',
 ])
 
 // Tool families that have a complete English mirror under /en/tools/<tool>/...
@@ -155,6 +182,27 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])
+
+  // 저장된 'en' 선호를 가진 재방문자가 한글 URL로 들어왔을 때 — 내용을 그 자리에서
+  // 영어로 바꾸는 대신(그게 위 readLocale 주석의 SEO 모순을 만들었다) **진짜 영문
+  // URL로 보낸다.** 내용과 URL이 늘 일치하고, 그 사람은 매번 다시 토글할 필요가 없다.
+  // 크롤러는 localStorage 가 없으니 절대 타지 않는다 → 한글 URL은 크롤러에게
+  // 리다이렉트 없이 그대로 한글로 남는다.
+  // 목적지는 `/en/` 프리픽스라 도착 즉시 readLocale 이 'en' 을 돌려주고 멈춘다(루프 없음).
+  useEffect(() => {
+    const path = window.location.pathname
+    if (localeFromPath(path) || isAppRoute(normalize(path))) return
+    let saved: string | null = null
+    try { saved = localStorage.getItem('kisskin_locale') } catch { /* unavailable */ }
+    if (saved !== 'en') return
+    // 일대일 영문 쌍둥이가 있을 때만 보낸다. `alternateUrl` 의 허브 폴백까지 태우면
+    // 영어 선호 재방문자가 **번역 안 된 한글 글**을 클릭했을 때 글은 못 보고
+    // /en/guides/ 로 튕겨 나간다. 쌍둥이가 없으면 그냥 그 한글 글에 머문다.
+    const normalized = normalize(path)
+    if (!hasEnglishVersion(normalized)) return
+    const target = alternateUrl(path, 'en')
+    if (target !== path) window.location.replace(target + window.location.search)
+  }, [])
 
   // After a locale toggle reloads the other-language URL, restore the scroll
   // position saved just before the jump so the view stays put. Runs once on mount.
