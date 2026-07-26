@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
 import { getCreditBalance } from '../lib/credits'
+import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
 
 /**
  * 브랜드 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
@@ -459,7 +460,13 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         {subStatus.active && (
           <>
             <button
-              onClick={() => window.open('https://polar.sh/kisskin-makeup7/portal', '_blank')}
+              // 앱 웹뷰에서는 window.open('_blank') 이 아무 일도 하지 않는다.
+              // 결제사 포털이기도 하니 시스템 브라우저로 넘긴다(브릿지 없으면 폴백).
+              onClick={async () => {
+                const url = 'https://polar.sh/kisskin-makeup7/portal'
+                if (isNativeApp() && (await nativeOpenExternal(url))) return
+                window.open(url, '_blank')
+              }}
               style={{
                 width: '100%', padding: '12px', borderRadius: RAD,
                 border: `1px solid ${C.line}`,

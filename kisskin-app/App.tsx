@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   View,
   Alert,
+  Linking,
 } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import * as ImagePicker from 'expo-image-picker';
@@ -76,7 +77,22 @@ const REENGAGE_COPY = {
 type BridgeMessage =
   | { type: 'pickGallery' | 'pickCamera' }
   | { type: 'saveImage'; dataUrl: string }    // 결과 이미지를 갤러리에 저장
-  | { type: 'shareImage'; dataUrl: string };  // 결과 이미지를 시스템 공유 시트로
+  | { type: 'shareImage'; dataUrl: string }   // 결과 이미지를 시스템 공유 시트로
+  | { type: 'openExternal'; url: string };    // 결제 등 외부 브라우저로 열기
+
+// 외부 브라우저로 연다. 결제(Polar 호스티드 체크아웃)를 웹뷰 안에서 처리하면
+// Play 정책상 앱 내 디지털상품 구매로 잡히므로, 앱에서는 시스템 브라우저로 넘긴다.
+// http/https 만 허용 — 웹 쪽이 뚫려도 intent:// 같은 스킴으로 넘어가지 않게.
+async function openExternalUrl(url: string): Promise<boolean> {
+  try {
+    if (!/^https?:\/\//i.test(url)) return false;
+    await Linking.openURL(url);
+    return true;
+  } catch (err) {
+    console.warn('[bridge] openExternal failed:', err);
+    return false;
+  }
+}
 
 // dataURL 의 base64 본문을 캐시 파일로 내려 파일 URI 를 돌려준다.
 // (MediaLibrary/Sharing 은 dataURL 을 못 받고 파일 URI 만 받는다)
@@ -284,6 +300,11 @@ export default function App() {
     if (msg.type === 'shareImage') {
       const ok = await shareImageFile(msg.dataUrl);
       sendBridgeResult('nativeShareResult', ok);
+      return;
+    }
+    if (msg.type === 'openExternal') {
+      const ok = await openExternalUrl(msg.url);
+      sendBridgeResult('nativeOpenExternalResult', ok);
       return;
     }
     if (msg.type !== 'pickGallery' && msg.type !== 'pickCamera') return;

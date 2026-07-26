@@ -119,3 +119,18 @@ export function nativeSaveImage(dataUrl: string): Promise<boolean> {
 export function nativeShareImage(dataUrl: string): Promise<boolean> {
   return bridgeRequest({ type: 'shareImage', dataUrl }, 'nativeShareResult', 120_000)
 }
+
+/**
+ * 앱 전용: URL 을 시스템 브라우저로 연다. 앱이 아니면 false(호출부가 폴백한다).
+ *
+ * 왜 필요한가 — 결제를 웹뷰 안에서 처리하면 Play 정책상 "앱 내 디지털상품
+ * 구매"로 잡혀 Play Billing(수수료) 대상이 된다. 크레딧 결제는 시스템
+ * 브라우저로 넘겨 웹 결제로 처리하고, 앱은 그렇게 산 크레딧을 쓰기만 한다.
+ * (2026년 Google 이 안티스티어링 규정을 전 세계에서 없애 외부 결제 링크가
+ *  허용됐지만, 그와 별개로 웹뷰 안 결제는 여전히 앱 내 구매로 본다.)
+ *
+ * 브라우저로 전환되는 즉시 성공으로 보므로 대기는 짧게 잡는다.
+ */
+export function nativeOpenExternal(url: string): Promise<boolean> {
+  return bridgeRequest({ type: 'openExternal', url }, 'nativeOpenExternalResult', 8_000)
+}

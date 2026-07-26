@@ -3,9 +3,16 @@
 // 무료 소진 → 로그인 → 여기서 Starter/Plus 선택 → /api/checkout(pack) 호출 →
 //   Polar 호스티드 체크아웃으로 풀페이지 이동(success_url=/analysis/ 복귀).
 // 결제 성공 시 충전은 서버 웹훅(polar-webhook.ts/chargeCredits)이 처리한다.
+//
+// 2026-07-26 — 앱(Expo 웹뷰)에서는 체크아웃을 **시스템 브라우저**로 넘긴다.
+//   웹뷰 안에서 결제를 끝내면 Play 정책상 "앱 내 디지털상품 구매"라 Play
+//   Billing 대상이 된다. 브라우저에서 산 크레딧을 앱에서 쓰는 건 허용된다.
+//   결제가 끝나면 서버 웹훅이 충전하므로, 앱으로 돌아왔을 때 잔액만 다시
+//   읽어주면 된다(visibilitychange).
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
+import { isNativeApp, nativeOpenExternal } from '../../lib/nativePicker'
 
 const NAVY = '#070953'
 const PRIMARY = '#eb4763'
@@ -28,10 +35,27 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
   const [balance, setBalance] = useState<number | null>(null)
   const [busy, setBusy] = useState<PackId | null>(null)
   const [err, setErr] = useState<string | null>(null)
+  // 앱에서 브라우저로 결제를 넘긴 뒤 "돌아오세요" 안내를 띄우는 상태
+  const [awaitingExternal, setAwaitingExternal] = useState(false)
+
+  const refreshBalance = () => { getCreditBalance().then(setBalance).catch(() => setBalance(0)) }
 
   useEffect(() => {
-    getCreditBalance().then(setBalance).catch(() => setBalance(0))
+    refreshBalance()
   }, [])
+
+  // 브라우저에서 결제를 마치고 앱으로 돌아오면 잔액이 이미 충전돼 있다(서버 웹훅).
+  // 화면이 다시 보일 때 잔액을 새로 읽어 반영한다.
+  useEffect(() => {
+    if (!awaitingExternal) return
+    const onVisible = () => { if (document.visibilityState === 'visible') refreshBalance() }
+    document.addEventListener('visibilitychange', onVisible)
+    window.addEventListener('focus', onVisible)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible)
+      window.removeEventListener('focus', onVisible)
+    }
+  }, [awaitingExternal])
 
   async function buy(pack: Pack) {
     setErr(null); setBusy(pack.id)
@@ -53,6 +77,19 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
         setErr(isEn ? 'Could not start checkout. Please try again.' : '결제를 시작하지 못했어요. 다시 시도해 주세요.')
         setBusy(null); return
       }
+
+      // 앱이면 시스템 브라우저로. 브릿지가 없는 옛 APK 는 false 가 오므로
+      // 그때는 기존대로 웹뷰 안에서 진행한다(결제가 아예 막히는 것보다 낫다).
+      if (isNativeApp()) {
+        gtagEvent('checkout_redirect', { checkout_type: 'credit', pack: pack.id, checkout_method: 'external_browser' })
+        const opened = await nativeOpenExternal(d.url)
+        if (opened) {
+          setAwaitingExternal(true)
+          setBusy(null)
+          return
+        }
+      }
+
       window.location.href = d.url // Polar 호스티드 체크아웃으로 이동
     } catch {
       setErr(isEn ? 'Something went wrong. Please try again.' : '문제가 생겼어요. 다시 시도해 주세요.')
@@ -117,6 +154,15 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
       </div>
 
       {err && <p className="text-xs text-red-200 max-w-xs">{err}</p>}
+
+      {/* 앱에서 브라우저로 결제를 넘긴 경우 — 돌아오면 잔액이 자동 갱신된다 */}
+      {awaitingExternal && (
+        <div className="max-w-xs rounded-xl bg-white/10 px-4 py-3 text-xs leading-relaxed text-white/90">
+          {isEn
+            ? 'Checkout opened in your browser. Finish payment there, then come back — your credits will appear automatically.'
+            : '브라우저에서 결제창을 열었어요. 결제를 마치고 앱으로 돌아오면 크레딧이 자동으로 반영됩니다.'}
+        </div>
+      )}
 
       <div className="flex flex-col items-center gap-3">
         <p className="text-[11px] text-white/50 max-w-xs">
