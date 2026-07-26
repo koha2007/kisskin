@@ -60,26 +60,16 @@ export async function onRequest(context: { request: Request; env: Env; next: () 
     //   — 이용자 전원의 리포트와 사진 경로가 열려 있었다. 익명 키는 브라우저
     //   번들에 들어 있으니 사실상 공개다. 이제 id 로 한 건만 돌려주는
     //   SECURITY DEFINER 함수만 열려 있고, 목록은 훑을 수 없다.
-    //
-    //   ※ 폴백은 **배포 순서 때문에** 있다. 마이그레이션(운영자가 SQL Editor
-    //     에서 실행)과 이 코드 배포 사이 시차에 어느 쪽이 먼저여도 공유 링크
-    //     미리보기가 깨지면 안 된다. 적용 확인 뒤에는 폴백을 지워도 된다.
-    const authHeaders = { 'apikey': key, 'Authorization': `Bearer ${key}` }
-    let res = await fetch(
+    //   (마이그레이션 적용·검증 완료 2026-07-26 — 익명 전체 조회 0행 확인.
+    //    배포 시차용 폴백은 그때 제거했다. 이제 이 경로가 유일하다.)
+    const res = await fetch(
       `${supabaseUrl}/rest/v1/rpc/get_shared_result`,
       {
         method: 'POST',
-        headers: { ...authHeaders, 'Content-Type': 'application/json' },
+        headers: { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ p_id: id }),
       },
     )
-    if (!res.ok) {
-      // 함수가 아직 없는 경우(마이그레이션 전)에만 옛 경로로 조회한다.
-      res = await fetch(
-        `${supabaseUrl}/rest/v1/shared_results?id=eq.${encodeURIComponent(id)}&select=image_path,report,gender,styles`,
-        { headers: authHeaders },
-      )
-    }
     if (!res.ok) {
       console.error('[result-og] Supabase error:', res.status, await res.text().catch(() => ''))
       return serveFallbackOg(url.pathname)

@@ -67,23 +67,13 @@ export async function loadSharedResult(id: string): Promise<SharedResultData | n
   //   번들에 들어 있으니 사실상 공개다. 이제 id 로 한 건만 돌려주는
   //   SECURITY DEFINER 함수만 열려 있고, 목록은 훑을 수 없다.
   //   사진 자체는 공개 버킷의 /object/public/ 경로라 그대로 뜬다(RLS 밖).
-  //
-  //   ※ 아래 폴백은 **배포 순서 때문에** 있다. 마이그레이션(운영자가 SQL
-  //     Editor 에서 실행)과 이 코드 배포 사이에 시차가 생기는데, 어느 쪽이
-  //     먼저여도 공유 페이지가 깨지면 안 된다. 마이그레이션 적용을 확인한
-  //     뒤에는 폴백을 지워도 된다(지워야 구버전 경로가 완전히 닫힌다).
+  //   (마이그레이션 적용·검증 완료 2026-07-26 — 익명 전체 조회 0행 확인.
+  //    배포 시차용 폴백은 그때 제거했다. 이제 이 경로가 유일하다.)
   type Row = { image_path: string; report: SharedResultData['report']; gender: string; styles: string[] }
-  let data: Row | null = null
 
   const { data: rows, error } = await supabase.rpc('get_shared_result', { p_id: id })
-  if (!error) {
-    data = (Array.isArray(rows) ? rows[0] : rows) ?? null
-  } else {
-    // 함수가 아직 없는 경우(마이그레이션 전)에만 옛 경로로 조회한다.
-    const legacy = await supabase.from('shared_results').select('*').eq('id', id).single()
-    if (legacy.error || !legacy.data) return null
-    data = legacy.data
-  }
+  if (error) return null
+  const data: Row | null = (Array.isArray(rows) ? rows[0] : rows) ?? null
   if (!data) return null
 
   const { data: urlData } = supabase.storage
