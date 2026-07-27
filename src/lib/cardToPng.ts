@@ -225,25 +225,46 @@ export async function renderIdentityCardCanvas(
   return canvas
 }
 
-function trackCardSaved(input: IdentityCardRenderInput): void {
+/** GA `card_saved` (skips internal traffic). `method` = 어떤 경로로 저장됐는지. */
+export function trackCardSaved(input: IdentityCardRenderInput, method: string): void {
   trackCardSavedEvent({
     card_label: input.label,
     card_nickname: input.card.nickname,
+    method,
   })
 }
 
-/** Render + trigger a PNG download. Fires GA `card_saved` (skips internal traffic). */
-export async function downloadIdentityCard(
+export interface IdentityCardImage {
+  /** 네이티브 공유 시트(navigator.share files)용 */
+  file: File
+  /** 앱 웹뷰 브릿지(nativeSaveImage/nativeShareImage)용 */
+  dataUrl: string
+}
+
+function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob null'))), 'image/png')
+  })
+}
+
+/**
+ * 카드 PNG 를 File + dataURL 로 만들어 준다.
+ *
+ * ⚠️ 예전엔 여기서 곧장 `toDataURL()` + `<a download>` 로 내려받았는데, 그 경로는
+ *   · iOS Safari — data: URL 의 download 속성을 무시한다(아무 일도 안 일어남)
+ *   · 카카오/네이버/인스타 인앱 브라우저 — download 자체가 무반응
+ *   · Expo 앱 웹뷰 — download 도 navigator.share 도 없음
+ * 에서 전부 실패했다. 파일 생성과 "어떻게 내보낼지" 를 분리해, 호출부
+ * (components/IdentityCard.tsx)가 환경별 경로를 고르게 한다.
+ */
+export async function buildIdentityCardImage(
   input: IdentityCardRenderInput,
   filename: string,
-): Promise<void> {
+): Promise<IdentityCardImage> {
   const canvas = await renderIdentityCardCanvas(input)
-  trackCardSaved(input)
-  const url = canvas.toDataURL('image/png')
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
+  const blob = await canvasToBlob(canvas)
+  return {
+    file: new File([blob], filename, { type: 'image/png' }),
+    dataUrl: canvas.toDataURL('image/png'),
+  }
 }

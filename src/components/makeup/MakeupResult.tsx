@@ -214,7 +214,9 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
   // 이미지를 새 탭으로 연다(iOS 사진첩 저장 경로). 팝업이 막히면 false.
   const openImageTab = (file: File): boolean => {
     const url = URL.createObjectURL(file)
-    const win = window.open(url, '_blank', 'noopener')
+    // ⚠️ 'noopener' 금지 — 명세상 window.open 이 항상 null 을 반환해 "팝업 차단" 으로
+    //   오판하고, 열린 탭의 blob URL 을 즉시 revoke 해 빈 탭만 남긴다(2026-07-27).
+    const win = window.open(url, '_blank')
     if (!win) {
       URL.revokeObjectURL(url)
       return false
