@@ -7,8 +7,7 @@ import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
-import { savePendingSelfie, savePendingSelfieFromSrc } from './lib/makeup/pendingSelfie'
-import { pickImage } from './lib/nativePicker'
+import { savePendingSelfieFromSrc } from './lib/makeup/pendingSelfie'
 
 // 예시 얼굴로 쓸 룩 4종 — 서로 피부톤이 다른 모델이 걸리도록 고른 조합.
 const SAMPLE_FACES: MakeupStyleId[] = ['natural-glow', 'blush-draping', 'metallic-eye', 'kpop-idol']
@@ -41,17 +40,12 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // (/analysis/ 는 예외 — KO·EN 공용 앱이라 프리픽스가 없다.)
   const toolHref = (path: string) => (isEn ? `/en${path}` : path)
 
-  // ── 히어로 업로드 → /analysis/ 로 사진째 넘김(업로드 단계 중복 제거) ──
-  // pickImage: 앱 웹뷰에선 네이티브 픽커, 브라우저에선 일회용 <input>.
-  // (숨긴 input 재사용은 안드로이드 웹뷰에서 두 번째부터 얼어붙어 금지)
-  const onHeroPick = () => {
-    pickImage('gallery').then(async (f) => {
-      if (!f) return
-      // 저장에 실패해도(HEIC 디코드 불가 등) 그냥 이동한다 — 그쪽 업로드 화면이 처리한다.
-      await savePendingSelfie(f)
-      window.location.href = '/analysis/'
-    })
-  }
+  // ── 히어로 업로드 CTA ──
+  // 2026-07-27: 예전엔 이 버튼이 pickImage('gallery') 로 **앨범 피커를 곧바로** 열었다.
+  // 업로드 단계를 한 번 줄이려는 의도였지만, 버튼에 붙은 건 카메라 아이콘이라
+  // "사진기를 눌렀는데 앨범이 열린다"는 혼란이 생겼다(운영자 리포트).
+  // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
+  // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
   // 예시 얼굴 4장 — 피부톤이 서로 다른 모델을 고른다(글로벌 방문자 비중 42%).
   // 이미지는 룩 카드의 '민낯 원본'을 재사용하므로 새로 만들 자산이 없다.
@@ -326,13 +320,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
             <div className="order-3 md:order-none flex w-full flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
             <div className="animate-fade-in-up-delay2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-              <button
-                onClick={onHeroPick}
+              <a
+                href="/analysis/"
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 text-base font-bold transition-colors"
               >
                 <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
                 {t('home.hero.uploadCta')}
-              </button>
+              </a>
               <a
                 href="#styles"
                 className="inline-flex items-center justify-center gap-1.5 px-6 py-4 text-base font-bold text-navy border border-navy/25 hover:border-navy transition-colors"
