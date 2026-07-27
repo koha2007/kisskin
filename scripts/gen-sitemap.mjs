@@ -135,7 +135,10 @@ const TOOL_SOURCES = {
 // 도구 결과 카드(제품 카드 포함)는 이 공용 컴포넌트들이 만든다 → 4개 도구 전부에 물린다.
 const RESULT_SHARED = ['src/components/result-grid']
 const PATH_SOURCES = [
-  { test: (p) => p === '/',                    files: ['pages/index'] },
+  // 홈 본문은 pages/index 가 아니라 src/HomePage.tsx 에 있다. 예전엔 pages/index 만
+  // 봐서 홈을 아무리 고쳐도 lastmod 가 안 움직였고(2026-07-27 빌드에서 07-26 → 07-13 로
+  // 되레 후퇴), 구글엔 "안 바뀐 페이지"로 보였다.
+  { test: (p) => p === '/',                    files: ['pages/index', 'src/HomePage.tsx'] },
   { test: (p) => p === '/analysis/',           files: ['pages/analysis', 'src/components/makeup'] },
   { test: (p) => p === '/tools/',              files: ['pages/tools/+Page.tsx', 'src/pages/ToolsHub.tsx'] },
   { test: (p) => p === '/news/',               files: ['src/pages/NewsHub.tsx'] },
