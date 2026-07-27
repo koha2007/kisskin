@@ -1,23 +1,28 @@
 // AI 메이크업 — 셀카 업로드 (2026-07-05: 성별/피부타입 제거, 단일 라인업)
 // ────────────────────────────────────────────────────────────────────
-// 글래스 카드 안에 원형 업로드 존 + 카메라 FAB, 촬영 가이드, 프라이버시 문구, "다음" CTA.
-// 폰트·색은 우리 토큰(Pretendard / navy #070953 / primary #eb4763).
+// 3:4 업로드 프레임 + 촬영/앨범 버튼 2개, 촬영 가이드, 프라이버시 문구, "다음" CTA.
+// 색·모서리·버튼 언어는 theme.ts 한 곳에서 온다(5개 화면 공용).
 //
 // GENDER/SKIN TYPE 칩 제거: 성별 분기 없이 단일 9룩 라인업으로 전환했고,
 //   SKIN TYPE 은 프롬프트에 실제로 쓰이지 않던 장식 UI 였다(수집만 하고 버려짐).
 //   → 업로드 화면을 "셀카 한 장"이라는 단일 행동에 집중시킨다.
 //   (실제 개인화에 연결할 때 재도입 가능 — git 히스토리 보관)
 //
+// 2026-07-27 브랜드 정렬: 원형 점선 존 + 카메라 FAB 조합을 버렸다.
+//   ① 동그라미=앨범 / FAB=카메라 라는 매핑이 화면 어디에도 안 적혀 있어, 홈 히어로의
+//      "사진기 아이콘인데 앨범이 열린다" 와 같은 종류의 혼란을 만들고 있었다.
+//   ② 결과물이 3:4 인데 업로드 미리보기만 원형이라 프레이밍 감이 안 잡혔다.
+//   → 결과와 같은 3:4 프레임 + 글자가 붙은 버튼 2개(촬영/앨범)로 명시한다.
+//
 // §8 가짜 이미지 금지: 미리보기는 사용자가 올린 본인 셀카만 표시(AI 생성 X).
-//   업로드 전에는 점선 원 + 아이콘 플레이스홀더.
 // 프라이버시: "셀카는 분석 후 저장되지 않아요" 문구 유지.
 
 import { useState } from 'react'
 import { pickImage } from '../../lib/nativePicker'
-
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
-const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
+import {
+  screenBg, surfaceStyle, footerScrim, BORDER, SURFACE,
+  btnPrimary, btnPrimaryStyle, btnGhost, btnGhostStyle, chip, stepBar,
+} from './theme'
 
 interface Props {
   onNext: (data: { photo: string }) => void
@@ -56,20 +61,21 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
         <button
           onClick={onBack}
           aria-label={isEn ? 'Back' : '뒤로'}
-          className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 active:scale-90 transition"
+          className="shrink-0 -ml-1 p-1 text-white/80 hover:text-white transition-colors"
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 className="flex-1 text-center text-base font-bold tracking-tight">{isEn ? 'AI Makeup' : 'AI 메이크업'}</h1>
-        <div className="shrink-0 flex items-center gap-1.5" aria-hidden>
-          <span className="w-2 h-2 rounded-full bg-white/30" />
-          <span className="w-2 h-2 rounded-full bg-white" />
-          <span className="w-2 h-2 rounded-full bg-white/30" />
+        <h1 className="flex-1 text-center text-sm font-bold uppercase tracking-[0.18em] text-white/85">
+          {isEn ? 'AI Makeup' : 'AI 메이크업'}
+        </h1>
+        <div className="shrink-0 flex items-center gap-1" aria-hidden>
+          <span className={stepBar(false)} />
+          <span className={stepBar(true)} />
+          <span className={stepBar(false)} />
         </div>
       </header>
 
-      {/* 본문: 글래스 카드 */}
-      <main className="flex-1 flex flex-col px-5 pt-6 pb-4 max-w-xl w-full mx-auto">
+      <main className="flex-1 flex flex-col px-5 pt-7 pb-4 max-w-xl w-full mx-auto">
         {/* 미로그인 안내 — 생성 직전이 아니라 여기서 미리 알려야 셀카를 올린 뒤
             로그인 화면으로 튕겨 처음부터 다시 하는 헛수고가 없다.
             문구는 "로그인하면 무료"(혜택)가 아니라 "로그인 필수"(요건)로 못박는다.
@@ -77,121 +83,101 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
         {loginHref && (
           <a
             href={loginHref}
-            className="mb-4 flex items-center gap-2.5 rounded-2xl bg-white/15 border border-white/25 px-4 py-3 active:scale-[0.99] transition"
+            className="mb-6 flex items-center gap-2.5 px-4 py-3 transition-colors hover:brightness-110"
+            style={surfaceStyle}
           >
             <span className="material-symbols-outlined text-xl shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
               lock
             </span>
-            <span className="flex-1 text-[13px] font-semibold leading-snug">
+            <span className="flex-1 text-[13px] font-semibold leading-snug break-keep">
               {isEn ? (
                 <>
                   <span className="font-extrabold">Login required</span> to generate AI makeup.
-                  <span className="block text-white/70 text-[11.5px] font-medium mt-0.5">1st try free · no card needed</span>
+                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">1st try free · no card needed</span>
                 </>
               ) : (
                 <>
                   AI 메이크업 생성은 <span className="font-extrabold">로그인 필수</span>예요.
-                  <span className="block text-white/70 text-[11.5px] font-medium mt-0.5">로그인하면 무료 1회 · 카드 필요 없어요</span>
+                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">로그인하면 무료 1회 · 카드 필요 없어요</span>
                 </>
               )}
             </span>
-            <span className="shrink-0 rounded-full px-3 py-1.5 text-[12px] font-extrabold" style={{ background: PRIMARY }}>
+            <span className="shrink-0 px-3 py-1.5 text-[12px] font-extrabold" style={{ background: 'rgba(235,71,99,1)' }}>
               {isEn ? 'Log in' : '로그인'}
             </span>
           </a>
         )}
 
-        <div className="rounded-3xl bg-white/10 border border-white/15 backdrop-blur-md p-6 shadow-xl shadow-black/20">
-          {/* 원형 업로드 존 */}
-          <div className="flex flex-col items-center">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => pick('gallery')}
-                className="w-32 h-32 rounded-full border-2 border-dashed border-white/45 flex items-center justify-center overflow-hidden bg-white/5 active:scale-[0.97] transition"
-                aria-label={isEn ? 'Choose from album' : '앨범에서 사진 선택'}
-              >
-                {photo ? (
-                  <img src={photo} alt={isEn ? 'Your selfie' : '내 셀카'} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="material-symbols-outlined text-5xl text-white/70" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    face
-                  </span>
-                )}
-              </button>
-              {/* 카메라 FAB — 앨범이 아니라 전면(셀카) 카메라를 연다 */}
-              <button
-                type="button"
-                onClick={() => pick('camera')}
-                className="absolute bottom-1 right-1 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition"
-                style={{ background: PRIMARY }}
-                aria-label={isEn ? 'Take a selfie' : '카메라로 셀카 촬영'}
-              >
-                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  photo_camera
-                </span>
-              </button>
-            </div>
+        <h2 className="text-[24px] font-extrabold leading-tight tracking-[-0.02em] break-keep">
+          {isEn ? 'Upload your selfie' : '셀카를 올려주세요'}
+        </h2>
+        {hintLabel && (
+          <span className={`${chip} mt-2.5 self-start`} style={surfaceStyle}>
+            <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+              auto_awesome
+            </span>
+            {(isEn ? 'Selected look · ' : '선택한 룩 · ') + hintLabel}
+          </span>
+        )}
 
-            {/* 두 경로를 글자로도 명시 — 아이콘만으로는 카메라/앨범 구분이 안 보인다 */}
-            <div className="mt-4 flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => pick('camera')}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3.5 py-1.5 text-xs font-bold active:scale-95 transition"
-              >
-                <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
-                {isEn ? 'Take selfie' : '카메라로 촬영'}
-              </button>
-              <button
-                type="button"
-                onClick={() => pick('gallery')}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3.5 py-1.5 text-xs font-bold active:scale-95 transition"
-              >
-                <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_library</span>
-                {isEn ? 'From album' : '앨범에서 선택'}
-              </button>
-            </div>
-
-            <h2 className="mt-5 text-xl font-extrabold tracking-tight">
-              {isEn ? 'Upload your selfie' : '셀카를 올려주세요'}
-            </h2>
-            {hintLabel && (
-              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-3 py-1 text-xs font-semibold">
-                <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  auto_awesome
-                </span>
-                {(isEn ? 'Selected look · ' : '선택한 룩 · ') + hintLabel}
+        {/* 업로드 프레임 — 결과물과 같은 3:4. 누르면 앨범(가장 흔한 경로)이 열리고,
+            촬영은 아래 버튼으로 명시한다. */}
+        <button
+          type="button"
+          onClick={() => pick('gallery')}
+          aria-label={isEn ? 'Choose from album' : '앨범에서 사진 선택'}
+          className="mt-5 relative w-full max-w-[200px] mx-auto aspect-[3/4] rounded-2xl overflow-hidden flex flex-col items-center justify-center gap-2.5 transition-colors hover:brightness-110"
+          style={{ background: SURFACE, border: photo ? `1px solid ${BORDER}` : `1px dashed rgba(255,255,255,0.3)` }}
+        >
+          {photo ? (
+            <img src={photo} alt={isEn ? 'Your selfie' : '내 셀카'} className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <>
+              <span className="material-symbols-outlined text-5xl text-white/45" style={{ fontVariationSettings: "'FILL' 1" }}>
+                face
               </span>
-            )}
-            {/* 셀카 가이드 — 좋은 입력이 결과 품질의 절반 (측면/모자/그림자 대응) */}
-            <ul className="mt-3 flex flex-col gap-1.5 text-[13px] text-white/75 w-full max-w-[16rem]">
-              {(isEn
-                ? ['Face the camera', 'No hat or sunglasses', 'Keep hair off your face', 'Good lighting']
-                : ['정면을 바라보고', '모자·선글라스 없이', '머리카락이 얼굴을 가리지 않게', '밝은 곳에서']
-              ).map((t) => (
-                <li key={t} className="flex items-center gap-2">
-                  <span
-                    className="material-symbols-outlined text-[16px] text-white/55"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    check_circle
-                  </span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <span className="text-[12px] font-bold text-white/55">
+                {isEn ? 'Tap to choose a photo' : '눌러서 사진 고르기'}
+              </span>
+            </>
+          )}
+        </button>
+
+        {/* 두 경로를 글자로 명시 — 아이콘만으로는 카메라/앨범 구분이 안 보인다 */}
+        <div className="mt-3 grid grid-cols-2 gap-2 w-full max-w-[200px] mx-auto">
+          <button type="button" onClick={() => pick('camera')} className={btnGhost} style={btnGhostStyle}>
+            <span className="material-symbols-outlined text-[17px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+            {isEn ? 'Camera' : '촬영'}
+          </button>
+          <button type="button" onClick={() => pick('gallery')} className={btnGhost} style={btnGhostStyle}>
+            <span className="material-symbols-outlined text-[17px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_library</span>
+            {isEn ? 'Album' : '앨범'}
+          </button>
         </div>
+
+        {/* 셀카 가이드 — 좋은 입력이 결과 품질의 절반 (측면/모자/그림자 대응) */}
+        <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-2 text-[12.5px] text-white/70 break-keep">
+          {(isEn
+            ? ['Face the camera', 'No hat or sunglasses', 'Keep hair off your face', 'Good lighting']
+            : ['정면을 바라보고', '모자·선글라스 없이', '앞머리는 넘기고', '밝은 곳에서']
+          ).map((t) => (
+            <li key={t} className="flex items-start gap-1.5">
+              <span
+                className="material-symbols-outlined text-[15px] text-white/40 mt-[2px]"
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                check
+              </span>
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
       </main>
 
       {/* 프라이버시 + CTA */}
-      <footer
-        className="sticky bottom-0 px-5 pt-3 pb-6 max-w-xl w-full mx-auto"
-        style={{ background: 'linear-gradient(to top, rgba(7,9,83,0.95) 60%, transparent)' }}
-      >
-        <p className="text-center text-xs font-medium text-white/75 mb-3 inline-flex w-full items-center justify-center gap-1.5">
-          <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+      <footer className="sticky bottom-0 px-5 pt-4 pb-6 max-w-xl w-full mx-auto" style={footerScrim}>
+        <p className="text-center text-[11.5px] font-medium text-white/60 mb-3 inline-flex w-full items-center justify-center gap-1.5">
+          <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
             shield
           </span>
           {isEn ? 'Your selfie is never stored after analysis' : '셀카는 분석 후 저장되지 않아요'}
@@ -199,8 +185,8 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
         <button
           onClick={() => photo && onNext({ photo })}
           disabled={!ready}
-          className="w-full rounded-full py-4 font-extrabold text-[15px] text-white shadow-xl shadow-primary/30 active:scale-[0.98] transition-transform disabled:opacity-40 disabled:active:scale-100"
-          style={{ background: PRIMARY }}
+          className={btnPrimary}
+          style={btnPrimaryStyle}
         >
           {isEn ? 'Next' : '다음'}
         </button>

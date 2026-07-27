@@ -13,10 +13,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import { isNativeApp, nativeOpenExternal } from '../../lib/nativePicker'
-
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
-const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
+import { PRIMARY, screenBg, surfaceStyle } from './theme'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
   const w = window as unknown as { gtag?: (...a: unknown[]) => void }
@@ -100,8 +97,11 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
   return (
     <div className="min-h-[100dvh] flex flex-col items-center justify-center gap-6 font-display text-white px-6 py-10 text-center" style={screenBg}>
       <div className="space-y-2">
-        <h1 className="text-2xl font-extrabold">{isEn ? 'Top up credits' : '크레딧 충전'}</h1>
-        <p className="text-sm text-white/80 max-w-xs mx-auto">
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/55">
+          {isEn ? 'AI Makeup' : 'AI 메이크업'}
+        </p>
+        <h1 className="text-[26px] font-extrabold tracking-[-0.02em]">{isEn ? 'Top up credits' : '크레딧 충전'}</h1>
+        <p className="text-sm text-white/80 max-w-xs mx-auto break-keep">
           {balance != null && balance > 0
             ? (isEn
               ? 'Add more credits anytime to keep creating makeup looks.'
@@ -123,11 +123,12 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
             key={pack.id}
             onClick={() => buy(pack)}
             disabled={busy != null}
-            className="relative flex items-center justify-between rounded-2xl bg-white/10 border border-white/20 px-5 py-4 text-left active:scale-[0.98] transition disabled:opacity-60"
+            className="relative flex items-center justify-between px-5 py-4 text-left transition-colors hover:brightness-110 disabled:opacity-60"
+            style={surfaceStyle}
           >
             {pack.popular && (
               <span
-                className="absolute -top-2 right-4 rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-white"
+                className="absolute -top-2 right-4 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white"
                 style={{ background: PRIMARY }}
               >
                 {isEn ? 'Popular' : '인기'}
@@ -157,7 +158,7 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
 
       {/* 앱에서 브라우저로 결제를 넘긴 경우 — 돌아오면 잔액이 자동 갱신된다 */}
       {awaitingExternal && (
-        <div className="max-w-xs rounded-xl bg-white/10 px-4 py-3 text-xs leading-relaxed text-white/90">
+        <div className="max-w-xs px-4 py-3 text-xs leading-relaxed text-white/90" style={surfaceStyle}>
           {isEn
             ? 'Checkout opened in your browser. Finish payment there, then come back — your credits will appear automatically.'
             : '브라우저에서 결제창을 열었어요. 결제를 마치고 앱으로 돌아오면 크레딧이 자동으로 반영됩니다.'}

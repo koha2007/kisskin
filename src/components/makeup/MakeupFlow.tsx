@@ -18,10 +18,7 @@ import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '.
 import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
-
-const NAVY = '#070953'
-const PRIMARY = '#eb4763'
-const screenBg = { background: `linear-gradient(160deg, ${NAVY} 0%, #1a1268 45%, ${PRIMARY} 125%)` }
+import { screenBg, btnPrimary, btnPrimaryStyle } from './theme'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
   const w = window as unknown as { gtag?: (...a: unknown[]) => void }
@@ -247,23 +244,26 @@ export default function MakeupFlow() {
   if (step === 'processing') {
     return (
       <div className="min-h-[100dvh] flex flex-col items-center justify-center gap-5 font-display text-white px-8 text-center" style={screenBg}>
-        <div className="w-12 h-12 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
-        <p className="text-sm text-white/85">{status || (isEn ? 'Analyzing…' : '분석 중…')}</p>
+        <div className="w-12 h-12 border-[3px] border-white/25 border-t-white rounded-full animate-spin" />
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/55">
+          {isEn ? 'AI Makeup' : 'AI 메이크업'}
+        </p>
+        <p className="text-lg font-extrabold tracking-tight">{status || (isEn ? 'Analyzing…' : '분석 중…')}</p>
         <p className="text-xs text-white/55">{isEn ? 'This can take up to a minute.' : '최대 1분 정도 걸려요.'}</p>
       </div>
     )
   }
 
   if (step === 'error') {
-    const btn = 'rounded-full px-6 py-3 font-extrabold text-[14px] text-white shadow-lg active:scale-[0.98] transition'
+    const btn = `${btnPrimary} max-w-[260px]`
     return (
       <div className="min-h-[100dvh] flex flex-col items-center justify-center gap-5 font-display text-white px-8 text-center" style={screenBg}>
-        <span className="material-symbols-outlined text-5xl text-white/70">sentiment_dissatisfied</span>
-        <p className="text-sm text-white/85 max-w-xs">{errMsg}</p>
+        <span className="material-symbols-outlined text-5xl text-white/55">sentiment_dissatisfied</span>
+        <p className="text-[15px] leading-relaxed text-white/85 max-w-xs break-keep">{errMsg}</p>
         {errAction === 'login' ? (
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex w-full max-w-[260px] flex-col items-center gap-3">
             {/* 로그인 복귀 시 셀카(세션 보관)+선택한 룩(?style=)으로 곧장 생성 재개 */}
-            <a href={loginHref(styleId)} className={btn} style={{ background: PRIMARY }}>
+            <a href={loginHref(styleId)} className={`${btn} block text-center`} style={btnPrimaryStyle}>
               {isEn ? 'Log in' : '로그인'}
             </a>
             <button onClick={regenerate} className="text-xs text-white/60 underline underline-offset-2">
@@ -271,8 +271,8 @@ export default function MakeupFlow() {
             </button>
           </div>
         ) : errAction === 'topup' ? (
-          <div className="flex flex-col items-center gap-3">
-            <button onClick={() => setStep('topup')} className={btn} style={{ background: PRIMARY }}>
+          <div className="flex w-full max-w-[260px] flex-col items-center gap-3">
+            <button onClick={() => setStep('topup')} className={btn} style={btnPrimaryStyle}>
               {isEn ? 'Top up credits' : '크레딧 충전'}
             </button>
             <button onClick={regenerate} className="text-xs text-white/60 underline underline-offset-2">
@@ -283,7 +283,7 @@ export default function MakeupFlow() {
           <button
             onClick={errAction === 'regenerate' ? regenerate : reset}
             className={btn}
-            style={{ background: PRIMARY }}
+            style={btnPrimaryStyle}
           >
             {isEn ? 'Try again' : '다시 시도'}
           </button>

@@ -113,10 +113,10 @@ export default function BeforeAfterSlider({
         </div>
 
         {/* 라벨 */}
-        <span className="absolute top-3 left-3 text-[10px] font-extrabold tracking-wider text-white bg-black/40 rounded-full px-2.5 py-1">
+        <span className="absolute top-3 left-3 text-[10px] font-extrabold tracking-wider text-white bg-black/55 px-2.5 py-1">
           {beforeLabel}
         </span>
-        <span className="absolute top-3 right-3 text-[10px] font-extrabold tracking-wider text-white bg-black/40 rounded-full px-2.5 py-1">
+        <span className="absolute top-3 right-3 text-[10px] font-extrabold tracking-wider text-white bg-black/55 px-2.5 py-1">
           {afterLabel}
         </span>
 

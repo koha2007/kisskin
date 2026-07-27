@@ -130,13 +130,13 @@ export default function AnalysisContent() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'}
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-navy hover:border-navy transition-colors"
+              className="inline-flex items-center gap-1.5 border border-navy/25 px-5 py-2.5 text-sm font-bold text-navy hover:border-navy transition-colors"
             >
               {isEn ? 'Find your personal color first' : '먼저 퍼스널 컬러부터 진단하기'}
             </a>
             <a
               href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'}
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-navy hover:border-navy transition-colors"
+              className="inline-flex items-center gap-1.5 border border-navy/25 px-5 py-2.5 text-sm font-bold text-navy hover:border-navy transition-colors"
             >
               {isEn ? 'Read the full K-beauty guide' : 'K-뷰티 메이크업 완전 가이드 읽기'}
             </a>

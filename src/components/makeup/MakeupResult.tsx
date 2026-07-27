@@ -17,11 +17,9 @@ import { isNativeApp, nativeSaveImage, nativeShareImage } from '../../lib/native
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import type { ProductRec } from '../../lib/recommendations/types'
+import { NAVY, PRIMARY, screenBg, surfaceStyle, BORDER } from './theme'
 
-const PRIMARY = '#eb4763'
-const NAVY = '#070953'
 const TOOL_URL = 'https://kissinskin.net/analysis/'
-const screenBg = { background: `linear-gradient(170deg, ${NAVY} 0%, #15123f 60%, #241a52 100%)` }
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
   const w = window as unknown as { gtag?: (...a: unknown[]) => void }
@@ -43,7 +41,8 @@ function ActionBtn({ icon, label, onClick, disabled }: { icon: string; label: st
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="flex-1 flex flex-col items-center gap-1.5 rounded-2xl bg-white/10 border border-white/15 py-3 active:scale-[0.97] transition disabled:opacity-40 disabled:active:scale-100"
+      className="flex-1 flex flex-col items-center gap-1.5 py-3 transition-colors hover:brightness-110 disabled:opacity-40"
+      style={surfaceStyle}
     >
       <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
       <span className="text-[11px] font-bold">{label}</span>
@@ -416,18 +415,20 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
         <button
           onClick={onBack}
           aria-label={isEn ? 'Back' : '뒤로'}
-          className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 active:scale-90 transition"
+          className="shrink-0 -ml-1 p-1 text-white/80 hover:text-white transition-colors"
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 className="flex-1 text-center text-base font-bold tracking-tight">{isEn ? 'AI Makeup' : 'AI 메이크업'}</h1>
-        <span className="shrink-0 text-[11px] font-bold bg-white/15 rounded-full px-3 py-1">{styleName}</span>
+        <h1 className="flex-1 text-center text-sm font-bold uppercase tracking-[0.18em] text-white/85">
+          {isEn ? 'AI Makeup' : 'AI 메이크업'}
+        </h1>
+        <span className="shrink-0 px-2.5 py-1 text-[11px] font-bold" style={surfaceStyle}>{styleName}</span>
       </header>
 
       <main className="px-5 pt-5 pb-10 max-w-xl w-full mx-auto">
         {pending ? (
           /* P1-3 인페인팅 미연결 — 디버그 마스크 대신 안전한 "생성 준비 중" 자리표시 */
-          <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-navy border border-white/10">
+          <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-navy" style={{ border: `1px solid ${BORDER}` }}>
             {beforeSrc && <img src={beforeSrc} alt={isEn ? 'Your selfie' : '내 셀카'} className="absolute inset-0 w-full h-full object-cover opacity-35" />}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-6" style={{ background: 'linear-gradient(180deg, rgba(7,9,83,0.55), rgba(7,9,83,0.78))' }}>
               <span className="material-symbols-outlined text-4xl text-white/85" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
@@ -482,13 +483,14 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
 
         {/* 공유 링크바 — 생성되면 상시 노출(데스크톱에서도 링크 복사 확실히 보이게) */}
         {shareId && (
-          <div className="mt-3 flex items-center gap-2 rounded-2xl bg-white/10 border border-white/15 px-3 py-2">
+          <div className="mt-3 flex items-center gap-2 px-3 py-2" style={surfaceStyle}>
             <span className="material-symbols-outlined text-base text-white/70 shrink-0">link</span>
             <span className="flex-1 truncate text-[12px] text-white/75">{`kissinskin.net/result/${shareId}`}</span>
             <button
               type="button"
               onClick={copyShareLink}
-              className="shrink-0 rounded-full bg-white/15 hover:bg-white/25 px-3 py-1 text-[11px] font-bold active:scale-95 transition"
+              className="shrink-0 px-3 py-1 text-[11px] font-bold transition-colors hover:brightness-125"
+              style={{ background: 'rgba(255,255,255,0.14)' }}
             >
               {isEn ? 'Copy' : '복사'}
             </button>
@@ -497,7 +499,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
 
         {/* 이메일로 받기 — 로그인 시 자동 채움, 익명은 직접 입력 */}
         {!pending && (
-          <section className="mt-4 rounded-2xl bg-white/10 border border-white/15 p-4">
+          <section className="mt-4 p-4" style={surfaceStyle}>
             {emailState === 'sent' ? (
               <div className="flex items-center gap-2 text-[13px] font-bold text-emerald-300">
                 <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
@@ -517,14 +519,14 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); if (emailState === 'error') setEmailState('idle') }}
                     placeholder={isEn ? 'you@example.com' : '이메일 주소'}
-                    className="flex-1 min-w-0 rounded-xl bg-white/90 text-navy placeholder:text-slate-400 px-3 py-2.5 text-[14px] font-medium outline-none focus:ring-2 focus:ring-white/60"
+                    className="flex-1 min-w-0 bg-white/95 text-navy placeholder:text-slate-400 px-3 py-2.5 text-[14px] font-medium outline-none focus:ring-2 focus:ring-white/60"
                     style={{ color: NAVY }}
                   />
                   <button
                     type="button"
                     onClick={handleEmail}
                     disabled={emailState === 'sending'}
-                    className="shrink-0 rounded-xl px-4 py-2.5 text-[13px] font-extrabold text-white active:scale-[0.97] transition disabled:opacity-50"
+                    className="shrink-0 px-4 py-2.5 text-[13px] font-extrabold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
                     style={{ background: PRIMARY }}
                   >
                     {emailState === 'sending' ? (isEn ? 'Sending…' : '전송 중…') : (isEn ? 'Send' : '보내기')}
@@ -542,13 +544,13 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
 
         {/* 룩 설명 */}
         <section className="mt-8">
-          <h2 className="text-2xl font-extrabold tracking-tight">{styleName}</h2>
+          <h2 className="text-[26px] font-extrabold tracking-[-0.02em]">{styleName}</h2>
           <p className="mt-2.5 text-[15px] leading-relaxed text-white/80">{styleDesc}</p>
         </section>
 
         {/* 추천 제품 — 실제 ProductGridCard 구조 (플레이스홀더 데이터) */}
         <section className="mt-8">
-          <h3 className="text-sm font-bold tracking-[0.15em] text-white/55 uppercase mb-3">
+          <h3 className="text-[11px] font-bold tracking-[0.18em] text-white/55 uppercase mb-3">
             {isEn ? 'Recommended products' : '추천 제품'}
           </h3>
           <ResultGrid>
@@ -570,7 +572,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
           role="status"
           className="fixed inset-x-0 bottom-6 z-50 flex justify-center px-5 pointer-events-none"
         >
-          <div className="rounded-full bg-black/80 backdrop-blur px-5 py-2.5 text-[13px] font-bold text-white shadow-lg">
+          <div className="bg-black/85 px-5 py-2.5 text-[13px] font-bold text-white shadow-lg">
             {toast}
           </div>
         </div>
