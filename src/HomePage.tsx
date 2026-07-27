@@ -383,7 +383,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </div>
 
           {/* 우: 결과물. 예전엔 홈 중반에 있던 비포/애프터를 첫 화면으로 끌어올렸다 */}
-          <div className="order-2 md:order-none animate-fade-in-up-delay w-full max-w-[340px] md:max-w-[380px] mx-auto">
+          {/* 2026-07-27: 모바일에서 카드가 화면 폭을 거의 다 먹어 스크롤할 곳이 없다는
+              지적 → 좌우 여백을 확보하려고 모바일 폭을 340→272px 로 줄였다. */}
+          <div className="order-2 md:order-none animate-fade-in-up-delay w-full max-w-[272px] sm:max-w-[340px] md:max-w-[380px] mx-auto">
             <BeforeAfterSlider
               key={baLook ?? 'hero'}
               beforeSrc={baBefore}

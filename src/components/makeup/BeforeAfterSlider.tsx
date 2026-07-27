@@ -5,6 +5,7 @@
 // (텍스트 + 무드 스와치)를 그린다 — AI 생성 가짜 얼굴 금지.
 
 import { useRef, useState, useCallback } from 'react'
+import type { TouchEvent as ReactTouchEvent } from 'react'
 
 interface Props {
   /** 원본 셀카 (없으면 플레이스홀더) */
@@ -45,6 +46,21 @@ export default function BeforeAfterSlider({
   const onMove = (clientX: number) => { if (dragging.current) setFromClientX(clientX) }
   const onUp = () => { dragging.current = false }
 
+  // 2026-07-27: 모바일에서 세로 스크롤이 안 되던 문제.
+  // 이미지 전체가 touch-none + 아무 데나 누르면 드래그 시작이라, 화면을 거의 다 덮는
+  // 3:4 카드 위에서는 스크롤을 시작할 지점이 없었다. 터치는 손잡이에서만 잡고,
+  // 이미지 본문은 pan-y 로 열어 둔다(마우스는 기존대로 아무 데나 눌러도 동작).
+  const onTouchStartHandle = (e: ReactTouchEvent) => {
+    e.stopPropagation()
+    onDown(e.touches[0].clientX)
+  }
+  const onTouchMoveWrap = (e: ReactTouchEvent) => {
+    // 스크롤 억제는 preventDefault 가 아니라 손잡이의 touch-action:none 이 담당한다.
+    // (React 는 touchmove 를 passive 로 붙여서 preventDefault 가 무시된다)
+    if (!dragging.current) return
+    onMove(e.touches[0].clientX)
+  }
+
   // 플레이스홀더 패널 (이미지 없을 때) — 가짜 얼굴 대신 라벨 + 스와치
   const Placeholder = ({ which }: { which: 'before' | 'after' }) => (
     <div
@@ -66,14 +82,14 @@ export default function BeforeAfterSlider({
     <div className="select-none">
       <div
         ref={wrapRef}
-        className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden cursor-ew-resize touch-none bg-navy"
+        className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden cursor-ew-resize touch-pan-y bg-navy"
         onMouseDown={(e) => onDown(e.clientX)}
         onMouseMove={(e) => onMove(e.clientX)}
         onMouseUp={onUp}
         onMouseLeave={onUp}
-        onTouchStart={(e) => onDown(e.touches[0].clientX)}
-        onTouchMove={(e) => onMove(e.touches[0].clientX)}
+        onTouchMove={onTouchMoveWrap}
         onTouchEnd={onUp}
+        onTouchCancel={onUp}
         role="slider"
         aria-label="Before after comparison"
         aria-valuenow={Math.round(pos)}
@@ -104,10 +120,16 @@ export default function BeforeAfterSlider({
           {afterLabel}
         </span>
 
-        {/* 핸들 */}
+        {/* 핸들 — 터치 드래그는 여기서만 시작한다(그래야 이미지 위에서 세로 스크롤 가능) */}
         <div className="absolute top-0 bottom-0 w-0.5 bg-white/90 shadow" style={{ left: `${pos}%` }}>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center text-navy">
-            <span className="material-symbols-outlined text-lg">unfold_more</span>
+          {/* 손가락용 히트 영역(56px)을 노브(36px)보다 크게 잡았다 */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center touch-none"
+            onTouchStart={onTouchStartHandle}
+          >
+            <div className="w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center text-navy">
+              <span className="material-symbols-outlined text-lg">unfold_more</span>
+            </div>
           </div>
         </div>
       </div>
