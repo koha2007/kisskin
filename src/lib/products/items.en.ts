@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'amika-perk-up-dry-shampoo',
+    category: 'hair',
+    brand: 'amika',
+    name: 'Perk Up Dry Shampoo',
+    title: 'amika Perk Up Dry Shampoo: Refresh Oily Hair to Look Freshly Washed!',
+    summary:
+      'A Sephora bestseller and TikTok sensation, this dry shampoo effectively removes oil, sweat, and odor without water, making hair feel freshly shampooed.',
+    highlights: ['Removes oil, sweat, and odor', 'Transparent finish with no white residue', 'Suitable for all hair types', 'Adds volume'],
+    details: [
+      'Effectively absorbs oil, sweat, and unpleasant odors from hair, keeping it clean and refreshed.',
+      'Talc-free formula provides a transparent finish with no white residue or stickiness, making it suitable for dark hair.',
+      'Lightweight texture adds volume and body to hair, revitalizing flat hair.',
+      'Signature scent provides a pleasant fragrance that lasts all day; a limited edition Guava Granita scent is also available.',
+    ],
+    whoFor:
+      'Ideal for those who find frequent shampooing difficult or want to quickly refresh oily hair after exercise. Especially recommended for those with oily scalps whose hair easily becomes greasy, or those concerned about root volume.',
+    howTo: [
+      'Shake well before use (for maximum cleansing effect).',
+      'Hold 15-25cm away from dry hair and spray in a sweeping motion onto oily or odorous areas.',
+      'Wait about 30 seconds, then massage the scalp with fingers or brush through to absorb the product and remove any residue.',
+    ],
+    pros: [
+      'Quickly and easily refreshes hair without water.',
+      'Leaves no white residue for a clean finish.',
+      'Adds natural volume to hair.',
+    ],
+    cons: [
+      'The scent may be strong, so it might be polarizing for those sensitive to fragrances.',
+      'The spray volume is high, requiring careful control of the amount; too much can make hair stiff.',
+    ],
+    image: '/products/amika-perk-up-dry-shampoo.webp',
+    coupangQuery: '아미카 퍼크 업 드라이 샴푸',
+    globalQuery: 'Amika Perk Up Dry Shampoo',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-27',
+    tags: ['dryshampoo', 'nowash', 'oilyhair', 'volume', 'hairstyling', 'sephorabestseller', 'tiktokviral'],
+  },
+  {
     slug: 'dr-g-red-blemish-clear-soothing-cream-ex',
     category: 'skincare',
     brand: 'Dr.G',

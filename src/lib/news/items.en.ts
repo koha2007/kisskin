@@ -5,6 +5,23 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-ai-export-marketing-platform-newenai-2026-july',
+    category: 'global',
+    title: 'New&AI Kicks Off Development of ₩3.5 Billion K-Beauty Export Marketing AI Platform',
+    summary:
+      'New&AI, an industry-tailored AI analytics firm, is launching the development of a ₩3.5 billion AI platform to bolster the international marketing efforts of small and medium-sized K-beauty businesses. The platform aims to automate global market entry strategies for SMB and indie K-beauty brands by analyzing worldwide beauty market data.',
+    body: [
+      '> TLDR: AI-powered K-beauty exports | ₩3.5 billion government R&D | Support for SMB overseas marketing',
+      'New&AI, an industry-tailored AI analytics firm, was recently selected as the lead research and development institution for the Ministry of SMEs and Startups\' \'2026 SME Technology Innovation Development Project.\' This selection marks the commencement of development for a ₩3.5 billion K-beauty-specific AI platform.',
+      '> DATA: New&AI plans to invest a total of ₩3.5 billion in R&D costs over two years for this project, comprising ₩2.5 billion in government subsidies and ₩1 billion contributed by the R&D institution itself.',
+      'The platform aims to automate marketing decision-making through AI for SMB and indie K-beauty brands targeting global market expansion. It will support trend forecasting and branding strategy formulation by integrating and analyzing key e-commerce and social media data from Korea, the US, Japan, and Europe.',
+      'As K-beauty continues its sustained growth in the global market, technology-driven, customized export strategy support is becoming increasingly vital. This AI platform is expected to significantly enhance the international competitiveness of SMB brands.',
+    ],
+    date: '2026-07-27',
+    readMinutes: 3,
+    tags: ['K-beauty', 'AI', 'Export Marketing', 'Beauty Tech', 'New&AI'],
+  },
+  {
     slug: 'k-beauty-third-phase-europe-suncare-haircare-2026-july',
     category: 'global',
     title: 'K-Beauty Enters \'Third Growth Phase\' Driven by Europe, Suncare, and Haircare',
