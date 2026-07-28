@@ -6,9 +6,9 @@ export default function Head() {
   if (!isExactRoute(ctx.urlPathname, '/en/tools/')) return null
   // 영어권 실검색어를 따른다 — test/quiz 보다 detector/analyzer 가 헤드 term 이고,
   // "personal color analysis" 에는 korea/seoul 이 붙는다(우리가 서울에 있다는 게 무기).
-  const title = 'Free Beauty Tools — Face Shape Detector, Personal Color Analyzer & Perfume Quiz | kissinskin'
+  const title = 'Free Beauty Tools — Face Shape & Personal Color Analyzer'
   const desc =
-    'Free, no sign-up: a face shape detector, a Korean personal color analyzer, a makeup MBTI quiz, and a perfume match quiz. Each takes under a minute — from a Seoul-based K-beauty studio.'
+    'Free, no sign-up: face shape detector, Korean personal color analyzer, makeup MBTI and perfume quiz. Each under a minute, from Seoul.'
   const keywords =
     'face shape detector, personal color analyzer, personal color analysis korea, what perfume suits me, makeup quiz, free beauty tools, k-beauty, virtual makeup try on free'
   return (

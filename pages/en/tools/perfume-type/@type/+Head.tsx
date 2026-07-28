@@ -6,8 +6,8 @@ export default function Head() {
   const slug = (ctx.routeParams?.type ?? '').toString()
   const t = getPerfumeTypeBySlug(slug)
   if (!t) return null
-  const title = `${t.enName} Perfume Type — Scent, Makeup & Occasion Guide | kissinskin`
-  const desc = `The ${t.enName} perfume type explained — recommended fragrances, matching makeup, and the best seasons and occasions. Take the free 1-minute quiz to find your type.`
+  const title = `${t.enName} Perfume Type — Scent, Makeup & Occasion Guide`
+  const desc = `The ${t.enName} perfume type — recommended fragrances, matching makeup, and the seasons and occasions that suit it. Free 1-minute quiz.`
   const url = `https://kissinskin.net/en/tools/perfume-type/${t.slug}/`
   const koUrl = `https://kissinskin.net/tools/perfume-type/${t.slug}/`
   return (

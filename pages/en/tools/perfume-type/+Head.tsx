@@ -5,8 +5,8 @@ export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/tools/perfume-type/')) return null
   // "what perfume suits me" 는 자동완성 상위 질문형 검색어이고 우리 도구가 그대로 답이다 → 제목에 그대로.
-  const title = 'What Perfume Suits Me? — Free 1-Minute Fragrance Type Quiz | kissinskin'
-  const desc = 'What perfume suits me? Answer 5 questions in 1 minute — free, no signup — and find your fragrance family among Floral, Citrus, Woody, Amber, Fresh and Gourmand, with matched scents and when to wear them.'
+  const title = 'What Perfume Suits Me? — Free 1-Minute Fragrance Type Quiz'
+  const desc = 'What perfume suits me? 5 questions, 1 minute, free — find your family among Floral, Citrus, Woody, Amber, Fresh and Gourmand, with matched scents.'
   return (
     <>
       <title>{title}</title>

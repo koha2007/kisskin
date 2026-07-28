@@ -6,8 +6,8 @@ export default function Head() {
   if (!isExactRoute(ctx.urlPathname, '/en/tools/personal-color/')) return null
   // 자동완성 실수요: "personal color analysis" + free/test/korea 조합이 상위.
   // "korea"가 붙는 건 한국식 진단을 찾는 수요라서, 실제 한국 사이트라는 점을 전면에 세운다.
-  const title = 'Personal Color Analysis Free — Korean 4-Season Test in 1 Min | kissinskin'
-  const desc = 'Free personal color analysis, the Korean way · 6 questions · 1 minute · no signup. Find your season — Spring Warm, Summer Cool, Autumn Warm, Winter Cool — with lip, eye and hair colors that match. Built in Seoul.'
+  const title = 'Personal Color Analysis Free — Korean 4-Season Test in 1 Min'
+  const desc = 'Free personal color analysis, the Korean way · 6 questions · 1 minute · no signup. Spring Warm, Summer Cool, Autumn Warm or Winter Cool. Built in Seoul.'
   return (
     <>
       <title>{title}</title>

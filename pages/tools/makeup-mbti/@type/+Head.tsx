@@ -7,7 +7,7 @@ export default function Head() {
   const type = getMbtiTypeBySlug(slug)
   if (!type) return null
 
-  const title = `${type.koName} (${type.code}) 메이크업 MBTI | kissinskin`
+  const title = `${type.koName} (${type.code}) 메이크업 MBTI`
   const desc = `${type.koName} 유형 메이크업 성향 — ${type.tagline}.`
   const url = `https://kissinskin.net/tools/makeup-mbti/${type.slug}/`
   const enUrl = `https://kissinskin.net/en/tools/makeup-mbti/${type.slug}/`

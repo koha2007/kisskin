@@ -6,8 +6,8 @@ export default function Head() {
   if (!isExactRoute(ctx.urlPathname, '/en/tools/face-shape/')) return null
   // 영어권은 quiz/test 보다 detector·analyzer 로 검색한다(자동완성: face shape detector /
   // analyzer / calculator / types / and glasses). 그 단어를 title 에 실어 준다.
-  const title = 'Face Shape Detector — Free Face Shape Test & Analyzer, 1 Min | kissinskin'
-  const desc = 'Free face shape detector · no photo, no signup, 1 minute. Find out if you are oval, round, square, oblong or heart — then get the hairstyles, glasses and contouring that suit that shape.'
+  const title = 'Face Shape Detector — Free Face Shape Test & Analyzer, 1 Min'
+  const desc = 'Free face shape detector · no photo, no signup, 1 minute. Oval, round, square, oblong or heart — plus the hairstyles and contouring that suit it.'
   return (
     <>
       <title>{title}</title>

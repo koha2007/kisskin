@@ -6,7 +6,7 @@ export default function Head() {
   const slug = (ctx.routeParams?.type ?? '').toString()
   const t = getSeasonBySlug(slug)
   if (!t) return null
-  const title = `${t.koName} 완전 가이드 — 어울리는 색·립·아이·헤어 | kissinskin`
+  const title = `${t.koName} 완전 가이드 — 어울리는 색·립·아이·헤어`
   const desc = `${t.koName} 어울리는 색·립스틱·아이섀도·헤어 컬러 완전 가이드. 피해야 할 색까지 한 번에. 무료 1분 퍼스널컬러 진단으로 내 타입 바로 확인.`
   const url = `https://kissinskin.net/tools/personal-color/${t.slug}/`
   const enUrl = `https://kissinskin.net/en/tools/personal-color/${t.slug}/`

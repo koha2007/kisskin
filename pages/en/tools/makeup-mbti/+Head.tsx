@@ -4,8 +4,8 @@ import { isExactRoute } from '../../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/tools/makeup-mbti/')) return null
-  const title = 'Makeup Quiz — What Makeup Style Suits Me? 16 Types, Free | kissinskin'
-  const desc = 'A free 8-question makeup quiz reads your beauty personality and matches you to 1 of 16 types — each with a K-beauty look and product formula that actually suits it. 1 minute, no signup.'
+  const title = 'Makeup Quiz — What Makeup Style Suits Me? 16 Types, Free'
+  const desc = 'A free 8-question makeup quiz matches you to 1 of 16 beauty types, each with a K-beauty look and product formula that suits it. 1 minute, no signup.'
   return (
     <>
       <title>{title}</title>

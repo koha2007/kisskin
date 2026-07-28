@@ -6,7 +6,7 @@ export default function Head() {
   const slug = (ctx.routeParams?.type ?? '').toString()
   const t = getFaceShapeBySlug(slug)
   if (!t) return null
-  const title = `${t.koName} 얼굴 메이크업 — 컨투어링·셰이딩·헤어 가이드 | kissinskin`
+  const title = `${t.koName} 얼굴 메이크업 — 컨투어링·셰이딩·헤어 가이드`
   const desc = `${t.koName} 얼굴형 슬림 컨투어링·셰이딩 포인트, 어울리는 헤어·메이크업 룩 완전 가이드. 무료 1분 얼굴형 진단으로 내 타입 바로 확인.`
   const url = `https://kissinskin.net/tools/face-shape/${t.slug}/`
   const enUrl = `https://kissinskin.net/en/tools/face-shape/${t.slug}/`

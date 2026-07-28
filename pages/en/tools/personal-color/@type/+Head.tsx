@@ -7,8 +7,8 @@ export default function Head() {
   const t = getSeasonBySlug(slug)
   if (!t) return null
   const enName = t.enName
-  const title = `${enName} — Personal Color Guide for Makeup & Hair | kissinskin`
-  const desc = `${enName} complete guide — best & worst colors, lip, eye, hair picks, and practical shopping tips. Take the free 1-minute personal color quiz to find your type.`
+  const title = `${enName} — Personal Color Guide for Makeup & Hair`
+  const desc = `${enName} guide — best and worst colors, plus lip, eye and hair picks that work. Free 1-minute personal color quiz.`
   const url = `https://kissinskin.net/en/tools/personal-color/${t.slug}/`
   const koUrl = `https://kissinskin.net/tools/personal-color/${t.slug}/`
   return (
