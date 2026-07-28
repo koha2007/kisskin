@@ -1,9 +1,21 @@
 import { usePageContext } from 'vike-react/usePageContext'
 import { isExactRoute } from '../../src/lib/seo/isExactRoute'
+import { hubListSchema } from '../../src/lib/seo/hubSchema'
+import { PRODUCT_ITEMS } from '../../src/lib/products/items'
 
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/products/')) return null
+  const list = hubListSchema({
+    url: 'https://kissinskin.net/products/',
+    name: 'kissinskin 메이크업 제품',
+    description: '매일 새로 나온 K-뷰티 메이크업 제품 소개',
+    locale: 'ko',
+    items: PRODUCT_ITEMS.map((p) => ({
+      url: `https://kissinskin.net/products/${p.slug}/`,
+      name: `${p.brand} ${p.name}`,
+    })),
+  })
   return (
     <>
       <title>메이크업 제품 · 매일 새로 나온 K-뷰티 신상 — kissinskin</title>
@@ -20,6 +32,7 @@ export default function Head() {
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/products/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/products/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/products/" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(list) }} />
     </>
   )
 }

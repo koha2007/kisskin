@@ -66,9 +66,13 @@ export default function AnalysisContent() {
     <div className="font-display bg-white">
       <section className="border-t border-slate-200 py-14 md:py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-navy tracking-tight mb-4">
+          {/* h2 → h1. /analysis/ 는 프리렌더 본문이 2,010자나 되는데 h1 이 하나도 없고
+              h2 만 4개였다 — 크롤러 입장에서 이 페이지의 주제를 선언한 태그가 없었다.
+              앱 UI(업로드 위젯)는 클라이언트 렌더라 프리렌더 HTML 에서는 이 섹션이
+              페이지의 첫 콘텐츠다. 클래스는 그대로 둬서 보이는 모습은 바뀌지 않는다. */}
+          <h1 className="text-2xl md:text-3xl font-bold text-navy tracking-tight mb-4">
             {isEn ? 'How the AI makeup try-on works' : 'AI 메이크업은 어떻게 작동하나요'}
-          </h2>
+          </h1>
           <p className="text-slate-600 leading-relaxed mb-4">
             {isEn
               ? 'Upload one selfie. The model repaints makeup and hair colour onto your own photo — it does not draw a new person. You get nine K-beauty looks back, each with a matching hair colour, plus a report on your skin tone and the products that suit it.'

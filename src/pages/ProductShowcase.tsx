@@ -106,6 +106,15 @@ export default function ProductShowcase({ slug }: Props) {
           <h1 className="mt-1.5 font-serif text-[26px] md:text-[34px] font-semibold leading-tight text-navy tracking-tight">
             {item.name}
           </h1>
+          {/* 영문 제품명 병기 — 한글 페이지에만.
+              왜: 이 제품들은 실재하는 상품이고 해외에서는 영문명으로 검색된다.
+              그런데 한글 상세에는 영문명이 단 한 번도 등장하지 않아("Dr.G Red Blemish
+              Clear Soothing Cream" 0회) 영어 검색어와 맞물릴 지점이 아예 없었다.
+              globalQuery 는 이미 갖고 있는 실제 영문 브랜드+제품명이다 — 지어내는 정보가
+              아니라 있는 데이터를 드러내는 것. EN 페이지는 본문이 이미 영문이라 생략. */}
+          {!isEn && item.globalQuery && (
+            <p className="mt-1 text-[13px] font-medium text-slate-400 tracking-tight">{item.globalQuery}</p>
+          )}
           <p className="mt-3 text-slate-600 text-[15px] md:text-[17px] leading-relaxed">{item.summary}</p>
         </div>
 
@@ -304,24 +313,48 @@ export default function ProductShowcase({ slug }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
+          // 이 페이지는 "실재하는 상품에 대한 글" 이다 → 글(Article)과 상품(Product)을
+          // 따로 선언하고 about 으로 잇는다. 예전엔 상품을 about: Thing(이름뿐) 으로만
+          // 흘려서, 검색엔진이 이 페이지를 제품 페이지로 이해할 근거가 없었다.
+          //
+          // ⚠️ offers(가격·재고)·aggregateRating(평점)·review 는 **넣지 않는다.**
+          //    우리는 그 데이터를 갖고 있지 않다. 지어내면 구조화 데이터 정책 위반이고
+          //    (2026-07-12 에 가짜 평점 4.8/150 을 이미 한 번 걷어냈다), 리치 결과가
+          //    걸려도 거짓 정보가 SERP 에 뜬다. 있는 것만 — 이름·브랜드·이미지·설명·분류.
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Article',
-            headline: `${item.brand} ${item.name}`,
-            description: item.summary,
-            articleSection: categoryLabel,
-            inLanguage: isEn ? 'en' : 'ko',
-            datePublished: item.date,
-            dateModified: item.date,
-            ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
-            author: { '@type': 'Organization', name: 'kissinskin', url: 'https://kissinskin.net/' },
-            publisher: {
-              '@type': 'Organization',
-              name: 'kissinskin',
-              logo: { '@type': 'ImageObject', url: 'https://kissinskin.net/logo-sm.webp' },
-            },
-            about: { '@type': 'Thing', name: `${item.brand} ${item.name}` },
-            mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteBase}/${item.slug}/` },
+            '@graph': [
+              {
+                '@type': 'Product',
+                '@id': `${siteBase}/${item.slug}/#product`,
+                name: `${item.brand} ${item.name}`,
+                // 한글 페이지엔 실제 영문 제품명을, 영문 페이지엔 별칭 없이.
+                ...(!isEn && item.globalQuery ? { alternateName: item.globalQuery } : {}),
+                brand: { '@type': 'Brand', name: item.brand },
+                category: categoryLabel,
+                description: item.summary,
+                ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
+                url: `${siteBase}/${item.slug}/`,
+              },
+              {
+                '@type': 'Article',
+                headline: `${item.brand} ${item.name}`,
+                description: item.summary,
+                articleSection: categoryLabel,
+                inLanguage: isEn ? 'en' : 'ko',
+                datePublished: item.date,
+                dateModified: item.date,
+                ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
+                author: { '@type': 'Organization', name: 'kissinskin', url: 'https://kissinskin.net/' },
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'kissinskin',
+                  logo: { '@type': 'ImageObject', url: 'https://kissinskin.net/logo-sm.webp' },
+                },
+                about: { '@id': `${siteBase}/${item.slug}/#product` },
+                mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteBase}/${item.slug}/` },
+              },
+            ],
           }),
         }}
       />

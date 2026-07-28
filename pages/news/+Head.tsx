@@ -1,9 +1,21 @@
 import { usePageContext } from 'vike-react/usePageContext'
 import { isExactRoute } from '../../src/lib/seo/isExactRoute'
+import { hubListSchema } from '../../src/lib/seo/hubSchema'
+import { NEWS_ITEMS } from '../../src/lib/news/items'
 
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/news/')) return null
+  const list = hubListSchema({
+    url: 'https://kissinskin.net/news/',
+    name: 'kissinskin 뉴스',
+    description: 'K-뷰티·글로벌 화장품 산업 뉴스',
+    locale: 'ko',
+    items: NEWS_ITEMS.map((n) => ({
+      url: `https://kissinskin.net/news/${n.slug}/`,
+      name: n.title,
+    })),
+  })
   return (
     <>
       <title>뉴스 · K-뷰티 글로벌 화장품 트렌드 — kissinskin</title>
@@ -23,6 +35,7 @@ export default function Head() {
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/news/" />
       <link rel="alternate" hrefLang="en" href="https://kissinskin.net/en/news/" />
       <link rel="alternate" hrefLang="x-default" href="https://kissinskin.net/news/" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(list) }} />
     </>
   )
 }
