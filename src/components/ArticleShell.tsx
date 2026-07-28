@@ -127,47 +127,44 @@ export default function ArticleShell({
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {children}
 
-            {/* Content provenance disclosure — 뉴스·가이드는 공개 출처 기반 정보 피드(AI 지원). 정직 표기. */}
-            <div className="mt-12 p-5 md:p-6 bg-slate-50 border border-slate-200 rounded-xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-2">
-                {isEn ? 'About this article' : '이 글에 대해'}
-              </div>
-              {isEn ? (
-                <>
-                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
-                    kissinskin's news and guides are information pieces compiled and edited (AI-assisted) from
-                    public sources on the fast-moving global beauty market. Figures and quotes are
-                    cross-referenced against public sources such as BeautyMatter, NIQ, Mintel, Sephora
-                    reports, and Olive Young bestseller data.
-                  </p>
-                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
-                    Generalized information is kept distinct from personal opinion, and matters needing medical
-                    or legal judgment should be taken to a professional. Corrections and feedback are welcome
-                    via the{' '}
+            {/* Content provenance disclosure — 공개 출처 기반 정보 피드(AI 지원) 표기.
+                ────────────────────────────────────────────────────────────────
+                2026-07-28. 원래 여기에 편집 원칙 4문장(약 300자)을 통째로 실었는데,
+                그 4문장은 /about/ 「편집·검수 원칙」의 복사본이었다. 실측하니 뉴스 53편
+                **전부(53/53)** 에 같은 문장이 들어가 페이지당 중복 글자 비중 27.1% 의
+                가장 큰 덩어리였다. 7/23 조사에서 "크롤링됨 – 색인 미생성 24건"의 원인이
+                분량이 아니라 중복으로 판명됐으므로, 복제본을 지우고 원본(/about/)을
+                가리킨다 — 고지 자체는 유지하되 전문은 한 곳에만 둔다(정석적인 편집 정책
+                페이지 구조이기도 하다).
+                `<footer>` 로 감싸는 이유: 이 블록은 기사 본문이 아니라 출처·연락처
+                메타데이터다. 시맨틱을 맞춰 두면 크롤러가 boilerplate 로 걸러내기 쉽다. */}
+            <footer className="mt-12 p-4 md:p-5 bg-slate-50 border border-slate-200 rounded-xl">
+              <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
+                {isEn ? (
+                  <>
+                    Compiled and edited (AI-assisted) from public sources —{' '}
+                    <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
+                      editorial standards
+                    </a>{' '}
+                    ·{' '}
                     <a href={contactPath} className="font-semibold text-navy underline hover:text-primary">
-                      contact page
+                      report a correction
                     </a>
-                    .
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed mb-2">
-                    kissinskin의 뉴스·가이드는 매일 급변하는 글로벌 뷰티 시장의 소식을 공개 자료를 바탕으로
-                    정리·편집한 정보 콘텐츠입니다(AI 지원). 수치·인용은 BeautyMatter, NIQ, Mintel, Sephora 보고서,
-                    Olive Young 베스트셀러 데이터 등 공개 출처를 교차 참조합니다.
-                  </p>
-                  <p className="text-[13px] md:text-sm text-slate-600 leading-relaxed">
-                    일반화된 정보와 개인 의견은 구분해 표기하며, 의학적·법적 판단이 필요한 사안은 전문가 상담을 권고합니다.
-                    오류 제보·의견은{' '}
+                  </>
+                ) : (
+                  <>
+                    공개 자료를 바탕으로 정리·편집한 정보 콘텐츠입니다(AI 지원) —{' '}
+                    <a href={aboutPath} className="font-semibold text-navy underline hover:text-primary">
+                      편집·검수 원칙
+                    </a>{' '}
+                    ·{' '}
                     <a href={contactPath} className="font-semibold text-navy underline hover:text-primary">
-                      문의 페이지
+                      오류 제보
                     </a>
-                    를 통해 받습니다.
-                  </p>
-                </>
-              )}
-            </div>
+                  </>
+                )}
+              </p>
+            </footer>
 
             {tags && tags.length > 0 && (
               <div className="mt-8 pt-6 border-t border-slate-200">

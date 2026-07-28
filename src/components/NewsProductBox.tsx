@@ -3,7 +3,7 @@ import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import ProductBuyButtons from './ProductBuyButtons'
 import AffiliateDisclosure from './AffiliateDisclosure'
 import RegionToggle from './RegionToggle'
-import { NEWS_CATEGORY_PRODUCTS } from '../lib/news/products'
+import { pickNewsProducts } from '../lib/news/products'
 import { CLIO_CATEGORY_LINKS } from '../config/affiliate'
 import type { NewsCategory } from '../lib/news/types'
 
@@ -20,8 +20,10 @@ interface Props {
 // Localized: KO copy on /news/*, EN copy on /en/news/*.
 export default function NewsProductBox({ category, slug, accentColor = '#d8503c' }: Props) {
   const { locale } = useI18n()
-  const recs = NEWS_CATEGORY_PRODUCTS[category]
-  if (!AFFILIATE_ENABLED || !recs || recs.length === 0) return null
+  // 카테고리 풀에서 slug 로 정해진 조합을 뽑는다 — 예전엔 카테고리별 전체를 그대로
+  // 렌더해서, 같은 카테고리 글이면 박스가 100% 동일했다(글로벌 22편이 그랬다).
+  const recs = pickNewsProducts(category, slug)
+  if (!AFFILIATE_ENABLED || recs.length === 0) return null
   const isEn = locale === 'en'
 
   return (
