@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-europe-export-surpasses-north-america-h1-2026',
+    category: 'global',
+    title: 'K-Beauty Exports to Europe Surpass North America in H1 2026, Reaching $1.52 Billion',
+    summary:
+      'In H1 2026, K-beauty exports to the European market recorded approximately $1.52 billion, surpassing North America, which was previously the largest market. This demonstrates the successful establishment of high-quality functional skincare products from Korean indie brands among European consumers.',
+    body: [
+      '> TLDR: European Market Exports Surpass North America | Functional Skincare Dominates | Indie Brands Drive Growth',
+      'A significant shift has been observed in the K-beauty export landscape during H1 2026. Exports of Korean cosmetics to the European market, often referred to as the \'homeland of beauty,\' reached approximately $1.52 billion, exceeding exports to North America, which was previously the largest market. This signifies K-beauty\'s diversification into global markets and its establishment of a strong foothold in Europe.',
+      '> DATA: In H1 this year, exports of basic skincare products to Europe amounted to $733.97 million, accounting for 48.1% of total K-beauty exports to Europe. Skincare products in which Korean companies have a strong advantage, such as toners, serums, ampoules, creams, and sheet masks, are leading exports and receiving high praise from local consumers.',
+      'K-beauty export items to Europe, which were previously centered around sheet masks or low-cost products, are now diversifying into functional serums, cleansing products, and color cosmetics. The explosive growth of domestic indie cosmetic brands, in particular, is analyzed as a key factor in establishing \'K-beauty\' as an independent product category within the European market.',
+      'The European market has traditionally been considered to have high entry barriers due to its long history and strong local brand loyalty. However, K-beauty has overcome these challenges with high-quality products emphasizing ingredients and technological prowess, expanding its reach into the premium market and emerging as a new powerhouse in the global beauty industry.',
+    ],
+    date: '2026-07-28',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'European Market', 'Export Trends', 'Skincare'],
+    seoTitle: 'K-Beauty Europe Exports Surpass North America in H1 2026',
+    seoDescription:
+      'K-beauty exports to Europe hit $1.52B in H1 2026, surpassing North America, driven by high-quality functional skincare from indie brands.',
+  },
+  {
     slug: 'k-beauty-ai-export-marketing-platform-newenai-2026-july',
     category: 'global',
     title: 'New&AI Kicks Off Development of ₩3.5 Billion K-Beauty Export Marketing AI Platform',

@@ -5,6 +5,48 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'tamburins-perfume-chamo',
+    category: 'fragrance',
+    brand: 'tamburins',
+    name: 'Perfume Chamo',
+    title: 'tamburins Perfume Chamo: Sweet, Cozy Woody Musk Perfume',
+    summary:
+      'tamburins Perfume Chamo is an addictive fragrance where the rich, sweet scent of honey-like chamomile and the bitter aroma of clary sage herbs are subtly blended. Warm musk and soft blonde wood embrace the coolness of damp moss, delivering a cozy and elegant lingering scent.',
+    highlights: ['Rich Chamomile & Herbs', 'Soft Woody Musk', 'Androgynous Charm', 'Genderless Scent'],
+    details: [
+      'The top notes present a strong, unique first impression with the honey-sweet chamomile and bitter clary sage herbal scent.',
+      'The middle notes combine water and cypriol, evoking the feeling of damp moss and adding depth to the fragrance.',
+      'The base notes feature an elegant and soft blend of blonde wood, warm musk, and amber, maintaining a cozy and attractive lingering scent for a long time.',
+      'Its gender-neutral appeal suits both men and women, offering a diverse scent transformation over time.',
+    ],
+    whoFor:
+      'Recommended for those who prefer a warm, cozy, yet not overly sweet, gender-neutral fragrance. It\'s a unique yet comfortable woody musk scent, perfect for daily use.',
+    howTo: [
+      'Lightly spray the perfume as desired on pulse points like wrists or the nape of the neck.',
+      'Be careful of staining or discoloration if spraying directly onto fabrics like clothes or bedding.',
+      'If the scent feels weak, carry it in a small container and reapply as needed.',
+    ],
+    pros: [
+      'Unique yet cozy woody musk scent with broad appeal.',
+      'Genderless fragrance suitable for both men and women.',
+      'The lingering scent becomes soft and elegant over time.',
+    ],
+    cons: [
+      'Some find the longevity relatively short, which can be disappointing.',
+      'The initial herbal scent might be perceived as somewhat bitter.',
+    ],
+    image: '/products/tamburins-perfume-chamo.webp',
+    coupangQuery: '탬버린즈 퍼퓸 카모',
+    globalQuery: 'Tamburins Perfume Chamo',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-07-28',
+    tags: ['perfume', 'woodyperfume', 'muskperfume', 'chamomilescent', 'genderlessperfume', 'nicheperfume', 'tamburinsperfume', 'autumnperfume', 'winterperfume', 'dailyperfume'],
+    seoTitle: 'tamburins Perfume Chamo: Sweet Woody Musk Fragrance',
+    seoDescription:
+      'Discover tamburins Perfume Chamo, an addictive blend of sweet chamomile, bitter clary sage, and warm woody musk for a cozy, elegant, gender-neutral scent.',
+  },
+  {
     slug: 'amika-perk-up-dry-shampoo',
     category: 'hair',
     brand: 'amika',
