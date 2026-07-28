@@ -20,6 +20,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-27',
     readMinutes: 3,
     tags: ['K-beauty', 'AI', 'Export Marketing', 'Beauty Tech', 'New&AI'],
+    seoTitle: 'New&AI to Build K-Beauty Export Marketing AI Platform',
+    seoDescription:
+      'New&AI is developing a ₩3.5 billion AI platform to automate global market entry strategies and bolster international marketing for K-beauty businesses.',
   },
   {
     slug: 'k-beauty-third-phase-europe-suncare-haircare-2026-july',
@@ -38,6 +41,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-26',
     readMinutes: 3,
     tags: ['K-Beauty', 'European Market', 'Suncare', 'Haircare', 'Export Trends'],
+    seoTitle: 'K-Beauty\'s Third Growth Phase: Europe, Suncare, Haircare',
+    seoDescription:
+      'This article details how the K-Beauty market has entered a \'third growth phase,\' expanding to new regions like Europe, driven by suncare and haircare',
   },
   {
     slug: 'k-beauty-phase3-europe-offline-surge-2026-july',
@@ -55,6 +61,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-25',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'Europe', 'Offline Distribution', 'Export Data'],
+    seoTitle: 'K-Beauty \'Phase 3\' Growth: Europe, Offline, New Products',
+    seoDescription:
+      'K-Beauty has entered \'Phase 3\' with explosive growth in Europe, expanding into local offline stores and diversifying product categories.',
   },
   {
     slug: 'k-beauty-indonesia-halal-certification-2026-oct',
@@ -73,6 +82,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-24',
     readMinutes: 3,
     tags: ['Halal Certification', 'K-Beauty Exports', 'Indonesia', 'MFDS', 'Southeast Asia'],
+    seoTitle: 'Indonesia Mandates K-Beauty Halal Certification',
+    seoDescription:
+      'Indonesia will mandate halal certification for K-Beauty from October 17th, prompting Korea\'s MFDS to dispatch a support team to ease exports.',
   },
   {
     slug: 'k-beauty-packaging-sustainability-recycling-challenge-2026-july',
@@ -91,6 +103,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-23',
     readMinutes: 3,
     tags: ['K-Beauty', 'Sustainability', 'Recycling', 'Cosmetic Packaging', 'Eco-friendly'],
+    seoTitle: 'K-Beauty Packaging: 60% Difficult to Recycle',
+    seoDescription:
+      'Over 60% of K-Beauty packaging is difficult to recycle, posing a challenge as the EU enforces stringent recycling regulations from 2026.',
   },
   {
     slug: 'k-beauty-ai-hair-platform-lianhair-2026-july',
@@ -109,6 +124,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-22',
     readMinutes: 3,
     tags: ['K-Beauty', 'AI', 'Beauty Tech', 'Hyper-personalization', 'Lian Hair'],
+    seoTitle: 'K-Beauty AI Transformation: Fasoo AI & Lian Hair',
+    seoDescription:
+      'Fasoo AI and Lian Hair are building an AI beauty platform to offer virtual simulations and customized hairstyle recommendations.',
   },
   {
     slug: 'k-beauty-mongolia-market-surge-cepa-2026-july',
@@ -127,6 +145,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-21',
     readMinutes: 3,
     tags: ['Mongolia', 'K-beauty', 'CEPA', 'Export Data', 'Retail'],
+    seoTitle: 'K-Beauty Mongolia Market Surges After CEPA Deal',
+    seoDescription:
+      'A CEPA agreement between South Korea and Mongolia signals K-Beauty expansion, with imports reaching $44.93 million in 2025.',
   },
   {
     slug: 'k-beauty-latin-america-tiktok-surge-2026',
@@ -145,6 +166,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-20',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'Latin America', 'TikTok Shop', 'NIQ Report'],
+    seoTitle: 'K-Beauty Growth: Latin America 135%, TikTok 430%',
+    seoDescription:
+      'A NIQ report reveals K-Beauty\'s 131% growth, with Latin American sales surging 135% and TikTok Shop sales up 430%.',
   },
   {
     slug: 'amazon-prime-day-2026-kbeauty-skinnification-pdrn',
@@ -163,6 +187,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-19',
     readMinutes: 3,
     tags: ['K-Beauty', 'Amazon', 'Prime Day', 'Skinification', 'PDRN', 'Medicube'],
+    seoTitle: 'Amazon Prime Day 2026 K-Beauty: Skinification & PDRN',
+    seoDescription:
+      'This article details K-beauty trends from Amazon Prime Day 2026, highlighting \'skinification\' expanding to hair care and a surge in PDRN ingredient',
   },
   {
     slug: 'k-beauty-global-sales-surge-niq-2026-july',
@@ -180,6 +207,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-18',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'NIQ', 'Social Commerce', 'Market Trends'],
+    seoTitle: 'K-Beauty Global Sales Surge 53% Driven by Social Commerce',
+    seoDescription:
+      'A NIQ report reveals K-beauty\'s worldwide sales surged 53% year-over-year and 131% over two years, driven by social commerce and regional innovation.',
   },
   {
     slug: 'k-beauty-etf-us-launch-2026',
@@ -197,6 +227,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-17',
     readMinutes: 3,
     tags: ['K-Beauty', 'ETF', 'Global Investment', 'US Stock Market'],
+    seoTitle: 'K-Beauty ETF to Launch on US NYSE for Global Investment',
+    seoDescription:
+      'This article reports on the imminent listing of a specialized K-Beauty ETF on the US NYSE, which is projected to boost global investor sentiment.',
   },
   {
     slug: 'kbeauty-hair-care-export-surge-2026',
@@ -214,6 +247,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-16',
     readMinutes: 3,
     tags: ['K-Beauty', 'Haircare', 'Exports', 'Global Market', 'Hair Loss Care'],
+    seoTitle: 'K-Beauty Hair Product Exports Surge 30.6% in H1',
+    seoDescription:
+      'K-Beauty\'s global market expansion is accelerating, showing unprecedented growth in haircare with exports surging 30.6% from January to May.',
   },
   {
     slug: 'kbeauty-odm-record-q3-2026',
@@ -231,6 +267,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-15',
     readMinutes: 3,
     tags: ['K-beauty', 'ODM', 'Exports', 'Market Trends'],
+    seoTitle: 'K-Beauty ODMs Forecast Record-Breaking Q3 2026',
+    seoDescription:
+      'This article details how Korean K-beauty ODM companies forecast record-breaking Q3 2026 performance, breaking the \'H1 boom, H2 bust\' formula.',
   },
   {
     slug: 'kbeauty-sun-serum-surge-2026',
@@ -248,6 +287,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-14',
     readMinutes: 3,
     tags: ['Sun Serum', 'K-Beauty', 'Summer Skincare', 'Hybrid Beauty'],
+    seoTitle: 'K-Beauty Summer 2026: Sun Serum Craze Surges 149%',
+    seoDescription:
+      'K-Beauty\'s \'sun serum\' popularity is surging in Summer 2026, with transaction volume jumping 149% year-over-year, driven by hybrid products.',
   },
   {
     slug: 'keyring-beauty-summer-trend-2026',
@@ -265,6 +307,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-13',
     readMinutes: 3,
     tags: ['Keyring Beauty', 'Summer Makeup', 'Portable Cosmetics', 'Monclos', 'Sun Care'],
+    seoTitle: 'Keyring Beauty Trend Surges for Summer 2026 Holidays',
+    seoDescription:
+      'This article details the rapidly emerging \'Keyring Beauty\' trend for Summer 2026, highlighting Monclos\'s PDRN hydrating sun cream.',
   },
   {
     slug: 'shopee-kbeauty-soothing-june-2026',
@@ -282,6 +327,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-12',
     readMinutes: 3,
     tags: ['K-Beauty', 'Shopee', 'Southeast Asia', 'Skincare', 'Soothing Care', 'Moisture Barrier'],
+    seoTitle: 'Shopee K-Beauty: Soothing & Moisture Products Dominate',
+    seoDescription:
+      'Soothing and moisture barrier products dominated Shopee K-Beauty in June 2026, catering to skin irritated by Southeast Asia\'s hot climate.',
   },
   {
     slug: 'k-beauty-quick-beauty-sisungbi-trend-2026',
@@ -299,6 +347,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-11',
     readMinutes: 3,
     tags: ['K-Beauty', 'Quick Beauty', 'Time-Performance (시성비)', 'Makeup Trends', 'Skip-Care'],
+    seoTitle: 'K-Beauty Exports Reach $11.4 Billion Driven by Quick',
+    seoDescription:
+      'South Korea\'s cosmetics exports hit a new all-time high of $11.4 billion in 2025, fueled by the \'quick beauty\' trend emphasizing time-performance and',
   },
   {
     slug: 'ysl-beauty-luxury-makeup-refill-expansion-2026',
@@ -316,6 +367,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-10',
     readMinutes: 3,
     tags: ['Refill Beauty', 'Sustainability', 'Luxury Makeup', 'YSL Beauty', 'Cushion Foundation'],
+    seoTitle: 'YSL Beauty Expands Luxury Makeup Refills for Refill Day',
+    seoDescription:
+      'YSL Beauty expands its luxury makeup refill options, including a new tube-type refill for its \'Encre de Peau Cushion\', setting a benchmark for sustainable',
   },
   {
     slug: 'k-beauty-toner-china-sales-decline-2026',
@@ -333,6 +387,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-09',
     readMinutes: 3,
     tags: ['K-Beauty', 'China Market', 'Toner', 'Tmall', 'Sales Decline'],
+    seoTitle: 'K-Beauty Toner Sales on Tmall Plunge 46.4% in June',
+    seoDescription:
+      'Sales of top K-beauty toner products on China\'s Tmall platform plummeted by 46.4% in June 2026, indicating a significant market contraction despite Anua\'s',
   },
   {
     slug: 'k-beauty-mna-challenges-global-giants-2026',
@@ -350,6 +407,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-08',
     readMinutes: 3,
     tags: ['K-beauty M&A', 'Global Beauty', 'Brand Trends', 'Market Changes'],
+    seoTitle: 'K-Beauty M&As by Global Giants Underperform',
+    seoDescription:
+      'K-beauty brands acquired by global beauty giants like Estée Lauder and Unilever are performing below expectations due to changing market environments and',
   },
   {
     slug: 'k-beauty-science-industry-pivot-2026',
@@ -367,6 +427,9 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-08',
     readMinutes: 3,
     tags: ['K-Beauty', 'Beauty Tech', 'Bio', 'AI', 'Personalization'],
+    seoTitle: 'K-Beauty Evolves into Science Industry via Bio, AI, Data',
+    seoDescription:
+      'K-Beauty is evolving into a science industry, combining biotechnology, AI, and data-driven personalized services to expand beyond cosmetics manufacturing.',
   },
   {
     slug: 'k-beauty-us-overtakes-france-2026',

@@ -16,6 +16,7 @@
 // ════════════════════════════════════════════════════════════════════
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 
 const ITEMS = resolve('src/lib/news/items.ts')
 const ITEMS_EN = resolve('src/lib/news/items.en.ts')
@@ -67,6 +68,7 @@ Google 검색을 사용해 **최근 2~3주 이내 실제로 일어난** 글로�
   "category": "${CATEGORIES.join('|')}",          // 이 중 하나
   "title": "한국어 제목(구체적 수치/브랜드 포함 권장)",
   "summary": "한국어 2문장 요약",
+${KO_SCHEMA_LINES}
   "body": [
     "> TLDR: 핵심1 | 핵심2 | 핵심3",              // 첫 요소는 TLDR 박스(| 로 2~3개)
     "본문 문단(한국어, 90~170자, 간결하게).",       // 일반 문단 — 짧고 핵심만
@@ -118,6 +120,9 @@ function validate(item, ex) {
     const chars = (item.body || []).join('').length
     item.readMinutes = Math.max(3, Math.min(7, Math.round(chars / 500)))
   }
+  // SEO 제목·설명은 거절 사유로 삼지 않는다 — 기사 자체는 멀쩡한데 메타 한 줄 때문에
+  // 발행을 통째로 버리면 손해가 더 크다. 빠졌거나 넘치면 여기서 보정한다.
+  applySeoMeta(item, 'ko')
   return err
 }
 
@@ -138,6 +143,11 @@ function serialize(item) {
   lines.push(`    readMinutes: ${item.readMinutes},`)
   lines.push(`    tags: [${item.tags.map(q).join(', ')}],`)
   if (item.featured) lines.push('    featured: true,')
+  if (item.seoTitle) lines.push(`    seoTitle: ${q(item.seoTitle)},`)
+  if (item.seoDescription) {
+    lines.push('    seoDescription:')
+    lines.push(`      ${q(item.seoDescription)},`)
+  }
   lines.push('  },')
   return lines.join('\n')
 }
@@ -170,7 +180,13 @@ ${JSON.stringify({ title: item.title, summary: item.summary, body: item.body, ta
 \`\`\`
 
 Output JSON schema:
-{ "title": "...", "summary": "...", "body": ["...", "..."], "tags": ["...", "..."] }`
+{
+  "title": "...",
+  "summary": "...",
+  "body": ["...", "..."],
+  "tags": ["...", "..."],
+${EN_SCHEMA_LINES}
+}`
 
 async function translateAndInsertEn(apiKey, item) {
   // 번역은 그라운딩 불필요 — 순수 번역 호출.
@@ -190,17 +206,22 @@ async function translateAndInsertEn(apiKey, item) {
   if (!en.title || !Array.isArray(en.body) || en.body.length < 3 || !Array.isArray(en.tags)) {
     throw new Error('EN 번역 검증 실패(필드 부족)')
   }
-  const enItem = {
-    slug: item.slug,
-    category: item.category,
-    title: en.title,
-    summary: en.summary || en.title,
-    body: en.body,
-    date: item.date,
-    readMinutes: item.readMinutes,
-    tags: en.tags,
-    ...(item.featured ? { featured: true } : {}),
-  }
+  const enItem = applySeoMeta(
+    {
+      slug: item.slug,
+      category: item.category,
+      title: en.title,
+      summary: en.summary || en.title,
+      body: en.body,
+      date: item.date,
+      readMinutes: item.readMinutes,
+      tags: en.tags,
+      seoTitle: en.seoTitle,
+      seoDescription: en.seoDescription,
+      ...(item.featured ? { featured: true } : {}),
+    },
+    'en',
+  )
   insertAt(ITEMS_EN, 'export const NEWS_ITEMS_EN: NewsItem[] = [', serialize(enItem))
   insertAt(EN_SLUGS, 'export const EN_NEWS_SLUGS = [', `  ${q(item.slug)},`)
 }

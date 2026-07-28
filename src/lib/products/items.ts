@@ -42,6 +42,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-27',
     tags: ['드라이샴푸', '노워시', '기름진머리', '볼륨', '헤어스타일링', '세포라베스트셀러', '틱톡템'],
+    seoTitle: '아미카 드라이 샴푸: 떡진 머리 보송하게',
+    seoDescription:
+      '물 없이 기름기와 땀, 냄새를 효과적으로 제거하여 샴푸한 듯 보송한 머릿결을 선사하는 드라이 샴푸입니다.',
   },
   {
     slug: 'dr-g-red-blemish-clear-soothing-cream-ex',
@@ -80,6 +83,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-26',
     tags: ['수분크림', '진정크림', '시카크림', '민감성피부', '여드름성피부', '올리브영추천템', '국민수분크림', '닥터지'],
+    seoTitle: '닥터지 레드 블레미쉬 진정 수분크림',
+    seoDescription:
+      '민감하고 붉어진 피부를 끈적임 없이 촉촉하게 진정시키고 피부 장벽 강화에 도움을 주는 수분 크림입니다.',
   },
   {
     slug: 'dior-backstage-rosy-glow-blush',
@@ -120,6 +126,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-25',
     tags: ['블러쉬', '치크', '디올블러쉬', 'pH블러쉬', '생기블러쉬', '내추럴메이크업'],
+    seoTitle: '디올 로지 글로우 블러쉬: 생기 치크 연출',
+    seoDescription:
+      '피부 pH에 반응하여 자연스러운 혈색과 맑고 투명한 발색으로 생기 넘치는 치크를 연출해 주는 블러쉬입니다.',
   },
   {
     slug: 'lilybyred-love-beam-cheek-balm-06-peach-beam',
@@ -161,6 +170,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'cheek',
     date: '2026-07-24',
     tags: ['블러셔', '치크밤', '복숭아블러셔', '크림블러셔', '촉촉한블러셔', '봄웜톤', '릴리바이레드'],
+    seoTitle: '릴리바이레드 치크밤 복숭빔: 생기 치크',
+    seoDescription:
+      '맑고 생기 넘치는 복숭아빛 컬러로 두 뺨을 물들이고 자연스러운 혈색을 선사하는 촉촉한 치크밤입니다.',
   },
   {
     slug: 'charlotte-tilbury-beautiful-skin-foundation',
@@ -202,6 +214,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'base',
     date: '2026-07-23',
     tags: ['파운데이션', '글로우', '촉촉한파운데이션', '샬롯틸버리', '미디엄커버리지', '스킨케어파운데이션'],
+    seoTitle: '샬롯 틸버리 파운데이션: 건강한 윤기 피부',
+    seoDescription:
+      '스킨케어 성분을 함유한 미디엄 커버리지로 피부를 촉촉하고 매끄럽게 가꿔 건강한 윤기를 선사하는 파운데이션입니다.',
   },
   {
     slug: 'romand-han-all-fix-mascara-long-ash',
@@ -242,6 +257,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'eye',
     date: '2026-07-22',
     tags: ['롬앤마스카라', '한올픽스마스카라', '롱애쉬', '데일리마스카라', '안번지는마스카라', '컬링마스카라', '워터프루프마스카라', '자연스러운마스카라'],
+    seoTitle: '롬앤 마스카라 롱 애쉬: 처짐 없이 고정',
+    seoDescription:
+      '자연스러운 회갈색 컬러로 부담 없이 하루 종일 처짐 없이 깔끔하게 고정되는 마스카라입니다.',
   },
   {
     slug: 'fenty-skin-cherry-treat-conditioning-strengthening-lip-oil',
@@ -283,6 +301,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-21',
     tags: ['립오일', '수분광', '체리향', '끈적임없는', '데일리립'],
+    seoTitle: '펜티 스킨 립 오일: 보습과 광택 한 번에',
+    seoDescription:
+      '건조하고 갈라진 입술에 영양을 공급하고 수분 장벽을 강화하여 끈적임 없이 촉촉하고 윤기 있는 입술을 선사하는 립 오일입니다.',
   },
   {
     slug: 'tamburins-perfume-hand-000',
@@ -320,6 +341,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-20',
     tags: ['핸드크림', '향수핸드크림', '우디향', '시트러스향', '중성적인향', '탬버린즈'],
+    seoTitle: '탬버린즈 핸드크림 000: 우디 시트러스 향',
+    seoDescription:
+      '흙내음 섞인 풀내음의 우디 시트러스 향으로 끈적임 없이 산뜻하게 흡수되어 향수처럼 풍성한 잔향이 오래 지속되는 퍼퓸 핸드크림입니다.',
   },
   {
     slug: 'kerastase-elixir-ultime-l-huile-originale',
@@ -359,6 +383,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-19',
     tags: ['헤어오일', '손상모케어', '윤기', '열보호', '산뜻한마무리'],
+    seoTitle: '케라스타즈 헤어 오일: 빛나는 머릿결',
+    seoDescription:
+      '모든 모발 타입에 깊은 영양과 윤기를 선사하는 멀티 유즈 헤어 오일로, 끈적임 없이 부드러운 마무리감이 특징입니다.',
   },
   {
     slug: 'round-lab-birch-juice-moisturizing-sun-cream',
@@ -397,6 +424,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-18',
     tags: ['선크림', '수분', '진정', '자외선차단', '올리브영', '국민템'],
+    seoTitle: '라운드랩 자작나무 수분 선크림',
+    seoDescription:
+      '올리브영 3년 연속 1위 베스트셀러로, 수분 에센스처럼 촉촉하고 산뜻하게 발립니다.',
   },
   {
     slug: 'nars-the-multiple',
@@ -437,6 +467,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-17',
     tags: ['멀티밤', '스틱블러셔', '멀티유즈', '간편메이크업', '크림블러셔', '나스', '세포라베스트셀러'],
+    seoTitle: '나스 더 멀티플: 멀티 유즈 스틱',
+    seoDescription:
+      '아이코닉 멀티 유즈 스틱으로, 크림 투 파우더 제형이 볼, 입술, 눈에 자연스러운 컬러를 선사합니다.',
   },
   {
     slug: 'romand-better-than-cheek-n02-vine-nude',
@@ -477,6 +510,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'cheek',
     date: '2026-07-16',
     tags: ['롬앤블러셔', '누드블러셔', '웜톤블러셔', '파우더블러셔', '데일리블러셔'],
+    seoTitle: '롬앤 누드톤 블러셔: 바인 누드',
+    seoDescription:
+      '형광기 없이 차분한 누드톤으로 자연스러운 생기를 더하며, 모공과 요철을 커버하는 블러셔입니다.',
   },
   {
     slug: 'rare-beauty-always-an-optimist-pore-diffusing-primer',
@@ -513,6 +549,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'base',
     date: '2026-07-15',
     tags: ['모공프라이머', '메이크업베이스', '지속력', '유분조절', '블러링'],
+    seoTitle: '레어 뷰티 프라이머: 모공 유분 커버',
+    seoDescription:
+      '모공과 잔주름을 커버하고 메이크업 지속력을 높여주는 가볍고 촉촉한 젤 프라이머입니다.',
   },
   {
     slug: 'hince-signature-brow-shaper-clear',
@@ -550,6 +589,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'eye',
     date: '2026-07-14',
     tags: ['브로우쉐이퍼', '눈썹고정', '결브로우', '투명브로우', '내추럴메이크업'],
+    seoTitle: '힌스 브로우 쉐이퍼: 눈썹 고정',
+    seoDescription:
+      '자연스러운 눈썹 결 연출과 강력한 고정력으로 하루 종일 깔끔한 눈썹을 유지시켜줍니다.',
   },
   {
     slug: 'rare-beauty-soft-pinch-tinted-lip-oil',
@@ -591,6 +633,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-13',
     tags: ['립오일', '틴트', '글로스', '촉촉', '비건'],
+    seoTitle: '레어 뷰티 립 오일: 끈적임 없이 촉촉',
+    seoDescription:
+      '젤이 오일로 변하는 혁신적인 포뮬러가 입술에 편안함과 끈적임 없는 촉촉함을 선사합니다.',
   },
   {
     slug: 'nonfiction-santal-cream-hand-cream',
@@ -630,6 +675,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-12',
     tags: ['핸드크림', '향수', '우디향', '머스크향', '선물추천', '논픽션'],
+    seoTitle: '논픽션 상탈크림 핸드크림',
+    seoDescription:
+      '신선한 카다멈과 부드러운 우디 노트가 어우러져 깊이 있는 향을 선사하는 베스트셀러 핸드크림입니다.',
   },
   {
     slug: 'k18-leave-in-molecular-repair-hair-mask',
@@ -669,6 +717,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-11',
     tags: ['극손상모', '헤어마스크', '리브인트리트먼트', 'K-뷰티'],
+    seoTitle: '손상 모발 4분 리브인 헤어 마스크',
+    seoDescription:
+      '손상된 모발을 4분만에 건강하게 되돌려주는 리브인 트리트먼트 마스크로, 헹궈낼 필요 없이 간편하게 사용할 수 있습니다.',
   },
   {
     slug: 'anua-heartleaf-silky-moisture-sun-cream',
@@ -707,6 +758,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-10',
     tags: ['선크림', '어성초', '진정', '수분', '데일리선크림', '민감성'],
+    seoTitle: '어성초 진정 실키 모이스처 선크림',
+    seoDescription:
+      '어성초 추출물로 피부 진정은 물론, 실키하고 촉촉한 사용감으로 모든 피부 타입이 편안하게 사용할 수 있는 선크림입니다.',
   },
   {
     slug: 'charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams',
@@ -746,6 +800,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-09',
     tags: ['멀티밤', '크림블러셔', '립앤치크', '필로우토크', '샬롯틸버리'],
+    seoTitle: '필로우 토크 립 치크 멀티 블러쉬',
+    seoDescription:
+      '입술과 볼에 생기를 불어넣는 멀티 유즈 크림 블러쉬로, 쉬폰처럼 가볍게 발려 자연스러운 혈색을 연출합니다.',
   },
   {
     slug: 'rare-beauty-soft-pinch-liquid-blush',
@@ -787,6 +844,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'cheek',
     date: '2026-07-09',
     tags: ['리퀴드블러셔', '고발색블러셔', '지속력좋은블러셔', '셀레나고메즈블러셔', '세포라베스트셀러'],
+    seoTitle: '레어 뷰티 소프트 핀치 리퀴드 블러쉬',
+    seoDescription:
+      '놀라운 발색력과 가벼운 사용감으로 하루 종일 지속되는 생기 넘치는 치크를 연출하는 리퀴드 블러쉬입니다.',
   },
   {
     slug: 'espoir-pro-tailor-be-velvet-cover-cushion-new-class',
@@ -828,6 +888,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'base',
     date: '2026-07-09',
     tags: ['쿠션', '세미매트', '고커버', '지속력좋은쿠션', '비건화장품'],
+    seoTitle: '에스쁘아 비벨벳 커버 쿠션',
+    seoDescription:
+      '얇고 가볍게 밀착되어 피부 결점을 완벽하게 커버하며, 오랜 시간 무너짐 없이 유지되는 벨벳 매트 쿠션입니다.',
   },
   {
     slug: 'kaja-beauty-bento-bouncy-shimmer-eyeshadow-trio-orange-blossom',
@@ -868,6 +931,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'eye',
     date: '2026-07-09',
     tags: ['쉬머아이섀도우', '데일리메이크업', '휴대용', '글리터'],
+    seoTitle: '카자 뷰티 벤토 쉬머 아이섀도우 트리오',
+    seoDescription:
+      '휴대하기 좋은 3단 벤토 디자인에 담긴 3가지 쉬머 섀도우로 영롱하고 화려한 눈매를 연출합니다.',
   },
   {
     slug: 'romand-lip-matter',
@@ -908,6 +974,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-08',
     tags: ['롬앤', '립매터', '매트립', '립프라이머', '보송립'],
+    seoTitle: '롬앤 립 매터: 매트립 프라이머',
+    seoDescription:
+      '촉촉한 립 제품을 보송한 매트 립으로 변신시키고, 입술 잔주름을 메꿔 매끈한 립 표현을 완성합니다.',
   },
   {
     slug: 'naming-high-dew-lip-glaze',
@@ -949,6 +1018,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-08',
     tags: ['글레이즈틴트', '시럽광택', '오버립', '플럼핑', '촉촉한틴트'],
+    seoTitle: '네이밍 하이 듀 볼륨 립 글레이즈',
+    seoDescription:
+      '맑고 투명한 시럽 글레이즈 텍스처가 입술에 녹아들어 탱글하고 볼륨감 있는 립을 연출합니다.',
   },
   {
     slug: 'dinto-bare-gloss',
@@ -990,6 +1062,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-08',
     tags: ['글로스', '립틴트', '투명광택', '데일리립'],
+    seoTitle: '딘토 베어글로스: 투명 광택 선명 발색 립',
+    seoDescription:
+      '투명한 광택과 선명한 발색을 결합하여 맑고 생기 있는 립 메이크업을 연출하는 립 제품입니다.',
   },
   {
     slug: 'romnd-glasting-water-tint-sample',
@@ -1032,6 +1107,9 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     date: '2026-07-08',
     tags: ['립 틴트', '물광 립', '데일리'],
     featured: true,
+    seoTitle: '롬앤 글래스팅 워터 틴트: 유리알 물광 립',
+    seoDescription:
+      '물처럼 얇게 발리며 유리알 광택을 남겨, 겹발라도 답답함 없이 데일리로 쓰기 좋은 워터 틴트입니다.',
   },
 ]
 

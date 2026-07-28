@@ -23,6 +23,7 @@
 // ════════════════════════════════════════════════════════════════════
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 
 const ITEMS = resolve('src/lib/products/items.ts')
 const ITEMS_EN = resolve('src/lib/products/items.en.ts')
@@ -195,6 +196,7 @@ Google 검색을 사용해 아래 조건에 **정확히 맞는 실제 제품 1�
   "brand": "브랜드명(한국어 표기, 글로벌 브랜드는 한국에서 통용되는 표기)",
   "name": "제품명(한국어)",
   "title": "카드 헤드라인 — 브랜드+제품+한 줄 훅(한국어, 구체적으로)",
+${KO_SCHEMA_LINES}
   "summary": "1~2문장 소개(한국어, 60~140자).",
   "highlights": ["짧은 특징1", "짧은 특징2", "짧은 특징3"],   // 실제 제품의 구체적 특징(제형·발색·지속력·성분·마무리 등) 2~4개, 각 6~16자. 뭉뚱그린 광고문구 금지.
   "details": ["특징 설명 문장1", "문장2", "문장3"],           // highlights 를 풀어 쓴 실제 특징 문장 3~4개(제형·발색·지속력·컬러구성·사용팁 등). 각 40~90자. 구체적으로, 지어내지 말 것.
@@ -260,6 +262,9 @@ function validate(item, ex, category, market) {
   if (Array.isArray(item.cons)) item.cons = item.cons.slice(0, 2)
   // colorFit 은 색조에만 의미가 있다 — 스킨케어/헤어에 붙으면 뜬금없으니 지운다.
   if (!COLOR_CATS.has(item.category)) item.colorFit = ''
+  // SEO 제목·설명 보정. 폴백은 "브랜드 제품명" — 제품 페이지를 찾는 사람이 실제로
+  // 검색하는 말이라, 카드 헤드라인(훅 포함, 길다)보다 SERP 제목으로 낫다.
+  applySeoMeta(item, 'ko', { title: `${item.brand} ${item.name}` })
   return err
 }
 
@@ -303,6 +308,11 @@ function serialize(item) {
   L.push(`    date: ${q(item.date)},`)
   L.push('    tags: [' + item.tags.map(q).join(', ') + '],')
   if (item.featured) L.push('    featured: true,')
+  if (item.seoTitle) L.push(`    seoTitle: ${q(item.seoTitle)},`)
+  if (item.seoDescription) {
+    L.push('    seoDescription:')
+    L.push(`      ${q(item.seoDescription)},`)
+  }
   L.push('  },')
   return L.join('\n')
 }
@@ -374,7 +384,9 @@ async function genImage(apiKey, item) {
 const EN_PROMPT = (item) => `Translate this Korean K-beauty product card into natural English for a global audience.
 Rules: keep facts exact, do not invent. Romanize the brand and product name (e.g. 롬앤→rom&nd, 클리오→CLIO). Keep it concise.
 Return ONLY one JSON object in a \`\`\`json code block with this schema:
-{ "brand": "...", "name": "...", "title": "...", "summary": "...", "highlights": ["..."], "details": ["..."], "whoFor": "...", "howTo": ["..."], "pros": ["..."], "cons": ["..."], "colorFit": "...", "tags": ["..."] }
+{ "brand": "...", "name": "...", "title": "...", "summary": "...", "highlights": ["..."], "details": ["..."], "whoFor": "...", "howTo": ["..."], "pros": ["..."], "cons": ["..."], "colorFit": "...", "tags": ["..."],
+${EN_SCHEMA_LINES}
+}
 Translate every field that is present in the Korean input. If a field is absent or empty there, return it empty — do not invent one.
 For "colorFit", use the English season names (Spring Warm / Summer Cool / Autumn Warm / Winter Cool).
 
@@ -409,8 +421,11 @@ async function translateAndInsertEn(apiKey, item) {
     clioCategory: item.clioCategory,
     date: item.date,
     tags: en.tags,
+    seoTitle: en.seoTitle,
+    seoDescription: en.seoDescription,
     ...(item.featured ? { featured: true } : {}),
   }
+  applySeoMeta(enItem, 'en', { title: `${enItem.brand} ${enItem.name}` })
   insertAt(ITEMS_EN, 'export const PRODUCT_ITEMS_EN: ProductPost[] = [', serialize(enItem))
   insertAt(EN_SLUGS, 'export const EN_PRODUCT_SLUGS = [', `  ${q(item.slug)},`)
 }

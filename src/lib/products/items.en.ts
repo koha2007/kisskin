@@ -42,6 +42,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-27',
     tags: ['dryshampoo', 'nowash', 'oilyhair', 'volume', 'hairstyling', 'sephorabestseller', 'tiktokviral'],
+    seoTitle: 'amika Perk Up Dry Shampoo: Refresh Oily Hair',
+    seoDescription:
+      'This dry shampoo effectively removes oil, sweat, and odor without water, making hair feel freshly shampooed.',
   },
   {
     slug: 'dr-g-red-blemish-clear-soothing-cream-ex',
@@ -80,6 +83,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-26',
     tags: ['hydrating cream', 'soothing cream', 'cica cream', 'sensitive skin', 'acne-prone skin', 'Olive Young recommended', 'national hydrating cream', 'Dr.G'],
+    seoTitle: 'Dr.G Red Blemish Clear Soothing Cream for Sensitive Skin',
+    seoDescription:
+      'This hydrating soothing cream for sensitive, reddened skin absorbs moistly without stickiness, helping to strengthen the skin barrier.',
   },
   {
     slug: 'dior-backstage-rosy-glow-blush',
@@ -120,6 +126,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-25',
     tags: ['Blush', 'Cheek', 'DiorBlush', 'pHBlush', 'VibrantBlush', 'NaturalMakeup'],
+    seoTitle: 'Dior Backstage Rosy Glow Blush for Natural Flush',
+    seoDescription:
+      'Dior\'s iconic blush reacts to skin\'s pH upon application, delivering a natural flush with clear, transparent color for lively cheeks.',
   },
   {
     slug: 'lilybyred-love-beam-cheek-balm-06-peach-beam',
@@ -161,6 +170,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'cheek',
     date: '2026-07-24',
     tags: ['Blusher', 'Cheek Balm', 'Peach Blusher', 'Cream Blusher', 'Moist Blusher', 'Spring Warm', 'lilybyred'],
+    seoTitle: 'lilybyred Luv Beam Cheek Balm Peach Beam',
+    seoDescription:
+      'This cheek balm tints cheeks with a clear, lively peach color, and its moist texture adheres smoothly to the skin, providing a natural flush.',
   },
   {
     slug: 'charlotte-tilbury-beautiful-skin-foundation',
@@ -202,6 +214,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'base',
     date: '2026-07-23',
     tags: ['Foundation', 'Glow', 'HydratingFoundation', 'CharlotteTilbury', 'MediumCoverage', 'SkincareFoundation'],
+    seoTitle: 'Charlotte Tilbury Beautiful Skin Medium Coverage',
+    seoDescription:
+      'This medium-coverage foundation is infused with skincare ingredients, leaving skin moisturized, smooth, and with a healthy glow.',
   },
   {
     slug: 'romand-han-all-fix-mascara-long-ash',
@@ -242,6 +257,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'eye',
     date: '2026-07-22',
     tags: ['rom&ndmascara', 'hanallfixmascara', 'longash', 'dailymascara', 'smudgeproofmascara', 'curlingmascara', 'waterproofmascara', 'naturalmascara'],
+    seoTitle: 'rom&nd Han All Fix Mascara Long Ash',
+    seoDescription:
+      'This mascara features a natural ash-brown color to reduce heaviness and stays neatly fixed all day without drooping.',
   },
   {
     slug: 'fenty-skin-cherry-treat-conditioning-strengthening-lip-oil',
@@ -283,6 +301,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-21',
     tags: ['lipoil', 'dewyglow', 'cherryscent', 'nonsticky', 'dailylip'],
+    seoTitle: 'FENTY SKIN Cherry Treat Conditioning Lip Oil',
+    seoDescription:
+      'This ultra-hydrating lip oil nourishes dry, chapped lips and strengthens the moisture barrier, delivering non-sticky, dewy, and glossy lips with a subtle',
   },
   {
     slug: 'tamburins-perfume-hand-000',
@@ -320,6 +341,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-20',
     tags: ['hand cream', 'perfume hand cream', 'woody scent', 'citrus scent', 'gender-neutral scent', 'tamburins'],
+    seoTitle: 'tamburins Perfume Hand Cream 000',
+    seoDescription:
+      'tamburins 000 is a perfume hand cream that delivers a grassy scent mixed with earthy notes, created by the harmony of bergamot, sandalwood, and patchouli.',
   },
   {
     slug: 'kerastase-elixir-ultime-l-huile-originale',
@@ -359,6 +383,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-19',
     tags: ['Hair Oil', 'Damaged Hair Care', 'Shine', 'Heat Protection', 'Light Finish'],
+    seoTitle: 'Kérastase Elixir Ultime Hair Oil: Bestseller for Shine',
+    seoDescription:
+      'A beloved worldwide bestseller, this multi-use hair oil provides deep nourishment and shine to all hair types with a non-sticky, smooth finish.',
   },
   {
     slug: 'round-lab-birch-juice-moisturizing-sun-cream',
@@ -397,6 +424,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-18',
     tags: ['sunscreen', 'hydration', 'soothing', 'UVprotection', 'OliveYoung', 'nation\'sfavorite'],
+    seoTitle: 'ROUND LAB Birch Juice Sun Cream: Hydrating & Non-Sticky',
+    seoDescription:
+      'ROUND LAB\'s best-seller, this sun cream is ranked #1 in Olive Young\'s sun cream category for 3 consecutive years and applies like a hydrating essence.',
   },
   {
     slug: 'nars-the-multiple',
@@ -437,6 +467,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-17',
     tags: ['multibalm', 'stickblusher', 'multiuse', 'easymakeup', 'creamblusher', 'NARS', 'sephorabestseller'],
+    seoTitle: 'NARS The Multiple: Multi-Use Stick for Cheeks, Lips, Eyes',
+    seoDescription:
+      'NARS\' iconic multi-use stick, reborn with vibrant shades, delivers natural color to cheeks, lips, and eyes with its cream-to-powder formula.',
   },
   {
     slug: 'romand-better-than-cheek-n02-vine-nude',
@@ -477,6 +510,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'cheek',
     date: '2026-07-16',
     tags: ['rom&ndblush', 'nudeblush', 'warmtoneblush', 'powderblush', 'dailyblush'],
+    seoTitle: 'rom&nd Better Than Cheek N02 Vine Nude: Natural Blush',
+    seoDescription:
+      'This rom&nd Better Than Cheek blush adds natural vitality with a calm, subtle nude tone, covering pores and imperfections with fine particles.',
   },
   {
     slug: 'rare-beauty-always-an-optimist-pore-diffusing-primer',
@@ -513,6 +549,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'base',
     date: '2026-07-15',
     tags: ['poreprimer', 'makeupbase', 'longlasting', 'oilcontrol', 'blurring'],
+    seoTitle: 'Rare Beauty Pore Diffusing Primer: Blurs Pores & Lines',
+    seoDescription:
+      'A Sephora bestseller, this lightweight, hydrating gel primer blurs pores and fine lines while extending makeup wear, adhering smoothly without stickiness.',
   },
   {
     slug: 'hince-signature-brow-shaper-clear',
@@ -550,6 +589,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'eye',
     date: '2026-07-14',
     tags: ['browshaper', 'browfix', 'texturebrow', 'clearbrow', 'naturalmakeup'],
+    seoTitle: 'hince Signature Brow Shaper: Strong Hold, No Clumps',
+    seoDescription:
+      'This clear brow shaper creates natural brow texture and offers strong hold, keeping your brows neat all day without clumping, even with multiple',
   },
   {
     slug: 'rare-beauty-soft-pinch-tinted-lip-oil',
@@ -590,6 +632,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-13',
     tags: ['lip oil', 'tint', 'gloss', 'hydrating', 'vegan'],
+    seoTitle: 'Rare Beauty Soft Pinch Tinted Lip Oil: Non-Sticky',
+    seoDescription:
+      'This innovative gel-to-oil formula provides comfortable, non-sticky hydration and a subtle tint for luminous lips.',
   },
   {
     slug: 'nonfiction-santal-cream-hand-cream',
@@ -629,6 +674,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-12',
     tags: ['Hand Cream', 'Perfume', 'Woody Scent', 'Musk Scent', 'Gift Recommendation', 'NONFICTION'],
+    seoTitle: 'NONFICTION SANTAL CREAM Hand Cream: Woody Musk Scent',
+    seoDescription:
+      'NONFICTION\'s best-selling hand cream offers a neutral yet profound fragrance, blending fresh cardamom with soft woody notes.',
   },
   {
     slug: 'k18-leave-in-molecular-repair-hair-mask',
@@ -668,6 +716,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-11',
     tags: ['Severely Damaged Hair', 'Hair Mask', 'Leave-In Treatment', 'K-Beauty'],
+    seoTitle: 'K18 Leave-In Mask: Repair Damaged Hair in 4 Minutes',
+    seoDescription:
+      'This leave-in treatment mask restores damaged hair from coloring, perms, and heat styling to a healthy state in just 4 minutes, and it\'s easy to use with',
   },
   {
     slug: 'anua-heartleaf-silky-moisture-sun-cream',
@@ -706,6 +757,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-10',
     tags: ['sunscreen', 'heartleaf', 'calming', 'hydration', 'dailysunscreen', 'sensitiveskin'],
+    seoTitle: 'Anua Heartleaf Sun Cream: Hydrating & Calming',
+    seoDescription:
+      'This comfortable sun cream for all skin types offers skin soothing with Heartleaf extract and a silky, moist finish, absorbing freshly without a white',
   },
   {
     slug: 'charlotte-tilbury-pillow-talk-lip-cheek-glow-colour-of-dreams',
@@ -745,6 +799,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'main',
     date: '2026-07-09',
     tags: ['multibalm', 'creamblush', 'lipandcheek', 'pillowtalk', 'charlottetilbury'],
+    seoTitle: 'Charlotte Tilbury Pillow Talk Lip & Cheek Glow',
+    seoDescription:
+      'This multi-use cream blush and lip tint from Charlotte Tilbury brings vitality to lips and cheeks with a chiffon-like lightness for a natural flush.',
   },
   {
     slug: 'rare-beauty-soft-pinch-liquid-blush',
@@ -786,6 +843,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'cheek',
     date: '2026-07-09',
     tags: ['liquidblush', 'highlypigmentedblush', 'longlastingblush', 'selenagomezblush', 'sephorabestseller'],
+    seoTitle: 'Rare Beauty Soft Pinch Liquid Blush',
+    seoDescription:
+      'Rare Beauty\'s best-selling liquid blush is loved for its amazing color payoff and lightweight feel, with just one or two drops creating vibrant cheeks',
   },
   {
     slug: 'espoir-pro-tailor-be-velvet-cover-cushion-new-class',
@@ -827,6 +887,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'base',
     date: '2026-07-09',
     tags: ['cushion', 'semimatte', 'highcover', 'longlastingcushion', 'veganbeauty'],
+    seoTitle: 'espoir Be Velvet Cushion: Thin, Flawless Cover',
+    seoDescription:
+      'This velvet matte cushion adheres thinly and lightly, perfectly covering skin imperfections and maintaining a long-lasting finish without caking.',
   },
   {
     slug: 'kaja-beauty-bento-bouncy-shimmer-eyeshadow-trio-orange-blossom',
@@ -868,6 +931,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'eye',
     date: '2026-07-09',
     tags: ['shimmer eyeshadow', 'daily makeup', 'portable', 'glitter'],
+    seoTitle: 'Kaja Beauty Bento Bouncy Shimmer Eyeshadow Trio',
+    seoDescription:
+      'This eyeshadow palette features three shimmery shades in a portable, 3-tiered bento box design, perfect for creating radiant and glamorous eye looks',
   },
   {
     slug: 'romand-lip-matter',
@@ -908,6 +974,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-08',
     tags: ['rom&nd', 'LipMatter', 'MatteLip', 'LipPrimer', 'SoftLip'],
+    seoTitle: 'rom&nd Lip Matter: Velvety Matte Finish',
+    seoDescription:
+      'This new concept lip matter transforms even dewy lip products into a soft, matte finish and fills in fine lines for a smooth, blurred lip look.',
   },
   {
     slug: 'naming-high-dew-lip-glaze',
@@ -949,6 +1018,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-08',
     tags: ['GlazeTint', 'SyrupGlow', 'Overlip', 'Plumping', 'MoistTint'],
+    seoTitle: 'NAMING. High Dew Lip Glaze',
+    seoDescription:
+      'This lip glaze features a clear, transparent syrup glaze texture that melts moistly onto lips, creating a plump and voluminous look.',
   },
   {
     slug: 'dinto-bare-gloss',
@@ -990,6 +1062,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     clioCategory: 'lip',
     date: '2026-07-08',
     tags: ['Gloss', 'Lip Tint', 'Transparent Shine', 'Daily Lip'],
+    seoTitle: 'Dinto Bare-Gloss: Transparent Shine & Vivid Color',
+    seoDescription:
+      'Dinto Bare-Gloss is a lip product that combines transparent gloss with the vivid color payoff of a tint, enhancing your natural lip color for a clear and',
   },
   {
     slug: 'romnd-glasting-water-tint-sample',
@@ -1032,6 +1107,9 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     date: '2026-07-08',
     tags: ['Lip tint', 'Dewy lip', 'Daily'],
     featured: true,
+    seoTitle: 'rom&nd Glasting Water Tint: Glassy, Dewy Lip',
+    seoDescription:
+      'This rom&nd Glasting Water Tint glides on thin as water, leaving a glassy shine that layers without feeling heavy, making it perfect for a daily lip look.',
   },
 ]
 
