@@ -25,12 +25,26 @@ const SITEMAP = resolve('public/sitemap.xml')
 
 // content type → { 데이터 파일, en 슬러그 파일+상수, URL base }
 // enOnly* 는 "한국어 원본이 없는 영문 오리지널" 이 있는 타입만 채운다 — 아래 EN-ONLY 블록 참고.
+//
+// ⭐ enabled: 이 섹션을 사이트맵에 넣을지 — **다시 켜려면 false 를 true 로 바꾸기만 하면 된다.**
+// ────────────────────────────────────────────────────────────────────
+// 2026-07-28. 가이드·리뷰는 상단 네비에서 내린 뒤로 사실상 운영을 쉬고 있다. 링크 그래프를
+// 실측하니 두 섹션(한글 34 + 영문 10 = 44개)이 **사이트의 나머지와 완전히 끊긴 섬**이었다 —
+// /guides/ 로 향하는 링크 24개가 전부 가이드 글 자신, /reviews/ 10개도 전부 리뷰 글 자신.
+// 반면 /news/·/products/·/tools/ 는 각각 155개 페이지에서 링크를 받는다.
+// 색인될 가망이 없는 URL 44개를 사이트맵에 남겨 두면 그 자체가 품질 신호를 깎으므로 뺀다.
+//
+// ⚠️ 페이지를 지우는 게 아니다. 라우트·데이터·프리렌더는 전부 그대로라 URL 은 계속 200 을
+//    준다. 이미 색인된 글도 색인에서 사라지지 않는다 — 재크롤 우선순위만 내려간다.
+//    (blog 처럼 410 으로 죽인 것과는 전혀 다른 조치. 되돌리는 데 드는 비용이 0 이다.)
+// 다시 켤 때: enabled 를 true 로 → 빌드하면 허브·상세 URL 이 전부 되살아난다. 그 다음
+//    서치콘솔에서 사이트맵 재제출 + 네비/푸터에 링크를 붙여 섬 상태를 먼저 풀 것.
 const TYPES = [
-  { base: 'news',     data: 'src/lib/news/items.ts',       enFile: 'src/lib/news/enSlugs.ts',       enConst: 'EN_NEWS_SLUGS' },
-  { base: 'products', data: 'src/lib/products/items.ts',    enFile: 'src/lib/products/enSlugs.ts',    enConst: 'EN_PRODUCT_SLUGS' },
-  { base: 'guides',   data: 'src/lib/guides/posts.ts',     enFile: 'src/lib/guides/enSlugs.ts',     enConst: 'EN_GUIDE_SLUGS',
+  { base: 'news',     enabled: true,  hubFreq: 'weekly', data: 'src/lib/news/items.ts',       enFile: 'src/lib/news/enSlugs.ts',       enConst: 'EN_NEWS_SLUGS' },
+  { base: 'products', enabled: true,  hubFreq: 'daily',  data: 'src/lib/products/items.ts',    enFile: 'src/lib/products/enSlugs.ts',    enConst: 'EN_PRODUCT_SLUGS' },
+  { base: 'guides',   enabled: false, hubFreq: 'weekly', data: 'src/lib/guides/posts.ts',     enFile: 'src/lib/guides/enSlugs.ts',     enConst: 'EN_GUIDE_SLUGS',
     enData: 'src/lib/guides/posts.en.ts', enOnlyFile: 'src/lib/guides/enOnlySlugs.ts', enOnlyConst: 'EN_ONLY_GUIDE_SLUGS' },
-  { base: 'reviews',  data: 'src/lib/reviews/posts.ts',    enFile: 'src/lib/reviews/enSlugs.ts',     enConst: 'EN_REVIEW_SLUGS' },
+  { base: 'reviews',  enabled: false, hubFreq: 'weekly', data: 'src/lib/reviews/posts.ts',    enFile: 'src/lib/reviews/enSlugs.ts',     enConst: 'EN_REVIEW_SLUGS' },
 ]
 
 // 데이터 TS 에서 각 아이템의 {slug,date,featured} 추출.
@@ -66,6 +80,10 @@ function urlBlock(loc, lastmod, priority, alternates = '') {
 const blocks = []
 const summary = {}
 for (const t of TYPES) {
+  // 꺼진 섹션은 상세도 허브도 만들지 않는다. 기존 블록은 아래 제거 패스가 걷어내므로
+  // "안 만든다" 만으로 사이트맵에서 완전히 빠진다(파일에 흔적이 남지 않는다).
+  if (!t.enabled) { summary[t.base] = { ko: 0, en: 0, off: true }; continue }
+
   const items = parseContent(t.data).filter((it) => it.slug && it.date)
   const enSet = parseSlugSet(t.enFile, t.enConst)
   items.sort((a, b) => (a.date < b.date ? 1 : -1)) // 최신순
@@ -105,16 +123,23 @@ for (const t of TYPES) {
   summary[t.base] = { ko, en }
 }
 
-// ── 기존 sitemap 에서 콘텐츠 상세 블록만 제거하고 새 블록 삽입 ──
+// ── 기존 sitemap 에서 콘텐츠 상세 + 허브 블록을 제거하고 새 블록 삽입 ──
+// 허브(/news/ 등)까지 이 스크립트가 소유하게 된 건 2026-07-28 부터다. 그래야 섹션을
+// 껐다 켜는 게 enabled 한 줄로 끝난다 — 손으로 관리하면 끄는 건 되지만 켜는 쪽에서
+// 지워진 허브 블록을 사람이 기억해 되살려야 한다.
 const DETAIL = /^\/(en\/)?(news|products|guides|reviews)\/[^/]+\/$/
+const HUB = /^\/(en\/)?(news|products|guides|reviews)\/$/
 let xml = readFileSync(SITEMAP, 'utf8')
 
 let removed = 0
 xml = xml.replace(/^[ \t]*<url>[\s\S]*?<\/url>[ \t]*\n?/gm, (block) => {
   const loc = (block.match(/<loc>([^<]+)<\/loc>/) || [])[1] || ''
-  if (DETAIL.test(loc.replace(SITE, ''))) { removed++; return '' }
+  const path = loc.replace(SITE, '')
+  if (DETAIL.test(path) || HUB.test(path)) { removed++; return '' }
   return block
 })
+// 허브 블록을 걷어내면 그 위의 손으로 적은 주석만 남는다 — 같이 지운다.
+xml = xml.replace(/^[ \t]*<!--\s*(EN\s+)?(News|Makeup Products|Guides|Reviews)\s+(Hub|Articles)\s*-->[ \t]*\n?/gm, '')
 
 // ── 정적/도구 URL 의 <lastmod> 를 git 커밋 날짜로 갱신 ──
 // 왜: 이 블록들은 위에서 "그대로 보존"되기 때문에 손으로 적은 날짜가 그대로 굳는다.
@@ -186,16 +211,34 @@ xml = xml.replace(/<loc>([^<]+)<\/loc>(\s*)<lastmod>([^<]+)<\/lastmod>/g, (m, lo
 })
 console.log(`[gen-sitemap] 정적/도구 lastmod 갱신: ${bumped}개`)
 
+// ── 켜져 있는 섹션의 허브 URL 생성 ──
+// lastmod 는 상세와 달리 데이터 날짜가 없으므로 정적 페이지와 같은 규칙(허브를 렌더하는
+// 소스의 마지막 커밋일)을 쓴다. gitDate 가 정의된 뒤라야 해서 여기에 둔다.
+const hubBlocks = []
+for (const t of TYPES) {
+  if (!t.enabled) continue
+  const koLoc = `${SITE}/${t.base}/`
+  const enLoc = `${SITE}/en/${t.base}/`
+  const files = sourcesFor(`/${t.base}/`)
+  const lastmod = (files && gitDate(files)) || new Date().toISOString().slice(0, 10)
+  const hub = (loc, priority, alternates) =>
+    `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>${t.hubFreq}</changefreq><priority>${priority}</priority>${alternates}</url>`
+  hubBlocks.push(hub(koLoc, '0.9', ''))
+  hubBlocks.push(hub(enLoc, '0.8', alt(koLoc, enLoc)))
+}
+
 if (!xml.includes('</urlset>')) {
   console.error('[gen-sitemap] </urlset> 를 찾지 못했습니다 — 중단'); process.exit(1)
 }
-xml = xml.replace('</urlset>', blocks.join('\n') + '\n</urlset>')
+xml = xml.replace('</urlset>', [...hubBlocks, ...blocks].join('\n') + '\n</urlset>')
 xml = xml.replace(/\n{3,}/g, '\n\n') // 제거 후 남은 빈 줄 정리
 
 writeFileSync(SITEMAP, xml)
 
-const total = blocks.length
-console.log(`[gen-sitemap] 콘텐츠 상세 재생성: 제거 ${removed} → 추가 ${total}`)
-for (const [k, v] of Object.entries(summary)) console.log(`  ${k}: ko ${v.ko} + en ${v.en}`)
+const total = hubBlocks.length + blocks.length
+console.log(`[gen-sitemap] 콘텐츠 허브+상세 재생성: 제거 ${removed} → 추가 ${total}`)
+for (const [k, v] of Object.entries(summary)) {
+  console.log(v.off ? `  ${k}: OFF (enabled:false — 사이트맵 제외, 페이지는 그대로 살아 있음)` : `  ${k}: ko ${v.ko} + en ${v.en}`)
+}
 const totalUrls = (xml.match(/<loc>/g) || []).length
 console.log(`  전체 <url>: ${totalUrls}`)
