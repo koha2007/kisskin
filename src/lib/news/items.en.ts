@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'tirtir-bts-the-city-newyork-makeup-collaboration-2026-july',
+    category: 'base',
+    title: 'TIRTIR Participates as Official K-Beauty Brand for \'BTS THE CITY NEW YORK\'…Launches Limited Edition \'Perfect Setting Duo\'',
+    summary:
+      'Global makeup brand TIRTIR is participating as an official K-beauty partner in \'BTS THE CITY NEW YORK,\' held in New York, USA, starting July 24th. The brand will specifically introduce the \'BTS THE CITY NEW YORK Perfect Setting Duo,\' a base makeup special set optimized for concert environments, expanding its engagement with global fans.',
+    body: [
+      '> TLDR: TIRTIR BTS New York Collaboration | Makeup Fixer & Primer Set | Concert-Optimized Experience Zone',
+      'Global makeup brand TIRTIR announced its participation as an official K-beauty brand in K-pop group BTS\'s \'THE CITY NEW YORK\' project. This marks their second collaboration, following the event in Busan, and will run from July 24th to August 3rd in New York.',
+      'For this event, TIRTIR has unveiled the limited-edition \'BTS THE CITY NEW YORK Perfect Setting Duo.\' This set comprises the best-selling \'Mask Fit Makeup Fixer\' and \'Reflect Glow Prep Primer,\' designed to help achieve flawless base makeup that withstands the intense heat of a concert.',
+      '> DATA: The special set includes the \'BTS THE CITY Arirang Pouch,\' a modern reinterpretation of the traditional Korean \'bokjumeoni\' (lucky pouch). Customers purchasing two or more sets will receive a limited-edition fan. Additionally, TIRTIR will operate the \'TIRTIR CONCERT-PROOF BAR\' within the Korean Cultural Center New York, offering experiences with sun care, lip products, and a new cushion product slated for future release.',
+      'This collaboration is expected to be a successful example of a new marketing strategy where a K-beauty brand integrates with global cultural content to enhance brand awareness and allow local consumers to directly experience its products.',
+    ],
+    date: '2026-07-29',
+    readMinutes: 3,
+    tags: ['TIRTIR', 'BTS', 'K-Beauty', 'Makeup', 'Global Marketing'],
+    seoTitle: 'TIRTIR Joins BTS THE CITY New York, Launches Limited Duo',
+    seoDescription:
+      'Global K-beauty brand TIRTIR partners with BTS for \'THE CITY NEW YORK,\' unveiling a limited-edition \'Perfect Setting Duo\' optimized for concert wear and',
+  },
+  {
     slug: 'k-beauty-europe-export-surpasses-north-america-h1-2026',
     category: 'global',
     title: 'K-Beauty Exports to Europe Surpass North America in H1 2026, Reaching $1.52 Billion',

@@ -5,6 +5,50 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'kylie-cosmetics-matte-liquid-lipstick',
+    category: 'lip',
+    brand: 'Kylie Cosmetics',
+    name: 'Matte Liquid Lipstick',
+    title: 'Kylie Cosmetics Matte Liquid Lipstick: Vibrant Matte Lips That Last All Day',
+    summary:
+      'Kylie Cosmetics Matte Liquid Lipstick features a highly pigmented formula that glides smoothly onto lips, creating a full-coverage matte look without dryness. Its 8-hour staying power keeps color vibrant all day.',
+    highlights: ['Vibrant, full-coverage color payoff', 'Non-drying matte finish', '8-hour long-lasting wear', 'Cruelty-free & vegan'],
+    details: [
+      'This lipstick boasts a highly pigmented formula that delivers vivid, rich color in just one swipe.',
+      'It provides a true matte finish that feels comfortable without dryness, ensuring smooth application without emphasizing lip lines or cracking.',
+      'The long-lasting formula stays put for up to 8 hours, maintaining a clean lip look all day without smudging or transferring.',
+      'It is a cruelty-free and vegan formula, characterized by a light vanilla scent.',
+    ],
+    whoFor:
+      'Suitable for all skin types who prefer vibrant color and long-lasting matte lips. Ideal for those who want to maintain perfect lip makeup all day without frequent touch-ups.',
+    howTo: [
+      'For best results, line your lips with a lip liner, then apply a single layer of the liquid lipstick to fill them in.',
+      'For a more precise lip look, use the applicator to create clean edges around your lips.',
+      'If you are concerned about the dryness of matte lipstick, prepare your lips by moisturizing with a lip balm before applying, or layer a light gloss over the matte lipstick.',
+    ],
+    pros: [
+      'Long-lasting 8-hour wear',
+      'Vibrant and rich color payoff',
+      'Transfer-resistant matte finish',
+    ],
+    cons: [
+      'May feel dry to some users',
+      'Some users report that the color may differ from website swatches',
+    ],
+    colorFit:
+      'Available in various shades to match individual skin tones and preferences. For example, \'Dolce K\' suits warm neutral tones, while \'Merry Jo K\' adds vibrancy to cool tones.',
+    image: '/products/kylie-cosmetics-matte-liquid-lipstick.webp',
+    coupangQuery: '카일리 코스메틱 매트 리퀴드 립스틱',
+    globalQuery: 'Kylie Cosmetics Matte Liquid Lipstick',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-07-29',
+    tags: ['matte lipstick', 'liquid lipstick', 'long-lasting', 'full coverage', 'Kylie Jenner'],
+    seoTitle: 'Kylie Cosmetics Matte Liquid Lipstick: 8-Hour Wear',
+    seoDescription:
+      'Discover Kylie Cosmetics Matte Liquid Lipstick for vibrant, full-coverage matte lips that last up to 8 hours without dryness. Cruelty-free and vegan.',
+  },
+  {
     slug: 'tamburins-perfume-chamo',
     category: 'fragrance',
     brand: 'tamburins',
