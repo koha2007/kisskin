@@ -5,6 +5,49 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'peripera-all-take-mood-palette-04-cool-tone-dm-please',
+    category: 'eye',
+    brand: 'Peripera',
+    name: 'All Take Mood Palette 04 Cool-toned, so please check your DMs',
+    title: 'Peripera All Take Mood Palette 04: Perfect for Cool Tones! Dazzling Cool Pink Palette',
+    summary:
+      'The Peripera All Take Mood Palette 04 \'Cool-toned, so please check your DMs\', re-released in May 2024, is an eyeshadow palette composed of dazzling and refreshing cool pink colors for cool tones. With a versatile combination of pink and purple shades, there are no wasted colors, allowing for everything from daily to point makeup.',
+    highlights: ['Cool pink & purple shades', 'Clear and vivid pigmentation', 'Variety of glitter compositions', 'Portable size'],
+    details: [
+      'It consists of a variety of pink shades, from cool pink base colors to deeper shades with a hint of purple.',
+      'Fine, uniform plate powder adheres thinly to the skin, boasting clear and vivid pigmentation without clumping.',
+      'It features a diverse range of glitters, from transparent and dazzling to multi-dimensional glitters that shine differently depending on the angle, adding a point to the eyes.',
+      'The palette is shorter and wider than previous versions, offering a better grip and portability, with a design that makes color identification easy.',
+    ],
+    whoFor:
+      'Suitable for cool-toned individuals, especially those who prefer cool and highly saturated pink makeup. Recommended for those who want to create clear and bright eye makeup, or who enjoy daily makeup using cool pink and purple shades.',
+    howTo: [
+      'Apply the brightest pink base color widely over the entire eyelid to brighten and even out the eye area.',
+      'Apply a medium pink or purple shade along the double eyelid line and outer corner of the eye to add depth.',
+      'Finish by dabbing glitter shadow onto the center of the lid or under-eye area for a dazzling highlight.',
+    ],
+    pros: [
+      'Optimized color composition for cool tones, allowing for flawless pink makeup',
+      'Clear and even pigmentation creates clean eye makeup without a heavy feel',
+      'Includes various glitter textures, making it easy to create diverse moods',
+    ],
+    cons: [
+      'May have slight powder fallout, so caution is needed when using brushes',
+    ],
+    colorFit:
+      'Winter Cool, Summer Cool. The cool pink and purple colors enhance the complexion of cool-toned skin, making it clearer and more vibrant, emphasizing a refreshing feel.',
+    image: '/products/peripera-all-take-mood-palette-04-cool-tone-dm-please.webp',
+    coupangQuery: '페리페라 올테이크 무드 팔레트 04',
+    globalQuery: 'peripera all take mood palette 04 cool tone',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-07-30',
+    tags: ['Cool Tone', 'Eyeshadow Palette', 'Pink', 'Glitter', 'Daily Makeup', 'Peripera', 'Olive Young'],
+    seoTitle: 'Peripera All Take Mood Palette 04: Cool Pink Eyeshadow',
+    seoDescription:
+      'Discover Peripera All Take Mood Palette 04, a cool pink eyeshadow palette with versatile shades and glitters, perfect for cool-toned skin.',
+  },
+  {
     slug: 'kylie-cosmetics-matte-liquid-lipstick',
     category: 'lip',
     brand: 'Kylie Cosmetics',

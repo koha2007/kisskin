@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-rx-derma-cosmetics-surge-2026-july',
+    category: 'skincare',
+    title: 'K-Beauty Accelerates Global Market Push with \'RX\' Derma Cosmetics (Brands like COSRX See Improved Performance)',
+    summary:
+      'Skin science-based \'RX\' cosmetics are emerging as a new growth engine for the K-beauty market. Major brands like COSRX are gaining global consumer attention with their expertise and active ingredient-focused products, showing strong performance in the US and EMEA markets.',
+    body: [
+      '> TLDR: Skin science expertise emphasized | RX line popularity | COSRX global performance',
+      'Recently, derma cosmetic brands prominently featuring \'RX\' have been making their mark in the K-beauty market. This is analyzed as a new strategy that goes beyond a simple trend, emphasizing skin science-based R&D, expertise, and clinical data to gain the trust of global consumers.',
+      '> DATA: COSRX \'The RX\' line, based on 4 million consumer reviews, grew over 50% in the EMEA market',
+      'Amorepacific\'s COSRX, true to its brand name—a portmanteau of \'Cosmetics\' and \'Rx\' (prescription)—focuses on solving various skin problems. In particular, \'The RX\' line, developed by analyzing over 4 million consumer reviews from 34 countries, offers a range of 13 active ingredient-focused products tailored to diverse skin concerns such as irritation, dryness, blemishes, and breakouts.',
+      'This line recently saw increased sales of peptide-focused RX products in the US market and recorded a high growth rate of over 50% in the Europe, Middle East, and Africa (EMEA) markets, driving overall performance improvement. Easydew RX, based on Daewoong Pharmaceutical, and LG H&H\'s CNP Rx are also expanding their market presence by emphasizing their expertise.',
+      'This \'RX\' trend demonstrates consumers\' heightened expectations for product efficacy and safety. K-beauty is expected to further strengthen its competitive edge in the global market by providing scientific evidence and personalized solutions.',
+    ],
+    date: '2026-07-30',
+    readMinutes: 3,
+    tags: ['Dermacosmetics', 'RX Beauty', 'COSRX', 'K-Beauty Trends'],
+    seoTitle: 'K-Beauty\'s RX Derma Cosmetics Drive Global Growth',
+    seoDescription:
+      'Skin science-based \'RX\' cosmetics are a new K-beauty growth engine, with brands like COSRX gaining global attention and strong performance in the US and',
+  },
+  {
     slug: 'tirtir-bts-the-city-newyork-makeup-collaboration-2026-july',
     category: 'base',
     title: 'TIRTIR Participates as Official K-Beauty Brand for \'BTS THE CITY NEW YORK\'…Launches Limited Edition \'Perfect Setting Duo\'',
