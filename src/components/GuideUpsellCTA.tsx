@@ -3,10 +3,18 @@ import { useI18n } from '../i18n/I18nContext'
 
 // Strong "apply this to your own face" upsell for guide articles. Mirrors
 // ToolUpsellCTA visually for consistency, but is tailored to editorial guide
-// context: the headline references the technique just read, and it shows the
-// $2.99 price + homepage trust signals up front. Guides are Korean-only, so the
-// copy is Korean. Placed at the end of the article body to convert the
-// organic-search readers who land here but currently leave without converting.
+// context: the headline references the technique just read. Placed at the end
+// of the article body to convert organic-search readers who land here but
+// currently leave without converting.
+//
+// 2026-07-31 — 문구가 제품과 어긋나 있어 전면 교정했다. 아래 셋 다 사실이 아니었다:
+//   ① "시작하기 · $2.99" → 첫 1회는 **무료**다. 값부터 들이밀어 클릭을 스스로 눌렀다.
+//      $2.99 는 소진 뒤 크레딧 5회 팩 가격이지 진입 가격이 아니다.
+//   ② "가입 없이 바로 시작" → AI 메이크업은 무료 1회도 **로그인이 필요**하다
+//      (MakeupFlow 의 로그인 게이트, 익명 무료 남용 차단). 없다고 해놓고 벽을 세우면
+//      배지 몇 개로 쌓는 신뢰보다 훨씬 크게 깎아먹는다.
+//   ③ "5가지 룩" → 실제 스타일은 **9종**(src/lib/makeup/styles.ts). 우리 값어치를
+//      우리가 깎아 말하고 있었다. 게다가 한 번에 5장이 아니라 고른 룩을 하나씩 만든다.
 
 interface Props {
   /** Guide slug — used for GA promotion tracking, e.g. "mascara-no-smudge-techniques". */
@@ -22,8 +30,10 @@ interface Props {
 }
 
 // Trust signals mirror the homepage hero trust band for a consistent promise.
+// 첫 칩은 "무료"다 — 진입 장벽을 먼저 없애야 나머지 안심 요소가 읽힌다.
+// 결제 관련 칩(환불·Polar)은 소진 후 충전 단계에서 실제로 적용되는 내용이라 유지한다.
 const TRUST = [
-  { icon: 'bolt', label: '60초 완성', labelEn: 'Done in 60s' },
+  { icon: 'card_giftcard', label: '첫 1회 무료', labelEn: '1st try free' },
   { icon: 'verified_user', label: '7일 환불보장', labelEn: '7-day refund' },
   { icon: 'lock', label: 'Polar 안전결제', labelEn: 'Secure checkout' },
 ]
@@ -62,8 +72,8 @@ export default function GuideUpsellCTA({ slug, accentColor, accentColorTo, hook,
         </h2>
         <p className="text-slate-600 text-[15px] md:text-lg leading-relaxed max-w-xl mx-auto mb-6">
           {isEn
-            ? 'One selfie and AI builds five K-beauty makeup looks in about 60 seconds.'
-            : '셀카 한 장이면 AI가 5가지 K-뷰티 메이크업 룩을 약 60초 만에 만들어드려요.'}
+            ? 'Pick from 9 K-beauty looks and AI puts it on your own selfie — your face stays exactly the same.'
+            : '9가지 K-뷰티 룩 중에 골라 내 셀카에 그대로 입혀보세요. 얼굴은 변하지 않아요.'}
         </p>
 
         <div className="flex flex-wrap justify-center gap-2 mb-7">
@@ -87,11 +97,13 @@ export default function GuideUpsellCTA({ slug, accentColor, accentColorTo, hook,
           style={{ background: `linear-gradient(135deg, ${accentColor}, ${to})`, boxShadow: `0 14px 32px -10px ${accentColor}80` }}
         >
           <span className="text-xl leading-none">💄</span>
-          {isEn ? 'Get started · $2.99' : '시작하기 · $2.99'}
+          {isEn ? 'Try it free' : '무료로 체험하기'}
           <span className="material-symbols-outlined">arrow_forward</span>
         </a>
         <p className="mt-4 text-xs text-slate-400">
-          {isEn ? 'No sign-up · one-time payment' : '가입 없이 바로 시작 · 1회 결제'}
+          {isEn
+            ? 'Log in for your free try · no card needed · credits from $2.99 after that'
+            : '로그인하면 1회 무료 · 카드 필요 없어요 · 이후 크레딧 $2.99부터'}
         </p>
       </div>
     </aside>

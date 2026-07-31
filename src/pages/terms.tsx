@@ -57,7 +57,7 @@ function TermsKo() {
 
       <h2>3. 결제 및 과금</h2>
       <ul>
-        <li>각 분석은 <strong>1회 결제 $2.99 USD</strong>입니다. 구독, 정기결제, 숨겨진 수수료는 없습니다.</li>
+        <li>AI 메이크업은 <strong>무료 1회</strong>를 제공하며, 이후에는 <strong>크레딧</strong>으로 이용합니다. 크레딧은 <strong>Starter 5회 $2.99 USD</strong> 또는 <strong>Plus 15회 $6.99 USD</strong>의 1회 결제로 충전하며, 구독·정기결제·숨겨진 수수료는 없습니다. 퍼스널컬러·얼굴형·메이크업 MBTI·향수 진단 도구는 결제 없이 무료로 이용할 수 있습니다.</li>
         <li>결제는 <strong>Polar</strong>(<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>, Merchant of Record)가 안전하게 처리합니다. Polar가 청구, 세금 계산, 결제 처리를 당사 대신 수행합니다.</li>
         <li>Polar가 지원하는 신용카드 및 기타 결제 수단을 사용할 수 있습니다.</li>
         <li>결제를 완료함으로써 선택한 결제 수단의 과금 권한을 Polar에 부여합니다.</li>
@@ -226,7 +226,7 @@ function TermsEn() {
 
       <h2>3. Payment & Billing</h2>
       <ul>
-        <li>Each analysis is a <strong>one-time purchase of $2.99 USD</strong>. There are no subscriptions, recurring charges, or hidden fees.</li>
+        <li>AI makeup includes <strong>one free generation</strong>; beyond that it runs on <strong>credits</strong>. Credits are bought as a one-time purchase — <strong>Starter, 5 generations for $2.99 USD</strong> or <strong>Plus, 15 generations for $6.99 USD</strong>. There are no subscriptions, recurring charges, or hidden fees. The Personal Color, Face Shape, Makeup MBTI, and Perfume diagnostic tools are free and require no payment.</li>
         <li>Payment is securely processed by <strong>Polar</strong> (<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>), a Merchant of Record. Polar handles all billing, tax calculation, and payment processing on our behalf.</li>
         <li>Accepted payment methods include credit/debit cards and other methods supported by Polar.</li>
         <li>By completing a purchase, you authorize Polar to charge your selected payment method.</li>

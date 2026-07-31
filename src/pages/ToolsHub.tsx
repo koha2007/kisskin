@@ -163,7 +163,9 @@ export default function ToolsHub() {
                 : '메이크업 · 퍼스널 컬러 · 얼굴형 · MBTI까지. 모두 무료로 30초 안에.'}
             </p>
             <p className="t-label text-slate-500 mt-5">
-              {isEn ? `${count} tools · No sign-up needed` : `${count}개 도구 · 회원가입 불필요`}
+              {/* count 에는 AI 메이크업(로그인 필요)도 포함된다. "N개 도구 전부 가입 불필요"로
+                  읽히지 않도록 무가입 범위를 진단 도구로 한정해 적는다. */}
+              {isEn ? `${count} tools · Diagnostics need no sign-up` : `${count}개 도구 · 진단 도구는 회원가입 불필요`}
             </p>
           </div>
         </section>
@@ -198,9 +200,11 @@ export default function ToolsHub() {
                     {isEn ? 'AI Makeup Try-On' : 'AI 메이크업 시뮬레이터'}
                   </h2>
                   <p className="t-body text-white/80 mb-6 max-w-[46ch]">
+                    {/* 2026-07-31 — "가입 필요 없다"는 사실이 아니다. 무료 1회도 로그인 게이트를
+                        지난다(MakeupFlow). 없다고 해놓고 벽을 세우면 그 자리에서 이탈한다. */}
                     {isEn
-                      ? 'K-beauty makeup on your own selfie in about 60 seconds. No card, no sign-up for your first try.'
-                      : '셀카 한 장이면 60초 만에 K-뷰티 메이크업 9룩. 첫 생성은 카드도 가입도 필요 없습니다.'}
+                      ? 'K-beauty makeup on your own selfie. Log in for your first look — it is free and no card is needed.'
+                      : '셀카 한 장이면 K-뷰티 메이크업 9룩. 로그인하면 첫 생성은 무료이고 카드는 필요 없습니다.'}
                   </p>
                   <span className="inline-flex w-fit items-center gap-2 bg-white text-navy px-6 py-3.5 font-bold t-body group-hover:gap-3 transition-all">
                     {isEn ? 'Try it free' : '무료로 시작하기'}
