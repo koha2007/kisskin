@@ -32,7 +32,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30    # 생성(≈5~10분) + IndexNow 의 배포 대기(최대 10분)
     steps:
+      # fetch-depth: 0 (전체 히스토리) 가 필요하다. 기본값은 얕은 클론(depth 1)인데,
+      # 이 잡은 매일 `npm run gen:sitemap` 을 돌려 sitemap.xml 을 커밋한다. 그 스크립트의
+      # lastmod 는 `git log -1 --format=%cs -- <소스파일>` 로 정한다(scripts/gen-sitemap.mjs
+      # 의 gitDate). 얕은 클론에는 커밋이 하나뿐이라 이 조회가 늘 빈 값을 내고,
+      # 결과적으로 정적·도구 페이지 lastmod 는 실제 수정일을 못 따라가고 허브는
+      # `new Date()` 폴백으로 **매일 그날 날짜**가 찍힌다 = 구글에게 매일 거짓말.
+      # lastmod 를 반복해서 못 믿게 만들면 재크롤 신호 자체가 무시된다.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
