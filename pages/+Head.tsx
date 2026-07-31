@@ -20,11 +20,14 @@ export default function Head() {
           __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
         }}
       />
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5109067049933124"
-        crossOrigin="anonymous"
-      />
+      {/* AdSense 로더는 2026-07-31 에 뺐다. 소유 확인 메타(위 google-adsense-account)는
+          그대로 두므로 재신청 절차에는 영향이 없다.
+          이유: ① 광고 슬롯(<ins class="adsbygoogle">)이 코드 전체에 하나도 없고
+                ② 계정은 3차 거절 뒤 재신청을 무기한 보류한 상태라 승인되지 않았다.
+                → 273개 전 페이지가 <head> 에서 서드파티 광고 스크립트를 받아오면서
+                  화면에는 아무것도 그리지 않고 있었다. INP 만 축낸다.
+          재신청해서 승인되면 이 한 줄을 되살리고 실제 슬롯을 함께 넣을 것.
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5109067049933124" crossOrigin="anonymous" /> */}
       {/* 상단 네비가 bg-navy 라 모바일 브라우저 크롬을 같은 색으로 이어 붙인다.
           2026-07-23: 브랜드 팔레트를 네이비+핑크로 되돌리면서 #070953 로 복귀
           (힐다 크림/버밀리언은 /tools/* 본문 전용 — src/index.css 팔레트 2층 구조 참고). */}
