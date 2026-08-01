@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'milk-makeup-hydro-grip-primer',
   'peripera-all-take-mood-palette-04-cool-tone-dm-please',
   'kylie-cosmetics-matte-liquid-lipstick',
   'tamburins-perfume-chamo',

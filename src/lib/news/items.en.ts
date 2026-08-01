@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-jelly-core-makeup-trend-cosmax-2026-july',
+    category: 'base',
+    title: 'K-Beauty Accelerates Summer Color Makeup Market Push with \'Jelly-core\' Trend: Cosmax Expands Transparent, Refreshing Formulations',
+    summary:
+      'Global cosmetics ODM Cosmax is expanding its range of transparent and refreshing \'Jelly-core\' formulations, targeting the summer color makeup market. This trend is also connected to the \'skincaring makeup\' movement, which combines skincare and makeup, offering consumers new experiences.',
+    body: [
+      '> TLDR: Jelly-core trend emerges | Cosmax expands formulations | Skincaring makeup integration',
+      'Global cosmetics ODM Cosmax is actively targeting the summer color makeup market by expanding its range of transparent and refreshing jelly formulations. The \'Jelly-core\' trend, recently gaining significant attention in the fashion and beauty industries, is characterized by its emphasis on a soft, hydrating feel.',
+      'Cosmax is applying its jelly formulations, along with lip technology designed to minimize transfer, to various product categories including lip balms, hydrogel patches, mists, and blushes. The company plans to expand its application to sun care products, such as sun sticks, in the future.',
+      '> DATA: Cosmax showcased its jelly formulation technology at \'MakeUp in Paris 2026,\' a global makeup exhibition held last June in Paris, France. This is closely connected to the \'skincaring makeup\' trend, which combines skincare and makeup.',
+      'This Jelly-core trend goes beyond simple product innovation, reflecting consumers\' growing emphasis on sensory satisfaction derived from a product\'s texture and feel. K-Beauty is expected to secure a competitive advantage in the global market through its differentiated formulation technology.',
+    ],
+    date: '2026-08-01',
+    readMinutes: 3,
+    tags: ['Jelly-core', 'Cosmax', 'Makeup Trends', 'Skincaring Makeup'],
+    seoTitle: 'Cosmax Leads K-Beauty\'s Jelly-core Makeup Trend',
+    seoDescription:
+      'Explore how global ODM Cosmax is expanding its \'Jelly-core\' formulations, targeting the summer color makeup market and blending skincare with makeup.',
+  },
+  {
     slug: 'kbeauty-rx-derma-cosmetics-surge-2026-july',
     category: 'skincare',
     title: 'K-Beauty Accelerates Global Market Push with \'RX\' Derma Cosmetics (Brands like COSRX See Improved Performance)',

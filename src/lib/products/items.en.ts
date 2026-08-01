@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'milk-makeup-hydro-grip-primer',
+    category: 'base',
+    brand: 'MILK MAKEUP',
+    name: 'Hydro Grip Primer',
+    title: 'MILK MAKEUP Hydro Grip Primer: Long-Lasting Makeup Fixation',
+    summary:
+      'MILK MAKEUP\'s Hydro Grip Primer is a TikTok and Sephora sensation, beloved for its makeup-fixing power. This hydrating gel formula adheres tightly to the skin, boosting makeup longevity.',
+    highlights: ['Strong makeup hold', 'Hydrating gel texture', 'Pore and texture coverage', 'Cooling effect'],
+    details: [
+      'A transparent, water-based gel texture that adheres thinly to the skin without stickiness, helping makeup absorb well.',
+      'Holds makeup to the skin like a magnet, keeping it flawless and intact all day long.',
+      'Provides hydration and a cooling effect, naturally covering pores and imperfections for a smooth skin finish.',
+      'Contains hyaluronic acid and niacinamide to help moisturize and soothe the skin.',
+    ],
+    whoFor:
+      'Suitable for all skin types that desire long-lasting makeup without smudging throughout the day. Recommended especially for those who want to fix makeup with a dewy, non-drying finish.',
+    howTo: [
+      'After cleansing and completing your skincare routine, pump 1-2 times and apply a thin layer evenly over the entire face.',
+      'Wait about 1 minute for the primer to fully absorb and form a tacky film before applying foundation or other base makeup.',
+    ],
+    pros: [
+      'Strongly fixes makeup, maximizing longevity.',
+      'Hydrating and non-sticky, comfortable for all skin types.',
+      'Effectively blurs pores and imperfections for a smooth skin texture.',
+    ],
+    cons: [
+      'For extremely dry skin, better results may be achieved after sufficient moisturizing.',
+      'Caution is needed when using with silicone-based foundations, as pilling may occur.',
+    ],
+    image: '/products/milk-makeup-hydro-grip-primer.webp',
+    coupangQuery: '밀크 메이크업 하이드로 그립 프라이머',
+    globalQuery: 'Milk Makeup Hydro Grip Primer',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-01',
+    tags: ['makeup primer', 'fixing primer', 'hydrating primer', 'pore cover', 'makeup base', 'milk makeup'],
+    seoTitle: 'MILK MAKEUP Hydro Grip Primer: Long-Lasting Makeup Fix',
+    seoDescription:
+      'Discover the MILK MAKEUP Hydro Grip Primer, a TikTok and Sephora favorite for its powerful, hydrating gel formula that locks makeup in place all day.',
+  },
+  {
     slug: 'peripera-all-take-mood-palette-04-cool-tone-dm-please',
     category: 'eye',
     brand: 'Peripera',
