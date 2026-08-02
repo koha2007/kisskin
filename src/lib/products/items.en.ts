@@ -5,6 +5,48 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'peripera-pure-blushed-sunshine-cheek-12-sunny-pink',
+    category: 'cheek',
+    brand: 'Peripera',
+    name: '맑게 물든 선샤인 치크 #12 날씨요정 등극해',
+    title: 'Peripera Clear Sunshine Cheek #WeatherFairy: Sun-Kissed Blusher for a Radiant Glow',
+    summary:
+      'Peripera Clear Sunshine Cheek #12 WeatherFairy is a clear, soft pink blusher that gives your cheeks a natural, sun-kissed glow. It finishes transparent and powdery, creating a clean cheek makeup look.',
+    highlights: ['Soft pastel color payoff', 'Fine particles, minimal fallout', 'Powdery finish', 'Clear and transparent flush'],
+    details: [
+      'Applies clearly and transparently without a heavy feel, allowing for natural color buildup without caking, even with multiple layers.',
+      'The fine, soft powder particles adhere lightly to the skin without streaking or harsh lines.',
+      'The powdery finish minimizes the appearance of pores, keeping your cheek makeup clean and bright for longer.',
+      'A versatile pink shade with both warm and cool undertones, making it suitable for both warm and cool skin tones.',
+    ],
+    whoFor:
+      'Recommended for all skin tones looking to add natural vitality to their face. Especially suitable for those who want to create a bright and innocent look with a soft pastel pink color.',
+    howTo: [
+      'Apply a small amount to a brush, tap off excess, then gently sweep over the apple zones of your cheeks to express a clear color.',
+      'For more vivid color, layer multiple times without caking to achieve your desired intensity.',
+    ],
+    pros: [
+      'Clear and transparent color payoff for natural vitality without a heavy feel',
+      'Fine particles adhere smoothly to skin, minimizing streaks and caking',
+      'Powdery finish covers pores and offers excellent longevity',
+    ],
+    cons: [
+      'Good color payoff, so be mindful of how much product you use.',
+    ],
+    colorFit:
+      'Especially recommended for Summer Cool Light and Spring Warm Light. This milky, pale pink brightens the skin even more.',
+    image: '/products/peripera-pure-blushed-sunshine-cheek-12-sunny-pink.webp',
+    coupangQuery: '페리페라 맑게 물든 선샤인 치크 날씨요정 등극해',
+    globalQuery: 'peripera pure blushed sunshine cheek 12 sunny pink',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-02',
+    tags: ['Blusher', 'Peripera', 'ClearSunshineCheek', 'WeatherFairy', 'PastelBlusher', 'PinkBlusher', 'NationalBlusher', 'OliveYoungBlusher', 'DailyBlusher'],
+    seoTitle: 'Peripera Clear Sunshine Cheek #12 WeatherFairy Blusher',
+    seoDescription:
+      'Discover Peripera Clear Sunshine Cheek #12 WeatherFairy, a soft pink blusher for a natural, sun-kissed glow with a clear, powdery finish.',
+  },
+  {
     slug: 'milk-makeup-hydro-grip-primer',
     category: 'base',
     brand: 'MILK MAKEUP',

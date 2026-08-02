@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-h1-2026-us-top-export-market-diversification',
+    category: 'global',
+    title: 'K-Beauty Exports Hit All-Time High of $7 Billion in H1 2026; US Becomes Top Export Market',
+    summary:
+      'K-Beauty exports surpassed $7 billion in H1 2026, marking an all-time high. The US notably emerged as the largest export market, surpassing China, while strong growth in emerging markets like Europe and Latin America accelerates market diversification.',
+    body: [
+      '> TLDR: H1 Exports Hit All-Time High | US Overtakes China for #1 | Europe & LatAm Emerging Markets Surge',
+      'K-Beauty exports exceeded $7 billion in the first half of 2026, reaching an all-time high. According to the Ministry of Food and Drug Safety (MFDS), this represents a 27.3% increase year-over-year compared to the same period last year, demonstrating K-Beauty\'s enhanced standing in the global market.',
+      '> DATA: Notably, exports to the United States recorded $1.45 billion, accounting for 20.7% of total exports, making it the largest export destination, surpassing China. In contrast, exports to China amounted to $1.01 billion, a 6.6% decrease year-over-year.',
+      'In the European market, high growth rates were observed in countries such as Poland (72.8%), the UK (150.6%), and the Netherlands (220.4%). The strong performance of emerging markets is evident, with SME cosmetic exports to Latin America surging by 131.9%. LG H&H also saw its North American sales surpass China sales for the first time in Q2.',
+      'K-Beauty has successfully reduced its reliance on specific countries and diversified its markets. With the expansion into new markets, particularly led by the US, K-Beauty can anticipate sustained growth.',
+    ],
+    date: '2026-08-02',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Exports', 'US Market', 'Global Beauty', 'Market Diversification'],
+    seoTitle: 'K-Beauty Exports Hit $7B in H1 2026; US Becomes Top Market',
+    seoDescription:
+      'K-Beauty exports hit a record $7 billion in H1 2026, with the US emerging as the top market over China and strong growth seen across Europe and Latin',
+  },
+  {
     slug: 'kbeauty-jelly-core-makeup-trend-cosmax-2026-july',
     category: 'base',
     title: 'K-Beauty Accelerates Summer Color Makeup Market Push with \'Jelly-core\' Trend: Cosmax Expands Transparent, Refreshing Formulations',

@@ -5,6 +5,48 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'peripera-pure-blushed-sunshine-cheek-12-sunny-pink',
+    category: 'cheek',
+    brand: '페리페라',
+    name: '맑게 물든 선샤인 치크 #12 날씨요정 등극해',
+    title: '페리페라 맑게 물든 선샤인 치크 #날씨요정 등극해: 햇살처럼 뽀얗게 물드는 블러셔',
+    summary:
+      '페리페라 맑게 물든 선샤인 치크 #12 날씨요정 등극해는 뽀얗고 맑은 핑크 컬러로, 마치 햇살이 물든 듯 자연스러운 생기를 선사하는 블러셔입니다. 투명하고 보송하게 마무리되어 깨끗한 치크 메이크업을 연출할 수 있습니다.',
+    highlights: ['뽀얀 파스텔 발색', '고운 입자, 가루날림 적음', '보송한 마무리감', '맑고 투명한 혈색'],
+    details: [
+      '피부에 텁텁함 없이 맑고 투명하게 발색되어 여러 번 덧발라도 뭉침 없이 자연스러운 혈색을 연출합니다.',
+      '파우더 입자가 곱고 부드러워 볼에 얹었을 때 얼룩지거나 경계가 심하게 남지 않고, 피부에 가볍게 밀착됩니다.',
+      '모공이 도드라져 보이지 않는 보송한 마무리감으로 깨끗하고 화사한 치크 메이크업을 오래 유지해 줍니다.',
+      '미지근하면서도 쿨한 느낌이 있어 웜톤과 쿨톤 모두에게 잘 어울리는 핑크 컬러입니다.',
+    ],
+    whoFor:
+      '자연스럽게 얼굴에 생기를 더하고 싶은 모든 피부톤에 추천합니다. 특히 뽀얀 파스텔 핑크 컬러로 화사하고 청순한 분위기를 연출하고 싶은 분들에게 적합합니다.',
+    howTo: [
+      '브러시에 소량만 묻혀 가볍게 털어낸 뒤, 애플존을 중심으로 부드럽게 쓸어주어 맑은 컬러감을 표현합니다.',
+      '더욱 선명한 발색을 원한다면 여러 번 덧발라도 뭉치지 않아 원하는 농도로 조절하여 사용 가능합니다.',
+    ],
+    pros: [
+      '맑고 투명한 발색으로 텁텁함 없이 자연스러운 생기 부여',
+      '고운 입자로 피부에 부드럽게 밀착되어 얼룩짐, 뭉침 적음',
+      '보송한 마무리감으로 모공 커버 및 지속력 우수',
+    ],
+    cons: [
+      '발색력이 좋은 편이라 양 조절에 유의해야 합니다.',
+    ],
+    colorFit:
+      '여름 쿨톤 라이트, 봄 웜톤 라이트에 특히 추천합니다. 흰 기가 도는 뽀얀 핑크 컬러로 피부를 더욱 화사하게 밝혀줍니다.',
+    image: '/products/peripera-pure-blushed-sunshine-cheek-12-sunny-pink.webp',
+    coupangQuery: '페리페라 맑게 물든 선샤인 치크 날씨요정 등극해',
+    globalQuery: 'peripera pure blushed sunshine cheek 12 sunny pink',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-02',
+    tags: ['블러셔', '페리페라', '맑게물든선샤인치크', '날씨요정등극해', '파스텔블러셔', '핑크블러셔', '국민블러셔', '올리브영블러셔', '데일리블러셔'],
+    seoTitle: '페리페라 맑게 물든 선샤인 치크 #12',
+    seoDescription:
+      '지금 가장 인기 있는 페리페라 맑게 물든 선샤인 치크 #12 날씨요정 등극해의 특징과 활용법을 알아보세요.',
+  },
+  {
     slug: 'milk-makeup-hydro-grip-primer',
     category: 'base',
     brand: '밀크 메이크업',
