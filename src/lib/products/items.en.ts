@@ -5,6 +5,49 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'dior-backstage-glow-maximizer-face-palette',
+    category: 'trend',
+    brand: 'Dior',
+    name: 'Backstage Glow Maximizer Face Palette',
+    title: 'Dior Backstage Glow Maximizer Face Palette: From Subtle Radiance to Dazzling Sheen!',
+    summary:
+      'A global Sephora bestseller, the Dior Backstage Glow Maximizer Face Palette features four shimmer shades to create various makeup looks, from natural radiance to dramatic sheen. Its clear and transparent payoff adds a luxurious glow to the skin.',
+    highlights: ['4 shimmer shades', 'Clear and transparent payoff', 'Creates natural radiance', 'Can be used as highlighter and blush'],
+    details: [
+      'Composed of four shimmering powders – gold, pink, bronze, and white – that can be used alone or mixed to match your skin tone.',
+      'Fine pearl particles adhere thinly to the skin, providing a clear and transparent glow without looking cakey.',
+      'Highly versatile for makeup, allowing for natural glow expression, prominent highlighting, and subtle blush effects.',
+      'Minimal powder fallout, smooth application on the skin, and a clean finish without clumping even when layered.',
+    ],
+    whoFor:
+      'Suitable for all skin types that prefer naturally luminous skin. Especially recommended for those seeking a multi-functional palette that can be used for various makeup looks. Also great for those who want to add dimension to their face with a bright glow.',
+    howTo: [
+      'Using a brush, lightly sweep over desired areas (cheekbones, bridge of nose, brow bone, etc.) to add a subtle glow.',
+      'For a more intense glow, layer several times or pat with fingers to enhance adherence.',
+      'Can be layered over blush to add a vibrant sheen, or lightly applied to eyelids to add a point to eye makeup.',
+    ],
+    pros: [
+      'Achieves a sophisticated and luxurious glow.',
+      '4 color combinations allow for diverse makeup looks.',
+      'Fine particles adhere thinly to the skin for a natural expression.',
+    ],
+    cons: [
+      'The color composition is focused on highlighters, which may limit the range of clear blush color choices for warm or cool tones.',
+    ],
+    colorFit:
+      'Can be used for all personal colors. The gold, pink, and white pearls in each shade add a natural glow regardless of skin tone, making it suitable for both Warm and Cool tones.',
+    image: '/products/dior-backstage-glow-maximizer-face-palette.webp',
+    coupangQuery: '디올 백스테이지 글로우 맥시마이저 페이스 팔레트',
+    globalQuery: 'Dior Backstage Glow Maximizer Face Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-03',
+    tags: ['Highlighter', 'Multi-palette', 'Sheen', 'Shimmer', 'Glow'],
+    seoTitle: 'Dior Backstage Glow Maximizer Face Palette Review',
+    seoDescription:
+      'Discover the Dior Backstage Glow Maximizer Face Palette, a Sephora bestseller with 4 shimmer shades for natural to dramatic radiance, perfect for all skin',
+  },
+  {
     slug: 'peripera-pure-blushed-sunshine-cheek-12-sunny-pink',
     category: 'cheek',
     brand: 'Peripera',

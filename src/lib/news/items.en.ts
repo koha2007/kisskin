@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-us-offline-expansion-1st-gen-revival-2026-aug',
+    category: 'global',
+    title: 'K-Beauty Exports Hit Record $7 Billion in H1, Fueled by 1st-Gen Roadshop Brands\' U.S. Offline Resurgence',
+    summary:
+      'K-Beauty exports surpassed $7 billion in the first half of 2026, setting a new all-time record. This growth was primarily driven by the expansion of offline distribution channels in the U.S. market and the international resurgence of first-generation K-Beauty roadshop brands. Moving beyond online platforms like Amazon, K-Beauty is now expanding its presence into major U.S. offline retailers such as Walmart, Target, and Sephora, solidifying its position as a mainstream consumer product.',
+    body: [
+      '> TLDR: H1 Exports Record High | U.S. Offline Expansion | 1st-Gen Roadshop Revival',
+      'K-Beauty cosmetic exports reached $7 billion in the first half of 2026 (based on provisional data from the Ministry of Food and Drug Safety), marking an all-time high. This represents a 27.3% increase compared to the same period last year, underscoring K-Beauty\'s growing global stature. A key factor in this success has been the successful diversification of exports, shifting away from reliance on the Chinese market and focusing instead on the U.S. market.',
+      'The core driver of this growth is the expansion of offline distribution channels within the U.S. K-Beauty is broadening its consumer base by extending its presence beyond existing online platforms like Amazon to major large-scale offline retailers such as Walmart, Target, Costco, and Sephora. As a result, K-Beauty\'s penetration rate in U.S. households has rapidly increased from 13.7% in 2023 to 28.7% in 2026, firmly establishing it as a mainstream consumer product.',
+      '> DATA: The U.S. became K-Beauty\'s largest export market in H1, recording $1.45 billion, accounting for 20.7% of total exports. Notably, even during Amazon Prime Day, July exports showed consistent growth, increasing by 37.8% year-over-year to $1.351 billion.',
+      'Particularly noteworthy is the resurgence of first-generation K-Beauty roadshop brands like Missha, The Face Shop, and Tony Moly in overseas markets. While these brands experienced a slump domestically due to competition from H&B (Health & Beauty) channels, they are now re-establishing their presence in international offline channels. Examples include The Face Shop entering over 1,600 Walmart stores in the U.S. and Missha breaking into Amazon Beauty\'s Top 100. These brands are earning the trust of overseas consumers based on decades of accumulated R&D technology and strong value for money.',
+      'K-Beauty\'s offline expansion and the re-emergence of first-generation brands are considered crucial strategies for addressing the challenge of rising customer acquisition costs due to intensified online marketing competition, while also attracting new consumer segments with practical purchasing habits. This trend is expected to have a positive impact on the K-Beauty industry as a whole, fostering continued growth.',
+    ],
+    date: '2026-08-03',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Exports', 'U.S. Market', 'Offline Expansion', 'Roadshop Brands'],
+    seoTitle: 'K-Beauty Exports Reach Record $7 Billion in H1, US',
+    seoDescription:
+      'K-Beauty exports soared to a record $7 billion in H1 2026, fueled by a strategic shift to the U.S.',
+  },
+  {
     slug: 'kbeauty-h1-2026-us-top-export-market-diversification',
     category: 'global',
     title: 'K-Beauty Exports Hit All-Time High of $7 Billion in H1 2026; US Becomes Top Export Market',
