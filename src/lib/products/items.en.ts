@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'cosrx-the-6-peptide-skin-booster-serum',
+    category: 'skincare',
+    brand: 'COSRX',
+    name: 'The 6 Peptide Skin Booster Serum',
+    title: 'COSRX The 6 Peptide Skin Booster Serum: The First Step Boosting Serum to Awaken Your Skin',
+    summary:
+      'Used as the first step in your skincare routine after cleansing, this booster serum with 6 peptides, hyaluronic acid, and amino acids helps improve skin texture, elasticity, and hydration. Its light and refreshing feel enhances the effectiveness of subsequent products.',
+    highlights: ['Contains 6 types of peptides', 'Moist and refreshing texture', 'Boosting effect for next steps', 'Brightening and wrinkle improvement functional cosmetic'],
+    details: [
+      'Six multi-peptide ingredients, including Acetyl Hexapeptide-8 and Copper Tripeptide-1, help strengthen skin elasticity, reduce hyperpigmentation, care for pores, and improve wrinkles.',
+      'Its light and hydrating water serum texture absorbs quickly without stickiness, leaving a refreshing finish.',
+      'Used as the first step after cleansing, it preps the skin and acts as a booster to maximize the absorption and efficacy of other skincare products like serums, ampoules, and creams.',
+      'Containing Niacinamide and Adenosine, it is a dual-functional product for brightening and wrinkle improvement, effective in enhancing skin tone and fine lines.',
+    ],
+    whoFor:
+      'Suitable for all skin types concerned with rough texture, loss of elasticity, or inner dryness. Especially recommended for those who layer various skincare products to maximize their effects.',
+    howTo: [
+      'After cleansing, dispense an appropriate amount (2-3 pumps) as the first step and gently spread over the entire face, allowing it to absorb.',
+      'Lightly pat with hands to aid absorption, or use it on a cotton pad as a toner substitute to refine skin texture.',
+    ],
+    pros: [
+      'You can feel smoother skin texture and improved elasticity.',
+      'It addresses inner dryness and provides sufficient moisture to the skin, maintaining long-lasting hydration.',
+      'Its light and refreshing texture absorbs quickly without stickiness, blending well with subsequent skincare products.',
+    ],
+    cons: [
+      'Some users may find the moisturizing power slightly insufficient, requiring additional moisturizing products for deeper hydration.',
+      'Individual differences may occur depending on peptide ingredients, and rarely, stinging or allergic reactions may appear.',
+    ],
+    image: '/products/cosrx-the-6-peptide-skin-booster-serum.webp',
+    coupangQuery: '코스알엑스 더 6 펩타이드 스킨 부스터 세럼',
+    globalQuery: 'COSRX The 6 Peptide Skin Booster Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-04',
+    tags: ['PeptideSerum', 'BoosterSerum', 'SkinElasticity', 'SkinTextureImprovement', 'InnerDrynessSolution', 'OliveYoungSerum', 'COSRX'],
+    seoTitle: 'COSRX The 6 Peptide Skin Booster Serum for Elasticity',
+    seoDescription:
+      'Discover COSRX The 6 Peptide Skin Booster Serum, your first step to improved skin texture, elasticity, and hydration.',
+  },
+  {
     slug: 'dior-backstage-glow-maximizer-face-palette',
     category: 'trend',
     brand: 'Dior',

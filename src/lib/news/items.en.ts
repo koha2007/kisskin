@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'global-makeup-high-adherence-fixer-primer-surge',
+    category: 'global',
+    title: 'High-Adherence Beauty Market Soars Amid Hot, Humid Climate: Fixers & Primers Take Center Stage',
+    summary:
+      'As hot and humid summer climates persist globally, demand for \'high-adherence beauty\' products that enhance makeup longevity is surging. Makeup fixers and primers, in particular, are being prominently displayed on retail shelves, driving significant market growth.',
+    body: [
+      '> TLDR: Hot & Humid Climate | Surging Demand for Fixers & Primers | Prominent Retail Placement',
+      'As hot and humid summer climates persist globally, consumer interest in makeup longevity has reached an all-time high. Consequently, \'high-adherence beauty\' products, designed to strongly adhere to the skin and prevent makeup breakdown, are rapidly emerging and establishing themselves as a new mainstream in the market.',
+      '> DATA: Notably, makeup fixers and primers are showing strong growth. Aekyung Industrial\'s AGE20\'S \'Signature Perfect Capture Setting Fixer\' has garnered consumer attention by demonstrating clinical results, improving makeup longevity by 46.5% and reducing sebum production by 45.1% immediately after use.',
+      'On Social Networking Services (SNS), makeup tips for combating heat and humidity, along with recommendations for oil-control-focused base products, are being actively shared. In line with this trend, the retail industry is also strengthening sales by prominently featuring products with genuine high-adherence and long-lasting functions on their shelves, rather than relying on short-term discount promotions.',
+      'As climate change directly influences beauty consumption trends, innovation and market strategies for functionality-focused base makeup products are expected to become even more crucial. Consumers will actively seek out \'survival items\' to maintain flawless makeup, even in hot weather.',
+    ],
+    date: '2026-08-04',
+    readMinutes: 3,
+    tags: ['High-Adherence Beauty', 'Makeup Fixer', 'Primer', 'Summer Makeup', 'K-Beauty'],
+    seoTitle: 'K-Beauty: High-Adherence Makeup Booms in Hot Climates',
+    seoDescription:
+      'As hot, humid summers persist globally, demand for \'high-adherence beauty\' products, especially makeup fixers and primers, is surging, driving significant',
+  },
+  {
     slug: 'kbeauty-us-offline-expansion-1st-gen-revival-2026-aug',
     category: 'global',
     title: 'K-Beauty Exports Hit Record $7 Billion in H1, Fueled by 1st-Gen Roadshop Brands\' U.S. Offline Resurgence',
