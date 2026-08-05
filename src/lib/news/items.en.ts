@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-oliveyoung-sephora-us-edit-2026-aug',
+    category: 'global',
+    title: 'Olive Young Boosts North American Presence with \'K-Beauty Edit\' Launch in 580 US Sephora Stores',
+    summary:
+      'CJ Olive Young is set to officially launch the \'Olive Young K-Beauty Edit\' in approximately 580 US Sephora offline stores and its online mall starting August 20 (local time), significantly enhancing K-beauty\'s accessibility to the North American market. This partnership combines Olive Young\'s K-beauty curation expertise with Sephora\'s extensive distribution network to introduce 19 brands and approximately 150 K-skincare products across the United States.',
+    body: [
+      '> TLDR: Olive Young-Sephora Partnership | 580 US Stores | 19 K-Beauty Brands Entering',
+      'CJ Olive Young has partnered with Sephora, a global beauty retail channel, to introduce a K-beauty curation space across the United States. This marks the first outcome of the partnership signed last January, providing an opportunity for promising K-beauty brands, carefully selected by Olive Young, to make a significant entry into North America\'s offline distribution network.',
+      'Starting August 20 (local time), the \'OLIVE YOUNG K-Beauty Edit\' will officially launch in approximately 580 US Sephora offline stores and its online mall. Olive Young will be responsible for brand selection and product curation, while Sephora will provide its nationwide distribution network and customer touchpoints across the U.S.',
+      '> DATA: Approximately 150 products from 19 brands, including Rejuran and Ma:nyo, will be featured, focusing on K-skincare routines such as serums, creams, and sun care. Sephora plans to support local marketing efforts, including outdoor advertising at its New York Times Square flagship store and operating pop-up trucks.',
+      'This collaboration, starting with the U.S., will expand to Sephora stores in Asian regions such as Singapore, Malaysia, Thailand, and Hong Kong within the year. By 2027, plans are to broaden its reach to Canada, Australia, the UK, and the Middle East. This demonstrates K-beauty\'s evolution beyond growth centered on hit products, now driven by new product development, market diversification, operational efficiency, digital marketing, and category expansion.',
+      'K-beauty\'s global expansion extends beyond mere online sales to securing new consumer segments through offline channels, and is expected to provide continuous growth momentum going forward.',
+    ],
+    date: '2026-08-05',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Olive Young', 'Sephora', 'North American Market', 'Global Expansion'],
+    seoTitle: 'Olive Young K-Beauty Edit Launches in 580 US Sephora',
+    seoDescription:
+      'CJ Olive Young partners with Sephora to launch \'K-Beauty Edit\' in 580 US stores and online, bringing 19 curated K-skincare brands to North America.',
+  },
+  {
     slug: 'global-makeup-high-adherence-fixer-primer-surge',
     category: 'global',
     title: 'High-Adherence Beauty Market Soars Amid Hot, Humid Climate: Fixers & Primers Take Center Stage',

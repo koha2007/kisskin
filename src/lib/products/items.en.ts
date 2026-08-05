@@ -5,6 +5,48 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'dyson-airstrait-straightener',
+    category: 'hair',
+    brand: 'Dyson',
+    name: 'Airstrait Straightener',
+    title: 'Dyson Airstrait: Straighten Wet Hair Fast, Without Damage!',
+    summary:
+      'The Dyson Airstrait Straightener is an innovative product that uses powerful air blades instead of hot plates to dry and straighten wet hair simultaneously. It helps you achieve natural, shiny straight hair quickly while minimizing hair damage.',
+    highlights: ['Minimizes heat damage', 'Dries and styles wet hair simultaneously', 'Creates natural straight styles', 'Suitable for all hair types'],
+    details: [
+      'Unlike traditional flat irons, it reduces heat damage by drying and straightening hair with precisely controlled high-pressure airflow, without hot plates.',
+      'Supports \'Wet\' mode for styling while drying wet hair, and \'Dry\' mode for touching up styles on dry hair.',
+      'High-velocity air blades, projected at a 45-degree angle from two arms, direct hair downwards to achieve a smooth, shiny straight style while drying.',
+      'The Dyson Hyperdymium motor projects 11.9 liters of air per second, providing powerful air pressure to quickly dry and style hair.',
+    ],
+    whoFor:
+      'Recommended for those concerned about hair damage from frequent heat styling, and those who want to reduce drying and straightening time. It is especially effective for individuals with curly or wavy hair to achieve natural and smooth straight styles.',
+    howTo: [
+      'Use on towel-dried hair, select \'Wet\' mode, and set your desired temperature and airflow.',
+      'Divide hair into sections, place hair between the Dyson Airstrait\'s arms, and move slowly from roots to ends to dry and straighten simultaneously.',
+      'You can use \'Cool\' mode to set the style.',
+    ],
+    pros: [
+      'Helps maintain hair health by straightening hair without heat damage.',
+      'Dries and styles wet hair simultaneously, reducing styling time by 25%.',
+      'Provides natural volume and a shiny finish, leaving hair soft and not stiff.',
+    ],
+    cons: [
+      'It is expensive, and the initial purchase cost can be a burden.',
+      'This product is specialized for straight styling, making it difficult to create waves or curls.',
+    ],
+    image: '/products/dyson-airstrait-straightener.webp',
+    coupangQuery: '다이슨 에어스트레이트',
+    globalQuery: 'Dyson Airstrait Straightener',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-05',
+    tags: ['Hairstyling', 'Straightener', 'Dyson', 'HeatDamageProtection', 'WetHairStyling'],
+    seoTitle: 'Dyson Airstrait: Straighten Wet Hair Without Heat Damage',
+    seoDescription:
+      'Discover the Dyson Airstrait Straightener, an innovative tool that dries and straightens wet hair simultaneously using powerful airflow, minimizing heat',
+  },
+  {
     slug: 'cosrx-the-6-peptide-skin-booster-serum',
     category: 'skincare',
     brand: 'COSRX',
