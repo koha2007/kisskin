@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-global-regulatory-summit-ai-2026-sept',
+    category: 'global',
+    title: 'MFDS to Host \'2026 Global Cosmetics Regulatory Authority Summit\' on September 7, Discuss AI Safety Assessment',
+    summary:
+      'The Ministry of Food and Drug Safety (MFDS) will host the \'2026 Global Cosmetics Regulatory Authority Summit (GCORAS)\' in Seoul on September 7, coinciding with \'Cosmetics Day\'. The summit will delve into the latest global regulatory trends, including changes in cosmetic regulations within the EU, Australia, and New Zealand, as well as case studies on AI-powered safety assessments.',
+    body: [
+      '> TLDR: Global Regulatory Changes | AI Safety Assessment | K-Beauty Global Expansion Support',
+      'The Ministry of Food and Drug Safety (MFDS) announced that it will host the \'2026 Global Cosmetics Regulatory Authority Summit (GCORAS 2026)\' at The Plaza Hotel in Seoul on September 7, commemorating \'Cosmetics Day\'. This summit serves as a crucial platform to support the global expansion of domestic cosmetics companies and to discuss international cooperation on cosmetic regulations and strategies for mutual growth.',
+      '> DATA: September 7, the enactment date of the \'Cosmetics Act\' in 1997, will be designated as the statutory commemorative \'Cosmetics Day\' starting in 2025, further enhancing its significance.',
+      'At this GCORAS, global regulatory trends, including changes in cosmetic regulations in the European Union (EU), Australia, and New Zealand, as well as case studies on artificial intelligence (AI)-powered safety assessments, will be key agenda items. A consultation session on international regulations, involving regulatory experts and industry representatives from 8 countries/regions, will also be held, facilitating practical information exchange.',
+      'In the rapidly changing global beauty market environment, proactive responses to such regulatory changes and efforts to ensure safety through the integration of new technologies like AI will become even more crucial for the sustained growth of K-Beauty.',
+    ],
+    date: '2026-08-07',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'MFDS', 'Global Regulations', 'Beauty Tech', 'AI Safety Assessment'],
+    seoTitle: 'MFDS to Host Global Cosmetics Summit, Discuss AI Safety',
+    seoDescription:
+      'The MFDS will host the 2026 Global Cosmetics Regulatory Authority Summit in Seoul, focusing on EU/ANZ regulatory changes and AI safety assessments to',
+  },
+  {
     slug: 'kbeauty-oliveyoung-sephora-us-edit-2026-aug',
     category: 'global',
     title: 'Olive Young Boosts North American Presence with \'K-Beauty Edit\' Launch in 580 US Sephora Stores',

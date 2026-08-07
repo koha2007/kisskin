@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'tamburins-shell-perfume-hand-chamo',
+    category: 'fragrance',
+    brand: '탬버린즈',
+    name: '쉘 퍼퓸 핸드 카모',
+    title: '탬버린즈 쉘 퍼퓸 핸드 카모: 달콤 쌉쌀한 카모마일 향이 선사하는 특별한 위안',
+    summary:
+      '향수를 그대로 담아낸 듯 매력적인 향기가 풍성하게 번지는 퍼퓸 핸드크림입니다. 겉돌거나 끈적임 없이 스며들어 산뜻한 감촉과 함께 촉촉한 수분감을 선사합니다.',
+    highlights: ['달콤 쌉쌀한 카모마일 향', '끈적임 없이 산뜻한 보습', '오래 지속되는 향', '휴대하기 좋은 사이즈'],
+    details: [
+      '꿀처럼 진득하고 달콤한 카모마일과 씁쓸한 클라리세이지 허브 향이 오묘한 조화를 이루어 중독성 있는 향을 선사합니다.',
+      '우아하고 부드러운 나무결의 블론드 우드와 따뜻한 머스크가 차갑게 느껴질 수 있는 촉촉한 이끼의 느낌을 감싸주어 지친 마음에 위안을 줍니다.',
+      '손에 바르는 순간 빠르게 흡수되며 끈적임 없이 산뜻한 감촉과 수분감을 남겨주어 늘 촉촉하게 빛나는 손으로 가꿔줍니다.',
+      '휴대하기 좋은 15mL, 30mL 용량으로 출시되어 건조함이 느껴질 때마다 언제든 사용할 수 있습니다.',
+    ],
+    whoFor:
+      '중성적이면서도 포근한 향을 선호하며, 향수 대신 은은하게 오래 지속되는 향을 원하는 분에게 적합합니다. 건조한 손에 산뜻한 보습감과 함께 특별한 향기 경험을 더하고 싶은 모든 분들이 만족할 수 있는 제품입니다.',
+    howTo: [
+      '케이스의 뚜껑을 열고 버튼이 손등에 오게 가져다 줍니다.',
+      '손등에 대고 버튼 한쪽을 지그시 누르거나, 손가락으로 버튼 양쪽을 눌러 내용물을 덜어냅니다.',
+      '손등에 덜어진 내용물을 손 전체에 펴 발라 흡수시켜줍니다.',
+    ],
+    pros: [
+      '유니크하고 중독성 있는 카모마일과 머스크 향의 조화',
+      '끈적임 없이 빠르게 흡수되는 산뜻한 발림성',
+      '향수처럼 오래 지속되는 깊고 풍부한 잔향',
+    ],
+    cons: [
+      '향에 대한 개인적인 호불호가 있을 수 있습니다.',
+    ],
+    image: '/products/tamburins-shell-perfume-hand-chamo.webp',
+    coupangQuery: '탬버린즈 쉘 퍼퓸 핸드 카모',
+    globalQuery: 'tamburins shell perfume hand chamo',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-07',
+    tags: ['탬버린즈', '핸드크림', '퍼퓸핸드크림', '카모마일향', '머스크향', '우디향', '향수대용', '보습', '논픽션'],
+    seoTitle: '탬버린즈 쉘 퍼퓸 핸드 카모 핸드크림',
+    seoDescription:
+      '탬버린즈 쉘 퍼퓸 핸드 카모는 달콤한 카모마일과 쌉쌀한 클라리세이지가 조화로운 중독성 있는 향을 선사하는 퍼퓸 핸드크림입니다.',
+  },
+  {
     slug: 'dyson-airstrait-straightener',
     category: 'hair',
     brand: '다이슨',

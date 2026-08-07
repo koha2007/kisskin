@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'tamburins-shell-perfume-hand-chamo',
+    category: 'fragrance',
+    brand: 'tamburins',
+    name: 'Shell Perfume Hand Camo',
+    title: 'tamburins Shell Perfume Hand Camo: Sweet & Bitter Chamomile for Special Comfort',
+    summary:
+      'This perfumed hand cream delivers a rich, captivating fragrance, as if it were a perfume itself. It absorbs without stickiness, leaving hands feeling fresh and moisturized.',
+    highlights: ['Sweet & bitter chamomile scent', 'Fresh, non-sticky hydration', 'Long-lasting fragrance', 'Portable size'],
+    details: [
+      'The rich, sweet scent of honey-like chamomile and the bitter herbal notes of clary sage create an intriguing, addictive harmony.',
+      'Elegant, soft blonde wood and warm musk embrace the cool, damp sensation of moss, offering comfort to a weary mind.',
+      'It absorbs quickly upon application, leaving a fresh, non-sticky feel and moisture, keeping hands hydrated and radiant.',
+      'Available in portable 15mL and 30mL sizes, it can be used anytime dryness is felt.',
+    ],
+    whoFor:
+      'Ideal for those who prefer a neutral yet cozy scent and desire a subtle, long-lasting fragrance instead of perfume. This product will satisfy anyone looking to add a special fragrant experience and fresh hydration to dry hands.',
+    howTo: [
+      'Open the case lid and position the button over the back of your hand.',
+      'Press one side of the button gently against the back of your hand, or press both sides of the button with your fingers to dispense the product.',
+      'Spread the dispensed product over your entire hand and allow it to absorb.',
+    ],
+    pros: [
+      'Unique and addictive blend of chamomile and musk scents',
+      'Fresh, fast-absorbing, non-sticky texture',
+      'Deep, rich, long-lasting scent like a perfume',
+    ],
+    cons: [
+      'Personal preference for the scent may vary.',
+    ],
+    image: '/products/tamburins-shell-perfume-hand-chamo.webp',
+    coupangQuery: '탬버린즈 쉘 퍼퓸 핸드 카모',
+    globalQuery: 'tamburins shell perfume hand chamo',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-07',
+    tags: ['tamburins', 'hand cream', 'perfume hand cream', 'chamomile scent', 'musk scent', 'woody scent', 'perfume alternative', 'moisturizing', 'nonfiction'],
+    seoTitle: 'tamburins Shell Perfume Hand Cream Camo: Chamomile & Musk',
+    seoDescription:
+      'Discover tamburins Shell Perfume Hand Camo, a unique hand cream with a sweet and bitter chamomile, clary sage, and musk scent that absorbs quickly for',
+  },
+  {
     slug: 'dyson-airstrait-straightener',
     category: 'hair',
     brand: 'Dyson',
