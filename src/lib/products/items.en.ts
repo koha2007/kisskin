@@ -5,6 +5,48 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'rhode-peptide-lip-tint-jelly-bean',
+    category: 'lip',
+    brand: 'Rhode',
+    name: 'Peptide Lip Tint (Jelly Bean)',
+    title: 'Rhode Peptide Lip Tint Jelly Bean: Hailey Bieber\'s Pick, Radiant Shimmer Pink Lip Balm!',
+    summary:
+      'Hailey Bieber\'s Rhode Peptide Lip Tint \'Jelly Bean\' is a sheer pink lip balm with a radiant shimmer, giving lips a natural vibrancy and gloss. Its hydrating formula keeps lips comfortable and has gained immense popularity on TikTok.',
+    highlights: ['Shimmer sheer pink color', 'Hydrating and glossy finish', 'Improves lip volume', 'Sweet jelly bean scent'],
+    details: [
+      'The sheer pink color with sparkling shimmer gives lips a natural vitality, perfect for wearing alone or layering with other lip products.',
+      'Nourishing ingredients like peptides and shea butter provide deep hydration and alleviate dryness, keeping lips moisturized all day.',
+      'Its velvety texture applies smoothly without stickiness, melting into the lips for a comfortable feel.',
+      'Visually reduces fine lines and adds natural volume to create plumper, healthier-looking lips.',
+    ],
+    whoFor:
+      'Suitable for all skin tones who prefer a natural flush with a radiant gloss. Recommended for those with dry, dull lips who want to add both moisture and volume.',
+    howTo: [
+      'Use alone for a natural sheer pink look, or layer over \'Pocket Blush\' or \'Peptide Lip Shape\' for richer color and gloss.',
+      'A small amount provides ample shine and hydration; layer for more vivid color.',
+    ],
+    pros: [
+      'Natural yet vibrant sheer pink color',
+      'Hydrating and smooth application without stickiness',
+      'Improves lip volume and reduces wrinkles',
+    ],
+    cons: [
+      'Despite being called a tint, it has minimal staining power, so longevity may be shorter.',
+    ],
+    colorFit:
+      'A sheer pink color that suits all personal color types, especially bringing a bright and lively look to Spring Warm and Summer Cool tones.',
+    image: '/products/rhode-peptide-lip-tint-jelly-bean.webp',
+    coupangQuery: '로드 펩타이드 립 틴트 젤리 빈',
+    globalQuery: 'rhode peptide lip tint jelly bean',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-07',
+    tags: ['HaileyBieberLipBalm', 'RhodeLipTint', 'SheerPink', 'GlossyLip', 'LipCare', 'PeptideLip', 'TikTokViral'],
+    seoTitle: 'Rhode Peptide Lip Tint Jelly Bean: Hailey Bieber\'s',
+    seoDescription:
+      'Discover Hailey Bieber\'s favorite Rhode Peptide Lip Tint in Jelly Bean, a sheer pink lip balm with radiant shimmer for natural vibrancy and gloss.',
+  },
+  {
     slug: 'tamburins-shell-perfume-hand-chamo',
     category: 'fragrance',
     brand: 'tamburins',

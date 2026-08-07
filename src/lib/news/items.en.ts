@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-amazon-5-trends-2026-aug',
+    category: 'global',
+    title: 'Amazon Unveils 5 Key K-Beauty Global Growth Trends Based on 2026 Prime Day Data',
+    summary:
+      'Amazon has revealed five key trends driving K-beauty\'s global growth, based on its 2026 Prime Day sales data and marketplace analysis. New product launches, market diversification, enhanced operational efficiency, leveraging social marketing, and category expansion were identified as core growth strategies.',
+    body: [
+      '> TLDR: New Product Launches | Market Diversification | Operational Efficiency | Social Marketing | Category Expansion',
+      'Amazon recently captured industry attention by announcing \'5 Key Trends Illustrating K-Beauty\'s Global Growth Trajectory,\' based on its 2026 Prime Day sales data and marketplace analysis. This provides strategic directions for K-beauty brands looking to expand their business in overseas markets.',
+      '> DATA: According to Amazon\'s analysis, new products launched within the last year drove sales increases during Prime Day. Notably, Anua\'s PDRN Hyaluronic Acid line saw U.S. Prime Day sales increase by over 130% year-over-year. Dalba demonstrated a successful case of market diversification, with combined sales in five European countries (UK, Germany, France, Italy, Spain) increasing by 87% year-over-year. Equalberry reported an 831% surge in Prime Day sales compared to last year, attributed to Meta and TikTok advertising. Medicube proved the potential for category expansion, with haircare and bodycare sales increasing by over 500% during Prime Day compared to normal periods.',
+      'Shin Hwa-sook, Head of Amazon Global Selling Korea, stated that \'Korean sellers are expanding their business across diverse countries and categories,\' and announced plans to continuously expand global market entry support programs. This suggests that K-beauty brands must broaden their reach to global consumers through strategic new product development, efficient operations, and digital marketing.',
+      'This Amazon analysis demonstrates that K-beauty is securing continuous growth momentum through comprehensive global strategies that extend beyond mere product strength. Moving forward, K-beauty brands are expected to further strengthen their global competitiveness by thoroughly understanding these trends and flexibly responding to market changes.',
+    ],
+    date: '2026-08-07',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Amazon', 'Prime Day', 'Global Trends', 'Beauty Industry'],
+    seoTitle: 'Amazon Unveils 5 Key K-Beauty Global Growth Trends',
+    seoDescription:
+      'Amazon\'s analysis of 2026 Prime Day data reveals five key trends and strategies driving K-beauty\'s global expansion, including new launches and market',
+  },
+  {
     slug: 'kbeauty-global-regulatory-summit-ai-2026-sept',
     category: 'global',
     title: 'MFDS to Host \'2026 Global Cosmetics Regulatory Authority Summit\' on September 7, Discuss AI Safety Assessment',

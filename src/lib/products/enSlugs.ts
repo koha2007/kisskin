@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'rhode-peptide-lip-tint-jelly-bean',
   'tamburins-shell-perfume-hand-chamo',
   'dyson-airstrait-straightener',
   'cosrx-the-6-peptide-skin-booster-serum',
