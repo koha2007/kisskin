@@ -73,6 +73,20 @@ Cloudflare 쪽 키는 지워두면 `analyze.ts:286` 의 `if (env.GEMINI_API_KEY)
 1. `console.cloud.google.com` → 결제 → `0132B5-093836-A876FE` 에 새 카드 등록, 연체분 결제
    > 공식 문서: "resolve the Postpay account issue in the Google Cloud Billing console.
    > Once you resolve the issue, you will regain access"
+
+   **결제 수단 선택지 (2026-08-09 확인)**
+   - 받는 카드: "American Express, MasterCard, Visa, **Debit cards with the Visa or MasterCard logo**"
+     → ⭐ **체크카드 가능.** 한도가 찬 게 원인이었으므로 잔액에서 빠지는 체크카드가 우회로다.
+   - **즉시 결제 가능**: 결제 개요 → 계정 선택 → **"Make a payment" / "Pay early"**.
+     자동 재청구를 기다릴 필요 없다. 그 화면에서 **주 결제수단 등록 없이 새 카드를 그 자리에서 추가해
+     결제 가능** ("Select the payment method..., or add a new payment method") → 체크카드를 영구 등록할 필요 없음.
+   - ⚠️ **카드를 다시 등록만 해도 미납액이 자동 청구된다** —
+     "re-enabling your form of payment without making a manual payment will automatically
+     trigger a charge for your outstanding balance". 잔액 먼저 확인할 것.
+   - ⏳ 반영은 즉시가 아니다: "from 24 hours to a week or more"; 계좌 결제는 "up to 10 business days".
+     문서가 급할 땐 카드를 권한다. **반영될 때까지 1단계 무료 키를 유지할 것.**
+   - 드문 경우: 사기방지 플래그 계정은 재활성화에 $100 결제를 요구받은 사례가 있다.
+     그런 안내가 뜨면 결제하지 말고 무료 키로 버티는 편이 낫다.
    - **자동 복구가 아니다.** 상한 초과 정지는 1일에 자동 해제되지만 연체 정지는 결제해야 풀린다.
    - 메일의 **"Appeal the adjustment" 버튼은 이 문제의 창구가 아니다** — 저건 *한도 상향 요청* 폼이다.
    - 결제 후 즉시 복구된다는 보장은 없다(포럼에 며칠 걸린 사례 다수). 복구 확인 전까지 1단계 키를 유지할 것.
