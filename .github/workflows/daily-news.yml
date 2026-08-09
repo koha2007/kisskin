@@ -100,9 +100,17 @@ jobs:
             echo "변경 없음 — 커밋 생략"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
+            # 커밋 메시지는 실제로 바뀐 것에 맞춘다. 생성이 실패해도 사이트맵 lastmod 만
+            # 바뀌어 커밋이 나갈 수 있는데(다른 커밋이 페이지를 고친 날), 그걸 "자동 발행"
+            # 이라고 적으면 나중에 로그만 보고 "발행됐다는데 글이 없다"로 헷갈린다.
+            if git diff --cached --name-only | grep -qv '^public/sitemap.xml$'; then
+              MSG="chore(content): 일일 뉴스·메이크업 제품 자동 발행 (KO+EN)"
+            else
+              MSG="chore(seo): 사이트맵 lastmod 갱신 (콘텐츠 생성 없음)"
+            fi
             # skip 토큰 금지: Cloudflare Pages 가 '[skip ci]'류를 인식해 배포를 건너뛴다.
             # GITHUB_TOKEN 푸시는 다른 워크플로를 재트리거하지 않으므로 루프 위험도 없음.
-            git commit -m "chore(content): 일일 뉴스·메이크업 제품 자동 발행 (KO+EN)"
+            git commit -m "$MSG"
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
