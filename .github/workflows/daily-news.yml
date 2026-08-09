@@ -58,6 +58,12 @@ jobs:
       - name: Generate makeup product + EN
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # 무드컷 OFF (2026-08-09~). 이유 2개:
+          #   1) 결제 홀딩 중이라 무료 티어 키로 도는데, Imagen 은 무료 티어가 없다.
+          #   2) 어차피 `imagen-4.0-generate-001` 은 2026-08-17 종료된다.
+          # 글 발행은 그대로 되고 카드만 디자인 폴백으로 나간다(gen-products.mjs:454).
+          # ⚠️ 되살릴 땐 이 줄만 지우면 안 된다 — GEMINI_HOLD.md 의 "무드컷 복구" 참고.
+          PRODUCT_IMAGES: '0'
         run: node scripts/gen-products.mjs
 
       - name: Regenerate sitemap

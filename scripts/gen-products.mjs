@@ -30,6 +30,10 @@ const ITEMS_EN = resolve('src/lib/products/items.en.ts')
 const EN_SLUGS = resolve('src/lib/products/enSlugs.ts')
 const IMG_DIR = resolve('public/products')
 const MODEL = process.env.GEMINI_PRODUCT_MODEL || 'gemini-2.5-flash'
+// ⚠️ 2026-08-17 종료 예정 모델이다(공식 지원종료 목록). 후속은 `gemini-3.1-flash-image`.
+// 모델명만 바꾸면 안 된다 — imagenOnce() 는 `:predict` + instances/parameters 로 호출하고
+// predictions[0].bytesBase64Encoded 를 읽는데, Gemini 이미지 모델은 `:generateContent` +
+// inlineData 라 요청·응답 모양이 둘 다 다르다. 교체 절차는 GEMINI_HOLD.md 참고.
 const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-generate-001'
 // 카테고리별 폴백 장면. 평소엔 모델이 제품 실물(컬러·제형·마무리)에 맞춰 써 주는
 // imageScene 을 쓰고, 그게 없을 때만 여기로 떨어진다.
