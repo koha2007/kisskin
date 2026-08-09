@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-gs-global-japan-distribution',
+    category: 'global',
+    title: 'GS Global Accelerates K-Beauty Distribution via Japan’s Cosme Kitchen',
+    summary:
+      'GS Global has officially launched three K-beauty indie brands—Jeju Indie, Talitha Koum, and Pretty Actually—across Japan’s online and offline Cosme Kitchen channels starting July 24. This marks the beginning of its plan to establish a global beauty distribution platform.',
+    body: [
+      '> TLDR: GS Global enters Japanese distribution in earnest | Launches three indie brands via Cosme Kitchen | Strategy to expand global platform',
+      'Starting July 24, GS Global began official sales of three Korean indie beauty brands—Jeju Indie, Talitha Koum, and Pretty Actually—through the online and offline channels of Japan’s premium beauty select shop, Cosme Kitchen.',
+      '> DATA: Cosme Kitchen in Japan operates about 70 premium select shops, and GS Global has initiated its first commercial distribution through this channel (globalcosmeticsnews.com)',
+      'This launch is the first step in GS Global’s strategy to establish itself as a global beauty distribution platform supporting overseas distribution of K-beauty indie brands. The company manages the entire process from brand selection, export, regulatory compliance, import operations, inventory management, to sales data analysis (globalcosmeticsnews.com).',
+      'For consumers, the availability of K-beauty indie products through trusted premium channels in Japan is expected to significantly enhance overseas accessibility.',
+    ],
+    date: '2026-08-09',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Japan Distribution', 'Indie Brands'],
+    seoTitle: 'GS Global Launches K-Beauty Indie Brands in Japan via',
+    seoDescription:
+      'GS Global debuts three K-beauty indie brands in Japan through Cosme Kitchen, marking a major step in building a global beauty distribution platform.',
+  },
+  {
     slug: 'kbeauty-amazon-5-trends-2026-aug',
     category: 'global',
     title: 'Amazon Unveils 5 Key K-Beauty Global Growth Trends Based on 2026 Prime Day Data',

@@ -72,11 +72,12 @@ Google 검색을 사용해 **최근 2~3주 이내 실제로 일어난** 글로�
   "summary": "한국어 2문장 요약",
 ${KO_SCHEMA_LINES}
   "body": [
-    "> TLDR: 핵심1 | 핵심2 | 핵심3",              // 첫 요소는 TLDR 박스(| 로 2~3개)
-    "본문 문단(한국어, 90~170자, 간결하게).",       // 일반 문단 — 짧고 핵심만
-    "> DATA: 검색에서 확인된 수치 기반 서술",       // 콜아웃(선택): DATA/KEY/WARN/TIP 중 1개
-    "마무리 문단(소비자 관점 시사점, 짧게)."
-  ],                                              // 총 5~6개 요소로 짧게, 콜아웃 1개. 장황하게 늘이지 말 것.
+    "> TLDR: 핵심1 | 핵심2 | 핵심3",              // 1) TLDR 박스(| 로 2~3개)
+    "본문 문단(한국어, 90~170자, 간결하게).",       // 2) 일반 문단 — 짧고 핵심만
+    "> DATA: 검색에서 확인된 수치 기반 서술",       // 3) 콜아웃 1개: DATA/KEY/WARN/TIP 중
+    "본문 문단(배경·맥락, 90~170자).",              // 4) 일반 문단
+    "마무리 문단(소비자 관점 시사점, 짧게)."        // 5) 마무리
+  ],                                              // 최소 5개, 최대 6개. 장황하게 늘이지 말 것.
   "date": "${today}",
   "readMinutes": 3,                               // 본문 길이에 맞춰 2~4
   "tags": ["한글태그", "한글태그", "한글태그"],     // 3~4개
@@ -215,7 +216,13 @@ async function main() {
         const text = await callGemini(apiKey, PROMPT(ex))
         const item = extractJson(text)
         const errs = validate(item, ex)
-        if (errs.length) { console.warn(`  시도 ${attempt} 검증 실패: ${errs.join('; ')}`); continue }
+        if (errs.length) {
+          console.warn(`  시도 ${attempt} 검증 실패: ${errs.join('; ')}`)
+          // 왜 떨어졌는지 로그만 보고 알 수 있게 — 모델이 뭘 냈는지 없으면 매번 재현부터 해야 한다.
+          console.warn(`    받은 것: body ${item.body?.length ?? '없음'}개 · tags ${item.tags?.length ?? '없음'}개 · title "${(item.title || '').slice(0, 40)}"`)
+          if (process.env.DEBUG_RAW) console.warn(`    raw: ${text.slice(0, 1200)}`)
+          continue
+        }
         insert(item)
         console.log(`✅ KO 추가: [${item.category}] ${item.title}  (slug: ${item.slug}, ${item.readMinutes}분)`)
         try {

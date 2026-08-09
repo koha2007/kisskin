@@ -1,12 +1,14 @@
 name: Daily K-beauty content
 
 # 매일 06:00 KST:
-#   · 뉴스 1편 (Gemini + Google Search 그라운딩) + EN 자동번역
+#   · 뉴스 1편 (검색 그라운딩) + EN 자동번역
 #   · 메이크업 제품 1건 (검색 그라운딩 + 무드컷 이미지) + EN 자동번역
 # push → Cloudflare Pages 가 자동 빌드/배포(빌드 중 gen:sitemap 이 사이트맵 자동 갱신).
 #
-# 필요: 저장소 Settings → Secrets and variables → Actions → New repository secret
-#        이름 GEMINI_API_KEY 로 Gemini API 키 등록.
+# 필요한 Secret (Settings → Secrets and variables → Actions):
+#   · GEMINI_API_KEY  — 1순위. 없거나 막히면 아래로 폴백한다
+#   · OPENAI_API_KEY  — 2순위 폴백. Gemini 가 죽어도 발행이 계속되게 하는 안전줄이다
+#                       (2026-08-09 결제 사고 때 이게 유일한 생존로였다)
 #
 # 수동 실행: Actions 탭 → Daily K-beauty content → Run workflow (news count 입력 가능).
 
@@ -68,6 +70,10 @@ jobs:
         continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Gemini 가 막히면 OpenAI 로 폴백한다(scripts/_geminiText.mjs).
+          # 2026-08-09 결제 사고 때 이게 유일한 생존로였다 — 유료 키는 403,
+          # 새로 만든 무료 키는 전 모델 404/429 였다.
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node scripts/gen-news.mjs "${{ github.event.inputs.count || '1' }}"
 
       - name: Generate makeup product + EN
@@ -75,6 +81,7 @@ jobs:
         continue-on-error: true
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # 위와 같은 폴백
           # 무드컷 OFF (2026-08-09~). 이유: 결제 홀딩 중이라 무료 티어 키로 도는데
           # 이미지 생성은 무료 티어가 없다. 글 발행은 그대로 되고 카드만 디자인
           # 폴백으로 나간다(gen-products.mjs 의 genImage try/catch).
@@ -140,7 +147,7 @@ jobs:
         run: |
           echo "news=${{ steps.news.outcome }}  product=${{ steps.product.outcome }}"
           if [ "${{ steps.news.outcome }}" != "success" ] && [ "${{ steps.product.outcome }}" != "success" ]; then
-            echo "::error::뉴스·제품 둘 다 생성 실패 — 그날치 발행 0건. GEMINI_API_KEY 상태부터 확인할 것(403=결제/키, 429=무료 티어 쿼터). 절차는 리포 루트 GEMINI_HOLD.md"
+            echo "::error::뉴스·제품 둘 다 생성 실패 — 그날치 발행 0건. Gemini(403=결제/키, 404=신규키 차단, 429=쿼터)와 OPENAI_API_KEY Secret 유무를 확인할 것. 절차는 리포 루트 GEMINI_HOLD.md"
             exit 1
           fi
           [ "${{ steps.news.outcome }}" = "success" ]    || echo "::warning::뉴스 생성 실패 — 제품만 발행됨"

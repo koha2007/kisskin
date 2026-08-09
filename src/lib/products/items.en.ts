@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'nobev-slim-edge-dual-eyeliner',
+    category: 'eye',
+    brand: 'nobev',
+    name: 'Slim Edge Dual Eyeliner',
+    title: 'nobev Slim Edge Dual Eyeliner — Pencil & Liquid in One, Under Eye Master',
+    summary:
+      'A dual eyeliner from nobev, co-created by beauty creator Jaeyu. With both pencil and liquid tips, it\'s highly versatile for basic lines and under-eye aegyo-sal looks, making it a steady bestseller at Olive Young.',
+    highlights: ['Dual pencil and liquid design', 'Perfect for under-eye aegyo-sal', 'Olive Young steady seller'],
+    details: [
+      'Combines pencil and liquid types in one product, allowing for diverse looks from waterline to wing.',
+      'Co-developed with beauty creator Jaeyu, it\'s a practical item tailored to the under-eye makeup trend.',
+      'Since its 2022 launch, it remains a fast-selling, word-of-mouth favorite and repurchase item at Olive Young.',
+    ],
+    whoFor:
+      'Ideal for those who enjoy under-eye aegyo-sal or natural eye makeup, and anyone seeking the convenience of both pencil and liquid in one product.',
+    howTo: [
+      'First, use the pencil tip to fill in the waterline and lower lash line for soft shading.',
+      'Then, use the liquid tip to draw a clean wing or delicately define the lash line.',
+    ],
+    pros: [
+      'Versatile dual-tip for multiple looks',
+      'Specialized for under-eye aegyo-sal makeup',
+    ],
+    cons: [
+      'Dual design may not suit those who dislike both pencil and liquid types',
+    ],
+    coupangQuery: '노베브 슬림 엣지 듀얼 아이라이너',
+    globalQuery: 'nobev slim edge dual eyeliner',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-08-09',
+    tags: ['nobev', 'dual eyeliner', 'aegyo-sal makeup'],
+    seoTitle: 'nobev Slim Edge Dual Eyeliner Review & Features',
+    seoDescription:
+      'Discover nobev Slim Edge Dual Eyeliner—pencil and liquid in one, perfect for under-eye aegyo-sal and natural looks. See why it\'s a steady seller.',
+  },
+  {
     slug: 'rhode-peptide-lip-tint-jelly-bean',
     category: 'lip',
     brand: 'Rhode',

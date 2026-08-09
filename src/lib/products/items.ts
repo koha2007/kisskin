@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'nobev-slim-edge-dual-eyeliner',
+    category: 'eye',
+    brand: '노베브',
+    name: '슬림 엣지 듀얼 아이라이너',
+    title: '노베브 슬림 엣지 듀얼 아이라이너 — 펜슬과 리퀴드를 한 번에, 언더 아이 마스터',
+    summary:
+      '뷰티 크리에이터 ‘재유’가 참여한 노베브의 듀얼 아이라이너. 펜슬과 리퀴드 구성으로 기본 라인부터 언더 애교살 표현까지 활용도 높아 올리브영에서 꾸준히 인기입니다.',
+    highlights: ['펜슬·리퀴드 듀얼 구성', '언더 애교살 표현 가능', '올리브영 스테디셀러'],
+    details: [
+      '펜슬과 리퀴드 타입이 하나의 제품에 구성되어 점막부터 꼬리까지 다채롭게 연출할 수 있습니다.',
+      '뷰티 크리에이터 ‘재유’가 기획에 참여한 브랜드답게 언더 애교살 메이크업 트렌드와 연계된 실용적 아이템입니다.',
+      '2022년 출시 이후 3년이 지나도 올리브영 기획 상품으로 빠르게 소진될 만큼 입소문과 재구매가 이어지고 있는 스테디셀러입니다.',
+    ],
+    whoFor:
+      '언더 애교살이나 자연스러운 아이 메이크업을 즐기는 사용자에게 적합합니다. 펜슬과 리퀴드를 하나로 간편하게 사용하고 싶은, 실용적 구성 선호하는 이들에게 특히 맞습니다.',
+    howTo: [
+      '먼저 펜슬 팁으로 점막과 밑 눈가를 채워 부드러운 음영을 만들고,',
+      '리퀴드 팁으로 눈꼬리 라인을 깔끔하게 그리되 가볍게 터치해 섬세한 라인을 연출하세요.',
+    ],
+    pros: [
+      '하나로 두 타입 사용 가능해 활용도 높음',
+      '언더 애교살 연출에 특화된 구성',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 구성—펜슬과 리퀴드 모두 선호하지 않는 이들은 부담스러울 수 있음',
+    ],
+    coupangQuery: '노베브 슬림 엣지 듀얼 아이라이너',
+    globalQuery: 'nobev slim edge dual eyeliner',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-08-09',
+    tags: ['노베브', '듀얼아이라이너', '애교살메이크업'],
+    seoTitle: '슬림 엣지 듀얼 아이라이너 인기 지속',
+    seoDescription:
+      '펜슬과 리퀴드를 하나로 구성한 듀얼 아이라이너로 올리브영에서 입소문 타며 스테디셀러로 자리 잡은 이유를 소개합니다.',
+  },
+  {
     slug: 'rhode-peptide-lip-tint-jelly-bean',
     category: 'lip',
     brand: '로드',

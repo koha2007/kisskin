@@ -89,15 +89,41 @@ gemini-3.6-flash → gemini-3.5-flash → gemini-2.5-flash-lite → gemini-2.0-f
 - 검색 그라운딩 무료 한도도 세대별로 다르다: 2.5 계열 500 RPD → 3.x 월 5,000건
   (우리 사용 하루 2~4회 = 월 120건 안팎이라 어느 쪽이든 여유)
 
+## ❌ 무료 티어로 버티는 계획은 무효였다 (2026-08-09 실측)
+
+이 문서가 원래 권했던 "새 프로젝트에서 무료 키 발급 → $0 로 발행 유지"는 **작동하지 않는다.**
+새로 만든 프로젝트 키로 후보 4개를 전부 때려봤고 결과는 이랬다:
+
+```
+gemini-3.6-flash(429) · gemini-3.5-flash(429) · gemini-2.5-flash-lite(404) · gemini-2.0-flash(429)
+```
+
+**신규 프로젝트 키에는 쓸 만한 무료 쿼터가 남아 있지 않다.** 2025-12 무료 한도 대폭 축소 이후
+3.x 는 사실상 유료 전용이고, 구세대는 신규 사용자에게 아예 안 열린다.
+👉 **다음에 같은 사고가 나면 무료 키 발급에 시간 쓰지 말고 곧장 OpenAI 폴백을 확인할 것.**
+
+## ⭐ 진짜 생존로 = OpenAI 폴백 (영구 구성)
+
+`scripts/_geminiText.mjs` 가 Gemini 후보를 모두 시도한 뒤 막히면 **OpenAI 로 넘어간다.**
+그라운딩은 Responses API 의 `web_search` 툴이 Gemini `google_search` 자리를 대신한다.
+
+- 로컬에서 **실제로 발행까지 검증했다**(뉴스·제품 각 1건, KO+EN). 추정이 아니다
+- 워크플로 Secret 에 **`OPENAI_API_KEY` 가 있어야 동작한다**
+- 인용 정리: `web_search` 가 흘리는 마크다운 링크와 `utm_source=openai` 는 코드에서 제거한다
+  (기존 뉴스 본문엔 링크가 없는 게 스타일이고, 통제 못 하는 추적 파라미터를 실을 이유가 없다)
+- 사고의 실체는 "결제 연체"가 아니라 **콘텐츠 생성을 한 벤더에 전부 매달아 둔 것**이었다.
+  그래서 이 폴백은 카드가 복구돼도 **끄지 않는다**
+
 ## 홀딩 중 구성
 
 | 항목 | 상태 | 근거 |
 |---|---|---|
-| 뉴스·제품 **텍스트** 생성 | 🟢 **무료 티어 키로 계속 발행** | `gemini-2.5-flash` 무료 |
-| Google 검색 그라운딩 | 🟢 **무료** — 500 RPD (우리 사용 하루 2~4회) | 공식 가격표 free tier 행 |
-| 제품 **무드컷**(imagen) | 🔴 **OFF** — 무료 티어 없음 | 워크플로 `PRODUCT_IMAGES: '0'` |
-| $2.99 유료 리포트 | 🟢 생존 — AI Gateway `gpt-4.1` 로 자동 폴백 | `analyze.ts:280~371` 3단 폴백 |
+| 뉴스·제품 **텍스트** 생성 | 🟢 **OpenAI 폴백으로 발행 중** | Gemini 전 후보 404/429/403 |
+| 검색 그라운딩 | 🟢 OpenAI `web_search` 툴 | 로컬 실행에서 `web_search_call` 확인 |
+| 제품 **무드컷** | 🔴 **OFF** — 이미지 생성은 무료 티어 없음 | 워크플로 `PRODUCT_IMAGES: '0'` |
+| $2.99 유료 리포트 | 🟢 생존 — AI Gateway `gpt-4.1` 로 자동 폴백 | `analyze.ts` 3단 폴백 |
 | AI 메이크업 | 🟢 무관 — OpenAI `gpt-image-2` |
+| 무료 도구 4종 | 🟢 무관 — AI 안 씀 |
 
 무드컷이 빠져도 제품 글은 정상 발행되고 카드만 디자인 폴백으로 나간다
 (`gen-products.mjs:454` 의 try/catch — 이미지 실패는 원래 삼키게 돼 있다).
@@ -122,16 +148,15 @@ Cloudflare 쪽 키는 지워두면 `analyze.ts:286` 의 `if (env.GEMINI_API_KEY)
 
 ## ▶️ 재개 절차
 
-### 1단계 — 지금 (카드 없이, $0). 발행 되살리기
+### 1단계 — 지금 (카드 없이). 발행 되살리기
 
-1. https://aistudio.google.com/apikey → **Create API key**
-2. ⚠️ **새 프로젝트를 고르고, 지금 그 결제 계정을 연결하지 말 것.**
-   공식 문서가 "해당 계정에 묶인 모든 서비스가 멈춘다"고 명시 — 연결하는 순간 새 키도 같이 죽는다.
-   결제 연결이 없어야 순수 무료 티어로 뜬다.
-3. GitHub → Settings → Secrets and variables → Actions → `GEMINI_API_KEY` 값 교체
-   (또는 `gh secret set GEMINI_API_KEY`)
-4. Actions 탭 → Daily K-beauty content → **Run workflow** 로 즉시 검증
-5. Cloudflare 대시보드에서 `GEMINI_API_KEY` 환경변수 **삭제** (위 표 참고)
+⚠️ ~~무료 키 발급~~ 은 헛수고다(위 "무료 티어로 버티는 계획은 무효였다" 참고). 대신:
+
+1. GitHub → Settings → Secrets and variables → Actions → **`OPENAI_API_KEY` 추가**
+   (값은 `.dev.vars` 의 것과 동일. AI 메이크업·유료 리포트가 이미 쓰는 그 키다)
+2. Actions 탭 → Daily K-beauty content → **Run workflow** 로 검증
+3. Cloudflare 대시보드의 `GEMINI_API_KEY` 환경변수는 **비워 둔다**
+   (죽은 키라 어차피 서킷브레이커가 건너뛰고, 무료 키를 넣으면 안 되는 자리다 — 아래 표)
 
 ### 2단계 — 카드 재등록 후. 원상복구
 
@@ -149,9 +174,9 @@ Cloudflare 쪽 키는 지워두면 `analyze.ts:286` 의 `if (env.GEMINI_API_KEY)
      "re-enabling your form of payment without making a manual payment will automatically
      trigger a charge for your outstanding balance". 잔액 먼저 확인할 것.
    - ⏳ 반영은 즉시가 아니다: "from 24 hours to a week or more"; 계좌 결제는 "up to 10 business days".
-     문서가 급할 땐 카드를 권한다. **반영될 때까지 1단계 무료 키를 유지할 것.**
+     문서가 급할 땐 카드를 권한다. **반영될 때까지 OpenAI 폴백이 발행을 이어간다**(1단계).
    - 드문 경우: 사기방지 플래그 계정은 재활성화에 $100 결제를 요구받은 사례가 있다.
-     그런 안내가 뜨면 결제하지 말고 무료 키로 버티는 편이 낫다.
+     그런 안내가 뜨면 결제하지 말 것 — OpenAI 폴백으로 버티는 편이 낫다.
 
    **가족 카드로 처리하는 경우 (2026-08-09 선택한 경로)**
 
@@ -163,7 +188,7 @@ Cloudflare 쪽 키는 지워두면 `analyze.ts:286` 의 `if (env.GEMINI_API_KEY)
    | 항목 | 사용량 | 단가 | 월 |
    |---|---|---|---|
    | 검색 그라운딩 | 하루 2~4회 | **1,500 RPD 까지 무료** | **$0** |
-   | 텍스트(`gemini-2.5-flash`) | 하루 4~8콜 | 입력 $0.30 / 출력 $2.50 per 1M | ~$1.5~3 |
+   | 텍스트(`gemini-3.6-flash`) | 하루 4~8콜 | 입력 $0.30 / 출력 $2.50 per 1M | ~$1.5~3 |
    | 무드컷(`gemini-3.1-flash-image`) | 하루 1장 | $0.067/장 | ~$2 |
    | 유료 리포트 | 결제 시만 | 〃 | 미미(매출 동반) |
 
@@ -189,7 +214,8 @@ Cloudflare 쪽 키는 지워두면 `analyze.ts:286` 의 `if (env.GEMINI_API_KEY)
    - 결제 후 즉시 복구된다는 보장은 없다(포럼에 며칠 걸린 사례 다수). 복구 확인 전까지 1단계 키를 유지할 것.
 ### ✅ 원상복구 체크리스트 — 위에서부터 순서대로
 
-카드가 붙었다고 바로 되돌리지 말 것. **1번이 200 을 줄 때까지는 무료 키를 유지한다.**
+카드가 붙었다고 바로 되돌리지 말 것. **1번이 200 을 줄 때까지는 OpenAI 폴백이 발행을 이어간다.**
+그리고 OpenAI 폴백 자체는 복구 후에도 **끄지 않는다** — 이번 사고의 실체가 단일 벤더 의존이었다.
 
 - [ ] **1. 유료 키가 살아났는지 확인** (이게 통과해야 나머지가 의미 있다)
   ```bash
