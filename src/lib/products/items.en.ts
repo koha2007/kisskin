@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'romand-better-than-cheek-blueberry-chip',
+    category: 'cheek',
+    brand: 'rom&nd',
+    name: 'Better Than Cheek 03 Blueberry Chip',
+    title: 'rom&nd Better Than Cheek 03 Blueberry Chip — The Standard for Muted Pink Blurring',
+    summary:
+      'Perfect for Summer Mute skin tones, rom&nd Better Than Cheek 03 Blueberry Chip is a popular blush that delivers a natural flush with fine powder particles and subtle pink pigmentation.',
+    highlights: ['Ultra-fine particles', 'Subtle muted pink payoff', 'Pore-blurring effect'],
+    details: [
+      'The fine, lightweight particles naturally blur skin texture and pores.',
+      'A low-saturation pink mixed with soft lavender tones creates a calm, naturally flushed look.',
+      'The sheer, watercolor-like payoff prevents harsh application, making it easy for beginners to use.',
+    ],
+    whoFor:
+      'Ideal for Cool Mute and Summer Warm skin tones, and especially recommended for daily makeup users wanting a soft, subtle flush.',
+    howTo: [
+      'Pick up a small amount with a brush and tap on the back of your hand to control the excess.',
+      'Apply lightly to the center of the cheeks and blend outward to create a natural gradient.',
+    ],
+    pros: [
+      'Fine particles that smooth and blur skin texture',
+      'Subtle and natural pink color payoff',
+    ],
+    cons: [
+      'May have slight kick-off or powder fallout',
+    ],
+    colorFit:
+      'Especially flatters Summer Cool and Mute tones, offering a muted pink ideal for a calm, muted color expression.',
+    coupangQuery: '롬앤 베러 댄 치크 블루베리칩',
+    globalQuery: 'rom&nd better than cheek blueberry chip blush',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-09',
+    tags: ['MutedPink', 'FinePowder', 'DailyBlush'],
+    seoTitle: 'rom&nd Better Than Cheek 03 Blueberry Chip Review',
+    seoDescription:
+      'Discover rom&nd Better Than Cheek 03 Blueberry Chip, a muted pink blush that blurs pores and provides a soft, natural flush for Summer Cool tones.',
+  },
+  {
     slug: 'tirtir-mask-fit-red-cushion',
     category: 'base',
     brand: 'TIRTIR',

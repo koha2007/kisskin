@@ -2,6 +2,7 @@
 // Tiny standalone module (no bodies) so the i18n context and nav can import the
 // list cheaply. Keep in sync with NEWS_ITEMS_EN in items.en.ts.
 export const EN_NEWS_SLUGS = [
+  'kbeauty-global-sales-surge-niq-report-july-2026',
   'mamonde-amazon-premium-beauty-launch',
   'kbeauty-gs-global-japan-distribution',
   'kbeauty-amazon-5-trends-2026-aug',

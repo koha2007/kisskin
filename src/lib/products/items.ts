@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'romand-better-than-cheek-blueberry-chip',
+    category: 'cheek',
+    brand: '롬앤',
+    name: '베러 댄 치크 03 블루베리칩',
+    title: '롬앤 베러 댄 치크 03 블루베리칩 — 뮤트 핑크 블러의 정석',
+    summary:
+      '여름 뮤트 톤에 찰떡인 롬앤 베러 댄 치크 03 블루베리칩은 고운 입자와 은은한 핑크 발색으로 자연스러운 혈색 표현이 가능한 인기 블러셔입니다.',
+    highlights: ['고운 미세입자', '은은한 뮤트핑크 발색', '모공 커버 효과'],
+    details: [
+      '입자가 매우 곱고 가벼워 피부 요철과 모공을 자연스럽게 커버해줍니다.',
+      '채도 낮춘 핑크에 라벤더 톤이 섞인 뮤트한 발색으로 차분한 혈색 연출에 적합합니다.',
+      '은은한 수채화 발색이라 한 번에 과하게 발색되지 않아 초보자도 사용하기 편합니다.',
+    ],
+    whoFor:
+      '쿨 뮤트 톤이나 여름 웜톤 피부를 가진 분들에게 적합하며, 은은한 혈색 표현을 원하는 데일리 메이크업 유저에 특히 추천됩니다.',
+    howTo: [
+      '브러시에 소량 덜어낸 뒤 손등에 톡톡 터치해 양을 조절합니다.',
+      '볼 중앙에 약하게 올린 뒤 바깥으로 블렌딩해 자연스러운 그라데이션을 완성합니다.',
+    ],
+    pros: [
+      '피부 요철 커버해주는 고운 입자',
+      '은은하고 자연스러운 핑크 발색',
+    ],
+    cons: [
+      '가루 날림 있을 수 있음',
+    ],
+    colorFit:
+      '여름 쿨•뮤트톤에 특히 잘 어울리며, 채도 낮춘 핑크라 차분한 색 표현을 원하는 톤에 적합합니다.',
+    coupangQuery: '롬앤 베러 댄 치크 블루베리칩',
+    globalQuery: 'rom&nd better than cheek blueberry chip blush',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-09',
+    tags: ['뮤트핑크', '고운입자', '데일리블러셔'],
+    seoTitle: '롬앤 블루베리칩 베러 댄 치크 뮤트 핑크 블러셔',
+    seoDescription:
+      '입자가 곱고 뮤트한 핑크 발색으로 데일리 치크 연출 가능한 블러셔 리뷰.',
+  },
+  {
     slug: 'tirtir-mask-fit-red-cushion',
     category: 'base',
     brand: '티르티르',

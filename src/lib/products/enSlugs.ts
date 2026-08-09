@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'romand-better-than-cheek-blueberry-chip',
   'tirtir-mask-fit-red-cushion',
   'nobev-slim-edge-dual-eyeliner',
   'rhode-peptide-lip-tint-jelly-bean',

@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-global-sales-surge-niq-report-july-2026',
+    category: 'global',
+    title: 'NIQ Report: Global K-Beauty Value Sales Surge 53% YoY',
+    summary:
+      'According to NIQ\'s latest analysis, K-beauty\'s global value sales surged 53% year-over-year, driven by strong growth in Latin America and Europe. Social commerce, innovative formats, and key ingredients are propelling this global expansion.',
+    body: [
+      '> TLDR: Global K-beauty sales up 53% | Latin America up 135% | Explosive growth in social commerce',
+      'In a report published in 2026, global consumer intelligence firm NIQ revealed that K-beauty value sales grew 53% year-over-year.',
+      '> DATA: Value sales +53% YoY, Latin America +135%, Europe +58%, North America e-commerce share confirmed at 76%',
+      'NIQ highlighted remarkable growth particularly in Latin America (Brazil and Mexico) at 135% and Western Europe at 58%, while noting that e-commerce accounted for 76% of total sales in North America. The firm analyzed that format innovations such as sheet masks and essences, alongside ingredient-led breakthroughs like snail mucin and PDRN, served as primary growth drivers.',
+      'The report demonstrates that K-beauty\'s global expansion represents a structural shift rather than a short-term trend, suggesting that brands need to re-evaluate their overseas strategies around social commerce and innovative products.',
+    ],
+    date: '2026-08-09',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global Growth', 'NIQ Report'],
+    seoTitle: 'NIQ Report: Global K-Beauty Sales Surge 53% YoY',
+    seoDescription:
+      'Global K-beauty value sales jumped 53% year-over-year according to a new NIQ report, led by explosive growth in Latin America and e-commerce.',
+  },
+  {
     slug: 'mamonde-amazon-premium-beauty-launch',
     category: 'skincare',
     title: 'Mamonde Launches Exclusively on Amazon Premium Beauty in the US',
