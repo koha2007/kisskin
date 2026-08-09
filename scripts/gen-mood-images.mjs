@@ -25,11 +25,11 @@
 import { mkdirSync, existsSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { IMAGE_MODEL, generateImageBuffer } from './_geminiImage.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
 const OUT_DIR = resolve(ROOT, 'public/mood')
-const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-generate-001'
 
 const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
@@ -239,20 +239,6 @@ const ALL = [
   ...TOOL_CARDS.map((x) => ({ ...x, tool: '도구카드' })),
 ].map((x) => ({ ...x, prompt: x.prompt.includes(EDITORIAL) ? x.prompt : `${x.prompt} ${EDITORIAL}` }))
 
-async function imagen(apiKey, prompt, aspectRatio = '3:4') {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:predict?key=${apiKey}`
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio } }),
-  })
-  if (!res.ok) throw new Error(`imagen ${res.status}: ${(await res.text()).slice(0, 200)}`)
-  const j = await res.json()
-  const b64 = j?.predictions?.[0]?.bytesBase64Encoded
-  if (!b64) throw new Error('imagen: 이미지 없음 (안전 필터에 걸렸을 수 있음)')
-  return Buffer.from(b64, 'base64')
-}
-
 async function main() {
   const targets = ALL.filter((x) => (ONLY ? x.slug === ONLY : true))
   if (!targets.length) throw new Error(`--only=${ONLY} 에 해당하는 항목 없음`)
@@ -262,7 +248,7 @@ async function main() {
       console.log(`\n──── ${t.slug} · ${t.tool} ${t.label} ────`)
       console.log(t.prompt)
     }
-    console.log(`\n--dry: 과금 없음. 대상 ${targets.length}장. 실제 생성은 --dry 없이 실행.`)
+    console.log(`\n--dry: 과금 없음. 대상 ${targets.length}장 · 모델 ${IMAGE_MODEL}. 실제 생성은 --dry 없이 실행.`)
     return
   }
 
@@ -281,7 +267,7 @@ async function main() {
       continue
     }
     try {
-      const raw = await imagen(apiKey, t.prompt, t.ratio ?? '3:4')
+      const raw = await generateImageBuffer(apiKey, t.prompt, t.ratio ?? '3:4')
       // 렌더되는 비율과 같게 저장한다(레이아웃 시프트 방지).
       // 결과/유형 카드는 3:4 세로, 도구 허브 카드는 16:9 가로다.
       const [rw, rh] = t.ratio === '16:9' ? [1280, 720] : [900, 1200]
@@ -293,7 +279,7 @@ async function main() {
       console.error(`✗ ${t.slug}: ${e.message}`)
     }
   }
-  console.log(`\n생성 ${made}장 · 건너뜀 ${skipped}장 · 저장 위치 public/mood/`)
+  console.log(`\n생성 ${made}장 · 건너뜀 ${skipped}장 · 모델 ${IMAGE_MODEL} · 저장 위치 public/mood/`)
 }
 
 main().catch((e) => {

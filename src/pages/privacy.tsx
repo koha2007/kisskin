@@ -163,13 +163,13 @@ function PrivacyKo() {
           <tr><th>서비스</th><th>역할</th><th>목적</th><th>전송 데이터</th><th>위치</th><th>개인정보처리방침</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>OpenAI</strong></td><td>처리자</td><td>AI 메이크업 이미지 생성</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+          <tr><td><strong>OpenAI</strong></td><td>처리자</td><td>AI 메이크업 이미지 생성, 톤·제품 분석 리포트 생성</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
           <tr><td><strong>Google (Gemini API)</strong></td><td>처리자</td><td>톤·제품 분석 리포트 생성</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">ai.google.dev/terms</a></td></tr>
           <tr><td><strong>Polar</strong></td><td>독립 관리자</td><td>결제 처리 (MoR)</td><td>결제 및 청구 정보</td><td>미국 / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
-          <tr><td><strong>Cloudflare</strong></td><td>처리자</td><td>웹사이트 호스팅, CDN, 보안</td><td>익명 분석, IP (일시적)</td><td>글로벌 (엣지 네트워크)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
+          <tr><td><strong>Cloudflare</strong></td><td>처리자</td><td>웹사이트 호스팅, CDN, 보안, AI 요청 중계(AI Gateway)</td><td>익명 분석, IP (일시적), 중계되는 업로드 사진 (일시적)</td><td>글로벌 (엣지 네트워크)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
         </tbody>
       </table>
-      <p><strong>중요:</strong> OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 당사는 Google Gemini API 를 <strong>유료 등급</strong>으로 이용하며, <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>상 유료 등급에서는 구글이 프롬프트·업로드 파일·응답을 <strong>자사 제품 개선에 사용하지 않습니다</strong>. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
+      <p><strong>중요:</strong> 톤·제품 분석 리포트는 <strong>Google Gemini 또는 OpenAI</strong> 로 처리됩니다. 어느 쪽을 쓸지는 서비스 가용성에 따라 요청 시점에 자동으로 정해지며, 두 경우 모두 아래 보호 수준은 동일합니다. OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 당사는 Google Gemini API 를 <strong>유료 등급</strong>으로만 이용하며, <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>상 유료 등급에서는 구글이 프롬프트·업로드 파일·응답을 <strong>자사 제품 개선에 사용하지 않습니다</strong>. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
 
       <h2>8. 국경 간 데이터 이전</h2>
       <p>데이터는 거주 국가 외 국가(미국 포함)로 이전·처리될 수 있습니다. 당사는 적절한 보호 장치를 마련합니다.</p>
@@ -428,13 +428,13 @@ function PrivacyEn() {
           <tr><th>Service</th><th>Role</th><th>Purpose</th><th>Data Transferred</th><th>Location</th><th>Privacy Policy</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>OpenAI</strong></td><td>Data Processor</td><td>AI makeup image generation</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
+          <tr><td><strong>OpenAI</strong></td><td>Data Processor</td><td>AI makeup image generation, tone &amp; product analysis report</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">openai.com/privacy</a></td></tr>
           <tr><td><strong>Google (Gemini API)</strong></td><td>Data Processor</td><td>Tone &amp; product analysis report</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">ai.google.dev/terms</a></td></tr>
           <tr><td><strong>Polar</strong></td><td>Independent Controller</td><td>Payment processing (MoR)</td><td>Payment & billing info</td><td>United States / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
-          <tr><td><strong>Cloudflare</strong></td><td>Data Processor</td><td>Website hosting, CDN, security</td><td>Anonymous analytics, IP (transient)</td><td>Global (edge network)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
+          <tr><td><strong>Cloudflare</strong></td><td>Data Processor</td><td>Website hosting, CDN, security, AI request relay (AI Gateway)</td><td>Anonymous analytics, IP (transient), relayed uploaded photo (transient)</td><td>Global (edge network)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
         </tbody>
       </table>
-      <p><strong>Important:</strong> OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. We use the Google Gemini API on a <strong>paid tier</strong>; under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>, Google <strong>does not use</strong> prompts, uploaded files, or responses from paid services to improve its products. We never use your photos to train any model of our own.</p>
+      <p><strong>Important:</strong> Your tone &amp; product analysis report is processed by <strong>either Google Gemini or OpenAI</strong>. Which one is used is decided automatically at request time based on service availability; the protections below apply either way. OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. We use the Google Gemini API on a <strong>paid tier only</strong>; under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>, Google <strong>does not use</strong> prompts, uploaded files, or responses from paid services to improve its products. We never use your photos to train any model of our own.</p>
 
       <h2>8. International Data Transfers</h2>
       <p>Your data may be transferred to and processed in countries outside your country of residence, including the United States. We ensure appropriate safeguards are in place:</p>

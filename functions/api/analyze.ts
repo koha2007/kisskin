@@ -50,6 +50,25 @@ async function fetchWithRetry(
   return lastResponse!
 }
 
+// 401/403 은 "이 요청이 실패했다"가 아니라 "이 키를 지금 못 쓴다"는 신호다
+// (결제 정지·연체·키 폐기). 다음 요청도 똑같이 실패하므로 호출부가 구분할 수 있어야 한다.
+class GeminiKeyUnusableError extends Error {
+  constructor(readonly status: number, message: string) {
+    super(message)
+    this.name = 'GeminiKeyUnusableError'
+  }
+}
+
+// Gemini 1차 서킷브레이커.
+// 키가 죽은 동안에도 1차를 계속 태우면 유료 리포트 요청마다 셀카(수백 KB~1MB)를
+// 통째로 업로드하고 403 을 받아 버린 뒤 다시 OpenAI 로 올리게 된다 — 돈 낸 사용자가
+// 그만큼 더 기다린다. 한 번 막히면 쿨다운 동안 1차를 건너뛴다.
+// ⭐ 쿨다운이 지나면 다음 한 요청이 다시 찔러보므로, 결제가 풀리면 **배포도 조작도 없이
+//    저절로 1차로 복귀한다.** 홀딩 해제 때 되돌릴 코드가 없다는 뜻이다.
+// isolate 단위 상태 — 새 배포나 콜드스타트면 0 으로 초기화된다(=즉시 재시도). 의도한 동작.
+const GEMINI_COOLDOWN_MS = 30 * 60_000
+let geminiBlockedUntil = 0
+
 // 기본 모델 만료일 경고 (환경변수로 모델 지정 시 불필요)
 const DEFAULT_MODEL_EXPIRY = new Date('2026-09-30')
 function checkModelExpiry(env: Env) {
@@ -107,6 +126,10 @@ async function generateReportWithGemini(
   if (!res.ok) {
     const errText = await res.text().catch(() => '')
     console.error(`[kisskin] Gemini report ${model} failed (${res.status}): ${errText.slice(0, 200)}`)
+    // 키 자체가 못 쓰는 상태면 '' 로 뭉뚱그리지 않고 알린다 → 호출부가 서킷을 연다.
+    if (res.status === 401 || res.status === 403) {
+      throw new GeminiKeyUnusableError(res.status, `key unusable (${res.status}): ${errText.slice(0, 120)}`)
+    }
     return ''
   }
   const json = (await res.json()) as {
@@ -283,7 +306,13 @@ JSON만 응답 (코드펜스, 마크다운 없이):
       const errors: string[] = []
 
       // 1차: Gemini (저렴, 지역 제한 없음)
-      if (env.GEMINI_API_KEY) {
+      const cooling = Date.now() < geminiBlockedUntil
+      if (!env.GEMINI_API_KEY) {
+        errors.push('[1.Gemini] GEMINI_API_KEY not set')
+      } else if (cooling) {
+        // 죽은 키에 셀카를 다시 올리지 않고 곧장 2차로 간다.
+        errors.push('[1.Gemini] skipped (circuit open)')
+      } else {
         try {
           console.log('[kisskin] Trying Gemini report (1st)')
           const result = await generateReportWithGemini(env.GEMINI_API_KEY, photo, reportSystemPrompt, reportUserText, env.GEMINI_REPORT_MODEL)
@@ -294,11 +323,13 @@ JSON만 응답 (코드펜스, 마크다운 없이):
           console.warn('[kisskin] Gemini report empty/invalid, falling back to Gateway/OpenAI')
         } catch (e) {
           const msg = e instanceof Error ? e.message : String(e)
+          if (e instanceof GeminiKeyUnusableError) {
+            geminiBlockedUntil = Date.now() + GEMINI_COOLDOWN_MS
+            console.warn(`[kisskin] Gemini ${e.status} — 1차 차단 ${GEMINI_COOLDOWN_MS / 60000}분 (쿨다운 후 자동 재시도)`)
+          }
           errors.push(`[1.Gemini] ${msg}`)
           console.warn(`[kisskin] Gemini report failed: ${msg}`)
         }
-      } else {
-        errors.push('[1.Gemini] GEMINI_API_KEY not set')
       }
 
       // 2차: AI Gateway (BYOK, 지역 차단 우회)

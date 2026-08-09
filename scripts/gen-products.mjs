@@ -6,7 +6,7 @@
 // 흐름:
 //   0) 카테고리/시장 로테이션 결정 → 립만 계속 나오지 않도록 강제
 //   1) Gemini + 검색 그라운딩 → 최근 출시/화제 제품 1건 ProductPost(KO) 생성
-//   2) (선택) Imagen 으로 감성 무드컷 1장 생성 → sharp 로 webp 변환 →
+//   2) (선택) Gemini 이미지 모델로 감성 무드컷 1장 생성 → sharp 로 webp 변환 →
 //      public/products/{slug}.webp 저장. 실패해도 무시(디자인 카드 폴백).
 //   3) Gemini 로 EN 번역 → items.en.ts + enSlugs.ts 삽입
 //   4) KO 를 items.ts 최상단에 삽입
@@ -24,17 +24,13 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
+import { IMAGE_MODEL, generateImageB64 } from './_geminiImage.mjs'
 
 const ITEMS = resolve('src/lib/products/items.ts')
 const ITEMS_EN = resolve('src/lib/products/items.en.ts')
 const EN_SLUGS = resolve('src/lib/products/enSlugs.ts')
 const IMG_DIR = resolve('public/products')
 const MODEL = process.env.GEMINI_PRODUCT_MODEL || 'gemini-2.5-flash'
-// ⚠️ 2026-08-17 종료 예정 모델이다(공식 지원종료 목록). 후속은 `gemini-3.1-flash-image`.
-// 모델명만 바꾸면 안 된다 — imagenOnce() 는 `:predict` + instances/parameters 로 호출하고
-// predictions[0].bytesBase64Encoded 를 읽는데, Gemini 이미지 모델은 `:generateContent` +
-// inlineData 라 요청·응답 모양이 둘 다 다르다. 교체 절차는 GEMINI_HOLD.md 참고.
-const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-generate-001'
 // 카테고리별 폴백 장면. 평소엔 모델이 제품 실물(컬러·제형·마무리)에 맞춰 써 주는
 // imageScene 을 쓰고, 그게 없을 때만 여기로 떨어진다.
 const CAT_APPLIED = {
@@ -104,7 +100,7 @@ const BACKDROP = [
   'pale pastel pink backdrop',
 ]
 // 국내 인기 제품엔 한국인 모델. 글로벌 제품은 인종을 섞는다.
-// (Imagen 은 인종 지시를 곧잘 흘려버려서 프롬프트 끝에서 한 번 더 못 박는다.)
+// (이미지 모델은 인종 지시를 곧잘 흘려버려서 프롬프트 끝에서 한 번 더 못 박는다.)
 const SUBJECT_KR = [
   'a young Korean woman in her early twenties',
   'a young Korean woman with long straight black hair',
@@ -329,7 +325,7 @@ function insertAt(file, anchor, text) {
   writeFileSync(file, src.slice(0, at) + '\n' + text + src.slice(at))
 }
 
-// ── 무드컷 생성(선택) — Imagen → sharp webp. 실패 시 throw(호출부에서 폴백). ──
+// ── 무드컷 생성(선택) — Gemini 이미지 → sharp webp. 실패 시 throw(호출부에서 폴백). ──
 // 제품마다 완전히 다른 그림이 나오도록: 모델이 써 준 제품별 장면(imageScene)
 // + 슬러그 해시로 고른 구도·조명·배경·인물. 카드 비율(4:5)에 맞춰 세로 3:4.
 function buildImagePrompt(item, retry = 0) {
@@ -356,27 +352,15 @@ function buildImagePrompt(item, retry = 0) {
   ].join(' ')
 }
 
-async function imagenOnce(apiKey, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:predict?key=${apiKey}`
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: '3:4' } }),
-  })
-  if (!res.ok) throw new Error(`imagen ${res.status}: ${(await res.text()).slice(0, 150)}`)
-  const data = await res.json()
-  return data.predictions?.[0]?.bytesBase64Encoded
-}
-
 async function genImage(apiKey, item) {
   // 프롬프트가 슬러그로 고정이라, 안전필터에 걸려 빈 응답이 오면 같은 프롬프트를
   // 재시도해도 소용없다 → 인물/구도 변주를 바꿔가며 다시 시도한다.
   let b64
   for (let retry = 0; retry < 3 && !b64; retry++) {
-    b64 = await imagenOnce(apiKey, buildImagePrompt(item, retry))
-    if (!b64) console.warn(`  ↻ imagen 빈 응답(안전필터 추정) — 변주 ${retry + 1} 재시도`)
+    b64 = await generateImageB64(apiKey, buildImagePrompt(item, retry), '3:4')
+    if (!b64) console.warn(`  ↻ ${IMAGE_MODEL} 빈 응답(안전필터 추정) — 변주 ${retry + 1} 재시도`)
   }
-  if (!b64) throw new Error('imagen: 이미지 바이트 없음(변주 3회 모두 차단)')
+  if (!b64) throw new Error(`${IMAGE_MODEL}: 이미지 바이트 없음(변주 3회 모두 차단)`)
   const buf = Buffer.from(b64, 'base64')
   mkdirSync(IMG_DIR, { recursive: true })
   const outPath = resolve(IMG_DIR, `${item.slug}.webp`)

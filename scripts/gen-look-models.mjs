@@ -25,12 +25,12 @@
 import { mkdirSync, existsSync, writeFileSync, rmSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { IMAGE_MODEL, generateImageB64 } from './_geminiImage.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
 const OUT_DIR = resolve(ROOT, 'public/styles/looks')
 
-const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'imagen-4.0-generate-001'
 const EDIT_MODEL = 'gpt-image-2'
 
 const args = process.argv.slice(2)
@@ -121,18 +121,6 @@ function beforePrompt(m) {
   ].join(' ')
 }
 
-async function imagen(apiKey, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:predict?key=${apiKey}`
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: '3:4' } }),
-  })
-  if (!res.ok) throw new Error(`imagen ${res.status}: ${(await res.text()).slice(0, 160)}`)
-  const j = await res.json()
-  return j?.predictions?.[0]?.bytesBase64Encoded
-}
-
 // 라이브 Worker(functions/api/makeup-edit.ts)와 동일한 호출 — 같은 모델·같은 프롬프트.
 async function makeupEdit(apiKey, pngBuf, prompt) {
   const fd = new FormData()
@@ -189,11 +177,11 @@ async function main() {
       continue
     }
 
-    // 1) 비포 — Imagen 민낯 모델. 안전필터로 빈 응답이 오면 재시도.
-    console.log(`▶ ${s.id} (${s.nameKo}) — 비포 생성…`)
+    // 1) 비포 — Gemini 이미지 모델로 민낯 생성. 안전필터로 빈 응답이 오면 재시도.
+    console.log(`▶ ${s.id} (${s.nameKo}) — 비포 생성(${IMAGE_MODEL})…`)
     let b64
     for (let i = 0; i < 3 && !b64; i++) {
-      b64 = await imagen(geminiKey, beforePrompt(m))
+      b64 = await generateImageB64(geminiKey, beforePrompt(m), '3:4')
       if (!b64) console.warn(`  ↻ 빈 응답 — 재시도 ${i + 1}`)
     }
     if (!b64) { console.error(`  ✖ ${s.id}: 비포 생성 실패 — 건너뜀`); continue }

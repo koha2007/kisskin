@@ -8,6 +8,12 @@ mode = "smart"
 
 [vars]
 # GEMINI_API_KEY는 Cloudflare 대시보드 Environment variables에서 시크릿으로 관리
+# 🔒 반드시 **유료 티어 키**만 넣을 것. 이 경로(functions/api/analyze.ts)는 사용자 셀카를
+#    Gemini 로 보낸다. 무료 티어는 약관상 구글이 입력을 제품 개선에 쓰고 사람이 읽을 수
+#    있다 → 고객 얼굴이 학습·사람검토로 들어가고, 개인정보처리방침에 "유료 등급으로만
+#    이용" 이라 고지한 것과도 어긋난다. 유료 키가 없으면 변수를 **비워 둘 것**
+#    (analyze.ts 가 자동으로 OpenAI 로 넘어간다). GitHub Actions 쪽은 무료 키 OK —
+#    거기는 사용자 데이터가 없다. 배경은 리포 루트 GEMINI_HOLD.md
 
 # ── 메이크업 사용량/크레딧 가드용 KV (프로덕션) ──────────────────────────
 # makeup-edit Worker가 (fingerprint+IP)당 무료 횟수를 기록하는 저장소.
