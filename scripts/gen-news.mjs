@@ -21,7 +21,11 @@ import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 const ITEMS = resolve('src/lib/news/items.ts')
 const ITEMS_EN = resolve('src/lib/news/items.en.ts')
 const EN_SLUGS = resolve('src/lib/news/enSlugs.ts')
-const MODEL = process.env.GEMINI_NEWS_MODEL || 'gemini-2.5-flash'
+// ⚠️ `gemini-2.5-flash` 로 두면 안 된다. 2026-08-09 실측:
+//    404 "This model is no longer available to new users" — 기존 프로젝트만 유예됐고
+//    새로 만든 프로젝트 키는 거부된다. 결제와 무관한 별개 문제였다.
+//    쓸 수 있는 모델은 `node scripts/gemini-preflight.mjs` 로 확인.
+const MODEL = process.env.GEMINI_NEWS_MODEL || 'gemini-3.6-flash'
 const CATEGORIES = ['trend', 'lip', 'eye', 'base', 'cheek', 'skincare', 'fragrance', 'hair', 'global']
 
 // ── env 로드(.dev.vars/.env 폴백) ──
@@ -82,10 +86,10 @@ ${KO_SCHEMA_LINES}
 }`
 
 async function callGemini(apiKey, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
     body: JSON.stringify({
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
       tools: [{ google_search: {} }], // 그라운딩
@@ -190,10 +194,10 @@ ${EN_SCHEMA_LINES}
 
 async function translateAndInsertEn(apiKey, item) {
   // 번역은 그라운딩 불필요 — 순수 번역 호출.
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
     body: JSON.stringify({
       contents: [{ role: 'user', parts: [{ text: EN_PROMPT(item) }] }],
       generationConfig: { temperature: 0.3, maxOutputTokens: 4096 },

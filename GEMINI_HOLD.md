@@ -37,6 +37,28 @@ HTTP 403  PERMISSION_DENIED
 | `privacy.tsx` 처리자 고지 | 리포트 처리자를 Gemini 로만 적어 둔 것. 실제로는 폴백으로 OpenAI 가 처리할 수 있고, 지금은 OpenAI 가 전담 중 | 영구 수정. 되돌리지 말 것 |
 | `wrangler.toml` 주석 | 무료 키가 Cloudflare 에 잘못 들어가 셀카가 학습되는 사고 | — |
 
+## ⚠️ 함정: 새 프로젝트 키는 `gemini-2.5-flash` 를 못 쓴다 (2026-08-09 실측)
+
+무료 키로 갈아끼우고 첫 실행에서 **403 이 아니라 404** 가 났다:
+
+```
+404 NOT_FOUND
+"This model models/gemini-2.5-flash is no longer available to new users.
+ Please update your code to use a newer model."
+```
+
+**키도 결제도 문제가 아니었다.** 기존 프로젝트는 유예를 받아 계속 쓰고 있었을 뿐이고,
+새로 만든 프로젝트는 "신규 사용자"라 이 모델 자체가 안 열린다.
+공식 종료일(2026-10-16)보다 먼저 신규 발급 키에만 선차단이 걸린 것 — 널리 보고된 현상이다.
+
+- 기본 모델을 **`gemini-3.6-flash`** 로 올렸다(`gen-news.mjs` / `gen-products.mjs`)
+- 3.x 는 thinking 파라미터 이름이 다르다: `thinkingConfig.thinkingBudget` → **`thinkingLevel`**
+  (`minimal|low|medium|high`). 모델 세대를 보고 골라 넣고, 400 이면 빼고 1회 재시도한다
+- ⭐ **`node scripts/gemini-preflight.mjs`** 로 그 키가 실제로 쓸 수 있는 모델을 찍을 수 있다.
+  워크플로 첫 스텝으로도 돈다(과금 없는 메타데이터 호출). 다음에 같은 일이 나면 로그만 보면 된다
+- 검색 그라운딩 무료 한도도 세대별로 다르다: 2.5 계열 500 RPD → **3.x 는 월 5,000건**
+  (우리 사용 하루 2~4회 = 월 120건 안팎이라 여유)
+
 ## 홀딩 중 구성
 
 | 항목 | 상태 | 근거 |
