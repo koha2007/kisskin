@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'tirtir-mask-fit-red-cushion',
+    category: 'base',
+    brand: 'TIRTIR',
+    name: 'Mask Fit Red Cushion',
+    title: 'TIRTIR Mask Fit Red Cushion – TikTok & Reddit Viral Glow Cushion',
+    summary:
+      'Viral on TikTok and Reddit as the ultimate \'glow cushion,\' TIRTIR Mask Fit Red Cushion is winning over the global beauty community with its high coverage, seamless application, and long-lasting radiance.',
+    highlights: ['High-adhesion coverage that effectively corrects redness', 'Radiant glow finish', 'Viral hit on TikTok and Reddit'],
+    details: [
+      'Features a high-adhesion formula that seamlessly covers redness and blemishes for a smooth complexion.',
+      'Provides a hydrated, luminous finish that perfectly matches the \'cloud skin\' trend.',
+      'Continues its global popularity as a verified \'viral cushion\' across online communities like TikTok and Reddit.',
+    ],
+    whoFor:
+      'Ideal for normal to dry skin types who need coverage for redness or blemishes while wanting a clear, dewy finish. Perfect for users who prefer a natural, radiant glow.',
+    howTo: [
+      'Lightly pat from the center of the face outward using the puff, controlling the amount of product applied.',
+      'Layer once or twice to build desired coverage, and lightly spritz with a mist to enhance the radiant glow.',
+    ],
+    pros: [
+      'Excellent redness coverage combined with a natural glow finish',
+      'Globally popular viral product endorsed by TikTok and Reddit users',
+    ],
+    cons: [
+      'May not suit those who prefer a matte finish',
+    ],
+    coupangQuery: '티르티르 쿠션 마스크 핏',
+    globalQuery: 'TIRTIR Mask Fit Red Cushion',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-09',
+    tags: ['GlowCushion', 'CoverageCushion', 'TikTokViral'],
+    seoTitle: 'TIRTIR Mask Fit Red Cushion: Viral Glow Cushion Guide',
+    seoDescription:
+      'Discover the viral TIRTIR Mask Fit Red Cushion. Get high-adhesion coverage, a natural glow finish, and long-lasting radiance in one product.',
+  },
+  {
     slug: 'nobev-slim-edge-dual-eyeliner',
     category: 'eye',
     brand: 'nobev',

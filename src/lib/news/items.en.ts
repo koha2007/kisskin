@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'mamonde-amazon-premium-beauty-launch',
+    category: 'skincare',
+    title: 'Mamonde Launches Exclusively on Amazon Premium Beauty in the US',
+    summary:
+      'Amorepacific\'s Mamonde strengthens its K-beauty expansion strategy via digital distribution with an exclusive US launch on Amazon Premium Beauty in May 2026. Marking the fourth brand introduced to the US market over the past 15 months, this move targets a young, pragmatic consumer demographic.',
+    body: [
+      '> TLDR: Mamonde Exclusive US Launch | Strengthening Digital Distribution | Targeting Younger Consumers',
+      'Amorepacific continues its digital market expansion strategy by launching Mamonde exclusively on Amazon Premium Beauty in the US in May 2026.',
+      '> DATA: Introduced as Amorepacific\'s fourth brand in the US market over the past 15 months',
+      'This launch reflects the company\'s strategy to bring authentic, results-driven K-beauty brands to the US market through digital retail partners.',
+      'The move is expected to enhance brand awareness and trust while increasing accessibility for young, digitally savvy consumers.',
+    ],
+    date: '2026-08-09',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Digital Launch', 'Mamonde'],
+    seoTitle: 'Mamonde Launches Exclusively on US Amazon Premium Beauty',
+    seoDescription:
+      'Amorepacific expands its US K-beauty presence by launching Mamonde exclusively on Amazon Premium Beauty in May 2026 to reach younger digital consumers.',
+  },
+  {
     slug: 'kbeauty-gs-global-japan-distribution',
     category: 'global',
     title: 'GS Global Accelerates K-Beauty Distribution via Japan’s Cosme Kitchen',

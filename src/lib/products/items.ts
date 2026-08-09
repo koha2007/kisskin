@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'tirtir-mask-fit-red-cushion',
+    category: 'base',
+    brand: '티르티르',
+    name: '마스크 핏 레드 쿠션',
+    title: '티르티르 마스크 핏 레드 쿠션 – 틱톡·레딧이 사랑한 글로우 쿠션',
+    summary:
+      '틱톡과 레딧에서 ‘글로우 쿠션’으로 화제된 티르티르 마스크 핏 레드 쿠션은 뛰어난 커버력, 투명한 발림, 오랜 지속력으로 글로벌 뷰티 시장에서 지금 인기입니다.',
+    highlights: ['홍조 커버 뛰어난 고밀착 커버', '글로우 피니시', '틱톡·레딧 바이럴'],
+    details: [
+      '홍조와 잡티를 자연스럽게 커버하는 고밀착 포뮬러로 피부 표현이 매끄럽습니다.',
+      '촉촉하면서도 글로우한 마무리로 ‘cloud skin’ 트렌드에 어울리는 피니시를 선사합니다.',
+      '틱톡, 레딧 등 해외 커뮤니티에서 ‘바이럴 쿠션’으로 자리잡으며 인기를 이어가고 있습니다.',
+    ],
+    whoFor:
+      '홍조나 잡티 커버가 필요하면서도 투명하고 촉촉한 마무리를 원하는 중건성 피부 사용자에게 특히 잘 어울리며, 자연스러운 글로우 피부 연출을 선호하는 사용자에게 적합합니다.',
+    howTo: [
+      '스펀지 퍼프로 도포량을 조절하며 얼굴 중앙에서 바깥으로 가볍게 두드려 블렌딩해주세요.',
+      '필요 시 한두 번 덧발라 커버력을 조절하고, 마무리로 미스트를 살짝 뿌리면 글로우감이 더욱 살아납니다.',
+    ],
+    pros: [
+      '뛰어난 홍조 커버와 자연스러운 글로우 표현',
+      '틱톡·레딧 등 글로벌 바이럴 인기 제품',
+    ],
+    cons: [
+      '매트한 마무리를 선호하는 경우 호불호 갈릴 수 있음',
+    ],
+    coupangQuery: '티르티르 쿠션 마스크 핏',
+    globalQuery: 'TIRTIR Mask Fit Red Cushion',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-09',
+    tags: ['글로우쿠션', '커버쿠션', '틱톡바이럴'],
+    seoTitle: '티르티르 마스크 핏 레드 쿠션',
+    seoDescription:
+      '틱톡·레딧·해외 매체가 극찬한 쿠션 파운데이션으로, 자연스러운 글로우 피부를 연출합니다.',
+  },
+  {
     slug: 'nobev-slim-edge-dual-eyeliner',
     category: 'eye',
     brand: '노베브',

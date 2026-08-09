@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'mamonde-amazon-premium-beauty-launch',
+    category: 'skincare',
+    title: '마몽드, 미국에서 Amazon Premium Beauty 단독 출시',
+    summary:
+      '아모레퍼시픽의 마몽드가 2026년 5월 미국에서 Amazon Premium Beauty에 단독 출시되며 디지털 유통을 통한 K‑뷰티 확장 전략을 강화했다. 이는 지난 15개월간 미국 진출한 네 번째 브랜드이며, 젊고 실용적인 소비자층을 겨냥한 결정이다.',
+    body: [
+      '> TLDR: 마몽드 미국 단독 출시 | 디지털 유통 강화 | 젊은층 공략',
+      '아모레퍼시픽이 마몽드를 2026년 5월 미국의 Amazon Premium Beauty에 단독 출시하며 자사 브랜드의 디지털 시장 확대 전략을 이어갔다.',
+      '> DATA: 미국 내 지난 15개월간 아모레퍼시픽이 새롭게 미국에 진출시킨 브랜드 중 네 번째로 소개됨',
+      '이번 출시는 진정성있고 결과 중심적인 K‑뷰티 브랜드를 디지털 리테일 파트너를 통해 미국 시장에 선보이려는 회사의 전략이 반영된 결과다.',
+      '젊고 디지털에 친숙한 소비자들에게 접근성을 높이는 동시에, 브랜드 인지도와 신뢰도를 강화하는 효과가 기대된다.',
+    ],
+    date: '2026-08-09',
+    readMinutes: 3,
+    tags: ['K-뷰티', '디지털출시', '마몽드'],
+    seoTitle: '마몽드, 미국 Amazon 프리미엄 뷰티 단독 론칭',
+    seoDescription:
+      '마몽드가 5월 미국 아마존 프리미엄 뷰티에 단독 출시되며 K‑뷰티 브랜드 확장 전략의 일환으로 주목받고 있습니다.',
+  },
+  {
     slug: 'kbeauty-gs-global-japan-distribution',
     category: 'global',
     title: 'GS글로벌, 일본 코스메키친 통해 K‑뷰티 유통 본격화',
