@@ -8,22 +8,26 @@
 // 키는 멀쩡했고 결제 문제도 아니었는데, 로그에는 404 만 찍혀서 원인을 잡는 데
 // 왕복이 한 번 더 들었다. 사용 가능 목록이 로그에 있었으면 즉시 끝났을 일이다.
 //
+// ⚠️ 한계 두 가지. 이 목록만 믿으면 안 된다:
+//   ① 여기 있어도 generateContent 가 404 를 낼 수 있다 — 실제로 `gemini-2.5-flash` 는
+//      목록에 뜨면서 호출은 "no longer available to new users" 로 거부됐다.
+//   ② 쿼터는 안 보인다. 목록에 있고 호출도 되지만 무료 티어 쿼터가 0 이라 429 가 날 수 있다
+//      (3.x 계열이 그렇다). 그래서 실제 모델 선택은 _geminiText.mjs 가 호출해 보며 정한다.
+// 그래도 "이 키가 어느 세대까지 보는가" 를 로그에 남겨두면 원인 추적이 훨씬 빠르다.
+//
 // 실패해도 발행을 막지 않는다(워크플로에서 continue-on-error).
 // ════════════════════════════════════════════════════════════════════
+import { TEXT_CANDIDATES } from './_geminiText.mjs'
+import { IMAGE_MODEL } from './_geminiImage.mjs'
+
 const apiKey = process.env.GEMINI_API_KEY
 if (!apiKey) {
   console.error('GEMINI_API_KEY 없음 — 점검 생략')
   process.exit(1)
 }
 
-// 우리가 실제로 참조하는 모델들. 목록에 없으면 그게 바로 오늘의 실패 원인이다.
-const WANTED = [
-  process.env.GEMINI_NEWS_MODEL,
-  process.env.GEMINI_PRODUCT_MODEL,
-  process.env.GEMINI_IMAGE_MODEL,
-  'gemini-3.6-flash',
-  'gemini-3.1-flash-image',
-].filter(Boolean)
+// 우리가 실제로 시도하는 모델들(단일 소스에서 가져온다).
+const WANTED = [...TEXT_CANDIDATES, IMAGE_MODEL]
 
 const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', {
   headers: { 'x-goog-api-key': apiKey },

@@ -17,15 +17,13 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
+import { callGeminiText } from './_geminiText.mjs'
 
 const ITEMS = resolve('src/lib/news/items.ts')
 const ITEMS_EN = resolve('src/lib/news/items.en.ts')
 const EN_SLUGS = resolve('src/lib/news/enSlugs.ts')
-// ⚠️ `gemini-2.5-flash` 로 두면 안 된다. 2026-08-09 실측:
-//    404 "This model is no longer available to new users" — 기존 프로젝트만 유예됐고
-//    새로 만든 프로젝트 키는 거부된다. 결제와 무관한 별개 문제였다.
-//    쓸 수 있는 모델은 `node scripts/gemini-preflight.mjs` 로 확인.
-const MODEL = process.env.GEMINI_NEWS_MODEL || 'gemini-3.6-flash'
+// 모델은 여기서 고정하지 않는다 — `scripts/_geminiText.mjs` 가 되는 모델을 찾는다.
+// 고정하고 싶으면 GEMINI_TEXT_MODELS 환경변수(콤마 목록)를 쓸 것.
 const CATEGORIES = ['trend', 'lip', 'eye', 'base', 'cheek', 'skincare', 'fragrance', 'hair', 'global']
 
 // ── env 로드(.dev.vars/.env 폴백) ──
@@ -85,24 +83,9 @@ ${KO_SCHEMA_LINES}
   "featured": false
 }`
 
-async function callGemini(apiKey, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      tools: [{ google_search: {} }], // 그라운딩
-      generationConfig: { temperature: 0.9, maxOutputTokens: 4096 },
-    }),
-  })
-  if (!res.ok) throw new Error(`Gemini ${res.status}: ${(await res.text()).slice(0, 300)}`)
-  const data = await res.json()
-  const parts = data.candidates?.[0]?.content?.parts || []
-  const text = parts.map((p) => p.text || '').join('')
-  if (!text) throw new Error('Gemini 응답에 텍스트 없음: ' + JSON.stringify(data).slice(0, 300))
-  return text
-}
+// 모델 선택·응답 파싱은 _geminiText.mjs 가 한다(되는 모델을 알아서 찾음).
+const callGemini = (apiKey, prompt) =>
+  callGeminiText(apiKey, prompt, { temperature: 0.9, maxOutputTokens: 4096, grounded: true })
 
 function extractJson(text) {
   const m = text.match(/```json\s*([\s\S]*?)```/) || text.match(/(\{[\s\S]*\})/)
@@ -194,18 +177,7 @@ ${EN_SCHEMA_LINES}
 
 async function translateAndInsertEn(apiKey, item) {
   // 번역은 그라운딩 불필요 — 순수 번역 호출.
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: EN_PROMPT(item) }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 4096 },
-    }),
-  })
-  if (!res.ok) throw new Error(`Gemini(EN) ${res.status}: ${(await res.text()).slice(0, 200)}`)
-  const data = await res.json()
-  const text = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('')
+  const text = await callGeminiText(apiKey, EN_PROMPT(item), { temperature: 0.3, maxOutputTokens: 4096 })
   const en = extractJson(text)
   if (!en.title || !Array.isArray(en.body) || en.body.length < 3 || !Array.isArray(en.tags)) {
     throw new Error('EN 번역 검증 실패(필드 부족)')

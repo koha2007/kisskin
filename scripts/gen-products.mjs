@@ -25,14 +25,13 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 import { IMAGE_MODEL, generateImageB64 } from './_geminiImage.mjs'
+import { callGeminiText } from './_geminiText.mjs'
 
 const ITEMS = resolve('src/lib/products/items.ts')
 const ITEMS_EN = resolve('src/lib/products/items.en.ts')
 const EN_SLUGS = resolve('src/lib/products/enSlugs.ts')
 const IMG_DIR = resolve('public/products')
-// ⚠️ 모델 기본값 주의 — gen-news.mjs 의 같은 자리 주석 참고.
-// `gemini-2.5-flash` 는 새 프로젝트 키에서 404 다(2026-08-09 실측).
-const MODEL = process.env.GEMINI_PRODUCT_MODEL || 'gemini-3.6-flash'
+// 텍스트 모델은 여기서 고정하지 않는다 — `scripts/_geminiText.mjs` 가 되는 모델을 찾는다.
 // 카테고리별 폴백 장면. 평소엔 모델이 제품 실물(컬러·제형·마무리)에 맞춰 써 주는
 // imageScene 을 쓰고, 그게 없을 때만 여기로 떨어진다.
 const CAT_APPLIED = {
@@ -215,43 +214,15 @@ ${KO_SCHEMA_LINES}
   "featured": false
 }`
 
-// thinking 을 낮게 눌러야 JSON 이 안 잘린다(thinking 토큰이 출력 예산을 나눠 먹는다 —
-// analyze.ts 의 truncation fix 와 같은 원리). 그런데 파라미터 이름이 세대마다 다르다:
-//   2.5 계열 → generationConfig.thinkingConfig.thinkingBudget = 0
-//   3.x 계열 → generationConfig.thinkingLevel = 'minimal' | 'low' | 'medium' | 'high'
-// 서로의 이름을 모르므로 모델 세대를 보고 골라 넣는다.
-const thinkingCfg = () =>
-  /^gemini-(?:[3-9]|\d\d)/.test(MODEL) ? { thinkingLevel: 'low' } : { thinkingConfig: { thinkingBudget: 0 } }
-
-async function callGemini(apiKey, prompt, grounded) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`
-  const body = {
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: { temperature: grounded ? 0.9 : 0.3, maxOutputTokens: 4096, ...thinkingCfg() },
-  }
-  if (grounded) body.tools = [{ google_search: {} }]
-  const post = () => fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-    body: JSON.stringify(body),
+// 모델 선택·thinking 파라미터·응답 파싱은 _geminiText.mjs 가 처리한다.
+// lowThinking: thinking 토큰이 출력 예산을 나눠 먹어 JSON 이 잘리는 것을 막는다.
+const callGemini = (apiKey, prompt, grounded) =>
+  callGeminiText(apiKey, prompt, {
+    temperature: grounded ? 0.9 : 0.3,
+    maxOutputTokens: 4096,
+    grounded,
+    lowThinking: true,
   })
-
-  let res = await post()
-  // 400 이면 thinking 파라미터 이름을 또 틀렸을 가능성이 크다(세대마다 바뀌어 왔다).
-  // 한 번은 빼고 재시도한다 — 잘릴 위험은 생기지만 아예 발행 못 하는 것보단 낫고,
-  // 잘리면 어차피 상위에서 3회 재시도한다.
-  if (res.status === 400) {
-    console.warn(`  ↻ 400 — thinking 파라미터 빼고 재시도: ${(await res.text().catch(() => '')).slice(0, 200)}`)
-    delete body.generationConfig.thinkingLevel
-    delete body.generationConfig.thinkingConfig
-    res = await post()
-  }
-  if (!res.ok) throw new Error(`Gemini ${res.status}: ${(await res.text()).slice(0, 300)}`)
-  const data = await res.json()
-  const text = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('')
-  if (!text) throw new Error('Gemini 응답에 텍스트 없음')
-  return text
-}
 
 function extractJson(text) {
   const m = text.match(/```json\s*([\s\S]*?)```/) || text.match(/(\{[\s\S]*\})/)

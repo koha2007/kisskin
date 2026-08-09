@@ -51,13 +51,43 @@ HTTP 403  PERMISSION_DENIED
 새로 만든 프로젝트는 "신규 사용자"라 이 모델 자체가 안 열린다.
 공식 종료일(2026-10-16)보다 먼저 신규 발급 키에만 선차단이 걸린 것 — 널리 보고된 현상이다.
 
-- 기본 모델을 **`gemini-3.6-flash`** 로 올렸다(`gen-news.mjs` / `gen-products.mjs`)
-- 3.x 는 thinking 파라미터 이름이 다르다: `thinkingConfig.thinkingBudget` → **`thinkingLevel`**
-  (`minimal|low|medium|high`). 모델 세대를 보고 골라 넣고, 400 이면 빼고 1회 재시도한다
-- ⭐ **`node scripts/gemini-preflight.mjs`** 로 그 키가 실제로 쓸 수 있는 모델을 찍을 수 있다.
-  워크플로 첫 스텝으로도 돈다(과금 없는 메타데이터 호출). 다음에 같은 일이 나면 로그만 보면 된다
-- 검색 그라운딩 무료 한도도 세대별로 다르다: 2.5 계열 500 RPD → **3.x 는 월 5,000건**
-  (우리 사용 하루 2~4회 = 월 120건 안팎이라 여유)
+그래서 `gemini-3.6-flash` 로 올렸더니 이번엔 **첫 호출부터 429** 가 났다:
+
+```
+429  "You exceeded your current quota, please check your plan and billing details."
+```
+
+**3.x 계열은 무료 티어 쿼터가 0 이다.** 2025-12 이후 무료 한도가 대폭 축소되면서
+3.x 는 사실상 유료 전용이 됐다(Pro 는 2026-04 에 무료 티어에서 아예 빠졌다).
+
+### ⭐ 결론: 모델명을 박아두지 않는다 — `scripts/_geminiText.mjs`
+
+하루에 같은 이유로 두 번 깨졌다(404 → 429). 모델명을 하나 고정하면 구글이 정책을
+바꿀 때마다 발행이 멈추고, 고치려면 워크플로를 돌려 로그를 봐야 해서 왕복이 오래 걸린다.
+그래서 **후보를 좋은 순서로 세워 두고 위에서부터 시도**한다:
+
+```
+gemini-3.6-flash → gemini-3.5-flash → gemini-2.5-flash-lite → gemini-2.0-flash
+```
+
+- `404`(막힌 모델) · `429`(쿼터 0/소진) → 조용히 다음 후보로
+- 그 외 오류 → 진짜 문제라 그대로 throw
+- 유료 키면 첫 후보에서 끝나고, 무료 키면 쿼터 남은 세대까지 내려간다
+- 한 번 통한 모델은 실행 내에서 재사용 · 어떤 모델을 썼는지 로그에 찍힌다
+- 고정하고 싶으면 `GEMINI_TEXT_MODELS` 환경변수(콤마 목록)
+
+⭐ **이 구조 덕에 카드가 붙어 유료로 올라가면 자동으로 3.6-flash 로 올라간다.** 되돌릴 작업 없음.
+
+### 그 밖에 확인된 것
+
+- thinking 파라미터는 세대마다 이름이 다르다: 2.x `thinkingConfig.thinkingBudget=0` /
+  3.x `thinkingConfig.thinkingLevel='low'`. **`generationConfig.thinkingLevel` 은 없는 필드다**
+  (400 `Unknown name "thinkingLevel"`). 세대 보고 고르고, 400 이면 빼고 1회 재시도한다
+- **`node scripts/gemini-preflight.mjs`** 로 그 키가 보는 모델을 찍는다. 워크플로 첫 스텝으로도
+  돈다(과금 없는 메타데이터 호출). ⚠️ 단 목록만 믿으면 안 된다 — `gemini-2.5-flash` 는
+  목록에 뜨면서 호출은 404 였고, **쿼터는 목록에 안 나온다**(3.x 가 그래서 429)
+- 검색 그라운딩 무료 한도도 세대별로 다르다: 2.5 계열 500 RPD → 3.x 월 5,000건
+  (우리 사용 하루 2~4회 = 월 120건 안팎이라 어느 쪽이든 여유)
 
 ## 홀딩 중 구성
 
