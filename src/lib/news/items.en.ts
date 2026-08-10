@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-record-exports-us-top-market-h1-2026',
+    category: 'global',
+    title: 'US Becomes Largest Market for K-Beauty Exports in First Half of 2026',
+    summary:
+      'South Korean cosmetic exports reached an all-time high in the first half of 2026, with the US emerging as the largest export market for the first time.',
+    body: [
+      '> TLDR: Record-high H1 exports | US overtakes China as top export market | Shift in export market structure',
+      'South Korean cosmetic exports achieved double-digit year-on-year growth in the first half of 2026, reaching an all-time high.',
+      '> DATA: Exports to the US surged by over 30%, establishing the country as the top export destination as total exports hit a record high.',
+      'This shift highlights a structural transition from a China-centric export framework to a US-centered model, aligning with a broader trend toward market diversification.',
+      'From a strategic standpoint, this underscores the imperative for K-beauty brands to further solidify their local US distribution networks and marketing strategies.',
+    ],
+    date: '2026-08-10',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Exports', 'US Market'],
+    seoTitle: 'US Becomes Top Market for K-Beauty Exports in 1H 2026',
+    seoDescription:
+      'Discover how South Korean cosmetic exports hit a record high in 1H 2026 as the US overtook China as K-beauty\'s top market.',
+  },
+  {
     slug: 'kbeauty-global-sales-surge-niq-report-july-2026',
     category: 'global',
     title: 'NIQ Report: Global K-Beauty Value Sales Surge 53% YoY',

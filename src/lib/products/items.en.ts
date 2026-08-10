@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'natasha-denona-tan-eyeshadow-palette',
+    category: 'trend',
+    brand: 'Natasha Denona',
+    name: 'Tan Eyeshadow Palette',
+    title: 'Natasha Denona \'Tan Palette\' — A Neutral Masterpiece for Warm Summers',
+    summary:
+      'Launched globally on May 30, 2026, the Natasha Denona Tan Eyeshadow Palette features 15 warm neutral shades ranging from soft sandy, toasted, and chocolate to golden tones.',
+    highlights: ['15 warm neutral shades', 'Global availability (Sephora & Ulta)', 'Tailored to summer trends'],
+    details: [
+      'Consists of 15 warm neutral shades—including soft sandy, toasted, chocolate, and gold tones—to create a wide variety of daily looks.',
+      'Globally released on May 30 across Sephora, Ulta, Beautylish, and more, gaining rapid popularity.',
+      'Features a warm-toned color selection perfectly suited for the summer season, offering both trendiness and practicality.',
+    ],
+    whoFor:
+      'Ideal for warm-toned skin tones, especially those who prefer natural neutral makeup during the summer season. With its versatile shade lineup, it is also great for intermediate-to-advanced users skilled in contouring and shading.',
+    howTo: [
+      'Apply a sandy shade over the entire lid as a base.',
+      'Layer toasted or chocolate tones into the crease to add depth, then highlight the inner corners with a gold eyeshadow.',
+    ],
+    pros: [
+      'Highly versatile thanks to a wide range of warm tones',
+      'Excellent accessibility via major global retailers (Sephora, Ulta)',
+    ],
+    cons: [
+      'Warm-centric shade selection may not appeal to everyone',
+    ],
+    colorFit:
+      'Spring Warm / Autumn Warm. The warm golden and toasted tones blend naturally into warm-toned skin.',
+    coupangQuery: '나타샤 데노나 탠 팔레트',
+    globalQuery: 'Natasha Denona Tan Eyeshadow Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-10',
+    tags: ['NeutralPalette', 'SummerMakeup', 'WarmToneEyeshadow'],
+    seoTitle: 'Natasha Denona Tan Eyeshadow Palette Review',
+    seoDescription:
+      'Discover the Natasha Denona Tan Eyeshadow Palette featuring 15 warm neutral shades perfect for effortless summer makeup looks.',
+  },
+  {
     slug: 'romand-better-than-cheek-blueberry-chip',
     category: 'cheek',
     brand: 'rom&nd',

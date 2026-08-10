@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'natasha-denona-tan-eyeshadow-palette',
+    category: 'trend',
+    brand: '나타샤 데노나',
+    name: '탠 아이섀도우 팔레트',
+    title: '나타샤 데노나 \'탠 팔레트\' — 따뜻한 여름을 위한 뉴트럴 마스터피스',
+    summary:
+      '2026년 5월 30일 글로벌 론칭된 나타샤 데노나 탠 아이섀도우 팔레트는 소프트 샌디, 토스트, 초콜릿, 골드 톤의 15컬러로 구성된 따뜻한 뉴트럴 팔레트입니다.',
+    highlights: ['15가지 따뜻 뉴트럴', '글로벌 유통(sephora·ulta)', '여름 트렌드 맞춤'],
+    details: [
+      '15가지 색상은 소프트 샌디·토스트·초콜릿·골드 등 따뜻한 뉴트럴 톤으로 구성되어 다양한 데일리 룩 연출 가능',
+      '5월 30일 세포라, 얼타, 뷰틸리시 등에서 글로벌 출시되어 현재 인기 상승 중',
+      '여름 시즌에 어울리는 웜 컬러 중심 구성으로 계절감과 실용성 모두 갖춤',
+    ],
+    whoFor:
+      '웜 톤 피부를 가진 사용자, 특히 여름 시즌에 자연스러운 뉴트럴 메이크업을 선호하는 분께 적합합니다. 다양한 색상 구성으로 컨투어와 음영 표현에 능숙한 중급 이상 유저에게도 좋습니다.',
+    howTo: [
+      '눈 전체에 베이스 톤으로 샌디 컬러를 펴 발라 베이스를 깔아줍니다.',
+      '크레즈에 토스트 또는 초콜릿 계열을 덧발라 깊이감을 준 후, 골드 섀도우로 눈앞머리에 포인트를 주세요.',
+    ],
+    pros: [
+      '다양한 웜 톤 색상으로 활용도 높음',
+      '글로벌 유통처(sephora·ulta) 통해 구매 접근성 우수',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 웜 중심 컬러 구성',
+    ],
+    colorFit:
+      '봄 웜·가을 웜 피부에 잘 어울리며, 따뜻한 황금·토스트 톤이 피부에 자연스럽게 녹아들기 때문입니다.',
+    coupangQuery: '나타샤 데노나 탠 팔레트',
+    globalQuery: 'Natasha Denona Tan Eyeshadow Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-10',
+    tags: ['뉴트럴팔레트', '여름메이크업', '웜톤섀도우'],
+    seoTitle: '탠 아이섀도우 팔레트',
+    seoDescription:
+      '나타샤 데노나의 2026년 최신 트렌드 팔레트, 부드러운 모래·토스트·골든 뉴트럴 15색 구성.',
+  },
+  {
     slug: 'romand-better-than-cheek-blueberry-chip',
     category: 'cheek',
     brand: '롬앤',
