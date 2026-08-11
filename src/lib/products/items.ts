@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'drjart-cicapair-serum',
+    category: 'skincare',
+    brand: '닥터자르트',
+    name: '시카페어 세럼',
+    title: '닥터자르트 시카페어 세럼 — 피부 장벽 강화 세럼으로 요즘 대세!',
+    summary:
+      '피부 진정과 장벽 강화를 동시에 도와주는 닥터자르트의 시카페어 세럼은 올리브영과 화해에서 꾸준히 상위권을 유지하며 지금 한국에서 가장 사랑받는 스킨케어 세럼 중 하나입니다.',
+    highlights: ['피부 진정 집중 케어', '세라마이드·판테놀 함유', '끈적임 없는 수분감'],
+    details: [
+      '병풀추출물 중심 포뮬러로 외부 자극에 민감한 피부를 부드럽게 진정시켜줍니다.',
+      '세라마이드와 판테놀이 함유되어 피부 장벽을 강화하며 수분 손실을 줄여줍니다.',
+      '가볍고 끈적임 없는 텍스처로 산뜻하게 흡수되어 메이크업 전·후 모두 사용하기 좋습니다.',
+    ],
+    whoFor:
+      '예민하거나 장벽이 손상된 피부에 특히 좋으며, 피부가 쉽게 붉어지거나 민감 반응이 자주 나타나는 분들에게 적합합니다. 아침·저녁 루틴에 부담 없이 추가할 수 있는 세럼을 찾는 분께도 추천됩니다.',
+    howTo: [
+      '세안 후 토너로 피부 결을 정돈한 뒤, 펌핑 1~2회 분량을 손에 덜어 얼굴 전체에 고루 펴 바릅니다.',
+      '흡수된 후 가볍게 두드려 밀착시키고, 이후 사용하는 크림이나 자외선차단제 단계로 넘어가세요.',
+    ],
+    pros: [
+      '민감 피부에도 순하게 진정 및 보습을 동시에 잡는 포뮬러',
+      '피부 장벽 강화 성분이 든든하게 작용',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 향이 있을 수 있음',
+    ],
+    coupangQuery: '닥터자르트 시카페어 세럼',
+    globalQuery: 'Dr. Jart Cicapair Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-11',
+    tags: ['피부진정', '장벽강화', '가볍고산뜻'],
+    seoTitle: '닥터자르트 시카페어 세럼 인기 피부 장벽 세럼',
+    seoDescription:
+      '피부 진정과 장벽 케어에 탁월한 닥터자르트 시카페어 세럼의 인기 비결을 짧고 명확하게 정리합니다.',
+  },
+  {
     slug: 'natasha-denona-tan-eyeshadow-palette',
     category: 'trend',
     brand: '나타샤 데노나',

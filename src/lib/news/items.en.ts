@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'jung-saemmool-sephora-us-debut',
+    category: 'global',
+    title: 'Jungsaemmool Officially Launches on Sephora US Online and in 34 Stores on August 21',
+    summary:
+      'Jungsaemmool, the beauty brand founded by famed makeup artist Jung Saem-mool, will officially debut on Sephora US online and in 34 physical stores on August 21, 2026. The launch focuses on a product lineup centered on cushion foundations, with expansion into Sephora Canada also in the pipeline.',
+    body: [
+      '> TLDR:  Jungsaemmool launches on Sephora US online & 34 stores | August 21 | Sephora Canada expansion planned',
+      'The Jungsaemmool brand will officially launch on Sephora US online and in 34 retail stores on August 21, 2026.',
+      '> DATA: Launch date: August 21, 2026; available online and in 34 stores; Sephora Canada expansion planned (Source: WWD via Yahoo Finance)',
+      'Founded in 2015, Jungsaemmool is an artist-led beauty brand that held consumer education events in New York and Los Angeles ahead of its US Sephora debut.',
+      'This US entry provides a direct opportunity to introduce its formulas—including cushion foundations tailored for Asian women—to American consumers, marking a crucial turning point for brand recognition and global market expansion.',
+    ],
+    date: '2026-08-11',
+    readMinutes: 3,
+    tags: ['Jungsaemmool', 'Sephora', 'Global K-Beauty'],
+    seoTitle: 'Jungsaemmool Launches at Sephora US on August 21',
+    seoDescription:
+      'K-beauty brand Jungsaemmool officially debuts on Sephora US online and in 34 stores on August 21, 2026, with plans for Sephora Canada expansion.',
+  },
+  {
     slug: 'kbeauty-record-exports-us-top-market-h1-2026',
     category: 'global',
     title: 'US Becomes Largest Market for K-Beauty Exports in First Half of 2026',

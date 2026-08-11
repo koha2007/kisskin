@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'drjart-cicapair-serum',
+    category: 'skincare',
+    brand: 'Dr.Jart+',
+    name: 'Cicapair Serum',
+    title: 'Dr.Jart+ Cicapair Serum — A top-trending barrier repair serum!',
+    summary:
+      'Designed to soothe skin and strengthen the barrier at the same time, Dr.Jart+ Cicapair Serum consistently ranks at the top on Olive Young and Hwahae, making it one of Korea\'s most loved skincare serums right now.',
+    highlights: ['Intense skin-soothing care', 'Formulated with Ceramide and Panthenol', 'Non-sticky hydration'],
+    details: [
+      'Centered around Centella Asiatica Extract to gently soothe skin sensitized by external irritants.',
+      'Formulated with Ceramide and Panthenol to reinforce the skin barrier and minimize moisture loss.',
+      'Features a lightweight, non-sticky texture that absorbs freshly, making it ideal for use both before and after makeup.',
+    ],
+    whoFor:
+      'Ideal for sensitive or compromised skin barriers, as well as those prone to redness and frequent irritation. Highly recommended for anyone looking for a daily serum that seamlessly fits into morning and evening routines.',
+    howTo: [
+      'After cleansing and prepping skin with toner, apply 1–2 pumps evenly over the entire face.',
+      'Gently pat for full absorption, then follow with your choice of moisturizer or sunscreen.',
+    ],
+    pros: [
+      'Gentle formula that provides simultaneous soothing and hydrating care for sensitive skin',
+      'Effective barrier-strengthening ingredients for a healthier complexion',
+    ],
+    cons: [
+      'Scent may not appeal to everyone',
+    ],
+    coupangQuery: '닥터자르트 시카페어 세럼',
+    globalQuery: 'Dr. Jart Cicapair Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-11',
+    tags: ['SkinSoothing', 'BarrierRepair', 'LightweightFresh'],
+    seoTitle: 'Dr.Jart+ Cicapair Serum Review & Guide',
+    seoDescription:
+      'Discover how Dr.Jart+ Cicapair Serum soothes sensitive skin and strengthens the barrier with a lightweight, non-sticky formula.',
+  },
+  {
     slug: 'natasha-denona-tan-eyeshadow-palette',
     category: 'trend',
     brand: 'Natasha Denona',
