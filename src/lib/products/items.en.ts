@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'gisou-honey-infused-hair-oil',
+    category: 'hair',
+    brand: 'Gisou',
+    name: 'Honey Infused Hair Oil',
+    title: 'Gisou Honey Infused Hair Oil – Honey-Glaze Shine for Radiant Hair',
+    summary:
+      'Gisou Honey Infused Hair Oil is a TikTok and Sephora favorite, featuring a honey-infused formula that deeply hydrates while absorbing weightlessly into the hair.',
+    highlights: ['Fast absorption', 'Natural shine', 'Honey-derived antioxidants'],
+    details: [
+      'Enriched with Mirsalehi Honey, it creates a protective shield over strands while providing deep moisture and a natural gloss.',
+      'The lightweight oil texture absorbs quickly into hair, delivering a non-greasy, weightless finish.',
+      'Antioxidant-rich ingredients help keep hair soft, manageable, and healthy-looking.',
+    ],
+    whoFor:
+      'Ideal for all hair types seeking to add hydration, radiance, and life to dry or frizzy hair. Works well even on fine hair or flyaways without weighing it down.',
+    howTo: [
+      'Apply a small amount to towel-dried hair ends after shampooing and distribute evenly for a smooth, shiny finish.',
+      'On dry hair, warm a few drops in your palms and smooth lightly all over as a pre-styling touch or finishing step.',
+    ],
+    pros: [
+      'Absorbs weightlessly for a shiny finish without clumpiness or greasy residue',
+      'Delivers antioxidant and moisturizing benefits from honey-based ingredients',
+    ],
+    cons: [
+      'The lingering fragrance on hands may feel strong to some users',
+    ],
+    coupangQuery: '지수 허니 헤어 오일',
+    globalQuery: 'Gisou Honey Infused Hair Oil',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-12',
+    tags: ['Hair Oil', 'Shine', 'Honey Ingredients'],
+    seoTitle: 'Gisou Honey Infused Hair Oil Review and How to Use',
+    seoDescription:
+      'Discover how Gisou Honey Infused Hair Oil hydrates, tames frizz, and adds weightless shine using antioxidant-rich honey.',
+  },
+  {
     slug: 'drjart-cicapair-serum',
     category: 'skincare',
     brand: 'Dr.Jart+',

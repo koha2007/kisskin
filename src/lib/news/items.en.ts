@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'mixsoon-pdrn-collagen-tinted-moisturizer-launch',
+    category: 'base',
+    title: 'Mixsoon Launches Debut Makeup Line ‘PDRN Collagen Tinted Moisturizer’ on Amazon',
+    summary:
+      'Mixsoon has launched its first makeup product, the ‘PDRN Collagen Tinted Moisturizer’, on Amazon, embodying its signature skincare philosophy. Formulated with 74% skin active essence, it offers 24-hour wear and an immediate +32% blurring effect.',
+    body: [
+      '> TLDR: Mixsoon debuts first makeup | 74% skin active essence | +32% instant blurring effect & 24-hour wear',
+      'Mixsoon has launched its first-ever makeup collection, the ‘PDRN Collagen Tinted Moisturizer’, on Amazon. It is a \'skin-first\' makeup product that carries forward the brand\'s established skincare philosophy.',
+      '> DATA: 74% skin active essence, 24-hour wear, +32% instant blurring effect',
+      'Blending rice-derived PDRN, collagen, and peptides, this product delivers a sheer, dewy second-skin finish. Available on Amazon, it is garnering attention as a makeup product focused on skin health and long-lasting performance.',
+      'For consumers, it serves as a functional, hassle-free beauty essential that protects and naturally perfects the complexion even without prior skincare steps.',
+    ],
+    date: '2026-08-12',
+    readMinutes: 3,
+    tags: ['Makeup Launch', 'Skin First', 'Tinted Moisturizer'],
+    seoTitle: 'Mixsoon Launches PDRN Collagen Tinted Moisturizer',
+    seoDescription:
+      'Mixsoon debuts its first skincare-infused makeup line on Amazon, featuring a 74% skin active PDRN collagen tinted moisturizer.',
+  },
+  {
     slug: 'jung-saemmool-sephora-us-debut',
     category: 'global',
     title: 'Jungsaemmool Officially Launches on Sephora US Online and in 34 Stores on August 21',

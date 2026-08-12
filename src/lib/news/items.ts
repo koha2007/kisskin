@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'mixsoon-pdrn-collagen-tinted-moisturizer-launch',
+    category: 'base',
+    title: 'Mixsoon 첫 메이크업 ‘PDRN 콜라겐 틴티드 모이스처라이저’ 아마존 출시',
+    summary:
+      'Mixsoon이 스킨케어 철학을 담은 첫 메이크업 제품 ‘PDRN 콜라겐 틴티드 모이스처라이저’를 아마존에서 출시했습니다. 74% 스킨 액티브 에센스 함유, 24시간 지속력과 즉각 +32% 블러링 효과가 확인되었습니다.',
+    body: [
+      '> TLDR: Mixsoon 메이크업 첫 출시 | 74% 스킨 액티브 에센스 함유 | 즉각 블러 효과 +32% 및 24시간 지속력',
+      'Mixsoon이 브랜드 최초 메이크업 컬렉션인 ‘PDRN 콜라겐 틴티드 모이스처라이저’를 아마존에 출시했습니다. 기존 스킨케어 철학을 그대로 이어간 ‘스킨 퍼스트’ 메이크업입니다.',
+      '> DATA: 74% 스킨 액티브 에센스, 24시간 착용, +32% 즉각 블러링 효과',
+      '이 제품은 쌀 유래 PDRN, 콜라겐, 펩타이드를 섞어 투명하고 촉촉한 세컨드 스킨 마무리를 제공합니다. 아마존에서 판매되며, 피부 건강 및 지속력에 중점을 둔 메이크업으로 주목받고 있습니다.',
+      '소비자 입장에서는 스킨케어 단계 없이도 피부를 보호하고 자연스럽게 보정하는 메이크업 제품으로, 간편하면서도 기능적인 제품으로 자리매김할 수 있을 것입니다.',
+    ],
+    date: '2026-08-12',
+    readMinutes: 3,
+    tags: ['메이크업출시', '스킨퍼스트', '틴티드모이스처라이저'],
+    seoTitle: 'Mixsoon PDRN 틴티드 모이스처라이저 출시',
+    seoDescription:
+      'Mixsoon의 첫 메이크업 제품, PDRN 콜라겐 틴티드 모이스처라이저가 아마존에 출시되었으며, 74% 에센스와 24시간 지속력 등이',
+  },
+  {
     slug: 'jung-saemmool-sephora-us-debut',
     category: 'global',
     title: '정샘물 브랜드, 8월 21일 미국 세포라 온라인·34개 매장 공식 론칭',

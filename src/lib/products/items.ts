@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'gisou-honey-infused-hair-oil',
+    category: 'hair',
+    brand: '지수(깃수)',
+    name: '허니 인퓨즈드 헤어 오일',
+    title: 'Gisou 허니 인퓨즈드 헤어 오일 – 꿀광처럼 반짝이는 윤기 헤어',
+    summary:
+      'Gisou의 허니 인퓨즈드 헤어 오일은 TikTok과 Sephora에서 인기리에 판매되며, 꿀 성분으로 촉촉한 윤기와 가볍게 흡수되는 제형이 특징입니다.',
+    highlights: ['빠른 흡수', '자연스러운 광택', '꿀 유래 항산화'],
+    details: [
+      '모로코산 미르살레히 꿀이 함유되어 머리카락에 보호막을 형성하고 깊은 보습과 자연스러운 윤기를 더해줍니다.',
+      '가벼운 오일 제형으로 모발에 빠르게 흡수되며 무겁거나 기름지지 않은 마무리를 제공합니다.',
+      '항산화 효과가 있는 성분들이 모발을 부드럽고 건강하게 유지하도록 돕습니다.',
+    ],
+    whoFor:
+      '건조하거나 부스스한 모발에 생기와 윤기를 더하고 싶은 모든 헤어 타입에게 적합합니다. 특히 잔털이 많거나 가는 모발에도 부담 없이 사용할 수 있습니다.',
+    howTo: [
+      '샴푸 후 타월 드라이한 모발 끝에 소량을 덜어 고르게 펴 발라 부드럽고 윤기 있는 마무리를 완성하세요.',
+      '건조한 날엔 아침 스타일링 전 또는 마무리 단계에서 몇 방울을 손바닥에 덜어 전체적으로 가볍게 문질러 사용하세요.',
+    ],
+    pros: [
+      '가볍게 스며들어 떡짐 없이 윤기 부여',
+      '꿀 기반 성분의 항산화 및 보습 효과',
+    ],
+    cons: [
+      '손에 남는 잔향이 일부에게는 진하게 느껴질 수 있음',
+    ],
+    coupangQuery: '지수 허니 헤어 오일',
+    globalQuery: 'Gisou Honey Infused Hair Oil',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-12',
+    tags: ['헤어오일', '윤기', '꿀성분'],
+    seoTitle: 'Gisou 허니 인퓨즈드 헤어 오일 리뷰',
+    seoDescription:
+      '틱톡과 세포라에서 사랑받는 Gisou 허니 인퓨즈드 헤어 오일의 매끈한 광택과 가벼운 흡수력을 알아본 카드입니다.',
+  },
+  {
     slug: 'drjart-cicapair-serum',
     category: 'skincare',
     brand: '닥터자르트',
