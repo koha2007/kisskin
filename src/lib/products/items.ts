@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'mumchit-soft-blue-soap-fabric-perfume',
+    category: 'fragrance',
+    brand: '멈칫',
+    name: '섬유향수 소프트블루솝',
+    title: '멈칫 섬유향수 소프트블루솝 – 깨끗한 비누향으로 데일리 무드 완성',
+    summary:
+      '글로우픽 향수 랭킹 상위권에 오른 멈칫 ‘소프트블루솝’은 누구나 좋아할 만한 부드러운 비누향으로, 데일리로 즐기기 좋은 섬유향수입니다.',
+    highlights: ['누구나 좋아할 비누향', '부드러운 잔향', '가성비 좋은 용량'],
+    details: [
+      '깨끗한 비누 향이 포근하고 은은하게 퍼져 데일리 사용에 적합합니다.',
+      '향이 부담스럽지 않고 자연스러워 남녀 누구나 사용하기 좋습니다.',
+      '리뷰에 따르면 가성비가 뛰어나며 대용량 구매로 오랫동안 사용 가능합니다.',
+    ],
+    whoFor:
+      '비누 향을 좋아하는 학생 또는 깔끔한 향으로 편안한 분위기를 연출하고 싶은 누구에게나 어울리는 제품입니다. 향이 강하지 않아 데일리로 부담 없이 쓰기 좋습니다.',
+    howTo: [
+      '옷이나 침구에 가볍게 한두 번 분사해 포근한 비누향을 유지합니다.',
+      '향 지속력이 짧은 편이므로 외출 전이나 중간중간 덧뿌려 향기를 유지하는 것이 좋습니다.',
+    ],
+    pros: [
+      '부드럽고 깔끔한 비누향이 호불호 없이 사랑받음',
+      '리뷰에서 지속력과 가성비가 만족스럽다는 평 다수',
+    ],
+    cons: [
+      '향 지속력이 짧다는 리뷰가 있어 수시로 덧뿌려야 함',
+    ],
+    coupangQuery: '멈칫 소프트블루솝 섬유향수',
+    globalQuery: 'MUMCHIT Soft Blue Soap fabric perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-13',
+    tags: ['비누향', '데일리향수', '가성비향기'],
+    seoTitle: '멈칫 섬유향수 소프트블루솝 인기 비누향',
+    seoDescription:
+      '많은 리뷰와 랭킹에서 검증된 깨끗한 비누향 섬유향수 ‘소프트블루솝’을 자세히 소개합니다.',
+  },
+  {
     slug: 'gisou-honey-infused-hair-oil',
     category: 'hair',
     brand: '지수(깃수)',

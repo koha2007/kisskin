@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'mumchit-soft-blue-soap-fabric-perfume',
+    category: 'fragrance',
+    brand: 'MUMCHIT',
+    name: 'Fabric Perfume Soft Blue Soap',
+    title: 'MUMCHIT Fabric Perfume Soft Blue Soap – Complete Your Daily Mood with a Clean Soap Scent',
+    summary:
+      'Ranked high in Glowpick\'s perfume category, MUMCHIT \'Soft Blue Soap\' is a fabric perfume featuring a soft, universally loved soap scent perfect for daily use.',
+    highlights: ['Universally loved soap scent', 'Soft lingering afterscent', 'Great value for money'],
+    details: [
+      'The clean soap scent spreads cozy and subtle, making it ideal for daily use.',
+      'The scent is gentle and natural, suitable for both men and women.',
+      'According to reviews, it offers excellent value for money, and purchasing a large capacity allows for long-term use.',
+    ],
+    whoFor:
+      'Perfect for students who love soap scents or anyone wanting to create a comfortable ambiance with a clean fragrance. Its mild scent makes it easy to wear every day without feeling overwhelming.',
+    howTo: [
+      'Lightly spray once or twice on clothes or bedding to maintain a cozy soap scent.',
+      'Since the fragrance longevity is relatively short, it is best to reapply before going out or throughout the day to keep the scent going.',
+    ],
+    pros: [
+      'Soft, clean soap scent loved by everyone without strong likes or dislikes',
+      'Many reviews praise its satisfaction in terms of value for money and scent experience',
+    ],
+    cons: [
+      'Some reviews note short fragrance longevity, requiring frequent reapplication',
+    ],
+    coupangQuery: '멈칫 소프트블루솝 섬유향수',
+    globalQuery: 'MUMCHIT Soft Blue Soap fabric perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-13',
+    tags: ['SoapScent', 'DailyPerfume', 'GreatValueFragrance'],
+    seoTitle: 'MUMCHIT Fabric Perfume Soft Blue Soap Review',
+    seoDescription:
+      'Discover MUMCHIT Fabric Perfume Soft Blue Soap for a cozy, clean soap scent perfect for daily freshness on clothes and bedding.',
+  },
+  {
     slug: 'gisou-honey-infused-hair-oil',
     category: 'hair',
     brand: 'Gisou',

@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'beauty-of-joseon-tinted-mineral-dayscreen-tiktok-viral',
+    category: 'base',
+    title: '뷰티 오브 조선 틴티드 미네랄 데이스크린, 틱톡서 “무거운 파운데이션 대신” 화제',
+    summary:
+      '뷰티 오브 조선의 틴티드 미네랄 데이스크린이 틱톡에서 ‘무거운 파운데이션 대신 덜 부담 있는 커버력’을 제안하며 큰 관심을 끌고 있습니다. K-뷰티가 색조 메이크업에서 자외선 차단 기능까지 겸비한 ‘여름 베이스템’으로 재정의되고 있습니다.',
+    body: [
+      '> TLDR: 틱톡서 ‘무거운 파운데이션 대신’ 대체 베이스로 인기 | 자외선 차단과 가벼운 커버 동시 제공 | 여름 시즌 맞춤 K-뷰티 전략',
+      '뷰티 오브 조선의 틴티드 미네랄 데이스크린이 틱톡에서 ‘무거운 파운데이션 대신 가볍게 커버되며 SPF도 되는 제품’으로 화제가 되고 있습니다. ‘finally a non-comedogenic tinted SPF that actually covers’라는 문구가 사용자들에게 강한 인상을 남겼습니다.',
+      '> DATA: 틱톡 영상에서 ‘heavy foundation?’ 대신 ‘lighter, skin-like coverage’로 대체하는 메시지 중심 (lightreel.ai)',
+      '이 제품은 색조와 자외선 차단을 동시에 제공하며, 여름철 무거운 베이스 메이크업을 피하려는 소비자 니즈에 정확히 부합합니다. K-뷰티는 그간 강조해 온 ‘글라스 스킨’ 이상으로 즉각적인 기능과 편의를 중시하는 방향으로 전략을 전환하고 있습니다.',
+      '소비자 관점에서 보면, 틱톡 중심의 실시간 반응은 구매 결정에 큰 영향을 미칩니다. 여름철 부담 없는 메이크업을 찾는 소비자에게 이 제품은 실용적 대안이 될 수 있습니다.',
+    ],
+    date: '2026-08-13',
+    readMinutes: 3,
+    tags: ['틴티드SPF', '여름베이스', '틱톡트렌드'],
+    seoTitle: '뷰티 오브 조선 틴티드 SPF 틱톡 인기',
+    seoDescription:
+      '뷰티 오브 조선 틴티드 SPF가 틱톡에서 무거운 파운데이션 대신 여름 베이스로 주목받는 실시간 트렌드를 전합니다.',
+  },
+  {
     slug: 'mixsoon-pdrn-collagen-tinted-moisturizer-launch',
     category: 'base',
     title: 'Mixsoon 첫 메이크업 ‘PDRN 콜라겐 틴티드 모이스처라이저’ 아마존 출시',
