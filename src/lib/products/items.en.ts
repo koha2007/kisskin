@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'ysl-loveshine-lip-oil-stick',
+    category: 'lip',
+    brand: 'YSL',
+    name: ' Loveshine Lip Oil Stick',
+    title: 'YSL Loveshine Lip Oil Stick – Rich Oil Moisture & Glossy Color in One',
+    summary:
+      'YSL Loveshine Lip Oil Stick combines a nourishing oil texture with glossy color to create hydrated, luminous lips.',
+    highlights: ['60% oil formula', 'Glossy sheer to medium-buildable payoff', 'Available in 23 shades'],
+    details: [
+      'Formulated with 60% plant-based oils, including passion fruit (maracuja) oil and macadamia derivatives, for a smooth, seamlessly adhering texture.',
+      'Delivers a radiant, glossy finish ranging from sheer to medium saturation with just a single swipe.',
+      'Offers a wide spectrum of 23 shades to suit various preferences and moods.',
+    ],
+    whoFor:
+      'Ideal for dry or normal skin types dealing with dry lips, and perfect for anyone who loves a glossy look. Recommended for those wanting lightweight, hydrating lip makeup.',
+    howTo: [
+      'Swipe softly over clean lips once to achieve natural shine and color.',
+      'For a more defined look, outline lips with a lip liner and layer the oil stick in the center to create a subtle gradient effect.',
+    ],
+    pros: [
+      'Ultra-hydrating oil formula that comfortably coats the lips in high shine',
+      'Extensive color selection offers plenty of options',
+    ],
+    cons: [
+      'The ultra-glossy texture may not suit everyone\'s preference',
+    ],
+    colorFit:
+      'Winter Cool: The oil-based glossy finish beautifully enhances the clarity of cool-toned skin.',
+    coupangQuery: '입생로랑 러브샤인 립 오일 스틱',
+    globalQuery: 'YSL Loveshine Lip Oil Stick',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-14',
+    tags: ['YSL', 'GlossyLips', 'LipOilStick'],
+    seoTitle: 'YSL Loveshine Lip Oil Stick Review & Shades',
+    seoDescription:
+      'Discover the YSL Loveshine Lip Oil Stick infused with 60% plant oils for intense hydration, high shine, and vibrant color.',
+  },
+  {
     slug: 'mumchit-soft-blue-soap-fabric-perfume',
     category: 'fragrance',
     brand: 'MUMCHIT',

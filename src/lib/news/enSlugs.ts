@@ -2,6 +2,7 @@
 // Tiny standalone module (no bodies) so the i18n context and nav can import the
 // list cheaply. Keep in sync with NEWS_ITEMS_EN in items.en.ts.
 export const EN_NEWS_SLUGS = [
+  'kbeauty-exports-surpass-11-billion-global-growth',
   'mixsoon-pdrn-collagen-tinted-moisturizer-launch',
   'jung-saemmool-sephora-us-debut',
   'kbeauty-record-exports-us-top-market-h1-2026',

@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-exports-surpass-11-billion-global-growth',
+    category: 'global',
+    title: 'K-Beauty Exports Hit All-Time High of $11.4B in 2025, Becoming World\'s No. 2 Exporter Behind France',
+    summary:
+      'In 2025, South Korean cosmetics exports reached a record high of $11.4 billion, surpassing the U.S. to rank second globally behind France. Rapid market expansion in Europe and the Middle East also stood out as key highlights.',
+    body: [
+      '> TLDR: Record-High Export Volume | Ranked World\'s No. 2 Exporter | Rapid Growth in Europe & Middle East',
+      'In 2025, South Korean cosmetics exports reached an all-time high of $11.4 billion, an 11.8–12.3% increase year-over-year. South Korea rose to become the world\'s second-largest exporter behind France.',
+      '> DATA: Exports $11.4B (+11.8%), Ranked 2nd globally, France #1 / Surpassed US for #2 (en.sedaily.com)',
+      'Major export categories included skincare at $8.54 billion and color cosmetics at $1.51 billion, reflecting growing demand for both high-performance and color products. The top export markets were the U.S., China, and Japan, with particularly notable expansion in European and Middle Eastern markets such as Poland (+111.7%) and the UAE (+67.2%).',
+      'Moving beyond its traditional \'value-for-money\' image, K-beauty is expanding its global influence based on brand competitiveness centered on ingredients and efficacy.',
+    ],
+    date: '2026-08-14',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Export Performance', 'Global Market'],
+    seoTitle: 'K-Beauty Exports Hit Record $11.4B to Rank 2nd Globally',
+    seoDescription:
+      'South Korean cosmetics exports reached a record $11.4 billion in 2025, making K-beauty the world\'s second-largest cosmetics exporter behind France.',
+  },
+  {
     slug: 'mixsoon-pdrn-collagen-tinted-moisturizer-launch',
     category: 'base',
     title: 'Mixsoon Launches Debut Makeup Line ‘PDRN Collagen Tinted Moisturizer’ on Amazon',

@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'ysl-loveshine-lip-oil-stick',
+    category: 'lip',
+    brand: '입생로랑',
+    name: '러브샤인 립 오일 스틱',
+    title: '입생로랑 러브샤인 립 오일 스틱 – 풍부한 오일감·글로시 컬러 한 번에',
+    summary:
+      '입생로랑의 러브샤인 립 오일 스틱은 오일 텍스처와 글로시한 컬러가 어우러져 촉촉하면서 반짝이는 입술을 연출하는 제품입니다.',
+    highlights: ['60% 오일 포뮬러', '글로시한 투명~중채도 발색', '23가지 컬러 구성'],
+    details: [
+      '식물을 기반으로 한 마라쿠자 오일 및 마카다미아 유도체 등 총 60% 오일 성분이 입술에 부드럽게 밀착됩니다.',
+      '투명에서 중채도까지 이어지는 글로시한 색감이 적은 양으로도 광채 있는 연출이 가능합니다.',
+      '23가지의 다양한 컬러 옵션으로 취향과 무드에 따라 선택의 폭이 넓습니다.',
+    ],
+    whoFor:
+      '입술 건조함이 고민인 건성 또는 중성 피부에게 적합하며, 글로시한 표현을 좋아하는 분들에게 특히 잘 맞습니다. 가볍고 촉촉한 립 메이크업을 원하는 사람들에게 추천됩니다.',
+    howTo: [
+      '깨끗한 입술에 부드럽게 한 번 스와이프하여 자연스러운 광택과 컬러감을 연출합니다.',
+      '더 또렷한 선을 원할 경우, 립 라이너로 가장자리를 살짝 정리한 후 중앙에만 오일 스틱을 덧발라 그라데이션 효과를 줍니다.',
+    ],
+    pros: [
+      '입술을 글로시하게 감싸는 고보습 오일 포뮬러',
+      '다양한 색상 구성으로 선택 폭이 넓음',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 글로시한 텍스처',
+    ],
+    colorFit:
+      '겨울 쿨: 오일 베이스의 글로시한 피니시가 쿨톤 피부의 투명함과 잘 어우러집니다.',
+    coupangQuery: '입생로랑 러브샤인 립 오일 스틱',
+    globalQuery: 'YSL Loveshine Lip Oil Stick',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-14',
+    tags: ['입생로랑', '글로시립', '립오일스틱'],
+    seoTitle: '입생로랑 러브샤인 립 오일 스틱 글로시 오일 립',
+    seoDescription:
+      '입생로랑 러브샤인 립 오일 스틱은 고농축 오일과 글로시한 컬러가 동시에 느껴지는 입술용 스틱입니다.',
+  },
+  {
     slug: 'mumchit-soft-blue-soap-fabric-perfume',
     category: 'fragrance',
     brand: '멈칫',
