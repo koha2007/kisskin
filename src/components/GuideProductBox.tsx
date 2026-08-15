@@ -4,7 +4,7 @@ import ProductBuyButtons from './ProductBuyButtons'
 import AffiliateDisclosure from './AffiliateDisclosure'
 import RegionToggle from './RegionToggle'
 import { GUIDE_CATEGORY_PRODUCTS } from '../lib/guides/products'
-import { CLIO_CATEGORY_LINKS } from '../config/affiliate'
+import { CLIO_CATEGORY_LINKS, clioBrandMatchAny } from '../config/affiliate'
 import type { GuideCategory } from '../lib/guides/types'
 
 interface Props {
@@ -73,7 +73,7 @@ export default function GuideProductBox({ category, slug, accentColor = '#d8503c
             <ProductBuyButtons
               className="mt-auto"
               coupangQuery={rec.coupangQuery}
-              clioLink={rec.clio ? CLIO_CATEGORY_LINKS[rec.clioCategory] : null}
+              clioLink={rec.clio && clioBrandMatchAny([...rec.brands, ...rec.brandsEn]) ? CLIO_CATEGORY_LINKS[rec.clioCategory] : null}
               globalQuery={`${rec.brandsEn[0]} ${rec.labelEn}`}
               pageType="guide"
               pageSlug={slug}

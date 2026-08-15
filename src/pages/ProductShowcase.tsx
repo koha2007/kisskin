@@ -5,7 +5,7 @@ import RegionToggle from '../components/RegionToggle'
 import { PRODUCT_ITEMS, getProductBySlug } from '../lib/products/items'
 import { PRODUCT_ITEMS_EN, getProductBySlugEn } from '../lib/products/items.en'
 import { getCategoryMeta } from '../lib/products/types'
-import { CLIO_CATEGORY_LINKS } from '../config/affiliate'
+import { CLIO_CATEGORY_LINKS, clioBrandMatch } from '../config/affiliate'
 import { useI18n } from '../i18n/I18nContext'
 import { pickRelated } from '../lib/seo/pickRelated'
 
@@ -168,11 +168,19 @@ export default function ProductShowcase({ slug }: Props) {
             <h2 className="text-sm font-bold text-navy">{isEn ? 'Where to buy' : '구매하기'}</h2>
             <RegionToggle pageType="product" />
           </div>
+          {/* clioLink: item.clio 는 "색조 카테고리라 클리오에 해당 매대가 있다"까지만
+              뜻한다(gen-products.mjs 가 카테고리로만 정한다). 실제로 버튼을 붙일지는
+              브랜드가 결정한다 — 안 그러면 나스·디올 페이지에 클럽클리오 매대 링크가
+              붙는다. 자세한 이유는 config/affiliate.ts clioBrandMatchAny 주석. */}
           <ProductBuyButtons
             coupangQuery={item.coupangQuery}
             coupangAffiliateUrl={item.affiliateUrl}
             globalQuery={item.globalQuery}
-            clioLink={item.clio ? CLIO_CATEGORY_LINKS[item.clioCategory] : null}
+            clioLink={
+              item.clio && clioBrandMatch(item.brand)
+                ? CLIO_CATEGORY_LINKS[item.clioCategory]
+                : null
+            }
             pageType="product"
             pageSlug={item.slug}
             trackCategory={item.category}

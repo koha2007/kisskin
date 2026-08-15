@@ -4,7 +4,7 @@ import ProductBuyButtons from './ProductBuyButtons'
 import AffiliateDisclosure from './AffiliateDisclosure'
 import RegionToggle from './RegionToggle'
 import { pickNewsProducts } from '../lib/news/products'
-import { CLIO_CATEGORY_LINKS } from '../config/affiliate'
+import { CLIO_CATEGORY_LINKS, clioBrandMatchAny } from '../config/affiliate'
 import type { NewsCategory } from '../lib/news/types'
 
 interface Props {
@@ -76,7 +76,7 @@ export default function NewsProductBox({ category, slug, accentColor = '#d8503c'
             <ProductBuyButtons
               className="mt-auto"
               coupangQuery={rec.coupangQuery}
-              clioLink={rec.clio ? CLIO_CATEGORY_LINKS[rec.clioCategory] : null}
+              clioLink={rec.clio && clioBrandMatchAny([...rec.brands, ...rec.brandsEn]) ? CLIO_CATEGORY_LINKS[rec.clioCategory] : null}
               globalQuery={`${rec.brandsEn[0]} ${rec.labelEn}`}
               pageType="news"
               pageSlug={slug}

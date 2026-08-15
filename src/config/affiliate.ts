@@ -97,3 +97,21 @@ export function clioBrandMatch(text: string): boolean {
   const lower = text.toLowerCase()
   return CLIO_BRAND_TOKENS.some((token) => lower.includes(token.toLowerCase()))
 }
+
+/**
+ * 브랜드 목록 중 하나라도 클리오 계열이면 true.
+ *
+ * ⭐ 클리오 버튼을 붙일지는 **카테고리가 아니라 브랜드**로 정해야 한다.
+ * CLIO_LINKS 는 개별 상품 링크가 아니라 클럽클리오의 **카테고리 매대**(치크/립/…)
+ * 로 가는 링크다. 그래서 카테고리만 보고 버튼을 달면 나스 립스틱 페이지에
+ * "클리오 공식몰" 버튼이 붙고, 누르면 클럽클리오 립 목록이 뜬다 — 그 사람이
+ * 찾던 제품이 없는 곳이다. 수수료는 붙지만 전환은 0에 수렴하고, 방문자에겐
+ * 헛걸음이다. 브랜드가 맞을 때만(클리오·페리페라) 그 매대가 실제로 쓸모 있다.
+ *
+ * 이 규칙은 원래 RecommendedProducts·ProductGridCard(`shouldShow`)·ReviewsArticle
+ * (`clioBrandMatch`)에는 이미 적용돼 있었는데, `clio` 불리언을 쓰는 경로
+ * (제품 상세·뉴스·가이드)에만 빠져 있었다 — 2026-08-15 에 맞췄다.
+ */
+export function clioBrandMatchAny(brands: readonly string[]): boolean {
+  return brands.some(clioBrandMatch)
+}
