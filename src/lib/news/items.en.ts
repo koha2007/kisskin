@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kiss-zoom-eye-potion-milk-tea-shades-launch',
+    category: 'eye',
+    title: 'Kiss Launches 2 New Milk Tea Shades of \'Zoom Eye Potion\'',
+    summary:
+      'Kiss is adding two new milk tea-inspired shades, \'Pink Milk Tea\' and \'Tree Shade Milk Tea\', to its \'Zoom Eye Potion\' eyeshadow palette line. A pre-launch at select retailers starts August 24, ahead of nationwide availability on September 25.',
+    body: [
+      '> TLDR: Kiss launches 2 new shades of \'Zoom Eye Potion\' | Milk tea beige lineup | Pre-launching Aug 24 at select retailers, nationwide Sep 25',
+      'Kiss presents two new milk tea colors for its \'Zoom Eye Potion\' eyeshadow palette: \'Pink Milk Tea\' and \'Tree Shade Milk Tea\'. The palettes feature glossy \'Urukira\' pearls that balance translucency with vibrant color payoff.',
+      '> DATA: Priced at 1,600 yen (excl. tax) and 1,760 yen (incl. tax). Pre-launching at select retailers on August 24, 2026, with nationwide release scheduled for September 25. (prtimes.jp)',
+      '\'Pink Milk Tea\' blends soft milk tea beige with pink for a sweet yet natural look, while \'Tree Shade Milk Tea\' offers a shimmer evocative of shade under a breezy tree alongside high skin adherence. Designed around \'flush-enhancing\' and \'waterline-extending\' color concepts, it makes the eye area appear larger and clearer. (prtimes.jp)',
+      'This product is especially enticing for consumers wanting to define their eyes with a natural flush and sparkle ideal for everyday wear. It will become widely available with its nationwide rollout in late September.',
+    ],
+    date: '2026-08-15',
+    readMinutes: 3,
+    tags: ['Kiss', 'Eyeshadow', 'New Product', 'Milk Tea Colors'],
+    seoTitle: 'Kiss Launches 2 New Milk Tea \'Zoom Eye Potion\' Shades',
+    seoDescription:
+      'Kiss introduces two milk tea shades to its Zoom Eye Potion eyeshadow line, featuring glossy pearl finishes and eye-defining color designs.',
+  },
+  {
     slug: 'kbeauty-exports-surpass-11-billion-global-growth',
     category: 'global',
     title: 'K-Beauty Exports Hit All-Time High of $11.4B in 2025, Becoming World\'s No. 2 Exporter Behind France',

@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'wakemake-soft-blurring-eye-palette-candy-coral',
+    category: 'eye',
+    brand: 'WAKEMAKE',
+    name: 'Soft Blurring Eye Palette 08 Candy Coral Blurring',
+    title: 'WAKEMAKE Soft Blurring Eye Palette – Create Soft Eyes with Candy Coral',
+    summary:
+      'Ranked #1 in sales in the Olive Young eyeshadow palette category, WAKEMAKE\'s \'Soft Blurring Eye Palette 08 Candy Coral Blurring\' is a popular palette featuring soft coral shading and subtle glitter.',
+    highlights: ['Coral-toned shade lineup', 'Soft blurring texture', 'Subtle pearlescent glow'],
+    details: [
+      'Features a coral-focused color palette, perfect for creating daily shaded eye looks.',
+      'Smoothly blendable soft blurring texture allows anyone to achieve a natural finish effortlessly.',
+      'Fine glitter particles add a delicate glow, finishing the eye area with a vibrant look.',
+    ],
+    whoFor:
+      'Ideal for warm skin tones or those who look great in coral shades. Recommended for those who prefer soft contouring eye makeup or want a natural daily point look.',
+    howTo: [
+      'Apply a base color thinly over the entire eyelid and blend to create a sheer, soft shadow.',
+      'Layer the point color onto the center of the lid or under the eye to add coral tones and glitter.',
+    ],
+    pros: [
+      'Highly trusted as an Olive Young #1 bestselling product',
+      'Easy for beginners to use thanks to its soft blendability',
+    ],
+    cons: [
+      'The subtle glitter texture may depend on personal preference',
+    ],
+    colorFit:
+      'Autumn Warm: Coral shades and warm glitter add natural vitality to Autumn Warm skin tones.',
+    coupangQuery: '웨이크메이크 소프트 블러링 아이팔레트 08',
+    globalQuery: 'WAKEMAKE Soft Blurring Eye Palette 08 Candy Coral Blurring',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-08-15',
+    tags: ['CoralShading', 'BlurringTexture', 'OliveYoungNo1'],
+    seoTitle: 'WAKEMAKE Soft Blurring Eye Palette 08 Candy Coral',
+    seoDescription:
+      'Discover WAKEMAKE\'s #1 Olive Young eyeshadow palette featuring soft coral shades and subtle glitter for seamless daily warm-tone eye makeup.',
+  },
+  {
     slug: 'ysl-loveshine-lip-oil-stick',
     category: 'lip',
     brand: 'YSL',

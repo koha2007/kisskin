@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'wakemake-soft-blurring-eye-palette-candy-coral',
   'ysl-loveshine-lip-oil-stick',
   'mumchit-soft-blue-soap-fabric-perfume',
   'gisou-honey-infused-hair-oil',

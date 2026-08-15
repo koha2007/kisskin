@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'wakemake-soft-blurring-eye-palette-candy-coral',
+    category: 'eye',
+    brand: '웨이크메이크',
+    name: '소프트 블러링 아이팔레트 08 캔디 코랄 블러링',
+    title: '웨이크메이크 소프트 블러링 아이팔레트 – 캔디 코랄로 부드러운 눈매 완성',
+    summary:
+      '올리브영 아이섀도우 팔레트 부문 판매 1위를 기록한 웨이크메이크의 ‘소프트 블러링 아이팔레트 08 캔디 코랄 블러링’은 부드러운 코랄 음영과 은은한 펄이 돋보이는 인기 제품입니다.',
+    highlights: ['코랄 톤 음영 구성', '부드러운 블러링 질감', '은은한 펄 광채'],
+    details: [
+      '코랄 계열 중심의 컬러 구성으로 데일리 음영 연출에 탁월합니다.',
+      '매끈하게 블렌딩되는 소프트 블러링 질감으로 누구나 자연스럽게 사용할 수 있습니다.',
+      '잔잔한 펄 입자가 은은한 광채를 더해 눈가에 생기 있는 표현을 완성합니다.',
+    ],
+    whoFor:
+      '따뜻한 웜톤 피부 또는 코랄 음영이 잘 어울리는 분에게 적합합니다. 부드러운 음영 메이크업을 선호하거나 데일리로 자연스럽게 포인트 주고 싶은 분들에게 추천합니다.',
+    howTo: [
+      '베이스 컬러를 눈 전체에 얇게 깔고 블렌딩하여 투명한 음영을 만듭니다.',
+      '포인트 컬러로 눈두덩 중앙이나 언더에 얹어 코랄 톤과 펄감을 더합니다.',
+    ],
+    pros: [
+      '올리브영 판매 1위 제품으로 신뢰도 높음',
+      '부드러운 블렌딩감으로 초보자도 사용하기 쉬움',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 은은한 펄 텍스처',
+    ],
+    colorFit:
+      '가을 웜: 코랄 음영과 따뜻한 펄감이 가을 웜톤 피부에 자연스러운 생기를 더해줍니다.',
+    coupangQuery: '웨이크메이크 소프트 블러링 아이팔레트 08',
+    globalQuery: 'WAKEMAKE Soft Blurring Eye Palette 08 Candy Coral Blurring',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-08-15',
+    tags: ['코랄음영', '블러링텍스처', '올리브영1위'],
+    seoTitle: '소프트 블러링 아이팔레트 캔디 코랄 인기 아이섀도우',
+    seoDescription:
+      '지금 한국에서 올리브영 판매 1위의 캔디 코랄 아이섀도우 팔레트만의 부드러운 발색과 음영감을 소개합니다.',
+  },
+  {
     slug: 'ysl-loveshine-lip-oil-stick',
     category: 'lip',
     brand: '입생로랑',
