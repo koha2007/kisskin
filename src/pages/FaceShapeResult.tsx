@@ -20,6 +20,7 @@ import BentoGrid, {
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 import { TypePreviewCard } from '../components/tools/ToolLanding'
+import { trackToolPromotion } from '../lib/analytics'
 
 interface Props { code: FaceShapeCode }
 
@@ -40,6 +41,9 @@ export default function FaceShapeResult({ code }: Props) {
   const avoidStyle = isEn && t.avoidStyleEn ? t.avoidStyleEn : t.avoidStyle
   const kissinskinReason = isEn && t.kissinskinReasonEn ? t.kissinskinReasonEn : t.kissinskin.reason
   const basePath = isEn ? '/en/tools/face-shape' : '/tools/face-shape'
+  // AI 메이크업으로 가는 목적지. 히어로 CTA 와 아래 BentoBanner 가 같은 값을 써야
+  // 해서 한 곳으로 뽑았다(예전엔 두 군데에 각각 박혀 있었다).
+  const makeupHref = isEn ? '/en/' : '/analysis/'
 
   const accent = t.primaryColor
 
@@ -57,6 +61,11 @@ export default function FaceShapeResult({ code }: Props) {
         retake: 'Retake', save: 'Save image', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
         bannerTitle: 'See your look on your own face', bannerDesc: 'Try AI makeup on your selfie — your face stays exactly the same.',
         bannerCta: 'Try AI makeup',
+        // 히어로 CTA. 문구는 제품과 정확히 일치시킬 것 — 룩은 9종이고(5종 아님),
+        // 무료 1회도 **로그인을 지난다**(MakeupFlow 게이트). 없다고 해놓고 벽을
+        // 세우면 그 자리에서 튕긴다(2026-07-31 정정).
+        heroCta: 'Try makeup on my face',
+        heroCtaSub: 'One selfie → 9 K-beauty looks. First try free (sign-in required).',
         forehead: 'Forehead', cheekbone: 'Cheekbones', jawline: 'Jawline', highlighter: 'Highlight',
         brow: 'Brow', lip: 'Lip', blush: 'Blush', hair: 'Hair', glasses: 'Glasses',
       }
@@ -66,6 +75,8 @@ export default function FaceShapeResult({ code }: Props) {
         retake: '다시 진단', save: '이미지 저장하기', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
         bannerTitle: '이 룩, 내 얼굴에 직접', bannerDesc: 'AI로 어울리는 메이크업을 내 셀카에 입혀보세요. 얼굴은 그대로예요.',
         bannerCta: 'AI 메이크업 체험',
+        heroCta: '내 얼굴로 메이크업 해보기',
+        heroCtaSub: '셀카 한 장 → 9가지 K-뷰티 룩 · 첫 1회 무료 (로그인 필요)',
         forehead: '이마', cheekbone: '광대', jawline: '턱 라인', highlighter: '하이라이터',
         brow: '눈썹', lip: '립', blush: '블러쉬', hair: '헤어', glasses: '안경',
       }
@@ -167,9 +178,41 @@ export default function FaceShapeResult({ code }: Props) {
               shareLabel={isEn ? 'Share' : '공유하기'}
             />
 
-            <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
-                <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
+            {/* ⭐ 결과 → AI 메이크업 다리를 2026-08-15 에 여기로 올렸다.
+                그전까지 이 자리 — 결과 카드 바로 아래, 페이지에서 가장 좋은 위치 —
+                는 "다시 진단"이라는 **막다른 행동**이 차지했고, /analysis/ 로 가는
+                유일한 문은 롱폼 본문 *아래* 벤토 그리드 안에 있었다.
+
+                근거(GA4 7/19~8/15 + Clarity 3일치): `/tools/face-shape/` 는 활성
+                사용자의 **34.78%** 로 사이트 최대 단일 유입구인데 **주요이벤트가
+                0.00 (0%)** 이었다. 그런데 Clarity 세션들은 클릭 7~8회·페이지 3~4장으로
+                퀴즈를 **끝까지 완주**한다. 즉 이탈이 아니라 완주 후 갈 곳이 없었던
+                것이다. 평균 스크롤 깊이 47% 라 다리는 구조적으로 도달 불가였다.
+                (같은 진단을 2026-07-31 에 이미 했고 그때는 데이터를 더 모으기로
+                보류했다 — [[project_2026_07_31_clarity_audit]].)
+
+                아래 BentoBanner 는 **그대로 뒀다**. 롱폼까지 읽고 내려온 사람에게는
+                여전히 필요하고, 두 자리가 `creative_slot` 으로 갈려 찍히므로 어느
+                위치가 실제로 먹히는지 다음 측정에서 바로 갈린다. */}
+            <div className="mt-8">
+              <a
+                href={makeupHref}
+                onClick={() => trackToolPromotion('face_shape', t.code, 'hero_primary')}
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 bg-primary hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
+              >
+                <span className="material-symbols-outlined text-xl">auto_awesome</span>
+                {L.heroCta}
+                <span className="material-symbols-outlined text-lg transition-transform group-hover:translate-x-0.5">arrow_forward</span>
+              </a>
+              <p className="mt-3 text-xs text-slate-500 leading-relaxed">{L.heroCtaSub}</p>
+
+              {/* 다시 진단은 남기되 2차 행동으로 내렸다 — 지우면 오진단한 사람이
+                  갈 곳이 없어진다. */}
+              <a
+                href={`${basePath}/`}
+                className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-navy underline underline-offset-4 decoration-slate-300 transition-colors"
+              >
+                <span className="material-symbols-outlined text-base">refresh</span> {L.retake}
               </a>
             </div>
           </div>
@@ -197,7 +240,7 @@ export default function FaceShapeResult({ code }: Props) {
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
-                href={isEn ? '/en/' : '/analysis/'}
+                href={makeupHref}
                 tool="face_shape"
                 slug={t.code}
                 gradient={t.card.gradient}

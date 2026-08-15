@@ -40,3 +40,23 @@ export function trackCreditPurchased(pack: string, value: number, extra?: Params
 export function trackCardSaved(params: Params): void {
   trackEvent('card_saved', params)
 }
+
+/**
+ * 무료 도구 결과 → AI 메이크업으로 넘어가는 지점의 클릭.
+ *
+ * 결과 페이지마다 이 다리가 여러 위치에 있으므로 **어느 자리가 실제로 먹히는지**
+ * 를 `creative_slot` 으로만 가른다. 이벤트 이름·promotion_id·promotion_name 은
+ * 옛 ToolUpsellCTA 시절과 똑같이 유지할 것 — 바꾸면 5월~6월 데이터와 이어 볼 수
+ * 없다(원래 주의사항은 BentoGrid.tsx BentoBanner 주석에 있었고, 히어로 CTA 가
+ * 생기면서 두 곳이 같은 규칙을 써야 해 이리로 끌어올렸다).
+ *
+ * @param slot 'hero_primary' | 'bento_banner' 등 페이지 내 위치.
+ */
+export function trackToolPromotion(tool: string, slug: string | undefined, slot: string): void {
+  trackEvent('select_promotion', {
+    promotion_id: `tool_cta_${tool}`,
+    promotion_name: `${tool} result → AI analysis`,
+    creative_slot: slot,
+    items: slug ? [{ item_id: slug, item_name: `${tool}:${slug}` }] : undefined,
+  })
+}
