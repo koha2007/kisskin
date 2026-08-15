@@ -23,6 +23,36 @@ import { resolve } from 'node:path'
 const SITE = 'https://kissinskin.net'
 const SITEMAP = resolve('public/sitemap.xml')
 
+// ⭐ 얕은 클론에서는 **아무것도 하지 않고 끝낸다.**
+//
+// 왜: 이 스크립트의 lastmod 는 전부 `git log -1 --format=%cs -- <소스>` 에 기댄다.
+// 그런데 깊이 1 클론에는 커밋이 하나뿐이고 그 커밋에 부모가 없어서, git 은 **모든
+// 파일이 그 커밋에서 바뀐 것으로** 취급한다 → 어떤 파일을 물어도 배포 커밋 날짜
+// (=오늘)를 돌려준다. 그 결과 사이트맵 291개 URL 이 전부 "오늘 수정됨"이 된다.
+//
+// 실제로 2026-08-15 에 이 일이 일어났다. 로컬·CI 가 만들어 커밋한 올바른 사이트맵
+// (privacy 2026-08-09 등)을 **Cloudflare Pages 빌드가 매번 덮어쓰며** 전부 오늘로
+// 바꾸고 있었다. 고치지도 않은 페이지가 매일 "오늘 수정됨"이라 주장하면 구글은
+// 이 신호를 통째로 무시한다 — 미색인 90개를 붙들고 있는 마당에 재크롤 신호를
+// 스스로 태우는 짓이다. (33ebcce 가 GitHub Actions 쪽에서 고친 것과 같은 병인데,
+// Cloudflare 빌드에는 fetch-depth 를 지정할 방법이 없어 여기서 막는다.)
+//
+// 커밋된 sitemap.xml 을 그대로 두는 게 항상 옳다: daily-news.yml 이 fetch-depth: 0
+// 으로 매일 재생성해 커밋하고, 로컬 빌드(전체 히스토리)도 마찬가지다. 얕은 클론은
+// 그 파일을 개선할 정보가 없고 망가뜨릴 수만 있다.
+function historyUsable() {
+  try {
+    return execFileSync('git', ['rev-parse', '--is-shallow-repository'], { encoding: 'utf8' }).trim() !== 'true'
+  } catch {
+    return false // git 이 없는 빌드 환경 — 역시 커밋된 파일을 신뢰한다
+  }
+}
+if (!historyUsable()) {
+  console.log('[gen-sitemap] 얕은 클론(또는 git 없음) — 커밋된 sitemap.xml 을 그대로 사용합니다.')
+  console.log('  (git 히스토리가 없으면 모든 lastmod 가 오늘로 찍혀 사이트맵이 거짓말을 합니다.)')
+  process.exit(0)
+}
+
 // content type → { 데이터 파일, en 슬러그 파일+상수, URL base }
 // enOnly* 는 "한국어 원본이 없는 영문 오리지널" 이 있는 타입만 채운다 — 아래 EN-ONLY 블록 참고.
 //
