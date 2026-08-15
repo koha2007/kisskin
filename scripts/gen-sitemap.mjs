@@ -76,6 +76,47 @@ function urlBlock(loc, lastmod, priority, alternates = '') {
   return `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>${priority}</priority>${alternates}</url>`
 }
 
+// gitDate 는 상세 블록(아래 DETAIL_TEMPLATES)과 정적/도구 lastmod 양쪽이 쓴다.
+// 상세 블록이 먼저 만들어지므로 정의가 그 뒤에 있으면 gitDateCache 가 TDZ 에 걸린다
+// — 그래서 여기로 올렸다.
+const gitDateCache = new Map()
+function gitDate(files) {
+  const key = files.join('|')
+  if (gitDateCache.has(key)) return gitDateCache.get(key)
+  let out = null
+  try {
+    const r = execFileSync('git', ['log', '-1', '--format=%cs', '--', ...files], { encoding: 'utf8' }).trim()
+    if (/^\d{4}-\d{2}-\d{2}$/.test(r)) out = r
+  } catch { /* 파일이 아직 없거나 git 이 없는 환경 — 기존 날짜를 그대로 둔다 */ }
+  gitDateCache.set(key, out)
+  return out
+}
+
+// 상세 페이지를 렌더하는 템플릿. 상세의 lastmod 는 **콘텐츠 날짜와 템플릿 커밋일 중
+// 더 나중 것**이어야 한다.
+//
+// 왜: 예전엔 `it.date`(콘텐츠 발행일)만 썼다. 그래서 2026-08-15 에 제품 상세를
+// 크게 고쳤는데도(히어로 축소·구매 섹션 이동·Product 스키마에서 image 제거)
+// 사이트맵의 제품 90개는 7/08·8/07 같은 옛 날짜 그대로였다 — 구글에겐 "안 바뀐
+// 페이지"였다. 이 파일이 정적·도구 URL 에 이미 쓰는 원칙(소스의 마지막 커밋일)을
+// 상세에도 그대로 적용하는 것이고, 새 규칙이 아니라 빠져 있던 곳을 맞추는 것이다.
+//
+// ⚠️ 네이버·Bing 은 IndexNow 로 직접 알릴 수 있지만 **구글은 IndexNow 를 지원하지
+//    않는다.** 구글이 재크롤링을 판단하는 신호가 사실상 이 lastmod 하나뿐이라,
+//    여기가 안 움직이면 템플릿 수정은 구글에 영영 전달되지 않는다.
+const DETAIL_TEMPLATES = {
+  news: ['src/pages/NewsArticle.tsx'],
+  products: ['src/pages/ProductShowcase.tsx'],
+  guides: ['src/pages/GuidesArticle.tsx'],
+  reviews: ['src/pages/ReviewsArticle.tsx'],
+}
+
+/** 콘텐츠 날짜와 템플릿 커밋일 중 더 나중 것(둘 다 YYYY-MM-DD 라 문자열 비교로 충분). */
+function detailLastmod(base, contentDate) {
+  const t = gitDate(DETAIL_TEMPLATES[base] ?? [])
+  return t && t > contentDate ? t : contentDate
+}
+
 // ── 콘텐츠 블록 생성 ──
 const blocks = []
 const summary = {}
@@ -93,11 +134,11 @@ for (const t of TYPES) {
     const hasEn = enSet.has(it.slug)
     if (hasEn) {
       const enLoc = `${SITE}/en/${t.base}/${it.slug}/`
-      blocks.push(urlBlock(koLoc, it.date, it.featured ? '0.8' : '0.7', alt(koLoc, enLoc)))
-      blocks.push(urlBlock(enLoc, it.date, '0.7', alt(koLoc, enLoc)))
+      blocks.push(urlBlock(koLoc, detailLastmod(t.base, it.date), it.featured ? '0.8' : '0.7', alt(koLoc, enLoc)))
+      blocks.push(urlBlock(enLoc, detailLastmod(t.base, it.date), '0.7', alt(koLoc, enLoc)))
       ko++; en++
     } else {
-      blocks.push(urlBlock(koLoc, it.date, it.featured ? '0.8' : '0.7'))
+      blocks.push(urlBlock(koLoc, detailLastmod(t.base, it.date), it.featured ? '0.8' : '0.7'))
       ko++
     }
   }
@@ -115,7 +156,7 @@ for (const t of TYPES) {
         console.error(`[gen-sitemap] ${t.enOnlyConst} 의 '${slug}' 를 ${t.enData} 에서 찾지 못했습니다 — 중단`)
         process.exit(1)
       }
-      blocks.push(urlBlock(`${SITE}/en/${t.base}/${slug}/`, it.date, it.featured ? '0.8' : '0.7'))
+      blocks.push(urlBlock(`${SITE}/en/${t.base}/${slug}/`, detailLastmod(t.base, it.date), it.featured ? '0.8' : '0.7'))
       en++
     }
   }
@@ -177,19 +218,6 @@ const PATH_SOURCES = [
   { test: (p) => p === '/terms/',              files: ['src/pages/terms.tsx'] },
   { test: (p) => p === '/refund/',             files: ['src/pages/refund.tsx'] },
 ]
-
-const gitDateCache = new Map()
-function gitDate(files) {
-  const key = files.join('|')
-  if (gitDateCache.has(key)) return gitDateCache.get(key)
-  let out = null
-  try {
-    const r = execFileSync('git', ['log', '-1', '--format=%cs', '--', ...files], { encoding: 'utf8' }).trim()
-    if (/^\d{4}-\d{2}-\d{2}$/.test(r)) out = r
-  } catch { /* 파일이 아직 없거나 git 이 없는 환경 — 기존 날짜를 그대로 둔다 */ }
-  gitDateCache.set(key, out)
-  return out
-}
 
 /** URL 경로 → 소스 파일 목록. 매핑이 없으면 null(=기존 lastmod 유지). */
 function sourcesFor(path) {
