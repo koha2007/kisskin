@@ -4,7 +4,9 @@ import { isExactRoute } from '../../../src/lib/seo/isExactRoute'
 export default function Head() {
   const ctx = usePageContext()
   if (!isExactRoute(ctx.urlPathname, '/en/reviews/')) return null
-  const title = 'K-Beauty Cosmetics Reviews — Global Bestseller Comparisons | kissinskin'
+  // 71자라 구글이 잘랐다. 브랜드 접미사를 뺀다 — 허브 제목에서 "| kissinskin"은
+  // SERP 에 도메인이 이미 보이므로 얻는 게 없고, 잘리는 자리만 차지한다. (51자)
+  const title = 'K-Beauty Cosmetics Reviews — Bestseller Comparisons'
   const desc =
     'Hands-on K-beauty comparison reviews: top global bestselling lipsticks, K-beauty skincare, and cushion foundations — price, efficacy, pros and cons.'
   return (

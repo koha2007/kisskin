@@ -1,4 +1,5 @@
 import { usePageContext } from 'vike-react/usePageContext'
+import { resolveSeoTitle } from '../../../src/lib/seo/title'
 import { getReviewBySlug } from '../../../src/lib/reviews/posts'
 import { getReviewCategoryMeta } from '../../../src/lib/reviews/types'
 import { hasEnReview } from '../../../src/lib/reviews/enSlugs'
@@ -24,8 +25,8 @@ export default function Head() {
 
   return (
     <>
-      <title>{`${post.title} · kissinskin Reviews`}</title>
-      <meta name="description" content={post.summary} />
+      <title>{resolveSeoTitle(post, 'kissinskin Reviews')}</title>
+      <meta name="description" content={post.seoDescription ?? post.summary} />
       <meta name="keywords" content={post.tags.join(', ')} />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={post.title} />

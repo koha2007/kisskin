@@ -9,7 +9,7 @@ export default function Head() {
       <title>Virtual Makeup Try-On Free — AI K-Beauty Generator</title>
       <meta
         name="description"
-        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty looks with matching hair colour, and you compare before/after. First try free, no card."
+        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty looks with matching hair colour. Compare before/after. First try free, no card."
       />
       <meta name="keywords" content="virtual makeup try on free, virtual makeup try on, ai makeup generator, ai makeup online free, ai makeup app, korean makeup ai, k-beauty makeup, personal color analysis free, face shape test free, kissinskin" />
       <link rel="canonical" href="https://kissinskin.net/en/" />
@@ -21,7 +21,7 @@ export default function Head() {
       <meta property="og:title" content="Virtual Makeup Try-On Free — AI K-Beauty Makeup Generator | kissinskin" />
       <meta
         property="og:description"
-        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty looks with matching hair colour, and you compare before/after. First try free, no card."
+        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty looks with matching hair colour. Compare before/after. First try free, no card."
       />
       <meta property="og:url" content="https://kissinskin.net/en/" />
       <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
@@ -34,7 +34,7 @@ export default function Head() {
       <meta name="twitter:title" content="Virtual Makeup Try-On Free — AI K-Beauty Makeup Generator | kissinskin" />
       <meta
         name="twitter:description"
-        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty looks with matching hair colour, and you compare before/after. First try free, no card."
+        content="Free virtual makeup try-on. One selfie, 60 seconds — AI applies 9 K-beauty looks with matching hair colour. Compare before/after. First try free, no card."
       />
       <meta name="twitter:image" content="https://kissinskin.net/og-image-en.png" />
       <script

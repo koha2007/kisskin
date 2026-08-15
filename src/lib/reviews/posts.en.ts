@@ -9,6 +9,9 @@ export const REVIEW_POSTS_EN: ReviewPost[] = [
     slug: 'global-bestseller-lipstick-top-10',
     category: 'lip',
     title: '2026 Global Bestselling Lipsticks: Top 10 (Sephora + Olive Young Data)',
+    // 실제 유입 검색어가 "top 10 best-selling lipstick in the world"(노출 22·순위 10.5)라
+    // 그 어순을 그대로 앞에 둔다. 접미사까지 91자였다.
+    seoTitle: 'Top 10 Best-Selling Lipsticks in the World (2026 Data)',
     summary:
       'We merged Q1 2026 sales data from Sephora US, Olive Young Korea, and LOFT Japan into one global bestseller ranking of the top 10 lipsticks.',
     intro:
@@ -116,6 +119,9 @@ export const REVIEW_POSTS_EN: ReviewPost[] = [
     title: 'K-Beauty Skincare Top 10: Efficacy, Price & Sensitive-Skin Fit',
     summary:
       'The combined Olive Young, Amazon, and Sephora bestseller list of K-beauty skincare — toners, serums, creams, and sunscreens compared on efficacy, price, and sensitivity fit.',
+    seoTitle: 'K-Beauty Skincare Top 10: Efficacy, Price, Sensitive Skin',
+    seoDescription:
+      'Olive Young, Amazon and Sephora bestseller lists combined — K-beauty toners, serums, creams and sunscreens compared on efficacy, price and sensitivity.',
     intro:
       'K-beauty skincare has become the global benchmark. Here is the combined global bestseller top 10, compared on efficacy, price, and how well each suits sensitive skin.',
     products: [

@@ -43,6 +43,18 @@ export interface GuidePost {
   category: GuideCategory
   title: string
   summary: string
+  /**
+   * 검색결과 전용 제목/설명. 없으면 title·summary 를 쓴다(뉴스·제품과 같은 패턴).
+   *
+   * 왜 따로 두나: `title` 은 H1 이자 글의 정체성이라 짧게 깎으면 본문이 상한다.
+   * 그런데 구글은 제목을 **약 60자**, 설명을 **약 160자**에서 자른다. 편집 제목이
+   * 그보다 길면 뒷부분이 "…" 로 사라지므로, 자를 위치를 우리가 정하는 편이 낫다.
+   * (2026-08-15 실측: EN 가이드·리뷰 11개가 60자 초과, 5개가 160자 초과.
+   *  길이가 맞는 페이지들의 CTR 이 눈에 띄게 높았다 — makeup-mbti 56자 6.2% vs
+   *  personal-color-analysis-korea 122자 ~0%.)
+   */
+  seoTitle?: string
+  seoDescription?: string
   body: string[]
   date: string
   readMinutes: number

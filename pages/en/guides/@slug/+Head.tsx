@@ -1,4 +1,5 @@
 import { usePageContext } from 'vike-react/usePageContext'
+import { resolveSeoTitle } from '../../../../src/lib/seo/title'
 import { getGuideBySlugEn } from '../../../../src/lib/guides/posts.en'
 import { getGuideCategoryMeta } from '../../../../src/lib/guides/types'
 import { isEnOnlyGuide } from '../../../../src/lib/guides/enOnlySlugs'
@@ -26,8 +27,8 @@ export default function Head() {
 
   return (
     <>
-      <title>{`${post.title} · kissinskin Guides`}</title>
-      <meta name="description" content={post.summary} />
+      <title>{resolveSeoTitle(post, 'kissinskin Guides')}</title>
+      <meta name="description" content={post.seoDescription ?? post.summary} />
       <meta name="keywords" content={post.tags.join(', ')} />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={post.title} />

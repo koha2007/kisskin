@@ -15,6 +15,11 @@ export const GUIDE_POSTS_EN: GuidePost[] = [
     title: 'Personal Color Analysis in Korea — What It Costs, What Actually Happens, and How to Get 80% of It Free',
     summary:
       'Seoul studios charge ₩100,000–180,000 and book out two months ahead. Here is exactly what happens in that room, whether it is worth flying for, and how to get most of the answer before you go.',
+    // 편집 제목 122자 · 요약 192자로 구글이 둘 다 잘랐다(노출 90 · 클릭 ~0).
+    // 핵심 키워드 "personal color analysis korea"를 앞에 두고 60/160 안에 맞춘다.
+    seoTitle: 'Personal Color Analysis Korea — Cost, Process, Free Option',
+    seoDescription:
+      "Seoul studios charge ₩100,000–180,000 and book out two months ahead. What happens in that room, whether it's worth flying for, and how to get most of it free.",
     body: [
       '> TLDR: A 1:1 session in Seoul runs roughly ₩100,000–180,000 (about $75–135) for 60–90 minutes | Popular studios book out 1–2 months ahead — reserve before you fly, not after you land | Arrive with a completely bare face: no foundation, no tinted SPF, no coloured lip balm, no coloured contacts | Most Korean studios use a 12-type system (4 seasons × warm-cool × bright-muted), and many now take a spectrophotometer reading first | The single most useful part — knowing whether you are warm or cool — you can get for free in a minute, before you book',
       'Search "personal color analysis" and Google finishes the phrase for you: *korea*, *seoul*, *near me*. That is not an accident. Colour analysis exists all over the world, but Korea turned it into an industry — and for a lot of people the trip to Seoul is half the appeal.',
@@ -61,6 +66,10 @@ export const GUIDE_POSTS_EN: GuidePost[] = [
     title: 'Virtual Makeup Try-On, Free — How AI Makeup Actually Works (and What It Still Cannot Do)',
     summary:
       'Filters, AR try-ons and AI generators are three different technologies with three different failure modes. Here is what each one is good for, why AI makeup sometimes changes your face, and how to get a result worth keeping.',
+    // 편집 제목 108자 · 요약 223자. "virtual makeup try-on free"가 이 글의 검색어다.
+    seoTitle: 'Virtual Makeup Try-On Free — How AI Makeup Really Works',
+    seoDescription:
+      'Filters, AR try-ons and AI generators are three different technologies. What each is good for, why AI makeup can change your face, and how to get a keeper.',
     body: [
       '> TLDR: Three different technologies get called "virtual makeup" — AR filters (live, brand-owned, sells you a SKU), AI image generation (a new photo, more dramatic, can drift), and photo editing (manual, slow) | AI generators can restyle hair colour and skin finish; AR filters cannot | The classic AI failure is identity drift — it hands you back a prettier stranger | Your photo decides the result: flat front lighting, bare face, no heavy filter, eyes to camera | Free almost always means limited — someone is paying for the compute, so ask what they take in return (usually your email, or a watermark)',
       'If you have ever tried a virtual makeup tool and thought "that is not my face", you are not imagining it. The term covers at least three different technologies, and they fail in completely different ways. Knowing which one you are using tells you what to expect — and what to blame when it goes wrong.',

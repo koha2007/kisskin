@@ -42,6 +42,9 @@ export interface ReviewPost {
   category: ReviewCategory
   title: string
   summary: string
+  /** 검색결과 전용 제목/설명. 없으면 title·summary. 이유는 GuidePost 쪽 주석 참고. */
+  seoTitle?: string
+  seoDescription?: string
   intro: string
   products: ReviewProduct[]
   outro: string[]
