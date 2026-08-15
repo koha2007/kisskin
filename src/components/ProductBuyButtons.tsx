@@ -6,6 +6,12 @@ import { trackAffiliateClick, type AffiliatePageType } from '../lib/affiliate/tr
 interface Props {
   // Plain search phrase for Coupang (brand + product line). Required.
   coupangQuery: string
+  // 쿠팡 파트너스 단축링크(link.coupang.com/a/xxxxxx). 있으면 검색 URL 대신 이걸 쓴다.
+  // 왜 필요한가: 공개 URL 의 lptag attribution 이 막히면(2026-05-12 RET9999 전례)
+  // 수수료를 살릴 길은 단축링크뿐인데, 그동안 제품 상세에는 이 배선이 아예 없어
+  // `ProductPost.affiliateUrl` 이 타입에만 존재하는 죽은 필드였다(2026-08-15 확인).
+  // 도구 결과 카드(ProductGridCard·RecommendedProducts)는 이미 같은 우선순위를 쓴다.
+  coupangAffiliateUrl?: string | null
   // Clio storefront URL — pass null/undefined to hide the Clio button.
   clioLink?: string | null
   // English brand + product phrase for Amazon/YesStyle search (region: global).
@@ -24,6 +30,7 @@ interface Props {
 // Shared by review articles and guide pages.
 export default function ProductBuyButtons({
   coupangQuery,
+  coupangAffiliateUrl,
   clioLink,
   globalQuery,
   pageType,
@@ -70,7 +77,7 @@ export default function ProductBuyButtons({
   return (
     <div className={`flex flex-wrap items-center gap-2.5 ${className}`}>
       <a
-        href={buildSearchLink(coupangQuery)}
+        href={coupangAffiliateUrl || buildSearchLink(coupangQuery)}
         target="_blank"
         rel="sponsored noopener noreferrer"
         onClick={() =>

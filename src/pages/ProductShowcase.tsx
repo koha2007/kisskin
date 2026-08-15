@@ -170,6 +170,7 @@ export default function ProductShowcase({ slug }: Props) {
           </div>
           <ProductBuyButtons
             coupangQuery={item.coupangQuery}
+            coupangAffiliateUrl={item.affiliateUrl}
             globalQuery={item.globalQuery}
             clioLink={item.clio ? CLIO_CATEGORY_LINKS[item.clioCategory] : null}
             pageType="product"

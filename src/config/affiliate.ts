@@ -12,7 +12,9 @@ const CLIO_LINKS: Record<ClioCategory, string> = {
   cheek: 'https://newtip.net/click.php?m=clubclio&a=A100704523&l=9999&l_cd1=3&l_cd2=0&tu=https%3A%2F%2Fclubclio.co.kr%2Fshop%2FgoodsList%2F120704000000000',
 }
 
-const COUPANG_LPTAG = 'AF6657739'
+/** 쿠팡 파트너스 ID. 링크 빌더(lib/recommendations/types.ts)도 쓰므로 export 한다 —
+ *  두 곳에 각각 박아 두면 한쪽만 고쳐져 조용히 어긋난다. */
+export const COUPANG_LPTAG = 'AF6657739'
 
 // ════════════════════════════════════════════════════════════════════
 // 글로벌 머천트 — 승인 나면 **여기만** 고친다 (링크 빌더가 알아서 트래킹 링크로 바뀐다).

@@ -1,7 +1,7 @@
 // Shared ProductRecommendation type used across all 3 diagnostic tools.
 // Coupang Partners search affiliate active 2026-05-09.
 
-import { AMAZON_AFFILIATE, YESSTYLE_AFFILIATE } from '../../config/affiliate'
+import { AMAZON_AFFILIATE, YESSTYLE_AFFILIATE, COUPANG_LPTAG } from '../../config/affiliate'
 
 /**
  * searchKeywords 작성 규칙 — 위반 시 `npm run check:keywords` 실패
@@ -46,18 +46,33 @@ export interface ProductRec {
 export const AFFILIATE_ENABLED = true
 
 /**
- * 쿠팡 검색 링크 빌더.
+ * 쿠팡 검색 링크 빌더 — 이 한 곳이 쿠팡 링크 **전부**를 만든다
+ * (ProductBuyButtons=제품 상세 · ProductGridCard=도구 결과 · RecommendedProducts).
  *
- * 2026-05-12 현재 Coupang Partners는 공개 URL `lptag` 파라미터 attribution을 막아둠
- * (`/np/search?lptag=` 및 `/re/AFFSDP?lptag=&pageKey=` 양쪽 모두 RET9999 시스템 오류 반환).
+ * ── lptag 이력 ────────────────────────────────────────────────────────────
+ * 2026-05-12: `lptag` 를 붙이면 쿠팡이 RET9999("시스템 오류 발생")를 반환했다
+ *   (`/np/search?lptag=` · `/re/AFFSDP?lptag=&pageKey=` 양쪽 모두). 방문자에게
+ *   오류 화면을 보이느니 attribution 을 포기한다는 판단으로 `channel=user` 로
+ *   폴백했고, 그 상태로 **95일간 재확인 없이** 굳어 있었다. 그동안 쿠팡으로
+ *   나간 클릭은 전부 수수료 0 이었다.
+ * 2026-08-15: 운영자가 모바일·PC 양쪽에서 lptag URL 이 정상으로 열리는 것을
+ *   확인 → 복구한다. (이 코드베이스가 도는 데이터센터 IP 는 쿠팡이 403 으로
+ *   막아 자동 검증이 불가능하다 — 재확인은 반드시 실기기·한국 망에서 할 것.)
  *
- * 따라서 검색 키워드 → 일반 쿠팡 검색 URL(어필리에이트 없음)로 fallback.
- * 어필리에이트 수수료가 필요하면 Coupang Partners 대시보드에서 발급한
- * `https://link.coupang.com/a/xxxxxx` 단축링크를 각 ProductRec.affiliateUrl 에 직접 입력 —
- * 이미 affiliateUrl 이 있는 카드는 그 링크가 우선 사용됨 (RecommendedProducts 참고).
+ * ⚠️ **"페이지가 열린다" ≠ "수수료가 잡힌다".** RET9999 라는 명시적 차단 신호가
+ *    사라졌다는 것까지가 확인된 사실이고, 실적 인정 여부의 최종 근거는 **쿠팡
+ *    파트너스 대시보드의 클릭 수**다. 배포 후 며칠 안에 클릭이 0 으로 남아 있으면
+ *    attribution 이 여전히 안 잡히는 것이니 아래 단축링크 경로로 갈 것.
+ *
+ * 대안 경로(위가 실패할 때): 파트너스에서 발급한
+ * `https://link.coupang.com/a/xxxxxx` 단축링크를 `affiliateUrl` 에 넣는다.
+ * ProductGridCard·RecommendedProducts 는 `item.affiliateUrl || buildSearchLink(...)`
+ * 로 이미 우선순위를 두고 있다.
+ * ⚠️ 단 **제품 상세(ProductBuyButtons)에는 그 배선이 없다** — `ProductPost.affiliateUrl`
+ *    은 타입에만 있고 채우는 곳도 읽는 곳도 없는 죽은 필드다(2026-08-15 확인).
  */
 export function buildSearchLink(query: string): string {
-  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=user`
+  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&lptag=${COUPANG_LPTAG}`
 }
 
 /**
