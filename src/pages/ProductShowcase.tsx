@@ -67,9 +67,21 @@ export default function ProductShowcase({ slug }: Props) {
           <span className="text-slate-400">{categoryLabel}</span>
         </nav>
 
-        {/* Hero — image, or design gradient fallback */}
+        {/* Hero — image, or design gradient fallback.
+            ⚠️ 이 이미지는 **제품 사진이 아니다.** scripts/gen-products.mjs 의 프롬프트가
+            'Show only the person — no product packaging, no tubes, no bottles.' 로
+            제품을 명시적으로 배제한 AI 연출컷이다(효과를 보여주는 그림).
+
+            2026-08-15 에 높이를 줄였다. 네이버에서 **제품명으로** 검색해 들어온 사람이
+            390×844 모바일 첫 화면의 454px(54%)을 이 그림에 쓰고 있었는데, 정작 그들이
+            찾던 제품은 그림에 없다. Clarity 실측 결과 제품 페이지 체류가 1·2·3·5·10·12·
+            17·20초에 클릭 전부 0 이었다(tamburins 5세션·nars 4세션 등, 62세션 중 41이
+            네이버). "내가 찾던 그거 맞나?"에 첫 화면이 답을 못 하면 그냥 나간다.
+
+            ⚠️ max-h 로 높이를 조이면 aspect-ratio 가 폭을 함께 줄인다 → mx-auto 가 없으면
+            왼쪽으로 쏠리고 오른쪽에 빈 칸이 남는다(sm: 에만 있던 것을 상시로 올렸다). */}
         <div
-          className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-sm aspect-[4/5] sm:aspect-[3/4] sm:max-w-md sm:mx-auto flex items-center justify-center"
+          className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-sm aspect-[4/5] max-h-[38vh] mx-auto sm:max-h-none sm:aspect-[3/4] sm:max-w-md flex items-center justify-center"
           style={{ background: gradient }}
         >
           {item.image ? (
@@ -98,6 +110,15 @@ export default function ProductShowcase({ slug }: Props) {
             <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: meta.color }} />
             {categoryLabel}
           </span>
+          {/* 연출컷임을 밝힌다. 이 그림에는 제품이 없는데(프롬프트가 용기·튜브·병을
+              배제한다) 제품 상세의 최상단에 크게 놓이면 제품 사진으로 읽힌다.
+              밝히지 않으면 방문자에게 사실이 아닌 인상을 주는 것이고, 그건 이 리포가
+              가짜 평점(4.8/150)을 걷어낼 때 세운 기준과 같은 종류의 문제다. */}
+          {item.image && (
+            <span className="absolute right-3 bottom-3 rounded-full bg-navy/55 px-2.5 py-1 text-[10px] font-semibold text-white/90 backdrop-blur-sm">
+              {isEn ? 'Illustrative image — not the product' : '이미지는 연출컷 · 실제 제품 아님'}
+            </span>
+          )}
         </div>
 
         {/* Brand + name */}
@@ -134,6 +155,29 @@ export default function ProductShowcase({ slug }: Props) {
             ))}
           </ul>
         )}
+
+        {/* Buy — region-aware affiliate buttons.
+            2026-08-15 에 본문 맨 뒤에서 여기로 올렸다. 실측(390×844)에서 구매 링크가
+            페이지의 **53.5%** 지점(2026px)에 있었는데, 이 페이지 방문자의 체류는
+            1~20초다. 아무도 도달하지 못하는 자리에 있었고 실제로 어필리에이트 클릭이
+            0 이었다. 제품명으로 검색해 온 사람에게 "어디서 사나"는 상세 설명보다
+            먼저 나와야 하는 정보다 — 상세는 이미 살 마음이 있는 사람이 읽는다.
+            (같은 종류의 실수를 face-shape 결과에서도 했다 — 743bd48.) */}
+        <section className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <h2 className="text-sm font-bold text-navy">{isEn ? 'Where to buy' : '구매하기'}</h2>
+            <RegionToggle pageType="product" />
+          </div>
+          <ProductBuyButtons
+            coupangQuery={item.coupangQuery}
+            globalQuery={item.globalQuery}
+            clioLink={item.clio ? CLIO_CATEGORY_LINKS[item.clioCategory] : null}
+            pageType="product"
+            pageSlug={item.slug}
+            trackCategory={item.category}
+          />
+          <AffiliateDisclosure className="mt-4" />
+        </section>
 
         {/* Details — longer, concrete feature sentences */}
         {item.details && item.details.length > 0 && (
@@ -237,23 +281,6 @@ export default function ProductShowcase({ slug }: Props) {
           </section>
         )}
 
-        {/* Buy — region-aware affiliate buttons */}
-        <section className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <h2 className="text-sm font-bold text-navy">{isEn ? 'Where to buy' : '구매하기'}</h2>
-            <RegionToggle pageType="product" />
-          </div>
-          <ProductBuyButtons
-            coupangQuery={item.coupangQuery}
-            globalQuery={item.globalQuery}
-            clioLink={item.clio ? CLIO_CATEGORY_LINKS[item.clioCategory] : null}
-            pageType="product"
-            pageSlug={item.slug}
-            trackCategory={item.category}
-          />
-          <AffiliateDisclosure className="mt-4" />
-        </section>
-
         {/* Related */}
         {related.length > 0 && (
           <section className="mt-10">
@@ -333,7 +360,14 @@ export default function ProductShowcase({ slug }: Props) {
                 brand: { '@type': 'Brand', name: item.brand },
                 category: categoryLabel,
                 description: item.summary,
-                ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
+                // ⚠️ image 를 **일부러 뺐다**(2026-08-15). 우리가 가진 그림은 제품 사진이
+                // 아니라 AI 연출컷이다 — gen-products.mjs 프롬프트가 'no product
+                // packaging, no tubes, no bottles' 로 제품을 명시적으로 배제한다.
+                // 그걸 Product.image 로 넘기면 "이게 그 제품의 사진"이라고 구글에
+                // 말하는 것이고, 위 주석이 가격·평점에 세운 기준("있는 것만", 지어내면
+                // 정책 위반)에 그대로 걸린다. 가짜 평점 4.8/150 을 걷어낸 것과 같은 종류다.
+                // ⭐ 실제 제품 사진을 확보하면 그때 다시 넣을 것.
+                // Article.image 는 그대로 둔다 — 그건 이 **글의 삽화**가 맞다.
                 url: `${siteBase}/${item.slug}/`,
               },
               {
