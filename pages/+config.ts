@@ -35,6 +35,13 @@ export default {
           } catch (e) {}
           var internal = false;
           try { internal = localStorage.getItem('kisskin_internal') === '1'; } catch (e) {}
+          // 우리 Expo 앱의 WebView 안이면 무조건 제외. 앱은 아직 스토어 출시 전이라
+          // 앱 유입 = 100% 운영자·테스터인데, 위 localStorage 플래그는 앱 WebView 의
+          // 분리된 저장소에는 없어서 그동안 전부 외부 트래픽으로 잡혔다(GA4 28일치
+          // 주요이벤트의 80%). 판별은 앱만 주입하는 브릿지 전역 하나로만 한다 —
+          // ⚠️ UA 의 'wv' 로 거르면 네이버·카카오 인앱 브라우저(우리 최대 유입원)까지
+          // 함께 지워진다. 자세한 배경·해제 시점은 src/lib/internalTraffic.ts 참조.
+          if (window.ReactNativeWebView) internal = true;
           if (internal) {
             window['ga-disable-G-JJ7G39W5T3'] = true; // official GA4 kill switch
             return;
