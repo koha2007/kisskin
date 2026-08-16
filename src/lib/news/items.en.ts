@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'peach-and-lily-zombie-cell-moisturizer-launch',
+    category: 'skincare',
+    title: 'Peach & Lily Launches Next-Gen Moisturizer Targeting \'Zombie Cells\'',
+    summary:
+      'Peach & Lily launched its Advanced Rebound Bioglow Zombie Cream targeting \'zombie cells\' at Ulta Beauty on July 27, 2026. The tech-driven formula addressing cellular aging alongside creative marketing is drawing significant industry attention.',
+    body: [
+      '> TLDR: Zombie Cell Target | Advanced Rebound Bioglow Zombie Cream Launch | Ulta Beauty Exclusive',
+      'On July 27, 2026, Peach & Lily introduced its Advanced Rebound Bioglow Zombie Cream—targeting \'zombie cells,\' a driver of cellular aging—available on its official website and exclusively at Ulta Beauty.',
+      '> DATA: Launch Date July 27, 2026 | Price $59 | Ranked #2 Prestige Brand in Ulta Beauty\'s K-Beauty Category',
+      'The cream utilizes cutting-edge ingredients targeting \'zombie cells\'—cells that have stopped dividing but refuse to die, triggering inflammation and skin aging. To mark the debut, the brand executed a creative marketing campaign featuring actors dressed in full zombie makeup.',
+      'From a consumer perspective, the product\'s intriguing scientific concept paired with a new-tro marketing approach serves to spark curiosity while reinforcing K-beauty\'s image as a hub for skincare innovation.',
+    ],
+    date: '2026-08-16',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Moisturizer', 'Innovative Ingredients'],
+    seoTitle: 'Peach & Lily Launches Zombie Cell Moisturizer',
+    seoDescription:
+      'Peach & Lily debuts the Advanced Rebound Bioglow Zombie Cream at Ulta Beauty, targeting cellular senescence with novel tech.',
+  },
+  {
     slug: 'kiss-zoom-eye-potion-milk-tea-shades-launch',
     category: 'eye',
     title: 'Kiss Launches 2 New Milk Tea Shades of \'Zoom Eye Potion\'',

@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'mph-le-skin-weightless-foundation',
+    category: 'base',
+    brand: 'MPH (Mary Phillips)',
+    name: 'Le Skin Weightless Serum Foundation',
+    title: 'MPH Le Skin Weightless Foundation — Featherlight Like a Serum, Smooth Like an Airbrush',
+    summary:
+      'Mary Phillips\' \'Le Skin Weightless Serum Foundation\' features a lightweight, breathable serum texture that melts into the skin for a second-skin, natural base. It gained immediate popularity upon release for creating a flawless, skin-like finish.',
+    highlights: ['Featherlight serum texture', '12-hour seamless wear', 'Radiant, natural finish'],
+    details: [
+      'The serum formula melts smoothly into the skin, wearing comfortably all day without feeling heavy.',
+      'Lasts over 12 hours without creasing or caking, making it ideal for day-to-night wear.',
+      'Enriched with Hyaluronic Acid and Niacinamide to deliver hydration without dryness and a smooth, filter-like glow.',
+      'Available in 35 shades to match various undertones, perfect for those who prefer a natural, skin-like finish.',
+    ],
+    whoFor:
+      'Particularly suited for normal to dry skin types seeking a lightweight, hydrating finish with natural correction, as well as anyone who prefers a \'skin-first\' look with light coverage.',
+    howTo: [
+      'Dispense a small amount onto fingertips or a brush, warm it up on the skin, and apply in short upward strokes to blend seamlessly.',
+      'For additional coverage, layer thinly to achieve a medium finish, and lightly set the T-zone with powder to maintain longevity and balance shine.',
+    ],
+    pros: [
+      'Lightweight, hydrating serum finish',
+      'Natural coverage with 12-hour staying power',
+    ],
+    cons: [
+      'May not suit those looking for a matte or full-coverage finish',
+    ],
+    coupangQuery: '엠피에이치 르 스킨 파운데이션',
+    globalQuery: 'm.ph Le Skin Weightless Serum Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-16',
+    tags: ['SerumFoundation', 'SkinFit', 'NaturalBase'],
+    seoTitle: 'MPH Le Skin Weightless Serum Foundation Review',
+    seoDescription:
+      'Discover MPH Le Skin Weightless Serum Foundation for a breathable, 12-hour hydrating base with a filter-smooth finish.',
+  },
+  {
     slug: 'wakemake-soft-blurring-eye-palette-candy-coral',
     category: 'eye',
     brand: 'WAKEMAKE',

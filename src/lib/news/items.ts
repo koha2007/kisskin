@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'peach-and-lily-zombie-cell-moisturizer-launch',
+    category: 'skincare',
+    title: 'Peach & Lily, \'좀비 세포\' 겨냥한 신개념 모이스처라이저 출시',
+    summary:
+      'Peach & Lily가 \'좀비 세포\'를 타깃으로 한 Advanced Rebound Bioglow Zombie Cream을 2026년 7월 27일 Ulta Beauty에서 출시했습니다. 최신 세포 노화를 공략한 기술 기반 제품과 독창적 마케팅이 주목됩니다.',
+    body: [
+      '> TLDR: 좀비 세포 타깃 | Advanced Rebound Bioglow Zombie Cream 출시 | Ulta Beauty 단독 판매',
+      'Peach & Lily가 세포 노화의 일종인 ‘좀비 세포’를 겨냥한 Advanced Rebound Bioglow Zombie Cream을 2026년 7월 27일 자사 웹사이트 및 Ulta Beauty 독점 입점으로 선보였습니다.',
+      '> DATA: 출시일 2026년 7월 27일, 가격 59달러, Ulta Beauty 내 K-뷰티 카테고리 내 2위 프레스티지 브랜드 위치',
+      '이 크림은 분열은 멈추었지만 죽지는 않아 염증과 노화를 유발하는 ‘좀비 세포’를 대상으로 하는 첨단 성분을 활용했으며, 상품 론칭 시 좀비 분장을 한 배우들을 활용한 독창적인 마케팅 캠페인을 전개했습니다.',
+      '소비자 관점에서, 이 제품은 과학적 개념이 흥미롭고 뉴트로 감성의 마케팅이 더해져, K‑뷰티의 혁신 이미지와 호기심을 자극하는 요소로 작용할 수 있습니다.',
+    ],
+    date: '2026-08-16',
+    readMinutes: 3,
+    tags: ['K-뷰티', '모이스처라이저', '혁신성분'],
+    seoTitle: '좀비 세포 공략한 피치앤릴리 크림 출시',
+    seoDescription:
+      'Peach & Lily가 좀비 세포를 표적으로 한 새로운 모이스처라이저를 Ulta Beauty에서 7월 27일 선보였습니다.',
+  },
+  {
     slug: 'kiss-zoom-eye-potion-milk-tea-shades-launch',
     category: 'eye',
     title: 'Kiss ‘줌 아이포션’에 밀크티 빛 신상 2종 출시',

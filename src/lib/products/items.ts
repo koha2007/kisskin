@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'mph-le-skin-weightless-foundation',
+    category: 'base',
+    brand: '엠피에이치 (Mary Phillips)',
+    name: '르 스킨 웨이트리스 세럼 파운데이션',
+    title: '엠피에이치 르 스킨 웨이트리스 파운데이션 — 세럼처럼 가볍고 에어브러시처럼 매끈한 피부 연출',
+    summary:
+      'Mary Phillips의 ‘Le Skin Weightless Serum Foundation’는 가볍고 숨 쉬는 듯한 세럼 제형으로, 피부에 녹아들 듯 밀착되는 ‘내 피부 같은’ 자연스러운 베이스를 연출합니다. 출시 직후부터 티끌 하나 없는 완벽한 피부 표현으로 화제를 모으고 있습니다.',
+    highlights: ['세럼처럼 가벼운 제형', '12시간 밀착 지속', '빛나는 자연스러운 마무리'],
+    details: [
+      '세럼 제형이 피부에 매끄럽게 녹아들며 무게감 없이 하루 종일 편안하게 지속됩니다.',
+      '12시간 이상 무너지거나 뭉침 없이 자연스럽게 유지되어 데이투나잇 베이스로 활용하기 좋습니다.',
+      '하이알루론산과 나이아신아마이드 포함으로 건조함 없이 촉촉하면서도 ‘필터처럼 매끈한’ 광을 부여합니다.',
+      '35가지 섀드 구성으로 다양한 언더톤과 맞춤 컬러 선택이 가능하며, 특히 자연스럽고 피부 같은 표현을 선호하는 사용자에게 적합합니다.',
+    ],
+    whoFor:
+      '피부를 자연스럽게 보정하면서도 가볍고 촉촉한 마무리를 원하는 중·건성 피부에게 특히 적합하며, 결점은 가볍게 커버하면서 ‘내 피부 같은’ 표현을 선호하는 스킨 피니시 스타일 사용자에게 추천합니다.',
+    howTo: [
+      '손가락 또는 전용 브러시에 소량을 덜어 피부에 따뜻하게 녹인 후 짧은 위쪽 스트로크로 부드럽게 펴 발라 자연스럽게 밀착시켜줍니다.',
+      '더 커버가 필요할 경우 얇게 한 겹씩 덧발라 중간 정도 커버를 연출하고, T존에만 가볍게 파우더로 마무리하면 지속력과 보송함을 유지할 수 있습니다.',
+    ],
+    pros: [
+      '세럼처럼 가볍고 촉촉한 마무리',
+      '자연스러운 커버력과 12시간 지속력',
+    ],
+    cons: [
+      '매트하거나 풀 커버를 원하는 피부에는 적합하지 않을 수 있음',
+    ],
+    coupangQuery: '엠피에이치 르 스킨 파운데이션',
+    globalQuery: 'm.ph Le Skin Weightless Serum Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-16',
+    tags: ['세럼파운데이션', '스킨핏', '자연스러운베이스'],
+    seoTitle: '르 스킨 웨이트리스 세럼 파운데이션 자연스러운',
+    seoDescription:
+      '유명 메이크업 아티스트 Mary Phillips가 출시한 세럼 제형 파운데이션으로, 가볍고 자연스러운 스킨 핏을 12시간 지속해주는',
+  },
+  {
     slug: 'wakemake-soft-blurring-eye-palette-candy-coral',
     category: 'eye',
     brand: '웨이크메이크',
