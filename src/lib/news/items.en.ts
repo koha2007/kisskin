@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'nooni-lip-oil-prime-day-north-america-surge',
+    category: 'lip',
+    title: 'Nooni Lip Oil Sales and Traffic Surge in North America During Amazon Prime Day (US +350%, Canada +713%)',
+    summary:
+      'Global K-beauty brand Nooni saw explosive growth in North America during Amazon Prime Day, with daily lip oil sales surging +350% in the US and +713% in Canada. In particular, sales of new shades launched this year jumped over 650% compared to average days.',
+    body: [
+      '> TLDR: Massive North American sales growth for Nooni lip oil | US sales +350%, Canada +713% | New shade sales +650%',
+      'K-beauty brand Nooni\'s lip oil achieved remarkable growth in the North American market during Amazon Prime Day from June 23 to 26.',
+      '> DATA: Average daily US sales +350%, traffic +234%; Canada sales +713%, traffic +371%; new shade sales up over +650% (v.daum.net)',
+      'This performance stems from viral momentum—surpassing 200 million cumulative views on TikTok—combined with an aggressive global retail expansion strategy, including planned launches at Nordstrom and Target later this year (newswire.co.kr).',
+      'Leveraging its manufacturing and marketing capabilities to extend online success into offline channels, Nooni is further strengthening K-beauty\'s influence in the North American market.',
+    ],
+    date: '2026-08-17',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Lip Oil', 'Amazon Prime Day'],
+    seoTitle: 'Nooni Lip Oil Sales Surge on Amazon Prime Day',
+    seoDescription:
+      'Nooni lip oil sales spiked 350% in the US and 713% in Canada during Amazon Prime Day, driven by viral TikTok momentum and retail expansion.',
+  },
+  {
     slug: 'peach-and-lily-zombie-cell-moisturizer-launch',
     category: 'skincare',
     title: 'Peach & Lily Launches Next-Gen Moisturizer Targeting \'Zombie Cells\'',

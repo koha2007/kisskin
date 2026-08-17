@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'hince-raw-glow-dewy-ball',
+    category: 'cheek',
+    brand: '힌스',
+    name: '로 글로우 듀이 볼 (립앤치크)',
+    title: '힌스 로 글로우 듀이 볼 — 글로우 글래스 피부 연출',
+    summary:
+      '힌스의 로 글로우 듀이 볼은 독특한 구름처럼 둥근 멀티 밤 포뮬러로, 입술과 볼에 쿨하고 촉촉한 유리광을 부여하는 인기 치크 아이템입니다. 글로우픽 글로우팟 부문 1위에 올랐으며 실사용자 리뷰에서도 데일리로 사랑받는 제품입니다.',
+    highlights: ['구형 밤 제형', '투명 글로우 피니시', '빌드 가능한 발색'],
+    details: [
+      '둥근 볼 형태의 멀티 밤 제형으로 입술과 볼에 부드럽게 녹아들며 쉽게 펴발립니다.',
+      '투명하면서도 맑은 글로우 피니시가 특징이며, 잔자국 없이 자연스러운 광채를 연출합니다.',
+      '한두 번 톡톡 발라 은은한 혈색을, 여러 겹 레이어드하면 생기 있는 발색으로 조절 가능합니다.',
+    ],
+    whoFor:
+      '수분감 있는 글로우 메이크업을 좋아하는 모든 피부톤에게 적합합니다. 특히 건조하거나 무거운 메이크업을 부담스러워하는 피부에 자연스러운 광채를 제공합니다.',
+    howTo: [
+      '제품을 볼이나 입술에 직접 톡톡 찍은 뒤 손가락으로 두드리며 자연스럽게 블렌딩합니다.',
+      '은은한 빛을 원할 땐 한 겹만, 더 또렷한 발색과 광을 원할 땐 레이어드해 사용하세요.',
+    ],
+    pros: [
+      '촉촉한 밤 제형으로 건조함 없이 발림성이 좋음',
+      '립과 치크 모두 활용 가능한 멀티밤',
+    ],
+    cons: [
+      '젤·밤 특성상 지속력은 중간 정도, 자주 수정이 필요할 수 있음',
+    ],
+    colorFit:
+      '봄 웜/가을 웜 중심이지만, 컬러에 따라 쿨톤도 활용 가능 — 피치·코랄 계열은 웜톤에, 쿨 로즈 듀 같은 색은 쿨톤에도 자연스럽게 어울립니다.',
+    coupangQuery: '힌스 로 글로우 듀이 볼',
+    globalQuery: 'hince raw glow dewy ball',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-17',
+    tags: ['멀티밤', '글로우치크', '촉촉광'],
+    seoTitle: '힌스 로 글로우 듀이 볼 치크밤',
+    seoDescription:
+      '톡톡한 발색과 맑은 유리광 채광으로 입술과 볼에 자연스럽고 촉촉한 글로우를 연출해 주는 멀티 밤.',
+  },
+  {
     slug: 'mph-le-skin-weightless-foundation',
     category: 'base',
     brand: '엠피에이치 (Mary Phillips)',

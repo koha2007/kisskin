@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'nooni-lip-oil-prime-day-north-america-surge',
+    category: 'lip',
+    title: 'Nooni 립오일, 아마존 프라임데이 북미 매출·트래픽 폭증 (미국 +350%, 캐나다 +713%)',
+    summary:
+      '글로벌 K‑뷰티 브랜드 Nooni의 립오일이 아마존 프라임데이 프로모션 기간 미국에서 일일 매출 +350%, 캐나다에서 +713% 성장하며 북미 시장에서 폭발적 반응을 기록했습니다. 특히 올해 출시된 신규 컬러는 판매가 평시 대비 650% 이상 증가했습니다.',
+    body: [
+      '> TLDR: Nooni 립오일 북미 매출 대폭 성장 | 미국 매출 +350%, 캐나다 +713% | 신규 컬러 판매 +650%',
+      'K‑뷰티 브랜드 Nooni(누니)의 립오일이 6월 23일~26일 아마존 프라임데이 기간에 북미 시장에서 눈에 띄는 성장세를 보였습니다.',
+      '> DATA: 미국 일평균 매출 +350%, 트래픽 +234%, 캐나다 매출 +713%, 트래픽 +371%, 신규 컬러 판매 +650% 이상 증가 (v.daum.net)',
+      '이번 성과는 브랜드의 TikTok 누적 조회수 2억 뷰 돌파와 연계된 바이럴 영향과 연말 Nordstrom 및 Target 입점 계획 등 적극적인 글로벌 유통 확대 전략이 맞물린 결과입니다 (newswire.co.kr).',
+      '제조·마케팅 역량을 기반으로 온라인 성과를 오프라인까지 확장 중인 Nooni는 K‑뷰티의 북미 시장 내 영향력을 더욱 강화하고 있습니다.',
+    ],
+    date: '2026-08-17',
+    readMinutes: 3,
+    tags: ['K-뷰티', '립오일', '아마존 프라임데이'],
+    seoTitle: 'Nooni 립오일, 프라임데이 북미 매출 대폭 증가',
+    seoDescription:
+      'Nooni 립오일이 아마존 프라임데이 기간 미국·캐나다서 매출 수백 퍼센트 상승하며 K‑뷰티 북미 성장세를 입증한 소식.',
+  },
+  {
     slug: 'peach-and-lily-zombie-cell-moisturizer-launch',
     category: 'skincare',
     title: 'Peach & Lily, \'좀비 세포\' 겨냥한 신개념 모이스처라이저 출시',

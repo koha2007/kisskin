@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'hince-raw-glow-dewy-ball',
+    category: 'cheek',
+    brand: 'hince',
+    name: 'Raw Glow Dewy Ball (Lip & Cheek)',
+    title: 'hince Raw Glow Dewy Ball — Glass Skin Glow Effect',
+    summary:
+      'The hince Raw Glow Dewy Ball is a popular cheek product featuring a unique rounded multi-balm formula that adds a cool, hydrating glass shine to lips and cheeks. Ranked No. 1 in the Glowpick Glow Pot category, it is a beloved daily favorite among real user reviews.',
+    highlights: ['Spherical balm texture', 'Clear glow finish', 'Buildable color payoff'],
+    details: [
+      'The rounded ball-shaped multi-balm texture softly melts onto the lips and cheeks for effortless blending.',
+      'It features a clear, radiant glow finish that creates a natural sheen without leaving streak marks.',
+      'Apply once or twice for a subtle flush, or layer for a more vibrant color payoff.',
+    ],
+    whoFor:
+      'Suitable for all skin tones looking for hydrating glow makeup. It provides a natural shine, especially for those who dislike dry or heavy formulas.',
+    howTo: [
+      'Dab the product directly onto cheeks or lips and gently pat with your fingers to blend naturally.',
+      'Apply a single layer for a subtle sheen, or layer for bolder color and extra shine.',
+    ],
+    pros: [
+      'Hydrating balm formula glides on smoothly without drying skin',
+      'Versatile multi-balm usable on both lips and cheeks',
+    ],
+    cons: [
+      'Moderate longevity due to its gel-balm texture, requiring touch-ups',
+    ],
+    colorFit:
+      'Mainly centered on Spring Warm / Autumn Warm, but cool tones can also wear it depending on the shade — peach and coral shades suit warm tones, while shades like Cool Rose Dew suit cool tones naturally.',
+    coupangQuery: '힌스 로 글로우 듀이 볼',
+    globalQuery: 'hince raw glow dewy ball',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-17',
+    tags: ['Multi Balm', 'Glow Cheek', 'Dewy Glow'],
+    seoTitle: 'hince Raw Glow Dewy Ball Lip & Cheek Review',
+    seoDescription:
+      'Discover the hince Raw Glow Dewy Ball, a spherical multi-balm that delivers a clear glass-skin glow to both lips and cheeks.',
+  },
+  {
     slug: 'mph-le-skin-weightless-foundation',
     category: 'base',
     brand: 'MPH (Mary Phillips)',
