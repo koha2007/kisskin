@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'laura-geller-cream-full-face-basics-palette',
+    category: 'trend',
+    brand: '로라 겔러',
+    name: '크림 풀 페이스 베이직스 팔레트',
+    title: '로라 겔러 크림 풀 페이스 베이직스 팔레트 — 보습과 자연광 피부를 한 팔레트에',
+    summary:
+      '로라 겔러가 올해 3월 출시한 크림 포뮬러 올인원 팔레트로, 브론저·블러셔·하이라이터·아이섀도우를 하나에 담아 편안하고 촉촉한 광채 표현이 가능한 제품입니다.',
+    highlights: ['크림 제형 멀티 팔레트', '40대 이상 피부 특화', '자연광 광채'],
+    details: [
+      '보습 중심의 크림 제형으로 브론저, 블러셔, 하이라이터, 아이섀도우까지 하나의 팔레트에 구성되어 있어 올인원 사용이 가능합니다.',
+      '자연스러운 광채 표현을 도와주며, 특별히 40대 이상 여성의 피부에 맞춰 편안함과 촉촉함을 중점에 두고 개발되었습니다.',
+      '2026년 3월 출시된 이후 ‘Just Add Cream’ 캠페인과 함께 SNS에서 주목받으며 현재 글로벌 시장에서도 화제가 되고 있습니다.',
+    ],
+    whoFor:
+      '건조하거나 성숙한 피부에 특히 잘 어울리며, 메이크업 간소화를 원하는 40대 이상 여성에게 이상적입니다. 크림 제형이기 때문에 건조함을 막고 자연스러운 광채 연출을 원하는 분께 추천합니다.',
+    howTo: [
+      '가볍게 손가락이나 브러시로 원하는 부위(볼, 이마, 눈 등)에 크림을 소량 취해 톡톡 두드리며 자연스럽게 블렌딩합니다.',
+      '브론저로 윤곽을 잡고, 블러셔로 생기를, 하이라이터로 광채를 더한 뒤 섀도우는 눈두덩에 은은하게 펴 발라 통일감 있는 룩을 완성합니다.',
+    ],
+    pros: [
+      '하나로 여러 기능을 해결하는 올인원 구성',
+      '크림 제형으로 촉촉하고 자연스러운 피부 표현',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 크림 제형 텍스처',
+    ],
+    coupangQuery: '로라 겔러 크림 풀 페이스 팔레트',
+    globalQuery: 'Laura Geller Cream Full Face Basics Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-18',
+    tags: ['올인원팔레트', '크림메이크업', '자연광광채'],
+    seoTitle: '크림 풀 페이스 베이직스 팔레트 출시',
+    seoDescription:
+      '보습 크림 제형으로 40대 이상 피부에 자연광 광채와 편안함을 선사하는 올인원 멀티 팔레트.',
+  },
+  {
     slug: 'hince-raw-glow-dewy-ball',
     category: 'cheek',
     brand: '힌스',
