@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'olive-young-fullmoon-makeup-shift-care-focus',
+    category: 'trend',
+    title: 'Olive Young\'s \'FULLMOON\' Keyword Signals Shift from Coverage to Skincare in Makeup',
+    summary:
+      'CJ Olive Young unveiled its 2026 trend keyword \'FULLMOON\', highlighting how color cosmetics are evolving to emphasize skincare benefits over mere coverage. Searches for skin-soothing and moisturizing features within makeup products jumped by over 150% year-over-year.',
+    body: [
+      '> TLDR: FULLMOON trend | Makeup + skincare hybrid | Expansion of function-driven products',
+      'CJ Olive Young announced \'FULLMOON\' as its key trend keyword for 2026, signaling a major shift in makeup from coverage to skin care and health.',
+      '> DATA: Searches for skin-soothing and hydrating features in color cosmetics up over 150% YoY',
+      'Based on search data, Olive Young noted that skin barrier strengthening and hydration benefits are gaining significant traction even within color cosmetics. \'Skip-care\' makeup products—which combine color, sun protection, and skin treatment—are seeing rapid growth.',
+      'This shift reflects a consumer desire beyond mere aesthetics to simplify skincare routines while actively maintaining skin health. Functionality is becoming the centerpiece of the color cosmetics market.',
+    ],
+    date: '2026-08-19',
+    readMinutes: 3,
+    tags: ['Olive Young', 'Makeup Trends', 'Skip Care'],
+    seoTitle: 'Olive Young: Makeup Shifts from Coverage to Care',
+    seoDescription:
+      'CJ Olive Young reveals its 2026 FULLMOON trend as makeup pivots from coverage to skincare benefits like barrier support and hydration.',
+  },
+  {
     slug: 'nooni-lip-oil-prime-day-north-america-surge',
     category: 'lip',
     title: 'Nooni Lip Oil Sales and Traffic Surge in North America During Amazon Prime Day (US +350%, Canada +713%)',

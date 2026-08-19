@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'roundlab-birch-sap-sunscreen',
+    category: 'skincare',
+    brand: 'ROUND LAB',
+    name: 'Birch Juice Moisturizing Sunscreen',
+    title: 'ROUND LAB Birch Juice Moisturizing Sunscreen — Hydrating Sunscreen with No White Cast',
+    summary:
+      'ROUND LAB Birch Juice Moisturizing Sunscreen is a popular mineral sunscreen infused with birch juice, amino acids, minerals, and hyaluronic acid to form a hydrating moisture barrier that applies smoothly without any white cast.',
+    highlights: ['Birch juice moisture barrier', 'Formula with no white cast', 'Popular, high-value favorite'],
+    details: [
+      'Birch juice extract, amino acids, minerals, and hyaluronic acid form a natural moisture barrier on the skin to maintain hydration all day long.',
+      'Formulated as a mineral sunscreen, it leaves virtually no white cast and can be used comfortably even on sensitive skin.',
+      'Proven in popularity and satisfaction, ranking #1 in recommended sunscreens in June 2026 based on real HwaHae user reviews.',
+    ],
+    whoFor:
+      'Ideal for users with dry or sensitive skin who want simultaneous UV protection and moisture. Recommended for those seeking a hydrating sunscreen that applies smoothly without stickiness before makeup.',
+    howTo: [
+      'At the final step of your skincare routine, dispense an adequate amount (about 2–3 pearl-sized drops for the entire face) and gently spread along the skin texture.',
+      'Reapply every 2–3 hours when outdoors to maintain both hydration and UV protection.',
+    ],
+    pros: [
+      'Proven popular product ranked #1 in real user reviews',
+      'Applies smoothly and hydratively with no white cast',
+    ],
+    cons: [
+      'May feel somewhat oily on oily skin types',
+    ],
+    coupangQuery: '라운드랩 자작나무 수분 선크림',
+    globalQuery: 'roundlab birch sap sunscreen',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-19',
+    tags: ['BirchJuice', 'MoisturizingSunscreen', 'NoWhiteCast'],
+    seoTitle: 'ROUND LAB Birch Juice Moisturizing Sunscreen Guide',
+    seoDescription:
+      'Discover why ROUND LAB Birch Juice Moisturizing Sunscreen is a top-rated K-beauty sunscreen offering deep hydration without a white cast.',
+  },
+  {
     slug: 'hince-raw-glow-dewy-ball',
     category: 'cheek',
     brand: 'hince',

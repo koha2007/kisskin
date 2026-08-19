@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'roundlab-birch-sap-sunscreen',
+    category: 'skincare',
+    brand: '라운드랩',
+    name: '자작나무 수분 선크림',
+    title: '라운드랩 자작나무 수분 선크림 — 촉촉한 백탁 없는 보습 자차',
+    summary:
+      '라운드랩 자작나무 수분 선크림은 자작나무 수액, 아미노산, 미네랄, 히알루론산 성분이 촉촉한 수분 장벽을 형성해 백탁 없이 부드럽게 발리는 인기 무기자차.',
+    highlights: ['자작나무 수액 수분 장벽', '백탁 없는 제형', '가성비 인기템'],
+    details: [
+      '자작나무 수액 추출물과 아미노산·미네랄·히알루론산이 피부에 자연스러운 수분 장벽을 형성해 하루종일 촉촉함을 유지합니다.',
+      '무기 자외선 차단제 기반의 제형으로 백탁 현상이 거의 없고, 민감한 피부도 부담 없이 사용할 수 있습니다.',
+      '화해 실사용 리뷰 기반 2026년 6월 선크림 추천 1위에 오르며 높은 인기도와 만족도를 입증했습니다.',
+    ],
+    whoFor:
+      '건성 또는 민감성 피부로 자외선 차단과 동시에 수분감을 원하는 사용자에게 적합합니다. 메이크업 전 스킨케어 단계에서 끈적임 없이 쓸 수 있는 촉촉한 자차를 찾는 분께 추천됩니다.',
+    howTo: [
+      '기초 마무리 단계에서 적당량(얼굴 전체에 진주 2~3알 크기)을 덜어 피부결을 따라 부드럽게 펴 바릅니다.',
+      '외출 시 2~3시간마다 덧발라 수분과 자외선 차단을 동시에 유지합니다.',
+    ],
+    pros: [
+      '실사용 리뷰 1위로 입증된 인기템',
+      '백탁 없이 촉촉하게 발림',
+    ],
+    cons: [
+      '지성 피부에는 유분감이 느껴질 수 있음',
+    ],
+    coupangQuery: '라운드랩 자작나무 수분 선크림',
+    globalQuery: 'roundlab birch sap sunscreen',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-19',
+    tags: ['자작나무수액', '수분선크림', '백탁없는'],
+    seoTitle: '촉촉한 자작나무 수분 선크림',
+    seoDescription:
+      '자작나무 수액 성분으로 촉촉하면서 백탁 없이 발리는 실사용 리뷰 1위 자외선 차단제.',
+  },
+  {
     slug: 'laura-geller-cream-full-face-basics-palette',
     category: 'trend',
     brand: '로라 겔러',
