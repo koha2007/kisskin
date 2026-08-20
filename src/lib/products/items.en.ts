@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'color-wow-dream-coat',
+    category: 'hair',
+    brand: 'Color Wow',
+    name: 'Dream Coat Supernatural Spray',
+    title: 'Color Wow Dream Coat — TikTok Viral Glass Hair Essential',
+    summary:
+      'The viral spray behind TikTok and YouTube\'s \'glass hair\' trend. Color Wow Dream Coat Supernatural Spray long-lastingly maintains intense shine and sleek smoothness, even in high humidity.',
+    highlights: ['Heat-activated glossy finish', 'Moisture & humidity shield', 'Lightweight, invisible feel'],
+    details: [
+      'Activated by blow-dry heat, it acts like a mini-keratintreatment to create sleek, glass-like shiny hair.',
+      'Creates a waterproof moisture barrier on hair strands that locks out high humidity and lasts through 2 to 3 shampoos.',
+      'Coats hair weightlessly without leaving greasy residue or build-up for a completely natural texture.',
+    ],
+    whoFor:
+      'Ideal for anyone looking to tame frizzy or unruly hair in hot, humid weather for a silky, radiant look. Perfect for all hair types wanting a smooth glass-hair effect without chemically straightening or salon keratin treatments.',
+    howTo: [
+      'After shampooing, spray evenly section by section onto damp, towel-dried hair.',
+      'Blow-dry using tension with a brush to heat-activate the formula and unlock maximum shine and smoothness.',
+    ],
+    pros: [
+      'Over 100M TikTok views with proven long-lasting glass shine',
+      'Weightless spray formula leaves zero greasy residue',
+    ],
+    cons: [
+      'Requires high heat blow-drying; results may be less noticeable without heat activation',
+    ],
+    coupangQuery: '컬러웅 드림 코트 스프레이',
+    globalQuery: 'Color Wow Dream Coat Supernatural Spray',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-20',
+    tags: ['Glass Hair', 'Anti-Frizz', 'Humidity Protection'],
+    seoTitle: 'Color Wow Dream Coat Supernatural Spray Guide',
+    seoDescription:
+      'Discover Color Wow Dream Coat Supernatural Spray for silky glass hair that resists frizz and blocks out humidity for up to three washes.',
+  },
+  {
     slug: 'roundlab-birch-sap-sunscreen',
     category: 'skincare',
     brand: 'ROUND LAB',

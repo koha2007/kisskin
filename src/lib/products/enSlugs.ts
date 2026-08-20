@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'color-wow-dream-coat',
   'roundlab-birch-sap-sunscreen',
   'hince-raw-glow-dewy-ball',
   'mph-le-skin-weightless-foundation',

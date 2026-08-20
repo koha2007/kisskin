@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'color-wow-dream-coat',
+    category: 'hair',
+    brand: '컬러 웅 (Color Wow)',
+    name: '드림 코트 슈퍼내추럴 스프레이',
+    title: '컬러 웅 드림 코트 — 틱톡·글래스 헤어 필수템',
+    summary:
+      '틱톡·유튜브에서 ‘글래스 헤어’를 가능하게 해 화제가 된 컬러 웅의 드림 코트 슈퍼내추럴 스프레이입니다. 고습도에서도 광택과 매끄러움을 오래 유지합니다.',
+    highlights: ['열 활성 광택 밀착', '수분·습도 차단', '가볍고 투명한 피니시'],
+    details: [
+      '열의 열기를 이용해 마치 케라틴 트리트먼트처럼 작동해 매끄럽고 유리처럼 빛나는 모발을 연출합니다.',
+      '고습도 환경에서도 모발 표면에 보습 및 수분 차단막을 형성해 최대 2~3번 샴푸 후까지 유지됩니다.',
+      '분사 후 거의 무게감 없이 머릿결에 투명하게 밀착되어 잔여감 없이 자연스러운 피니시를 제공합니다.',
+    ],
+    whoFor:
+      '고온다습한 환경에서 부스스하거나 곱슬거리는 모발을 프리즈 없이 윤기 있게 관리하고 싶은 사람에게 적합합니다. 매직이나 케라틴 시술 없이도 글래스 헤어 효과를 원하는 모발 유형 전반에 잘 맞습니다.',
+    howTo: [
+      '샴푸 후 타월 드라이된 (젖지 않은) 모발에 섹션별로 고르게 분사합니다.',
+      '블로우드라이 시 긴장감을 주며 열을 가해 스타일링하면, 제품의 열 활성 기술이 작동해 광택과 부드러움이 살아납니다.',
+    ],
+    pros: [
+      '틱톡 1억회 이상 조회·광택 지속력 입증',
+      '스프레이 제형으로 잔여감 없이 가볍게 마무리',
+    ],
+    cons: [
+      '고열 스타일링 필요, 열기 없다면 효과가 덜할 수 있음',
+    ],
+    coupangQuery: '컬러웅 드림 코트 스프레이',
+    globalQuery: 'Color Wow Dream Coat Supernatural Spray',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-20',
+    tags: ['글래스헤어', '안티프리즈', '고습도방어'],
+    seoTitle: '드림 코트 슈퍼내추럴 스프레이',
+    seoDescription:
+      '틱톡에서 화제의 ‘글래스 헤어’ 완성하는 방수·안티프리즈 헤어 스프레이를 소개합니다.',
+  },
+  {
     slug: 'roundlab-birch-sap-sunscreen',
     category: 'skincare',
     brand: '라운드랩',

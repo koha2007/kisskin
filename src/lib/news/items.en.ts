@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-us-slowdown-channel-mix',
+    category: 'global',
+    title: 'K-Beauty Spending Slows in US, Prompting Channel Strategy Shifts',
+    summary:
+      'As discretionary spending shrinks among US consumers, K-beauty sales are plateauing, driving brands to overhaul their channel strategies across the discovery-to-purchase journey.',
+    body: [
+      '> TLDR: US K-Beauty Spending Slows | Mixed Channel Responses | Shift to Trust-Based Purchasing',
+      'Recently in the US market, K-beauty brands have been experiencing a plateau in sales due to reduced consumer discretionary spending. This stems from shifts in consumer sentiment rather than issues with the products themselves.',
+      '> DATA: Consumers Maintain Interest at Discovery Stage, Shift to Trusted Channels for Purchase (Calywire Report)',
+      'Specifically, while interest remains sustained during the \'discovery\' phase, consumers tend to cluster around familiar retail networks or channels offering reliable return policies during the \'purchase\' phase. This indicates that consumers are prioritizing trust and value-driven decisions over impulse buying.',
+      'Rather than relying solely on virality, K-beauty brands must now focus on a channel-mix strategy tailored across the entire buying journey, including enhancing reviews, retargeting, and expanding trust-based distribution networks.',
+      'From the consumer perspective, consistently purchasing verified products through favorite stores or platforms will lead to a more satisfying experience.',
+    ],
+    date: '2026-08-20',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'US Market', 'Consumer Trends'],
+    seoTitle: 'K-Beauty US Sales Slowdown Drives Channel Strategy Shifts',
+    seoDescription:
+      'US K-beauty sales are plateauing as discretionary spending drops, urging brands to adapt channel strategies from discovery to purchase.',
+  },
+  {
     slug: 'olive-young-fullmoon-makeup-shift-care-focus',
     category: 'trend',
     title: 'Olive Young\'s \'FULLMOON\' Keyword Signals Shift from Coverage to Skincare in Makeup',
