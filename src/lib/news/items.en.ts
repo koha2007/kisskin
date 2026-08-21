@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-global-online-market-size-jumps-2025',
+    category: 'global',
+    title: 'Global Online K-Beauty Market Surges to $15 Billion in 2025',
+    summary:
+      'The global online K-beauty market reached $15 billion in 2025, growing approximately 22% year-over-year, with the U.S. establishing itself as a core market by capturing 54% of overseas online sales.',
+    body: [
+      '> TLDR: 2025 K-Beauty Online Market Hits $15B | ~22% YoY Growth | US Captures 54% Share',
+      'According to data released by market research firm Euromonitor, the global online K-beauty market reached approximately $15 billion in 2025, a roughly 22% increase from $12.5 billion in 2024.',
+      '> DATA: 2025 Global Online K-Beauty Market at $15B, Up 22% vs 2024; US Captures 54% of Overseas Online Sales (lp.euromonitor.com)',
+      'Digital-first strategies in the United States and Europe served as primary growth drivers. The U.S. accounted for over half of all overseas online sales, while Western Europe (including the UK and Germany) expanded its footprint from 3% to 10%. In contrast, China\'s share dropped sharply from 66% to 21%.',
+      'These figures highlight K-beauty\'s transition away from reliance on a single region toward digital performance and value-driven strategies designed for a global consumer base. Consumer accessibility and the speed of innovation are emerging as critical pillars of competitiveness.',
+    ],
+    date: '2026-08-21',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global Market', 'Online Sales'],
+    seoTitle: 'Global K-Beauty Online Market Reaches $15 Billion in 2025',
+    seoDescription:
+      'The global online K-beauty market reached $15 billion in 2025, driven by strong U.S. demand and rapid expansion across Western Europe.',
+  },
+  {
     slug: 'k-beauty-us-slowdown-channel-mix',
     category: 'global',
     title: 'K-Beauty Spending Slows in US, Prompting Channel Strategy Shifts',

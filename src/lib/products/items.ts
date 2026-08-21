@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'mumchit-stay-perfume',
+    category: 'fragrance',
+    brand: '멈칫',
+    name: '스테이 퍼퓸',
+    title: '멈칫 스테이 퍼퓸 – 은은한 ‘살냄새’ 비누향 향수',
+    summary:
+      '20대 사이 화해·올리브영·글로우픽 랭킹 1위를 기록하며 화제된 멈칫의 스테이 퍼퓸은 라벤더·베르가못·파인애플의 상쾌한 탑노트가 이어지는 비누향 오드퍼퓸입니다.',
+    highlights: ['비누 같은 깨끗한 향', '잔향 오래 지속', '남녀 모두 사용 가능'],
+    details: [
+      '탑노트에 라벤더·베르가못·파인애플이 어우러져 상쾌하고 투명한 첫 인상을 줍니다.',
+      '미들노트의 장미·재스민·시더우드가 비누향과 어우러지며 은은한 플로럴 향을 형성합니다.',
+      '베이스노트의 샌달우드·통카빈이 따뜻한 잔향을 남겨 하루 종일 깨끗한 인상을 유지시켜줍니다.',
+      '화해·올리브영·글로우픽 데이터를 종합한 남성향수 부문 1위에 올랐으며 20대 여성에게도 입문용 스테디셀러로 인정받고 있습니다.',
+    ],
+    whoFor:
+      '데이트나 저녁 외출처럼 은은한 향이 필요할 때, 향수 입문자에게 적합합니다. 향이 과하지 않고 깨끗해서 스킨케어처럼 가볍게 사용하기 좋으며, 남녀 모두 부담 없이 사용할 수 있습니다.',
+    howTo: [
+      '목 또는 손목 등 맥박이 뛰는 곳에 1~2회 가볍게 뿌려 은은한 향기를 유지하세요.',
+      '다른 향이 겹칠 수 있으므로 향수 전에 보습 크림은 가볍게만 바르는 것이 좋습니다.',
+    ],
+    pros: [
+      '은은하고 깨끗한 비누향으로 부담 없이 사용할 수 있음',
+      '잔향이 오래 지속되어 데일리 향수로 적합',
+    ],
+    cons: [
+      '지속력이 짧다는 후기도 있어 보충이 필요할 수 있음',
+    ],
+    coupangQuery: '멈칫 스테이 퍼퓸 향수',
+    globalQuery: 'MUMCHIT Stay Perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-21',
+    tags: ['비누향', '데일리향수', '국내 1위 향수'],
+    seoTitle: '멈칫 스테이 퍼퓸 비누향 향수',
+    seoDescription:
+      '20대에게 인기, 비누처럼 깨끗한 향과 잔향이 오래 남아 데일리로 사랑받는 향수입니다.',
+  },
+  {
     slug: 'color-wow-dream-coat',
     category: 'hair',
     brand: '컬러 웅 (Color Wow)',

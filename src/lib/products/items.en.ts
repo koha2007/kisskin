@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'mumchit-stay-perfume',
+    category: 'fragrance',
+    brand: 'MUMCHIT',
+    name: 'Stay Perfume',
+    title: 'MUMCHIT Stay Perfume – Subtle \'Skin-like\' Soapy Scent',
+    summary:
+      'A viral favorite among people in their 20s and top-ranked on Hwahae, Olive Young, and GlowPick, MUMCHIT Stay Perfume is a soapy Eau de Parfum featuring refreshing top notes of lavender, bergamot, and pineapple.',
+    highlights: ['Clean, soap-like fragrance', 'Long-lasting lingering scent', 'Unisex fragrance suitable for all'],
+    details: [
+      'Top notes of lavender, bergamot, and pineapple create a fresh, transparent first impression.',
+      'Middle notes of rose, jasmine, and cedarwood blend with a soap accent to form a subtle floral heart.',
+      'Base notes of sandalwood and tonka bean leave a warm lingering scent, maintaining a clean impression all day.',
+      'Ranked No. 1 in men\'s fragrance across combined Hwahae, Olive Young, and GlowPick data, while also loved as a classic starter perfume by women in their 20s.',
+    ],
+    whoFor:
+      'Ideal for perfume beginners or when you need a subtle scent for dates and evening outings. Gentle and clean enough to wear lightly like skincare, making it easy for anyone to use.',
+    howTo: [
+      'Lightly spray 1-2 times on pulse points such as the neck or wrists to maintain a subtle fragrance.',
+      'To prevent clashing scents, apply moisturizer lightly before spraying.',
+    ],
+    pros: [
+      'Subtle, clean soap scent that is comfortable for daily wear',
+      'Long-lasting base notes make it great as a daily perfume',
+    ],
+    cons: [
+      'Some reviews note shorter longevity, so reapplication may be needed',
+    ],
+    coupangQuery: '멈칫 스테이 퍼퓸 향수',
+    globalQuery: 'MUMCHIT Stay Perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-21',
+    tags: ['SoapyScent', 'DailyPerfume', 'TopRatedPerfume'],
+    seoTitle: 'MUMCHIT Stay Perfume Review: Clean Soapy Scent',
+    seoDescription:
+      'Discover MUMCHIT Stay Perfume, a viral Korean soapy Eau de Parfum with top notes of lavender and bergamot for a clean daily scent.',
+  },
+  {
     slug: 'color-wow-dream-coat',
     category: 'hair',
     brand: 'Color Wow',
