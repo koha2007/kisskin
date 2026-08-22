@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'revlon-super-lustrous-glass-shine-balm',
+    category: 'lip',
+    brand: 'Revlon',
+    name: 'Super Lustrous Glass Shine Balm',
+    title: 'Revlon Super Lustrous Glass Shine Balm – The TikTok-Viral Glossy Balm',
+    summary:
+      'Captivating countess users on TikTok, Revlon\'s Super Lustrous Glass Shine Balm delivers instant shine and hydration with its rich glossy balm formula. It has been recognized as a top product at Sephora and in beauty awards.',
+    highlights: ['Glossy balm formula', 'High-gloss shine', 'TikTok viral popularity'],
+    details: [
+      'The glossy balm formula smoothly adheres to the lips, providing a radiant shine.',
+      'Went viral on TikTok, receiving countless positive reviews and love since its launch.',
+      'Selected as a top lip tint product in the Allure Best of Beauty \'25 awards, adding further credibility.',
+    ],
+    whoFor:
+      'Ideal for anyone wanting hydrated radiance and a glossy finish on their lips. It adds moisture to dry lips and suits all skin tones preferring a natural glossy look.',
+    howTo: [
+      'Apply lightly once like a lip balm to create a sheer, glossy look.',
+      'Layer multiple times as needed to adjust shine and color payoff.',
+    ],
+    pros: [
+      'Provides immediate glossy shine and hydration',
+      'Proven popularity backed by TikTok word-of-mouth',
+    ],
+    cons: [
+      'The extremely sleek gloss finish may not appeal to everyone',
+    ],
+    coupangQuery: '레블론 글래스 샤인 밤',
+    globalQuery: 'Revlon Super Lustrous Glass Shine Balm',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-22',
+    tags: ['GlossyBalm', 'TikTokViral', 'SephoraBest'],
+    seoTitle: 'Revlon Super Lustrous Glass Shine Balm Review',
+    seoDescription:
+      'Discover Revlon Super Lustrous Glass Shine Balm, the viral TikTok glossy balm delivering instant hydration and high-gloss radiance.',
+  },
+  {
     slug: 'mumchit-stay-perfume',
     category: 'fragrance',
     brand: 'MUMCHIT',

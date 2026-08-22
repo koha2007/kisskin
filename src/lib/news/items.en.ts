@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'seoul-beauty-week-global-k-beauty-industry-booms',
+    category: 'global',
+    title: 'Seoul Beauty Week Features 152 Companies as K-Beauty Rises to 2nd Largest Global Market',
+    summary:
+      'The Seoul Metropolitan Government will host \'2026 Seoul Beauty Week\' at Dongdaemun Design Plaza from August 22 to 25. A record 152 companies will participate in the event, reflecting K-beauty\'s current standing as the world\'s second-largest cosmetics industry.',
+    body: [
+      '> TLDR: K-beauty rises to 2nd largest global industry | Record 152 companies join Seoul Beauty Week | Strengthening global expansion platform',
+      'As the Korean cosmetics industry grows to become the second-largest in the global market, the Seoul Metropolitan Government is hosting \'2026 Seoul Beauty Week\' at Dongdaemun Design Plaza from August 22 to 25.',
+      '> DATA: Seoul Beauty Week participants: 152 companies, Event dates: August 22–25, K-beauty market ranking: World\'s 2nd largest industry (Source: Seoul Metropolitan Government press release)',
+      'This year\'s event features 152 companies across beauty tech, medical devices, and beauty supplements, providing small, medium, and emerging brands opportunities to expand globally through 1-on-1 consultations with overseas buyers.',
+      'Consumers and tourists can also experience the latest trends firsthand through K-pop idol makeup sessions and K-beauty makeover experiences—an event expanding touchpoints between the industry and the public.',
+      'This edition of Seoul Beauty Week expands the influence of K-beauty brands and technologies in the global market while offering domestic consumers an opportunity to experience the latest trends firsthand.',
+    ],
+    date: '2026-08-22',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Seoul Beauty Week', 'Global Exhibition'],
+    seoTitle: '152 Companies Join Seoul Beauty Week as K-Beauty Hits #2',
+    seoDescription:
+      'Seoul Beauty Week welcomes 152 companies to DDP, showcasing K-beauty\'s rise as the world\'s second-largest cosmetics industry.',
+  },
+  {
     slug: 'k-beauty-global-online-market-size-jumps-2025',
     category: 'global',
     title: 'Global Online K-Beauty Market Surges to $15 Billion in 2025',

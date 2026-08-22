@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'revlon-super-lustrous-glass-shine-balm',
+    category: 'lip',
+    brand: '레블론',
+    name: '수퍼 러스트러스 글래스 샤인 밤',
+    title: '레블론 수퍼 러스트러스 글래스 샤인 밤 – 틱톡을 사로잡은 글로시 밤',
+    summary:
+      '틱톡에서 수많은 유저를 사로잡은 레블론의 수퍼 러스트러스 글래스 샤인 밤은 풍부한 글로시 밤 제형으로 입술에 즉각적인 윤기와 촉촉함을 선사하며, 세포라와 올어워즈에서도 베스트 제품으로 인정받았습니다.',
+    highlights: ['글로시 밤 제형', '하이 글로시 광택', '틱톡 바이럴 인기'],
+    details: [
+      '글로시 밤 제형으로 입술에 부드럽게 밀착되어 윤기 있는 광택을 줍니다.',
+      '틱톡에서 바이럴되어 출시 이후 수많은 리뷰와 사랑을 받았습니다.',
+      'Allure Best of Beauty ’25 립 틴트 부문 베스트로 선정되어 공신력을 더했습니다.',
+    ],
+    whoFor:
+      '입술에 촉촉한 윤기와 글로시한 피니시를 원하는 사람에게 적합합니다. 특히 건조한 입술에 수분감을 더해주며, 자연스러운 글로시 룩을 선호하는 모든 톤의 사용자에게 잘 어울립니다.',
+    howTo: [
+      '립밤처럼 가볍게 한 번 발라 투명한 글로시 룩을 연출합니다.',
+      '필요 시 여러 번 덧발라 광택과 발색을 조절할 수 있습니다.',
+    ],
+    pros: [
+      '즉각적인 글로시 광택과 수분감 제공',
+      '틱톡에서 입소문 나며 검증된 인기 제품',
+    ],
+    cons: [
+      '극도로 매끈한 광택이 호불호 갈릴 수 있음',
+    ],
+    coupangQuery: '레블론 글래스 샤인 밤',
+    globalQuery: 'Revlon Super Lustrous Glass Shine Balm',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-22',
+    tags: ['글로시밤', '틱톡입소문', '세포라베스트'],
+    seoTitle: '레블론 글래스 샤인 밤 틱톡 인기 틴트',
+    seoDescription:
+      '틱톡에서 화제, 세포라·올어워즈 베스트 수상한 레블론 글래스 샤인 밤의 풍부한 광택과 수분감을 확인하세요.',
+  },
+  {
     slug: 'mumchit-stay-perfume',
     category: 'fragrance',
     brand: '멈칫',
