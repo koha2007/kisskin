@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'clio-pro-eye-palette-air',
+    category: 'eye',
+    brand: 'CLIO',
+    name: 'Pro Eye Palette Air',
+    title: 'CLIO Pro Eye Palette Air – Versatile Color Combinations from Everyday Sheer to Accent Look',
+    summary:
+      'Ranked among Glowpick\'s top products with 1,320 reviews and a 4.64 rating, this CLIO eyeshadow palette delivers natural color payoff and high versatility, perfect for daily makeup.',
+    highlights: ['High-adhesion formula with minimal fallout or glitter dusting', 'Versatile shade lineup suitable for both Cool and Warm tones', 'Compact size ideal for portability'],
+    details: [
+      'Adheres weightlessly to the eyelids without dusting or glitter fallout, keeping eye makeup clean and vibrant for long hours.',
+      'Features a versatile color harmony suited for Summer Cool to Autumn Warm tones, allowing diverse styling regardless of undertone.',
+      'Small, lightweight compact structure makes it easy to carry, allowing complete looks from base to accent with just one palette.',
+    ],
+    whoFor:
+      'Ideal for anyone who wants to create everything from subtle daily contouring to bold accent makeup with a single palette. Highly versatile especially for those with Summer Cool or Autumn Warm undertones.',
+    howTo: [
+      'Apply a base color sheerly all over the eyelid, then layer medium contour shades onto the center and outer corner of the eye.',
+      'Tap accent shades onto the center using a finger or small brush, blending gently to create depth.',
+    ],
+    pros: [
+      'Excellent adherence with minimal powder or glitter fallout, maintaining true color all day',
+      'Diverse shade spectrum usable across both Cool and Warm tones',
+    ],
+    cons: [
+      'Certain shades lean cool or muted, which may depend on personal preference',
+    ],
+    colorFit:
+      'Complements various undertones including Spring Warm and Summer Cool—works well when combining base shading and accent shades according to your tone.',
+    coupangQuery: '클리오 프로 아이 팔레트 에어',
+    globalQuery: 'CLIO Pro Eye Palette Air',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-08-23',
+    tags: ['CLIO', 'EyeshadowPalette', 'DailyContouring'],
+    seoTitle: 'CLIO Pro Eye Palette Air Review & Color Guide',
+    seoDescription:
+      'Discover CLIO Pro Eye Palette Air with seamless adhesion, long-lasting shades, and versatile color combinations for every tone.',
+  },
+  {
     slug: 'revlon-super-lustrous-glass-shine-balm',
     category: 'lip',
     brand: 'Revlon',

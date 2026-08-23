@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'proya-launches-in-ulta-us',
+    category: 'global',
+    title: '중국 코스메틱 브랜드 Proya, 미국 Ulta Beauty 입점 확정',
+    summary:
+      '중국 Proya Cosmetics가 미국 뷰티 유통 대기업 Ulta Beauty에 정식 입점하며 글로벌 시장 공략을 강화합니다. 이번 진출은 브랜드의 미국 내 인지도 확대와 유통 채널 다각화에 중요한 발판이 될 전망입니다.',
+    body: [
+      '> TLDR: 중국 Proya, 미국 Ulta Beauty 입점 | 글로벌 시장 공략 확대 | 유통 채널 다각화',
+      '중국 뷰티 브랜드 Proya Cosmetics가 미국의 대형 뷰티 유통망 Ulta Beauty에 새롭게 입점하며 글로벌 입지 강화에 나섰습니다.',
+      '> DATA: Proya가 미국 Ulta Beauty에 입점한다는 소식 – BW Confidential(8월 20일자 보도)',
+      '이번 입점은 Proya가 미국 시장에서 브랜드 인지도를 높이고, Ulta Beauty라는 대형 유통 채널을 통해 소비자 접점을 확대하려는 전략적 움직임입니다. 중국 브랜드의 미국 유통망 확장은 글로벌 시장 다변화의 대표적 사례입니다.',
+      '소비자 입장에서는 Proya 제품을 미국 주요 오프라인 매장에서 직접 경험하고 구매할 수 있게 되어 접근성과 신뢰도가 높아지는 긍정적 변화로 볼 수 있습니다.',
+    ],
+    date: '2026-08-23',
+    readMinutes: 3,
+    tags: ['Proya', '글로벌유통', 'Ulta Beauty'],
+    seoTitle: 'Proya 코스메틱, Ulta Beauty 입점 확정',
+    seoDescription:
+      '중국 Proya Cosmetics가 미국 Ulta Beauty에 입점하며 글로벌 유통 확대를 추진하는 최신 소식을 전합니다.',
+  },
+  {
     slug: 'seoul-beauty-week-global-k-beauty-industry-booms',
     category: 'global',
     title: '서울뷰티위크 152개사 참가…K-뷰티, 세계 2위 산업으로 부상',

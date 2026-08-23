@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'proya-launches-in-ulta-us',
+    category: 'global',
+    title: 'Chinese Cosmetics Brand Proya Confirms Entry into US Ulta Beauty',
+    summary:
+      'China\'s Proya Cosmetics is strengthening its global market expansion by officially launching at major US beauty retailer Ulta Beauty. This entry is expected to serve as a key stepping stone for expanding brand awareness in the US and diversifying its distribution channels.',
+    body: [
+      '> TLDR: China\'s Proya Launches at US Ulta Beauty | Expanding Global Market Push | Diversifying Distribution Channels',
+      'Chinese beauty brand Proya Cosmetics has launched at major US beauty retailer Ulta Beauty, moving to strengthen its global presence.',
+      '> DATA: Proya launches at US Ulta Beauty – BW Confidential (August 20 report)',
+      'This retail expansion is a strategic move by Proya to build brand awareness in the US market and widen consumer touchpoints through major retail channel Ulta Beauty. The expansion of Chinese brands into US retail networks represents a prominent example of global market diversification.',
+      'From a consumer perspective, being able to experience and purchase Proya products directly at major offline stores in the US brings a positive change, increasing accessibility and credibility.',
+    ],
+    date: '2026-08-23',
+    readMinutes: 3,
+    tags: ['Proya', 'Global Distribution', 'Ulta Beauty'],
+    seoTitle: 'Chinese Cosmetics Brand Proya Launches at Ulta Beauty',
+    seoDescription:
+      'China\'s Proya Cosmetics expands into the US market with an official launch at Ulta Beauty to boost global reach and distribution.',
+  },
+  {
     slug: 'seoul-beauty-week-global-k-beauty-industry-booms',
     category: 'global',
     title: 'Seoul Beauty Week Features 152 Companies as K-Beauty Rises to 2nd Largest Global Market',
