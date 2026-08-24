@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'haus-labs-triclone-skin-tech-foundation',
+    category: 'base',
+    brand: '하우스 랩스',
+    name: '트리클론 스킨 테크 미디엄 커버리지 파운데이션',
+    title: '하우스 랩스 트리클론 파운데이션 – 스킨케어처럼 편안한 커버',
+    summary:
+      '스킨케어 성분을 담아 가볍고 빌드 가능한 미디엄 커버리지를 구현하며 자연스러운 스킨핏을 선사하는 하우스 랩스의 트리클론 파운데이션입니다.',
+    highlights: ['가벼운 미디엄 커버', '스킨케어 성분 함유', '자연스러운 피부 표현'],
+    details: [
+      '가벼운 텍스처지만 미디엄 커버리지를 제공하며 여러 겹 발라도 답답하지 않은 발림성을 자랑합니다.',
+      '포뮬러에는 발효 아르니카 등 항산화 성분이 포함되어 피부 진정과 톤 보정 효과를 함께 누릴 수 있습니다.',
+      '피부에 자연스럽게 밀착되어 공기처럼 사라지는 듯한 ‘스킨핏’ 마무리를 연출합니다.',
+    ],
+    whoFor:
+      '피부가 예민하거나 붉은 기가 있는 사람에게 추천하며, 가볍고 자연스러운 커버를 원하는 중건성 피부 토너에게 특히 잘 맞습니다. 무겁거나 풀커버를 선호하는 피부에는 다소 아쉬울 수 있습니다.',
+    howTo: [
+      '스트로크 방식으로 이마·볼·턱에 점 찍듯 바른 뒤 스펀지나 브러시로 가볍게 블렌딩해 자연스럽게 이어지도록 합니다.',
+      '필요한 부위는 소량씩 덧발라 미디엄 커버를 유지하면서도 피부가 숨 쉬는 듯한 마무리를 완성하세요.',
+    ],
+    pros: [
+      '스킨케어 성분 덕분에 피팅감이 편안하고 피부 자극이 적음',
+      '빌드 가능한 커버로 자연스러운 연출 가능',
+    ],
+    cons: [
+      '풀커버를 원하는 사용자에게는 커버력이 부족하게 느껴질 수 있음',
+    ],
+    coupangQuery: '하우스랩스 트리클론 파운데이션',
+    globalQuery: 'Haus Labs Triclone Skin Tech Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-24',
+    tags: ['가벼운파운데이션', '스킨핏', '미디엄커버'],
+    seoTitle: '가볍고 빌드 가능한 트리클론 파운데이션',
+    seoDescription:
+      '피부에 편안하게 밀착되는 가벼운 미디엄 커버리지 파운데이션으로 화제인 베이스 제품을 소개합니다.',
+  },
+  {
     slug: 'clio-pro-eye-palette-air',
     category: 'eye',
     brand: '클리오',

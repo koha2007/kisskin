@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'seoul-beauty-week-global-k-beauty-platform',
+    category: 'global',
+    title: 'Seoul Hosts 5th Seoul Beauty Week to Drive Global Expansion for 152 K-Beauty Brands',
+    summary:
+      'The Seoul Metropolitan Government is hosting the 5th Seoul Beauty Week at Dongdaemun Design Plaza from August 22 to 25, 2026, offering 152 beauty and beauty-tech companies 1:1 meetings, investment, and export consultations with international buyers. The event will also feature the \'Beauty 2.0\' forum focusing on regulations, certifications, AI, and global distribution strategies.',
+    body: [
+      '> TLDR: 152 Companies Join Seoul Beauty Week | 1:1 Buyer Meetings | Inaugural \'Beauty 2.0\' Forum',
+      'Hosted by the Seoul Metropolitan Government, \'2026 Seoul Beauty Week\' will take place at Dongdaemun Design Plaza from August 22 to 25. A total of 152 beauty and beauty-tech companies will participate to explore growth opportunities in the global market.',
+      '> DATA: 152 Participating Companies, Event Dates Aug 22–25, Forum Theme \'Beauty 2.0\' (Regulations, Certifications, AI, Global Strategy)',
+      'On the opening day, the first-ever Seoul Beauty Forum will be held under the theme \'Beauty 2.0\' to address key industry topics including regulations, certifications, AI integration, and global distribution strategies. Interactive programs such as K-pop idol makeup sessions, makeover demonstrations, and appearances by domestic and international influencers are also scheduled.',
+      'Seoul Beauty Week aims to empower small and indie brands to expand overseas through direct meetings, investment advice, and export consultations with global buyers, while giving consumers first-hand access to the latest K-beauty trends.',
+    ],
+    date: '2026-08-24',
+    readMinutes: 3,
+    tags: ['Seoul Beauty Week', 'K-Beauty', 'Global Market'],
+    seoTitle: '5th Seoul Beauty Week Expands Global Reach for K-Beauty',
+    seoDescription:
+      'The 5th Seoul Beauty Week connects 152 K-beauty companies with international buyers through 1:1 meetings and the inaugural Beauty 2.0 forum.',
+  },
+  {
     slug: 'proya-launches-in-ulta-us',
     category: 'global',
     title: 'Chinese Cosmetics Brand Proya Confirms Entry into US Ulta Beauty',

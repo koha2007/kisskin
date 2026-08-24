@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'haus-labs-triclone-skin-tech-foundation',
+    category: 'base',
+    brand: 'HAUS LABS',
+    name: 'Triclone Skin Tech Medium Coverage Foundation',
+    title: 'HAUS LABS Triclone Foundation – Skincare-Comfortable Coverage',
+    summary:
+      'Infused with skincare ingredients, HAUS LABS Triclone Foundation delivers lightweight, buildable medium coverage with a natural, skin-like fit.',
+    highlights: ['Lightweight medium coverage', 'Infused with skincare ingredients', 'Natural-looking skin finish'],
+    details: [
+      'Provides medium coverage with a lightweight texture that layers seamlessly without feeling heavy.',
+      'Formulated with antioxidant-rich ingredients like fermented arnica to soothe the skin and even out skin tone.',
+      'Adheres naturally to the skin for a seamless, weightless \'skin fit\' finish.',
+    ],
+    whoFor:
+      'Recommended for sensitive skin or those with redness, and ideal for normal-to-dry skin types seeking lightweight, natural coverage. May not suit those who prefer heavy or full coverage.',
+    howTo: [
+      'Dot onto the forehead, cheeks, and chin, then blend gently with a sponge or brush for a seamless finish.',
+      'Layer small amounts where needed to build medium coverage while keeping a breathable finish.',
+    ],
+    pros: [
+      'Comfortable fit with minimal skin irritation thanks to skincare ingredients',
+      'Buildable coverage allows for a natural look',
+    ],
+    cons: [
+      'Coverage may feel insufficient for those wanting full coverage',
+    ],
+    coupangQuery: '하우스랩스 트리클론 파운데이션',
+    globalQuery: 'Haus Labs Triclone Skin Tech Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-08-24',
+    tags: ['LightweightFoundation', 'SkinFit', 'MediumCoverage'],
+    seoTitle: 'HAUS LABS Triclone Skin Tech Foundation Review',
+    seoDescription:
+      'Discover HAUS LABS Triclone Foundation with lightweight, buildable medium coverage and skin-soothing fermented arnica.',
+  },
+  {
     slug: 'clio-pro-eye-palette-air',
     category: 'eye',
     brand: 'CLIO',
