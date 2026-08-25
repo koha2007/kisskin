@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'peripera-sunshine-cheek',
+    category: 'cheek',
+    brand: 'peripera',
+    name: 'peripera Pure Sunshine Cheek',
+    title: 'peripera Pure Sunshine Cheek – Humidity-Proof Watercolor Blush for Clear Radiance',
+    summary:
+      'peripera Pure Sunshine Cheek delivers a sheer, natural watercolor wash of color that stays on your cheeks even in high humidity. It is a proven bestseller consistently ranked high on Olive Young.',
+    highlights: ['Watercolor wash effect', 'Clear and translucent color', 'Long-lasting even in humidity'],
+    details: [
+      'Applies clearly and naturally like watercolors, adding vitality without looking cakey.',
+      'Translucent pink and coral shades apply sheerly over the skin to express a radiant complexion.',
+      'Boasts great lasting power without breaking down, even in humid weather conditions.',
+    ],
+    whoFor:
+      'Ideal for summer skin struggling with blush fading due to high humidity, sweat, and sebum, and suitable for all skin tones desiring a natural watercolor flush.',
+    howTo: [
+      'Gently touch onto cheeks with a small brush or fingers as if staining the skin, layering thinly.',
+      'Build up a few layers weightlessly to achieve both natural radiance and long-lasting wear.',
+    ],
+    pros: [
+      'Sheer watercolor payoff prevents harsh or overdone color.',
+      'Stays on top of base makeup for hours even in high humidity.',
+    ],
+    cons: [
+      'Potential drawback: Due to its very subtle color payoff, those who prefer bold blush might find the soft sheer stain underwhelming.',
+    ],
+    colorFit:
+      'Complements all personal color seasons with its sheer coral-pink hues that add a gentle radiance without being overpowering.',
+    coupangQuery: '페리페라 선샤인 치크',
+    globalQuery: 'Peripera Sunshine Cheek',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-25',
+    tags: ['Watercolor Blush', 'Clear Radiant Blush', 'Humidity-Proof Blush'],
+    seoTitle: 'peripera Pure Sunshine Cheek - Clear Watercolor Blush',
+    seoDescription:
+      'Discover peripera Pure Sunshine Cheek for a natural, sheer watercolor flush that lasts even through high humidity.',
+  },
+  {
     slug: 'haus-labs-triclone-skin-tech-foundation',
     category: 'base',
     brand: 'HAUS LABS',

@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'seoul-to-soho-k-beauty-experience-new-york-pop-up',
+    category: 'global',
+    title: '\'Seoul to Soho\' K-Beauty Experiential Pop-Up Opens to the Public in NYC on August 16',
+    summary:
+      'The \'Seoul to Soho\' K-beauty experiential pop-up will run from August 16 to September 6 at 13 Crosby Street in SoHo, New York, featuring innovative Korean skincare and biotech brands offering product trials, workshops, and personalized services.',
+    body: [
+      '> TLDR: K-Beauty Experiential Pop-Up in SoHo, NYC | Opens to Public Aug 16 | Blends Brands, Tech, & Workshops',
+      'The \'Seoul to Soho\' pop-up will host an industry preview on August 14–15, followed by a public opening from August 16 through September 6.',
+      '> DATA: Schedule confirmed via official press release: Industry preview August 14–15, 2026; public opening August 16–September 6',
+      'The event acts as a multi-functional experiential venue bringing together Korean skincare brands, biotech companies, creators, media, and retail professionals to offer brand activations, product customization, workshops, and wellness programs.',
+      'This pop-up stands out for expanding K-beauty beyond simple product promotion into a platform for culture, education, and community, marking an opportunity to elevate K-beauty\'s approach in the US market.',
+    ],
+    date: '2026-08-25',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'NYC Pop-Up', 'Experiential Event', 'Global Trends'],
+    seoTitle: 'Seoul to Soho: K-Beauty Experiential Pop-Up Opens in NYC',
+    seoDescription:
+      'Discover the \'Seoul to Soho\' K-beauty experiential pop-up in New York City, featuring skincare brands, workshops, and custom services.',
+  },
+  {
     slug: 'seoul-beauty-week-global-k-beauty-platform',
     category: 'global',
     title: 'Seoul Hosts 5th Seoul Beauty Week to Drive Global Expansion for 152 K-Beauty Brands',

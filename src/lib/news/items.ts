@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'seoul-to-soho-k-beauty-experience-new-york-pop-up',
+    category: 'global',
+    title: '뉴욕 소호에 열린 ‘Seoul to Soho’ K‑뷰티 체험 팝업, 8월 16일부터 일반 공개',
+    summary:
+      '뉴욕 소호 13 크로스비 스트리트에서 오는 8월 16일부터 9월 6일까지 ‘Seoul to Soho’라는 K‑뷰티 체험 팝업이 열립니다. 한국의 혁신적인 스킨케어 브랜드와 바이오테크 브랜드들이 참여해 제품 체험, 워크숍, 맞춤형 서비스 등을 선보입니다.',
+    body: [
+      '> TLDR: 뉴욕 소호 K‑뷰티 체험 팝업 | 8월 16일 공개 오픈 | 브랜드·테크·워크숍 통합 구성',
+      '이번 팝업 ‘Seoul to Soho’는 8월 14~15일 업계 관계자 대상으로 프리뷰, 16일부터 9월 6일까지 일반 공개되는 형태로 진행됩니다.',
+      '> DATA: 일정은 2026년 8월 14~15일 업계 프리뷰, 16~9월 6일까지 일반 공개 — 공식 보도자료 확인됨',
+      '행사는 한국의 스킨케어 브랜드, 바이오기술 기업, 크리에이터, 미디어, 리테일 관계자들이 한 자리에 모여 브랜드 체험, 상품 커스터마이징, 워크숍, 웰니스 프로그램 등을 진행하는 복합형 체험 공간입니다.',
+      '이번 팝업은 K‑뷰티를 단순 제품 홍보 공간이 아닌 ‘문화·교육·커뮤니티’ 플랫폼으로 확장했다는 점에서 미국 시장에서의 K‑뷰티 접근 방식을 한 단계 끌어올릴 수 있는 기회로 주목됩니다.',
+    ],
+    date: '2026-08-25',
+    readMinutes: 3,
+    tags: ['K‑뷰티', '뉴욕팝업', '체험이벤트', '글로벌트렌드'],
+    seoTitle: '뉴욕 소호 K‑뷰티 팝업 \'Seoul to Soho\'',
+    seoDescription:
+      'K‑뷰티 브랜드들이 참여하는 ‘Seoul to Soho’ 체험 팝업이 뉴욕 소호에서 오는 8월 16일부터 9월 6일까지 열린다는 소식을',
+  },
+  {
     slug: 'seoul-beauty-week-global-k-beauty-platform',
     category: 'global',
     title: '서울시, 5회 서울뷰티위크 개최…152개 K-뷰티 브랜드 글로벌 진출 기회 확대',

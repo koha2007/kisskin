@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'peripera-sunshine-cheek',
+    category: 'cheek',
+    brand: '페리페라',
+    name: '페리페라 선샤인 치크',
+    title: '페리페라 선샤인 치크 – 습기에도 지워지지 않는 수채화 생기 블러셔',
+    summary:
+      '수채화처럼 맑고 자연스러운 발색으로, 서울의 높은 습도 속에서도 뺨에 오래 남는 페리페라 선샤인 치크입니다. 올리브영 인기 순위 상위권에 꾸준히 랭크되는 검증된 치크템이에요.',
+    highlights: ['수채화 발색', '맑고 투명한 컬러', '서울 습도에도 지속'],
+    details: [
+      '수채화처럼 맑고 자연스럽게 발색되어 두껍지 않게 생기를 더해준다.',
+      '맑은 핑크·코랄 계열 컬러가 피부 위에 투명하게 올라와 투명한 생기를 표현한다.',
+      '서울의 높은 습도 환경에서도 무너지지 않고 지속력이 좋은 편이다.',
+    ],
+    whoFor:
+      '높은 습도에도 땀·피지에 쉽게 지워지는 치크에 고민이 있는 한국의 여름철 피부, 특히 수채화처럼 자연스러운 생기 표현을 원하는 모든 톤의 피부에 잘 어울립니다.',
+    howTo: [
+      '작은 브러시나 손가락으로 속살에 물들 듯 가볍게 터치하여 얇게 레이어링하세요.',
+      '두께감 없이 몇 번 덧발라 자연스러운 생기와 지속력을 모두 챙기세요.',
+    ],
+    pros: [
+      '맑고 자연스러운 수채화 발색으로 과하게 컬러가 올라가지 않음',
+      '습도 높은 환경에서도 베이스 위에 오래 유지됨',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 지점: 매우 은은한 발색이라 진한 치크를 선호하는 경우 물들 듯 퍼지는 느낌이 아쉬울 수 있음',
+    ],
+    colorFit:
+      '모든 퍼스널컬러에 어울릴 수 있는 투명 코럴 핑크 계열로, 과하지 않게 얼굴에 생기를 더해주기 때문입니다.',
+    coupangQuery: '페리페라 선샤인 치크',
+    globalQuery: 'Peripera Sunshine Cheek',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-08-25',
+    tags: ['수채화 블러셔', '맑은 생기 치크', '고습도 지속 블러셔'],
+    seoTitle: '페리페라 선샤인 치크 수채화 블러셔',
+    seoDescription:
+      '습도 높은 서울에서도 흐트러지지 않는 수채화 발색의 페리페라 선샤인 치크 블러셔를 만나보세요.',
+  },
+  {
     slug: 'haus-labs-triclone-skin-tech-foundation',
     category: 'base',
     brand: '하우스 랩스',
