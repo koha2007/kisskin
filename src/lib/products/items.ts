@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'louis-vuitton-ombres-monogram-limited-palette',
+    category: 'trend',
+    brand: '루이비통',
+    name: '옴브르 모노그램 리미티드 팔레트',
+    title: '루이비통 옴브르 모노그램 리미티드 팔레트 — 상징적 캔버스로 눈에 드러나는 럭셔리',
+    summary:
+      '루이비통이 최근 출시한 ‘옴브르 모노그램 리미티드 팔레트’는 인프라루즈와 듄 컬러로 구성된 한정판 팔레트로, 럭셔리와 트렌드를 동시에 반영해 글로벌 뷰티계에 화제를 모으고 있습니다.',
+    highlights: ['모노그램 캔버스 케이스', '두 가지 컬렉션 컬러', '현대적 럭셔리 감성'],
+    details: [
+      '팔레트 외관은 루이비통의 상징적인 모노그램 코팅 캔버스로 둘러싸여 있어 소장 가치가 높습니다.',
+      '‘Infrarouge’는 대담한 블랙+레드, ‘Dune’은 부드러운 크림과 로지 토프 톤으로 구성되어 선택의 재미를 더합니다.',
+      '각각 쿼드 구성으로 구성돼 있으며, 럭셔리 브랜드 아이템으로서의 포인트를 명확히 전달합니다.',
+    ],
+    whoFor:
+      '럭셔리 뷰티 아이템을 즐기며, 세련된 컬러 구성과 소장 가치를 동시에 원하는 고객에게 적합합니다. 평소 메이크업보다 패키징 자체에 끌리는 뷰티 애호가에게 특히 추천됩니다.',
+    howTo: [
+      '톤에 따라 데일리 또는 포인트 룩으로 활용할 수 있으며, 가볍게 손등에 발색 후 눈두덩이에 레이어드해 대비를 줍니다.',
+      '메탈릭 또는 매트 텍스처가 섞여 있어, 눈가 중앙에는 메탈릭, 바깥쪽에는 매트를 사용해 입체감을 살립니다.',
+    ],
+    pros: [
+      '소장 욕구를 자극하는 아이코닉한 디자인',
+      '두 가지 분위기 컬러 선택 가능',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 고가 예술품 같은 가격 (소장성과 분리 어려움)',
+    ],
+    coupangQuery: '루이비통 옴브르 모노그램 팔레트',
+    globalQuery: 'Louis Vuitton Ombres Monogram limited palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-27',
+    tags: ['한정판', '멀티 팔레트', '럭셔리'],
+    seoTitle: '루이비통 한정판 모노그램 아이섀도우 팔레트',
+    seoDescription:
+      '상징적 모노그램 캔버스 디자인으로 소장 가치와 사용할 재미를 동시에 잡은 루이비통 한정판 아이섀도우 팔레트.',
+  },
+  {
     slug: 'peripera-sunshine-cheek',
     category: 'cheek',
     brand: '페리페라',

@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'louis-vuitton-ombres-monogram-limited-palette',
+    category: 'trend',
+    brand: 'Louis Vuitton',
+    name: 'Ombres Monogram Limited Palette',
+    title: 'Louis Vuitton Ombres Monogram Limited Palette — Luxury Revealed Through Iconic Canvas',
+    summary:
+      'Louis Vuitton\'s recently launched \'Ombres Monogram Limited Palette\' is a limited-edition eyeshadow palette featuring Infrarouge and Dune shades, reflecting both luxury and trends while generating buzz in the global beauty world.',
+    highlights: ['Monogram canvas case', 'Two collection shades', 'Modern luxury aesthetic'],
+    details: [
+      'Encased in Louis Vuitton\'s iconic Monogram coated canvas, offering high collectible value.',
+      '\'Infrarouge\' features a bold black-and-red scheme, while \'Dune\' offers soft cream and rosy taupe tones for versatile options.',
+      'Each quad eyeshadow arrangement clearly highlights its status as a luxury statement piece.',
+    ],
+    whoFor:
+      'Ideal for customers who enjoy luxury beauty items and want both sophisticated color curation and collectible value. Especially recommended for beauty enthusiasts drawn to exquisite packaging.',
+    howTo: [
+      'Use for daily or statement looks depending on the shade. Lightly swatch on the back of your hand before layering onto eyelids for contrast.',
+      'Mix metallic and matte textures: apply metallic to the center of the eyelids and matte to the outer corners for added dimension.',
+    ],
+    pros: [
+      'Iconic design that inspires collectibility',
+      'Choice between two distinct color moods',
+    ],
+    cons: [
+      'High artwork-like price point that may divide opinion (hard to separate from its collectible nature)',
+    ],
+    coupangQuery: '루이비통 옴브르 모노그램 팔레트',
+    globalQuery: 'Louis Vuitton Ombres Monogram limited palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-27',
+    tags: ['Limited Edition', 'Multi Palette', 'Luxury'],
+    seoTitle: 'Louis Vuitton Ombres Monogram Limited Palette Review',
+    seoDescription:
+      'Discover the limited-edition Louis Vuitton Ombres Monogram palette featuring iconic packaging and versatile eyeshadow shades.',
+  },
+  {
     slug: 'peripera-sunshine-cheek',
     category: 'cheek',
     brand: 'peripera',

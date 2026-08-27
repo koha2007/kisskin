@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kaja-joins-target-beauty-studio-us-launch',
+    category: 'global',
+    title: 'Kaja Confirms Entry into Target’s ‘Beauty Studio’ in the U.S.',
+    summary:
+      'K-beauty makeup brand Kaja is set to launch in Target’s new prestige beauty channel, \'Beauty Studio,\' scheduled to open on September 10, 2026. The brand will showcase popular products, including \'Beauty Bento,\' \'Wink Stamp,\' and \'Cheeky Stamp,\' across all nationwide U.S. stores and online.',
+    body: [
+      '> TLDR: Kaja Launches at U.S. Target | Beauty Studio Opens Sept 10 | Rollout of Popular Makeup Line',
+      'K-beauty makeup brand Kaja is entering Target\'s new prestige beauty channel, \'Beauty Studio\', in the United States.',
+      '> DATA: Launch date set for September 10, 2026, across nationwide U.S. stores and online (prnewswire.com)',
+      'Kaja plans to feature its viral bestsellers, including \'Beauty Bento\', \'Wink Stamp\', and \'Cheeky Stamp\', within Target\'s \'Beauty Studio\' channel (prnewswire.com).',
+      'American consumers will now be able to experience K-beauty\'s creative and user-friendly formats, with Kaja\'s entry highlighted as a key example of the expanding K-beauty makeup movement in the U.S.',
+    ],
+    date: '2026-08-27',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Makeup', 'US Expansion', 'Target'],
+    seoTitle: 'Kaja Expands in US with Target Beauty Studio Launch',
+    seoDescription:
+      'K-beauty brand Kaja is expanding across the U.S. by launching its viral makeup products in Target\'s new Beauty Studio in September 2026.',
+  },
+  {
     slug: 'seoul-to-soho-k-beauty-experience-new-york-pop-up',
     category: 'global',
     title: '\'Seoul to Soho\' K-Beauty Experiential Pop-Up Opens to the Public in NYC on August 16',

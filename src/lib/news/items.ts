@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'kaja-joins-target-beauty-studio-us-launch',
+    category: 'global',
+    title: '코스메박스 출신 Kaja, 미국 타깃 ‘Beauty Studio’ 입점 확정',
+    summary:
+      'K-뷰티 메이크업 브랜드 Kaja가 2026년 9월 10일 오픈 예정인 타깃의 프레스티지 뷰티 채널 ‘Beauty Studio’에 입점한다는 소식입니다. ‘Beauty Bento’, ‘Wink Stamp’, ‘Cheeky Stamp’ 등 인기 제품을 미국 전 매장 및 온라인에서 선보입니다.',
+    body: [
+      '> TLDR: Kaja 미국 타깃 입점 | 9월 10일 Beauty Studio 오픈 | 인기 메이크업 제품 전개',
+      'K-뷰티 메이크업 브랜드 Kaja가 미국 타깃(Target)의 새로운 프레스티지 뷰티 채널인 ‘Beauty Studio’에 들어갑니다.',
+      '> DATA: 입점 시기는 2026년 9월 10일, 미국 전역 매장과 온라인 포함 (prnewswire.com)',
+      'Kaja는 ‘Beauty Bento’, ‘Wink Stamp’, ‘Cheeky Stamp’ 등 바이럴 인기 제품을 중심으로 타깃의 ‘Beauty Studio’ 채널에서 선보일 예정입니다 (prnewswire.com).',
+      '미국 현지 소비자는 K-뷰티의 창의적이고 사용하기 쉬운 포맷을 경험할 수 있게 됐으며, Kaja의 입점은 미국 내 K-뷰티 메이크업 확장 트렌드의 한 사례로 주목됩니다.',
+    ],
+    date: '2026-08-27',
+    readMinutes: 3,
+    tags: ['K-뷰티', '메이크업', '미국진출', '타깃'],
+    seoTitle: 'Kaja, Target Beauty Studio 미국',
+    seoDescription:
+      'K-뷰티 브랜드 Kaja가 타깃의 새로운 뷰티 채널 ‘Beauty Studio’에 입점해 미국 전역에 진출합니다.',
+  },
+  {
     slug: 'seoul-to-soho-k-beauty-experience-new-york-pop-up',
     category: 'global',
     title: '뉴욕 소호에 열린 ‘Seoul to Soho’ K‑뷰티 체험 팝업, 8월 16일부터 일반 공개',
