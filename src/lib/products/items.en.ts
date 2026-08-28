@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'numbuzin-hydra-soothing-serum',
+    category: 'skincare',
+    brand: 'numbuzin',
+    name: 'Soothing Hydra Serum',
+    title: 'numbuzin Soothing Hydra Serum — Comfortable Soothing Moisture Serum for Summer',
+    summary:
+      'numbuzin\'s \'Soothing Hydra Serum\' is a popular Olive Young August Ol-Young Pick skincare item. It is a summer-tailored serum that simultaneously provides soothing care for heat and irritation alongside rich hydration.',
+    highlights: ['Lightweight gel serum texture', 'Heat relief & hydration', 'Olive Young Pick top ranking'],
+    details: [
+      'It has a lightweight gel-type serum texture that absorbs effortlessly even in summer for a refreshing finish.',
+      'It soothes skin heat and redness while instantly filling skin with moisture using hyaluronic acid and other key ingredients.',
+      'It was selected as a main skincare item for Olive Young\'s August 2026 \'Ol-Young Pick\' and is loved by many consumers.',
+    ],
+    whoFor:
+      'Suitable for sensitive or combination skin dealing with dehydration and skin heat. Especially great for daily summer care for those who prefer a fresh, non-sticky finish.',
+    howTo: [
+      'After cleansing and prepping skin texture with toner, dispense an appropriate amount into your palm and spread evenly over areas needing soothing.',
+      'Once absorbed, follow up with cream or sunscreen if needed to manage summer hydration and UV protection all at once.',
+    ],
+    pros: [
+      'Lightweight and refreshing texture suitable for daily summer use',
+      'Multifunctional care that provides soothing and hydration simultaneously',
+    ],
+    cons: [
+      'Potential drawback: Has a noticeable fragrance, so sensitive users should test it before full use.',
+    ],
+    coupangQuery: '넘버즈인 수딩 하이드라 세럼',
+    globalQuery: 'Numbersin Hydra Soothing Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-28',
+    tags: ['HydratingSerum', 'SoothingCare', 'SummerSkincare'],
+    seoTitle: 'numbuzin Soothing Hydra Serum Review & Details',
+    seoDescription:
+      'Discover numbuzin Soothing Hydra Serum, a lightweight K-beauty gel serum designed for summer heat relief and deep hydration.',
+  },
+  {
     slug: 'louis-vuitton-ombres-monogram-limited-palette',
     category: 'trend',
     brand: 'Louis Vuitton',

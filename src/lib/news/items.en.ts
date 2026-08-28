@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-exports-third-golden-age-diversification',
+    category: 'global',
+    title: 'K-Beauty Exports Enter a \'Third Golden Age\', Expanding Beyond Finished Products into Raw Materials and Packaging',
+    summary:
+      'Recent industry analysis indicates K-beauty exports have entered a \'third golden age\', expanding beyond finished cosmetics into raw materials and packaging. Notably, exports in early August surged 92.2% year-on-year, maintaining strong growth momentum.',
+    body: [
+      '> TLDR: \'Third Golden Age\' of exports | Exports expand to ingredients & packaging | Early August exports jump 92.2%',
+      'According to industry analysis, K-beauty exports have entered a \'third golden age\', shifting from a primary focus on finished products to expanding into raw materials and packaging.',
+      '> DATA: Cosmetics exports from August 1–10 surge +92.2% YoY',
+      'The report shows that cumulative exports from January to July rose +39% year-on-year to the US and +65% to Europe, while product categories are diversifying into sun care, hair care, and body care.',
+      'This upward trend signals market diversification and expanding opportunities for raw material and packaging suppliers, paving the way for more innovative K-beauty products to reach global consumers.',
+    ],
+    date: '2026-08-28',
+    readMinutes: 3,
+    tags: ['K-Beauty Exports', 'Third Golden Age', 'Beauty Materials', 'Global Trends'],
+    seoTitle: 'K-Beauty Exports Enter a \'Third Golden Age\'',
+    seoDescription:
+      'K-beauty exports enter a third golden age as growth expands beyond finished products into raw materials, packaging, and new global markets.',
+  },
+  {
     slug: 'kaja-joins-target-beauty-studio-us-launch',
     category: 'global',
     title: 'Kaja Confirms Entry into Target’s ‘Beauty Studio’ in the U.S.',

@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'numbuzin-hydra-soothing-serum',
+    category: 'skincare',
+    brand: '넘버즈인',
+    name: '수딩 하이드라 세럼',
+    title: '넘버즈인 수딩 하이드라 세럼 — 여름에도 편안한 진정 수분 세럼',
+    summary:
+      '넘버즈인의 \'수딩 하이드라 세럼\'은 올리브영 8월 올영픽 인기 스킨케어로, 열감과 자극을 케어하는 수딩과 풍부한 수분감을 동시에 제공하는 여름 맞춤 세럼입니다.',
+    highlights: ['가벼운 젤 세럼 제형', '열감 케어 & 보습', '올영픽 인기 순위'],
+    details: [
+      '젤 타입의 가벼운 세럼 제형이라 여름에도 부담 없이 흡수되어 산뜻하게 마무리됩니다.',
+      '피부 열감과 붉은 기를 진정시키는 동시에 히알루론산 등으로 즉각적인 수분감을 채워줍니다.',
+      '2026년 8월 올리브영 ‘올영픽’ 주요 스킨케어로 선정되어 많은 소비자에게 사랑받고 있습니다.',
+    ],
+    whoFor:
+      '수분 부족과 열감 고민이 있는 민감성 또는 복합성 피부에게 적합합니다. 끈적임 없는 산뜻한 마무리를 선호하는 여름철 데일리 케어용으로 특히 잘 맞습니다.',
+    howTo: [
+      '세안 후 토너로 피부 결 정돈 후, 진정이 필요한 부위 중심으로 적당량을 손바닥에 덜어 펴 바릅니다.',
+      '흡수된 후 필요시 크림 또는 선크림으로 마무리해 여름철 보습과 자외선 차단을 한 번에 케어할 수 있습니다.',
+    ],
+    pros: [
+      '가벼운 산뜻 제형으로 여름철 데일리 사용에 적합',
+      '진정과 수분 공급을 동시에 케어하는 멀티 기능성',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 점: 향이 있는 편이라 민감한 사용자는 테스트 후 사용하는 것이 좋습니다.',
+    ],
+    coupangQuery: '넘버즈인 수딩 하이드라 세럼',
+    globalQuery: 'Numbersin Hydra Soothing Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-28',
+    tags: ['수분세럼', '진정케어', '여름스킨케어'],
+    seoTitle: '수딩 하이드라 세럼 진정 수분 세럼',
+    seoDescription:
+      '올리브영 올영픽 인기템 넘버즈인 수딩 하이드라 세럼은 진정과 수분을 한 번에 잡은 여름 필수 아이템입니다.',
+  },
+  {
     slug: 'louis-vuitton-ombres-monogram-limited-palette',
     category: 'trend',
     brand: '루이비통',
