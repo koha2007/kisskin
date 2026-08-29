@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'k18-gloss-absolu-glaze-drops',
+    category: 'hair',
+    brand: '케라스테즈',
+    name: '글로스 압솔루 글레이즈 드롭스 헤어 오일',
+    title: '케라스테즈 글로스 압솔루 글레이즈 드롭스 – 가볍게 반짝이는 유리 광택',
+    summary:
+      '케라스테즈의 가장 가벼운 헤어 오일로, 실리콘 블렌드 포뮬러와 히알루론산이 모발에 윤기와 부드러움을 더하며 최대 4일간 깔끔한 마무리를 유지해줍니다.',
+    highlights: ['초경량 실리콘 블렌드', '히알루론산 수분 잠금', '4일 마무리 유지'],
+    details: [
+      '무거운 식물성 오일 대신 초경량 실리콘 블렌드를 사용해 모발을 무겁지 않게 부드럽고 반짝이게 가꿔줍니다.',
+      '히알루론산이 모발에 수분을 끌어당겨 하루 종일 촉촉함과 윤기를 유지시켜줍니다.',
+      '모발 큐티클을 부드럽게 정돈하여 최대 4일간 프리즈 방지와 유리처럼 반짝이는 마무리를 선사합니다.',
+    ],
+    whoFor:
+      '이 제품은 가늘고 부스스하기 쉬운 모발에 적합하며, 번들거림 없이 가벼운 광택을 원하는 분들에게 특히 잘 맞습니다. 중간~굵은 모발에도 사용 가능하지만, 모발이 무거워지는 것을 싫어하는 분들에게 가장 이상적입니다.',
+    howTo: [
+      '수건으로 가볍게 물기를 제거한 뒤, 소량을 손바닥에 덜어 손끝으로 모발 중간부터 끝까지 고르게 발라주세요.',
+      '건조한 날에는 마른 모발에도 한 방울만 사용해 윤기와 부드러움을 더해 마무리해도 좋습니다.',
+    ],
+    pros: [
+      '가볍게 흡수되어 무겁지 않고 깔끔한 유리 광택 연출',
+      '히알루론산 덕분에 하루 종일 유지되는 수분감',
+    ],
+    cons: [
+      '강한 향을 부담스러워하는 사람에게는 향이 호불호일 수 있음',
+    ],
+    coupangQuery: '케라스테즈 글로스 압솔루 글레이즈 드롭스',
+    globalQuery: 'Kérastase Gloss Absolu Glaze Drops hair oil',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-29',
+    tags: ['윤기', '초경량', '프리즈 방지'],
+    seoTitle: '케라스테즈 글로스 압솔루 글레이즈 드롭스 헤어 오일',
+    seoDescription:
+      '가볍고 실키한 포뮬러가 부스스함을 잡아 유리처럼 반짝이는 모발을 연출해주는 헤어 오일.',
+  },
+  {
     slug: 'numbuzin-hydra-soothing-serum',
     category: 'skincare',
     brand: '넘버즈인',
