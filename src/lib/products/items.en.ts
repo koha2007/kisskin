@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'afterblow-cottonfog-eau-de-parfum',
+    category: 'fragrance',
+    brand: 'After Blow',
+    name: 'Eau de Parfum Cotton Fog',
+    title: 'After Blow Eau de Parfum Cotton Fog — Daily Fragrance with a Sweet, Cozy Scent',
+    summary:
+      'After Blow\'s Cotton Fog Eau de Parfum is a popular daily fragrance featuring a sweet and cozy lingering scent, boasting 5,676 reviews and a 4.8 rating on Olive Young. While some note its longevity could be better, it is widely praised as a great value perfume.',
+    highlights: ['Sweet, cozy cotton fragrance', 'High review volume on Olive Young', 'Great value daily fragrance'],
+    details: [
+      'The Cotton Fog scent offers a sweet yet cozy lingering feel, frequently highlighted as a go-to daily perfume with high user satisfaction. (igeosaja.com)',
+      'With 5,676 reviews and a 4.80 rating on Olive Young, it shows strong popularity and is chosen by many consumers. (igeosaja.com)',
+      'Many praise its great value, making it a highly recommended perfume for comfortable daily wear. (igeosaja.com)',
+    ],
+    whoFor:
+      'Ideal for those who prefer sweet, cozy cotton-type scents and want an affordable daily perfume. Since its longevity is on the shorter side, reapplication may be needed if you prefer a longer-lasting scent.',
+    howTo: [
+      'Lightly spray 1-2 times on pulse points such as wrists or behind the ears to let the scent naturally disperse.',
+      'When the lingering scent fades, carry it easily to reapply throughout the day to maintain the cozy mood.',
+    ],
+    pros: [
+      'Sweet, cozy scent perfect for daily use',
+      'High rating and review count prove its popularity',
+    ],
+    cons: [
+      'Short longevity may require frequent reapplication',
+    ],
+    coupangQuery: '애프터블로우 코튼포그 오 드 퍼퓸',
+    globalQuery: 'Afterblow Cotton Fog Eau de Parfum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-29',
+    tags: ['Daily Perfume', 'Cotton Scent', 'Affordable Fragrance'],
+    seoTitle: 'After Blow Eau de Parfum Cotton Fog Review',
+    seoDescription:
+      'Discover After Blow Eau de Parfum Cotton Fog, a top-rated daily K-beauty fragrance with a sweet, cozy cotton scent and great value.',
+  },
+  {
     slug: 'numbuzin-hydra-soothing-serum',
     category: 'skincare',
     brand: 'numbuzin',

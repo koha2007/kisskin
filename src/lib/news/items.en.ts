@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'athe-vegan-relief-bb-cushion-launch',
+    category: 'base',
+    title: 'LF\'s Vegan Beauty Brand athe Launches \'Vegan Relief BB Cushion\'',
+    summary:
+      'LF\'s vegan beauty brand athe launched the \'Vegan Relief BB Cushion\' on August 24. Featuring a spatula base technique, vegan PDRN, and Cica Soothing Complex, it delivers a thin, natural skin finish and will be available at Olive Young starting August 30.',
+    body: [
+      '> TLDR: Launch of athe Vegan BB Cushion | Adopts spatula base method | Olive Young launch on August 30',
+      'LF’s vegan beauty brand athe unveiled its \'Vegan Relief BB Cushion\' on its official online store on August 24, 2026. The product is applied thinly using a spatula and finished with a puff.',
+      '> DATA: Contains vegan PDRN and Cica Soothing Complex, 2 shades (20 Olive, 21 Ivory), Olive Young sales start August 30 (view.asiae.co.kr)',
+      'Co-developed with beauty creator Ppomni, the product is designed with a built-in magnetic spatula, a fine mesh cushion structure, and a Rubycell puff to ensure thin, even adherence without excessive absorption of the formula. This differentiates it from the traditional method of patting with a puff (view.asiae.co.kr).',
+      'From a consumer perspective, it is useful for those seeking a thin and natural look for base makeup. It is particularly noteworthy for users who value hygiene and usability through vegan ingredients and a spatula application technique.',
+    ],
+    date: '2026-08-29',
+    readMinutes: 3,
+    tags: ['Vegan Beauty', 'BB Cushion', 'Spatula Base', 'athe'],
+    seoTitle: 'LF\'s athe Launches Vegan Relief BB Cushion',
+    seoDescription:
+      'LF\'s vegan beauty brand athe launches the Vegan Relief BB Cushion featuring a built-in magnetic spatula and skin-soothing formula.',
+  },
+  {
     slug: 'kbeauty-exports-third-golden-age-diversification',
     category: 'global',
     title: 'K-Beauty Exports Enter a \'Third Golden Age\', Expanding Beyond Finished Products into Raw Materials and Packaging',

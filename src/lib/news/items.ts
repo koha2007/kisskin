@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'athe-vegan-relief-bb-cushion-launch',
+    category: 'base',
+    title: 'LF의 비건 뷰티 브랜드 athe, ‘Vegan Relief BB 쿠션’ 출시',
+    summary:
+      'LF의 비건 뷰티 브랜드 athe가 8월 24일 ‘Vegan Relief BB 쿠션’을 출시했다. 스파출라 베이스 기술과 비건 PDRN, 시카 수딩 컴플렉스를 적용한 얇고 자연스러운 피부 표현이 특징이며 올리브영에서도 8월 30일부터 구매 가능하다.',
+    body: [
+      '> TLDR: athe 비건 BB 쿠션 출시 | 스파출라 베이스 방식 채택 | 올리브영 8월 30일 출시',
+      'LF의 비건 뷰티 브랜드 athe가 2026년 8월 24일 ‘Vegan Relief BB Cushion’을 공식 온라인몰에서 첫 선을 보였다. 제품은 스파출라를 이용해 얇게 펴 바른 뒤 퍼프로 마무리하는 방식이다.',
+      '> DATA: vegan PDRN과 Cica Soothing Complex 함유, 2가지 쉐이드(20 Olive, 21 Ivory), 올리브영 8월 30일 판매 시작 (view.asiae.co.kr)',
+      '이 제품은 뷰티 크리에이터 Ppomni와 공동 개발되었으며, 자석식 내장 스파출라와 미세망 구조의 쿠션, 루비셀 퍼프를 통해 내용물이 과도하게 흡수되지 않고 얇고 균일하게 밀착되도록 설계됐다. 전통적인 퍼프로 톡톡 찍는 방식과 차별화된다 (view.asiae.co.kr).',
+      '소비자 관점에서, 베이스 메이크업의 얇고 자연스러운 표현을 원하는 이들에게 유용하다. 특히 비건 성분과 스파출라 방식으로 위생성과 사용감을 중시하는 사용자에게 주목할 만하다.',
+    ],
+    date: '2026-08-29',
+    readMinutes: 3,
+    tags: ['비건뷰티', 'BB쿠션', '스파출라베이스', 'athe'],
+    seoTitle: 'athe 비건 릴리프 BB 쿠션 출시 정보',
+    seoDescription:
+      '비건 PDRN·시카 수딩 컴플렉스 적용, 스파출라 베이스 방식의 athe ‘Vegan Relief BB Cushion’ 출시 및 올리브영',
+  },
+  {
     slug: 'olive-young-brands-debut-at-sephora-us-500-stores',
     category: 'global',
     title: '올리브영이 큐레이팅한 19개 K‑뷰티 브랜드, 미국 세포라 500개 매장 진출',

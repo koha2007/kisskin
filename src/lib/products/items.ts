@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'afterblow-cottonfog-eau-de-parfum',
+    category: 'fragrance',
+    brand: '애프터블로우',
+    name: '오 드 퍼퓸 코튼포그',
+    title: '애프터블로우 오 드 퍼퓸 코튼포그 — 달콤하고 포근한 잔향의 데일리 향수',
+    summary:
+      '애프터블로우의 코튼포그 오 드 퍼퓸은 올리브영에서 리뷰 5,676건, 평점 4.8을 기록한 인기 데일리 향수로, 달콤하면서도 포근한 잔향이 특징입니다. 지속력은 아쉽다는 리뷰도 있지만 가성비 좋은 향수로 화제입니다.',
+    highlights: ['달콤 포근한 코튼 향', '높은 올리브영 리뷰 수', '가성비 뛰어난 데일리 향'],
+    details: [
+      '코튼포그 향은 달콤하면서 포근한 느낌의 잔향으로 데일리 향수로 자주 언급됩니다. 사용자의 만족도가 높습니다. (igeosaja.com)',
+      '올리브영 기준 리뷰 수 5,676건, 평점 4.80으로 높은 인기 지표를 보이며, 많은 소비자가 선택한 제품입니다. (igeosaja.com)',
+      '가성비가 좋다는 평가가 많으며, 부담 없이 매일 사용하기 좋은 향수로 추천받고 있습니다. (igeosaja.com)',
+    ],
+    whoFor:
+      '달콤하고 포근한 코튼 계열 향을 선호하며 데일리용 부담 없는 향수를 찾는 분께 특히 잘 맞습니다. 향의 지속력이 짧은 편이니 향이 오래 남길 원하는 분은 향 보충이 필요할 수 있습니다.',
+    howTo: [
+      '맥박이 뛰는 팔목이나 귀 뒤에 한두 번 가볍게 분사해 향이 자연스럽게 퍼지도록 합니다.',
+      '잔향이 약해지면 간편하게 휴대하며 중간중간 레이어링하거나 덧뿌려 포근한 향을 유지하세요.',
+    ],
+    pros: [
+      '달콤하고 포근한 향이 데일리 사용에 적합',
+      '높은 평점과 리뷰 수가 인기 증명',
+    ],
+    cons: [
+      '지속력이 짧아 수시로 덧뿌려야 할 수 있음',
+    ],
+    coupangQuery: '애프터블로우 코튼포그 오 드 퍼퓸',
+    globalQuery: 'Afterblow Cotton Fog Eau de Parfum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-29',
+    tags: ['데일리향수', '코튼향', '가성비향수'],
+    seoTitle: '애프터블로우 코튼포그 오드퍼퓸 인기 리뷰',
+    seoDescription:
+      '달콤하고 포근한 향기로 올리브영 인기 향수로 주목받는 애프터블로우 코튼포그의 매력을 간결하게 소개합니다.',
+  },
+  {
     slug: 'k18-gloss-absolu-glaze-drops',
     category: 'hair',
     brand: '케라스테즈',
