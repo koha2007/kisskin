@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'cosrx-peptide-signal-station-olive-young-festa-la',
+    category: 'skincare',
+    title: 'COSRX Unveils \'Peptide Signal Station\' at Olive Young Festa LA',
+    summary:
+      'COSRX presented an interactive booth titled \'Peptide Signal Station\' at Olive Young Festa LA, held at the Los Angeles Convention Center from August 14 to 16. Attendees experienced a scientific approach to skincare by testing a 3-product peptide-based lineup firsthand.',
+    body: [
+      '> TLDR: COSRX | Peptide Experiential Booth | Olive Young Festa LA',
+      'Global K-beauty derma brand COSRX operated an interactive skincare booth named the \'Peptide Signal Station\' at Olive Young Festa LA, held at the Los Angeles Convention Center from August 14 to 16, 2026.',
+      '> KEY: \'Peptide Signal Station\' Interactive Experiential Booth',
+      'The experiential space centered on a 3-product lineup showcasing how peptides can be integrated into skincare routines, allowing attendees to test peptide-based products firsthand and experience their scientific approach.',
+      'As this booth marked the U.S. debut of Olive Young\'s flagship experiential beauty festival, \'Olive Young Festa,\' it represents strengthened local consumer touchpoints and an expanded brand experience for K-beauty.',
+    ],
+    date: '2026-08-30',
+    readMinutes: 3,
+    tags: ['COSRX', 'Peptide', 'Olive Young Festa'],
+    seoTitle: 'COSRX Unveils Peptide Signal Station at Olive Young Festa',
+    seoDescription:
+      'COSRX showcased its interactive Peptide Signal Station at Olive Young Festa LA, offering attendees a science-led skincare experience.',
+  },
+  {
     slug: 'athe-vegan-relief-bb-cushion-launch',
     category: 'base',
     title: 'LF\'s Vegan Beauty Brand athe Launches \'Vegan Relief BB Cushion\'',

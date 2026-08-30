@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'violette-fr-lip-nectar-hydrating-stain',
+    category: 'lip',
+    brand: 'Violette_FR',
+    name: 'Bisou Nectar Hydrating Lip Stain',
+    title: 'Violette_FR Bisou Nectar — High-Shine, Hydrating, Long-Wear Lip Stain',
+    summary:
+      'Combining high-shine gloss with a hydrating stain, Violette_FR Bisou Nectar is globally trending for its rich moisture, long-lasting color, and buildable coverage.',
+    highlights: ['High shine + deep hydration', '8-hour long-wear color', 'Oil-in-water formula'],
+    details: [
+      'Formulated as an oil-in-water emulsion that delivers glassy gloss and stain longevity without feeling greasy.',
+      'Enriched with hyaluronic acid, squalane, shea butter, and ceramides to provide instant hydration and lasting moisture comfort.',
+      'Clinically proven 8-hour wear keeps color vibrant all day long.',
+      'Bestselling shades like \'Pois de Senteur\' and \'Amarante Noire\' offer versatile tones loved worldwide.',
+    ],
+    whoFor:
+      'Ideal for dry lips wanting comfortable, glossy hydration, as well as busy daily routines or mask wear requiring long-lasting color.',
+    howTo: [
+      'On dry lips, apply a light layer of lip balm, spread a thin layer of Bisou Nectar, and wait 1–2 minutes for the color to set naturally.',
+      'For bolder color, layer once more and dab on the center of the lips for a gradient effect.',
+    ],
+    pros: [
+      'Hybrid formula offering shine and deep moisture simultaneously',
+      'Clinically proven up to 8 hours of color wear',
+    ],
+    cons: [
+      'Deep shades require multiple coats for full intensity',
+    ],
+    colorFit:
+      'Summer Cool / Winter Cool',
+    coupangQuery: '비올렛 프 립 넥타',
+    globalQuery: 'Violette_FR Lip Nectar hydrating lip stain',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-30',
+    tags: ['HighShine', 'LipStain', 'HydratingLip'],
+    seoTitle: 'Violette_FR Bisou Nectar Hydrating Lip Stain Review',
+    seoDescription:
+      'Discover Violette_FR Bisou Nectar, a high-shine, long-wearing hydrating lip stain clinically proven to last 8 hours.',
+  },
+  {
     slug: 'afterblow-cottonfog-eau-de-parfum',
     category: 'fragrance',
     brand: 'After Blow',

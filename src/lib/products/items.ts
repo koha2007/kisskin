@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'violette-fr-lip-nectar-hydrating-stain',
+    category: 'lip',
+    brand: '비올렛 프(Violette_FR)',
+    name: '립 넥타 하이드레이팅 립 스테인',
+    title: '비올렛 프 립 넥타 — 고광택·보습·롱웨어 립 스테인',
+    summary:
+      '하이 샤인 글로스와 수분감 있는 스테인이 결합된 비올렛 프 립 넥타는 고보습, 색상 지속력, 층마다 깊어지는 발색으로 지금 글로벌에서 꾸준히 인기 있는 제품입니다.',
+    highlights: ['고광택 + 수분감', '8시간 컬러 지속', '오일-인-워터 포뮬러'],
+    details: [
+      '오일‑인‑워터 에멀전으로 광택과 스테인의 지속력을 갖추었으며 번들거림 없이 촉촉한 마무리를 선사합니다.',
+      '히알루론산·스쿠알란·쉬어버터·세라마이드가 함유되어 즉각적인 수분 공급과 오랜 보습감을 제공합니다.',
+      '최대 8시간 컬러 지속을 임상적으로 입증하여 하루 종일 컬러가 사라지지 않습니다.',
+      '‘Poís de Senteur’, ‘Amarante Noire’ 등 다양한 톤의 베스트 셀러 색상들이 인기가 많습니다.',
+    ],
+    whoFor:
+      '입술에 글로시한 수분감과 편안한 발림을 원하는 건조한 입술 타입에게 특히 좋으며, 지속력 있는 컬러 표현이 필요한 바쁜 일상 또는 마스크 착용에도 적합합니다.',
+    howTo: [
+      '건조한 입술에는 가볍게 립밤을 바른 뒤 립 넥타를 한 겹 얇게 펴 바르고 1~2분 기다려 색이 자연스럽게 안착되도록 합니다.',
+      '더 선명한 발색을 원할 경우 한 겹 더 레이어링하고, 입술 중앙에 한 번 더 덧발라 그라데이션 효과를 줍니다.',
+    ],
+    pros: [
+      '광택과 보습을 동시에 제공하는 하이브리드 포뮬러',
+      '임상 입증된 최대 8시간 컬러 지속',
+    ],
+    cons: [
+      '진한 색상은 여러 번 레이어링 필요',
+    ],
+    colorFit:
+      '여름 쿨/겨울 쿨 톤에 특히 잘 어울리는데, 맑고 쿨한 핑크·베리 계열이 주를 이루어 얼굴을 화사하게 밝혀줍니다.',
+    coupangQuery: '비올렛 프 립 넥타',
+    globalQuery: 'Violette_FR Lip Nectar hydrating lip stain',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-08-30',
+    tags: ['하이샤인', '립스테인', '보습립'],
+    seoTitle: '하이드레이팅 립 스테인 비올렛 프',
+    seoDescription:
+      '글로시한 광택과 보습, 지속력을 한 번에 갖춘 하이드레이팅 립 스테인 비올렛 프 립 넥타에 대해 알려드립니다.',
+  },
+  {
     slug: 'afterblow-cottonfog-eau-de-parfum',
     category: 'fragrance',
     brand: '애프터블로우',

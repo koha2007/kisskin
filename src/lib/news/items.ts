@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'cosrx-peptide-signal-station-olive-young-festa-la',
+    category: 'skincare',
+    title: 'COSRX, LA ‘올리브영 페스타’서 펩타이드 시그널 스테이션 공개',
+    summary:
+      'COSRX가 8월 14~16일 LA 컨벤션 센터에서 열린 올리브영 페스타 LA에서 ‘펩타이드 시그널 스테이션’이라는 인터랙티브 체험 부스를 선보였습니다. 펩타이드 기반의 3종 스킨케어를 직접 체험하며 과학적 접근을 경험할 수 있었습니다.',
+    body: [
+      '> TLDR: COSRX | 펩타이드 체험 부스 | LA 올리브영 페스타',
+      '글로벌 K-뷰티 더마 브랜드 COSRX가 2026년 8월 14일부터 16일까지 로스앤젤레스 컨벤션 센터에서 열린 올리브영 페스타 LA에서 ‘펩타이드 시그널 스테이션’이라는 인터랙티브 스킨케어 체험 부스를 운영했습니다.',
+      '> KEY: ‘펩타이드 시그널 스테이션’ 인터랙티브 체험 부스',
+      '이 체험 공간은 펩타이드가 스킨케어 루틴에 어떻게 적용될 수 있는지를 보여주는 3종 제품 라인업 중심으로 구성되었으며, 참석자들은 직접 펩타이드 기반 제품을 체험하며 과학적 접근을 경험할 수 있었습니다.',
+      '이번 부스는 올리브영의 대표적인 체험형 뷰티 축제인 ‘올리브영 페스타’의 미국 첫 개최 무대였다는 점에서, K-뷰티의 현지 소비자 접점 강화와 브랜드 체험 확장의 의미를 갖습니다.',
+    ],
+    date: '2026-08-30',
+    readMinutes: 3,
+    tags: ['COSRX', '펩타이드', '올리브영페스타'],
+    seoTitle: 'COSRX LA 올리브영 페스타 펩타이드 체험 부스',
+    seoDescription:
+      'COSRX가 LA 올리브영 페스타에서 펩타이드 기반 3종 체험 부스를 선보인 글로벌 K-뷰티 현장 소식입니다.',
+  },
+  {
     slug: 'athe-vegan-relief-bb-cushion-launch',
     category: 'base',
     title: 'LF의 비건 뷰티 브랜드 athe, ‘Vegan Relief BB 쿠션’ 출시',

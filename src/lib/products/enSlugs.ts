@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'violette-fr-lip-nectar-hydrating-stain',
   'afterblow-cottonfog-eau-de-parfum',
   'numbuzin-hydra-soothing-serum',
   'louis-vuitton-ombres-monogram-limited-palette',
