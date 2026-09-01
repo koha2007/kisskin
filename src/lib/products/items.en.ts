@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'tirtir-mask-fit-red-cushion-foundation',
+    category: 'base',
+    brand: 'TIRTIR',
+    name: 'Mask Fit Red Cushion Foundation',
+    title: 'TIRTIR Mask Fit Red Cushion – The Viral #1 Glow Cushion',
+    summary:
+      'Recognized by Allure editors and readers, and a viral sensation on TikTok. Bursting with global popularity for its 30+ shades, serum-like hydration, and radiant \'glass skin\' finish.',
+    highlights: ['30+ Shade Range', 'Glass Skin Radiance', 'Serum-Like Hydration'],
+    details: [
+      'Proven global favorite featured on TikTok and Allure \'Best Cushion\' lists.',
+      'Offers over 30 shades to match diverse skin tones with buildable coverage and a natural finish.',
+      'Formulated with skincare ingredients like red propolis, hibiscus, and astaxanthin to nourish and create a dewy, glowing complexion.',
+    ],
+    whoFor:
+      'Ideal for normal-to-dry and combination-dry skin types who love a radiant finish. Highly recommended for anyone wanting natural yet effective coverage with an extensive shade selection.',
+    howTo: [
+      'Take an appropriate amount with the puff and gently pat from the center of the face outward, layering as desired.',
+      'For extra glow and adhesion on dry areas, lightly mist the puff with toner or mist before application.',
+    ],
+    pros: [
+      'Extensive shade range',
+      'Deeply hydrating, radiant finish',
+    ],
+    cons: [
+      'Puff application texture preference may vary by user',
+    ],
+    coupangQuery: '티르티르 마스크 핏 쿠션',
+    globalQuery: 'Tirtir Mask Fit Red Cushion Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-09-01',
+    tags: ['CushionFoundation', 'GlassSkin', 'HydratingGlow'],
+    seoTitle: 'TIRTIR Mask Fit Red Cushion Review & Shade Guide',
+    seoDescription:
+      'Discover the viral TIRTIR Mask Fit Red Cushion Foundation featuring 30+ shades for a hydrating glass skin glow.',
+  },
+  {
     slug: 'iglips-soft-eye-palette',
     category: 'eye',
     brand: 'Eglips',

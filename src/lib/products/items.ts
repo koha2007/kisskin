@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'tirtir-mask-fit-red-cushion-foundation',
+    category: 'base',
+    brand: '티르티르',
+    name: '마스크 핏 레드 쿠션 파운데이션',
+    title: '티르티르 마스크 핏 레드 쿠션 – 글로우 쿠션계 역주행 1위',
+    summary:
+      'Allure 편집자와 독자가 인정한, TikTok에서도 가장 핫한 쿠션 파운데이션. 30개 이상 쉐이드, 세럼처럼 촉촉한 광채, ‘글라스 스킨’ 표현력으로 글로벌 인기 폭발 중.',
+    highlights: ['30개 이상 쉐이드', '글라스 스킨 광채', '세럼 같은 수분감'],
+    details: [
+      '전 세계적으로 TikTok·Allure ‘Best Cushion’ 리스트에 오르며 입증된 인기 제품입니다',
+      '30가지가 넘는 색상 구성으로 다양한 톤에 대응하며 커버력과 자연스러운 마무리를 제공합니다',
+      '레드 프로폴리스·히비스커스·아스타잔틴 등 스킨케어 성분이 포함되어 촉촉한 글로우 피부 표현을 돕습니다',
+    ],
+    whoFor:
+      '중건성부터 건조 지성 피부까지, 광채 표현을 선호하는 모든 피부 타입에 적합하며 다양한 톤에 맞춘 쉐이드 옵션이 많아 커버력과 자연스러움을 모두 원하는 이들에게 추천드립니다.',
+    howTo: [
+      '퍼프에 적당량을 취해 얼굴 중심에서 바깥으로 가볍게 두드리며 레이어링해 자연스럽게 펴 바릅니다.',
+      '건조한 부위에는 토너 또는 미스트를 살짝 뿌린 퍼프를 사용해 글로우감과 밀착력을 높여줍니다.',
+    ],
+    pros: [
+      '폭넓은 색상 구성',
+      '수분감 넘치는 광채 표현',
+    ],
+    cons: [
+      '퍼프 사용 시 텍스처 호불호 있을 수 있음',
+    ],
+    coupangQuery: '티르티르 마스크 핏 쿠션',
+    globalQuery: 'Tirtir Mask Fit Red Cushion Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-09-01',
+    tags: ['쿠션파운데이션', '글라스스킨', '수분광채'],
+    seoTitle: '티르티르 마스크 핏 레드 쿠션 인기글로우 파운데이션',
+    seoDescription:
+      '지금 미국·유럽·동남아에서 TikTok·Allure·Readers’ Choice에서 화제인 쿠션 파운데이션의 정석을 소개합니다.',
+  },
+  {
     slug: 'iglips-soft-eye-palette',
     category: 'eye',
     brand: '이글립스',

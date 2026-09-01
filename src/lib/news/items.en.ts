@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-exports-indie-brands-record-h1-2026',
+    category: 'global',
+    title: 'H1 2026 K-Beauty Exports Surge 27.3%, Driven by Indie Brands',
+    summary:
+      'In the first half of 2026, South Korean cosmetics exports surpassed $7 billion, growing 27.3% year-over-year, with indie and SME brands making a prominent contribution.',
+    body: [
+      '> TLDR: H1 exports up 27.3% | Exports surpass $7B for first time | Growth driven by indie brands',
+      'In the first half of 2026, South Korean cosmetics exports reached $7 billion, an increase of 27.3% compared to the same period last year. This marks an all-time high for any first-half performance.',
+      '> DATA: 2026 H1 exports 5.728 billion USD, +25.1% YoY, with indie brand exports growing +30.7% to 5.07 billion USD (m.ajupress.com)',
+      'The growth was particularly pronounced among small-to-medium and indie brands. Their share of total cosmetics exports expanded significantly, signaling a structural shift in the export landscape.',
+      'For consumers, as K-beauty expands beyond major conglomerates, it opens up greater access to a diverse array of brands and products, broadening choices across the global market.',
+    ],
+    date: '2026-09-01',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Exports', 'Indie Brands'],
+    seoTitle: 'H1 2026 K-Beauty Exports Surge 27.3% via Indie Brands',
+    seoDescription:
+      'South Korean cosmetics exports surpassed $7B in H1 2026 with 27.3% YoY growth, driven by strong performance from indie and SME brands.',
+  },
+  {
     slug: 'watercolor-makeup-global-trend-emerges',
     category: 'trend',
     title: 'The Rise of \'Watercolor Makeup\': Emerging Global Color Trend',
