@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'iglips-soft-eye-palette',
+    category: 'eye',
+    brand: '이글립스',
+    name: '소프트 아이 팔레트',
+    title: '이글립스 소프트 아이 팔레트 — 데일리 코랄 음영 팔레트',
+    summary:
+      '여러 리뷰와 올리브영 주간 베스트 1위 기록을 바탕으로, 이글립스의 소프트 아이 팔레트는 부드러운 코랄 톤 구성과 휴대성으로 데일리 메이크업에 인기를 끕니다.',
+    highlights: ['부드러운 코랄 발색', '가루날림 적음', '컴팩트한 휴대성'],
+    details: [
+      '여러 리뷰에서 색상이 부드럽고 자연스러워 데일리로 활용하기 좋다는 반응이 많으며, 발색력도 뛰어나다는 평가가 있습니다 (glowpick.com).',
+      '가루날림이 적고 입자가 고와 블렌딩이 잘 된다는 평가가 있어 깔끔한 눈가 표현에 유리합니다 (glowpick.com).',
+      '6구 구성에 거울 내장, 얇고 가벼워 파우치에 쏙 들어갈 정도로 휴대하기 편하다는 실사용자 리뷰가 있습니다 (glowpick.com).',
+    ],
+    whoFor:
+      '맑고 은은한 코랄 음영을 선호하는 봄 웜·여름 쿨 라이트 톤 사용자에게 적합하며, 데일리 메이크업과 출장 시 간편한 휴대를 중시하는 분께 추천합니다.',
+    howTo: [
+      '베이스 컬러를 눈두덩 전체에 얇게 펴 발라 자연스러운 톤을 잡아준 뒤, 중간톤으로 아이라인과 음영을 부드럽게 그라데이션해 주세요.',
+      '글리터나 쉬머 컬러는 눈 앞머리나 중앙에 톡톡 얹어 포인트를 더하고, 여러 번 덧발라 원하는 색감을 조절하면 지속력과 발색 모두 좋습니다.',
+    ],
+    pros: [
+      '데일리로 부담 없는 부드러운 컬러 구성',
+      '휴대성과 실용성 갖춘 컴팩트 디자인',
+    ],
+    cons: [
+      '케이스가 얇아 내용물이 적게 느껴질 수 있음',
+    ],
+    colorFit:
+      '봄 웜과 여름 쿨톤(라이트 컬러 톤) 모두 자연스럽게 어울리며, 소프트한 코랄 컬러가 피부를 화사하게 밝혀줍니다.',
+    coupangQuery: '이글립스 소프트 아이 팔레트',
+    globalQuery: 'iglips soft eye palette',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-09-01',
+    tags: ['코랄음영', '데일리아이팔레트', '휴대용'],
+    seoTitle: '이글립스 소프트 아이 팔레트 코랄 음영',
+    seoDescription:
+      '데일리 음영부터 포인트까지 가능한 이글립스 6구 아이 팔레트의 발색과 휴대성 특징을 정리했습니다.',
+  },
+  {
     slug: 'violette-fr-lip-nectar-hydrating-stain',
     category: 'lip',
     brand: '비올렛 프(Violette_FR)',

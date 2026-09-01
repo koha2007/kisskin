@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'iglips-soft-eye-palette',
+    category: 'eye',
+    brand: 'Eglips',
+    name: 'Soft Eye Palette',
+    title: 'Eglips Soft Eye Palette — Daily Coral Contour Palette',
+    summary:
+      'Based on numerous reviews and reaching #1 on Olive Young\'s weekly bestseller list, the Eglips Soft Eye Palette is popular for daily makeup thanks to its soft coral tones and compact portability.',
+    highlights: ['Soft coral color payoff', 'Minimal fallout', 'Compact and portable'],
+    details: [
+      'Multiple reviews note that the colors are soft and natural for daily use, with excellent pigmentation (glowpick.com).',
+      'Users report minimal fallout and fine particles that blend well, making it ideal for a clean eye makeup look (glowpick.com).',
+      'Real user reviews highlight that the 6-pan layout with a built-in mirror is slim and lightweight enough to fit easily in a makeup pouch (glowpick.com).',
+    ],
+    whoFor:
+      'Ideal for Spring Warm and Summer Cool Light skin tones who prefer clear, subtle coral contouring, and recommended for those who prioritize convenient portability for daily makeup and travel.',
+    howTo: [
+      'Apply a base color thinly over the entire eyelid to unify the skin tone, then layer medium tones to create a smooth gradient along the eyeline and crease.',
+      'Tap glitter or shimmer shades onto the inner corners or center of the lid for added dimension, layering as needed to build intensity and enhance longevity.',
+    ],
+    pros: [
+      'Soft, wearable shade lineup suitable for daily use',
+      'Compact design combining portability and practical use',
+    ],
+    cons: [
+      'The slim case design may give the impression of less product quantity',
+    ],
+    colorFit:
+      'Complements both Spring Warm and Summer Cool Light skin tones naturally, with soft coral shades brightening the complexion.',
+    coupangQuery: '이글립스 소프트 아이 팔레트',
+    globalQuery: 'iglips soft eye palette',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-09-01',
+    tags: ['CoralContour', 'DailyEyePalette', 'Portable'],
+    seoTitle: 'Eglips Soft Eye Palette Review & How to Use',
+    seoDescription:
+      'Discover the Eglips Soft Eye Palette featuring soft coral shades, minimal fallout, and a portable design perfect for daily Spring Warm and Summer Cool',
+  },
+  {
     slug: 'violette-fr-lip-nectar-hydrating-stain',
     category: 'lip',
     brand: 'Violette_FR',

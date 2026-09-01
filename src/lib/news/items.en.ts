@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'watercolor-makeup-global-trend-emerges',
+    category: 'trend',
+    title: 'The Rise of \'Watercolor Makeup\': Emerging Global Color Trend',
+    summary:
+      'Over the past two to three weeks, \'watercolor makeup\' has emerged as a global trend. It features diffused color expressions that seamlessly melt into the skin, rather than vivid shades.',
+    body: [
+      '> TLDR: Soft yet vibrant color | Diffused blurred effect | A fresh trend shift',
+      'Global beauty publication Marie Claire recently reported that \'watercolor makeup\' is emerging as a mainstream trend. It is characterized by soft, watercolor-like washes of pigment rather than intense, vivid shades.',
+      '> KEY: \'Watercolor makeup\' emphasizes diffused pigments that melt naturally into the skin rather than sharp, heavy definition.',
+      'Shifting away from sharply defined glam looks, this trend focuses on blurred, artistic expressions reminiscent of watercolor art. It has rapidly gained traction across beauty communities and media over the past 2 to 3 weeks.',
+      'From a consumer standpoint, watercolor makeup serves as an accessible, natural option that still fulfills the desire for creative expression, positioning it to drive sustained engagement across color cosmetics.',
+    ],
+    date: '2026-08-31',
+    readMinutes: 3,
+    tags: ['Makeup Trends', 'Watercolor Makeup', 'Global Beauty'],
+    seoTitle: 'The Rise of Watercolor Makeup as a Global Beauty Trend',
+    seoDescription:
+      'Discover how watercolor makeup is shaping global beauty trends with soft, diffused washes of color over sharp glam looks.',
+  },
+  {
     slug: 'cosrx-peptide-signal-station-olive-young-festa-la',
     category: 'skincare',
     title: 'COSRX Unveils \'Peptide Signal Station\' at Olive Young Festa LA',
