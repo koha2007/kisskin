@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'kaja-target-beauty-studio-us-launch',
+    category: 'global',
+    title: 'Kaja, 미국 Target 새 프레스티지 매장 ‘Target Beauty Studio’ 입점 확정',
+    summary:
+      '한국 메이크업 브랜드 Kaja가 미국 Target의 새로운 프레스티지 뷰티 공간 ‘Target Beauty Studio’에 입점합니다. 9월 10일 매장 및 온라인 론칭 예정입니다.',
+    body: [
+      '> TLDR: K‑beauty 브랜드 Kaja, 미국 Target의 ‘Beauty Studio’ 입점 | 론칭일 2026년 9월 10일 | 베스트셀러 제품 포함 출시',
+      'K‑beauty 메이크업 브랜드 Kaja가 미국 Target의 새 프레스티지 뷰티 공간인 ‘Target Beauty Studio’에 입점합니다. 해당 매장은 2026년 9월 10일 오픈 예정이며 온·오프라인에서 동시에 판매됩니다.',
+      '> DATA: 입점일은 2026년 9월 10일로, Target Beauty Studio의 신설 공간이며 미국 전역 Target 매장과 온라인에서 동시 론칭됩니다.',
+      'Kaja는 Beauty Bento, Wink Stamp, Cheeky Stamp 등 기존에 인기를 끈 제품들을 포함한 컬렉션으로 진출하며, Target 측은 ‘혁신적이고 창의적인’ K‑뷰티 경험을 제공할 예정이라고 밝혔습니다.',
+      '미국 내 K‑뷰티 인지도와 접근성을 높이는 중요한 기회로, 소비자들은 다양한 포맷의 재미있고 실용적인 제품들을 Target에서 쉽게 만날 수 있게 됩니다.',
+    ],
+    date: '2026-09-02',
+    readMinutes: 3,
+    tags: ['K‑뷰티', '글로벌', 'Target', '브랜드입점'],
+    seoTitle: 'Kaja, Target Beauty Studio 입점',
+    seoDescription:
+      'Kaja가 미국 Target의 새로운 프레스티지 뷰티 공간인 Target Beauty Studio에 9월 10일 입점하는 글로벌 K‑뷰티',
+  },
+  {
     slug: 'kbeauty-exports-indie-brands-record-h1-2026',
     category: 'global',
     title: '2026년 상반기 K-뷰티 수출, 인디 브랜드 중심 27.3% 급증',

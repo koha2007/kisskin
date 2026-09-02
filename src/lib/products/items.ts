@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'deardahlia-petal-drop-liquid-blush',
+    category: 'cheek',
+    brand: '디어달리아',
+    name: '페탈 드롭 리퀴드 블러쉬',
+    title: '디어달리아 페탈 드롭 리퀴드 블러쉬 — 수채화처럼 맑고 오래가는 혈색',
+    summary:
+      '디어달리아 페탈 드롭 리퀴드 블러쉬는 올리브영 인기 블러셔 TOP5에 오른 ‘수채화 블러셔’로, 한 방울로 촉촉하게 발리고 세미매트 픽싱되는 인기 리퀴드 타입 치크 제품입니다.',
+    highlights: ['리퀴드·속광 마무리', '세미매트 픽싱', '17색 다양 구성'],
+    details: [
+      '물처럼 묽은 리퀴드 제형으로 얼굴에 한 방울 떨어뜨린 뒤 손이나 스펀지로 두드려 바르면 촉촉한 느낌이 들고 마르면 세미매트하게 픽싱됩니다.',
+      '올리브영 어워즈 트렌드 라이징스타 및 MD’s PICK을 받으며 높은 인기도와 주목도를 입증했습니다.',
+      '17가지 색상 구성으로 선택 폭이 넓으며, 리뷰에서는 지속력이 좋다는 평가가 자주 언급됩니다.',
+    ],
+    whoFor:
+      '자연스러운 혈색과 깔끔한 마무리를 원하는 유분·수분 조절이 필요한 복합성 피부나 지성 피부에 잘 어울리며, 파우더보다 지속력 있는 블러셔를 찾는 분께 적합합니다.',
+    howTo: [
+      '손등에 한 방울 덜어낸 뒤, 손가락이나 스펀지로 볼 중앙부터 옅게 펴 발라 자연스럽게 블렌딩합니다.',
+      '처음에는 양을 조금씩 조절하며 발색하고, 원하는 발색이 되면 원하는 부위에 추가 레이어링해 볼 입체감을 조절합니다.',
+    ],
+    pros: [
+      '속광과 세미매트 픽싱을 동시에 주는 지속력 높은 리퀴드 제형',
+      '17가지 색상으로 다양한 피부톤 대응 가능',
+    ],
+    cons: [
+      '처음 사용할 때 한 번에 많은 양이 나올 수 있어 조절이 필요함',
+    ],
+    colorFit:
+      '여름 쿨/가을 웜 모두 어울리며, 17색 구성 덕분에 퍼스널컬러에 맞는 선택이 가능해 호불호 없이 사용할 수 있습니다.',
+    coupangQuery: '디어달리아 페탈 드롭 블러쉬',
+    globalQuery: 'deardahlia petal drop liquid blush',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-09-02',
+    tags: ['수채화블러셔', '리퀴드치크', '지속력좋은블러셔'],
+    seoTitle: '디어달리아 페탈 드롭 리퀴드 블러쉬 인기 수채화 블러셔',
+    seoDescription:
+      '수채화처럼 맑고 오래가는 혈색을 연출해주는 디어달리아 페탈 드롭 리퀴드 블러쉬의 제형과 특징을 자세히 소개합니다.',
+  },
+  {
     slug: 'tirtir-mask-fit-red-cushion-foundation',
     category: 'base',
     brand: '티르티르',

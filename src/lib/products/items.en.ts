@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'deardahlia-petal-drop-liquid-blush',
+    category: 'cheek',
+    brand: 'DEAR DAHLIA',
+    name: 'Petal Drop Liquid Blush',
+    title: 'DEAR DAHLIA Petal Drop Liquid Blush — Clear Watercolor Flush That Lasts',
+    summary:
+      'DEAR DAHLIA Petal Drop Liquid Blush is a popular liquid cheek product ranked in Olive Young\'s TOP 5 blushes. Known as a \'watercolor blush,\' it applies smoothly with a hydrating feel from just a single drop and sets into a sleek semi-matte finish.',
+    highlights: ['Liquid finish with inner glow', 'Semi-matte setting', 'Diverse 17-shade range'],
+    details: [
+      'Featuring a lightweight liquid texture, applying a single drop and patting it with fingers or a sponge provides a hydrating feel that sets to a semi-matte finish as it dries.',
+      'Proved its high popularity and attention by winning the Olive Young Awards Trend Rising Star and MD’s PICK.',
+      'Offers a broad selection with 17 shades, with customer reviews frequently praising its long-lasting power.',
+    ],
+    whoFor:
+      'Ideal for combination or oily skin types needing oil-water balance that want a natural flush with a neat finish, as well as anyone looking for a longer-lasting blush alternative to powder.',
+    howTo: [
+      'Dispense a single drop onto the back of your hand, then gently spread and blend outwards from the center of the cheeks using your fingers or a sponge.',
+      'Start with a small amount to control the intensity, then layer additional product onto desired areas to build volume and dimension.',
+    ],
+    pros: [
+      'Long-lasting liquid formula providing both inner radiance and a semi-matte setting',
+      '17 versatile shades suitable for various skin tones',
+    ],
+    cons: [
+      'Too much product may come out on the first use, requiring careful control',
+    ],
+    colorFit:
+      'Suits both Summer Cool and Autumn Warm tones, with 17 shades allowing personalized selection for any color season without hesitation.',
+    coupangQuery: '디어달리아 페탈 드롭 블러쉬',
+    globalQuery: 'deardahlia petal drop liquid blush',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-09-02',
+    tags: ['WatercolorBlush', 'LiquidCheek', 'LongLastingBlush'],
+    seoTitle: 'DEAR DAHLIA Petal Drop Liquid Blush Review & Guide',
+    seoDescription:
+      'Discover DEAR DAHLIA Petal Drop Liquid Blush, a hydrating watercolor cheek stain with a long-lasting semi-matte finish in 17 versatile shades.',
+  },
+  {
     slug: 'tirtir-mask-fit-red-cushion-foundation',
     category: 'base',
     brand: 'TIRTIR',

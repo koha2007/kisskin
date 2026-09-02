@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kaja-target-beauty-studio-us-launch',
+    category: 'global',
+    title: 'Kaja Secures Entry into Target’s New Prestige Space ‘Target Beauty Studio’',
+    summary:
+      'Korean makeup brand Kaja is launching in Target\'s new prestige beauty space, \'Target Beauty Studio.\' The official omnichannel rollout is scheduled for September 10.',
+    body: [
+      '> TLDR: K-beauty brand Kaja enters Target\'s \'Beauty Studio\' | Launch date: September 10, 2026 | Lineup includes best-sellers',
+      'K-beauty makeup brand Kaja is entering Target\'s new prestige beauty concept, \'Target Beauty Studio.\' The space is scheduled to open on September 10, 2026, with products launching simultaneously online and in physical stores.',
+      '> DATA: The official launch date is September 10, 2026, debuting within the newly designed Target Beauty Studio space across Target stores nationwide and online in the U.S.',
+      'Kaja is entering the retailer with a collection featuring its popular best-sellers, including Beauty Bento, Wink Stamp, and Cheeky Stamp. Target stated that the partnership will deliver an "innovative and creative" K-beauty experience.',
+      'This expansion serves as a significant opportunity to heighten K-beauty awareness and accessibility in the U.S., enabling consumers to easily discover fun and practical products across various formats at Target.',
+    ],
+    date: '2026-09-02',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Global', 'Target', 'Brand Launch'],
+    seoTitle: 'Kaja to Launch in Target\'s New Target Beauty Studio',
+    seoDescription:
+      'K-beauty makeup brand Kaja confirms its expansion into Target\'s new prestige retail concept, Target Beauty Studio, launching online and in stores.',
+  },
+  {
     slug: 'kbeauty-exports-indie-brands-record-h1-2026',
     category: 'global',
     title: 'H1 2026 K-Beauty Exports Surge 27.3%, Driven by Indie Brands',
