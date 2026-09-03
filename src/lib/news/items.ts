@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'skin1004-lab-in-nature-new-azulen-peptide-nad-creams',
+    category: 'skincare',
+    title: 'SKIN1004, ‘Lab in Nature’ 시리즈로 아줄렌 펩타이드·NAD 크림 2종 출시',
+    summary:
+      'SKIN1004가 ‘Lab in Nature’ 라인에서 아줄렌 펩타이드 5% 스무딩 크림과 순도 99% NAD 1,000ppm 크림을 2026년 8월 27일 출시했습니다. 혁신 성분을 앞세운 고기능 케어가 특징입니다.',
+    body: [
+      '> TLDR: SKIN1004 신제품 2종 출시 | 아줄렌 펩타이드·NAD 포뮬러 | 기능성 스킨케어 확장',
+      '한국 브랜드 SKIN1004가 ‘Lab in Nature’ 라인에서 기능성 스킨케어 크림 2종을 2026년 8월 27일 출시했습니다.',
+      '> DATA: 아줄렌 펩타이드 함량 5%, NAD 크림 순도 99%, NAD 농도 1,000ppm — 공식 발표 내용 기준',
+      '아줄렌 펩타이드 크림은 진정과 스무딩 효과를, NAD 크림은 항산화·피부 활성화 기능을 주력으로 한 신제품으로, 소비자 니즈에 맞춘 성분 중심의 접근이 돋보입니다.',
+      '이번 출시로 SKIN1004는 자연 유래 힐링 성분을 강조한 ‘Lab in Nature’ 컨셉을 강화하며, 글로벌 스킨케어 시장에서도 주목받을 가능성이 커졌습니다.',
+    ],
+    date: '2026-09-03',
+    readMinutes: 3,
+    tags: ['SKIN1004', '아줄렌', 'NAD', '기능성스킨케어'],
+    seoTitle: 'SKIN1004 아줄렌 펩타이드·NAD 크림 출시',
+    seoDescription:
+      'SKIN1004가 Lab in Nature 시리즈로 아줄렌 펩타이드 5% 및 NAD 1,000ppm 크림 2종을 8월 27일 출시한 최신',
+  },
+  {
     slug: 'kaja-target-beauty-studio-us-launch',
     category: 'global',
     title: 'Kaja, 미국 Target 새 프레스티지 매장 ‘Target Beauty Studio’ 입점 확정',

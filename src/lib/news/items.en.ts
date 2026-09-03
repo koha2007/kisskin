@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'skin1004-lab-in-nature-new-azulen-peptide-nad-creams',
+    category: 'skincare',
+    title: 'SKIN1004 Launches Azulene Peptide and NAD Creams in \'Lab in Nature\' Line',
+    summary:
+      'SKIN1004 launched two high-performance creams under its \'Lab in Nature\' line on August 27, 2026: an Azulene Peptide 5% Smoothing Cream and a 99% pure NAD 1,000ppm Cream, featuring innovative ingredient-driven skincare.',
+    body: [
+      '> TLDR: SKIN1004 launches 2 new products | Azulene peptide & NAD formulas | Functional skincare expansion',
+      'Korean beauty brand SKIN1004 launched two functional skincare creams under its \'Lab in Nature\' line on August 27, 2026.',
+      '> DATA: 5% azulene peptide content, 99% pure NAD, 1,000ppm NAD concentration — Based on official announcement',
+      'The Azulene Peptide Cream focuses on soothing and smoothing effects, while the NAD Cream centers on antioxidant and skin-vitalizing functions, highlighting an ingredient-focused approach tailored to consumer demand.',
+      'With this launch, SKIN1004 reinforces its \'Lab in Nature\' concept emphasizing nature-derived healing ingredients, enhancing its potential to capture attention in the global skincare market.',
+    ],
+    date: '2026-09-03',
+    readMinutes: 3,
+    tags: ['SKIN1004', 'Azulene', 'NAD', 'Functional Skincare'],
+    seoTitle: 'SKIN1004 Launches Azulene Peptide and NAD Creams',
+    seoDescription:
+      'SKIN1004 introduces Azulene Peptide and 99% pure NAD creams under its Lab in Nature line, expanding high-performance K-beauty skincare.',
+  },
+  {
     slug: 'kaja-target-beauty-studio-us-launch',
     category: 'global',
     title: 'Kaja Secures Entry into Target’s New Prestige Space ‘Target Beauty Studio’',

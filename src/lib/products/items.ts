@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'rare-beauty-soft-pinch-luminous-palette',
+    category: 'trend',
+    brand: '레어 뷰티',
+    name: '소프트 핀치 루미너스 팔레트',
+    title: '레어 뷰티 ‘소프트 핀치 루미너스 팔레트’—바이럴하게 반짝이는 맘의 모던 하이라이터 팔레트',
+    summary:
+      '2026년 Mother’s Day 한정판으로 출시된 레어 뷰티 ‘소프트 핀치 루미너스 팔레트’는 틱톡 바이럴을 타고 전 세계적으로 인기 몰이 중인 멀티 팔레트입니다.',
+    highlights: ['하이라이터+블러셔 결합', '틱톡 바이럴 붐', '한정 Mother’s Day 출시'],
+    details: [
+      '하이라이터와 블러셔를 하나의 팔레트에 담아 얼굴 전체에 은은한 빛을 더해줍니다.',
+      '5월 1일 출시 직후 틱톡 피드 전반에 등장하며 꾸준히 회자되는 인기템입니다.',
+      'Mother’s Day 한정판으로 전 세계에서 재고가 빠르게 소진 중이며 재판매 가격 상승세입니다.',
+    ],
+    whoFor:
+      '은은하게 글로우를 더하고 싶은 중·건성 피부 톤에 좋은 팔레트로, 하이라이터와 블러셔를 동시에 쓰고 싶은 실속형 유저에게 적합합니다. 메이크업에 감성을 더하고 싶은 트렌드 민감형 사용자에게 특히 추천합니다.',
+    howTo: [
+      '블러셔와 하이라이터 모두 사용하는 경우, 먼저 블러셔로 볼 중앙에 색감을 얹고, 그 위에 하이라이터로 고점을 따라 빛을 더하세요.',
+      '하이라이터 단독 사용 시, 광대뼈과 코끝에 얇게 펴 발라 은은한 광채를 표현하세요.',
+    ],
+    pros: [
+      '블러셔와 하이라이터를 하나의 팔레트로 효율적 사용 가능',
+      '틱톡에서 검증된 인기템으로 트렌디함',
+    ],
+    cons: [
+      '한정 상품이라 품절 및 재입고 불확실',
+    ],
+    coupangQuery: '레어 뷰티 소프트 핀치 루미너스 팔레트',
+    globalQuery: 'Rare Beauty Soft Pinch Luminous Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-03',
+    tags: ['한정판', '하이라이터블러셔', '틱톡핫템'],
+    seoTitle: '레어 뷰티 소프트 핀치 루미너스 팔레트 인기 컬렉션',
+    seoDescription:
+      '지금 튀는 틱톡 바이럴 + Mother’s Day 한정 ‘소프트 핀치 루미너스 팔레트’의 빛나는 하이라이터 & 블러셔 조합을 소개합니다.',
+  },
+  {
     slug: 'deardahlia-petal-drop-liquid-blush',
     category: 'cheek',
     brand: '디어달리아',

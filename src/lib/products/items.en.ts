@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'rare-beauty-soft-pinch-luminous-palette',
+    category: 'trend',
+    brand: 'Rare Beauty',
+    name: 'Soft Pinch Luminous Palette',
+    title: 'Rare Beauty Soft Pinch Luminous Palette — A Viral, Shimmering Modern Highlighter Palette',
+    summary:
+      'Released as a 2026 Mother\'s Day limited edition, the Rare Beauty Soft Pinch Luminous Palette is a multi-use palette gaining massive global popularity through TikTok viral trends.',
+    highlights: ['Highlighter + Blusher combination', 'TikTok viral hit', 'Limited Mother\'s Day release'],
+    details: [
+      'Combines a highlighter and blush in one palette to add a subtle glow across the entire face.',
+      'Appeared all over TikTok feeds right after its May 1 launch and continues to be a hot topic.',
+      'As a limited Mother\'s Day edition, stock is selling out fast worldwide with resale prices rising.',
+    ],
+    whoFor:
+      'Ideal for normal-to-dry skin tones wanting a subtle glow, and practical users looking to apply blush and highlighter simultaneously. Highly recommended for trend-sensitive users who want to add an emotional, radiant touch to their makeup.',
+    howTo: [
+      'When using both blush and highlighter: Apply blush to the center of the cheeks first, then sweep highlighter along the high points to add light.',
+      'When using highlighter alone: Thinly layer over cheekbones and the tip of the nose for a gentle, luminous sheen.',
+    ],
+    pros: [
+      'Efficient multi-use palette containing both blush and highlighter',
+      'Trendy, proven popular item verified on TikTok',
+    ],
+    cons: [
+      'Limited edition status makes sell-outs quick and restocks uncertain',
+    ],
+    coupangQuery: '레어 뷰티 소프트 핀치 루미너스 팔레트',
+    globalQuery: 'Rare Beauty Soft Pinch Luminous Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-03',
+    tags: ['Limited Edition', 'Highlighter Blush', 'TikTok Hot Item'],
+    seoTitle: 'Rare Beauty Soft Pinch Luminous Palette Review & Guide',
+    seoDescription:
+      'Discover the viral Rare Beauty Soft Pinch Luminous Palette featuring a blush and highlighter combo for a radiant, luminous glow.',
+  },
+  {
     slug: 'deardahlia-petal-drop-liquid-blush',
     category: 'cheek',
     brand: 'DEAR DAHLIA',
