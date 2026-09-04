@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'risky-glowcation-influencer-trip-to-seoul',
+    category: 'global',
+    title: 'Risky, 서울서 ‘글로우케이션’ 인플루언서 트립 진행',
+    summary:
+      '한국 메이크업 브랜드 Risky가 ‘Dewy Dumpling Glow‑Up’라는 이름의 인플루언서 서울 여행을 최근 진행했습니다. 미국 유명 메이크업 아티스트 Nam Vo가 기획한 이번 프로그램은 현지 뷰티 체험과 한국 메이크업 트렌드를 결합한 새로운 글로벌 마케팅 전략입니다.',
+    body: [
+      '> TLDR: 브랜드 Risky | 인플루언서 트립 | 서울 뷰티 체험',
+      '한국 메이크업 브랜드 Risky가 ‘Dewy Dumpling Glow‑Up’이라는 이름의 인플루언서 초청 프로그램을 진행했습니다. 최근 미국 메이크업 아티스트 Nam Vo가 주관한 이 트립은 한국 뷰티를 직접 체험하는 일정이었습니다.',
+      '> DATA: 트립 일정은 1주일간 진행됐으며, Madison LeCroy, Hailey Sani, Isabel Tan, Jeannie Mai 등 고위력 인플루언서들이 참여했습니다.',
+      '이 프로그램은 뷰티 브랜드 협업을 넘어, 한국의 화장품·클리닉 체험과 현지 문화 콘텐츠를 결합한 하이퍼 리얼리티형 마케팅으로 평가됩니다. 인플루언서들을 통한 글로벌 인지도 확장 전략으로 주목됩니다.',
+      '소비자에게는 단순 홍보를 넘어, 한국 뷰티를 직접 체험한 인플루언서의 진정성 있는 콘텐츠가 콘텐츠 신뢰성을 높이는 방식으로 다가올 수 있습니다.',
+    ],
+    date: '2026-09-04',
+    readMinutes: 3,
+    tags: ['글로우케이션', '인플루언서', '글로벌마케팅'],
+    seoTitle: 'Risky, 서울 인플루언서 글로우케이션 진행',
+    seoDescription:
+      'Risky가 미국 메이크업 아티스트 Nam Vo와 함께 ‘Dewy Dumpling Glow‑Up’ 인플루언서 서울 여행을 진행한 글로벌',
+  },
+  {
     slug: 'skin1004-lab-in-nature-new-azulen-peptide-nad-creams',
     category: 'skincare',
     title: 'SKIN1004, ‘Lab in Nature’ 시리즈로 아줄렌 펩타이드·NAD 크림 2종 출시',

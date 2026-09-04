@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'risky-glowcation-influencer-trip-to-seoul',
+    category: 'global',
+    title: 'Risky Hosts \'Glowcation\' Influencer Trip in Seoul',
+    summary:
+      'Korean makeup brand Risky recently hosted an influencer trip to Seoul titled \'Dewy Dumpling Glow-Up.\' Organized by prominent US makeup artist Nam Vo, the program represents an innovative global marketing strategy blending hands-on local beauty experiences with Korean makeup trends.',
+    body: [
+      '> TLDR: Brand Risky | Influencer Trip | Seoul Beauty Experience',
+      'Korean makeup brand Risky hosted an influencer invitation program titled \'Dewy Dumpling Glow-Up.\' Recently organized by US makeup artist Nam Vo, the trip featured an itinerary designed for creators to experience Korean beauty firsthand.',
+      '> DATA: The trip ran for one week and featured high-impact influencers including Madison LeCroy, Hailey Sani, Isabel Tan, and Jeannie Mai.',
+      'Going beyond traditional brand collaborations, this initiative is evaluated as a hyper-reality marketing strategy combining Korean cosmetics, clinic experiences, and local cultural content. It is gaining industry attention as an effective approach to expanding global brand awareness through top influencers.',
+      'For consumers, authentic content created by influencers experiencing K-beauty firsthand offers value that extends beyond simple promotion, effectively elevating overall content credibility.',
+    ],
+    date: '2026-09-04',
+    readMinutes: 3,
+    tags: ['Glowcation', 'Influencers', 'Global Marketing'],
+    seoTitle: 'Risky Hosts \'Dewy Dumpling Glow-Up\' Trip in Seoul',
+    seoDescription:
+      'Korean makeup brand Risky partnered with makeup artist Nam Vo for an exclusive influencer trip to Seoul to showcase local K-beauty trends.',
+  },
+  {
     slug: 'skin1004-lab-in-nature-new-azulen-peptide-nad-creams',
     category: 'skincare',
     title: 'SKIN1004 Launches Azulene Peptide and NAD Creams in \'Lab in Nature\' Line',

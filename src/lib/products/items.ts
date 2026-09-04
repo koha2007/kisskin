@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'isntree-hyaluronic-airy-sun-stick',
+    category: 'skincare',
+    brand: '이즈앤트리',
+    name: '히아루론산 에어리 선스틱',
+    title: '이즈앤트리 히아루론산 에어리 선스틱 — 보송 촉촉 선스틱 휴대의 정석',
+    summary:
+      '끈적임 없이 보송하게 마무리되는 휴대용 선스틱으로 여행이나 야외 활동 시 수시로 덧바르기 좋은 제품입니다.',
+    highlights: ['보송한 마무리', '백탁 없음', '휴대 간편'],
+    details: [
+      'SPF50+ PA++++ 유기자차 선스틱으로 끈적임 없이 가볍게 발리며 자외선 차단 효과가 뛰어납니다.',
+      '백탁 현상이 없어 자연스러운 피부 표현이 가능하며, 보송한 윤광 마무리로 피부 톤 보정도 도와줍니다.',
+      '스틱형이라 소량씩 덧발라도 번들거림 없이 편하게 사용할 수 있어 휴대성이 높습니다.',
+    ],
+    whoFor:
+      '외출이나 야외 활동이 잦아 수시로 자외선 차단제를 덧바르고 싶은 지성 또는 복합성 피부에 적합합니다. 끈적임 없이 산뜻한 마무리를 선호하는 분께 추천드립니다.',
+    howTo: [
+      '기초 마무리 단계에서 적당량을 꾹 눌러 내용물을 노출한 뒤, 얼굴이나 노출 부위에 가볍게 쓱 문지릅니다.',
+      '수시로 덧발라도 밀림 없이 자연스럽게 흡수되며, 야외 활동 중에는 필요한 부위에 수시로 덧발라 주세요.',
+    ],
+    pros: [
+      '끈적임 없이 보송하게 마무리',
+      '백탁 없이 자연스러운 톤업 효과',
+    ],
+    cons: [
+      '윤광 마무리가 호불호일 수 있음',
+    ],
+    coupangQuery: '이즈앤트리 히아루론산 선스틱',
+    globalQuery: 'Isntree Hyaluronic Airy Sun Stick',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-04',
+    tags: ['휴대용선크림', '보송선스틱', '끈적임없음'],
+    seoTitle: '히아루론산 에어리 선스틱 선크림 스틱형',
+    seoDescription:
+      '보송하고 끈적임 없는 휴대용 선스틱으로 촉촉한 윤광 마무리를 선호하는 분께 추천하는 제품입니다.',
+  },
+  {
     slug: 'rare-beauty-soft-pinch-luminous-palette',
     category: 'trend',
     brand: '레어 뷰티',

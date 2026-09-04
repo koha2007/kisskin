@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'isntree-hyaluronic-airy-sun-stick',
+    category: 'skincare',
+    brand: 'ISNTREE',
+    name: 'Hyaluronic Acid Airy Sun Stick',
+    title: 'ISNTREE Hyaluronic Acid Airy Sun Stick — The Essential Portable Sunscreen for Fresh, Hydrated Skin',
+    summary:
+      'A portable sun stick that leaves a soft, non-sticky finish, making it perfect for reapplying on the go during trips or outdoor activities.',
+    highlights: ['Soft, Matte Finish', 'No White Cast', 'Easy to Carry'],
+    details: [
+      'An SPF50+ PA++++ chemical sun stick that applies lightly without stickiness, delivering superior UV protection.',
+      'Leaves zero white cast for a natural look, while its soft, subtle glow finish helps refine skin tone.',
+      'The stick format allows seamless reapplication without shine or greasiness, offering high portability.',
+    ],
+    whoFor:
+      'Ideal for oily or combination skin types who are often outdoors and need frequent UV touch-ups. Recommended for anyone preferring a fresh, non-sticky finish.',
+    howTo: [
+      'At the last step of your skincare routine, dial up a small amount and gently glide over the face and exposed areas.',
+      'Reapply frequently during outdoor activities; it absorbs naturally without pilling even when layered.',
+    ],
+    pros: [
+      'Soft, non-sticky finish',
+      'Natural tone-up effect with no white cast',
+    ],
+    cons: [
+      'The subtle glow finish may not appeal to everyone',
+    ],
+    coupangQuery: '이즈앤트리 히아루론산 선스틱',
+    globalQuery: 'Isntree Hyaluronic Airy Sun Stick',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-04',
+    tags: ['PortableSunscreen', 'SoftSunStick', 'NonSticky'],
+    seoTitle: 'ISNTREE Hyaluronic Acid Airy Sun Stick Review',
+    seoDescription:
+      'Discover ISNTREE Hyaluronic Acid Airy Sun Stick SPF50+ for a lightweight, non-sticky UV shield with a soft finish and zero white cast.',
+  },
+  {
     slug: 'rare-beauty-soft-pinch-luminous-palette',
     category: 'trend',
     brand: 'Rare Beauty',
