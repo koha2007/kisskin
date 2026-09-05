@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'laneige-matin-kim-global-cosmetics-fashion-collab',
+    category: 'global',
+    title: 'Laneige Launches Global Limited-Edition Collaboration with Matin Kim',
+    summary:
+      'Amorepacific’s Laneige launched a limited-edition cosmetics and fashion accessory collection in partnership with fashion label Matin Kim across global markets, including the US, UK, and Japan, on September 2. Featuring Matin Kim’s signature monochrome aesthetic on skincare and makeup packaging, the lineup offers a fresh brand experience.',
+    body: [
+      '> TLDR: Laneige x Matin Kim Collab | Simultaneous Launch in Key Global Markets | Includes Skincare, Makeup, and Fashion Items',
+      'Amorepacific\'s K-beauty brand Laneige has partnered with Korean fashion label Matin Kim to introduce a limited-edition collection combining cosmetics and fashion accessories to international markets.',
+      '> DATA: Launch date September 2, 2026; available simultaneously in US, UK, and Japan markets (Source: Maeil Business Newspaper)',
+      'Under the concept \'Skin is the garment you can never take off,\' the collection applies Matin Kim\'s modern monochrome design to packaging for cushion foundations, toners, and creams. Fashion items such as bags and pouches are also included to maximize cross-brand synergy.',
+      'For consumers, the limited-edition lineup holds high collectible value by offering an integrated beauty and fashion experience, while delivering a fresh brand narrative for Laneige.',
+    ],
+    date: '2026-09-05',
+    readMinutes: 3,
+    tags: ['Laneige', 'Collaboration', 'Global Launch', 'K-Beauty'],
+    seoTitle: 'Laneige & Matin Kim Launch Global Limited Collaboration',
+    seoDescription:
+      'Laneige collaborates with Korean fashion label Matin Kim on a limited-edition beauty and accessory collection for global markets.',
+  },
+  {
     slug: 'risky-glowcation-influencer-trip-to-seoul',
     category: 'global',
     title: 'Risky Hosts \'Glowcation\' Influencer Trip in Seoul',

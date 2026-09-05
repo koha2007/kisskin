@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'moroccanoil-high-shine-gloss-mask',
+    category: 'hair',
+    brand: 'Moroccanoil',
+    name: 'High Shine Gloss Mask',
+    title: 'Moroccanoil High Shine Gloss Mask — Get Salon \'Glass Hair\' in Just 5 Minutes',
+    summary:
+      'Moroccanoil High Shine Gloss Mask is a 5-7 minute post-shampoo glossing treatment that delivers instant shine and softness while protecting hair color from fading.',
+    highlights: ['Instant mirror-like shine', 'Color protection & vitality boost', 'Suitable for all hair types'],
+    details: [
+      'Delivers immediate glass-like shine and softness in just 5–7 minutes after shampooing.',
+      'ArganID™ technology infuses argan oil into the hair shaft to repair and seal the cuticle.',
+      'An amino acid blend and Crambe Abyssinica seed oil restore color vibrancy and prevent fading.',
+      'Suitable for all hair types and textures. Paraben-free, sulfate-free, and cruelty-free certified.',
+    ],
+    whoFor:
+      'Ideal for color-treated hair prone to fading or dullness, as well as normal-to-dry hair lacking moisture and shine. Recommended for anyone wanting a glass-hair finish without a heavy feel.',
+    howTo: [
+      'After shampooing, apply a generous amount to towel-dried hair and comb through with a wide-tooth comb for even distribution.',
+      'Leave on for 5–7 minutes, then rinse thoroughly with lukewarm water to reveal instant shine and softness.',
+    ],
+    pros: [
+      'Instant glass-hair shine after a single use',
+      'Proven color protection results (lab and consumer tested)',
+    ],
+    cons: [
+      'May feel slightly heavy on fine hair',
+    ],
+    coupangQuery: '모로칸오일 하이 샤인 글로스 마스크',
+    globalQuery: 'Moroccanoil High Shine Gloss Mask',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-05',
+    tags: ['GlassHair', 'HairMask', 'ColorProtection'],
+    seoTitle: 'Moroccanoil High Shine Gloss Mask Review & Guide',
+    seoDescription:
+      'Get salon-quality glass hair in 5 minutes with Moroccanoil High Shine Gloss Mask. Discover instant mirror shine and color protection.',
+  },
+  {
     slug: 'isntree-hyaluronic-airy-sun-stick',
     category: 'skincare',
     brand: 'ISNTREE',

@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'moroccanoil-high-shine-gloss-mask',
+    category: 'hair',
+    brand: '모로칸오일',
+    name: '하이 샤인 글로스 마스크',
+    title: '모로칸오일 하이 샤인 글로스 마스크 — 샵에서 5분 만에 \'글래스 헤어\' 완성',
+    summary:
+      '모로칸오일 하이 샤인 글로스 마스크는 샴푸 후 5–7분간 사용하는 글로스 마스크로, 즉각적인 광택과 부드러움을 선사하고 컬러 탈색을 방지해줍니다.',
+    highlights: ['즉각적인 거울광택', '컬러 보호·생기 강화', '모든 모발 타입 사용 가능'],
+    details: [
+      '샴푸 후 5–7분 사용만으로 머릿결에 유리 같은 반짝임과 부드러움을 즉각 부여합니다.',
+      'ArganID™ 기술이 아르간 오일을 모발 내부에 주입해 큐티클을 복원하고 밀봉해줍니다.',
+      '아미노산 블렌드와 Crambe Abyssinica 씨드 오일이 컬러 생기를 살리고 컬러 탈색을 방지합니다.',
+      '모든 모발 타입과 질감에 맞으며, 파라벤·황산염 무첨가, 동물실험 반대 인증 제품입니다.',
+    ],
+    whoFor:
+      '컬러 염색 모발로 자주 탈색되거나 칙칙해진 분, 또는 평소 모발이 건조하고 윤기가 부족한 중건성 모발에 특히 적합합니다. 글래스한 광택을 원하지만 무겁지 않은 마무리를 선호하는 분께도 추천합니다.',
+    howTo: [
+      '샴푸 후 타월 드라이한 모발에 넉넉히 도포하고, 와이드 톱 빗으로 골고루 펴 바릅니다.',
+      '5~7분 후 미온수로 깨끗이 헹궈 사용 직후부터 반짝이는 윤기와 부드러움을 경험하세요.',
+    ],
+    pros: [
+      '한 번만 사용해도 유리광택 효과 즉각적',
+      '컬러 보호 효과 입증 (실험실·소비자 테스트 결과)',
+    ],
+    cons: [
+      '가는 모발에는 다소 무겁게 느껴질 수 있음',
+    ],
+    coupangQuery: '모로칸오일 하이 샤인 글로스 마스크',
+    globalQuery: 'Moroccanoil High Shine Gloss Mask',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-05',
+    tags: ['글래스헤어', '헤어마스크', '컬러보호'],
+    seoTitle: '모로칸오일 하이 샤인 글로스 마스크 리뷰',
+    seoDescription:
+      '5분 안에 런웨이 글래스 헤어 완성하는 모로칸오일 하이 샤인 글로스 마스크의 놀라운 광택과 컬러 보호 효과를 소개합니다.',
+  },
+  {
     slug: 'isntree-hyaluronic-airy-sun-stick',
     category: 'skincare',
     brand: '이즈앤트리',
