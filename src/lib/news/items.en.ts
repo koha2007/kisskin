@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'seoul-beauty-week-global-k-beauty-second-largest-industry',
+    category: 'global',
+    title: 'K-Beauty Ranks 2nd Globally in Cosmetics Industry as \'2026 Seoul Beauty Week\' Drives Expansion',
+    summary:
+      'K-beauty has reached second place in the global cosmetics industry, and the Seoul Metropolitan Government will host \'2026 Seoul Beauty Week\' from August 22 to 25 to support global expansion and tech innovation for SMB brands.',
+    body: [
+      '> TLDR: K-Beauty becomes world\'s 2nd largest cosmetics industry | Seoul Beauty Week set for Aug 22–25 | Supporting global expansion for SMB brands',
+      'South Korea\'s cosmetics industry has secured the second-place position in the global market, further expanding the influence of K-beauty.',
+      '> DATA: Seoul Beauty Week will take place from August 22 to 25, 2026, at Dongdaemun Design Plaza, featuring a record 152 participating companies.',
+      'The Seoul Metropolitan Government will hold \'2026 Seoul Beauty Week\' at Dongdaemun Design Plaza (DDP) from August 22 to 25, offering small, medium, and emerging K-beauty brands opportunities for 1-on-1 consultations with overseas buyers, investors, and distributors, as well as hosting a \'K-Beauty 2.0\' forum and discussions on AI and beauty tech.',
+      'From a consumer perspective, this event provides a practical bridge for K-beauty brands seeking global expansion, raising expectations for K-beauty\'s continued growth and innovation.',
+    ],
+    date: '2026-09-06',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Exports', 'Seoul Beauty Week'],
+    seoTitle: 'K-Beauty Hits No. 2 Globally Ahead of Seoul Beauty Week',
+    seoDescription:
+      'K-beauty reaches the No. 2 spot globally while Seoul prepares to host 2026 Seoul Beauty Week to connect SMB cosmetics brands with overseas buyers.',
+  },
+  {
     slug: 'laneige-matin-kim-global-cosmetics-fashion-collab',
     category: 'global',
     title: 'Laneige Launches Global Limited-Edition Collaboration with Matin Kim',

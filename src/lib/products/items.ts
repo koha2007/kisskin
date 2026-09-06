@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'fomant-cotton-kiss',
+    category: 'fragrance',
+    brand: '포맨트',
+    name: '시그니처 코튼키스',
+    title: '포맨트 시그니처 코튼키스 — 달콤한 코튼 향으로 남녀 모두에게 인기',
+    summary:
+      '올리브영 여성 향수 인기 TOP5에 이름을 올린 워터베이스 향수로, 베르가못·플로럴·머스크의 달콤하고 섹시한 조합이 특징입니다.',
+    highlights: ['워터베이스 타입', '베르가못·화이트 플로럴·머스크', '남녀공용 인기'],
+    details: [
+      '촉촉한 워터베이스 제형으로 부담 없이 데일리 사용이 가능하고 자극이 적습니다.',
+      '베르가못의 상큼함과 화이트 플로럴의 은은함, 머스크의 부드러움이 조화로운 향 프로필입니다.',
+      '남녀 모두에게 어울리는 달콤하면서도 섹시한 무드로, 커플 향수로도 인기가 많습니다.',
+    ],
+    whoFor:
+      '은은하고 깔끔한 향을 선호하는 20~30대 남녀에게 잘 맞으며, 자극적이지 않은 향으로 데일리 사용이나 사무실에서도 부담 없이 사용할 수 있습니다.',
+    howTo: [
+      '깨끗한 피부에 5~10cm 거리에서 한두 번 가볍게 분사한 후, 몸의 맥박이 뛰는 부위에 자연스럽게 퍼지도록 합니다.',
+      '레이어링 시에는 코튼 향과 어울리는 파우더리 베이스 향 제품과 매치하면 더욱 풍성한 잔향을 즐길 수 있습니다.',
+    ],
+    pros: [
+      '은은한 코튼 향이 부담 없이 하루 종일 지속됨',
+      '남녀 공용으로 데일리 사용하기 좋은 향 프로필',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 매우 은은한 지속력',
+    ],
+    coupangQuery: '포맨트 시그니처 코튼키스 향수',
+    globalQuery: 'Fomant Signature Cotton Kiss perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-06',
+    tags: ['코튼향', '워터베이스', '남녀공용'],
+    seoTitle: '포맨트 시그니처 코튼키스 향수 코튼키스',
+    seoDescription:
+      '달콤하고 포근한 코튼 플로럴 향을 찾는 분께 잘 어울리는, 올리브영 향수 인기 순위 상위권 제품입니다.',
+  },
+  {
     slug: 'moroccanoil-high-shine-gloss-mask',
     category: 'hair',
     brand: '모로칸오일',

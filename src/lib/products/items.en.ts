@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'fomant-cotton-kiss',
+    category: 'fragrance',
+    brand: 'FORMENT',
+    name: 'Signature Cotton Kiss',
+    title: 'FORMENT Signature Cotton Kiss — Popular Unisex Fragrance with Sweet Cotton Notes',
+    summary:
+      'A top-5 popular women\'s fragrance at Olive Young, this water-based perfume features a sweet yet sultry blend of bergamot, florals, and musk.',
+    highlights: ['Water-based formula', 'Bergamot, white floral, and musk notes', 'Popular unisex scent'],
+    details: [
+      'The hydrating water-based texture is low-irritation and gentle enough for comfortable daily wear.',
+      'Features a harmonious scent profile combining fresh bergamot, subtle white florals, and soft musk.',
+      'Delivers a sweet yet sultry mood suited for both men and women, making it a popular choice for couples.',
+    ],
+    whoFor:
+      'Ideal for men and women in their 20s and 30s who prefer subtle, clean fragrances. Its non-irritating scent makes it suitable for daily use and office environments.',
+    howTo: [
+      'Lightly spray 1-2 times onto clean skin from a distance of 5-10 cm, letting it spread naturally over pulse points.',
+      'For layering, pair with powdery base scents that complement cotton notes to enjoy a richer dry-down.',
+    ],
+    pros: [
+      'Subtle cotton scent lasts comfortably all day long',
+      'Versatile unisex fragrance profile ideal for daily wear',
+    ],
+    cons: [
+      'Sillage and longevity are very subtle, which may vary by preference',
+    ],
+    coupangQuery: '포맨트 시그니처 코튼키스 향수',
+    globalQuery: 'Fomant Signature Cotton Kiss perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-06',
+    tags: ['Cotton Fragrance', 'Water-Based', 'Unisex'],
+    seoTitle: 'FORMENT Signature Cotton Kiss Review & Notes',
+    seoDescription:
+      'Discover FORMENT Signature Cotton Kiss, a popular water-based unisex perfume with fresh bergamot, soft white florals, and cozy musk notes.',
+  },
+  {
     slug: 'moroccanoil-high-shine-gloss-mask',
     category: 'hair',
     brand: 'Moroccanoil',
