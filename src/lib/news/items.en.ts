@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'record-k-beauty-exports-july-2026-surpass-1-35-billion',
+    category: 'global',
+    title: 'K-Beauty Exports Hit All-Time Monthly High of $1.35 Billion in July 2026',
+    summary:
+      'South Korean cosmetics exports reached an all-time monthly high of approximately $1.35 billion in July 2026, marking nine consecutive months of growth. Cumulative exports for the year reached $8.3 billion, up 28.5% year-over-year.',
+    body: [
+      '> TLDR: July 2026 K-Beauty Exports Hit Record High | Cumulative Jan–Jul Exports Reach $8.3B | 9 Consecutive Months of Growth',
+      'South Korean cosmetics exports reached an all-time monthly record of approximately $1.35 billion in July 2026. This represents a 37.8% increase compared to the same period last year.',
+      '> DATA: Cumulative exports Jan–Jul 2026: $8.33B (+28.5%), July monthly exports: $1.351B (+37.8%)',
+      'Cumulative exports from January to July reached approximately $8.33 billion, up 28.5% year-over-year, marking nine consecutive months of growth. Basic skincare products spearheaded this expansion, accounting for 43% of total exports.',
+      'This strong export performance demonstrates K-beauty\'s expanding influence in the global market. Consumers can look forward to an even broader range of innovative cosmetic products.',
+    ],
+    date: '2026-09-07',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Exports', 'Global Market'],
+    seoTitle: 'July 2026 K-Beauty Exports Hit Record $1.35B',
+    seoDescription:
+      'South Korean cosmetics exports reached a record $1.35 billion in July 2026, driven by skincare demand and nine consecutive months of global growth.',
+  },
+  {
     slug: 'seoul-beauty-week-global-k-beauty-second-largest-industry',
     category: 'global',
     title: 'K-Beauty Ranks 2nd Globally in Cosmetics Industry as \'2026 Seoul Beauty Week\' Drives Expansion',

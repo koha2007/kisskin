@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'laneige-juicepop-box-lip-tint',
+    category: 'lip',
+    brand: 'LANEIGE',
+    name: 'Juice Pop Box Lip Tint',
+    title: 'LANEIGE Juice Pop Box Lip Tint — 12-Hour Color & Lasting Hydration',
+    summary:
+      'LANEIGE Juice Pop Box Lip Tint uses a Water-Oil Remix Complex to keep lips hydrated and glossy for up to 12 hours. It is a global viral hit across Sephora, YouTube, and TikTok.',
+    highlights: ['12-hour long-lasting glossy color', 'Hydrating Water-Oil Remix Complex', 'Contour-hugging curved applicator'],
+    details: [
+      'LANEIGE\'s Water-Oil Remix Complex instantly delivers moisture and nourishing oils to keep lips thoroughly hydrated.',
+      'The smooth, glossy texture glides on effortlessly and holds vibrant color for up to 12 hours without touch-ups.',
+      'The curved lip tint applicator fits lip contours precisely, delivering even color payoff in just one swipe.',
+    ],
+    whoFor:
+      'Ideal for those with dry lips looking for a natural shine with long-lasting color. Perfect for busy individuals who want vibrant lip color that stays put all day without touch-ups.',
+    howTo: [
+      'Using the curved applicator, glide smoothly from the center of your lips outward for even color coverage.',
+      'Leave as-is for a luminous, glossy finish, or gently blot with a tissue for enhanced tint longevity.',
+    ],
+    pros: [
+      '12-hour long-lasting color',
+      'Rich hydration with a glossy finish',
+    ],
+    cons: [
+      'The glossy finish may not appeal to those who prefer matte textures',
+    ],
+    colorFit:
+      'Particularly flatters Summer Cool tones, offering a clear, refreshing wash of glossy color.',
+    coupangQuery: '라네즈 주스팝 박스 립 틴트',
+    globalQuery: 'Laneige Juicepop Box Lip Tint',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-09-07',
+    tags: ['GlossyTint', '12HourLongwear', 'HydratingLipTint'],
+    seoTitle: 'LANEIGE Juice Pop Box Lip Tint — 12H Glossy Lip Tint',
+    seoDescription:
+      'Discover LANEIGE Juice Pop Box Lip Tint for up to 12 hours of hydrated, glossy color powered by its nourishing Water-Oil Remix Complex.',
+  },
+  {
     slug: 'fomant-cotton-kiss',
     category: 'fragrance',
     brand: 'FORMENT',

@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'laneige-juicepop-box-lip-tint',
+    category: 'lip',
+    brand: '라네즈',
+    name: '주스팝 박스 립 틴트',
+    title: '라네즈 주스팝 박스 립 틴트 — 12시간 컬러·수분 완벽 지속',
+    summary:
+      '라네즈 주스팝 박스 립 틴트는 물-오일 리믹스 콤플렉스로 촉촉하고 글로시한 컬러를 최대 12시간 유지하는 틴트로, 전 세계적으로 세포라와 유튜브·틱톡에서 화제입니다.',
+    highlights: ['12시간 지속 글로시 컬러', '수분-오일 리믹스 콤플렉스', '입술 곡선 밀착 어플리케이터'],
+    details: [
+      'LANEIGE의 Water‑Oil Remix Complex가 바르는 즉시 수분감과 오일감을 제공해 입술을 촉촉하게 유지해 줍니다.',
+      '글로시한 텍스처가 부드럽게 발리며 최대 12시간 컬러를 유지해 오랜 시간 리터치 없이 사용 가능합니다.',
+      '립 틴트 전용 곡선 어플리케이터는 입술 라인에 밀착되어 한 번의 터치로 고른 발색을 연출합니다.',
+    ],
+    whoFor:
+      '건조한 입술에 자연스러운 광택과 컬러 지속력을 원하는 사용자에게 적합합니다. 바쁜 하루에도 리터치 없이 입술 표현을 유지하고 싶은 분께 특히 좋습니다.',
+    howTo: [
+      '곡선 어플리케이터를 사용해 입술 중앙부터 바깥으로 부드럽게 한번 스윽 발라 컬러를 고르게 표현합니다.',
+      '글로시한 마무리를 원할 경우 그대로 사용하고, 지속력을 높이고 싶다면 티슈로 꾹 눌러 가볍게 블로팅합니다.',
+    ],
+    pros: [
+      '12시간 컬러 지속력',
+      '풍부한 수분감과 글로시 마무리',
+    ],
+    cons: [
+      '매트 텍스처를 선호하는 이에게는 광택감이 호불호일 수 있음',
+    ],
+    colorFit:
+      '여름 쿨 톤에 특히 잘 어울리며, 투명하게 물든 글로시 컬러가 청량한 느낌을 줍니다.',
+    coupangQuery: '라네즈 주스팝 박스 립 틴트',
+    globalQuery: 'Laneige Juicepop Box Lip Tint',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-09-07',
+    tags: ['글로시틴트', '12시간지속', '수분립틴트'],
+    seoTitle: '라네즈 주스팝 박스 립 틴트 인기 지속력 틴트',
+    seoDescription:
+      '12시간 지속되는 촉촉한 글로시 틴트, 물-오일 리믹스 콤플렉스가 수분과 색을 오랫동안 지켜줍니다.',
+  },
+  {
     slug: 'fomant-cotton-kiss',
     category: 'fragrance',
     brand: '포맨트',
