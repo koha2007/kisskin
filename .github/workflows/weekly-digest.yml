@@ -1,0 +1,80 @@
+name: Weekly product digest email
+
+# 매주 일요일 09:00 KST — 지난 7일간 자동 발행된 메이크업 제품을 요약해
+# 회원(Supabase auth.users) 전원에게 메일 1통을 보낸다.
+#
+# 파이프라인:
+#   build-digest-payload.mjs  지난 7일 제품을 items.ts(.en.ts)에서 뽑아 JSON
+#     → POST https://kissinskin.net/api/announce-products  (functions/api/announce-products.ts)
+#       → Supabase 회원 조회 → 운영자/테스트/수신거부 제외 → Resend 로 발송
+#
+# 필요 시크릿 (Settings → Secrets and variables → Actions):
+#   ANNOUNCE_TOKEN  — /api/announce-products 호출용. Cloudflare Pages 환경변수의
+#                     같은 이름 값과 반드시 일치해야 한다.
+#
+# 수동: Actions 탭 → 이 워크플로 → Run workflow → dry_run=1 로 먼저 수신자 확인.
+# 프리뷰: 함수는 프로덕션에 배포돼 있어야 한다(커밋 후 Cloudflare Pages 빌드 완료 뒤).
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'   # 일요일 00:00 UTC = 09:00 KST
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '1 = 발송 없이 수신자 수만 확인'
+        required: false
+        default: ''
+
+concurrency:
+  group: weekly-digest
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 지난 7일 제품으로 본문 만들기
+        id: payload
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          node scripts/build-digest-payload.mjs 8 > /tmp/digest.json
+          COUNT=$(node -e "process.stdout.write(String(JSON.parse(require('fs').readFileSync('/tmp/digest.json')).products.length))")
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "지난 7일 제품 ${COUNT}건"
+
+      - name: 이번 주 신제품이 없으면 생략
+        if: steps.payload.outputs.count == '0'
+        run: echo "::notice::지난 7일간 신제품 0건 — 다이제스트 발송 생략"
+
+      - name: 다이제스트 발송 (/api/announce-products)
+        if: steps.payload.outputs.count != '0'
+        env:
+          ANNOUNCE_TOKEN: ${{ secrets.ANNOUNCE_TOKEN }}
+        run: |
+          if [ -z "$ANNOUNCE_TOKEN" ]; then
+            echo "::error::ANNOUNCE_TOKEN 시크릿이 없습니다."
+            exit 1
+          fi
+          RESP=$(curl -sS -w $'\n%{http_code}' -X POST https://kissinskin.net/api/announce-products \
+            -H "Authorization: Bearer $ANNOUNCE_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @/tmp/digest.json)
+          CODE=$(printf '%s' "$RESP" | tail -n1)
+          BODY=$(printf '%s' "$RESP" | sed '$d')
+          echo "HTTP $CODE"
+          echo "$BODY"
+          if [ "$CODE" != "200" ]; then
+            echo "::error::다이제스트 발송 실패 (HTTP $CODE)"
+            exit 1
+          fi

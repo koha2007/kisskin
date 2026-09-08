@@ -15,6 +15,15 @@ mode = "smart"
 #    (analyze.ts 가 자동으로 OpenAI 로 넘어간다). GitHub Actions 쪽은 무료 키 OK —
 #    거기는 사용자 데이터가 없다. 배경은 리포 루트 GEMINI_HOLD.md
 
+# 주간 제품 다이제스트 메일(functions/api/announce-products.ts + email-optout.ts)에
+# 필요한 시크릿도 대시보드 Environment variables 에서 관리:
+#   ANNOUNCE_TOKEN        /api/announce-products 호출용 공유 토큰.
+#                         .github/workflows/weekly-digest.yml 의 같은 이름 시크릿과 일치할 것.
+#   EMAIL_OPTOUT_SECRET   수신거부 링크 HMAC 서명 키(아무 랜덤 문자열).
+#   DIGEST_EXCLUDE_EMAILS (선택) 발송에서 뺄 이메일 콤마 목록. 코드 상수 HARD_EXCLUDE 에
+#                         더해 적용된다.
+#   RESEND_API_KEY, SUPABASE_SERVICE_ROLE_KEY, VITE_SUPABASE_URL 은 이미 등록돼 있음(공용).
+
 # ── 메이크업 사용량/크레딧 가드용 KV (프로덕션) ──────────────────────────
 # makeup-edit Worker가 (fingerprint+IP)당 무료 횟수를 기록하는 저장소.
 # dev 는 vite.config.ts 의 파일백드 셔임을 쓰므로 이 바인딩과 무관(프로덕션 전용).
