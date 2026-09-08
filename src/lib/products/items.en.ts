@@ -33,6 +33,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Particularly flatters Summer Cool tones, offering a clear, refreshing wash of glossy color.',
+    image: '/products/laneige-juicepop-box-lip-tint.webp',
     coupangQuery: '라네즈 주스팝 박스 립 틴트',
     globalQuery: 'Laneige Juicepop Box Lip Tint',
     clio: false,

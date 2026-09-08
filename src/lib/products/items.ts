@@ -33,6 +33,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '여름 쿨 톤에 특히 잘 어울리며, 투명하게 물든 글로시 컬러가 청량한 느낌을 줍니다.',
+    image: '/products/laneige-juicepop-box-lip-tint.webp',
     coupangQuery: '라네즈 주스팝 박스 립 틴트',
     globalQuery: 'Laneige Juicepop Box Lip Tint',
     clio: false,
