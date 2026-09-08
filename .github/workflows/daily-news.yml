@@ -80,16 +80,12 @@ jobs:
         id: product
         continue-on-error: true
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # 위와 같은 폴백
-          # 무드컷 OFF (2026-08-09~). 이유: 결제 홀딩 중이라 무료 티어 키로 도는데
-          # 이미지 생성은 무료 티어가 없다. 글 발행은 그대로 되고 카드만 디자인
-          # 폴백으로 나간다(gen-products.mjs 의 genImage try/catch).
-          #
-          # ▶️ 되살리기: 결제 복구 후 이 줄을 지우면 끝이다.
-          #    (모델은 이미 gemini-3.1-flash-image 로 옮겨 놨다 — imagen-4.0-* 는
-          #     2026-08-17 종료. 다만 실키 검증은 못 했으니 GEMINI_HOLD.md 참고.)
-          PRODUCT_IMAGES: '0'
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # 제품 발굴(검색 그라운딩). 막히면 OpenAI 텍스트로 폴백
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}    # 텍스트 폴백 + 무드컷 생성(gpt-image-1)
+          # 무드컷 ON (2026-09-08~). Gemini 이미지는 무료 티어 쿼터가 없어(429) 계속
+          # 실패했다 → OpenAI gpt-image-1 로 옮겼다(scripts/_openaiImage.mjs). 이미지
+          # 생성이 실패해도 글 발행은 그대로고 그날 카드만 디자인 폴백으로 나간다
+          # (gen-products.mjs 의 genImage try/catch). 끄려면 PRODUCT_IMAGES: '0'.
         run: node scripts/gen-products.mjs
 
       - name: Regenerate sitemap

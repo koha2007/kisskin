@@ -6,8 +6,10 @@
 // 흐름:
 //   0) 카테고리/시장 로테이션 결정 → 립만 계속 나오지 않도록 강제
 //   1) Gemini + 검색 그라운딩 → 최근 출시/화제 제품 1건 ProductPost(KO) 생성
-//   2) (선택) Gemini 이미지 모델로 감성 무드컷 1장 생성 → sharp 로 webp 변환 →
+//      (Gemini 막히면 _geminiText.mjs 가 OpenAI 로 폴백)
+//   2) (선택) OpenAI 이미지(gpt-image-1)로 감성 무드컷 1장 생성 → sharp 로 webp 변환 →
 //      public/products/{slug}.webp 저장. 실패해도 무시(디자인 카드 폴백).
+//      ※ Gemini 이미지는 무료 티어 쿼터가 없어(429) OpenAI 로 옮김(2026-09-08).
 //   3) Gemini 로 EN 번역 → items.en.ts + enSlugs.ts 삽입
 //   4) KO 를 items.ts 최상단에 삽입
 //
@@ -17,14 +19,15 @@
 //   · 이미지 생성 실패는 치명적이지 않음 → 사진 없이도 디자인 카드로 발행.
 //   · 커밋/푸시는 워크플로가 담당. 이 스크립트는 파일만 수정.
 //
-// 사용: GEMINI_API_KEY=... node scripts/gen-products.mjs [건수]
+// 사용: GEMINI_API_KEY=... OPENAI_API_KEY=... node scripts/gen-products.mjs [건수]
 //   PRODUCT_CATEGORY=eye  → 로테이션 무시하고 카테고리 고정
 //   PRODUCT_MARKET=global → 로테이션 무시하고 시장 고정(kr|global)
 // ════════════════════════════════════════════════════════════════════
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
-import { IMAGE_MODEL, generateImageB64 } from './_geminiImage.mjs'
+import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
+import { buildImagePrompt } from './_productImagePrompt.mjs'
 import { callGeminiText } from './_geminiText.mjs'
 
 const ITEMS = resolve('src/lib/products/items.ts')
@@ -32,19 +35,7 @@ const ITEMS_EN = resolve('src/lib/products/items.en.ts')
 const EN_SLUGS = resolve('src/lib/products/enSlugs.ts')
 const IMG_DIR = resolve('public/products')
 // 텍스트 모델은 여기서 고정하지 않는다 — `scripts/_geminiText.mjs` 가 되는 모델을 찾는다.
-// 카테고리별 폴백 장면. 평소엔 모델이 제품 실물(컬러·제형·마무리)에 맞춰 써 주는
-// imageScene 을 쓰고, 그게 없을 때만 여기로 떨어진다.
-const CAT_APPLIED = {
-  lip: 'a beauty portrait of a young woman wearing a fresh, dewy lip tint',
-  eye: 'a beauty portrait of a young woman wearing soft shimmery eyeshadow and delicate eyeliner',
-  cheek: 'a beauty portrait of a young woman with soft, diffused blush across the cheeks',
-  base: 'a beauty portrait of a young woman with flawless, glowing base makeup and natural skin texture',
-  skincare: 'a beauty portrait of a young woman with glowing, deeply hydrated, healthy skin',
-  fragrance: "a soft-focus portrait of a young woman's face, neck and collarbone, romantic airy fragrance-ad mood",
-  hair: 'a portrait of a young woman with glossy, healthy, smooth hair catching soft light',
-  trend: 'an editorial beauty portrait of a young woman wearing a fresh, of-the-moment makeup look',
-  global: 'an editorial beauty portrait of a young woman wearing a fresh, of-the-moment makeup look',
-}
+// 무드컷 프롬프트(카테고리 폴백 장면·구도/조명/배경/인물 변주)는 `_productImagePrompt.mjs`.
 const WANT_IMAGE = process.env.PRODUCT_IMAGES !== '0' // 기본 on, PRODUCT_IMAGES=0 으로 끔
 
 const CATEGORIES = ['trend', 'lip', 'eye', 'base', 'cheek', 'skincare', 'fragrance', 'hair', 'global']
@@ -73,54 +64,6 @@ function nextCategory(recentCats) {
 
 // 시장도 번갈아 — 국내 유행 제품과 글로벌 유행 제품을 교대로 소개한다.
 const nextMarket = (n) => process.env.PRODUCT_MARKET || (n % 2 === 0 ? 'kr' : 'global')
-
-// 이미지가 매번 똑같아지지 않도록 구도/조명/배경/분위기를 슬러그 해시로 고른다.
-// (같은 슬러그 → 항상 같은 그림 = 재실행해도 결과 재현 가능)
-const FRAMING = [
-  'head-and-shoulders portrait, straight-on, eyes to camera',
-  'three-quarter angle portrait, chin slightly lowered, gaze off-camera',
-  'tight face crop from brow to chin, filling the frame',
-  'side profile turning toward camera, soft over-the-shoulder pose',
-  'upper-body portrait with one hand resting near the jawline',
-  'slightly-from-above selfie angle, relaxed candid expression',
-]
-const LIGHTING = [
-  'soft diffused daylight from a window',
-  'warm golden-hour sunlight with gentle lens flare',
-  'clean bright studio beauty lighting with a catchlight in the eyes',
-  'cool overcast light with soft, even shadows',
-  'dreamy backlight with a bright halo around the hair',
-  'moody low-key light with a single soft key from the side',
-]
-const BACKDROP = [
-  'seamless off-white studio backdrop',
-  'muted beige paper backdrop',
-  'blurred green outdoor foliage',
-  'soft grey gradient backdrop',
-  'blurred warm interior with bokeh',
-  'pale pastel pink backdrop',
-]
-// 국내 인기 제품엔 한국인 모델. 글로벌 제품은 인종을 섞는다.
-// (이미지 모델은 인종 지시를 곧잘 흘려버려서 프롬프트 끝에서 한 번 더 못 박는다.)
-const SUBJECT_KR = [
-  'a young Korean woman in her early twenties',
-  'a young Korean woman with long straight black hair',
-  'a young Korean woman with a soft brown bob',
-  'a young Korean woman with her hair tied back',
-  'a young Korean man with clean, groomed brows',
-  'a young Korean woman with wavy shoulder-length hair',
-]
-const SUBJECT_GLOBAL = [
-  'a young Korean woman with long black hair',
-  'a young Black woman with deep brown skin and short curls',
-  'a young white woman with freckles and auburn hair',
-  'a young Latina woman with wavy dark hair',
-  'a young South Asian woman with warm brown skin',
-  'a young East Asian woman with a sleek ponytail',
-]
-
-const hash = (s) => { let h = 5381; for (const c of s) h = ((h * 33) ^ c.charCodeAt(0)) >>> 0; return h }
-const pick = (arr, h, salt) => arr[(h + salt) % arr.length]
 
 // ── env 로드(.dev.vars/.env 폴백) ──
 function loadEnv(key) {
@@ -320,40 +263,15 @@ function insertAt(file, anchor, text) {
   writeFileSync(file, src.slice(0, at) + '\n' + text + src.slice(at))
 }
 
-// ── 무드컷 생성(선택) — Gemini 이미지 → sharp webp. 실패 시 throw(호출부에서 폴백). ──
-// 제품마다 완전히 다른 그림이 나오도록: 모델이 써 준 제품별 장면(imageScene)
-// + 슬러그 해시로 고른 구도·조명·배경·인물. 카드 비율(4:5)에 맞춰 세로 3:4.
-function buildImagePrompt(item, retry = 0) {
-  const h = hash(item.slug) + retry
-  const scene = item.imageScene?.trim() || CAT_APPLIED[item.category] || CAT_APPLIED.trend
-  const pool = item.market === 'global' ? SUBJECT_GLOBAL : SUBJECT_KR
-  // 남성 모델은 립/치크에 어울리지 않으니 헤어·스킨케어·향수에서만 허용.
-  const subjects = ['hair', 'skincare', 'fragrance'].includes(item.category)
-    ? pool
-    : pool.filter((s) => !s.includes(' man '))
-  const subject = pick(subjects, h, 0)
-  const framing = pick(FRAMING, h, 1)
-  const lighting = pick(LIGHTING, h, 2)
-  const backdrop = pick(BACKDROP, h, 3)
-  return [
-    `A beauty portrait photograph of ${subject} ${scene}.`,
-    `Composition: ${framing}.`,
-    `Lighting: ${lighting}. Background: ${backdrop}.`,
-    'Editorial beauty advertising photography, realistic skin texture with visible pores, natural retouching, sharp focus on the face, shallow depth of field.',
-    'The makeup is fully blended and finished, as actually worn — no swatches, streaks, stripes or unblended patches of product on the skin.',
-    'Show only the person — no product packaging, no tubes, no bottles.',
-    'Absolutely no text, letters, numbers, logos or watermark anywhere.',
-    `Important: the model is ${subject}. Vertical portrait 3:4.`,
-  ].join(' ')
-}
-
-async function genImage(apiKey, item) {
-  // 프롬프트가 슬러그로 고정이라, 안전필터에 걸려 빈 응답이 오면 같은 프롬프트를
+// ── 무드컷 생성(선택) — OpenAI 이미지 → sharp webp. 실패 시 throw(호출부에서 폴백). ──
+// 프롬프트 빌더는 `_productImagePrompt.mjs`(gen-products / backfill 공용).
+async function genImage(openaiKey, item) {
+  // 프롬프트가 슬러그로 고정이라, 콘텐츠 필터에 걸려 빈 응답이 오면 같은 프롬프트를
   // 재시도해도 소용없다 → 인물/구도 변주를 바꿔가며 다시 시도한다.
   let b64
   for (let retry = 0; retry < 3 && !b64; retry++) {
-    b64 = await generateImageB64(apiKey, buildImagePrompt(item, retry), '3:4')
-    if (!b64) console.warn(`  ↻ ${IMAGE_MODEL} 빈 응답(안전필터 추정) — 변주 ${retry + 1} 재시도`)
+    b64 = await generateImageB64(openaiKey, buildImagePrompt(item, retry), '3:4')
+    if (!b64) console.warn(`  ↻ ${IMAGE_MODEL} 빈 응답(콘텐츠 필터 추정) — 변주 ${retry + 1} 재시도`)
   }
   if (!b64) throw new Error(`${IMAGE_MODEL}: 이미지 바이트 없음(변주 3회 모두 차단)`)
   const buf = Buffer.from(b64, 'base64')
@@ -413,7 +331,7 @@ async function translateAndInsertEn(apiKey, item) {
   insertAt(EN_SLUGS, 'export const EN_PRODUCT_SLUGS = [', `  ${q(item.slug)},`)
 }
 
-async function generateOne(apiKey) {
+async function generateOne(apiKey, openaiKey) {
   // 매번 파일에서 다시 읽는다 → 한 번에 여러 건 뽑아도 로테이션/중복검사가 맞물린다.
   const ex = existing()
   const category = nextCategory(ex.cats)
@@ -434,13 +352,15 @@ async function generateOne(apiKey) {
   if (!item) throw new Error(`제품 생성 실패(3회) — category=${category} market=${market}`)
 
   // 무드컷(선택) — 실패해도 계속(디자인 카드 폴백).
-  if (WANT_IMAGE) {
+  if (WANT_IMAGE && openaiKey) {
     try {
-      item.image = await genImage(apiKey, item)
+      item.image = await genImage(openaiKey, item)
       console.log(`  🖼️  무드컷 저장: ${item.image}`)
     } catch (e) {
       console.warn(`  ⚠️ 이미지 생성 건너뜀(디자인 카드 폴백): ${e.message}`)
     }
+  } else if (WANT_IMAGE) {
+    console.warn('  ⚠️ OPENAI_API_KEY 없음 — 무드컷 건너뜀(디자인 카드 폴백)')
   }
 
   insertAt(ITEMS, 'export const PRODUCT_ITEMS: ProductPost[] = [', serialize(item))
@@ -457,7 +377,8 @@ async function generateOne(apiKey) {
 // ── 이미지만 다시 뽑기: node scripts/gen-products.mjs regen [slug...|all] ──
 // 글은 그대로 두고 무드컷만 새 프롬프트로 재촬영할 때. 파일명이 slug 기준이라
 // items.ts 는 건드릴 필요가 없다(이미 image 경로가 같은 파일을 가리킴).
-async function regen(apiKey, wanted) {
+async function regen(openaiKey, wanted) {
+  if (!openaiKey) { console.error('OPENAI_API_KEY 없음 — 이미지 재촬영 불가'); process.exit(1) }
   const src = readFileSync(ITEMS, 'utf8')
   const items = [...src.matchAll(/slug:\s*'([^']+)',\s*\n\s*category:\s*'([^']+)'/g)]
     .map(([, slug, category]) => ({ slug, category, market: process.env.PRODUCT_MARKET || 'kr' }))
@@ -467,7 +388,7 @@ async function regen(apiKey, wanted) {
   for (const item of targets) {
     try {
       console.log(`▶ [${item.category}] ${item.slug} 재촬영…`)
-      console.log(`  🖼️  ${await genImage(apiKey, item)}`)
+      console.log(`  🖼️  ${await genImage(openaiKey, item)}`)
     } catch (e) {
       console.warn(`  ⚠️ 실패: ${e.message}`)
     }
@@ -476,14 +397,16 @@ async function regen(apiKey, wanted) {
 
 async function main() {
   const apiKey = loadEnv('GEMINI_API_KEY')
-  if (!apiKey) { console.error('GEMINI_API_KEY 없음 (.dev.vars/.env 또는 env)'); process.exit(1) }
+  const openaiKey = loadEnv('OPENAI_API_KEY')
+  if (!apiKey && !openaiKey) { console.error('GEMINI_API_KEY / OPENAI_API_KEY 둘 다 없음 (.dev.vars/.env 또는 env)'); process.exit(1) }
 
-  if (process.argv[2] === 'regen') return regen(apiKey, process.argv.slice(3))
+  // regen 은 이미지만 다시 뽑는다 → OpenAI 키만 있으면 된다.
+  if (process.argv[2] === 'regen') return regen(openaiKey, process.argv.slice(3))
 
   const count = Math.max(1, Math.min(8, Number(process.argv[2]) || 1))
   let ok = 0
   for (let i = 0; i < count; i++) {
-    try { await generateOne(apiKey); ok++ } catch (e) { console.error(`  ❌ ${e.message}`) }
+    try { await generateOne(apiKey, openaiKey); ok++ } catch (e) { console.error(`  ❌ ${e.message}`) }
   }
   if (!ok) { console.error('\n한 건도 생성하지 못함 — 중단'); process.exit(1) }
 

@@ -70,6 +70,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '호불호가 갈릴 수 있는 매우 은은한 지속력',
     ],
+    image: '/products/fomant-cotton-kiss.webp',
     coupangQuery: '포맨트 시그니처 코튼키스 향수',
     globalQuery: 'Fomant Signature Cotton Kiss perfume',
     clio: false,
@@ -108,6 +109,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '가는 모발에는 다소 무겁게 느껴질 수 있음',
     ],
+    image: '/products/moroccanoil-high-shine-gloss-mask.webp',
     coupangQuery: '모로칸오일 하이 샤인 글로스 마스크',
     globalQuery: 'Moroccanoil High Shine Gloss Mask',
     clio: false,
@@ -145,6 +147,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '윤광 마무리가 호불호일 수 있음',
     ],
+    image: '/products/isntree-hyaluronic-airy-sun-stick.webp',
     coupangQuery: '이즈앤트리 히아루론산 선스틱',
     globalQuery: 'Isntree Hyaluronic Airy Sun Stick',
     clio: false,
@@ -182,6 +185,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '한정 상품이라 품절 및 재입고 불확실',
     ],
+    image: '/products/rare-beauty-soft-pinch-luminous-palette.webp',
     coupangQuery: '레어 뷰티 소프트 핀치 루미너스 팔레트',
     globalQuery: 'Rare Beauty Soft Pinch Luminous Palette',
     clio: false,
@@ -221,6 +225,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '여름 쿨/가을 웜 모두 어울리며, 17색 구성 덕분에 퍼스널컬러에 맞는 선택이 가능해 호불호 없이 사용할 수 있습니다.',
+    image: '/products/deardahlia-petal-drop-liquid-blush.webp',
     coupangQuery: '디어달리아 페탈 드롭 블러쉬',
     globalQuery: 'deardahlia petal drop liquid blush',
     clio: true,
@@ -258,6 +263,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '퍼프 사용 시 텍스처 호불호 있을 수 있음',
     ],
+    image: '/products/tirtir-mask-fit-red-cushion-foundation.webp',
     coupangQuery: '티르티르 마스크 핏 쿠션',
     globalQuery: 'Tirtir Mask Fit Red Cushion Foundation',
     clio: false,
@@ -297,6 +303,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '봄 웜과 여름 쿨톤(라이트 컬러 톤) 모두 자연스럽게 어울리며, 소프트한 코랄 컬러가 피부를 화사하게 밝혀줍니다.',
+    image: '/products/iglips-soft-eye-palette.webp',
     coupangQuery: '이글립스 소프트 아이 팔레트',
     globalQuery: 'iglips soft eye palette',
     clio: true,
@@ -337,6 +344,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '여름 쿨/겨울 쿨 톤에 특히 잘 어울리는데, 맑고 쿨한 핑크·베리 계열이 주를 이루어 얼굴을 화사하게 밝혀줍니다.',
+    image: '/products/violette-fr-lip-nectar-hydrating-stain.webp',
     coupangQuery: '비올렛 프 립 넥타',
     globalQuery: 'Violette_FR Lip Nectar hydrating lip stain',
     clio: false,
@@ -374,6 +382,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '지속력이 짧아 수시로 덧뿌려야 할 수 있음',
     ],
+    image: '/products/afterblow-cottonfog-eau-de-parfum.webp',
     coupangQuery: '애프터블로우 코튼포그 오 드 퍼퓸',
     globalQuery: 'Afterblow Cotton Fog Eau de Parfum',
     clio: false,
@@ -411,6 +420,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '강한 향을 부담스러워하는 사람에게는 향이 호불호일 수 있음',
     ],
+    image: '/products/k18-gloss-absolu-glaze-drops.webp',
     coupangQuery: '케라스테즈 글로스 압솔루 글레이즈 드롭스',
     globalQuery: 'Kérastase Gloss Absolu Glaze Drops hair oil',
     clio: false,
@@ -448,6 +458,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '호불호 갈릴 수 있는 점: 향이 있는 편이라 민감한 사용자는 테스트 후 사용하는 것이 좋습니다.',
     ],
+    image: '/products/numbuzin-hydra-soothing-serum.webp',
     coupangQuery: '넘버즈인 수딩 하이드라 세럼',
     globalQuery: 'Numbersin Hydra Soothing Serum',
     clio: false,
@@ -485,6 +496,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '호불호 갈릴 수 있는 고가 예술품 같은 가격 (소장성과 분리 어려움)',
     ],
+    image: '/products/louis-vuitton-ombres-monogram-limited-palette.webp',
     coupangQuery: '루이비통 옴브르 모노그램 팔레트',
     globalQuery: 'Louis Vuitton Ombres Monogram limited palette',
     clio: false,
@@ -524,6 +536,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '모든 퍼스널컬러에 어울릴 수 있는 투명 코럴 핑크 계열로, 과하지 않게 얼굴에 생기를 더해주기 때문입니다.',
+    image: '/products/peripera-sunshine-cheek.webp',
     coupangQuery: '페리페라 선샤인 치크',
     globalQuery: 'Peripera Sunshine Cheek',
     clio: true,
@@ -561,6 +574,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '풀커버를 원하는 사용자에게는 커버력이 부족하게 느껴질 수 있음',
     ],
+    image: '/products/haus-labs-triclone-skin-tech-foundation.webp',
     coupangQuery: '하우스랩스 트리클론 파운데이션',
     globalQuery: 'Haus Labs Triclone Skin Tech Foundation',
     clio: false,
@@ -600,6 +614,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '봄 웜/여름 쿨 등 여러 퍼스널컬러에 어울림—톤에 따라 메인 음영과 포인트 색을 적절히 조합하면 잘 맞습니다.',
+    image: '/products/clio-pro-eye-palette-air.webp',
     coupangQuery: '클리오 프로 아이 팔레트 에어',
     globalQuery: 'CLIO Pro Eye Palette Air',
     clio: true,
@@ -637,6 +652,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '극도로 매끈한 광택이 호불호 갈릴 수 있음',
     ],
+    image: '/products/revlon-super-lustrous-glass-shine-balm.webp',
     coupangQuery: '레블론 글래스 샤인 밤',
     globalQuery: 'Revlon Super Lustrous Glass Shine Balm',
     clio: false,
@@ -675,6 +691,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '지속력이 짧다는 후기도 있어 보충이 필요할 수 있음',
     ],
+    image: '/products/mumchit-stay-perfume.webp',
     coupangQuery: '멈칫 스테이 퍼퓸 향수',
     globalQuery: 'MUMCHIT Stay Perfume',
     clio: false,
@@ -712,6 +729,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '고열 스타일링 필요, 열기 없다면 효과가 덜할 수 있음',
     ],
+    image: '/products/color-wow-dream-coat.webp',
     coupangQuery: '컬러웅 드림 코트 스프레이',
     globalQuery: 'Color Wow Dream Coat Supernatural Spray',
     clio: false,
@@ -749,6 +767,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '지성 피부에는 유분감이 느껴질 수 있음',
     ],
+    image: '/products/roundlab-birch-sap-sunscreen.webp',
     coupangQuery: '라운드랩 자작나무 수분 선크림',
     globalQuery: 'roundlab birch sap sunscreen',
     clio: false,
@@ -786,6 +805,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '호불호가 갈릴 수 있는 크림 제형 텍스처',
     ],
+    image: '/products/laura-geller-cream-full-face-basics-palette.webp',
     coupangQuery: '로라 겔러 크림 풀 페이스 팔레트',
     globalQuery: 'Laura Geller Cream Full Face Basics Palette',
     clio: false,
@@ -825,6 +845,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '봄 웜/가을 웜 중심이지만, 컬러에 따라 쿨톤도 활용 가능 — 피치·코랄 계열은 웜톤에, 쿨 로즈 듀 같은 색은 쿨톤에도 자연스럽게 어울립니다.',
+    image: '/products/hince-raw-glow-dewy-ball.webp',
     coupangQuery: '힌스 로 글로우 듀이 볼',
     globalQuery: 'hince raw glow dewy ball',
     clio: true,
@@ -863,6 +884,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '매트하거나 풀 커버를 원하는 피부에는 적합하지 않을 수 있음',
     ],
+    image: '/products/mph-le-skin-weightless-foundation.webp',
     coupangQuery: '엠피에이치 르 스킨 파운데이션',
     globalQuery: 'm.ph Le Skin Weightless Serum Foundation',
     clio: false,
@@ -902,6 +924,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '가을 웜: 코랄 음영과 따뜻한 펄감이 가을 웜톤 피부에 자연스러운 생기를 더해줍니다.',
+    image: '/products/wakemake-soft-blurring-eye-palette-candy-coral.webp',
     coupangQuery: '웨이크메이크 소프트 블러링 아이팔레트 08',
     globalQuery: 'WAKEMAKE Soft Blurring Eye Palette 08 Candy Coral Blurring',
     clio: true,
@@ -941,6 +964,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '겨울 쿨: 오일 베이스의 글로시한 피니시가 쿨톤 피부의 투명함과 잘 어우러집니다.',
+    image: '/products/ysl-loveshine-lip-oil-stick.webp',
     coupangQuery: '입생로랑 러브샤인 립 오일 스틱',
     globalQuery: 'YSL Loveshine Lip Oil Stick',
     clio: false,
@@ -978,6 +1002,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '향 지속력이 짧다는 리뷰가 있어 수시로 덧뿌려야 함',
     ],
+    image: '/products/mumchit-soft-blue-soap-fabric-perfume.webp',
     coupangQuery: '멈칫 소프트블루솝 섬유향수',
     globalQuery: 'MUMCHIT Soft Blue Soap fabric perfume',
     clio: false,
@@ -1015,6 +1040,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '손에 남는 잔향이 일부에게는 진하게 느껴질 수 있음',
     ],
+    image: '/products/gisou-honey-infused-hair-oil.webp',
     coupangQuery: '지수 허니 헤어 오일',
     globalQuery: 'Gisou Honey Infused Hair Oil',
     clio: false,
@@ -1052,6 +1078,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '호불호 갈릴 수 있는 향이 있을 수 있음',
     ],
+    image: '/products/drjart-cicapair-serum.webp',
     coupangQuery: '닥터자르트 시카페어 세럼',
     globalQuery: 'Dr. Jart Cicapair Serum',
     clio: false,
@@ -1091,6 +1118,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '봄 웜·가을 웜 피부에 잘 어울리며, 따뜻한 황금·토스트 톤이 피부에 자연스럽게 녹아들기 때문입니다.',
+    image: '/products/natasha-denona-tan-eyeshadow-palette.webp',
     coupangQuery: '나타샤 데노나 탠 팔레트',
     globalQuery: 'Natasha Denona Tan Eyeshadow Palette',
     clio: false,
@@ -1130,6 +1158,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     colorFit:
       '여름 쿨•뮤트톤에 특히 잘 어울리며, 채도 낮춘 핑크라 차분한 색 표현을 원하는 톤에 적합합니다.',
+    image: '/products/romand-better-than-cheek-blueberry-chip.webp',
     coupangQuery: '롬앤 베러 댄 치크 블루베리칩',
     globalQuery: 'rom&nd better than cheek blueberry chip blush',
     clio: true,
@@ -1167,6 +1196,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '매트한 마무리를 선호하는 경우 호불호 갈릴 수 있음',
     ],
+    image: '/products/tirtir-mask-fit-red-cushion.webp',
     coupangQuery: '티르티르 쿠션 마스크 핏',
     globalQuery: 'TIRTIR Mask Fit Red Cushion',
     clio: false,
@@ -1204,6 +1234,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     cons: [
       '호불호가 갈릴 수 있는 구성—펜슬과 리퀴드 모두 선호하지 않는 이들은 부담스러울 수 있음',
     ],
+    image: '/products/nobev-slim-edge-dual-eyeliner.webp',
     coupangQuery: '노베브 슬림 엣지 듀얼 아이라이너',
     globalQuery: 'nobev slim edge dual eyeliner',
     clio: true,

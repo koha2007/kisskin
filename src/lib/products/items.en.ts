@@ -70,6 +70,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Sillage and longevity are very subtle, which may vary by preference',
     ],
+    image: '/products/fomant-cotton-kiss.webp',
     coupangQuery: '포맨트 시그니처 코튼키스 향수',
     globalQuery: 'Fomant Signature Cotton Kiss perfume',
     clio: false,
@@ -108,6 +109,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'May feel slightly heavy on fine hair',
     ],
+    image: '/products/moroccanoil-high-shine-gloss-mask.webp',
     coupangQuery: '모로칸오일 하이 샤인 글로스 마스크',
     globalQuery: 'Moroccanoil High Shine Gloss Mask',
     clio: false,
@@ -145,6 +147,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'The subtle glow finish may not appeal to everyone',
     ],
+    image: '/products/isntree-hyaluronic-airy-sun-stick.webp',
     coupangQuery: '이즈앤트리 히아루론산 선스틱',
     globalQuery: 'Isntree Hyaluronic Airy Sun Stick',
     clio: false,
@@ -182,6 +185,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Limited edition status makes sell-outs quick and restocks uncertain',
     ],
+    image: '/products/rare-beauty-soft-pinch-luminous-palette.webp',
     coupangQuery: '레어 뷰티 소프트 핀치 루미너스 팔레트',
     globalQuery: 'Rare Beauty Soft Pinch Luminous Palette',
     clio: false,
@@ -221,6 +225,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Suits both Summer Cool and Autumn Warm tones, with 17 shades allowing personalized selection for any color season without hesitation.',
+    image: '/products/deardahlia-petal-drop-liquid-blush.webp',
     coupangQuery: '디어달리아 페탈 드롭 블러쉬',
     globalQuery: 'deardahlia petal drop liquid blush',
     clio: true,
@@ -258,6 +263,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Puff application texture preference may vary by user',
     ],
+    image: '/products/tirtir-mask-fit-red-cushion-foundation.webp',
     coupangQuery: '티르티르 마스크 핏 쿠션',
     globalQuery: 'Tirtir Mask Fit Red Cushion Foundation',
     clio: false,
@@ -297,6 +303,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Complements both Spring Warm and Summer Cool Light skin tones naturally, with soft coral shades brightening the complexion.',
+    image: '/products/iglips-soft-eye-palette.webp',
     coupangQuery: '이글립스 소프트 아이 팔레트',
     globalQuery: 'iglips soft eye palette',
     clio: true,
@@ -337,6 +344,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Summer Cool / Winter Cool',
+    image: '/products/violette-fr-lip-nectar-hydrating-stain.webp',
     coupangQuery: '비올렛 프 립 넥타',
     globalQuery: 'Violette_FR Lip Nectar hydrating lip stain',
     clio: false,
@@ -374,6 +382,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Short longevity may require frequent reapplication',
     ],
+    image: '/products/afterblow-cottonfog-eau-de-parfum.webp',
     coupangQuery: '애프터블로우 코튼포그 오 드 퍼퓸',
     globalQuery: 'Afterblow Cotton Fog Eau de Parfum',
     clio: false,
@@ -411,6 +420,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Potential drawback: Has a noticeable fragrance, so sensitive users should test it before full use.',
     ],
+    image: '/products/numbuzin-hydra-soothing-serum.webp',
     coupangQuery: '넘버즈인 수딩 하이드라 세럼',
     globalQuery: 'Numbersin Hydra Soothing Serum',
     clio: false,
@@ -448,6 +458,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'High artwork-like price point that may divide opinion (hard to separate from its collectible nature)',
     ],
+    image: '/products/louis-vuitton-ombres-monogram-limited-palette.webp',
     coupangQuery: '루이비통 옴브르 모노그램 팔레트',
     globalQuery: 'Louis Vuitton Ombres Monogram limited palette',
     clio: false,
@@ -487,6 +498,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Complements all personal color seasons with its sheer coral-pink hues that add a gentle radiance without being overpowering.',
+    image: '/products/peripera-sunshine-cheek.webp',
     coupangQuery: '페리페라 선샤인 치크',
     globalQuery: 'Peripera Sunshine Cheek',
     clio: true,
@@ -524,6 +536,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Coverage may feel insufficient for those wanting full coverage',
     ],
+    image: '/products/haus-labs-triclone-skin-tech-foundation.webp',
     coupangQuery: '하우스랩스 트리클론 파운데이션',
     globalQuery: 'Haus Labs Triclone Skin Tech Foundation',
     clio: false,
@@ -563,6 +576,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Complements various undertones including Spring Warm and Summer Cool—works well when combining base shading and accent shades according to your tone.',
+    image: '/products/clio-pro-eye-palette-air.webp',
     coupangQuery: '클리오 프로 아이 팔레트 에어',
     globalQuery: 'CLIO Pro Eye Palette Air',
     clio: true,
@@ -600,6 +614,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'The extremely sleek gloss finish may not appeal to everyone',
     ],
+    image: '/products/revlon-super-lustrous-glass-shine-balm.webp',
     coupangQuery: '레블론 글래스 샤인 밤',
     globalQuery: 'Revlon Super Lustrous Glass Shine Balm',
     clio: false,
@@ -638,6 +653,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Some reviews note shorter longevity, so reapplication may be needed',
     ],
+    image: '/products/mumchit-stay-perfume.webp',
     coupangQuery: '멈칫 스테이 퍼퓸 향수',
     globalQuery: 'MUMCHIT Stay Perfume',
     clio: false,
@@ -675,6 +691,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Requires high heat blow-drying; results may be less noticeable without heat activation',
     ],
+    image: '/products/color-wow-dream-coat.webp',
     coupangQuery: '컬러웅 드림 코트 스프레이',
     globalQuery: 'Color Wow Dream Coat Supernatural Spray',
     clio: false,
@@ -712,6 +729,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'May feel somewhat oily on oily skin types',
     ],
+    image: '/products/roundlab-birch-sap-sunscreen.webp',
     coupangQuery: '라운드랩 자작나무 수분 선크림',
     globalQuery: 'roundlab birch sap sunscreen',
     clio: false,
@@ -751,6 +769,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Mainly centered on Spring Warm / Autumn Warm, but cool tones can also wear it depending on the shade — peach and coral shades suit warm tones, while shades like Cool Rose Dew suit cool tones naturally.',
+    image: '/products/hince-raw-glow-dewy-ball.webp',
     coupangQuery: '힌스 로 글로우 듀이 볼',
     globalQuery: 'hince raw glow dewy ball',
     clio: true,
@@ -789,6 +808,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'May not suit those looking for a matte or full-coverage finish',
     ],
+    image: '/products/mph-le-skin-weightless-foundation.webp',
     coupangQuery: '엠피에이치 르 스킨 파운데이션',
     globalQuery: 'm.ph Le Skin Weightless Serum Foundation',
     clio: false,
@@ -828,6 +848,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Autumn Warm: Coral shades and warm glitter add natural vitality to Autumn Warm skin tones.',
+    image: '/products/wakemake-soft-blurring-eye-palette-candy-coral.webp',
     coupangQuery: '웨이크메이크 소프트 블러링 아이팔레트 08',
     globalQuery: 'WAKEMAKE Soft Blurring Eye Palette 08 Candy Coral Blurring',
     clio: true,
@@ -867,6 +888,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Winter Cool: The oil-based glossy finish beautifully enhances the clarity of cool-toned skin.',
+    image: '/products/ysl-loveshine-lip-oil-stick.webp',
     coupangQuery: '입생로랑 러브샤인 립 오일 스틱',
     globalQuery: 'YSL Loveshine Lip Oil Stick',
     clio: false,
@@ -904,6 +926,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Some reviews note short fragrance longevity, requiring frequent reapplication',
     ],
+    image: '/products/mumchit-soft-blue-soap-fabric-perfume.webp',
     coupangQuery: '멈칫 소프트블루솝 섬유향수',
     globalQuery: 'MUMCHIT Soft Blue Soap fabric perfume',
     clio: false,
@@ -941,6 +964,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'The lingering fragrance on hands may feel strong to some users',
     ],
+    image: '/products/gisou-honey-infused-hair-oil.webp',
     coupangQuery: '지수 허니 헤어 오일',
     globalQuery: 'Gisou Honey Infused Hair Oil',
     clio: false,
@@ -978,6 +1002,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Scent may not appeal to everyone',
     ],
+    image: '/products/drjart-cicapair-serum.webp',
     coupangQuery: '닥터자르트 시카페어 세럼',
     globalQuery: 'Dr. Jart Cicapair Serum',
     clio: false,
@@ -1017,6 +1042,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Spring Warm / Autumn Warm. The warm golden and toasted tones blend naturally into warm-toned skin.',
+    image: '/products/natasha-denona-tan-eyeshadow-palette.webp',
     coupangQuery: '나타샤 데노나 탠 팔레트',
     globalQuery: 'Natasha Denona Tan Eyeshadow Palette',
     clio: false,
@@ -1056,6 +1082,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     ],
     colorFit:
       'Especially flatters Summer Cool and Mute tones, offering a muted pink ideal for a calm, muted color expression.',
+    image: '/products/romand-better-than-cheek-blueberry-chip.webp',
     coupangQuery: '롬앤 베러 댄 치크 블루베리칩',
     globalQuery: 'rom&nd better than cheek blueberry chip blush',
     clio: true,
@@ -1093,6 +1120,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'May not suit those who prefer a matte finish',
     ],
+    image: '/products/tirtir-mask-fit-red-cushion.webp',
     coupangQuery: '티르티르 쿠션 마스크 핏',
     globalQuery: 'TIRTIR Mask Fit Red Cushion',
     clio: false,
@@ -1130,6 +1158,7 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     cons: [
       'Dual design may not suit those who dislike both pencil and liquid types',
     ],
+    image: '/products/nobev-slim-edge-dual-eyeliner.webp',
     coupangQuery: '노베브 슬림 엣지 듀얼 아이라이너',
     globalQuery: 'nobev slim edge dual eyeliner',
     clio: true,
