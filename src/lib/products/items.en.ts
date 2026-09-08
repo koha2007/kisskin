@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'clio-pro-eye-palette-air-08-latte-seonim',
+    category: 'eye',
+    brand: 'CLIO',
+    name: 'Pro Eye Palette Air [08 Latte Senior]',
+    title: 'CLIO Pro Eye Palette Air [08 Latte Senior] – A Latte-Toned Palette with Balanced Shimmer & Matte',
+    summary:
+      'CLIO\'s Pro Eye Palette Air 08 Latte Senior is a popular eyeshadow palette in Korea, featuring a versatile range of warm latte tones with exceptional color payoff and seamless blendability.',
+    highlights: ['Warm latte-toned shade selection', 'Shimmer pearl glow', 'Excellent color payoff', 'Easy to blend'],
+    details: [
+      'A well-balanced mix of warm latte-toned matte and shimmer shades offers high versatility, suitable for both everyday looks and accent makeup.',
+      'Fine-textured shimmer pearls add a refined, natural radiance without feeling over-the-top.',
+      'Delivers vibrant pigment and smooth blending, allowing beginners to apply color seamlessly without harsh lines.',
+      'Highly rated in reviews for its thoughtful shade spectrum, ranging from light base colors to deep shades ideal for smudging eyeliner.',
+    ],
+    whoFor:
+      'Ideal for warm skin tones, particularly Autumn Warm, and anyone looking to create versatile looks from everyday soft contouring to focal point makeup. Perfect for everyone from beginners practicing blending to beauty enthusiasts selective about shade lineups.',
+    howTo: [
+      'Apply a light matte shade over the eyelid as a base to even out skin tone, then layer a mid-tone shade to build depth.',
+      'Lightly dab a shimmer shade onto the center of the lid or lower lash line for a subtle, luminous accent.',
+    ],
+    pros: [
+      'Practical color palette tailored for warm skin tones',
+      'Soft blending with a luminous shimmer finish',
+    ],
+    cons: [
+      'May experience fallout, requiring light care to ensure glitter adhesion',
+    ],
+    colorFit:
+      'Autumn Warm. The combination of latte brown shading and shimmer beautifully enhances warm skin tones.',
+    image: '/products/clio-pro-eye-palette-air-08-latte-seonim.webp',
+    coupangQuery: '클리오 프로 아이 팔레트 에어 08 라떼는선임',
+    globalQuery: 'Clio Pro Eye Palette Air 08 Latte Seonim',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-09-08',
+    tags: ['CLIO', 'EyeshadowPalette', 'WarmToneEyeshadow'],
+    seoTitle: 'CLIO Pro Eye Palette Air 08 Latte Senior Review',
+    seoDescription:
+      'Discover the CLIO Pro Eye Palette Air 08 Latte Senior featuring warm latte shades, smooth mattes, and elegant shimmers for warm skin tones.',
+  },
+  {
     slug: 'laneige-juicepop-box-lip-tint',
     category: 'lip',
     brand: 'LANEIGE',

@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'clio-pro-eye-palette-air-08-latte-seonim',
+    category: 'eye',
+    brand: '클리오',
+    name: '프로 아이 팔레트 에어 [08 라떼는선임]',
+    title: '클리오 프로 아이 팔레트 에어 [08 라떼는선임] – 쉬머·매트 균형감 있는 라떼 톤 팔레트',
+    summary:
+      '클리오 ‘프로 아이 팔레트 에어 08 라떼는선임’은 다양한 웜 라떼 톤 컬러 구성과 뛰어난 발색·블렌딩력으로 지금 한국에서 인기 있는 아이섀도우 팔레트입니다.',
+    highlights: ['웜 라떼톤 구성', '쉬머 펄 글로우', '우수한 발색력', '블렌딩 용이'],
+    details: [
+      '웜 라떼 계열의 매트와 쉬머 컬러가 균형 있게 구성되어 데일리부터 포인트 메이크업까지 활용도 높습니다.',
+      '쉬머 펄이 고운 텍스처로 빛나며, 글리터가 과하지 않아 자연스럽고 세련된 윤기를 연출합니다.',
+      '발색이 선명하고 블렌딩이 부드러워 초보자도 색의 경계 없이 자연스럽게 표현할 수 있습니다.',
+      '리뷰에서 ‘밝은 색부터 아이라인 풀 컬러까지 구성’이 만족스럽다는 평가가 많습니다.',
+    ],
+    whoFor:
+      '웜톤, 특히 가을 웜을 추천하는 구성으로, 데일리 음영부터 포인트 연출까지 원하는 사람에게 적합합니다. 블렌딩 연습이 필요한 초보자부터 컬러 구성에 민감한 뷰티 마니아까지 모두 만족할 수 있습니다.',
+    howTo: [
+      '밝은 매트 컬러로 아이홀 베이스를 깔아 색감을 균일하게 만들고, 중간 톤으로 음영을 넣어 깊이를 더합니다.',
+      '쉬머 컬러는 눈두덩 중앙이나 언더 라인에 가볍게 터치해 자연스러운 포인트를 연출합니다.',
+    ],
+    pros: [
+      '웜톤에 잘 어울리는 실용적 컬러 구성',
+      '쉬머한 광택과 부드러운 블렌딩',
+    ],
+    cons: [
+      '가루 날림이 있을 수 있어 펄 밀착에 주의 필요',
+    ],
+    colorFit:
+      '가을 웜톤에 잘 어울립니다. 라떼 브라운 계열 음영과 쉬머 조합이 따뜻한 피부톤을 부드럽게 돋보이게 합니다.',
+    image: '/products/clio-pro-eye-palette-air-08-latte-seonim.webp',
+    coupangQuery: '클리오 프로 아이 팔레트 에어 08 라떼는선임',
+    globalQuery: 'Clio Pro Eye Palette Air 08 Latte Seonim',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-09-08',
+    tags: ['클리오', '아이섀도우팔레트', '웜톤아이섀도'],
+    seoTitle: '클리오 프로 아이 팔레트 에어 08 라떼는선임 인기',
+    seoDescription:
+      '클리오의 ‘프로 아이 팔레트 에어 08 라떼는선임’은 웜톤에 잘 맞고 발색과 블렌딩력이 뛰어나며 글로우픽·화해 랭킹 상위권에 오른 인기',
+  },
+  {
     slug: 'laneige-juicepop-box-lip-tint',
     category: 'lip',
     brand: '라네즈',

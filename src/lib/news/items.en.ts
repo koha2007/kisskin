@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'oliveyoung-sephora-singapore-k-beauty-edit-launch',
+    category: 'global',
+    title: 'Olive Young × Sephora Launch \'K-Beauty Edit\' Pop-Up in Singapore',
+    summary:
+      'Olive Young and Sephora have partnered to launch a \'K-Beauty Edit\' pop-up in Singapore, introducing Korean beauty brands to local consumers. The event is drawing widespread attention with appearances by Jennie and Zhang Linghe, alongside the release of various character collections.',
+    body: [
+      '> TLDR: Olive Young × Sephora Pop-Up | Featuring Jennie & Zhang Linghe | Character Collection Launch',
+      'The \'K-Beauty Edit,\' a collaboration between Olive Young and Sephora, recently debuted as a pop-up store in Singapore, capturing the attention of local consumers.',
+      '> KEY: Sephora × Olive Young K-Beauty Edit Pop-Up Opens in Singapore',
+      'K-pop star Jennie and Chinese actor Zhang Linghe participated in the pop-up event, which was accompanied by the release of adorable character collections.',
+      'This collaboration highlights Olive Young\'s strategy to bolster its global distribution network and Sephora\'s commitment to expanding its K-beauty portfolio, helping to raise the profile of K-beauty in the local market.',
+    ],
+    date: '2026-09-08',
+    readMinutes: 3,
+    tags: ['Olive Young', 'Sephora', 'K-Beauty', 'Pop-up'],
+    seoTitle: 'Olive Young & Sephora Launch K-Beauty Pop-Up in Singapore',
+    seoDescription:
+      'Olive Young and Sephora team up for a K-Beauty Edit pop-up in Singapore featuring K-pop star Jennie and exclusive character collections.',
+  },
+  {
     slug: 'record-k-beauty-exports-july-2026-surpass-1-35-billion',
     category: 'global',
     title: 'K-Beauty Exports Hit All-Time Monthly High of $1.35 Billion in July 2026',
