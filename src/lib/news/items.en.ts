@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-record-august-exports-small-brands-rise',
+    category: 'global',
+    title: 'August K-Beauty Exports Surge 52% as Small Brands Reach 68.7% Share',
+    summary:
+      'In August 2026, South Korean cosmetics exports grew 52.1% year-on-year, marking the fastest growth rate in 13 months, with small brands emerging as the primary driver by accounting for 68.7% of total exports.',
+    body: [
+      '> TLDR: August export surge | Growing share of small brands | Slump among traditional conglomerates',
+      'In August 2026, South Korean cosmetics exports reached approximately $1.31 billion, a 52.1% increase year-on-year, recording the highest growth rate in the past 31 months.',
+      '> DATA: August 2026 exports $1.31B (+52.1% YoY), small brand share 68.7% (82crafted.com)',
+      'Interestingly, while exports from major conglomerates such as Amorepacific and LG Household & Health Care fell by 23% during the first half of the year, small brands accounted for 68.7% of total exports, taking center stage in export growth (82crafted.com).',
+      'This shift reflects the diversification of the K-beauty ecosystem and a transition in brand power structure, demonstrating the expanding influence of a wider array of small and medium-sized brands in the global market.',
+    ],
+    date: '2026-09-09',
+    readMinutes: 3,
+    tags: ['K-Beauty Exports', 'Small Brands', 'Global Trends'],
+    seoTitle: 'August K-Beauty Exports Surge 52% as Small Brands Lead',
+    seoDescription:
+      'South Korean cosmetics exports jumped 52.1% in August 2026, driven by small brands which accounted for 68.7% of total sales.',
+  },
+  {
     slug: 'oliveyoung-sephora-singapore-k-beauty-edit-launch',
     category: 'global',
     title: 'Olive Young × Sephora Launch \'K-Beauty Edit\' Pop-Up in Singapore',
