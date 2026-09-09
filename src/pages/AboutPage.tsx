@@ -41,11 +41,9 @@ function AboutKo() {
     <>
       <h2>운영 주체</h2>
       <p>
-        kissinskin은 대한민국에서 운영되는 1인 인디 프로젝트로,
-        <strong> koha</strong>에서 제작되었습니다. 모든 도구·콘텐츠·디자인·기술을
+        kissinskin은 <strong>koha</strong>가 제작·운영합니다. 모든 도구·콘텐츠·디자인·기술을
         직접 만들고 유지하며, 모든 문의에 직접 응답합니다. 외부 투자 없이
-        사용자 결제·Google AdSense 광고 수익·쿠팡 파트너스 어필리에이트 수수료로
-        운영비를 충당합니다.
+        사용자 결제와 쿠팡 파트너스 등 제휴 수수료로 운영비를 충당합니다.
       </p>
 
       <h2>사이트 목적</h2>
@@ -102,15 +100,13 @@ function AboutKo() {
         </li>
       </ul>
 
-      <h2>광고 · 어필리에이트 정책</h2>
+      <h2>어필리에이트 정책</h2>
       <p>
-        본 사이트는 무료 도구·콘텐츠 운영 비용을 충당하기 위해 Google AdSense
-        광고를 게재합니다. 광고는 사이드/콘텐츠 사이에 명확히 구분되어 노출되며,
-        편집 콘텐츠와 광고를 혼동하지 않도록 표시합니다. 광고 쿠키 동의는 사이트
-        하단 쿠키 배너에서 변경할 수 있습니다.
+        본 사이트는 현재 제3자 디스플레이 광고(배너 광고)를 게재하지 않습니다.
+        운영비는 사용자 결제와 아래 어필리에이트 수수료로 충당합니다.
       </p>
       <p>
-        또한 본 사이트는 <strong>쿠팡 파트너스</strong> 어필리에이트 프로그램에
+        본 사이트는 <strong>쿠팡 파트너스</strong> 어필리에이트 프로그램에
         참여하고 있으며, 추천 카드의 일부 링크는 어필리에이트 링크입니다
         (HTML <code>rel="sponsored"</code> 표기, 새 창 열림). 이용자가 해당
         링크를 통해 쿠팡에서 구매할 경우 쿠팡으로부터 일정액의 수수료를
@@ -140,13 +136,12 @@ function AboutEn() {
     <>
       <h2>Who runs this site</h2>
       <p>
-        kissinskin is an indie one-person project based in South Korea, created
-        by <strong>koha</strong>, who builds and maintains every tool,
-        article, and feature, and personally answers all inquiries. It has been
-        running and updated continuously since 2024 — over a year of solo
-        development, design, and editorial. There are no investors; the site is
-        funded by user payments, Google AdSense ad revenue, and Coupang Partners
-        affiliate commissions.
+        kissinskin is created and run by <strong>koha</strong>, who builds and
+        maintains every tool, article, and feature, and personally answers all
+        inquiries. It has been running and updated continuously since 2024.
+        There are no investors; the
+        site is funded by user payments and affiliate commissions (Coupang
+        Partners and others).
       </p>
 
       <h2>What the site is for</h2>
@@ -205,14 +200,13 @@ function AboutEn() {
         </li>
       </ul>
 
-      <h2>Advertising and affiliate policy</h2>
+      <h2>Affiliate policy</h2>
       <p>
-        We display Google AdSense ads to fund the free tools and content. Ads
-        are clearly distinct from editorial content. You can change your cookie
-        consent any time via the cookie banner at the bottom of the page.
+        The site currently shows no third-party display (banner) ads. It is
+        funded by user payments and the affiliate commissions described below.
       </p>
       <p>
-        We also participate in the <strong>Coupang Partners</strong> affiliate
+        We participate in the <strong>Coupang Partners</strong> affiliate
         program. Some links inside the recommendation cards are affiliate links
         (marked <code>rel="sponsored"</code>, opens in a new tab). If you buy
         through one of those links, Coupang pays us a small commission. The

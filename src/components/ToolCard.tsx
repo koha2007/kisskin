@@ -3,6 +3,8 @@
 // 카드 틀(배경/보더/라운드/그림자/여백)은 전 도구 동일. 도구별 색은 '액센트 1점'
 // (아이콘 칩 틴트 + 태그)으로만 사용한다 — 메인은 네이비+핑크. (DESIGN_SYSTEM.md)
 
+import type { CSSProperties } from 'react'
+
 interface ToolCardProps {
   href: string
   /** Material Symbols 아이콘 이름 (예: 'palette', 'quiz', 'face') */
@@ -26,17 +28,25 @@ interface ToolCardProps {
 
 export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true, image, meta }: ToolCardProps) {
   const tint = `color-mix(in srgb, ${accent} 12%, white)`
+  const tintHover = `color-mix(in srgb, ${accent} 5%, white)`
+  const borderHover = `color-mix(in srgb, ${accent} 45%, white)`
   return (
-    // 2026-07-22: 라운드를 조이고 hover 리프트+큰 그림자를 뺐다. 떠오르는 카드는
-    // 2019~20년 머티리얼 문법이라 그 자체로 연식을 드러낸다. 상태 변화는 보더로만 준다.
+    // 2026-09 개편: 검색 유입의 첫 착지점이라 "눈에 더 들어오게" 한다.
+    //  · 상단 액센트 바(도구색 1점) — 면을 칠하지 않고 4색 세트가 한눈에 든다.
+    //  · hover 는 여전히 리프트/큰 그림자 없이 보더+옅은 배경 워시로만(2026-07-22 방침 유지).
     <a
       href={available ? href : undefined}
-      className={`group flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors ${
-        available ? 'hover:border-navy' : 'opacity-60 cursor-not-allowed'
+      style={available ? ({ '--tc-bd': borderHover, '--tc-bg': tintHover } as CSSProperties) : undefined}
+      className={`group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-colors ${
+        available
+          ? 'hover:border-[var(--tc-bd)] hover:bg-[var(--tc-bg)]'
+          : 'opacity-60 cursor-not-allowed'
       }`}
     >
-      {/* 2026-07-22: 도구 카드에 실물이 한 장도 없어 "무엇을 해 주는지" 안 보였다.
-          결과 사진을 상단에 깐다(YouCam 이 기능마다 결과를 먼저 보여주는 방식). */}
+      {/* 도구 액센트 바 */}
+      <span className="block h-1.5 w-full" style={{ background: accent }} aria-hidden="true" />
+
+      {/* 결과 사진(허브에서만 전달) — YouCam 처럼 "무엇을 해 주는지" 먼저 보여준다. */}
       {image && (
         <span className="block aspect-[16/9] overflow-hidden bg-cream">
           <img src={image} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
@@ -45,29 +55,38 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
       <div className="flex flex-1 flex-col p-5 md:p-6">
       <div className="mb-4 flex items-center justify-between gap-2">
         <div
-          className="flex h-11 w-11 items-center justify-center rounded-xl"
+          className="flex h-12 w-12 items-center justify-center rounded-xl"
           style={{ background: tint, color: accent }}
         >
-          <span className="material-symbols-outlined text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>
             {icon}
           </span>
         </div>
         {tag && (
-          <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: accent }}>
+          <span
+            className="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
+            style={{ color: accent, borderColor: `color-mix(in srgb, ${accent} 30%, white)` }}
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
             {tag}
           </span>
         )}
       </div>
 
-      <h3 className="mb-1.5 text-base md:text-lg font-bold leading-snug text-navy">{title}</h3>
+      <h3 className="mb-1.5 text-[17px] md:text-lg font-bold leading-snug text-navy">{title}</h3>
       <p className="mb-3 flex-1 text-sm leading-relaxed text-slate-600">{desc}</p>
 
-      {meta && <p className="t-label mb-4 tabular-nums text-slate-500">{meta}</p>}
+      {meta && (
+        <p className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-slate-500">{meta}</p>
+      )}
 
       {available && cta && (
-        <div className="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 transition-all group-hover:gap-1.5">
+        <div
+          className="inline-flex items-center gap-1 text-sm font-bold transition-all group-hover:gap-2"
+          style={{ color: accent }}
+        >
           {cta}
-          <span className="material-symbols-outlined text-base" style={{ color: accent }}>arrow_forward</span>
+          <span className="material-symbols-outlined text-base">arrow_forward</span>
         </div>
       )}
       </div>

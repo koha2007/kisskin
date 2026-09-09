@@ -32,7 +32,7 @@ export default {
   'home.hero.subtitle': 'One selfie. 9 K-beauty makeup looks in 60 seconds — free AI personal color and makeup analysis from Seoul, Korea.',
   // free-pivot home redesign (2026-06-29) new keys
   'home.hero.uploadCta': 'Upload your selfie — free',
-  'home.hero.priceSub': '1 free try · then credits from $2.99',
+  'home.hero.priceSub': 'Sign up for your first try free · then credits from $2.99',
   'home.ba.title': 'See the transformation',
   'home.ba.subtitle': 'We bring out your natural beauty',
   'home.slider.title': 'Trendy K-beauty styles',
@@ -59,7 +59,7 @@ export default {
   'home.hero.viewQuizzes': '4 Free Quizzes',
   'home.hero.priceLine': '4 free quizzes · AI makeup preview $2.99',
   'home.hero.safe1': 'Secure checkout by Polar',
-  'home.hero.safe2': 'Indie-built in Korea',
+  'home.hero.safe2': 'Built and run by koha',
   'home.hero.safe3': 'Photos deleted after analysis',
 
   // Value Props
@@ -76,7 +76,7 @@ export default {
   'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color & face shape diagnosis, and in-depth guide — all free, no signup required.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
-  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. 1 free try.',
+  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up for your first try free.',
   'home.toolsShowcase.mainCta': 'Try now',
   'home.toolsShowcase.cardCta': 'Start',
   'home.toolsShowcase.seeAllTools': 'See all tools',

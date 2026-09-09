@@ -4,7 +4,7 @@ export default function Head() {
       <title>About kissinskin · Operator and editorial standards</title>
       <meta
         name="description"
-        content="kissinskin is an indie K-beauty AI site. Operator, editorial process, AI usage, ad policy, and privacy approach in one page."
+        content="kissinskin is a K-beauty AI site. Operator, editorial process, AI usage, affiliate policy, and privacy approach in one page."
       />
       <link rel="canonical" href="https://kissinskin.net/en/about/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/about/" />
@@ -15,7 +15,7 @@ export default function Head() {
       <meta property="og:title" content="About kissinskin" />
       <meta
         property="og:description"
-        content="Indie one-person K-beauty AI site. Editorial, AI, advertising, and privacy policy."
+        content="K-beauty AI site. Editorial, AI, affiliate, and privacy policy."
       />
       <meta property="og:image" content="https://kissinskin.net/og-image-en.png" />
       <meta property="og:site_name" content="kissinskin" />
@@ -25,7 +25,7 @@ export default function Head() {
       <meta name="twitter:title" content="About kissinskin" />
       <meta
         name="twitter:description"
-        content="Indie one-person K-beauty AI site. Editorial, AI, advertising, and privacy policy."
+        content="K-beauty AI site. Editorial, AI, affiliate, and privacy policy."
       />
       <script
         type="application/ld+json"

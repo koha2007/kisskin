@@ -4,7 +4,7 @@ export default function Head() {
       <title>운영자 소개 · 편집 원칙 | kissinskin</title>
       <meta
         name="description"
-        content="kissinskin의 운영자, 편집 원칙, AI 사용 방식, 광고 정책, 개인정보 보호 방식을 한 페이지에 정리했습니다."
+        content="kissinskin의 운영자, 편집 원칙, AI 사용 방식, 제휴·개인정보 보호 방식을 한 페이지에 정리했습니다."
       />
       <link rel="canonical" href="https://kissinskin.net/about/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/about/" />
@@ -15,7 +15,7 @@ export default function Head() {
       <meta property="og:title" content="운영자 소개 · 편집 원칙 | kissinskin" />
       <meta
         property="og:description"
-        content="kissinskin은 1인 인디 K-뷰티 사이트입니다. 운영자, 편집·AI·광고·개인정보 정책을 공개합니다."
+        content="kissinskin의 운영자, 편집·AI·제휴·개인정보 정책을 공개합니다."
       />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:site_name" content="kissinskin" />
@@ -25,7 +25,7 @@ export default function Head() {
       <meta name="twitter:title" content="About kissinskin" />
       <meta
         name="twitter:description"
-        content="Indie K-beauty AI site. Operator, editorial standards, ad and privacy policy."
+        content="K-beauty AI site. Operator, editorial standards, affiliate and privacy policy."
       />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script

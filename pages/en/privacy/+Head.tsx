@@ -4,7 +4,7 @@ export default function Head() {
       <title>Privacy Policy | kissinskin</title>
       <meta
         name="description"
-        content="kissinskin privacy policy — what data we collect, how Google AdSense, GA4, and Microsoft Clarity cookies work, and your rights under GDPR/CCPA/PIPA."
+        content="kissinskin privacy policy — what data we collect, how GA4 and Microsoft Clarity cookies work, and your rights under GDPR/CCPA/PIPA."
       />
       <link rel="canonical" href="https://kissinskin.net/en/privacy/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/privacy/" />

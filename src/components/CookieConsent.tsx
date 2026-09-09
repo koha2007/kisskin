@@ -66,24 +66,24 @@ export default function CookieConsent() {
       ? {
           title: '쿠키 사용 안내',
           body:
-            '본 사이트는 서비스 개선과 광고 게재를 위해 Google AdSense, Google Analytics, Microsoft Clarity의 쿠키를 사용합니다. EU·영국 이용자는 동의 후에만 광고·분석 쿠키가 활성화됩니다.',
+            '본 사이트는 서비스 개선과 이용 분석을 위해 Google Analytics와 Microsoft Clarity의 쿠키를 사용합니다. EU·영국 이용자는 동의 후에만 분석 쿠키가 활성화됩니다.',
           accept: '모두 동의',
           deny: '필수만 허용',
           details: '자세히',
           link: '개인정보처리방침 보기',
           managed:
-            '필수(보안·서비스 작동) 쿠키는 항상 사용됩니다. 광고/분석 쿠키는 동의 시에만 사용됩니다. 결정은 언제든 변경할 수 있으며, 브라우저의 쿠키를 삭제하면 다시 표시됩니다.',
+            '필수(보안·서비스 작동) 쿠키는 항상 사용됩니다. 분석 쿠키는 동의 시에만 사용됩니다. 결정은 언제든 변경할 수 있으며, 브라우저의 쿠키를 삭제하면 다시 표시됩니다.',
         }
       : {
           title: 'Cookie notice',
           body:
-            'We use cookies from Google AdSense, Google Analytics, and Microsoft Clarity to improve the service and serve ads. For EU/UK visitors, advertising and analytics cookies activate only after you consent.',
+            'We use cookies from Google Analytics and Microsoft Clarity to improve and measure the service. For EU/UK visitors, analytics cookies activate only after you consent.',
           accept: 'Accept all',
           deny: 'Essential only',
           details: 'Details',
           link: 'Read privacy policy',
           managed:
-            'Strictly necessary (security and service) cookies are always on. Advertising/analytics cookies run only after you opt in. You can change this any time by clearing site cookies.',
+            'Strictly necessary (security and service) cookies are always on. Analytics cookies run only after you opt in. You can change this any time by clearing site cookies.',
         }
 
   return (

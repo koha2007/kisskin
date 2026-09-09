@@ -34,7 +34,7 @@ export default {
   'home.hero.subtitle': '셀카 한 장이면 끝. 키스인스킨 AI가 K-뷰티 메이크업 9룩을 60초 만에 입혀드려요.',
   // free-pivot 메인 리디자인(2026-06-29) 신규 키
   'home.hero.uploadCta': '무료로 셀카 올리기',
-  'home.hero.priceSub': '무료 1회 · 더 필요하면 크레딧 $2.99부터',
+  'home.hero.priceSub': '회원가입하면 첫 1회 무료 · 이후 크레딧 $2.99부터',
   'home.ba.title': '이렇게 바뀌어요',
   'home.ba.subtitle': '당신의 본연의 아름다움을 찾아드립니다',
   'home.slider.title': '트렌디한 K-뷰티 스타일',
@@ -61,7 +61,7 @@ export default {
   'home.hero.viewQuizzes': '무료 진단 4종',
   'home.hero.priceLine': '무료 진단 4종 · AI 메이크업 미리보기 $2.99',
   'home.hero.safe1': 'Polar 안전결제',
-  'home.hero.safe2': '대한민국 1인 인디 운영',
+  'home.hero.safe2': 'koha 운영',
   'home.hero.safe3': '사진 분석 후 즉시 폐기',
 
   // Value Props
@@ -78,7 +78,7 @@ export default {
   'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단, 그리고 심화 가이드까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
   'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',
   'home.toolsShowcase.mainTitle': 'AI 메이크업 시뮬레이터',
-  'home.toolsShowcase.mainDesc': '실시간 AI 분석으로 가장 어울리는 룩을 추천해 드려요. 무료 1회 체험.',
+  'home.toolsShowcase.mainDesc': '실시간 AI 분석으로 가장 어울리는 룩을 추천해 드려요. 회원가입하면 첫 1회 무료.',
   'home.toolsShowcase.mainCta': '지금 바로 체험',
   'home.toolsShowcase.cardCta': '시작하기',
   'home.toolsShowcase.seeAllTools': '전체 도구 모음 보기',

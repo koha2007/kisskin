@@ -250,7 +250,7 @@ export function ToolsFooter() {
           {/* 한글 브랜드명은 본문 텍스트로 있어야 검색엔진이 잡는다(스키마 alternateName 만으로는 안 잡힘).
               이 푸터는 홈을 제외한 전 페이지에 깔리므로 여기가 병기 지점이다. */}
           <p>
-            &copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · {isEn ? 'Created by koha · One-person indie project based in South Korea' : '제작: koha · 대한민국 소재 1인 인디 프로젝트'}
+            &copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · {isEn ? 'Created by koha' : '제작: koha'}
           </p>
           <p>{isEn ? 'Contact: ' : '문의: '}<a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
           {/* 언어 전환은 상단 토글이 하지만 그건 JS 라 크롤러가 못 따라간다. 검색엔진이 반대편

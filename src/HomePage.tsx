@@ -5,12 +5,13 @@ import ToolCard from './components/ToolCard'
 import HomeContentSections from './components/HomeContentSections'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
-import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
+import { MAKEUP_STYLES, styleById, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
 import { savePendingSelfieFromSrc } from './lib/makeup/pendingSelfie'
 
-// 예시 얼굴로 쓸 룩 4종 — 서로 피부톤이 다른 모델이 걸리도록 고른 조합.
-const SAMPLE_FACES: MakeupStyleId[] = ['natural-glow', 'blush-draping', 'metallic-eye', 'kpop-idol']
+// 히어로에서 "완성 예시" 로 먼저 보여줄 룩 4종 — 톤(내추럴/블러쉬/눈/아이돌)이 서로 겹치지
+// 않게 고른다. 썸네일은 각 룩의 실제 결과(after)를 쓴다.
+const SAMPLE_LOOKS: MakeupStyleId[] = ['natural-glow', 'blush-draping', 'metallic-eye', 'kpop-idol']
 
 const PAGE_PATHS: Record<string, string> = {
   home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
@@ -47,8 +48,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
   // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
-  // 예시 얼굴 4장 — 피부톤이 서로 다른 모델을 고른다(글로벌 방문자 비중 42%).
-  // 이미지는 룩 카드의 '민낯 원본'을 재사용하므로 새로 만들 자산이 없다.
+  // "완성 예시 보기" — 도구에 예시 모델의 민낯(before)을 입력으로 넣고 해당 룩으로 진입한다.
+  // 화면에 보이는 썸네일은 결과(after)라 "이런 결과가 나온다"는 정직한 예고이고,
+  // 배관(savePendingSelfieFromSrc)은 그대로 재사용한다.
   const onSamplePick = async (id: MakeupStyleId) => {
     await savePendingSelfieFromSrc(LOOK_IMAGES[id].before)
     window.location.href = `/analysis/?style=${id}&sample=1`
@@ -339,38 +341,51 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <p className="animate-fade-in-up-delay2 text-xs font-medium text-slate-500">
               {[t('home.hero.trust1'), t('home.hero.trust2'), t('home.hero.trust3')].join(' · ')}
             </p>
-            <p className="animate-fade-in-up-delay2 -mt-3 text-xs text-slate-400">{t('home.hero.priceSub')}</p>
+            {/* "가입 시 첫 1회 무료" — 예전엔 slate-400 로 거의 안 보였다. 핵심 가치 제안이므로
+                체크 아이콘 + primary 텍스트로 한 단계 끌어올린다(알약 배경은 쓰지 않음). */}
+            <p className="animate-fade-in-up-delay2 -mt-1 inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary-dark">
+              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              {t('home.hero.priceSub')}
+            </p>
 
-            {/* ── 예시 얼굴로 체험 (2026-07-22) ──────────────────────────────────
-                GA4 30일: 방문 46명 → style_selected 7명 → makeup_generated 5명.
-                **89%가 생성까지 못 간다.** 첫 칸이 "셀카를 올려라"인 게 병목이다.
-                지금 셀카가 없거나, 올릴 마음이 아직 없는 사람은 여기서 전부 나간다.
-                YouCam 은 업로드 드롭존 바로 밑에 예시 모델 사진 4장을 깔아
-                "사진 없이도 지금 당장" 체험하게 만든다. 그 패턴을 가져왔다.
-                우리는 룩 이미지의 '민낯 원본'을 이미 갖고 있어 새 자산이 필요 없고,
-                savePendingSelfieFromSrc 가 URL 을 그대로 받으므로 배관도 그대로 쓴다. */}
+            {/* ── 완성 예시 먼저 보기 (2026-07-22 도입 → 2026-09 개편) ────────────
+                도입 배경: GA4 30일 방문 46 → style_selected 7 → makeup_generated 5.
+                **89%가 생성까지 못 간다.** 첫 칸이 "셀카를 올려라"인 게 병목이라,
+                YouCam 처럼 "지금 당장 체험" 경로를 하나 더 깐다.
+                개편(A안): AI가 만든 모델 얼굴을 '예시 얼굴'로 내세우던 게 어색했다
+                (남의 얼굴을 내 얼굴처럼). 썸네일을 각 룩의 실제 결과(after)로 바꾸고
+                라벨을 룩 이름으로 달아 "완성 예시"로 정직하게 프레이밍한다.
+                누르면 예시 모델로 그 룩까지 만들어진 화면으로 진입한다. */}
             <div className="animate-fade-in-up-delay2 w-full">
               <p className="t-label text-slate-500 mb-2">
-                {isEn ? 'No photo handy? Try it on a sample face' : '사진이 없다면, 예시 얼굴로 먼저 체험해보세요'}
+                {isEn ? 'Not ready to upload? Preview a finished look' : '사진 올리기 전에, 완성 예시부터 살펴보세요'}
               </p>
-              <div className="flex gap-2 justify-center md:justify-start">
-                {SAMPLE_FACES.map((id) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => onSamplePick(id)}
-                    aria-label={isEn ? 'Try this sample face' : '이 예시 얼굴로 체험하기'}
-                    className="h-14 w-14 overflow-hidden rounded-full ring-1 ring-slate-300 transition-all hover:ring-2 hover:ring-primary"
-                  >
-                    <img
-                      src={LOOK_IMAGES[id].before}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                ))}
+              <div className="flex gap-2.5 justify-center md:justify-start">
+                {SAMPLE_LOOKS.map((id) => {
+                  const s = styleById(id)
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => onSamplePick(id)}
+                      aria-label={isEn ? `Preview the ${s.subEn} look` : `${s.nameKo} 완성 예시 보기`}
+                      className="group/sl w-[68px] shrink-0"
+                    >
+                      <span className="block aspect-square overflow-hidden rounded-xl ring-1 ring-slate-300 transition-all group-hover/sl:ring-2 group-hover/sl:ring-primary">
+                        <img
+                          src={LOOK_IMAGES[id].after}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-cover"
+                        />
+                      </span>
+                      <span className="mt-1 block truncate text-[10px] font-semibold leading-tight text-slate-500 group-hover/sl:text-primary">
+                        {isEn ? s.subEn : s.nameKo}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
             </div>
@@ -545,12 +560,15 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   뭘 만들어 주는지 한 글자도 보여주지 못한다. */}
               <div className="relative flex flex-col md:flex-row md:items-stretch">
                 <div className="md:w-2/5 lg:w-1/3 shrink-0">
+                  {/* 모바일: 3:4 원본을 h-56 로 자르면 얼굴이 입에서 잘렸다(운영자 리포트).
+                      이마~턱이 다 들어오도록 4:3 밴드 + 얼굴 중심(위쪽 18%)으로 위치를 잡는다.
+                      데스크톱(md↑)은 텍스트 패널 높이에 맞춰 세로로 꽉 차던 기존 레이아웃 유지. */}
                   <img
                     src={LOOK_IMAGES[MAKEUP_STYLES[0].id].after}
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    className="h-56 w-full object-cover object-top md:h-full"
+                    className="aspect-[4/3] w-full object-cover object-[50%_18%] md:aspect-auto md:h-full md:object-top"
                   />
                 </div>
                 <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
@@ -575,24 +593,26 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* 4 Tool Cards — 공통 ToolCard 재사용, 각 "무료" 뱃지 */}
           {/* ⚠ 카드 라벨은 t() 라 영어로 나오는데 href 가 한국어로 고정돼 있었다 → 영어권 방문자가
               영어 카드를 누르면 한국어 페이지로 떨어졌다(2026-07-14 수정). 도구 링크는 반드시 toolHref(). */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
             {[
-              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)',
-                title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc') },
-              { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)',
-                title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc') },
-              { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)',
-                title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc') },
-              { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)',
-                title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc') },
+              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: '/mood/tool-mbti.webp',
+                title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), meta: t('home.toolsShowcase.t1Tag') },
+              { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', image: '/mood/tool-personal-color.webp',
+                title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc'), meta: t('home.toolsShowcase.t2Tag') },
+              { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', image: '/mood/tool-face-shape.webp',
+                title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc'), meta: t('home.toolsShowcase.t3Tag') },
+              { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', image: '/mood/tool-perfume.webp',
+                title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc'), meta: t('home.toolsShowcase.t4Tag') },
             ].map(tool => (
               <ToolCard
                 key={tool.title}
                 href={tool.href}
                 icon={tool.icon}
                 accent={tool.accent}
+                image={tool.image}
                 title={tool.title}
                 desc={tool.desc}
+                meta={tool.meta}
                 tag={isEn ? 'FREE' : '무료'}
                 cta={t('home.toolsShowcase.cardCta')}
               />
@@ -664,13 +684,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </p>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
             {isEn ? (
-              <>AI assists both the tool features (image simulation and diagnostics) and the compiling of our news and guides from public sources. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments, Google AdSense revenue, and Coupang Partners affiliate commissions — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
+              <>AI assists both the tool features (image simulation and diagnostics) and the compiling of our news and guides from public sources. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments and affiliate commissions (Coupang Partners and others) — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
             ) : (
               <>AI는 도구 기능(이미지 시뮬레이션·진단)과 뉴스·가이드의 공개 자료
               정리에 활용됩니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
               Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
-              저장되지 않습니다. 사이트 운영비는 사용자 결제·Google AdSense 광고
-              수익·쿠팡 파트너스 어필리에이트 수수료로 충당하며, 외부 투자는 없습니다.
+              저장되지 않습니다. 사이트 운영비는 사용자 결제와 쿠팡 파트너스 등
+              제휴 수수료로 충당하며, 외부 투자는 없습니다.
               어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.</>
             )}
           </p>
@@ -924,7 +944,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </div>
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
-            <p>&copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a> · {isEn ? 'Solo indie project in South Korea' : '대한민국 1인 인디 프로젝트'}</p>
+            <p>&copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a></p>
             <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-06-29">{isEn ? 'As of June 2026' : '2026년 6월 기준'}</time></p>
           </div>
         </div>

@@ -74,19 +74,13 @@ function PrivacyKo() {
         <li>당사는 Polar로부터 거래 확인, 주문 금액, 고객 지원용 참조 ID를 전달받을 수 있습니다.</li>
       </ul>
 
-      <h3>3.3 자동 수집 데이터 · 쿠키 · 광고</h3>
-      <p>당사는 사이트 운영, 측정, 광고 게재를 위해 다음 제3자 서비스의 쿠키와 유사 기술(localStorage, 픽셀)을 사용합니다. EU/EEA·영국 이용자에게는 <strong>Google Consent Mode v2</strong>가 적용되어, 쿠키 배너에서 "모두 동의"를 선택하기 전까지 광고/분석 쿠키는 비활성 상태로 유지됩니다.</p>
+      <h3>3.3 자동 수집 데이터 · 쿠키</h3>
+      <p>본 사이트는 현재 제3자 디스플레이 광고(배너 광고)를 게재하지 않습니다. 당사는 사이트 운영과 익명 이용 분석을 위해 다음 제3자 서비스의 쿠키와 유사 기술(localStorage, 픽셀)을 사용합니다. EU/EEA·영국 이용자에게는 <strong>Google Consent Mode v2</strong>가 적용되어, 쿠키 배너에서 "모두 동의"를 선택하기 전까지 분석 쿠키는 비활성 상태로 유지됩니다.</p>
       <table className="legal-table">
         <thead>
           <tr><th>서비스</th><th>목적</th><th>쿠키/저장소</th><th>보관 기간</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Google AdSense</strong> (ca-pub-5109067049933124)</td>
-            <td>본 사이트의 무료 콘텐츠 운영 비용 충당을 위한 광고 게재 및 측정</td>
-            <td>제3자 쿠키 (`__gads`, `__gpi`, `IDE`, `ANID` 등) — google.com / doubleclick.net 도메인 발행</td>
-            <td>최대 13개월</td>
-          </tr>
           <tr>
             <td><strong>Google Analytics 4</strong> (G-JJ7G39W5T3)</td>
             <td>익명 트래픽 분석 및 사이트 개선</td>
@@ -113,8 +107,8 @@ function PrivacyKo() {
           </tr>
         </tbody>
       </table>
-      <p><strong>Google AdSense 광고:</strong> 본 사이트는 제3자 공급업체인 Google이 본 사이트와 다른 사이트에서의 이용자의 방문 정보에 기반해 광고를 게재할 수 있도록 허용합니다. Google은 광고 쿠키를 통해 광고를 게재합니다. 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 맞춤 광고를 거부할 수 있으며, <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a> 또는 <a href="https://youronlinechoices.eu" target="_blank" rel="noopener noreferrer">youronlinechoices.eu</a>(EU)에서 일부 제3자 공급업체의 맞춤 광고를 거부할 수 있습니다.</p>
-      <p><strong>동의 변경:</strong> 쿠키 동의는 브라우저 저장소를 비우거나 사이트 데이터를 삭제하면 다시 표시됩니다. EU/EEA·영국 이용자는 동의 전까지 Google AdSense가 비개인화(non-personalized) 광고만 게재하도록 설정되어 있습니다.</p>
+      <p><strong>디스플레이 광고:</strong> 본 사이트는 현재 Google AdSense를 포함한 어떠한 제3자 디스플레이 광고도 게재하지 않으며, 광고 목적의 쿠키를 사용하지 않습니다. 향후 광고를 도입할 경우 본 방침을 갱신하고 쿠키 배너에서 별도 동의를 받습니다.</p>
+      <p><strong>동의 변경:</strong> 쿠키 동의는 브라우저 저장소를 비우거나 사이트 데이터를 삭제하면 다시 표시됩니다.</p>
       <p><strong>쿠팡 파트너스 어필리에이트 링크:</strong> 추천 제품 카드 일부에 쿠팡 어필리에이트 링크가 포함되어 있으며 <code>rel="sponsored"</code>로 표기됩니다. 해당 링크를 <strong>클릭한 시점에만</strong> 쿠팡 도메인(<code>link.coupang.com</code>, <code>coupang.com</code>)이 자체 트래킹 쿠키(예: <code>OVERSEAS_GUEST_COUNTRY</code>, <code>X-CP-PG-NID</code>)를 발행합니다. 이러한 쿠키는 kissinskin.net이 발행하지 않으며 당사는 해당 데이터에 접근할 수 없습니다. 어필리에이트 수익은 추천 선정에 영향을 주지 않습니다. 자세한 내용은 <a href="https://partners.coupang.com" target="_blank" rel="noopener noreferrer">쿠팡 파트너스</a> 정책을 참고하세요.</p>
       <p><strong>링크프라이스(클리오) 어필리에이트 링크:</strong> 일부 추천 카드 및 향수 진단 결과 페이지에는 링크프라이스 제휴마케팅을 통한 클리오(<code>clubclio.co.kr</code>) 공식몰 어필리에이트 링크가 포함되어 있으며 <code>rel="sponsored"</code>로 표기됩니다. 해당 링크를 <strong>클릭한 시점에만</strong> 링크프라이스 도메인(<code>newtip.net</code>) 및 클리오 도메인이 자체 트래킹 쿠키를 발행합니다. 이러한 쿠키는 kissinskin.net이 발행하지 않으며 당사는 해당 데이터에 접근할 수 없습니다. 어필리에이트 수익은 추천 선정에 영향을 주지 않습니다. 자세한 내용은 <a href="https://www.linkprice.com" target="_blank" rel="noopener noreferrer">링크프라이스</a> 정책을 참고하세요.</p>
 
@@ -188,7 +182,7 @@ function PrivacyKo() {
         <li>사용자 계정이나 프로필을 강제 생성하지 않습니다.</li>
         <li>업로드한 사진을 당사의 AI 모델 학습에 이용하지 않습니다 — OpenAI 는 API 데이터 미학습 정책이, Google 은 유료 등급의 데이터 미사용 정책이 적용됩니다.</li>
         <li>생체 식별자(얼굴 임베딩 벡터·해시·템플릿)를 생성하거나 저장하지 않습니다.</li>
-        <li>당사 자체적으로는 개인정보를 판매·대여하지 않습니다. 다만 Google AdSense를 통해 게재되는 광고는 Google이 자체 정책에 따라 이용자의 일반 인구 통계 추정치를 활용할 수 있으며, 이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 거부할 수 있습니다.</li>
+        <li>당사는 개인정보를 판매·대여하지 않습니다. 본 사이트는 디스플레이 광고를 게재하지 않으므로 광고 목적의 제3자 데이터 공유도 없습니다.</li>
       </ul>
 
       <h2>10. 데이터 보안</h2>
@@ -339,19 +333,13 @@ function PrivacyEn() {
         <li>We may receive from Polar: transaction confirmation, order amount, and a reference ID for customer support purposes.</li>
       </ul>
 
-      <h3>3.3 Automatically Collected Data, Cookies, and Advertising</h3>
-      <p>We use the following third-party services with cookies and similar technologies (localStorage, pixels) to operate the site, measure traffic, and serve ads. EU/EEA and UK visitors are protected by <strong>Google Consent Mode v2</strong>: advertising and analytics cookies remain disabled until you click "Accept all" on the cookie banner.</p>
+      <h3>3.3 Automatically Collected Data and Cookies</h3>
+      <p>This site currently shows no third-party display (banner) ads. We use the following third-party services with cookies and similar technologies (localStorage, pixels) to operate the site and measure anonymous usage. EU/EEA and UK visitors are protected by <strong>Google Consent Mode v2</strong>: analytics cookies remain disabled until you click "Accept all" on the cookie banner.</p>
       <table className="legal-table">
         <thead>
           <tr><th>Service</th><th>Purpose</th><th>Cookies / Storage</th><th>Retention</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Google AdSense</strong> (ca-pub-5109067049933124)</td>
-            <td>Ads that fund the free content on this site, plus related measurement</td>
-            <td>Third-party cookies (`__gads`, `__gpi`, `IDE`, `ANID`, etc.) issued by google.com / doubleclick.net</td>
-            <td>Up to 13 months</td>
-          </tr>
           <tr>
             <td><strong>Google Analytics 4</strong> (G-JJ7G39W5T3)</td>
             <td>Anonymous traffic analysis to improve the site</td>
@@ -378,8 +366,8 @@ function PrivacyEn() {
           </tr>
         </tbody>
       </table>
-      <p><strong>Google AdSense advertising:</strong> We allow Google, as a third-party vendor, to serve ads based on your visit to this site and other sites using advertising cookies. You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>, and you can opt out of some third-party vendors at <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a> or, in the EU, at <a href="https://youronlinechoices.eu" target="_blank" rel="noopener noreferrer">youronlinechoices.eu</a>.</p>
-      <p><strong>Changing your consent:</strong> Clearing your browser storage or site data will re-show the cookie banner. EU/EEA and UK visitors see only non-personalized AdSense ads until they consent.</p>
+      <p><strong>Display advertising:</strong> This site currently serves no third-party display ads, including Google AdSense, and uses no advertising cookies. If we introduce advertising in the future, we will update this policy and collect separate consent through the cookie banner.</p>
+      <p><strong>Changing your consent:</strong> Clearing your browser storage or site data will re-show the cookie banner.</p>
       <p><strong>Coupang Partners affiliate links:</strong> Some product recommendation cards contain Coupang affiliate links, marked with <code>rel="sponsored"</code>. Tracking cookies (e.g. <code>OVERSEAS_GUEST_COUNTRY</code>, <code>X-CP-PG-NID</code>) are set by the Coupang domain (<code>link.coupang.com</code>, <code>coupang.com</code>) <strong>only when you click such a link</strong>. These cookies are not set by kissinskin.net and we have no access to the data they collect. Affiliate revenue does not influence which products we recommend. See <a href="https://partners.coupang.com" target="_blank" rel="noopener noreferrer">Coupang Partners</a> for their policies.</p>
       <p><strong>LinkPrice (CLIO) affiliate links:</strong> Some product recommendation cards and perfume diagnostic result pages contain CLIO official store (<code>clubclio.co.kr</code>) affiliate links served through LinkPrice, marked with <code>rel="sponsored"</code>. Tracking cookies are set by the LinkPrice domain (<code>newtip.net</code>) and the CLIO domain <strong>only when you click such a link</strong>. These cookies are not set by kissinskin.net and we have no access to the data they collect. Affiliate revenue does not influence which products we recommend. See <a href="https://www.linkprice.com" target="_blank" rel="noopener noreferrer">LinkPrice</a> for their policies.</p>
 
@@ -453,7 +441,7 @@ function PrivacyEn() {
         <li>We do not force you to create user accounts or profiles.</li>
         <li>We do not use your uploaded photos to train any model of our own — OpenAI's API no-training policy and Google's paid-tier no-improvement policy apply to the photos we send there.</li>
         <li>We do not create or store biometric identifiers (face embeddings, hashes, or templates).</li>
-        <li>We do not sell or rent your personal information ourselves. Note: ads served via Google AdSense may use Google's general demographic estimates; you can opt out at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>.</li>
+        <li>We do not sell or rent your personal information. Because this site serves no display advertising, there is no ad-related third-party data sharing.</li>
       </ul>
 
       <h2>10. Data Security</h2>
