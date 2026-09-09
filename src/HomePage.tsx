@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
@@ -7,7 +7,6 @@ import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, styleById, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
-import { savePendingSelfieFromSrc } from './lib/makeup/pendingSelfie'
 
 // 히어로에서 "완성 예시" 로 먼저 보여줄 룩 4종 — 톤(내추럴/블러쉬/눈/아이돌)이 서로 겹치지
 // 않게 고른다. 썸네일은 각 룩의 실제 결과(after)를 쓴다.
@@ -48,16 +47,18 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
   // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
-  // "완성 예시 보기" — 도구에 예시 모델의 민낯(before)을 입력으로 넣고 해당 룩으로 진입한다.
-  // 화면에 보이는 썸네일은 결과(after)라 "이런 결과가 나온다"는 정직한 예고이고,
-  // 배관(savePendingSelfieFromSrc)은 그대로 재사용한다.
-  const onSamplePick = async (id: MakeupStyleId) => {
-    await savePendingSelfieFromSrc(LOOK_IMAGES[id].before)
-    window.location.href = `/analysis/?style=${id}&sample=1`
-  }
-
-  // ── 히어로 비포/애프터 ── 기본은 대표 컷(룩 라벨 없음). 히어로의 룩 칩을 누르면 제자리에서 교체.
+  // ── 히어로 비포/애프터 ── 기본은 대표 컷(룩 라벨 없음). 히어로의 룩 칩/완성 예시를 누르면 제자리에서 교체.
   const [baLook, setBaLook] = useState<MakeupStyleId | null>(null)
+  const heroSliderRef = useRef<HTMLDivElement>(null)
+
+  // "완성 예시" 썸네일 클릭 — 생성으로 넘기지 않고, 히어로 슬라이더를 그 룩의 비포/애프터로
+  // 바꿔 제자리에서 보여준다. 모바일은 슬라이더가 이 줄보다 위에 있어 스크롤로 데려간다.
+  const onSampleLook = (id: MakeupStyleId) => {
+    setBaLook(id)
+    requestAnimationFrame(() =>
+      heroSliderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }),
+    )
+  }
   const baBefore = baLook ? LOOK_IMAGES[baLook].before : '/home-ba-before.webp'
   const baAfter = baLook ? LOOK_IMAGES[baLook].after : '/home-ba-after.webp'
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
@@ -350,28 +351,35 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
             {/* ── 완성 예시 먼저 보기 (2026-07-22 도입 → 2026-09 개편) ────────────
                 도입 배경: GA4 30일 방문 46 → style_selected 7 → makeup_generated 5.
-                **89%가 생성까지 못 간다.** 첫 칸이 "셀카를 올려라"인 게 병목이라,
-                YouCam 처럼 "지금 당장 체험" 경로를 하나 더 깐다.
-                개편(A안): AI가 만든 모델 얼굴을 '예시 얼굴'로 내세우던 게 어색했다
-                (남의 얼굴을 내 얼굴처럼). 썸네일을 각 룩의 실제 결과(after)로 바꾸고
-                라벨을 룩 이름으로 달아 "완성 예시"로 정직하게 프레이밍한다.
-                누르면 예시 모델로 그 룩까지 만들어진 화면으로 진입한다. */}
+                **89%가 생성까지 못 간다.** 사진 올릴 마음이 아직 없는 사람에게
+                "먼저 결과를 보여준다".
+                개편: ① AI 모델 얼굴을 '예시 얼굴'로 내세우던 게 어색해 썸네일을 각 룩의
+                실제 결과(after)로 바꾸고 라벨을 룩 이름으로. ② 클릭이 곧바로 생성 화면으로
+                넘어가던 것을 → 위(모바일)/옆(데스크톱) 히어로 슬라이더를 그 룩의
+                비포/애프터로 교체해 제자리에서 보게 한다. 생성은 슬라이더 아래
+                "이 룩으로 내 사진 만들기" 버튼이 담당(경로는 유지, 클릭만 분리). */}
             <div className="animate-fade-in-up-delay2 w-full">
               <p className="t-label text-slate-500 mb-2">
-                {isEn ? 'Not ready to upload? Preview a finished look' : '사진 올리기 전에, 완성 예시부터 살펴보세요'}
+                {isEn ? 'Tap an example to see its before & after' : '예시를 눌러 비포·애프터를 확인해보세요'}
               </p>
               <div className="flex gap-2.5 justify-center md:justify-start">
                 {SAMPLE_LOOKS.map((id) => {
                   const s = styleById(id)
+                  const on = baLook === id
                   return (
                     <button
                       key={id}
                       type="button"
-                      onClick={() => onSamplePick(id)}
-                      aria-label={isEn ? `Preview the ${s.subEn} look` : `${s.nameKo} 완성 예시 보기`}
+                      onClick={() => onSampleLook(id)}
+                      aria-pressed={on}
+                      aria-label={isEn ? `See the ${s.subEn} before & after` : `${s.nameKo} 비포·애프터 보기`}
                       className="group/sl w-[68px] shrink-0"
                     >
-                      <span className="block aspect-square overflow-hidden rounded-xl ring-1 ring-slate-300 transition-all group-hover/sl:ring-2 group-hover/sl:ring-primary">
+                      <span
+                        className={`block aspect-square overflow-hidden rounded-xl transition-all ${
+                          on ? 'ring-2 ring-primary' : 'ring-1 ring-slate-300 group-hover/sl:ring-2 group-hover/sl:ring-primary'
+                        }`}
+                      >
                         <img
                           src={LOOK_IMAGES[id].after}
                           alt=""
@@ -380,7 +388,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                           className="h-full w-full object-cover"
                         />
                       </span>
-                      <span className="mt-1 block truncate text-[10px] font-semibold leading-tight text-slate-500 group-hover/sl:text-primary">
+                      <span
+                        className={`mt-1 block truncate text-[10px] font-semibold leading-tight ${
+                          on ? 'text-primary' : 'text-slate-500 group-hover/sl:text-primary'
+                        }`}
+                      >
                         {isEn ? s.subEn : s.nameKo}
                       </span>
                     </button>
@@ -394,7 +406,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* 우: 결과물. 예전엔 홈 중반에 있던 비포/애프터를 첫 화면으로 끌어올렸다 */}
           {/* 2026-07-27: 모바일에서 카드가 화면 폭을 거의 다 먹어 스크롤할 곳이 없다는
               지적 → 좌우 여백을 확보하려고 모바일 폭을 340→272px 로 줄였다. */}
-          <div className="order-2 md:order-none animate-fade-in-up-delay w-full max-w-[272px] sm:max-w-[340px] md:max-w-[380px] mx-auto">
+          <div ref={heroSliderRef} className="order-2 md:order-none animate-fade-in-up-delay w-full max-w-[272px] sm:max-w-[340px] md:max-w-[380px] mx-auto scroll-mt-20">
             <BeforeAfterSlider
               key={baLook ?? 'hero'}
               beforeSrc={baBefore}
