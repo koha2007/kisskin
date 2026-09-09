@@ -27,7 +27,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   const onNavigate = (page: string) => {
     if (onNavigateProp) { onNavigateProp(page); return }
     const path = PAGE_PATHS[page] || '/'
-    window.location.href = path
+    // location.assign(): href= 대입과 동작 동일하지만 메서드 호출이라
+    // eslint react-hooks/immutability(전역 객체 속성 대입 금지)에 걸리지 않는다.
+    window.location.assign(path)
   }
 
   const { user: authUser } = useAuth()
