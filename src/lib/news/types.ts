@@ -39,6 +39,8 @@ export interface NewsItem {
   readMinutes: number
   tags: string[]
   featured?: boolean
+  /** AI-generated editorial mood image (illustration, not a photo of the actual event/product). */
+  image?: string
   seoTitle?: string
   seoDescription?: string
 }

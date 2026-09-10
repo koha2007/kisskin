@@ -37,6 +37,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-08',
     readMinutes: 3,
     tags: ['올리브영', '세포라', 'K‑뷰티', '팝업'],
+    image: '/news/oliveyoung-sephora-singapore-k-beauty-edit-launch.webp',
     seoTitle: '올리브영 세포라 K‑뷰티 에디트 싱가포르 팝업',
     seoDescription:
       '올리브영과 세포라가 함께한 K‑뷰티 에디트가 싱가포르에서 팝업 전개되며 제니·장링허 참여와 캐릭터 컬렉션 출시로 주목받고 있습니다.',
@@ -57,6 +58,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-07',
     readMinutes: 3,
     tags: ['K뷰티', '수출', '글로벌'],
+    image: '/news/record-k-beauty-exports-july-2026-surpass-1-35-billion.webp',
     seoTitle: '2026년 7월 K-뷰티 수출 역대 최고치 기록',
     seoDescription:
       '2026년 7월 한 달간 한국 화장품 수출이 역대 최고치인 약 13억5천만 달러를 기록하며 9개월 연속 증가했습니다.',
@@ -77,6 +79,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-06',
     readMinutes: 3,
     tags: ['K-뷰티', '수출', '서울뷰티위크'],
+    image: '/news/seoul-beauty-week-global-k-beauty-second-largest-industry.webp',
     seoTitle: 'K-뷰티, 세계 2위 산업 도약·서울 뷰티 위크 개최',
     seoDescription:
       'K-뷰티가 글로벌 화장품 시장에서 2위로 성장했으며, 서울 뷰티 위크가 중소·인디 브랜드의 해외 진출과 기술 교류를 지원하는 플랫폼으로',
@@ -97,6 +100,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-05',
     readMinutes: 3,
     tags: ['라네즈', '콜라보레이션', '글로벌출시', 'K-뷰티'],
+    image: '/news/laneige-matin-kim-global-cosmetics-fashion-collab.webp',
     seoTitle: '라네즈 X 마땅 킴 글로벌 한정 협업 출시',
     seoDescription:
       '라네즈가 마땅 킴과 협업해 미국·영국·일본 등에 출시한 한정판 화장품과 패션 소품 컬렉션 소식',
@@ -117,6 +121,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-04',
     readMinutes: 3,
     tags: ['글로우케이션', '인플루언서', '글로벌마케팅'],
+    image: '/news/risky-glowcation-influencer-trip-to-seoul.webp',
     seoTitle: 'Risky, 서울 인플루언서 글로우케이션 진행',
     seoDescription:
       'Risky가 미국 메이크업 아티스트 Nam Vo와 함께 ‘Dewy Dumpling Glow‑Up’ 인플루언서 서울 여행을 진행한 글로벌',
@@ -137,6 +142,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-03',
     readMinutes: 3,
     tags: ['SKIN1004', '아줄렌', 'NAD', '기능성스킨케어'],
+    image: '/news/skin1004-lab-in-nature-new-azulen-peptide-nad-creams.webp',
     seoTitle: 'SKIN1004 아줄렌 펩타이드·NAD 크림 출시',
     seoDescription:
       'SKIN1004가 Lab in Nature 시리즈로 아줄렌 펩타이드 5% 및 NAD 1,000ppm 크림 2종을 8월 27일 출시한 최신',
@@ -157,6 +163,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-02',
     readMinutes: 3,
     tags: ['K‑뷰티', '글로벌', 'Target', '브랜드입점'],
+    image: '/news/kaja-target-beauty-studio-us-launch.webp',
     seoTitle: 'Kaja, Target Beauty Studio 입점',
     seoDescription:
       'Kaja가 미국 Target의 새로운 프레스티지 뷰티 공간인 Target Beauty Studio에 9월 10일 입점하는 글로벌 K‑뷰티',
@@ -177,6 +184,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-01',
     readMinutes: 3,
     tags: ['K-뷰티', '수출', '인디브랜드'],
+    image: '/news/kbeauty-exports-indie-brands-record-h1-2026.webp',
     seoTitle: '2026 상반기 K-뷰티 수출 27.3% 증가',
     seoDescription:
       '2026년 상반기 한국 화장품 수출이 70억 달러를 넘어섰고, 인디 브랜드 중심의 수출 구조가 성장을 이끌었습니다.',
@@ -197,6 +205,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-31',
     readMinutes: 3,
     tags: ['메이크업트렌드', '워터칼라', '글로벌뷰티'],
+    image: '/news/watercolor-makeup-global-trend-emerges.webp',
     seoTitle: '워터칼라 메이크업 트렌드 확산',
     seoDescription:
       '선명함보다 부드러운 물감 번진 듯한 워터칼라 메이크업이 글로벌 트렌드로 급부상하고 있는 배경과 특징을 짧게 전달합니다.',
@@ -217,6 +226,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-30',
     readMinutes: 3,
     tags: ['COSRX', '펩타이드', '올리브영페스타'],
+    image: '/news/cosrx-peptide-signal-station-olive-young-festa-la.webp',
     seoTitle: 'COSRX LA 올리브영 페스타 펩타이드 체험 부스',
     seoDescription:
       'COSRX가 LA 올리브영 페스타에서 펩타이드 기반 3종 체험 부스를 선보인 글로벌 K-뷰티 현장 소식입니다.',
@@ -237,6 +247,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-29',
     readMinutes: 3,
     tags: ['비건뷰티', 'BB쿠션', '스파출라베이스', 'athe'],
+    image: '/news/athe-vegan-relief-bb-cushion-launch.webp',
     seoTitle: 'athe 비건 릴리프 BB 쿠션 출시 정보',
     seoDescription:
       '비건 PDRN·시카 수딩 컴플렉스 적용, 스파출라 베이스 방식의 athe ‘Vegan Relief BB Cushion’ 출시 및 올리브영',
@@ -257,6 +268,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-29',
     readMinutes: 3,
     tags: ['K‑뷰티', '세포라', '글로벌유통'],
+    image: '/news/olive-young-brands-debut-at-sephora-us-500-stores.webp',
     seoTitle: '올리브영 K‑뷰티 세포라 500개 매장 런칭',
     seoDescription:
       '올리브영이 선정한 19개 K‑뷰티 브랜드가 미국 세포라 500여 매장과 온라인에 8월 20일 출시되며 현지 유통 채널 확장이 가속화됩니다.',
@@ -277,6 +289,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-28',
     readMinutes: 3,
     tags: ['K-뷰티 수출', '제3의 황금기', '뷰티 소재', '글로벌 트렌드'],
+    image: '/news/kbeauty-exports-third-golden-age-diversification.webp',
     seoTitle: 'K‑뷰티 수출, 원료·패키징까지 확대 중',
     seoDescription:
       'K-뷰티가 완제품 중심 수출을 넘어 원료·포장재 수출까지 확대되며 ‘제3의 황금기’로 진입했다는 최근 보고서와 8월 초 92% 수출 증가',
@@ -297,6 +310,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-27',
     readMinutes: 3,
     tags: ['K-뷰티', '메이크업', '미국진출', '타깃'],
+    image: '/news/kaja-joins-target-beauty-studio-us-launch.webp',
     seoTitle: 'Kaja, Target Beauty Studio 미국',
     seoDescription:
       'K-뷰티 브랜드 Kaja가 타깃의 새로운 뷰티 채널 ‘Beauty Studio’에 입점해 미국 전역에 진출합니다.',
@@ -317,6 +331,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-25',
     readMinutes: 3,
     tags: ['K‑뷰티', '뉴욕팝업', '체험이벤트', '글로벌트렌드'],
+    image: '/news/seoul-to-soho-k-beauty-experience-new-york-pop-up.webp',
     seoTitle: '뉴욕 소호 K‑뷰티 팝업 \'Seoul to Soho\'',
     seoDescription:
       'K‑뷰티 브랜드들이 참여하는 ‘Seoul to Soho’ 체험 팝업이 뉴욕 소호에서 오는 8월 16일부터 9월 6일까지 열린다는 소식을',
@@ -337,6 +352,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-24',
     readMinutes: 3,
     tags: ['서울뷰티위크', 'K-뷰티', '글로벌시장'],
+    image: '/news/seoul-beauty-week-global-k-beauty-platform.webp',
     seoTitle: '서울뷰티위크 2026 개최 소식',
     seoDescription:
       '서울뷰티위크 2026이 8월 22~25일 열려 152개 K-뷰티 기업이 해외 바이어와 1:1 상담 및 수출·투자 기회를 얻고 ‘뷰티',
@@ -357,6 +373,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-23',
     readMinutes: 3,
     tags: ['Proya', '글로벌유통', 'Ulta Beauty'],
+    image: '/news/proya-launches-in-ulta-us.webp',
     seoTitle: 'Proya 코스메틱, Ulta Beauty 입점 확정',
     seoDescription:
       '중국 Proya Cosmetics가 미국 Ulta Beauty에 입점하며 글로벌 유통 확대를 추진하는 최신 소식을 전합니다.',
@@ -378,6 +395,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-22',
     readMinutes: 3,
     tags: ['K-뷰티', '서울뷰티위크', '글로벌전시'],
+    image: '/news/seoul-beauty-week-global-k-beauty-industry-booms.webp',
     seoTitle: '2026 서울뷰티위크 152개사 참가',
     seoDescription:
       '서울뷰티위크에 역대 최대 152개사가 참여하고 K-뷰티가 세계 2위 산업으로 부상했다는 사실을 전합니다.',
@@ -398,6 +416,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-21',
     readMinutes: 3,
     tags: ['K‑뷰티', '글로벌시장', '온라인판매'],
+    image: '/news/k-beauty-global-online-market-size-jumps-2025.webp',
     seoTitle: 'K‑뷰티 2025년 온라인 시장 150억 달러 성장',
     seoDescription:
       '2025년 K‑뷰티 글로벌 온라인 시장 규모가 150억 달러로 성장하고, 미국이 전체 해외 판매의 절반 이상을 차지한 배경을 분석합니다.',
@@ -419,6 +438,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-20',
     readMinutes: 3,
     tags: ['K-뷰티', '미국시장', '소비트렌드'],
+    image: '/news/k-beauty-us-slowdown-channel-mix.webp',
     seoTitle: '미국 K-뷰티 소비 둔화와 채널 전략 변화',
     seoDescription:
       '미국에서 K-뷰티 매출이 둔화되며 소비자 지출 변화에 맞춘 채널 전략 전환이 필요하다는 분석을 다룹니다.',
@@ -439,6 +459,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-19',
     readMinutes: 3,
     tags: ['올리브영', '메이크업트렌드', '스킵케어'],
+    image: '/news/olive-young-fullmoon-makeup-shift-care-focus.webp',
     seoTitle: '올리브영 FULLMOON 트렌드: 커버에서 케어로 전환',
     seoDescription:
       '올리브영이 발표한 ‘FULLMOON’ 키워드로 메이크업이 단순 커버를 넘어 피부 케어 중심으로 변화하고 있음을 분석합니다.',
@@ -459,6 +480,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-18',
     readMinutes: 3,
     tags: ['K‑뷰티', '세포라', '올리브영', '미국진출'],
+    image: '/news/olive-young-kbeauty-us-sephora-launch-2026.webp',
     seoTitle: '올리브영 19개 K‑뷰티 브랜드 세포라 미국 진출',
     seoDescription:
       '올리브영이 큐레이션한 19개 K‑뷰티 브랜드가 8월 20일부터 미국 세포라 매장과 온라인에 출시되며, 타임스퀘어 매장에 전용 공간도',
@@ -479,6 +501,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-17',
     readMinutes: 3,
     tags: ['K-뷰티', '립오일', '아마존 프라임데이'],
+    image: '/news/nooni-lip-oil-prime-day-north-america-surge.webp',
     seoTitle: 'Nooni 립오일, 프라임데이 북미 매출 대폭 증가',
     seoDescription:
       'Nooni 립오일이 아마존 프라임데이 기간 미국·캐나다서 매출 수백 퍼센트 상승하며 K‑뷰티 북미 성장세를 입증한 소식.',
@@ -499,6 +522,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-16',
     readMinutes: 3,
     tags: ['K-뷰티', '모이스처라이저', '혁신성분'],
+    image: '/news/peach-and-lily-zombie-cell-moisturizer-launch.webp',
     seoTitle: '좀비 세포 공략한 피치앤릴리 크림 출시',
     seoDescription:
       'Peach & Lily가 좀비 세포를 표적으로 한 새로운 모이스처라이저를 Ulta Beauty에서 7월 27일 선보였습니다.',
@@ -519,6 +543,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-15',
     readMinutes: 3,
     tags: ['키스', '아이섀도', '신제품', '밀크티 컬러'],
+    image: '/news/kiss-zoom-eye-potion-milk-tea-shades-launch.webp',
     seoTitle: 'Kiss 줌 아이포션 밀크티 신색 출시',
     seoDescription:
       'Kiss의 ‘줌 아이포션’ 팔레트에 밀크티 계열 신색 2종이 추가되며 8월 말부터 일부 기업에서, 9월 말부터 전국 판매됩니다.',
@@ -539,6 +564,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-14',
     readMinutes: 3,
     tags: ['K-뷰티', '수출실적', '글로벌시장'],
+    image: '/news/kbeauty-exports-surpass-11-billion-global-growth.webp',
     seoTitle: '2025년 K-뷰티 수출 114억 달러로 역대 최대',
     seoDescription:
       '2025년 한국 화장품 수출액이 사상 처음 114억 달러를 넘어섰고, 세계 수출 순위에서 미국을 제치고 2위에 오른 배경과 글로벌 시장',
@@ -559,6 +585,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-13',
     readMinutes: 3,
     tags: ['틴티드SPF', '여름베이스', '틱톡트렌드'],
+    image: '/news/beauty-of-joseon-tinted-mineral-dayscreen-tiktok-viral.webp',
     seoTitle: '뷰티 오브 조선 틴티드 SPF 틱톡 인기',
     seoDescription:
       '뷰티 오브 조선 틴티드 SPF가 틱톡에서 무거운 파운데이션 대신 여름 베이스로 주목받는 실시간 트렌드를 전합니다.',
@@ -579,6 +606,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-12',
     readMinutes: 3,
     tags: ['메이크업출시', '스킨퍼스트', '틴티드모이스처라이저'],
+    image: '/news/mixsoon-pdrn-collagen-tinted-moisturizer-launch.webp',
     seoTitle: 'Mixsoon PDRN 틴티드 모이스처라이저 출시',
     seoDescription:
       'Mixsoon의 첫 메이크업 제품, PDRN 콜라겐 틴티드 모이스처라이저가 아마존에 출시되었으며, 74% 에센스와 24시간 지속력 등이',
@@ -599,6 +627,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-11',
     readMinutes: 3,
     tags: ['정샘물', '세포라', 'K뷰티 글로벌'],
+    image: '/news/jung-saemmool-sephora-us-debut.webp',
     seoTitle: '정샘물 브랜드 미국 세포라 8월 21일 출시',
     seoDescription:
       '정샘물 브랜드가 2026년 8월 21일 미국 세포라 온라인과 34개 매장에서 공식 론칭되며 캐나다 세포라 진출도 예정된 이 소식을 전합니다.',
@@ -619,6 +648,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-10',
     readMinutes: 3,
     tags: ['K-뷰티', '수출', '미국시장'],
+    image: '/news/kbeauty-record-exports-us-top-market-h1-2026.webp',
     seoTitle: '2026년 상반기 K-뷰티 미국 최대 수출 시장',
     seoDescription:
       '2026년 상반기 K-뷰티 수출 기록과 함께, 미국이 최대 수출국으로 떠오른 사실과 글로벌 수요 변화의 의미를 다룹니다.',
@@ -639,6 +669,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-09',
     readMinutes: 3,
     tags: ['K-뷰티', '글로벌성장', 'NIQ보고서'],
+    image: '/news/kbeauty-global-sales-surge-niq-report-july-2026.webp',
     seoTitle: 'K-뷰티 글로벌 가치 매출 53% 증가',
     seoDescription:
       'NIQ 보고서에서 K-뷰티의 글로벌 가치 매출이 전년 대비 53% 증가한 사실과 소셜 커머스·지역별 성장 배경을 확인해보세요.',
@@ -659,6 +690,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-09',
     readMinutes: 3,
     tags: ['K-뷰티', '디지털출시', '마몽드'],
+    image: '/news/mamonde-amazon-premium-beauty-launch.webp',
     seoTitle: '마몽드, 미국 Amazon 프리미엄 뷰티 단독 론칭',
     seoDescription:
       '마몽드가 5월 미국 아마존 프리미엄 뷰티에 단독 출시되며 K‑뷰티 브랜드 확장 전략의 일환으로 주목받고 있습니다.',
@@ -679,6 +711,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-09',
     readMinutes: 3,
     tags: ['K‑뷰티', '일본유통', '인디브랜드'],
+    image: '/news/kbeauty-gs-global-japan-distribution.webp',
     seoTitle: 'GS글로벌 일본 코스메키친 K‑뷰티 유통 개시',
     seoDescription:
       'GS글로벌이 일본 코스메키친 통해 제주인디·탈리다쿰·프리티액츄얼리 등 K‑뷰티 브랜드 3종을 일본 전역 온·오프라인 정식 판매를',
@@ -699,6 +732,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-07',
     readMinutes: 3,
     tags: ['K-뷰티', '아마존', '프라임 데이', '글로벌 트렌드', '뷰티 산업'],
+    image: '/news/kbeauty-amazon-5-trends-2026-aug.webp',
     seoTitle: '아마존 K-뷰티 5대 글로벌 트렌드 분석',
     seoDescription:
       '2026년 아마존 프라임 데이 데이터로 본 K-뷰티의 신제품, 시장 다변화, 소셜 마케팅 등 5가지 핵심 성장 전략을 파악하세요.',
@@ -719,6 +753,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-07',
     readMinutes: 3,
     tags: ['K-뷰티', '식약처', '글로벌 규제', '뷰티 테크', 'AI 안전성 평가'],
+    image: '/news/kbeauty-global-regulatory-summit-ai-2026-sept.webp',
     seoTitle: '2026 글로벌 화장품 규제기관장 회의 개최',
     seoDescription:
       '식약처가 주최하는 2026 GCORAS에서 K-뷰티 해외 진출을 위한 글로벌 규제 변화와 AI 안전성 평가 방안을 논의합니다.',
@@ -740,6 +775,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-05',
     readMinutes: 3,
     tags: ['K-뷰티', '올리브영', '세포라', '북미시장', '글로벌확장'],
+    image: '/news/kbeauty-oliveyoung-sephora-us-edit-2026-aug.webp',
     seoTitle: '올리브영, 세포라 美 580개점 K뷰티 입점',
     seoDescription:
       '올리브영이 세포라 미국 매장에 \'K뷰티 에딧\'을 론칭, 19개 K-뷰티 브랜드가 북미 시장에 진출하며 새로운 성장 동력을 확보합니다.',
@@ -760,6 +796,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-04',
     readMinutes: 3,
     tags: ['고밀착 뷰티', '메이크업 픽서', '프라이머', '여름 메이크업', 'K-뷰티'],
+    image: '/news/global-makeup-high-adherence-fixer-primer-surge.webp',
     seoTitle: '고온다습 기후, 고밀착 뷰티 시장 견인',
     seoDescription:
       '여름철 고온다습한 날씨가 메이크업 픽서 및 프라이머 판매를 촉진하며 고밀착 뷰티 시장의 성장을 이끌고 있다.',
@@ -781,6 +818,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-03',
     readMinutes: 3,
     tags: ['K-뷰티', '수출', '미국 시장', '오프라인 확장', '로드샵 브랜드'],
+    image: '/news/kbeauty-us-offline-expansion-1st-gen-revival-2026-aug.webp',
     seoTitle: 'K-뷰티 상반기 수출 70억 달러 돌파',
     seoDescription:
       'K-뷰티가 2026년 상반기 70억 달러 수출 기록, 미국 오프라인 채널 확장과 1세대 브랜드 부활이 핵심 동력으로 작용.',
@@ -801,6 +839,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-02',
     readMinutes: 3,
     tags: ['K-뷰티', '수출', '미국시장', '글로벌뷰티', '시장다변화'],
+    image: '/news/kbeauty-h1-2026-us-top-export-market-diversification.webp',
     seoTitle: 'K-뷰티 상반기 수출 70억 달러, 미국 1위',
     seoDescription:
       '2026년 상반기 K-뷰티 수출액이 역대 최대를 기록하며 미국이 최대 수출국으로 부상한 소식과 시장 다변화 전략을 분석합니다.',
@@ -821,6 +860,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-08-01',
     readMinutes: 3,
     tags: ['젤리 코어', '코스맥스', '메이크업 트렌드', '스킨케어링 메이크업'],
+    image: '/news/kbeauty-jelly-core-makeup-trend-cosmax-2026-july.webp',
     seoTitle: 'K-뷰티 젤리 코어 메이크업 트렌드',
     seoDescription:
       '코스맥스가 이끄는 젤리 코어 트렌드, 투명하고 청량한 제형의 K-뷰티 색조 신제품 동향을 확인하세요.',
@@ -842,6 +882,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-30',
     readMinutes: 3,
     tags: ['더마코스메틱', 'RX뷰티', '코스알엑스', 'K-뷰티트렌드'],
+    image: '/news/kbeauty-rx-derma-cosmetics-surge-2026-july.webp',
     seoTitle: 'K-뷰티 RX 더마 화장품 트렌드',
     seoDescription:
       'K-뷰티 브랜드들이 피부과학 기반 \'RX\' 제품으로 글로벌 시장서 약진. 코스알엑스 EMEA 50% 이상 성장.',
@@ -862,6 +903,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-29',
     readMinutes: 3,
     tags: ['티르티르', 'BTS', 'K-뷰티', '메이크업', '글로벌마케팅'],
+    image: '/news/tirtir-bts-the-city-newyork-makeup-collaboration-2026-july.webp',
     seoTitle: '티르티르, BTS 뉴욕 프로젝트 참여',
     seoDescription:
       '티르티르가 BTS 뉴욕 프로젝트에 K-뷰티 브랜드로 참여, 한정판 메이크업 세트를 출시해 글로벌 팬심을 공략합니다.',
@@ -882,6 +924,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-28',
     readMinutes: 3,
     tags: ['K-뷰티', '유럽 시장', '수출 동향', '스킨케어'],
+    image: '/news/k-beauty-europe-export-surpasses-north-america-h1-2026.webp',
     seoTitle: 'K-뷰티 유럽 수출액 북미 추월',
     seoDescription:
       '2026년 상반기 K-뷰티 유럽 수출액이 북미를 넘어선 배경과 시장 다변화의 의미를 분석합니다.',
@@ -902,6 +945,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-27',
     readMinutes: 3,
     tags: ['K-뷰티', 'AI', '수출 마케팅', '뷰티 테크', '뉴엔AI'],
+    image: '/news/k-beauty-ai-export-marketing-platform-newenai-2026-july.webp',
     seoTitle: 'K-뷰티 수출 마케팅 AI 플랫폼 개발',
     seoDescription:
       '뉴엔AI가 중소 K-뷰티 기업의 해외 마케팅을 지원하기 위해 35억 원 규모의 AI 플랫폼 개발에 나섭니다.',
@@ -923,6 +967,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-26',
     readMinutes: 3,
     tags: ['K-뷰티', '유럽 시장', '선케어', '헤어케어', '수출 동향'],
+    image: '/news/k-beauty-third-phase-europe-suncare-haircare-2026-july.webp',
     seoTitle: 'K-뷰티 유럽·선케어·헤어케어 성장',
     seoDescription:
       'K-뷰티 시장이 중국과 미국 중심에서 벗어나 유럽, 중동, 중남미로 지역을 확장하며 \'제3의 성장 국면\'에 진입했다는 분석입니다.',
@@ -943,6 +988,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-25',
     readMinutes: 3,
     tags: ['K-뷰티', '글로벌 시장', '유럽', '오프라인 유통', '수출 데이터'],
+    image: '/news/k-beauty-phase3-europe-offline-surge-2026-july.webp',
     seoTitle: 'K-뷰티 유럽 수출 북미 비중 추월',
     seoDescription:
       'K-뷰티가 중국과 미국 중심 성장을 넘어 유럽 시장에서 폭발적 성장세를 기록하며 \'페이즈3\'에 진입했습니다.',
@@ -964,6 +1010,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-24',
     readMinutes: 3,
     tags: ['할랄인증', 'K-뷰티수출', '인도네시아', '식약처', '동남아시아'],
+    image: '/news/k-beauty-indonesia-halal-certification-2026-oct.webp',
     seoTitle: '인도네시아 K-뷰티 할랄 인증 의무화',
     seoDescription:
       '인도네시아가 오는 10월 17일부터 수입 화장품에 대한 할랄 인증 표시를 의무화함에 따라, 국내 뷰티 기업들의 발 빠른 대응이 요구됩니다.',
@@ -985,6 +1032,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-23',
     readMinutes: 3,
     tags: ['K-뷰티', '지속가능성', '재활용', '화장품 용기', '친환경'],
+    image: '/news/k-beauty-packaging-sustainability-recycling-challenge-2026-july.webp',
     seoTitle: 'K-뷰티 용기 재활용 어려움과 규제',
     seoDescription:
       'K-뷰티 시장에서 지속가능성 요구가 높아지는 가운데, 국내 화장품 용기의 60% 이상이 재활용이 어려운 것으로 나타나 문제로 지적됩니다.',
@@ -1006,6 +1054,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-22',
     readMinutes: 3,
     tags: ['K-뷰티', 'AI', '뷰티테크', '초개인화', '리안헤어'],
+    image: '/news/k-beauty-ai-hair-platform-lianhair-2026-july.webp',
     seoTitle: 'K-뷰티 AI 초개인화 뷰티 플랫폼',
     seoDescription:
       'K-뷰티 시장의 인공지능 전환이 가속화되는 가운데, 파수 AI가 리안헤어와 협력하여 AI 뷰티 플랫폼을 구축합니다.',
@@ -1027,6 +1076,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-21',
     readMinutes: 3,
     tags: ['몽골', 'K-뷰티', 'CEPA', '수출데이터', '유통'],
+    image: '/news/k-beauty-mongolia-market-surge-cepa-2026-july.webp',
     seoTitle: 'K-뷰티 몽골 시장 진출 확대 전망',
     seoDescription:
       '한국과 몽골 CEPA 타결로 K-뷰티의 몽골 시장 진출이 더욱 확대될 전망입니다.',
@@ -1048,6 +1098,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-20',
     readMinutes: 3,
     tags: ['K-뷰티', '글로벌시장', '중남미', '틱톡샵', 'NIQ보고서'],
+    image: '/news/k-beauty-latin-america-tiktok-surge-2026.webp',
     seoTitle: 'K-뷰티 중남미 틱톡샵 매출 급증',
     seoDescription:
       'NIQ 보고서에 따르면 K-뷰티가 중남미 시장 135% 성장, 틱톡샵 매출 430% 급증을 기록했습니다.',
@@ -1069,6 +1120,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-19',
     readMinutes: 3,
     tags: ['K-뷰티', '아마존', '프라임데이', '스키니피케이션', 'PDRN', '메디큐브'],
+    image: '/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn.webp',
     seoTitle: '아마존 K-뷰티, 스키니피케이션 PDRN 트렌드 분석',
     seoDescription:
       '아마존 프라임데이 K-뷰티 시장에서 스키니피케이션과 PDRN 성분 트렌드가 확산되고 있으며, 메디큐브 제로 모공 패드가 2년 연속 1위를',
@@ -1089,6 +1141,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-18',
     readMinutes: 3,
     tags: ['K-뷰티', '글로벌 시장', 'NIQ', '소셜 커머스', '시장 트렌드'],
+    image: '/news/k-beauty-global-sales-surge-niq-2026-july.webp',
     seoTitle: 'K-뷰티 글로벌 매출 53% 급증, 성장 동력은?',
     seoDescription:
       'NIQ 보고서가 밝힌 K-뷰티의 전 세계 매출 53% 급증 소식과 소셜 커머스 플랫폼이 성장을 견인하는 이유를 확인하세요.',
@@ -1109,6 +1162,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-17',
     readMinutes: 3,
     tags: ['K-뷰티', 'ETF', '글로벌 투자', '미국 증시'],
+    image: '/news/k-beauty-etf-us-launch-2026.webp',
     seoTitle: 'K-뷰티, 미국 뉴욕 증시 ETF 상장 임박',
     seoDescription:
       'K-뷰티 수출 최대 실적을 기록한 가운데, 미국 뉴욕 증시에 K-뷰티 전문 ETF 상장이 임박하여 글로벌 투자 심리 개선에 긍정적 영향을',
@@ -1129,6 +1183,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-16',
     readMinutes: 3,
     tags: ['K-뷰티', '헤어케어', '수출', '글로벌 시장', '탈모 케어'],
+    image: '/news/kbeauty-hair-care-export-surge-2026.webp',
     seoTitle: 'K-뷰티 헤어케어 수출 30.6% 급증 소식',
     seoDescription:
       'K-뷰티 헤어케어 부문이 글로벌 시장 확장을 가속하며 전년 대비 30.6% 급증한 수출액을 기록, 그 성장세를 확인하세요.',
@@ -1149,6 +1204,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-15',
     readMinutes: 3,
     tags: ['K-뷰티', 'ODM', '수출', '시장동향'],
+    image: '/news/kbeauty-odm-record-q3-2026.webp',
     seoTitle: 'K-뷰티 ODM, 3분기 역대급 실적 예고',
     seoDescription:
       'K-뷰티 시장의 전통적인 \'상고하저\' 공식이 깨지며 한국 화장품 ODM 기업들이 3분기에도 역대급 실적을 예고하고 있습니다.',
@@ -1169,6 +1225,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-14',
     readMinutes: 3,
     tags: ['선세럼', 'K-뷰티', '여름 스킨케어', '하이브리드 뷰티'],
+    image: '/news/kbeauty-sun-serum-surge-2026.webp',
     seoTitle: 'K-뷰티 여름 \'선세럼\' 열풍, 거래액 149% 급증',
     seoDescription:
       '2026년 여름 K-뷰티 시장에서 선세럼의 인기가 폭발적으로 증가하며 새로운 선케어 트렌드를 이끌고, 거래액이 149% 급증했습니다.',
@@ -1189,6 +1246,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-13',
     readMinutes: 3,
     tags: ['키링 뷰티', '여름 메이크업', '휴대용 화장품', '몽클로스', '선케어'],
+    image: '/news/keyring-beauty-summer-trend-2026.webp',
     seoTitle: '여름 휴가철 \'키링 뷰티\' 트렌드 급부상',
     seoDescription:
       '여름 휴가철을 맞아 휴대성과 개인 취향을 만족시키는 \'키링 뷰티\' 트렌드가 급부상하며, 몽클로스 PDRN 선크림이 주목받고 있습니다.',
@@ -1209,6 +1267,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-12',
     readMinutes: 3,
     tags: ['K-뷰티', '쇼피', '동남아시아', '스킨케어', '진정케어', '수분장벽'],
+    image: '/news/shopee-kbeauty-soothing-june-2026.webp',
     seoTitle: '쇼피 K-뷰티, 진정·수분 장벽 제품 강세 분석',
     seoDescription:
       '2026년 6월 쇼피 K-뷰티 시장에서 달바와 VT코스메틱 등 진정 및 수분 장벽 케어 제품이 동남아시아 기후 특성상 높은 인기를',
@@ -1229,6 +1288,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-11',
     readMinutes: 3,
     tags: ['K-뷰티', '퀵뷰티', '시성비', '메이크업 트렌드', '스킵케어'],
+    image: '/news/k-beauty-quick-beauty-sisungbi-trend-2026.webp',
     seoTitle: 'K-뷰티 퀵뷰티 트렌드 분석',
     seoDescription:
       '2025년 K-뷰티 수출액 114억 달러 달성! 시성비 퀵뷰티 트렌드 영향과 시장 성장 요인을 분석합니다.',
@@ -1249,6 +1309,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-10',
     readMinutes: 3,
     tags: ['리필 뷰티', '지속가능성', '럭셔리 메이크업', 'YSL 뷰티', '쿠션 파운데이션'],
+    image: '/news/ysl-beauty-luxury-makeup-refill-expansion-2026.webp',
     seoTitle: 'YSL 뷰티 럭셔리 쿠션 리필',
     seoDescription:
       'YSL 뷰티가 \'세계 리필의 날\'을 맞아 럭셔리 쿠션 파운데이션 리필을 도입하며 지속가능한 뷰티 시장의 새로운 기준을 제시합니다.',
@@ -1269,6 +1330,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-09',
     readMinutes: 3,
     tags: ['K-뷰티', '중국 시장', '토너', '티몰', '판매량 감소'],
+    image: '/news/k-beauty-toner-china-sales-decline-2026.webp',
     seoTitle: 'K-뷰티 토너 중국 판매량 급감',
     seoDescription:
       '2026년 6월 중국 티몰 K-뷰티 토너 판매량이 46.4% 감소하며 시장이 위축된 현상과 아누아의 선전을 분석합니다.',
@@ -1289,6 +1351,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-08',
     readMinutes: 3,
     tags: ['K-뷰티 M&A', '글로벌 뷰티', '브랜드 동향', '시장 변화'],
+    image: '/news/k-beauty-mna-challenges-global-giants-2026.webp',
     seoTitle: 'K-뷰티 M&A 실적 부진 원인',
     seoDescription:
       '글로벌 뷰티 대기업들이 인수한 K-뷰티 브랜드들의 실적 부진 원인과 배경을 자세히 알아봅니다.',
@@ -1309,6 +1372,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-08',
     readMinutes: 3,
     tags: ['K-뷰티', '뷰티테크', '바이오', 'AI', '개인맞춤'],
+    image: '/news/k-beauty-science-industry-pivot-2026.webp',
     seoTitle: 'K-뷰티 과학 산업 진화 전략',
     seoDescription:
       'K-뷰티가 바이오, AI, 데이터 기반의 \'과학 산업\'으로 진화하며 산업 외연을 확대하는 전략을 알아봅니다.',
@@ -1331,6 +1395,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-07',
     readMinutes: 4,
     tags: ['K-뷰티', '베트남 시장', '동남아시아', '수출 성과', '한류박람회'],
+    image: '/news/k-beauty-vietnam-expansion-hallyu-expo-2026.webp',
     seoTitle: 'K-뷰티 베트남 시장 공략 가속화',
     seoDescription:
       'K-뷰티 기업들이 하노이 한류박람회에서 3,300만 달러 수출 성과를 거두며 베트남 시장 공략을 가속화하는 이유를 알아봅니다.',
@@ -1352,6 +1417,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-07',
     readMinutes: 4,
     tags: ['올리브영', 'K뷰티', '미국시장', 'KCON', '인디브랜드', '체험형마케팅'],
+    image: '/news/olive-young-festa-la-kcon-2026-indie-brands.webp',
     seoTitle: '올리브영 페스타 LA K-뷰티',
     seoDescription:
       'CJ올리브영이 KCON LA와 협력, \'올리브영 페스타 LA 2026\'을 개최해 미국 소비자에게 K-뷰티 트렌드를 직접 경험할 기회를',
@@ -1374,6 +1440,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-07-07',
     readMinutes: 4,
     tags: ['K-뷰티 수출', '글로벌 시장', '미국 뷰티', '유럽 뷰티', '시장 다변화', '뷰티 통계'],
+    image: '/news/k-beauty-export-record-h1-2026-us-eu-surge.webp',
     seoTitle: 'K-뷰티 상반기 수출 역대 최대',
     seoDescription:
       '2026년 상반기 K-뷰티 수출액이 70억 달러를 돌파하며 역대 최고 실적을 기록한 배경과 미국, 유럽 시장의 성장세를 분석합니다.',
@@ -1398,6 +1465,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-28',
     readMinutes: 4,
     tags: ['K-뷰티', '글로벌', '수출', '시장'],
+    image: '/news/k-beauty-us-overtakes-france-2026.webp',
     featured: true,
     seoTitle: '한국 화장품 미국 수출 1위 등극',
     seoDescription:
@@ -1422,6 +1490,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-26',
     readMinutes: 5,
     tags: ['메디코스메틱', 'PDRN', '엑소좀', '트렌드'],
+    image: '/news/k-beauty-2026-medicosmetic-pivot.webp',
     seoTitle: '2026 K-뷰티, 메디코스메틱 시대',
     seoDescription:
       'PDRN, 엑소좀 등 임상 성분이 데일리 스킨케어로 대중화되며 2026년 K-뷰티의 새로운 흐름을 이끌고 있습니다.',
@@ -1444,6 +1513,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-25',
     readMinutes: 4,
     tags: ['쿨링', '스킨케어', '여름', '트렌드'],
+    image: '/news/cooling-care-2026-trend.webp',
     seoTitle: 'K-뷰티 쿨링 케어 스킨케어 트렌드',
     seoDescription:
       '지구온난화로 인한 기온 상승에 따라 피부 온도를 낮추는 쿨링 케어 제품이 글로벌 K-뷰티 트렌드로 주목받고 있습니다.',
@@ -1466,6 +1536,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-24',
     readMinutes: 4,
     tags: ['네일', '글래스', '트렌드', '글로벌'],
+    image: '/news/glass-nails-global-2026.webp',
     seoTitle: 'K-뷰티 발 글래스 네일 트렌드',
     seoDescription:
       '유리처럼 반짝이는 광택의 글래스 네일이 K-뷰티 발 글로벌 트렌드로 자리 잡으며 2026년 검색량이 240% 증가했습니다.',
@@ -1488,6 +1559,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-23',
     readMinutes: 3,
     tags: ['립스틱', '프로스티', 'Y2K', '트렌드'],
+    image: '/news/frosty-lipstick-comeback.webp',
     seoTitle: 'Y2K 감성 프로스티 립스틱 트렌드',
     seoDescription:
       '2000년대 초 유행한 프로스티 립스틱이 Y2K 패션과 함께 2026년 트렌드 정상에 오르며 글로벌 베스트셀러가 되었습니다.',
@@ -1510,6 +1582,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-22',
     readMinutes: 3,
     tags: ['립스틱', '블러드립', '레드', '그런지'],
+    image: '/news/blood-lip-deep-red-2026.webp',
     seoTitle: '2026 블러드 립, 깊은 레드 트렌드',
     seoDescription:
       '90년대 그런지 무드의 깊은 레드/와인 컬러 블러드 립이 2026년 메이크업 트렌드의 한 축으로 자리 잡았습니다.',
@@ -1532,6 +1605,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-21',
     readMinutes: 4,
     tags: ['파운데이션', '베이스', '스킨케어', '멀티태스킹'],
+    image: '/news/multitasking-foundation-skincare-actives.webp',
     seoTitle: '스킨케어 성분 함유 파운데이션',
     seoDescription:
       '나이아신아마이드 등 스킨케어 성분이 함유된 파운데이션이 2026년 글로벌 베이스 메이크업의 새로운 표준이 되었습니다.',
@@ -1555,6 +1629,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-20',
     readMinutes: 4,
     tags: ['쿠션', '파운데이션', 'K-뷰티'],
+    image: '/news/cushion-foundation-evolution.webp',
     seoTitle: '2세대 쿠션 파운데이션 글로벌 진화',
     seoDescription:
       '한국에서 시작된 쿠션 파운데이션이 2세대 진화를 거쳐 메탈 케이스, 항균 스펀지 등 첨단 기능으로 글로벌 시장을 공략합니다.',
@@ -1577,6 +1652,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-19',
     readMinutes: 4,
     tags: ['아이섀도우', '메탈릭', '런웨이', '트렌드'],
+    image: '/news/metallic-eye-2026-runway.webp',
     seoTitle: '2026 SS 런웨이 메탈릭 아이 메이크업',
     seoDescription:
       '2026 SS 런웨이의 메탈릭 아이 메이크업 트렌드와 핵심 컬러 조합을 이 글에서 확인하세요.',
@@ -1599,6 +1675,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-18',
     readMinutes: 3,
     tags: ['아이섀도우', '스모키', '그런지', '90s'],
+    image: '/news/grunge-smoky-eye-comeback.webp',
     seoTitle: '90년대 그런지 스모키 메이크업 트렌드',
     seoDescription:
       '90년대 케이트 모스의 시그니처인 그런지 스모키 룩이 2026년 트렌드로 돌아온 소식을 확인하세요.',
@@ -1621,6 +1698,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-17',
     readMinutes: 4,
     tags: ['스킨케어', '아미노산', '안티에이징'],
+    image: '/news/amino-acid-skincare-2026.webp',
     seoTitle: '아미노산 스킨케어 성분 트렌드',
     seoDescription:
       '레티놀과 펩타이드 다음 주자로 떠오른 아미노산 스킨케어의 성장 트렌드를 이 글에서 확인하세요.',
@@ -1643,6 +1721,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-16',
     readMinutes: 4,
     tags: ['스킨케어', '보습', 'PGA', '신성분'],
+    image: '/news/polyglutamic-acid-next-hyaluronic.webp',
     seoTitle: '폴리글루타믹산 차세대 보습 성분',
     seoDescription:
       '히알루론산보다 4배 강력한 보습 성분, 폴리글루타믹산(PGA)이 K-뷰티 신제품의 새로운 표준이 됩니다.',
@@ -1665,6 +1744,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-15',
     readMinutes: 5,
     tags: ['스킨케어', '마이크로바이옴', '과학'],
+    image: '/news/microbiome-skincare-evidence.webp',
     seoTitle: '피부 마이크로바이옴 스킨케어 진실',
     seoDescription:
       '글로벌 신제품 22%를 차지한 마이크로바이옴 스킨케어, 과학적 증거와 마케팅의 경계를 분석합니다.',
@@ -1687,6 +1767,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-14',
     readMinutes: 4,
     tags: ['스킨케어', '스네일뮤신', 'K-뷰티'],
+    image: '/news/snail-mucin-science-2026.webp',
     seoTitle: '스네일 뮤신 효능, 임상 데이터 분석',
     seoDescription:
       'K-뷰티 시그니처 성분 스네일 뮤신의 마케팅을 제외한 실제 임상 데이터 효능과 한계를 정리했습니다.',
@@ -1710,6 +1791,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-13',
     readMinutes: 4,
     tags: ['남성', '글로벌', '시장', '그루밍'],
+    image: '/news/mens-k-beauty-cagr-10-9.webp',
     seoTitle: '남성 K-뷰티 시장 성장 전망 분석',
     seoDescription:
       '2026년부터 2033년까지 연평균 10.9% 성장할 남성 K-뷰티 시장의 성장 동력을 분석합니다.',
@@ -1732,6 +1814,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-12',
     readMinutes: 4,
     tags: ['향수', '젠더뉴트럴', '트렌드'],
+    image: '/news/gender-neutral-fragrance-2026.webp',
     seoTitle: '젠더 뉴트럴 향수 시장 트렌드',
     seoDescription:
       '“여성용/남성용” 라벨을 거부하는 젠더 뉴트럴 향수가 2026년 향수 시장의 큰 변화를 이끌고 있습니다.',
@@ -1754,6 +1837,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-11',
     readMinutes: 4,
     tags: ['헤어', '두피', '스킨화', '트렌드'],
+    image: '/news/scalp-care-skinification-hair.webp',
     seoTitle: '두피 스킨케어: 스킨화 헤어케어 트렌드',
     seoDescription:
       '얼굴처럼 두피에 토너, 세럼, 앰플을 사용하는 스킨화 헤어케어가 2026년 가장 빠르게 성장하는 영역이 된 이유를 알아보세요.',
@@ -1776,6 +1860,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-10',
     readMinutes: 3,
     tags: ['아이섀도우', '맥시멀', '컬러', '트렌드'],
+    image: '/news/maximalist-eye-2026.webp',
     seoTitle: '2026 맥시멀리스트 아이 메이크업 트렌드',
     seoDescription:
       '미니멀리즘에 대한 반작용으로 강렬한 색조 폭발을 추구하는 맥시멀리스트 아이 트렌드가 패션·뷰티에서 부상한 배경을 설명합니다.',
@@ -1801,6 +1886,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-09',
     readMinutes: 3,
     tags: ['립스틱', '매트', '트렌드'],
+    image: '/news/matte-lipstick-2026-comeback.webp',
   },
   {
     slug: 'cooling-blush-2026-cheek-trend',
@@ -1820,6 +1906,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-08',
     readMinutes: 3,
     tags: ['블러쉬', '쿨링', '여름', '트렌드'],
+    image: '/news/cooling-blush-2026-cheek-trend.webp',
     seoTitle: '2026 쿨링 블러쉬 트렌드와 효과',
     seoDescription:
       '여름 기온 상승에 대응하여 뺨에 -2~-3°C 체감 효과를 주는 쿨링 블러쉬가 2026 치크 메이크업의 새로운 카테고리로 자리 잡은 이유를',
@@ -1842,6 +1929,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-07',
     readMinutes: 3,
     tags: ['블러쉬', '드레이핑', '70s', '트렌드'],
+    image: '/news/blush-draping-2026-revival.webp',
     seoTitle: '2026 블러쉬 드레이핑 메이크업 트렌드',
     seoDescription:
       '블러쉬를 광대뼈에서 관자놀이까지 길게 발라 얼굴 윤곽을 잡는 블러쉬 드레이핑이 2026년 글로벌 SNS에서 폭발적 관심을 받는 이유를',
@@ -1864,6 +1952,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-06',
     readMinutes: 4,
     tags: ['선크림', '틴티드', '베이스', '자외선차단'],
+    image: '/news/tinted-sunscreen-evolution.webp',
     seoTitle: '틴티드 선스크린: 베이스 메이크업 트렌드',
     seoDescription:
       'SPF 50+/PA++++ 자외선 차단과 컬러 보정을 결합한 틴티드 선스크린이 글로벌 베이스 메이크업의 가장 빠른 성장 카테고리로 부상한',
@@ -1886,6 +1975,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-05',
     readMinutes: 4,
     tags: ['스킨케어', '시카', '진정', 'K-뷰티'],
+    image: '/news/centella-asiatica-cica-trend.webp',
     seoTitle: '시카(센텔라): K-뷰티 진정 성분 트렌드',
     seoDescription:
       '한국이 글로벌에 알린 진정 성분 시카(센텔라 아시아티카)가 트러블·민감성 피부 케어의 표준이 된 이유와 글로벌 시장에서의 성과를 정리합니다.',
@@ -1908,6 +1998,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-04',
     readMinutes: 4,
     tags: ['스킨케어', '발효', '갈락토미세스', 'K-뷰티'],
+    image: '/news/fermented-skincare-galactomyces.webp',
     seoTitle: '발효 스킨케어: 갈락토미세스부터 콤부차까지',
     seoDescription:
       '한국·일본의 전통 발효 기술이 K-뷰티 스킨케어의 핵심 차별점이 된 배경과 갈락토미세스, 락토바실러스, 콤부차 등 발효 추출물의 효능을',
@@ -1930,6 +2021,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-03',
     readMinutes: 5,
     tags: ['스킨케어', '레티놀', '펩타이드', '안티에이징'],
+    image: '/news/peptide-vs-retinol-2026.webp',
     seoTitle: '2026 안티에이징: 펩타이드 vs 레티놀 비교',
     seoDescription:
       '레티놀의 효능과 자극, 펩타이드의 효능과 안전성을 중심으로 2026년 안티에이징 시장의 두 핵심 성분을 상세히 비교 분석합니다.',
@@ -1952,6 +2044,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-02',
     readMinutes: 4,
     tags: ['올리브영', '글로벌', '미국', '유통'],
+    image: '/news/olive-young-global-expansion.webp',
     seoTitle: '올리브영 미국 뉴욕 LA 플래그십 매장 오픈',
     seoDescription:
       'CJ올리브영이 2026년 뉴욕과 LA에 첫 글로벌 플래그십 매장을 열며 미국 오프라인 시장에 본격 진출합니다.',
@@ -1974,6 +2067,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-04-01',
     readMinutes: 4,
     tags: ['트렌드', '데이터', 'SNS', '글로벌'],
+    image: '/news/instagram-makeup-trends-data.webp',
     seoTitle: '2026년 1분기 인스타그램 메이크업 트렌드 10',
     seoDescription:
       '인스타그램과 핀터레스트 검색 데이터로 분석한 2026년 1분기 글로벌 메이크업 트렌드 키워드 10개를 확인하세요.',
@@ -1996,6 +2090,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-03-30',
     readMinutes: 4,
     tags: ['세포라', '베스트셀러', '미국', '데이터'],
+    image: '/news/sephora-k-beauty-bestsellers-2026.webp',
     seoTitle: '세포라 미국 K-뷰티 베스트셀러 톱10 (2026',
     seoDescription:
       '2026년 4월 미국 세포라 K-뷰티 카테고리 매출 데이터로 선정한 베스트셀러 톱10을 소개합니다.',
@@ -2018,6 +2113,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-03-29',
     readMinutes: 5,
     tags: ['지속가능', '환경', '리필', '트렌드'],
+    image: '/news/sustainable-cosmetics-2026.webp',
     seoTitle: '2026년 지속가능 화장품 트렌드: 리필·무라벨',
     seoDescription:
       '2026년 지속가능 화장품의 핵심 트렌드인 리필 시스템, 무라벨 패키지, 생분해 용기를 확인하세요.',
@@ -2043,6 +2139,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-03-28',
     readMinutes: 5,
     tags: ['AI', '개인화', '기술', '트렌드'],
+    image: '/news/ai-skincare-personalization-2026.webp',
   },
 ]
 

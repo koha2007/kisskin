@@ -14,17 +14,22 @@
 // 사용: GEMINI_API_KEY=... node scripts/gen-news.mjs [개수(기본1)]
 //       (.dev.vars/.env 에 GEMINI_API_KEY 있으면 자동 로드)
 // ════════════════════════════════════════════════════════════════════
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 import { callGeminiText } from './_geminiText.mjs'
+import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
+import { buildImagePrompt, hash } from './_productImagePrompt.mjs'
 
 const ITEMS = resolve('src/lib/news/items.ts')
 const ITEMS_EN = resolve('src/lib/news/items.en.ts')
 const EN_SLUGS = resolve('src/lib/news/enSlugs.ts')
+const IMG_DIR = resolve('public/news')
 // 모델은 여기서 고정하지 않는다 — `scripts/_geminiText.mjs` 가 되는 모델을 찾는다.
 // 고정하고 싶으면 GEMINI_TEXT_MODELS 환경변수(콤마 목록)를 쓸 것.
 const CATEGORIES = ['trend', 'lip', 'eye', 'base', 'cheek', 'skincare', 'fragrance', 'hair', 'global']
+// 제품 카드와 같은 방식(OpenAI gpt-image-1) — 기본 on, NEWS_IMAGES=0 으로 끔.
+const WANT_IMAGE = process.env.NEWS_IMAGES !== '0'
 
 // ── env 로드(.dev.vars/.env 폴백) ──
 function loadEnv(key) {
@@ -81,6 +86,7 @@ ${KO_SCHEMA_LINES}
   "date": "${today}",
   "readMinutes": 3,                               // 본문 길이에 맞춰 2~4
   "tags": ["한글태그", "한글태그", "한글태그"],     // 3~4개
+  "imageScene": "English, ONE sentence: an editorial beauty-portrait scene fitting this article's topic and mood (e.g. 'with fresh dewy K-beauty skin and a soft glossy lip, evoking export-market confidence' or 'wearing a bold experimental eye look, evoking a rising color trend'). No product packaging, tubes, bottles, brand logos, real people's names, charts, text or numbers in the image — just a person's beauty look.",
   "featured": false
 }`
 
@@ -111,6 +117,8 @@ function validate(item, ex) {
   // SEO 제목·설명은 거절 사유로 삼지 않는다 — 기사 자체는 멀쩡한데 메타 한 줄 때문에
   // 발행을 통째로 버리면 손해가 더 크다. 빠졌거나 넘치면 여기서 보정한다.
   applySeoMeta(item, 'ko')
+  // imageScene 도 마찬가지 — 없어도 발행을 막지 않는다(genImage 가 카테고리 폴백 장면을 쓴다).
+  item.imageScene = typeof item.imageScene === 'string' ? item.imageScene.trim() : ''
   return err
 }
 
@@ -130,6 +138,7 @@ function serialize(item) {
   lines.push(`    date: ${q(item.date)},`)
   lines.push(`    readMinutes: ${item.readMinutes},`)
   lines.push(`    tags: [${item.tags.map(q).join(', ')}],`)
+  if (item.image) lines.push(`    image: ${q(item.image)},`)
   if (item.featured) lines.push('    featured: true,')
   if (item.seoTitle) lines.push(`    seoTitle: ${q(item.seoTitle)},`)
   if (item.seoDescription) {
@@ -150,6 +159,26 @@ function insertAt(file, anchor, text) {
 
 function insert(item) {
   insertAt(ITEMS, 'export const NEWS_ITEMS: NewsItem[] = [', serialize(item))
+}
+
+// ── 무드컷 생성(선택) — 제품 카드와 같은 파이프라인(OpenAI gpt-image-1) 재사용.
+// 뉴스엔 market(kr|global) 개념이 없어 슬러그 해시로 대신 갈라 인물 다양성만 준다.
+// 프롬프트 빌더는 `_productImagePrompt.mjs`(제품/뉴스 공용) — 실패해도 치명적이지 않음
+// (gen-products.mjs 와 동일하게 실패하면 디자인 카드 폴백으로 계속 발행).
+async function genImage(openaiKey, item) {
+  const market = hash(item.slug) % 2 === 0 ? 'kr' : 'global'
+  const promptItem = { slug: item.slug, category: item.category, market, imageScene: item.imageScene }
+  let b64
+  for (let retry = 0; retry < 3 && !b64; retry++) {
+    b64 = await generateImageB64(openaiKey, buildImagePrompt(promptItem, retry), '3:4')
+    if (!b64) console.warn(`  ↻ ${IMAGE_MODEL} 빈 응답(콘텐츠 필터 추정) — 변주 ${retry + 1} 재시도`)
+  }
+  if (!b64) throw new Error(`${IMAGE_MODEL}: 이미지 바이트 없음(변주 3회 모두 차단)`)
+  mkdirSync(IMG_DIR, { recursive: true })
+  const outPath = resolve(IMG_DIR, `${item.slug}.webp`)
+  const sharp = (await import('sharp')).default
+  await sharp(Buffer.from(b64, 'base64')).resize(960, 1280, { fit: 'cover' }).webp({ quality: 80 }).toFile(outPath)
+  return `/news/${item.slug}.webp`
 }
 
 // ── EN 자동번역 ── KO 뉴스를 그대로 영어로 옮겨 items.en.ts + enSlugs.ts 에 삽입.
@@ -193,6 +222,7 @@ async function translateAndInsertEn(apiKey, item) {
       date: item.date,
       readMinutes: item.readMinutes,
       tags: en.tags,
+      image: item.image,
       seoTitle: en.seoTitle,
       seoDescription: en.seoDescription,
       ...(item.featured ? { featured: true } : {}),
@@ -205,6 +235,7 @@ async function translateAndInsertEn(apiKey, item) {
 
 async function main() {
   const apiKey = loadEnv('GEMINI_API_KEY')
+  const openaiKey = loadEnv('OPENAI_API_KEY')
   if (!apiKey) { console.error('GEMINI_API_KEY 없음 (.dev.vars/.env 또는 env)'); process.exit(1) }
   const count = Math.max(1, parseInt(process.argv[2] || '1', 10))
 
@@ -222,6 +253,17 @@ async function main() {
           console.warn(`    받은 것: body ${item.body?.length ?? '없음'}개 · tags ${item.tags?.length ?? '없음'}개 · title "${(item.title || '').slice(0, 40)}"`)
           if (process.env.DEBUG_RAW) console.warn(`    raw: ${text.slice(0, 1200)}`)
           continue
+        }
+        // 무드컷(선택) — 실패해도 계속(디자인 카드 폴백). 글 발행 자체는 막지 않는다.
+        if (WANT_IMAGE && openaiKey) {
+          try {
+            item.image = await genImage(openaiKey, item)
+            console.log(`  🖼️  무드컷 저장: ${item.image}`)
+          } catch (e) {
+            console.warn(`  ⚠️ 이미지 생성 건너뜀(디자인 카드 폴백): ${e.message}`)
+          }
+        } else if (WANT_IMAGE) {
+          console.warn('  ⚠️ OPENAI_API_KEY 없음 — 무드컷 건너뜀(디자인 카드 폴백)')
         }
         insert(item)
         console.log(`✅ KO 추가: [${item.category}] ${item.title}  (slug: ${item.slug}, ${item.readMinutes}분)`)

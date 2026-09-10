@@ -67,6 +67,7 @@ export default function NewsArticle({ slug }: Props) {
       readMinutes={item.readMinutes}
       title={item.title}
       summary={item.summary}
+      image={item.image}
       tags={item.tags}
       related={related}
       relatedLabel={isEn ? `More in ${categoryLabel}` : `${meta.koLabel} 카테고리 관련 기사`}
@@ -89,6 +90,10 @@ export default function NewsArticle({ slug }: Props) {
             inLanguage: isEn ? 'en' : 'ko',
             datePublished: item.date,
             dateModified: item.date,
+            // 삽화(연출컷)임을 위 disclosure 배지로 밝히지만, 스키마 image 는 "이 글의
+            // 대표 이미지"라는 의미라 넣어도 무방하다 — 실제 사건/제품 사진이라고
+            // 주장하는 Product.image 와는 다르다(ProductShowcase.tsx 참고).
+            ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
             author: { '@type': 'Organization', name: 'kissinskin' },
             publisher: {
               '@type': 'Organization',

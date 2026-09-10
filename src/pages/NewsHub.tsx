@@ -24,6 +24,7 @@ export default function NewsHub() {
           categoryLabel: isEn ? meta.enLabel : meta.koLabel,
           categoryColor: meta.color,
           categoryEmoji: meta.emoji,
+          image: n.image,
         }
       }),
     [source, isEn],

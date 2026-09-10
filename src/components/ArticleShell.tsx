@@ -21,6 +21,8 @@ type Props = {
   summary: string
   metaExtra?: ReactNode
   children: ReactNode
+  /** Optional hero mood image — AI illustration, not a photo of the actual event. */
+  image?: string
   tags?: string[]
   related?: RelatedItem[]
   relatedLabel?: string
@@ -48,6 +50,7 @@ export default function ArticleShell({
   summary,
   metaExtra,
   children,
+  image,
   tags,
   related,
   relatedLabel,
@@ -121,6 +124,20 @@ export default function ArticleShell({
             </div>
           </div>
         </section>
+
+        {/* Hero mood image — AI illustration matching the article's category/mood,
+            not a photo of the actual event. Disclosed the same way the product
+            mood-cuts are (2026-08-15 standard: never let an AI image pass as real). */}
+        {image && (
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 mb-2">
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200 aspect-[4/5] max-h-[42vh] mx-auto sm:max-h-none sm:aspect-[3/4] sm:max-w-sm">
+              <img src={image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+              <span className="absolute right-3 bottom-3 rounded-full bg-navy/55 px-2.5 py-1 text-[10px] font-semibold text-white/90 backdrop-blur-sm">
+                {isEn ? 'Illustrative image — AI generated' : '이미지는 AI 생성 연출컷'}
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Body */}
         <section className="py-10 md:py-14">

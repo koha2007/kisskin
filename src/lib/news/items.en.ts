@@ -40,6 +40,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-08',
     readMinutes: 3,
     tags: ['Olive Young', 'Sephora', 'K-Beauty', 'Pop-up'],
+    image: '/news/oliveyoung-sephora-singapore-k-beauty-edit-launch.webp',
     seoTitle: 'Olive Young & Sephora Launch K-Beauty Pop-Up in Singapore',
     seoDescription:
       'Olive Young and Sephora team up for a K-Beauty Edit pop-up in Singapore featuring K-pop star Jennie and exclusive character collections.',
@@ -60,6 +61,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-07',
     readMinutes: 3,
     tags: ['K-Beauty', 'Exports', 'Global Market'],
+    image: '/news/record-k-beauty-exports-july-2026-surpass-1-35-billion.webp',
     seoTitle: 'July 2026 K-Beauty Exports Hit Record $1.35B',
     seoDescription:
       'South Korean cosmetics exports reached a record $1.35 billion in July 2026, driven by skincare demand and nine consecutive months of global growth.',
@@ -80,6 +82,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-06',
     readMinutes: 3,
     tags: ['K-Beauty', 'Exports', 'Seoul Beauty Week'],
+    image: '/news/seoul-beauty-week-global-k-beauty-second-largest-industry.webp',
     seoTitle: 'K-Beauty Hits No. 2 Globally Ahead of Seoul Beauty Week',
     seoDescription:
       'K-beauty reaches the No. 2 spot globally while Seoul prepares to host 2026 Seoul Beauty Week to connect SMB cosmetics brands with overseas buyers.',
@@ -100,6 +103,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-05',
     readMinutes: 3,
     tags: ['Laneige', 'Collaboration', 'Global Launch', 'K-Beauty'],
+    image: '/news/laneige-matin-kim-global-cosmetics-fashion-collab.webp',
     seoTitle: 'Laneige & Matin Kim Launch Global Limited Collaboration',
     seoDescription:
       'Laneige collaborates with Korean fashion label Matin Kim on a limited-edition beauty and accessory collection for global markets.',
@@ -120,6 +124,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-04',
     readMinutes: 3,
     tags: ['Glowcation', 'Influencers', 'Global Marketing'],
+    image: '/news/risky-glowcation-influencer-trip-to-seoul.webp',
     seoTitle: 'Risky Hosts \'Dewy Dumpling Glow-Up\' Trip in Seoul',
     seoDescription:
       'Korean makeup brand Risky partnered with makeup artist Nam Vo for an exclusive influencer trip to Seoul to showcase local K-beauty trends.',
@@ -140,6 +145,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-03',
     readMinutes: 3,
     tags: ['SKIN1004', 'Azulene', 'NAD', 'Functional Skincare'],
+    image: '/news/skin1004-lab-in-nature-new-azulen-peptide-nad-creams.webp',
     seoTitle: 'SKIN1004 Launches Azulene Peptide and NAD Creams',
     seoDescription:
       'SKIN1004 introduces Azulene Peptide and 99% pure NAD creams under its Lab in Nature line, expanding high-performance K-beauty skincare.',
@@ -160,6 +166,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-02',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global', 'Target', 'Brand Launch'],
+    image: '/news/kaja-target-beauty-studio-us-launch.webp',
     seoTitle: 'Kaja to Launch in Target\'s New Target Beauty Studio',
     seoDescription:
       'K-beauty makeup brand Kaja confirms its expansion into Target\'s new prestige retail concept, Target Beauty Studio, launching online and in stores.',
@@ -180,6 +187,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-01',
     readMinutes: 3,
     tags: ['K-Beauty', 'Exports', 'Indie Brands'],
+    image: '/news/kbeauty-exports-indie-brands-record-h1-2026.webp',
     seoTitle: 'H1 2026 K-Beauty Exports Surge 27.3% via Indie Brands',
     seoDescription:
       'South Korean cosmetics exports surpassed $7B in H1 2026 with 27.3% YoY growth, driven by strong performance from indie and SME brands.',
@@ -200,6 +208,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-31',
     readMinutes: 3,
     tags: ['Makeup Trends', 'Watercolor Makeup', 'Global Beauty'],
+    image: '/news/watercolor-makeup-global-trend-emerges.webp',
     seoTitle: 'The Rise of Watercolor Makeup as a Global Beauty Trend',
     seoDescription:
       'Discover how watercolor makeup is shaping global beauty trends with soft, diffused washes of color over sharp glam looks.',
@@ -220,6 +229,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-30',
     readMinutes: 3,
     tags: ['COSRX', 'Peptide', 'Olive Young Festa'],
+    image: '/news/cosrx-peptide-signal-station-olive-young-festa-la.webp',
     seoTitle: 'COSRX Unveils Peptide Signal Station at Olive Young Festa',
     seoDescription:
       'COSRX showcased its interactive Peptide Signal Station at Olive Young Festa LA, offering attendees a science-led skincare experience.',
@@ -240,6 +250,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-29',
     readMinutes: 3,
     tags: ['Vegan Beauty', 'BB Cushion', 'Spatula Base', 'athe'],
+    image: '/news/athe-vegan-relief-bb-cushion-launch.webp',
     seoTitle: 'LF\'s athe Launches Vegan Relief BB Cushion',
     seoDescription:
       'LF\'s vegan beauty brand athe launches the Vegan Relief BB Cushion featuring a built-in magnetic spatula and skin-soothing formula.',
@@ -260,6 +271,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-28',
     readMinutes: 3,
     tags: ['K-Beauty Exports', 'Third Golden Age', 'Beauty Materials', 'Global Trends'],
+    image: '/news/kbeauty-exports-third-golden-age-diversification.webp',
     seoTitle: 'K-Beauty Exports Enter a \'Third Golden Age\'',
     seoDescription:
       'K-beauty exports enter a third golden age as growth expands beyond finished products into raw materials, packaging, and new global markets.',
@@ -280,6 +292,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-27',
     readMinutes: 3,
     tags: ['K-Beauty', 'Makeup', 'US Expansion', 'Target'],
+    image: '/news/kaja-joins-target-beauty-studio-us-launch.webp',
     seoTitle: 'Kaja Expands in US with Target Beauty Studio Launch',
     seoDescription:
       'K-beauty brand Kaja is expanding across the U.S. by launching its viral makeup products in Target\'s new Beauty Studio in September 2026.',
@@ -300,6 +313,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-25',
     readMinutes: 3,
     tags: ['K-Beauty', 'NYC Pop-Up', 'Experiential Event', 'Global Trends'],
+    image: '/news/seoul-to-soho-k-beauty-experience-new-york-pop-up.webp',
     seoTitle: 'Seoul to Soho: K-Beauty Experiential Pop-Up Opens in NYC',
     seoDescription:
       'Discover the \'Seoul to Soho\' K-beauty experiential pop-up in New York City, featuring skincare brands, workshops, and custom services.',
@@ -320,6 +334,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-24',
     readMinutes: 3,
     tags: ['Seoul Beauty Week', 'K-Beauty', 'Global Market'],
+    image: '/news/seoul-beauty-week-global-k-beauty-platform.webp',
     seoTitle: '5th Seoul Beauty Week Expands Global Reach for K-Beauty',
     seoDescription:
       'The 5th Seoul Beauty Week connects 152 K-beauty companies with international buyers through 1:1 meetings and the inaugural Beauty 2.0 forum.',
@@ -340,6 +355,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-23',
     readMinutes: 3,
     tags: ['Proya', 'Global Distribution', 'Ulta Beauty'],
+    image: '/news/proya-launches-in-ulta-us.webp',
     seoTitle: 'Chinese Cosmetics Brand Proya Launches at Ulta Beauty',
     seoDescription:
       'China\'s Proya Cosmetics expands into the US market with an official launch at Ulta Beauty to boost global reach and distribution.',
@@ -361,6 +377,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-22',
     readMinutes: 3,
     tags: ['K-Beauty', 'Seoul Beauty Week', 'Global Exhibition'],
+    image: '/news/seoul-beauty-week-global-k-beauty-industry-booms.webp',
     seoTitle: '152 Companies Join Seoul Beauty Week as K-Beauty Hits #2',
     seoDescription:
       'Seoul Beauty Week welcomes 152 companies to DDP, showcasing K-beauty\'s rise as the world\'s second-largest cosmetics industry.',
@@ -381,6 +398,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-21',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'Online Sales'],
+    image: '/news/k-beauty-global-online-market-size-jumps-2025.webp',
     seoTitle: 'Global K-Beauty Online Market Reaches $15 Billion in 2025',
     seoDescription:
       'The global online K-beauty market reached $15 billion in 2025, driven by strong U.S. demand and rapid expansion across Western Europe.',
@@ -402,6 +420,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-20',
     readMinutes: 3,
     tags: ['K-Beauty', 'US Market', 'Consumer Trends'],
+    image: '/news/k-beauty-us-slowdown-channel-mix.webp',
     seoTitle: 'K-Beauty US Sales Slowdown Drives Channel Strategy Shifts',
     seoDescription:
       'US K-beauty sales are plateauing as discretionary spending drops, urging brands to adapt channel strategies from discovery to purchase.',
@@ -422,6 +441,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-19',
     readMinutes: 3,
     tags: ['Olive Young', 'Makeup Trends', 'Skip Care'],
+    image: '/news/olive-young-fullmoon-makeup-shift-care-focus.webp',
     seoTitle: 'Olive Young: Makeup Shifts from Coverage to Care',
     seoDescription:
       'CJ Olive Young reveals its 2026 FULLMOON trend as makeup pivots from coverage to skincare benefits like barrier support and hydration.',
@@ -442,6 +462,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-17',
     readMinutes: 3,
     tags: ['K-Beauty', 'Lip Oil', 'Amazon Prime Day'],
+    image: '/news/nooni-lip-oil-prime-day-north-america-surge.webp',
     seoTitle: 'Nooni Lip Oil Sales Surge on Amazon Prime Day',
     seoDescription:
       'Nooni lip oil sales spiked 350% in the US and 713% in Canada during Amazon Prime Day, driven by viral TikTok momentum and retail expansion.',
@@ -462,6 +483,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-16',
     readMinutes: 3,
     tags: ['K-Beauty', 'Moisturizer', 'Innovative Ingredients'],
+    image: '/news/peach-and-lily-zombie-cell-moisturizer-launch.webp',
     seoTitle: 'Peach & Lily Launches Zombie Cell Moisturizer',
     seoDescription:
       'Peach & Lily debuts the Advanced Rebound Bioglow Zombie Cream at Ulta Beauty, targeting cellular senescence with novel tech.',
@@ -482,6 +504,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-15',
     readMinutes: 3,
     tags: ['Kiss', 'Eyeshadow', 'New Product', 'Milk Tea Colors'],
+    image: '/news/kiss-zoom-eye-potion-milk-tea-shades-launch.webp',
     seoTitle: 'Kiss Launches 2 New Milk Tea \'Zoom Eye Potion\' Shades',
     seoDescription:
       'Kiss introduces two milk tea shades to its Zoom Eye Potion eyeshadow line, featuring glossy pearl finishes and eye-defining color designs.',
@@ -502,6 +525,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-14',
     readMinutes: 3,
     tags: ['K-Beauty', 'Export Performance', 'Global Market'],
+    image: '/news/kbeauty-exports-surpass-11-billion-global-growth.webp',
     seoTitle: 'K-Beauty Exports Hit Record $11.4B to Rank 2nd Globally',
     seoDescription:
       'South Korean cosmetics exports reached a record $11.4 billion in 2025, making K-beauty the world\'s second-largest cosmetics exporter behind France.',
@@ -522,6 +546,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-12',
     readMinutes: 3,
     tags: ['Makeup Launch', 'Skin First', 'Tinted Moisturizer'],
+    image: '/news/mixsoon-pdrn-collagen-tinted-moisturizer-launch.webp',
     seoTitle: 'Mixsoon Launches PDRN Collagen Tinted Moisturizer',
     seoDescription:
       'Mixsoon debuts its first skincare-infused makeup line on Amazon, featuring a 74% skin active PDRN collagen tinted moisturizer.',
@@ -542,6 +567,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-11',
     readMinutes: 3,
     tags: ['Jungsaemmool', 'Sephora', 'Global K-Beauty'],
+    image: '/news/jung-saemmool-sephora-us-debut.webp',
     seoTitle: 'Jungsaemmool Launches at Sephora US on August 21',
     seoDescription:
       'K-beauty brand Jungsaemmool officially debuts on Sephora US online and in 34 stores on August 21, 2026, with plans for Sephora Canada expansion.',
@@ -562,6 +588,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-10',
     readMinutes: 3,
     tags: ['K-Beauty', 'Exports', 'US Market'],
+    image: '/news/kbeauty-record-exports-us-top-market-h1-2026.webp',
     seoTitle: 'US Becomes Top Market for K-Beauty Exports in 1H 2026',
     seoDescription:
       'Discover how South Korean cosmetic exports hit a record high in 1H 2026 as the US overtook China as K-beauty\'s top market.',
@@ -582,6 +609,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-09',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Growth', 'NIQ Report'],
+    image: '/news/kbeauty-global-sales-surge-niq-report-july-2026.webp',
     seoTitle: 'NIQ Report: Global K-Beauty Sales Surge 53% YoY',
     seoDescription:
       'Global K-beauty value sales jumped 53% year-over-year according to a new NIQ report, led by explosive growth in Latin America and e-commerce.',
@@ -602,6 +630,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-09',
     readMinutes: 3,
     tags: ['K-Beauty', 'Digital Launch', 'Mamonde'],
+    image: '/news/mamonde-amazon-premium-beauty-launch.webp',
     seoTitle: 'Mamonde Launches Exclusively on US Amazon Premium Beauty',
     seoDescription:
       'Amorepacific expands its US K-beauty presence by launching Mamonde exclusively on Amazon Premium Beauty in May 2026 to reach younger digital consumers.',
@@ -622,6 +651,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-09',
     readMinutes: 3,
     tags: ['K-Beauty', 'Japan Distribution', 'Indie Brands'],
+    image: '/news/kbeauty-gs-global-japan-distribution.webp',
     seoTitle: 'GS Global Launches K-Beauty Indie Brands in Japan via',
     seoDescription:
       'GS Global debuts three K-beauty indie brands in Japan through Cosme Kitchen, marking a major step in building a global beauty distribution platform.',
@@ -642,6 +672,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-07',
     readMinutes: 3,
     tags: ['K-Beauty', 'Amazon', 'Prime Day', 'Global Trends', 'Beauty Industry'],
+    image: '/news/kbeauty-amazon-5-trends-2026-aug.webp',
     seoTitle: 'Amazon Unveils 5 Key K-Beauty Global Growth Trends',
     seoDescription:
       'Amazon\'s analysis of 2026 Prime Day data reveals five key trends and strategies driving K-beauty\'s global expansion, including new launches and market',
@@ -662,6 +693,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-07',
     readMinutes: 3,
     tags: ['K-Beauty', 'MFDS', 'Global Regulations', 'Beauty Tech', 'AI Safety Assessment'],
+    image: '/news/kbeauty-global-regulatory-summit-ai-2026-sept.webp',
     seoTitle: 'MFDS to Host Global Cosmetics Summit, Discuss AI Safety',
     seoDescription:
       'The MFDS will host the 2026 Global Cosmetics Regulatory Authority Summit in Seoul, focusing on EU/ANZ regulatory changes and AI safety assessments to',
@@ -683,6 +715,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-05',
     readMinutes: 3,
     tags: ['K-Beauty', 'Olive Young', 'Sephora', 'North American Market', 'Global Expansion'],
+    image: '/news/kbeauty-oliveyoung-sephora-us-edit-2026-aug.webp',
     seoTitle: 'Olive Young K-Beauty Edit Launches in 580 US Sephora',
     seoDescription:
       'CJ Olive Young partners with Sephora to launch \'K-Beauty Edit\' in 580 US stores and online, bringing 19 curated K-skincare brands to North America.',
@@ -703,6 +736,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-04',
     readMinutes: 3,
     tags: ['High-Adherence Beauty', 'Makeup Fixer', 'Primer', 'Summer Makeup', 'K-Beauty'],
+    image: '/news/global-makeup-high-adherence-fixer-primer-surge.webp',
     seoTitle: 'K-Beauty: High-Adherence Makeup Booms in Hot Climates',
     seoDescription:
       'As hot, humid summers persist globally, demand for \'high-adherence beauty\' products, especially makeup fixers and primers, is surging, driving significant',
@@ -724,6 +758,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-03',
     readMinutes: 3,
     tags: ['K-Beauty', 'Exports', 'U.S. Market', 'Offline Expansion', 'Roadshop Brands'],
+    image: '/news/kbeauty-us-offline-expansion-1st-gen-revival-2026-aug.webp',
     seoTitle: 'K-Beauty Exports Reach Record $7 Billion in H1, US',
     seoDescription:
       'K-Beauty exports soared to a record $7 billion in H1 2026, fueled by a strategic shift to the U.S.',
@@ -744,6 +779,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-02',
     readMinutes: 3,
     tags: ['K-Beauty', 'Exports', 'US Market', 'Global Beauty', 'Market Diversification'],
+    image: '/news/kbeauty-h1-2026-us-top-export-market-diversification.webp',
     seoTitle: 'K-Beauty Exports Hit $7B in H1 2026; US Becomes Top Market',
     seoDescription:
       'K-Beauty exports hit a record $7 billion in H1 2026, with the US emerging as the top market over China and strong growth seen across Europe and Latin',
@@ -764,6 +800,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-08-01',
     readMinutes: 3,
     tags: ['Jelly-core', 'Cosmax', 'Makeup Trends', 'Skincaring Makeup'],
+    image: '/news/kbeauty-jelly-core-makeup-trend-cosmax-2026-july.webp',
     seoTitle: 'Cosmax Leads K-Beauty\'s Jelly-core Makeup Trend',
     seoDescription:
       'Explore how global ODM Cosmax is expanding its \'Jelly-core\' formulations, targeting the summer color makeup market and blending skincare with makeup.',
@@ -785,6 +822,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-30',
     readMinutes: 3,
     tags: ['Dermacosmetics', 'RX Beauty', 'COSRX', 'K-Beauty Trends'],
+    image: '/news/kbeauty-rx-derma-cosmetics-surge-2026-july.webp',
     seoTitle: 'K-Beauty\'s RX Derma Cosmetics Drive Global Growth',
     seoDescription:
       'Skin science-based \'RX\' cosmetics are a new K-beauty growth engine, with brands like COSRX gaining global attention and strong performance in the US and',
@@ -805,6 +843,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-29',
     readMinutes: 3,
     tags: ['TIRTIR', 'BTS', 'K-Beauty', 'Makeup', 'Global Marketing'],
+    image: '/news/tirtir-bts-the-city-newyork-makeup-collaboration-2026-july.webp',
     seoTitle: 'TIRTIR Joins BTS THE CITY New York, Launches Limited Duo',
     seoDescription:
       'Global K-beauty brand TIRTIR partners with BTS for \'THE CITY NEW YORK,\' unveiling a limited-edition \'Perfect Setting Duo\' optimized for concert wear and',
@@ -825,6 +864,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-28',
     readMinutes: 3,
     tags: ['K-Beauty', 'European Market', 'Export Trends', 'Skincare'],
+    image: '/news/k-beauty-europe-export-surpasses-north-america-h1-2026.webp',
     seoTitle: 'K-Beauty Europe Exports Surpass North America in H1 2026',
     seoDescription:
       'K-beauty exports to Europe hit $1.52B in H1 2026, surpassing North America, driven by high-quality functional skincare from indie brands.',
@@ -845,6 +885,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-27',
     readMinutes: 3,
     tags: ['K-beauty', 'AI', 'Export Marketing', 'Beauty Tech', 'New&AI'],
+    image: '/news/k-beauty-ai-export-marketing-platform-newenai-2026-july.webp',
     seoTitle: 'New&AI to Build K-Beauty Export Marketing AI Platform',
     seoDescription:
       'New&AI is developing a ₩3.5 billion AI platform to automate global market entry strategies and bolster international marketing for K-beauty businesses.',
@@ -866,6 +907,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-26',
     readMinutes: 3,
     tags: ['K-Beauty', 'European Market', 'Suncare', 'Haircare', 'Export Trends'],
+    image: '/news/k-beauty-third-phase-europe-suncare-haircare-2026-july.webp',
     seoTitle: 'K-Beauty\'s Third Growth Phase: Europe, Suncare, Haircare',
     seoDescription:
       'This article details how the K-Beauty market has entered a \'third growth phase,\' expanding to new regions like Europe, driven by suncare and haircare',
@@ -886,6 +928,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-25',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'Europe', 'Offline Distribution', 'Export Data'],
+    image: '/news/k-beauty-phase3-europe-offline-surge-2026-july.webp',
     seoTitle: 'K-Beauty \'Phase 3\' Growth: Europe, Offline, New Products',
     seoDescription:
       'K-Beauty has entered \'Phase 3\' with explosive growth in Europe, expanding into local offline stores and diversifying product categories.',
@@ -907,6 +950,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-24',
     readMinutes: 3,
     tags: ['Halal Certification', 'K-Beauty Exports', 'Indonesia', 'MFDS', 'Southeast Asia'],
+    image: '/news/k-beauty-indonesia-halal-certification-2026-oct.webp',
     seoTitle: 'Indonesia Mandates K-Beauty Halal Certification',
     seoDescription:
       'Indonesia will mandate halal certification for K-Beauty from October 17th, prompting Korea\'s MFDS to dispatch a support team to ease exports.',
@@ -928,6 +972,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-23',
     readMinutes: 3,
     tags: ['K-Beauty', 'Sustainability', 'Recycling', 'Cosmetic Packaging', 'Eco-friendly'],
+    image: '/news/k-beauty-packaging-sustainability-recycling-challenge-2026-july.webp',
     seoTitle: 'K-Beauty Packaging: 60% Difficult to Recycle',
     seoDescription:
       'Over 60% of K-Beauty packaging is difficult to recycle, posing a challenge as the EU enforces stringent recycling regulations from 2026.',
@@ -949,6 +994,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-22',
     readMinutes: 3,
     tags: ['K-Beauty', 'AI', 'Beauty Tech', 'Hyper-personalization', 'Lian Hair'],
+    image: '/news/k-beauty-ai-hair-platform-lianhair-2026-july.webp',
     seoTitle: 'K-Beauty AI Transformation: Fasoo AI & Lian Hair',
     seoDescription:
       'Fasoo AI and Lian Hair are building an AI beauty platform to offer virtual simulations and customized hairstyle recommendations.',
@@ -970,6 +1016,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-21',
     readMinutes: 3,
     tags: ['Mongolia', 'K-beauty', 'CEPA', 'Export Data', 'Retail'],
+    image: '/news/k-beauty-mongolia-market-surge-cepa-2026-july.webp',
     seoTitle: 'K-Beauty Mongolia Market Surges After CEPA Deal',
     seoDescription:
       'A CEPA agreement between South Korea and Mongolia signals K-Beauty expansion, with imports reaching $44.93 million in 2025.',
@@ -991,6 +1038,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-20',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'Latin America', 'TikTok Shop', 'NIQ Report'],
+    image: '/news/k-beauty-latin-america-tiktok-surge-2026.webp',
     seoTitle: 'K-Beauty Growth: Latin America 135%, TikTok 430%',
     seoDescription:
       'A NIQ report reveals K-Beauty\'s 131% growth, with Latin American sales surging 135% and TikTok Shop sales up 430%.',
@@ -1012,6 +1060,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-19',
     readMinutes: 3,
     tags: ['K-Beauty', 'Amazon', 'Prime Day', 'Skinification', 'PDRN', 'Medicube'],
+    image: '/news/amazon-prime-day-2026-kbeauty-skinnification-pdrn.webp',
     seoTitle: 'Amazon Prime Day 2026 K-Beauty: Skinification & PDRN',
     seoDescription:
       'This article details K-beauty trends from Amazon Prime Day 2026, highlighting \'skinification\' expanding to hair care and a surge in PDRN ingredient',
@@ -1032,6 +1081,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-18',
     readMinutes: 3,
     tags: ['K-Beauty', 'Global Market', 'NIQ', 'Social Commerce', 'Market Trends'],
+    image: '/news/k-beauty-global-sales-surge-niq-2026-july.webp',
     seoTitle: 'K-Beauty Global Sales Surge 53% Driven by Social Commerce',
     seoDescription:
       'A NIQ report reveals K-beauty\'s worldwide sales surged 53% year-over-year and 131% over two years, driven by social commerce and regional innovation.',
@@ -1052,6 +1102,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-17',
     readMinutes: 3,
     tags: ['K-Beauty', 'ETF', 'Global Investment', 'US Stock Market'],
+    image: '/news/k-beauty-etf-us-launch-2026.webp',
     seoTitle: 'K-Beauty ETF to Launch on US NYSE for Global Investment',
     seoDescription:
       'This article reports on the imminent listing of a specialized K-Beauty ETF on the US NYSE, which is projected to boost global investor sentiment.',
@@ -1072,6 +1123,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-16',
     readMinutes: 3,
     tags: ['K-Beauty', 'Haircare', 'Exports', 'Global Market', 'Hair Loss Care'],
+    image: '/news/kbeauty-hair-care-export-surge-2026.webp',
     seoTitle: 'K-Beauty Hair Product Exports Surge 30.6% in H1',
     seoDescription:
       'K-Beauty\'s global market expansion is accelerating, showing unprecedented growth in haircare with exports surging 30.6% from January to May.',
@@ -1092,6 +1144,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-15',
     readMinutes: 3,
     tags: ['K-beauty', 'ODM', 'Exports', 'Market Trends'],
+    image: '/news/kbeauty-odm-record-q3-2026.webp',
     seoTitle: 'K-Beauty ODMs Forecast Record-Breaking Q3 2026',
     seoDescription:
       'This article details how Korean K-beauty ODM companies forecast record-breaking Q3 2026 performance, breaking the \'H1 boom, H2 bust\' formula.',
@@ -1112,6 +1165,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-14',
     readMinutes: 3,
     tags: ['Sun Serum', 'K-Beauty', 'Summer Skincare', 'Hybrid Beauty'],
+    image: '/news/kbeauty-sun-serum-surge-2026.webp',
     seoTitle: 'K-Beauty Summer 2026: Sun Serum Craze Surges 149%',
     seoDescription:
       'K-Beauty\'s \'sun serum\' popularity is surging in Summer 2026, with transaction volume jumping 149% year-over-year, driven by hybrid products.',
@@ -1132,6 +1186,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-13',
     readMinutes: 3,
     tags: ['Keyring Beauty', 'Summer Makeup', 'Portable Cosmetics', 'Monclos', 'Sun Care'],
+    image: '/news/keyring-beauty-summer-trend-2026.webp',
     seoTitle: 'Keyring Beauty Trend Surges for Summer 2026 Holidays',
     seoDescription:
       'This article details the rapidly emerging \'Keyring Beauty\' trend for Summer 2026, highlighting Monclos\'s PDRN hydrating sun cream.',
@@ -1152,6 +1207,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-12',
     readMinutes: 3,
     tags: ['K-Beauty', 'Shopee', 'Southeast Asia', 'Skincare', 'Soothing Care', 'Moisture Barrier'],
+    image: '/news/shopee-kbeauty-soothing-june-2026.webp',
     seoTitle: 'Shopee K-Beauty: Soothing & Moisture Products Dominate',
     seoDescription:
       'Soothing and moisture barrier products dominated Shopee K-Beauty in June 2026, catering to skin irritated by Southeast Asia\'s hot climate.',
@@ -1172,6 +1228,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-11',
     readMinutes: 3,
     tags: ['K-Beauty', 'Quick Beauty', 'Time-Performance (시성비)', 'Makeup Trends', 'Skip-Care'],
+    image: '/news/k-beauty-quick-beauty-sisungbi-trend-2026.webp',
     seoTitle: 'K-Beauty Exports Reach $11.4 Billion Driven by Quick',
     seoDescription:
       'South Korea\'s cosmetics exports hit a new all-time high of $11.4 billion in 2025, fueled by the \'quick beauty\' trend emphasizing time-performance and',
@@ -1192,6 +1249,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-10',
     readMinutes: 3,
     tags: ['Refill Beauty', 'Sustainability', 'Luxury Makeup', 'YSL Beauty', 'Cushion Foundation'],
+    image: '/news/ysl-beauty-luxury-makeup-refill-expansion-2026.webp',
     seoTitle: 'YSL Beauty Expands Luxury Makeup Refills for Refill Day',
     seoDescription:
       'YSL Beauty expands its luxury makeup refill options, including a new tube-type refill for its \'Encre de Peau Cushion\', setting a benchmark for sustainable',
@@ -1212,6 +1270,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-09',
     readMinutes: 3,
     tags: ['K-Beauty', 'China Market', 'Toner', 'Tmall', 'Sales Decline'],
+    image: '/news/k-beauty-toner-china-sales-decline-2026.webp',
     seoTitle: 'K-Beauty Toner Sales on Tmall Plunge 46.4% in June',
     seoDescription:
       'Sales of top K-beauty toner products on China\'s Tmall platform plummeted by 46.4% in June 2026, indicating a significant market contraction despite Anua\'s',
@@ -1232,6 +1291,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-08',
     readMinutes: 3,
     tags: ['K-beauty M&A', 'Global Beauty', 'Brand Trends', 'Market Changes'],
+    image: '/news/k-beauty-mna-challenges-global-giants-2026.webp',
     seoTitle: 'K-Beauty M&As by Global Giants Underperform',
     seoDescription:
       'K-beauty brands acquired by global beauty giants like Estée Lauder and Unilever are performing below expectations due to changing market environments and',
@@ -1252,6 +1312,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-07-08',
     readMinutes: 3,
     tags: ['K-Beauty', 'Beauty Tech', 'Bio', 'AI', 'Personalization'],
+    image: '/news/k-beauty-science-industry-pivot-2026.webp',
     seoTitle: 'K-Beauty Evolves into Science Industry via Bio, AI, Data',
     seoDescription:
       'K-Beauty is evolving into a science industry, combining biotechnology, AI, and data-driven personalized services to expand beyond cosmetics manufacturing.',
@@ -1278,6 +1339,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-04-28',
     readMinutes: 5,
     tags: ['K-beauty', 'Global', 'Market data', 'US'],
+    image: '/news/k-beauty-us-overtakes-france-2026.webp',
     featured: true,
     seoTitle: 'US K-Beauty Imports Pass France for #1 in 2026 — Analysis',
     seoDescription:
@@ -1304,6 +1366,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-03-30',
     readMinutes: 5,
     tags: ['Sephora', 'K-beauty', 'Bestseller', 'US'],
+    image: '/news/sephora-k-beauty-bestsellers-2026.webp',
     seoTitle: '2026 Sephora K-Beauty Bestsellers — What US Shoppers Buy',
     seoDescription:
       'Analysis of Sephora US H1 2026 K-beauty bestsellers: why skincare swept the top and what it says about US shoppers.',
