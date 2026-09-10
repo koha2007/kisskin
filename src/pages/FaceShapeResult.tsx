@@ -219,6 +219,9 @@ export default function FaceShapeResult({ code }: Props) {
           </div>
         </section>
 
+        {/* 다른 진단 2~3개 끝난 사람에게 "완성까지 N개" 넛지 — 히어로 바로 아래(2026-09-10) */}
+        <DnaTracker field="faceShape" code={code} />
+
         {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
             이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다
             정보 한 조각 취급을 받아 유형 페이지들이 서로 85% 유사해졌었다(2026-07-14
@@ -277,8 +280,6 @@ export default function FaceShapeResult({ code }: Props) {
         />
 
         {/* Cross-promo — 다른 진단 3종 */}
-        <DnaTracker field="faceShape" code={code} />
-
         <RelatedTools exclude="face-shape" />
 
         {/* Other shapes */}
