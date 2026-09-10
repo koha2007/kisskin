@@ -584,10 +584,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-3">
                     {t('home.dna.featLabel')}
                   </p>
-                  <p className="text-white/80 text-sm md:text-base mb-5 max-w-xl leading-relaxed">
+                  <p className="text-white/80 text-sm md:text-base mb-4 max-w-xl leading-relaxed">
                     {t('home.dna.featDesc')}
                   </p>
-                  <DnaProgress compact dark className="mb-5" />
+                  <DnaProgress compact dark className="mb-3" />
+                  <p className="text-white/55 text-[11px] md:text-xs leading-relaxed mb-5 max-w-xl">
+                    {t('home.dna.featNote')}
+                  </p>
                   <span className="inline-flex w-fit items-center gap-2 font-bold text-sm md:text-base bg-white text-navy px-6 py-3.5 group-hover:gap-3 transition-all">
                     {t('home.dna.homeCta')}
                     <span className="material-symbols-outlined">arrow_forward</span>
