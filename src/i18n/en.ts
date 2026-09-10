@@ -38,7 +38,7 @@ export default {
   'home.slider.title': 'Trendy K-beauty styles',
   'home.slider.subtitle': 'Preview the looks that suit your face',
   'home.slider.selectHint': 'Pick a look and it’s generated on your selfie right away',
-  'home.cta.button': 'Try it free now',
+  'home.cta.button': 'Start AI makeup',
   'nav.home': 'Home',
   'nav.diagnose': 'Try',
   'nav.results': 'Results',
@@ -92,6 +92,10 @@ export default {
   'home.toolsShowcase.t4Tag': '6 Perfume Types',
   'home.toolsShowcase.t4Title': 'Your Perfect Perfume',
   'home.toolsShowcase.t4Desc': '5-question quiz → matched perfume notes per type',
+  // Sub-header between the signature (AI makeup) card and the 4 quiz cards (2026-09-10)
+  'home.toolsShowcase.quizzesBadge': '4 free self-checks',
+  'home.toolsShowcase.quizzesTitle': 'Each takes about a minute',
+  'home.toolsShowcase.quizzesDesc': 'Find the colors, looks, and scent that fit you — all free, no login.',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
@@ -145,7 +149,7 @@ export default {
   // Final CTA
   'home.cta.title1': 'Change starts with',
   'home.cta.title2': 'a single photo',
-  'home.cta.subtitle': 'One selfie is all it takes. Get 9 K-beauty looks in 60 seconds, free.',
+  'home.cta.subtitle': 'One selfie is all it takes. Sign up and your first generation is free — 9 K-beauty looks in about 60 seconds.',
 
   // Footer
   'home.footer.desc': 'AI K-Beauty Makeup Simulator & Korean Cosmetics Recommendation',

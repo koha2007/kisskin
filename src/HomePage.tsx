@@ -519,26 +519,30 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </section>
 
       {/* ── 3단계 (네이비 배경) ── */}
-      <section id="how" className="py-20 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
+      <section id="how" className="py-12 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* 2026-07-22 개편: 원형 아이콘 배지 + 그라디언트 번호 → 초대형 넘버링 타이포.
               YouCam(Perfect Corp)이 기능을 01~11 넘버로 끌고 가는 방식이 근거. 장식을 빼고
-              번호 자체를 조판 요소로 쓰면 정보 위계가 아이콘 장식보다 훨씬 또렷해진다. */}
-          <div className="mb-14 md:mb-20 max-w-4xl mx-auto text-center md:text-left">
-            <p className="text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-3">{t('home.how.badge')}</p>
-            <h2 id="how-title" className="font-serif text-3xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
+              번호 자체를 조판 요소로 쓰면 정보 위계가 아이콘 장식보다 훨씬 또렷해진다.
+              2026-09-10: 모바일에서 세 단계가 세로로 쌓이며 한 화면을 통째로 먹었다.
+              모바일은 번호를 제목 옆으로 붙이고 여백·폰트를 줄여 높이를 절반으로. 데스크톱은 유지. */}
+          <div className="mb-8 md:mb-20 max-w-4xl mx-auto text-center md:text-left">
+            <p className="text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-2 md:mb-3">{t('home.how.badge')}</p>
+            <h2 id="how-title" className="font-serif text-2xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-10 md:gap-8 lg:gap-14 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-5 md:gap-8 lg:gap-14 max-w-4xl mx-auto">
             {[
               { num: '01', title: t('home.how.step1'), desc: t('home.how.step1Desc') },
               { num: '02', title: t('home.how.step2'), desc: t('home.how.step2Desc') },
               { num: '03', title: t('home.how.step3'), desc: t('home.how.step3Desc') },
             ].map((step) => (
-              <div key={step.num} className="flex flex-col gap-3 border-t border-white/20 pt-5 text-left">
-                <span className="font-serif text-[2.75rem] md:text-[3.25rem] leading-none text-primary">{step.num}</span>
-                <h3 className="text-lg md:text-xl font-bold text-white">{step.title}</h3>
-                <p className="text-slate-300 text-sm leading-relaxed">{step.desc}</p>
+              <div key={step.num} className="border-t border-white/20 pt-4 md:pt-5 text-left">
+                <div className="flex items-center gap-3 md:block">
+                  <span className="font-serif text-2xl md:text-[3.25rem] leading-none text-primary md:mb-3 md:block">{step.num}</span>
+                  <h3 className="text-base md:text-xl font-bold text-white">{step.title}</h3>
+                </div>
+                <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1.5 md:mt-3">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -602,6 +606,20 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 </div>
               </div>
             </a>
+          </div>
+
+          {/* 무료 진단 4종 서브헤더 — 시그니처 카드 바로 뒤에 퀴즈 카드가 아무 설명 없이
+              튀어나온다는 지적(2026-09-10). 같은 섹션 안에서 블록을 구분해 준다. */}
+          <div className="max-w-4xl mx-auto border-t border-slate-200 pt-10 md:pt-12 mb-7 md:mb-8 text-center">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-2">
+              {t('home.toolsShowcase.quizzesBadge')}
+            </p>
+            <h3 className="font-serif text-2xl md:text-[1.75rem] font-semibold text-navy tracking-tight leading-tight">
+              {t('home.toolsShowcase.quizzesTitle')}
+            </h3>
+            <p className="text-slate-500 text-sm md:text-base mt-2 max-w-xl mx-auto leading-relaxed">
+              {t('home.toolsShowcase.quizzesDesc')}
+            </p>
           </div>
 
           {/* 4 Tool Cards — 공통 ToolCard 재사용, 각 "무료" 뱃지 */}
@@ -687,27 +705,41 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             {isEn ? 'Who builds this, and how it’s run' : '누가 만들고, 어떻게 운영되는가'}
           </h2>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
-            {isEn ? (
-              <>kissinskin is run by <strong>koha</strong>. Our news and guides are compiled and edited (AI-assisted) from public sources on the fast-moving global beauty market, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
-            ) : (
-              <>kissinskin은 <strong>koha</strong>가 운영합니다.
-              뉴스·가이드는 매일 급변하는 글로벌 뷰티 시장 정보를 공개 자료 기반으로
-              정리·편집한 콘텐츠이며(AI 지원), 산업 데이터를 인용할 때는
-              BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를 본문에 명시합니다.</>
-            )}
+            {isEn
+              ? <>kissinskin is run by an independent developer, <strong>koha</strong>. Uploaded photos are deleted right after analysis, payments are handled by Polar (Merchant of Record), and the site is funded by user payments and affiliate commissions — with no outside investment.</>
+              : <>kissinskin은 개인 개발자 <strong>koha</strong>가 운영합니다. 업로드한 사진은 분석 직후 삭제되고, 결제는 Polar(Merchant of Record)가 처리하며, 운영비는 사용자 결제와 제휴 수수료로 충당합니다(외부 투자 없음).</>}
           </p>
-          <p className="text-slate-600 text-base leading-relaxed mb-4">
-            {isEn ? (
-              <>AI assists both the tool features (image simulation and diagnostics) and the compiling of our news and guides from public sources. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments and affiliate commissions (Coupang Partners and others) — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
-            ) : (
-              <>AI는 도구 기능(이미지 시뮬레이션·진단)과 뉴스·가이드의 공개 자료
-              정리에 활용됩니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
-              Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
-              저장되지 않습니다. 사이트 운영비는 사용자 결제와 쿠팡 파트너스 등
-              제휴 수수료로 충당하며, 외부 투자는 없습니다.
-              어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.</>
-            )}
-          </p>
+          {/* 2026-09-10: 두 문단이 홈에 통째로 노출돼 너무 길다는 지적 → 요지는 위 한 문단으로
+              올리고, 상세(데이터·AI·수익 구조)는 접는다. DOM 은 유지되므로 SEO 손실 0. */}
+          <details className="group mb-4">
+            <summary className="cursor-pointer list-none inline-flex items-center gap-1 text-sm font-semibold text-navy underline hover:text-primary">
+              {isEn ? 'How it’s run — data, AI, and revenue' : '운영 방식 · 데이터 · 수익 구조 자세히'}
+              <span className="material-symbols-outlined text-base group-open:rotate-180 transition-transform">expand_more</span>
+            </summary>
+            <div className="mt-3 space-y-4">
+              <p className="text-slate-600 text-base leading-relaxed">
+                {isEn ? (
+                  <>Our news and guides are compiled and edited (AI-assisted) from public sources on the fast-moving global beauty market, and whenever we cite industry data we name the public sources (BeautyMatter, Mintel, NIQ, NPD Group, and others) directly in the text.</>
+                ) : (
+                  <>뉴스·가이드는 매일 급변하는 글로벌 뷰티 시장 정보를 공개 자료 기반으로
+                  정리·편집한 콘텐츠이며(AI 지원), 산업 데이터를 인용할 때는
+                  BeautyMatter, Mintel, NIQ, NPD Group 등 공개 보고서를 본문에 명시합니다.</>
+                )}
+              </p>
+              <p className="text-slate-600 text-base leading-relaxed">
+                {isEn ? (
+                  <>AI assists both the tool features (image simulation and diagnostics) and the compiling of our news and guides from public sources. Uploaded photos are discarded right after analysis, and payments are handled by Polar (Merchant of Record), so your card details are never stored on this site. The site is funded by user payments and affiliate commissions (Coupang Partners and others) — there is no outside investment. Affiliate commissions don’t affect product prices and have no bearing on which products we recommend.</>
+                ) : (
+                  <>AI는 도구 기능(이미지 시뮬레이션·진단)과 뉴스·가이드의 공개 자료
+                  정리에 활용됩니다. 업로드한 사진은 분석 직후 폐기되고, 결제는
+                  Polar(Merchant of Record)가 처리하므로 카드 정보가 본 사이트에
+                  저장되지 않습니다. 사이트 운영비는 사용자 결제와 쿠팡 파트너스 등
+                  제휴 수수료로 충당하며, 외부 투자는 없습니다.
+                  어필리에이트 수수료는 제품 가격에 영향을 주지 않고 추천 선정에도 영향이 없습니다.</>
+                )}
+              </p>
+            </div>
+          </details>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm pt-3">
             <a href={isEn ? '/en/about/' : '/about/'} className="text-navy font-semibold underline hover:text-primary">
               {isEn ? 'Operator & editorial principles →' : '운영자·편집 원칙 자세히 보기 →'}

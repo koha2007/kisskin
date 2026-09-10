@@ -40,7 +40,7 @@ export default {
   'home.slider.title': '트렌디한 K-뷰티 스타일',
   'home.slider.subtitle': '내 얼굴에 어울리는 룩을 미리 만나보세요',
   'home.slider.selectHint': '원하는 메이크업을 선택하면 바로 그 메이크업으로 생성돼요',
-  'home.cta.button': '지금 무료 체험하기',
+  'home.cta.button': 'AI 메이크업 시작하기',
   'nav.home': '홈',
   'nav.diagnose': '진단',
   'nav.results': '결과',
@@ -94,6 +94,10 @@ export default {
   'home.toolsShowcase.t4Tag': '6가지 향수 타입',
   'home.toolsShowcase.t4Title': '나에게 어울리는 향수',
   'home.toolsShowcase.t4Desc': '5문항 진단 → 6가지 타입별 맞춤 향수 추천',
+  // 시그니처(AI 메이크업) 카드와 아래 퀴즈 4장 사이 서브헤더 (2026-09-10)
+  'home.toolsShowcase.quizzesBadge': '무료 자가진단 4종',
+  'home.toolsShowcase.quizzesTitle': '하나당 1분이면 끝나요',
+  'home.toolsShowcase.quizzesDesc': '나에게 맞는 컬러·룩·향을 미리 찾아보세요. 모두 로그인 없이 무료.',
 
   // Styles Section
   'home.styles.badge': '2026 Makeup Trends',
@@ -147,7 +151,7 @@ export default {
   // Final CTA
   'home.cta.title1': '변화는 사진 한 장에서',
   'home.cta.title2': '시작됩니다',
-  'home.cta.subtitle': '셀카 한 장이면 충분해요. 60초, 무료로 9가지 K-뷰티 룩을 만나보세요.',
+  'home.cta.subtitle': '셀카 한 장이면 충분해요. 회원가입 후 첫 1회 무료로 9가지 K-뷰티 룩을 만들어드려요.',
 
   // Footer
   'home.footer.desc': '키스인스킨(kissinskin) — AI 가상 메이크업 · 퍼스널컬러 진단 · 코스메틱 추천 서비스',
