@@ -74,8 +74,8 @@ export default {
 
   // Tools Showcase Section
   'home.toolsShowcase.badge': '모두 무료 · 로그인 불필요',
-  'home.toolsShowcase.title1': '나만을 위한 뷰티 솔루션',
-  'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
+  'home.toolsShowcase.title1': '나만의 메이크업 찾았다',
+  'home.toolsShowcase.subtitle': '퍼스널컬러·얼굴형·향수·MBTI 진단을 하나로. 셀카 없이 내 조합에 딱 맞는 메이크업 루틴과 제품을 찾아드려요.',
   'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',
   'home.toolsShowcase.mainTitle': 'AI 메이크업 시뮬레이터',
   'home.toolsShowcase.mainDesc': '실시간 AI 분석으로 가장 어울리는 룩을 추천해 드려요. 회원가입하면 첫 1회 무료.',
@@ -96,8 +96,9 @@ export default {
   'home.toolsShowcase.t4Desc': '5문항 진단 → 6가지 타입별 맞춤 향수 추천',
   // 시그니처(AI 메이크업) 카드와 아래 퀴즈 4장 사이 서브헤더 (2026-09-10)
   'home.toolsShowcase.quizzesBadge': '무료 · 로그인 불필요',
-  'home.toolsShowcase.quizzesTitle': '1분 뷰티 진단 4종',
-  'home.toolsShowcase.quizzesDesc': '나에게 맞는 컬러·룩·향을 미리 찾아보세요.',
+  'home.toolsShowcase.quizzesTitle': '이 4가지가 내 메이크업을 정해요',
+  'home.toolsShowcase.quizzesDesc': '하나씩 1분이면 끝나요. 4가지가 모이면 위에서 결과를 볼 수 있어요.',
+  'home.dna.homeCta': '내 맞춤 결과 보기',
 
   // Styles Section
   'home.styles.badge': '2026 K-뷰티 트렌드',

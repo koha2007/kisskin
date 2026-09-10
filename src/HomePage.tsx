@@ -3,6 +3,7 @@ import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
 import SectionHeader from './components/home/SectionHeader'
+import DnaProgress from './components/beauty-dna/DnaProgress'
 import HomeContentSections from './components/HomeContentSections'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
@@ -546,7 +547,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         </div>
       </section>
 
-      {/* ── 무료 도구 그리드 (나만을 위한 뷰티 솔루션) ── */}
+      {/* ── "나만의 메이크업 찾았다" 섹션 (구 "나만을 위한 뷰티 솔루션") ──
+          2026-09-10: 이 자리에 beauty-dna 진입점을 얹었다(운영자 A안). 헤더·프레이밍은
+          beauty-dna, 그 아래 4종 진행도(compact) + 결과 CTA. AI 메이크업 카드와
+          4개 퀴즈 카드는 "DNA를 채우는 재료"로서 그대로 둔다. */}
       <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 bg-white" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
@@ -555,6 +559,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             title={t('home.toolsShowcase.title1')}
             subtitle={t('home.toolsShowcase.subtitle')}
           />
+
+          <div className="max-w-md mx-auto -mt-4 mb-12 md:mb-16 flex flex-col items-center gap-4">
+            <DnaProgress compact />
+            <a
+              href={toolHref('/tools/beauty-dna/')}
+              className="inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 font-bold text-sm hover:bg-navy-mid transition-colors"
+            >
+              {t('home.dna.homeCta')}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
 
           {/* Featured: AI Makeup (네이비 강조 카드) */}
           <div className="mb-6">

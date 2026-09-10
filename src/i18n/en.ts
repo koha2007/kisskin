@@ -72,8 +72,8 @@ export default {
 
   // Tools Showcase Section
   'home.toolsShowcase.badge': 'All free · no signup',
-  'home.toolsShowcase.title1': 'Your personal beauty solutions',
-  'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color and face shape diagnosis — all free, no signup required.',
+  'home.toolsShowcase.title1': 'I found my makeup',
+  'home.toolsShowcase.subtitle': 'Personal color, face shape, perfume, and makeup MBTI in one. No selfie — get a routine and products built for your exact combination.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
   'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up for your first try free.',
@@ -94,8 +94,9 @@ export default {
   'home.toolsShowcase.t4Desc': '5-question quiz → matched perfume notes per type',
   // Sub-header between the signature (AI makeup) card and the 4 quiz cards (2026-09-10)
   'home.toolsShowcase.quizzesBadge': 'Free · no signup',
-  'home.toolsShowcase.quizzesTitle': '4 one-minute beauty quizzes',
-  'home.toolsShowcase.quizzesDesc': 'Find the colors, looks, and scent that fit you.',
+  'home.toolsShowcase.quizzesTitle': 'These 4 decide your makeup',
+  'home.toolsShowcase.quizzesDesc': 'One minute each. Once all four are in, your result is ready above.',
+  'home.dna.homeCta': 'See my personalized result',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
