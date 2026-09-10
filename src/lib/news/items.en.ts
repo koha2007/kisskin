@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-kbeauty-innovation-mou',
+    category: 'global',
+    title: 'L\'Oréal and Cosmax Sign MOU for Next-Gen Beauty Innovation',
+    summary:
+      'France\'s L\'Oréal Group and South Korea\'s Cosmax signed a Memorandum of Understanding (MOU) on September 9, 2026, for next-generation beauty innovation. The two companies plan to lead global beauty trends by jointly researching raw materials, active ingredients, and sensory formulations.',
+    body: [
+      '> TLDR: L\'Oréal-Cosmax MOU | Joint Research on Materials & Sensory Formulations | Leading Global Trends',
+      'France\'s L\'Oréal Group and South Korea\'s Cosmax signed a Memorandum of Understanding (MOU) on September 9, 2026, for next-generation beauty innovation. This partnership coincides with the 140th anniversary of diplomatic relations between the two countries.',
+      '> DATA: MOU signing date September 9, 2026 confirmed',
+      'Through this agreement, L\'Oréal\'s global beauty science and consumer insight capabilities will combine with Cosmax\'s K-beauty product design expertise to jointly develop raw materials, active ingredients, and innovative sensory formulations. This is a strategic move aimed at shaping future beauty trends.',
+      'From a consumer perspective, this collaboration raises expectations for highly reliable, innovative products combining \'K-beauty sensibility\' and \'global R&D\' in the rapidly changing global beauty market.',
+    ],
+    date: '2026-09-10',
+    readMinutes: 3,
+    tags: ['Global Collaboration', 'Beauty Innovation', 'K-Beauty'],
+    image: '/news/loreal-cosmax-kbeauty-innovation-mou.webp',
+    seoTitle: 'L\'Oréal & Cosmax Partner on Next-Gen Beauty Innovation',
+    seoDescription:
+      'L\'Oréal and Cosmax signed an MOU to co-develop raw materials and sensory formulations combining K-beauty design with global R&D.',
+  },
+  {
     slug: 'k-beauty-record-august-exports-small-brands-rise',
     category: 'global',
     title: 'August K-Beauty Exports Surge 52% as Small Brands Reach 68.7% Share',

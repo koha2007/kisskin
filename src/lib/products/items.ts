@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'banila-co-covericious-ultimate-cover-cushion',
+    category: 'base',
+    brand: '바닐라코',
+    name: '커버리셔스 얼티밋 커버 쿠션',
+    title: '바닐라코 커버리셔스 쿠션 — 100시간 지속, 글로벌 톤 커버',
+    summary:
+      '화이트 트러플 추출물과 꽃 콤플렉스로 밝히는 커버리셔스 쿠션은 100시간 지속 테스트를 통과한 K-뷰티 인기 히트 제품입니다.',
+    highlights: ['화이트 트러플 성분', '100시간 지속력', '20가지 인클루시브 쉐이드'],
+    details: [
+      '화이트 트러플과 플라워 콤플렉스가 피부 톤을 환하게 밝혀주며, 스킨케어 효과까지 겸합니다.',
+      '무게감 없이 가볍고 편안한 텍스처로 최대 100시간 지속되는 내구력을 갖췄습니다.',
+      '글로벌 톤에 맞게 개발된 20가지 광범위한 쉐이드 구성으로 다양한 피부에 대응 가능합니다.',
+    ],
+    whoFor:
+      '미디엄 커버력의 가볍고 스킨케어 효과가 있는 베이스를 찾는 이들, 특히 데일리 웨어와 장시간 지속이 필요한 피부톤이 다양한 글로벌 소비자에게 적합합니다.',
+    howTo: [
+      '퍼프에 적당량을 덜어 얼굴 중앙부터 바깥 방향으로 가볍게 두드리며 블렌딩합니다.',
+      '커버가 필요한 부위에는 덧발라 자연스러운 레이어링이 가능합니다.',
+    ],
+    pros: [
+      '광채와 커버를 동시에 제공하는 스킨케어 쿠션',
+      '넓은 쉐이드 구성으로 색 선택 용이',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 묻어남 가능성',
+    ],
+    image: '/products/banila-co-covericious-ultimate-cover-cushion.webp',
+    coupangQuery: '바닐라코 커버리셔스 쿠션',
+    globalQuery: 'Banila Co Covericious Ultimate Cover Cushion',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-09-10',
+    tags: ['쿠션파운데이션', 'K뷰티', '장시간지속'],
+    seoTitle: '바닐라코 커버리셔스 얼티밋 커버 쿠션',
+    seoDescription:
+      '100시간 지속 커버와 피부 톤을 밝히는 화이트 트러플 성분이 특징인 글로벌 인기 쿠션',
+  },
+  {
     slug: 'clio-pro-eye-palette-air-08-latte-seonim',
     category: 'eye',
     brand: '클리오',

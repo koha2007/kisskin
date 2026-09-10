@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'banila-co-covericious-ultimate-cover-cushion',
+    category: 'base',
+    brand: 'BANILA CO',
+    name: 'Covericious Ultimate Cover Cushion',
+    title: 'BANILA CO Covericious Cushion — 100-Hour Wear, Global Tone Coverage',
+    summary:
+      'Infused with White Truffle Extract and a floral complex, the Covericious Cushion brightens skin and is a K-beauty bestseller proven to last up to 100 hours.',
+    highlights: ['White Truffle Ingredient', '100-Hour Long-Lasting Wear', '20 Inclusive Shades'],
+    details: [
+      'White Truffle and a Flower Complex brighten skin tone while providing skincare benefits.',
+      'Features a weightless, comfortable texture with incredible durability lasting up to 100 hours.',
+      'Formulated in 20 diverse shades designed for global skin tones.',
+    ],
+    whoFor:
+      'Ideal for those seeking a lightweight base with medium coverage and skincare benefits, especially global consumers needing long-wearing daily coverage across various skin tones.',
+    howTo: [
+      'Dispense a moderate amount onto the puff and gently pat from the center of the face outward to blend.',
+      'Layer on areas that need extra coverage for a natural finish.',
+    ],
+    pros: [
+      'Skincare cushion that offers both radiance and coverage',
+      'Wide shade range makes color selection easy',
+    ],
+    cons: [
+      'Potential transfer depending on personal preference',
+    ],
+    image: '/products/banila-co-covericious-ultimate-cover-cushion.webp',
+    coupangQuery: '바닐라코 커버리셔스 쿠션',
+    globalQuery: 'Banila Co Covericious Ultimate Cover Cushion',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-09-10',
+    tags: ['Cushion Foundation', 'K-Beauty', 'Long-Wearing'],
+    seoTitle: 'BANILA CO Covericious Ultimate Cover Cushion',
+    seoDescription:
+      'Discover BANILA CO Covericious Cushion with 100-hour long-wearing coverage and 20 inclusive shades enriched with white truffle.',
+  },
+  {
     slug: 'clio-pro-eye-palette-air-08-latte-seonim',
     category: 'eye',
     brand: 'CLIO',

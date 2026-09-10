@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-kbeauty-innovation-mou',
+    category: 'global',
+    title: '로레알과 코스맥스, 차세대 뷰티 혁신 협력 위한 MOU 체결',
+    summary:
+      '프랑스 로레알 그룹과 한국 코스맥스가 2026년 9월 9일 차세대 뷰티 혁신을 위한 업무협약(MOU)을 체결했습니다. 양사는 원료, 활성 성분, 감각적 제형 개발을 공동 연구하며 글로벌 뷰티 트렌드를 주도할 계획입니다.',
+    body: [
+      '> TLDR: 로레알·코스맥스 MOU | 원료·감각 제형 공동 연구 | 글로벌 트렌드 주도',
+      '프랑스 로레알 그룹과 한국 코스맥스가 2026년 9월 9일 차세대 뷰티 혁신을 위한 업무협약(MOU)을 체결했습니다. 이 협력은 양국 외교 수교 140주년 기념과 맞물려 이뤄졌습니다.',
+      '> DATA: MOU 체결 날짜 2026년 9월 9일 확인',
+      '이번 협약을 통해 로레알의 글로벌 뷰티 과학 및 소비자 인사이트 역량과 코스맥스의 K‑뷰티 제품 설계 전문성을 결합해 원료, 활성 성분, 혁신적 감각적 제형을 공동 개발하게 됩니다. 이는 미래 뷰티 트렌드를 형성하려는 전략적 움직임입니다.',
+      '소비자 입장에서는 이 협력이 빠르게 변화하는 글로벌 뷰티 시장에서 ‘K‑뷰티 감성’과 ‘글로벌 R&D’가 결합된 신뢰도 높은 혁신 제품으로 이어질 수 있다는 기대를 갖게 합니다.',
+    ],
+    date: '2026-09-10',
+    readMinutes: 3,
+    tags: ['글로벌협업', '뷰티혁신', 'K-뷰티'],
+    image: '/news/loreal-cosmax-kbeauty-innovation-mou.webp',
+    seoTitle: '로레알 코스맥스 MOU 체결',
+    seoDescription:
+      '로레알과 코스맥스가 차세대 뷰티 혁신을 위해 협력하는 업무협약 체결 소식을 전합니다.',
+  },
+  {
     slug: 'k-beauty-record-august-exports-small-brands-rise',
     category: 'global',
     title: '8월 K‑뷰티 수출, 52% 급증·소형 브랜드 수출 비중 68.7%로 확대',
