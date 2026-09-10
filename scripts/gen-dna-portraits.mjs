@@ -11,12 +11,14 @@
 //   node scripts/gen-dna-portraits.mjs --force   # 전부 다시
 //   node scripts/gen-dna-portraits.mjs --dry     # 프롬프트만(과금 0)
 //
-// 비용: Imagen 5장 ≈ $0.2. 산출물: public/dna/base-<shape>.webp (960×1440, 3:4)
+// 비용: gpt-image-1(medium) 5장 ≈ $0.2. 산출물: public/dna/base-<shape>.webp (960×1440, 3:4)
 // ════════════════════════════════════════════════════════════════════
 import { mkdirSync, existsSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { IMAGE_MODEL, generateImageB64 } from './_geminiImage.mjs'
+// Gemini 이미지 경로는 무료 티어 쿼터 0 으로 죽어 있다(_openaiImage.mjs 주석 참고) →
+// gen-products.mjs 와 같이 OpenAI 이미지로 생성한다.
+import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
@@ -75,8 +77,8 @@ async function main() {
     return
   }
 
-  const geminiKey = process.env.GEMINI_API_KEY
-  if (!geminiKey) throw new Error('GEMINI_API_KEY 없음 (set -a && . ./.dev.vars && set +a)')
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) throw new Error('OPENAI_API_KEY 없음 (set -a && . ./.dev.vars && set +a)')
   const sharp = (await import('sharp')).default
 
   mkdirSync(OUT_DIR, { recursive: true })
@@ -91,7 +93,7 @@ async function main() {
     console.log(`▶ base-${s} 생성(${IMAGE_MODEL})…`)
     let b64
     for (let i = 0; i < 3 && !b64; i++) {
-      b64 = await generateImageB64(geminiKey, barePrompt(MODELS[s]), '3:4')
+      b64 = await generateImageB64(apiKey, barePrompt(MODELS[s]), '3:4')
       if (!b64) console.warn(`  ↻ 빈 응답 — 재시도 ${i + 1}`)
     }
     if (!b64) { console.error(`  ✖ base-${s}: 생성 실패`); continue }

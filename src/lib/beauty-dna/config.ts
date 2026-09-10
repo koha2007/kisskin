@@ -10,7 +10,7 @@
 //      — makeup-edit.ts 와 동일한 값. dna-portrait 는 무료 카운터 키만 분리(mu:dna:).
 //   3. 로그인 계정으로 무료 1회 → 크레딧 차감 경로(잔액 0 → 402) 실제 확인
 //   4. 여기 true → 배포
-export const DNA_PORTRAIT_ENABLED = false
+export const DNA_PORTRAIT_ENABLED = true
 
 /** 계정당 무료 생성 횟수 (셀카 메이크업과 별도 풀). 서버(dna-portrait.ts)와 동일해야 함. */
 export const DNA_FREE_LIMIT = 1
