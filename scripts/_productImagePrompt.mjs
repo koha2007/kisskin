@@ -52,15 +52,20 @@ export const SUBJECT_KR = [
   'a young Korean woman with a soft brown bob',
   'a young Korean woman with her hair tied back',
   'a young Korean man with clean, groomed brows',
+  'a young Korean man with clear skin and short dark hair, clean-shaven',
   'a young Korean woman with wavy shoulder-length hair',
 ]
 export const SUBJECT_GLOBAL = [
   'a young Korean woman with long black hair',
+  'a young Korean man with short dark hair and clear skin, clean-shaven',
   'a young Black woman with deep brown skin and short curls',
+  'a young Black man with deep brown skin and a short fade, clean-shaven',
   'a young white woman with freckles and auburn hair',
   'a young Latina woman with wavy dark hair',
+  'a young Latino man with wavy dark hair, clean-shaven',
   'a young South Asian woman with warm brown skin',
   'a young East Asian woman with a sleek ponytail',
+  'a young East Asian man with a sleek undercut, clean-shaven',
 ]
 
 export const hash = (s) => { let h = 5381; for (const c of s) h = ((h * 33) ^ c.charCodeAt(0)) >>> 0; return h }
@@ -72,8 +77,9 @@ export function buildImagePrompt(item, retry = 0) {
   const h = hash(item.slug) + retry
   const scene = item.imageScene?.trim() || CAT_APPLIED[item.category] || CAT_APPLIED.trend
   const pool = item.market === 'global' ? SUBJECT_GLOBAL : SUBJECT_KR
-  // 남성 모델은 립/치크에 어울리지 않으니 헤어·스킨케어·향수에서만 허용.
-  const subjects = ['hair', 'skincare', 'fragrance'].includes(item.category)
+  // 남성 모델은 립/치크 제품 컷엔 어울리지 않으니 헤어·스킨케어·향수에서만 허용.
+  // 단 뉴스 무드컷(allowMen)은 특정 제품이 아니라 산업 트렌드라 남녀를 모두 섞는다.
+  const subjects = item.allowMen || ['hair', 'skincare', 'fragrance'].includes(item.category)
     ? pool
     : pool.filter((s) => !s.includes(' man '))
   const subject = pick(subjects, h, 0)

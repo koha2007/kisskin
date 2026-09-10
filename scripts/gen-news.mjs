@@ -167,7 +167,8 @@ function insert(item) {
 // (gen-products.mjs 와 동일하게 실패하면 디자인 카드 폴백으로 계속 발행).
 async function genImage(openaiKey, item) {
   const market = hash(item.slug) % 2 === 0 ? 'kr' : 'global'
-  const promptItem = { slug: item.slug, category: item.category, market, imageScene: item.imageScene }
+  // 뉴스는 산업 트렌드라 남녀를 섞는다(allowMen). 제품 컷은 그대로 카테고리 규칙을 따른다.
+  const promptItem = { slug: item.slug, category: item.category, market, allowMen: true, imageScene: item.imageScene }
   let b64
   for (let retry = 0; retry < 3 && !b64; retry++) {
     b64 = await generateImageB64(openaiKey, buildImagePrompt(promptItem, retry), '3:4')

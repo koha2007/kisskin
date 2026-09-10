@@ -128,7 +128,8 @@ async function sceneFor(geminiKey, b) {
 // 해시로 갈라 인물 다양성만 준다(gen-news.mjs genImage 와 동일한 규칙). ──
 async function genImage(openaiKey, item) {
   const market = hash(item.slug) % 2 === 0 ? 'kr' : 'global'
-  const promptItem = { slug: item.slug, category: item.category, market, imageScene: item.imageScene }
+  // 뉴스는 산업 트렌드라 남녀를 섞는다(allowMen). gen-news.mjs genImage 와 동일.
+  const promptItem = { slug: item.slug, category: item.category, market, allowMen: true, imageScene: item.imageScene }
   let b64
   for (let retry = 0; retry < 3 && !b64; retry++) {
     b64 = await generateImageB64(openaiKey, buildImagePrompt(promptItem, retry), '3:4')
