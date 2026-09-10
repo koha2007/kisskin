@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import SectionHeader from '../components/home/SectionHeader'
 import DnaProgress from '../components/beauty-dna/DnaProgress'
+import DnaPortrait from '../components/beauty-dna/DnaPortrait'
 import RoutineList from '../components/beauty-dna/RoutineList'
 import RelatedTools from '../components/RelatedTools'
 import ShareBar from '../components/ShareBar'
@@ -15,12 +17,36 @@ import { buildRoutine } from '../lib/beauty-dna/routine'
 import { buildReadingCards } from '../lib/beauty-dna/readingCards'
 import { mergeDnaRecs } from '../lib/beauty-dna/products'
 import { dnaTypeDisplay } from '../lib/beauty-dna/display'
-import { DNA_FIELDS, encodeDnaCode, type BeautyDna } from '../lib/beauty-dna/types'
+import { DNA_PORTRAIT_ENABLED } from '../lib/beauty-dna/config'
+import { DNA_FIELDS, encodeDnaCode, decodeDnaCode, type BeautyDna } from '../lib/beauty-dna/types'
 
 export default function BeautyDna() {
   const { locale } = useI18n()
   const isEn = locale === 'en'
   const { dna, complete } = useBeautyDna()
+
+  // 공유 링크(?c=autumn-warm~heart~woody~enfp)로 열면 남의 조합을 읽기 전용으로 보여준다.
+  const [shared] = useState<BeautyDna | null>(() => {
+    if (typeof window === 'undefined') return null
+    const c = new URLSearchParams(window.location.search).get('c')
+    return c ? decodeDnaCode(c) : null
+  })
+  useEffect(() => {
+    if (!shared || typeof document === 'undefined') return
+    const m = document.createElement('meta')
+    m.name = 'robots'
+    m.content = 'noindex'
+    document.head.appendChild(m)
+    return () => { document.head.removeChild(m) }
+  }, [shared])
+
+  const viewDna = shared ?? dna
+  const viewComplete = shared ? true : complete
+  const readOnly = !!shared
+
+  const subtitle = isEn
+    ? 'Personal color, face shape, perfume, and makeup MBTI — we synthesize all four free quiz results into your own makeup and product list. No selfie needed.'
+    : '퍼스널컬러 · 얼굴형 · 향수 · 메이크업 MBTI — 무료 진단 4가지 결과를 하나로 종합해, 나에게 딱 맞는 메이크업과 제품을 찾아드려요. 셀카는 필요 없어요.'
 
   return (
     <div className="font-display bg-background-light min-h-screen">
@@ -31,18 +57,30 @@ export default function BeautyDna() {
             <SectionHeader
               eyebrow={isEn ? 'kissinskin · Your own makeup' : 'kissinskin · 나만의 메이크업'}
               title={isEn ? 'I found my makeup' : '나만의 메이크업 찾았다'}
-              subtitle={
-                isEn
-                  ? 'Finish the 4 free quizzes and get a makeup routine and a shopping list built for your exact combination — no selfie needed.'
-                  : '무료 진단 4가지를 끝내면, 내 조합에 딱 맞는 메이크업 루틴과 제품 리스트를 만들어드려요. 셀카는 필요 없어요.'
-              }
+              subtitle={subtitle}
               className="!mb-8"
             />
-            <DnaProgress />
+            {readOnly ? (
+              <p className="text-center">
+                <a
+                  href={isEn ? '/en/tools/beauty-dna/' : '/tools/beauty-dna/'}
+                  className="inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 font-bold text-sm hover:bg-navy-mid transition-colors"
+                >
+                  {isEn ? 'Make my own' : '나도 만들어보기'}
+                  <span className="material-symbols-outlined text-base">arrow_forward</span>
+                </a>
+              </p>
+            ) : (
+              <DnaProgress />
+            )}
           </div>
         </section>
 
-        {complete ? <CompleteView dna={dna} isEn={isEn} /> : <IncompleteView isEn={isEn} />}
+        {viewComplete ? (
+          <CompleteView dna={viewDna} isEn={isEn} readOnly={readOnly} />
+        ) : (
+          <IncompleteView isEn={isEn} />
+        )}
       </main>
       <ToolsFooter />
     </div>
@@ -51,13 +89,14 @@ export default function BeautyDna() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-function CompleteView({ dna, isEn }: { dna: BeautyDna; isEn: boolean }) {
+function CompleteView({ dna, isEn, readOnly = false }: { dna: BeautyDna; isEn: boolean; readOnly?: boolean }) {
   const persona = getPersona(dna, isEn)
   const routine = buildRoutine(dna, isEn)
   const reading = buildReadingCards(dna, isEn)
   const recs = mergeDnaRecs(dna)
   const code = encodeDnaCode(dna) ?? 'dna'
-  const shareUrl = `https://kissinskin.net${isEn ? '/en' : ''}/tools/beauty-dna/`
+  const shareUrl = `https://kissinskin.net${isEn ? '/en' : ''}/tools/beauty-dna/${readOnly && code !== 'dna' ? `?c=${code}` : ''}`
+  const cachedPortrait = !readOnly && dna.portraitCode === code ? dna.portraitUrl : undefined
 
   const L = isEn
     ? { chips: 'Your combination', products: 'Products that finish this look', routine: 'Your makeup routine',
@@ -97,6 +136,11 @@ function CompleteView({ dna, isEn }: { dna: BeautyDna; isEn: boolean }) {
           )}
         </div>
       </section>
+
+      {/* 모델 얼굴 생성 (P1) — 플래그 OFF 여도 캐시된 결과는 보여준다 */}
+      {(DNA_PORTRAIT_ENABLED || cachedPortrait) && (
+        <DnaPortrait dna={dna} cached={cachedPortrait} readOnly={readOnly} />
+      )}
 
       {/* ★ 제품 — 먼저, 크게 (수익 관문) */}
       {recs.length > 0 && (

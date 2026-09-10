@@ -24,6 +24,10 @@ export interface BeautyDna {
   perfume?: PerfumeTypeCode
   mbti?: MbtiCode
   updatedAt?: string
+  /** P1: 생성된 모델 얼굴 이미지 (dataURL). 조합이 바뀌면 무효화된다. */
+  portraitUrl?: string
+  /** portraitUrl 이 어느 조합으로 만들어졌는지 — 현재 조합과 다르면 안 보여준다. */
+  portraitCode?: string
 }
 
 /** 진행도 계산 순서 — DnaProgress 슬롯 순서와 동일 */
@@ -63,7 +67,29 @@ function sanitize(d: BeautyDna): BeautyDna {
   if (d.perfume && PERFUME_TYPE_ORDER.includes(d.perfume)) out.perfume = d.perfume
   if (d.mbti && MBTI_ORDER.includes(d.mbti)) out.mbti = d.mbti
   if (typeof d.updatedAt === 'string') out.updatedAt = d.updatedAt
+  // portrait 는 현재 조합 코드와 일치할 때만 유효
+  if (typeof d.portraitUrl === 'string' && d.portraitUrl.startsWith('data:image') && typeof d.portraitCode === 'string') {
+    if (encodeDnaCode(out) === d.portraitCode) {
+      out.portraitUrl = d.portraitUrl
+      out.portraitCode = d.portraitCode
+    }
+  }
   return out
+}
+
+/** 생성된 모델 이미지를 저장. 조합 코드도 함께 박아 조합이 바뀌면 자동 무효화. */
+export function writeDnaPortrait(dataUrl: string): void {
+  if (typeof window === 'undefined') return
+  const cur = readDna()
+  const code = encodeDnaCode(cur)
+  if (!code) return
+  const next: BeautyDna = { ...cur, portraitUrl: dataUrl, portraitCode: code, updatedAt: new Date().toISOString() }
+  try {
+    window.localStorage.setItem(DNA_STORAGE_KEY, JSON.stringify(next))
+    window.dispatchEvent(new Event(DNA_EVENT))
+  } catch {
+    /* quota */
+  }
 }
 
 /** 결과 페이지에서 호출 — 값이 이미 같으면 write 를 건너뛴다(불필요한 이벤트 방지). */

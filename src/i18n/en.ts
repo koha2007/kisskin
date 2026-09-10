@@ -73,7 +73,7 @@ export default {
   // Tools Showcase Section
   'home.toolsShowcase.badge': 'All free · no signup',
   'home.toolsShowcase.title1': 'I found my makeup',
-  'home.toolsShowcase.subtitle': 'Personal color, face shape, perfume, and makeup MBTI in one. No selfie — get a routine and products built for your exact combination.',
+  'home.toolsShowcase.subtitle': 'We synthesize your four free quiz results into your own makeup and product list — no selfie needed.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
   'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up for your first try free.',
