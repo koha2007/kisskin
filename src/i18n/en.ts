@@ -377,9 +377,6 @@ export default {
   'tools.beautyDna.done': 'done',
   'tools.beautyDna.doQuiz': 'Take it',
   'tools.beautyDna.allDone': 'All 4 done — see your routine and products below',
-  'tools.beautyDna.hubCardTitle': 'I Found My Makeup',
-  'tools.beautyDna.hubCardDesc': 'Do the 4 quizzes → a routine + product list built for you.',
-  'tools.beautyDna.hubCardCta': 'Open',
 
   // RecommendedProducts
   'recProducts.aria': 'Recommended products',

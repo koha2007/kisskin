@@ -8,6 +8,31 @@ import { generateDnaPortrait } from '../../lib/beauty-dna/generate'
 type Phase = 'idle' | 'loading' | 'done' | 'error'
 type ErrKind = 'login' | 'topup' | 'unconfigured' | 'retry'
 
+// 서버는 PNG(1024×1536, 수 MB)를 돌려준다. localStorage 에 그대로 넣으면 쿼터 위험 →
+// 캔버스로 폭 768 · webp 0.85 로 줄여 저장/표시한다(실패 시 원본 유지).
+async function shrinkToWebp(dataUrl: string, maxW = 768): Promise<string> {
+  try {
+    if (typeof document === 'undefined') return dataUrl
+    const img = new Image()
+    await new Promise<void>((res, rej) => {
+      img.onload = () => res()
+      img.onerror = () => rej(new Error('decode'))
+      img.src = dataUrl
+    })
+    const scale = Math.min(1, maxW / (img.naturalWidth || maxW))
+    const c = document.createElement('canvas')
+    c.width = Math.round((img.naturalWidth || maxW) * scale)
+    c.height = Math.round((img.naturalHeight || maxW * 1.5) * scale)
+    const ctx = c.getContext('2d')
+    if (!ctx) return dataUrl
+    ctx.drawImage(img, 0, 0, c.width, c.height)
+    const out = c.toDataURL('image/webp', 0.85)
+    return out.startsWith('data:image/webp') ? out : dataUrl
+  } catch {
+    return dataUrl
+  }
+}
+
 interface Props {
   dna: BeautyDna
   /** localStorage 에 캐시된 이전 결과 (있으면 바로 done) */
@@ -72,9 +97,10 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
     setPhase('loading'); setErr(null)
     const r = await generateDnaPortrait(dna, jobIdRef.current)
     if (r.ok) {
-      setImg(r.image)
+      const small = await shrinkToWebp(r.image)
+      setImg(small)
       setTier(r.tier)
-      writeDnaPortrait(r.image)
+      writeDnaPortrait(small)
       setPhase('done')
     } else {
       setErr(r.kind)
@@ -103,14 +129,17 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
               <p className="mt-1 text-[11px] text-slate-400">{tier === 'free' ? L.tierFree : L.tierCredit}</p>
             )}
             {!readOnly && (
-              <button
-                type="button"
-                onClick={() => run(false)}
-                className="mt-4 inline-flex items-center gap-1.5 border border-navy/25 hover:border-navy text-navy px-6 py-2.5 text-sm font-bold transition-colors"
-              >
-                <span className="material-symbols-outlined text-base">refresh</span>
-                {L.again}
-              </button>
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => run(false)}
+                  className="inline-flex items-center gap-1.5 border border-navy/25 hover:border-navy text-navy px-6 py-2.5 text-sm font-bold transition-colors"
+                >
+                  <span className="material-symbols-outlined text-base">refresh</span>
+                  {L.again}
+                </button>
+                <p className="mt-1.5 text-[11px] text-slate-400">{isEn ? 'Uses 1 credit' : '크레딧 1회 사용'}</p>
+              </div>
             )}
           </figure>
         ) : (

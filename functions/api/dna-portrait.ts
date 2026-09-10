@@ -24,6 +24,8 @@ interface Env {
   MAKEUP_USAGE?: UsageStore
   SUPABASE_SERVICE_ROLE_KEY?: string
   VITE_SUPABASE_URL?: string
+  /** Cloudflare Pages 기본 정적 asset 바인딩 (있으면 자체 fetch 대신 사용) */
+  ASSETS?: { fetch: (input: string | Request) => Promise<Response> }
 }
 
 const FREE_LIMIT = 1
@@ -95,7 +97,8 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // ── 베이스 민낯 모델 로드 (사이트 자체 asset) ──
   let baseBlob: Blob
   try {
-    const baseRes = await fetch(new URL(`/dna/base-${baseShape}.webp`, request.url).toString())
+    const baseUrl = new URL(`/dna/base-${baseShape}.webp`, request.url).toString()
+    const baseRes = env.ASSETS ? await env.ASSETS.fetch(baseUrl) : await fetch(baseUrl)
     if (!baseRes.ok) return json({ error: 'base_unavailable', message: '베이스 이미지를 준비 중이에요.' }, 503)
     baseBlob = await baseRes.blob()
   } catch {

@@ -379,9 +379,6 @@ export default {
   'tools.beautyDna.done': '완료',
   'tools.beautyDna.doQuiz': '진단하기',
   'tools.beautyDna.allDone': '4가지 완료 — 아래에서 맞춤 루틴과 제품을 확인하세요',
-  'tools.beautyDna.hubCardTitle': '나만의 메이크업 찾았다',
-  'tools.beautyDna.hubCardDesc': '진단 4가지를 모으면 맞춤 루틴 + 제품 리스트.',
-  'tools.beautyDna.hubCardCta': '모아보기',
 
   // RecommendedProducts
   'recProducts.aria': '추천 제품 카테고리',

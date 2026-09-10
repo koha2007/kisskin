@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import SectionHeader from '../components/home/SectionHeader'
@@ -18,7 +18,9 @@ import { buildReadingCards } from '../lib/beauty-dna/readingCards'
 import { mergeDnaRecs } from '../lib/beauty-dna/products'
 import { dnaTypeDisplay } from '../lib/beauty-dna/display'
 import { DNA_PORTRAIT_ENABLED } from '../lib/beauty-dna/config'
-import { DNA_FIELDS, encodeDnaCode, decodeDnaCode, clearDna, type BeautyDna } from '../lib/beauty-dna/types'
+import { DNA_FIELDS, encodeDnaCode, readSharedDna, clearDna, readDnaPortrait, type BeautyDna } from '../lib/beauty-dna/types'
+
+const NOOP_SUB = () => () => {}
 
 export default function BeautyDna() {
   const { locale } = useI18n()
@@ -26,18 +28,16 @@ export default function BeautyDna() {
   const { dna, complete } = useBeautyDna()
 
   // 공유 링크(?c=autumn-warm~heart~woody~enfp)로 열면 남의 조합을 읽기 전용으로 보여준다.
-  const [shared] = useState<BeautyDna | null>(() => {
-    if (typeof window === 'undefined') return null
-    const c = new URLSearchParams(window.location.search).get('c')
-    return c ? decodeDnaCode(c) : null
-  })
+  // 프리렌더(server)=null, 클라이언트=?c= 파싱 → useSyncExternalStore 로 하이드레이션
+  // 경고 없이 스왑(useBeautyDna 와 같은 패턴).
+  const shared = useSyncExternalStore(NOOP_SUB, readSharedDna, () => null)
   useEffect(() => {
     if (!shared || typeof document === 'undefined') return
     const m = document.createElement('meta')
     m.name = 'robots'
     m.content = 'noindex'
     document.head.appendChild(m)
-    return () => { document.head.removeChild(m) }
+    return () => { m.remove() }
   }, [shared])
 
   const viewDna = shared ?? dna
@@ -101,7 +101,8 @@ function CompleteView({ dna, isEn, readOnly = false }: { dna: BeautyDna; isEn: b
   const code = encodeDnaCode(dna) ?? 'dna'
   // 공유 링크는 항상 조합 코드를 실어 상대가 같은 결과를 보게 한다("너도 해봐" 루프).
   const shareUrl = `https://kissinskin.net${isEn ? '/en' : ''}/tools/beauty-dna/${code !== 'dna' ? `?c=${code}` : ''}`
-  const cachedPortrait = !readOnly && dna.portraitCode === code ? dna.portraitUrl : undefined
+  const pt = readOnly ? null : readDnaPortrait()
+  const cachedPortrait = pt && pt.code === code ? pt.url : undefined
 
   const L = isEn
     ? { chips: 'Your combination', products: 'Products that finish this look', routine: 'Your makeup routine',

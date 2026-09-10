@@ -26,21 +26,10 @@ function subscribe(cb: () => void): () => void {
 }
 
 // getSnapshot 은 안정적인 참조를 돌려줘야 한다(매번 새 객체 X → 무한 렌더).
-// 캐시 키는 값 전체를 직렬화하지 않는다 — portraitUrl 이 수 MB dataURL 이라
-// 매 렌더 JSON.stringify(2MB) 는 비싸다. 의미 있는 필드만 짧게 서명한다.
-let cacheKey = ''
-let cacheVal: BeautyDna = EMPTY
-function sig(d: BeautyDna): string {
-  return [d.personalColor, d.faceShape, d.perfume, d.mbti, d.portraitCode, d.updatedAt].join('|')
-}
+// readDna() 는 자체 raw 캐시가 있어 값이 안 바뀌면 같은 객체 참조를 돌려준다 →
+// 그대로 반환하면 된다. (생성 이미지는 별도 키라 여기엔 안 들어온다.)
 function getSnapshot(): BeautyDna {
-  const fresh = readDna()
-  const key = sig(fresh)
-  if (key !== cacheKey) {
-    cacheKey = key
-    cacheVal = fresh
-  }
-  return cacheVal
+  return readDna()
 }
 function getServerSnapshot(): BeautyDna {
   return EMPTY
