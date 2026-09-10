@@ -18,7 +18,7 @@ import { buildReadingCards } from '../lib/beauty-dna/readingCards'
 import { mergeDnaRecs } from '../lib/beauty-dna/products'
 import { dnaTypeDisplay } from '../lib/beauty-dna/display'
 import { DNA_PORTRAIT_ENABLED } from '../lib/beauty-dna/config'
-import { DNA_FIELDS, encodeDnaCode, decodeDnaCode, type BeautyDna } from '../lib/beauty-dna/types'
+import { DNA_FIELDS, encodeDnaCode, decodeDnaCode, clearDna, type BeautyDna } from '../lib/beauty-dna/types'
 
 export default function BeautyDna() {
   const { locale } = useI18n()
@@ -95,7 +95,8 @@ function CompleteView({ dna, isEn, readOnly = false }: { dna: BeautyDna; isEn: b
   const reading = buildReadingCards(dna, isEn)
   const recs = mergeDnaRecs(dna)
   const code = encodeDnaCode(dna) ?? 'dna'
-  const shareUrl = `https://kissinskin.net${isEn ? '/en' : ''}/tools/beauty-dna/${readOnly && code !== 'dna' ? `?c=${code}` : ''}`
+  // 공유 링크는 항상 조합 코드를 실어 상대가 같은 결과를 보게 한다("너도 해봐" 루프).
+  const shareUrl = `https://kissinskin.net${isEn ? '/en' : ''}/tools/beauty-dna/${code !== 'dna' ? `?c=${code}` : ''}`
   const cachedPortrait = !readOnly && dna.portraitCode === code ? dna.portraitUrl : undefined
 
   const L = isEn
@@ -225,6 +226,25 @@ function CompleteView({ dna, isEn, readOnly = false }: { dna: BeautyDna; isEn: b
         retakeUrl={isEn ? '/en/tools/' : '/tools/'}
         retakeLabel={L.retake}
       />
+
+      {!readOnly && (
+        <div className="pb-12 text-center">
+          <button
+            type="button"
+            onClick={() => {
+              clearDna()
+              if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-navy transition-colors"
+          >
+            <span className="material-symbols-outlined text-base">restart_alt</span>
+            {isEn ? 'Start over (clear my saved results)' : '처음부터 다시 하기 (저장된 결과 지우기)'}
+          </button>
+          <p className="mt-1.5 text-[11px] text-slate-400">
+            {isEn ? 'Your results are saved on this device only.' : '이 결과는 이 기기에만 저장돼 있어요.'}
+          </p>
+        </div>
+      )}
 
       <RelatedTools exclude="ai-makeup" />
     </>

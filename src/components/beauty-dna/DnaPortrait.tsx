@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useI18n } from '../../i18n/I18nContext'
 import { useAuth } from '../../hooks/useAuth'
 import type { BeautyDna } from '../../lib/beauty-dna/types'
-import { writeDnaPortrait } from '../../lib/beauty-dna/types'
+import { writeDnaPortrait, encodeDnaCode } from '../../lib/beauty-dna/types'
 import { generateDnaPortrait } from '../../lib/beauty-dna/generate'
 
 type Phase = 'idle' | 'loading' | 'done' | 'error'
@@ -19,11 +19,13 @@ interface Props {
 export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
   const { locale } = useI18n()
   const isEn = locale === 'en'
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [phase, setPhase] = useState<Phase>(cached ? 'done' : 'idle')
   const [img, setImg] = useState<string | null>(cached ?? null)
   const [err, setErr] = useState<ErrKind | null>(null)
   const [tier, setTier] = useState<'free' | 'credit' | null>(null)
+  // 새 생성마다 새 jobId(차감), 에러 재시도는 같은 jobId(멱등) — makeup-edit 패턴
+  const jobIdRef = useRef<string | null>(null)
 
   if (readOnly && phase !== 'done') return null
 
@@ -31,6 +33,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
     ? {
         title: 'See it on a model',
         desc: 'We put your combination on a model face — an illustration, not a real person.',
+        needLogin: 'Generating the model needs a login (the 4 quizzes don’t). First one is free, no card.',
         cta: 'Make my makeup model',
         free: 'First one free',
         loginCta: 'Log in to make it',
@@ -47,6 +50,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
     : {
         title: '모델로 보기',
         desc: '내 조합을 모델 얼굴에 입혀봤어요. 실제 인물이 아닌 일러스트예요.',
+        needLogin: '모델 생성에는 로그인이 필요해요(진단 4가지는 로그인 없이). 첫 1회 무료, 카드 필요 없어요.',
         cta: '내 메이크업 모델 만들기',
         free: '첫 1회 무료',
         loginCta: '로그인하고 만들기',
@@ -61,9 +65,12 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
         tierFree: '무료 체험 사용', tierCredit: '크레딧 1회 사용',
       }
 
-  const run = async () => {
+  const run = async (retry = false) => {
+    if (!retry || !jobIdRef.current) {
+      jobIdRef.current = `dna:${encodeDnaCode(dna) ?? 'x'}:${Date.now().toString(36)}`
+    }
     setPhase('loading'); setErr(null)
-    const r = await generateDnaPortrait(dna)
+    const r = await generateDnaPortrait(dna, jobIdRef.current)
     if (r.ok) {
       setImg(r.image)
       setTier(r.tier)
@@ -98,7 +105,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
             {!readOnly && (
               <button
                 type="button"
-                onClick={run}
+                onClick={() => run(false)}
                 className="mt-4 inline-flex items-center gap-1.5 border border-navy/25 hover:border-navy text-navy px-6 py-2.5 text-sm font-bold transition-colors"
               >
                 <span className="material-symbols-outlined text-base">refresh</span>
@@ -130,31 +137,41 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
                     {isEn ? 'Top up' : '충전하기'}
                   </a>
                 ) : err === 'retry' ? (
-                  <button type="button" onClick={run} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
+                  <button type="button" onClick={() => run(true)} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
                     {isEn ? 'Try again' : '다시 시도'}
                   </button>
                 ) : null}
               </div>
+            ) : authLoading ? (
+              <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-slate-400">
+                <span className="material-symbols-outlined animate-spin text-base">progress_activity</span>
+                {isEn ? 'Checking…' : '확인 중…'}
+              </p>
             ) : user ? (
-              <button
-                type="button"
-                onClick={run}
-                className="mt-5 inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 text-sm font-bold hover:bg-navy-mid transition-colors"
-              >
-                {L.cta}
-                <span className="material-symbols-outlined text-base">auto_awesome</span>
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => run(false)}
+                  className="mt-5 inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 text-sm font-bold hover:bg-navy-mid transition-colors"
+                >
+                  {L.cta}
+                  <span className="material-symbols-outlined text-base">auto_awesome</span>
+                </button>
+                {phase === 'idle' && (
+                  <p className="mt-2 text-[11px] font-semibold text-primary-dark">{L.free}</p>
+                )}
+              </>
             ) : (
-              <a
-                href={loginHref}
-                className="mt-5 inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 text-sm font-bold hover:bg-navy-mid transition-colors"
-              >
-                {L.loginCta}
-                <span className="material-symbols-outlined text-base">auto_awesome</span>
-              </a>
-            )}
-            {phase === 'idle' && (
-              <p className="mt-2 text-[11px] font-semibold text-primary-dark">{L.free}</p>
+              <>
+                <a
+                  href={loginHref}
+                  className="mt-5 inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 text-sm font-bold hover:bg-navy-mid transition-colors"
+                >
+                  {L.loginCta}
+                  <span className="material-symbols-outlined text-base">auto_awesome</span>
+                </a>
+                <p className="mt-2.5 text-xs text-slate-500 leading-relaxed max-w-md mx-auto">{L.needLogin}</p>
+              </>
             )}
           </div>
         )}

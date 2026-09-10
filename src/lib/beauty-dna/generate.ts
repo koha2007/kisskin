@@ -1,6 +1,5 @@
 import { supabase } from '../supabase'
 import type { BeautyDna } from './types'
-import { encodeDnaCode } from './types'
 import { buildPortraitPrompt } from './portraitPrompt'
 
 export type DnaGenErrorKind = 'login' | 'topup' | 'unconfigured' | 'retry'
@@ -20,11 +19,14 @@ export interface DnaGenErr {
   detail?: string
 }
 
-// jobId 는 조합당 고정 — 같은 조합 재생성은 크레딧 재청구 없이(멱등) 다시 만든다.
-export async function generateDnaPortrait(dna: BeautyDna): Promise<DnaGenOk | DnaGenErr> {
+/**
+ * jobId 는 호출부가 관리한다(makeup-edit 패턴):
+ *   - 새 생성/다시 만들기 → 새 jobId (크레딧 차감)
+ *   - 에러 후 재시도 → 같은 jobId (멱등, 재청구 없음)
+ */
+export async function generateDnaPortrait(dna: BeautyDna, jobId: string): Promise<DnaGenOk | DnaGenErr> {
   const built = buildPortraitPrompt(dna)
-  const code = encodeDnaCode(dna)
-  if (!built || !code) return { ok: false, kind: 'retry', detail: 'incomplete' }
+  if (!built) return { ok: false, kind: 'retry', detail: 'incomplete' }
 
   const { data: { session } } = await supabase.auth.getSession()
   const token = session?.access_token
@@ -35,7 +37,7 @@ export async function generateDnaPortrait(dna: BeautyDna): Promise<DnaGenOk | Dn
     res = await fetch('/api/dna-portrait', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ prompt: built.prompt, baseShape: built.baseShape, jobId: `dna:${code}` }),
+      body: JSON.stringify({ prompt: built.prompt, baseShape: built.baseShape, jobId }),
     })
   } catch {
     return { ok: false, kind: 'retry', detail: 'network' }

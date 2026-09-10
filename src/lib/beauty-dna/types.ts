@@ -92,6 +92,17 @@ export function writeDnaPortrait(dataUrl: string): void {
   }
 }
 
+/** 전체 초기화 — "처음부터 다시 하기". kissin:dna:v1 을 통째로 지운다. */
+export function clearDna(): void {
+  if (typeof window === 'undefined') return
+  try {
+    window.localStorage.removeItem(DNA_STORAGE_KEY)
+    window.dispatchEvent(new Event(DNA_EVENT))
+  } catch {
+    /* private mode */
+  }
+}
+
 /** 결과 페이지에서 호출 — 값이 이미 같으면 write 를 건너뛴다(불필요한 이벤트 방지). */
 export function writeDnaField(field: DnaField, value: string): void {
   if (typeof window === 'undefined') return
@@ -118,9 +129,9 @@ export function dnaProgress(dna: BeautyDna): DnaProgress {
   return { done: DNA_FIELDS.length - missing.length, total: DNA_FIELDS.length, missing, complete: missing.length === 0 }
 }
 
-// ── 공유 코드 (P1 의 ?c= 에서 사용, 여기서 정의만) ─────────────────────────
-// 형식: "<pc-slug>-<fs-slug>-<pf-slug>-<mbti-slug>" 예: "autumn-warm-heart-woody-enfp"
-// slug 에 '-' 가 있어(예: autumn-warm) 단순 split 이 안 된다 → slug 를 순서대로 그리디 매칭.
+// ── 공유 코드 (?c= 파라미터) ──────────────────────────────────────────────
+// 형식: "<pc-slug>~<fs-slug>~<pf-slug>~<mbti-slug>" 예: "autumn-warm~heart~woody~enfp"
+// slug 자체에 '-' 가 있어(예: autumn-warm) 구분자는 '~' 를 쓴다.
 export function encodeDnaCode(dna: BeautyDna): string | null {
   if (!dnaProgress(dna).complete) return null
   return [
