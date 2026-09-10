@@ -53,12 +53,13 @@ export default function BeautyDna() {
       <ToolsNav />
       <main>
         <section className="bg-cream border-b border-slate-200">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
             <SectionHeader
               eyebrow={isEn ? 'kissinskin · Your own makeup' : 'kissinskin · 나만의 메이크업'}
               title={isEn ? 'I found my makeup' : '나만의 메이크업 찾았다'}
-              subtitle={subtitle}
-              className="!mb-8"
+              /* 완성 상태에선 부제(설명문)를 빼고 결과를 바로 보여준다 */
+              subtitle={viewComplete ? undefined : subtitle}
+              className={viewComplete ? '!mb-4' : '!mb-8'}
             />
             {readOnly ? (
               <p className="text-center">
@@ -70,6 +71,9 @@ export default function BeautyDna() {
                   <span className="material-symbols-outlined text-base">arrow_forward</span>
                 </a>
               </p>
+            ) : complete ? (
+              /* 완성: 4슬롯 체크리스트 대신 한 줄 확인만 — 결과(아래)가 주인공 */
+              <DnaProgress compact className="justify-center" />
             ) : (
               <DnaProgress />
             )}
