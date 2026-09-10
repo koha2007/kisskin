@@ -567,18 +567,15 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               className="group block relative overflow-hidden bg-navy text-white transition-colors hover:bg-navy-mid"
             >
               <div className="relative flex flex-col md:flex-row md:items-stretch">
-                {/* 4종 도구 무드컷 2×2 콜라주 = "이 4가지를 종합" 을 한눈에 */}
-                <div className="md:w-2/5 lg:w-1/3 shrink-0 grid grid-cols-2">
-                  {['/mood/tool-personal-color.webp', '/mood/tool-face-shape.webp', '/mood/tool-perfume.webp', '/mood/tool-mbti.webp'].map((src) => (
-                    <img
-                      key={src}
-                      src={src}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="aspect-square w-full object-cover md:aspect-auto md:h-full"
-                    />
-                  ))}
+                {/* 4종 진단을 종합한 "맞춤 뷰티 키트" 한 컷 (public/dna/feature.webp) */}
+                <div className="md:w-2/5 lg:w-1/3 shrink-0">
+                  <img
+                    src="/dna/feature.webp"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-[4/3] w-full object-cover md:aspect-auto md:h-full"
+                  />
                 </div>
                 <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
                   <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-3">

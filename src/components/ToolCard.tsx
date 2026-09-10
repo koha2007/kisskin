@@ -32,8 +32,8 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
   const borderHover = `color-mix(in srgb, ${accent} 45%, white)`
   return (
     // 2026-09 개편: 검색 유입의 첫 착지점이라 "눈에 더 들어오게" 한다.
-    //  · 상단 액센트 바(도구색 1점) — 면을 칠하지 않고 4색 세트가 한눈에 든다.
-    //  · hover 는 여전히 리프트/큰 그림자 없이 보더+옅은 배경 워시로만(2026-07-22 방침 유지).
+    //  · hover 는 리프트/큰 그림자 없이 보더+옅은 배경 워시로만(2026-07-22 방침 유지).
+    //  · 2026-09-10: 상단 액센트 바 제거 → 이미지가 라운드 상단까지 꽉 차게(다른 섹션 카드와 통일).
     <a
       href={available ? href : undefined}
       style={available ? ({ '--tc-bd': borderHover, '--tc-bg': tintHover } as CSSProperties) : undefined}
@@ -43,9 +43,6 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
           : 'opacity-60 cursor-not-allowed'
       }`}
     >
-      {/* 도구 액센트 바 */}
-      <span className="block h-1.5 w-full" style={{ background: accent }} aria-hidden="true" />
-
       {/* 결과 사진(허브에서만 전달) — YouCam 처럼 "무엇을 해 주는지" 먼저 보여준다. */}
       {image && (
         <span className="block aspect-[16/9] overflow-hidden bg-cream">
