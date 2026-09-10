@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
+import SectionHeader from './components/home/SectionHeader'
 import HomeContentSections from './components/HomeContentSections'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
@@ -468,27 +469,24 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </section>
 
       {/* ── 스타일 슬라이더 (트렌디한 K-뷰티 스타일) ── */}
-      <section id="styles" className="py-16 md:py-20 bg-cream scroll-mt-16" aria-labelledby="slider-title">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-2">
-          {/* 핑크 알약 배지 → 담백한 eyebrow. 배경이 색을 쥐지 않게 하고 색은 사진이 담당한다
-              (Rhode·MERIT·Glossier 공통 패턴). 아래 '선택하면 바로 생성' 힌트는 운영자가
-              유지 요청한 부분이라 그대로 둔다. */}
-          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
-            {t('home.styles.badge')}
+      <section id="styles" className="py-16 md:py-24 bg-cream scroll-mt-16" aria-labelledby="styles-title">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            titleId="styles-title"
+            eyebrow={t('home.styles.badge')}
+            title={t('home.slider.title')}
+            subtitle={t('home.slider.subtitle')}
+            className="!mb-6 md:!mb-8"
+          />
+          {/* '선택하면 바로 생성' 힌트 — 운영자 유지 요청 */}
+          <p className="text-center mb-8 md:mb-12">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/5 border border-primary/15 px-4 py-1.5 text-primary-dark text-xs md:text-sm font-semibold">
+              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>touch_app</span>
+              {t('home.slider.selectHint')}
+            </span>
           </p>
-          <h2 id="slider-title" className="font-serif text-3xl md:text-[2.5rem] font-semibold tracking-tight text-navy leading-tight">
-            {t('home.slider.title')}
-          </h2>
-          <p className="text-slate-500 text-sm md:text-base mt-2">{t('home.slider.subtitle')}</p>
-          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-primary/5 border border-primary/15 px-4 py-1.5 text-primary-dark text-xs md:text-sm font-semibold">
-            <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>touch_app</span>
-            {t('home.slider.selectHint')}
-          </p>
-        </div>
-        {/* 9룩 카드 — 각 룩의 실제 결과 이미지. 카드를 누르면 그 룩으로 바로 생성.
-            (2026-07-12: 가로 무한 마퀴 → 3×3 그리드. 룩 9개가 한눈에 안 들어와
-             스크롤 없이는 고를 수 없었다. 이미지도 신규 결과물로 교체.) */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+          {/* 9룩 카드 — 각 룩의 실제 결과 이미지. 카드를 누르면 그 룩으로 바로 생성.
+              (2026-07-12: 가로 무한 마퀴 → 3×3 그리드.) */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {MAKEUP_STYLES.map((s) => (
               <a
@@ -521,15 +519,14 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* ── 3단계 (네이비 배경) ── */}
       <section id="how" className="py-12 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* 2026-07-22 개편: 원형 아이콘 배지 + 그라디언트 번호 → 초대형 넘버링 타이포.
-              YouCam(Perfect Corp)이 기능을 01~11 넘버로 끌고 가는 방식이 근거. 장식을 빼고
-              번호 자체를 조판 요소로 쓰면 정보 위계가 아이콘 장식보다 훨씬 또렷해진다.
-              2026-09-10: 모바일에서 세 단계가 세로로 쌓이며 한 화면을 통째로 먹었다.
-              모바일은 번호를 제목 옆으로 붙이고 여백·폰트를 줄여 높이를 절반으로. 데스크톱은 유지. */}
-          <div className="mb-8 md:mb-20 max-w-4xl mx-auto text-center md:text-left">
-            <p className="text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-2 md:mb-3">{t('home.how.badge')}</p>
-            <h2 id="how-title" className="font-serif text-2xl md:text-[2.75rem] font-semibold tracking-tight leading-tight">{t('home.how.title')}</h2>
-          </div>
+          {/* 2026-07-22 개편: 초대형 넘버링 타이포(YouCam 방식). 2026-09-10: 모바일에서
+              세 단계가 세로로 쌓이며 한 화면을 먹어 번호를 제목 옆으로 붙이고 여백을 줄였다. */}
+          <SectionHeader
+            titleId="how-title"
+            tone="dark"
+            eyebrow={t('home.how.badge')}
+            title={t('home.how.title')}
+          />
 
           <div className="grid md:grid-cols-3 gap-5 md:gap-8 lg:gap-14 max-w-4xl mx-auto">
             {[
@@ -552,20 +549,12 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* ── 무료 도구 그리드 (나만을 위한 뷰티 솔루션) ── */}
       <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 bg-white" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-14">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-4">
-              {isEn ? 'ALL FREE · No signup' : 'ALL FREE · 로그인 불필요'}
-            </p>
-            {/* 3색 그라디언트 텍스트 → 단색. 그라디언트 글자는 2020~21년 SaaS 랜딩의 관용구라
-                지금은 그 자체로 연식을 드러낸다. 강조는 색 하나(primary)로만 준다. */}
-            <h2 id="tools-title" className="font-serif text-4xl md:text-[3rem] font-semibold tracking-tight text-navy leading-[1.1] mb-4">
-              {t('home.toolsShowcase.title1')}<br />
-              <span className="text-primary">{t('home.toolsShowcase.title2')}</span>
-            </h2>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              {t('home.toolsShowcase.subtitle')}
-            </p>
-          </div>
+          <SectionHeader
+            titleId="tools-title"
+            eyebrow={t('home.toolsShowcase.badge')}
+            title={t('home.toolsShowcase.title1')}
+            subtitle={t('home.toolsShowcase.subtitle')}
+          />
 
           {/* Featured: AI Makeup (네이비 강조 카드) */}
           <div className="mb-6">
@@ -608,18 +597,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </a>
           </div>
 
-          {/* 무료 진단 4종 서브헤더 — 시그니처 카드 바로 뒤에 퀴즈 카드가 아무 설명 없이
-              튀어나온다는 지적(2026-09-10). 같은 섹션 안에서 블록을 구분해 준다. */}
-          <div className="max-w-4xl mx-auto border-t border-slate-200 pt-10 md:pt-12 mb-7 md:mb-8 text-center">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-2">
-              {t('home.toolsShowcase.quizzesBadge')}
-            </p>
-            <h3 className="font-serif text-2xl md:text-[1.75rem] font-semibold text-navy tracking-tight leading-tight">
-              {t('home.toolsShowcase.quizzesTitle')}
-            </h3>
-            <p className="text-slate-500 text-sm md:text-base mt-2 max-w-xl mx-auto leading-relaxed">
-              {t('home.toolsShowcase.quizzesDesc')}
-            </p>
+          {/* 무료 진단 4종 서브헤더 — 시그니처 카드 뒤 퀴즈 카드가 설명 없이 튀어나온다는
+              지적(2026-09-10). 같은 섹션 안 하위 블록이라 h3. */}
+          <div className="max-w-4xl mx-auto border-t border-slate-200 pt-10 md:pt-12">
+            <SectionHeader
+              level={3}
+              eyebrow={t('home.toolsShowcase.quizzesBadge')}
+              title={t('home.toolsShowcase.quizzesTitle')}
+              subtitle={t('home.toolsShowcase.quizzesDesc')}
+              className="!mb-7 md:!mb-8"
+            />
           </div>
 
           {/* 4 Tool Cards — 공통 ToolCard 재사용, 각 "무료" 뱃지 */}

@@ -35,7 +35,7 @@ export default {
   'home.hero.priceSub': 'Sign up for your first try free · then credits from $2.99',
   'home.ba.title': 'See the transformation',
   'home.ba.subtitle': 'We bring out your natural beauty',
-  'home.slider.title': 'Trendy K-beauty styles',
+  'home.slider.title': '9 trending K-beauty looks',
   'home.slider.subtitle': 'Preview the looks that suit your face',
   'home.slider.selectHint': 'Pick a look and it’s generated on your selfie right away',
   'home.cta.button': 'Start AI makeup',
@@ -71,9 +71,9 @@ export default {
   'home.value.desc3': 'Try K-beauty makeup on Galaxy, iPhone, or PC — anywhere, anytime.',
 
   // Tools Showcase Section
-  'home.toolsShowcase.title1': 'Your personal',
-  'home.toolsShowcase.title2': 'beauty solutions',
-  'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color & face shape diagnosis, and in-depth guide — all free, no signup required.',
+  'home.toolsShowcase.badge': 'All free · no signup',
+  'home.toolsShowcase.title1': 'Your personal beauty solutions',
+  'home.toolsShowcase.subtitle': 'Makeup simulation, personality quiz, color and face shape diagnosis — all free, no signup required.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
   'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up for your first try free.',
@@ -93,9 +93,9 @@ export default {
   'home.toolsShowcase.t4Title': 'Your Perfect Perfume',
   'home.toolsShowcase.t4Desc': '5-question quiz → matched perfume notes per type',
   // Sub-header between the signature (AI makeup) card and the 4 quiz cards (2026-09-10)
-  'home.toolsShowcase.quizzesBadge': '4 free self-checks',
-  'home.toolsShowcase.quizzesTitle': 'Each takes about a minute',
-  'home.toolsShowcase.quizzesDesc': 'Find the colors, looks, and scent that fit you — all free, no login.',
+  'home.toolsShowcase.quizzesBadge': 'Free · no signup',
+  'home.toolsShowcase.quizzesTitle': '4 one-minute beauty quizzes',
+  'home.toolsShowcase.quizzesDesc': 'Find the colors, looks, and scent that fit you.',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
@@ -130,8 +130,8 @@ export default {
   'style.m9': 'Ash Brown Hair',
 
   // How it works
-  'home.how.title': '3 Simple Steps',
-  'home.how.badge': 'Simple Process',
+  'home.how.title': 'AI makeup in 3 steps',
+  'home.how.badge': 'How it works',
   'home.how.step1': 'Upload Photo',
   'home.how.step1Desc': 'Take a selfie or choose a photo from your gallery',
   'home.how.step2': 'AI Analysis',

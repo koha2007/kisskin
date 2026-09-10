@@ -37,7 +37,7 @@ export default {
   'home.hero.priceSub': '회원가입하면 첫 1회 무료 · 이후 크레딧 $2.99부터',
   'home.ba.title': '이렇게 바뀌어요',
   'home.ba.subtitle': '당신의 본연의 아름다움을 찾아드립니다',
-  'home.slider.title': '트렌디한 K-뷰티 스타일',
+  'home.slider.title': '트렌디한 K-뷰티 스타일 9가지',
   'home.slider.subtitle': '내 얼굴에 어울리는 룩을 미리 만나보세요',
   'home.slider.selectHint': '원하는 메이크업을 선택하면 바로 그 메이크업으로 생성돼요',
   'home.cta.button': 'AI 메이크업 시작하기',
@@ -73,9 +73,9 @@ export default {
   'home.value.desc3': 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.',
 
   // Tools Showcase Section
-  'home.toolsShowcase.title1': '나만을 위한',
-  'home.toolsShowcase.title2': '뷰티 솔루션',
-  'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단, 그리고 심화 가이드까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
+  'home.toolsShowcase.badge': '모두 무료 · 로그인 불필요',
+  'home.toolsShowcase.title1': '나만을 위한 뷰티 솔루션',
+  'home.toolsShowcase.subtitle': '메이크업 시뮬레이션부터 성향·컬러·얼굴형 진단까지. 모두 로그인 없이 무료로 이용할 수 있어요.',
   'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',
   'home.toolsShowcase.mainTitle': 'AI 메이크업 시뮬레이터',
   'home.toolsShowcase.mainDesc': '실시간 AI 분석으로 가장 어울리는 룩을 추천해 드려요. 회원가입하면 첫 1회 무료.',
@@ -95,12 +95,12 @@ export default {
   'home.toolsShowcase.t4Title': '나에게 어울리는 향수',
   'home.toolsShowcase.t4Desc': '5문항 진단 → 6가지 타입별 맞춤 향수 추천',
   // 시그니처(AI 메이크업) 카드와 아래 퀴즈 4장 사이 서브헤더 (2026-09-10)
-  'home.toolsShowcase.quizzesBadge': '무료 자가진단 4종',
-  'home.toolsShowcase.quizzesTitle': '하나당 1분이면 끝나요',
-  'home.toolsShowcase.quizzesDesc': '나에게 맞는 컬러·룩·향을 미리 찾아보세요. 모두 로그인 없이 무료.',
+  'home.toolsShowcase.quizzesBadge': '무료 · 로그인 불필요',
+  'home.toolsShowcase.quizzesTitle': '1분 뷰티 진단 4종',
+  'home.toolsShowcase.quizzesDesc': '나에게 맞는 컬러·룩·향을 미리 찾아보세요.',
 
   // Styles Section
-  'home.styles.badge': '2026 Makeup Trends',
+  'home.styles.badge': '2026 K-뷰티 트렌드',
   'home.styles.title': '여성과 남성의 ',
   'home.styles.titleHighlight': '9가지 메이크업 스타일',
   'home.styles.titleEnd': '은\n이렇게 변화가 이루어져요',
@@ -132,8 +132,8 @@ export default {
   'style.m9': '애쉬 브라운 헤어',
 
   // How it works
-  'home.how.title': '간단한 3단계',
-  'home.how.badge': '간단한 프로세스',
+  'home.how.title': '메이크업 생성 3단계',
+  'home.how.badge': '이용 방법',
   'home.how.step1': '사진 업로드',
   'home.how.step1Desc': '셀카를 찍거나 갤러리에서 사진을 선택하세요',
   'home.how.step2': 'AI 분석',
