@@ -73,7 +73,7 @@ export default {
   'home.value.desc3': 'Galaxy, iPhone, PC 어디서든 카메라 또는 갤러리에서 업로드하세요.',
 
   // Tools Showcase Section
-  'home.toolsShowcase.badge': '모두 무료 · 로그인 불필요',
+  'home.toolsShowcase.badge': '무료 진단 4가지를 하나로',
   'home.toolsShowcase.title1': '나만의 메이크업 찾았다',
   'home.toolsShowcase.subtitle': '무료 진단 4가지 결과를 하나로 종합해, 나에게 딱 맞는 메이크업과 제품을 찾아드려요. 셀카는 필요 없어요.',
   'home.toolsShowcase.signatureBadge': 'kissinskin 시그니처',

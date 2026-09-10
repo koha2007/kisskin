@@ -71,7 +71,7 @@ export default {
   'home.value.desc3': 'Try K-beauty makeup on Galaxy, iPhone, or PC — anywhere, anytime.',
 
   // Tools Showcase Section
-  'home.toolsShowcase.badge': 'All free · no signup',
+  'home.toolsShowcase.badge': '4 free quizzes, combined',
   'home.toolsShowcase.title1': 'I found my makeup',
   'home.toolsShowcase.subtitle': 'We synthesize your four free quiz results into your own makeup and product list — no selfie needed.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
