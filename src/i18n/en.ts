@@ -97,6 +97,8 @@ export default {
   'home.toolsShowcase.quizzesTitle': 'These 4 decide your makeup',
   'home.toolsShowcase.quizzesDesc': 'One minute each. Once all four are in, your result is ready above.',
   'home.dna.homeCta': 'See my personalized result',
+  'home.dna.featLabel': '4 quizzes → one result',
+  'home.dna.featDesc': 'No selfie — we synthesize your four free quiz results into your own makeup and product list.',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',

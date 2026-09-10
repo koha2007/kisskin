@@ -548,9 +548,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </section>
 
       {/* ── "나만의 메이크업 찾았다" 섹션 (구 "나만을 위한 뷰티 솔루션") ──
-          2026-09-10: 이 자리에 beauty-dna 진입점을 얹었다(운영자 A안). 헤더·프레이밍은
-          beauty-dna, 그 아래 4종 진행도(compact) + 결과 CTA. AI 메이크업 카드와
-          4개 퀴즈 카드는 "DNA를 채우는 재료"로서 그대로 둔다. */}
+          2026-09-10: 섹션 제목이 "나만의 메이크업 찾았다"인데 히어로 카드가 AI 메이크업
+          시뮬레이터(/analysis/)였다 → 히어로를 beauty-dna 로 교체하고, AI 메이크업은
+          4종 카드 아래 슬림 카드로 강등(상단 히어로·상단바·9룩 그리드에 진입점 존치). */}
       <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 bg-white" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
@@ -560,51 +560,36 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             subtitle={t('home.toolsShowcase.subtitle')}
           />
 
-          <div className="max-w-md mx-auto -mt-4 mb-12 md:mb-16 flex flex-col items-center gap-4">
-            <DnaProgress compact />
+          {/* Featured: 나만의 메이크업 찾았다 (네이비 강조 카드) — 섹션의 주인공 */}
+          <div className="mb-12 md:mb-16">
             <a
               href={toolHref('/tools/beauty-dna/')}
-              className="inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 font-bold text-sm hover:bg-navy-mid transition-colors"
-            >
-              {t('home.dna.homeCta')}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-          </div>
-
-          {/* Featured: AI Makeup (네이비 강조 카드) */}
-          <div className="mb-6">
-            <a
-              href="/analysis/"
               className="group block relative overflow-hidden bg-navy text-white transition-colors hover:bg-navy-mid"
             >
-              {/* 💄 이모지 블록 + 그라디언트 + blur blob 을 걷어내고 실제 결과물을 넣었다.
-                  이모지 히어로는 2019년 앱스토어 스크린샷 문법이고, 무엇보다 우리 제품이
-                  뭘 만들어 주는지 한 글자도 보여주지 못한다. */}
               <div className="relative flex flex-col md:flex-row md:items-stretch">
-                <div className="md:w-2/5 lg:w-1/3 shrink-0">
-                  {/* 모바일: 3:4 원본을 h-56 로 자르면 얼굴이 입에서 잘렸다(운영자 리포트).
-                      이마~턱이 다 들어오도록 4:3 밴드 + 얼굴 중심(위쪽 18%)으로 위치를 잡는다.
-                      데스크톱(md↑)은 텍스트 패널 높이에 맞춰 세로로 꽉 차던 기존 레이아웃 유지. */}
-                  <img
-                    src={LOOK_IMAGES[MAKEUP_STYLES[0].id].after}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-[4/3] w-full object-cover object-[50%_18%] md:aspect-auto md:h-full md:object-top"
-                  />
+                {/* 4종 도구 무드컷 2×2 콜라주 = "이 4가지를 종합" 을 한눈에 */}
+                <div className="md:w-2/5 lg:w-1/3 shrink-0 grid grid-cols-2">
+                  {['/mood/tool-personal-color.webp', '/mood/tool-face-shape.webp', '/mood/tool-perfume.webp', '/mood/tool-mbti.webp'].map((src) => (
+                    <img
+                      key={src}
+                      src={src}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-square w-full object-cover md:aspect-auto md:h-full"
+                    />
+                  ))}
                 </div>
                 <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
                   <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-3">
-                    {t('home.toolsShowcase.signatureBadge')}
+                    {t('home.dna.featLabel')}
                   </p>
-                  <h3 className="font-serif text-2xl md:text-[2.25rem] font-semibold mb-3 leading-tight tracking-tight">
-                    {t('home.toolsShowcase.mainTitle')}
-                  </h3>
-                  <p className="text-white/80 text-sm md:text-base mb-6 max-w-xl leading-relaxed">
-                    {t('home.toolsShowcase.mainDesc')}
+                  <p className="text-white/80 text-sm md:text-base mb-5 max-w-xl leading-relaxed">
+                    {t('home.dna.featDesc')}
                   </p>
+                  <DnaProgress compact dark className="mb-5" />
                   <span className="inline-flex w-fit items-center gap-2 font-bold text-sm md:text-base bg-white text-navy px-6 py-3.5 group-hover:gap-3 transition-all">
-                    {t('home.toolsShowcase.mainCta')}
+                    {t('home.dna.homeCta')}
                     <span className="material-symbols-outlined">arrow_forward</span>
                   </span>
                 </div>
@@ -651,6 +636,32 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 cta={t('home.toolsShowcase.cardCta')}
               />
             ))}
+          </div>
+
+          {/* 셀카로 바로 하고 싶으면 — AI 메이크업(구 시그니처 히어로, 2026-09-10 강등) */}
+          <div className="max-w-4xl mx-auto mt-4">
+            <a
+              href="/analysis/"
+              className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 md:p-5 hover:border-navy transition-colors"
+            >
+              <img
+                src={LOOK_IMAGES[MAKEUP_STYLES[0].id].after}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="h-16 w-16 shrink-0 rounded-xl object-cover object-top"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-bold uppercase tracking-wide text-primary">
+                  {t('home.toolsShowcase.signatureBadge')}
+                </p>
+                <p className="font-bold text-navy leading-tight">{t('home.toolsShowcase.mainTitle')}</p>
+                <p className="text-xs md:text-sm text-slate-500 leading-snug mt-0.5">
+                  {t('home.toolsShowcase.mainDesc')}
+                </p>
+              </div>
+              <span className="material-symbols-outlined text-slate-400 group-hover:text-navy shrink-0">arrow_forward</span>
+            </a>
           </div>
 
           <div className="text-center mt-10 md:mt-12">

@@ -99,6 +99,8 @@ export default {
   'home.toolsShowcase.quizzesTitle': '이 4가지가 내 메이크업을 정해요',
   'home.toolsShowcase.quizzesDesc': '하나씩 1분이면 끝나요. 4가지가 모이면 위에서 결과를 볼 수 있어요.',
   'home.dna.homeCta': '내 맞춤 결과 보기',
+  'home.dna.featLabel': '4가지 진단 → 하나의 결과',
+  'home.dna.featDesc': '셀카 없이, 무료 진단 4가지 결과를 종합해 나만의 메이크업과 제품을 찾아드려요.',
 
   // Styles Section
   'home.styles.badge': '2026 K-뷰티 트렌드',

@@ -6,10 +6,12 @@ import { dnaTypeDisplay } from '../../lib/beauty-dna/display'
 interface Props {
   /** true = 4슬롯 그리드 없이 도트 + 문구만 (홈/허브용) */
   compact?: boolean
+  /** compact + 어두운 배경 위 (네이비 카드 안) */
+  dark?: boolean
   className?: string
 }
 
-export default function DnaProgress({ compact = false, className = '' }: Props) {
+export default function DnaProgress({ compact = false, dark = false, className = '' }: Props) {
   const { locale, t } = useI18n()
   const isEn = locale === 'en'
   const { dna, done, total, complete } = useBeautyDna()
@@ -20,14 +22,14 @@ export default function DnaProgress({ compact = false, className = '' }: Props) 
       {DNA_FIELDS.map((f) => (
         <span
           key={f}
-          className={`h-2 w-2 rounded-full ${dna[f] ? 'bg-primary' : 'bg-slate-300'}`}
+          className={`h-2 w-2 rounded-full ${dna[f] ? (dark ? 'bg-white' : 'bg-primary') : (dark ? 'bg-white/25' : 'bg-slate-300')}`}
         />
       ))}
     </span>
   )
 
   const countLine = (
-    <span className="text-sm font-bold text-navy">
+    <span className={`text-sm font-bold ${dark ? 'text-white' : 'text-navy'}`}>
       {done} / {total} {t('tools.beautyDna.done')}
     </span>
   )
