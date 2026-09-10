@@ -44,6 +44,11 @@ export default function BeautyDna() {
   const viewComplete = shared ? true : complete
   const readOnly = !!shared
 
+  const resetAll = () => {
+    clearDna()
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const subtitle = isEn
     ? 'Personal color, face shape, perfume, and makeup MBTI — we synthesize all four free quiz results into your own makeup and product list. No selfie needed.'
     : '퍼스널컬러 · 얼굴형 · 향수 · 메이크업 MBTI — 무료 진단 4가지 결과를 하나로 종합해, 나에게 딱 맞는 메이크업과 제품을 찾아드려요. 셀카는 필요 없어요.'
@@ -72,8 +77,18 @@ export default function BeautyDna() {
                 </a>
               </p>
             ) : complete ? (
-              /* 완성: 4슬롯 체크리스트 대신 한 줄 확인만 — 결과(아래)가 주인공 */
-              <DnaProgress compact className="justify-center" />
+              /* 완성: 4슬롯 체크리스트 대신 한 줄 확인 + '처음부터 다시 하기'(헤더에 노출 — 하단은 안 보임) */
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+                <DnaProgress compact />
+                <button
+                  type="button"
+                  onClick={resetAll}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 underline hover:text-navy transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[16px]">restart_alt</span>
+                  {isEn ? 'Start over' : '처음부터 다시 하기'}
+                </button>
+              </div>
             ) : (
               <DnaProgress />
             )}
@@ -81,7 +96,7 @@ export default function BeautyDna() {
         </section>
 
         {viewComplete ? (
-          <CompleteView dna={viewDna} isEn={isEn} readOnly={readOnly} />
+          <CompleteView dna={viewDna} isEn={isEn} readOnly={readOnly} onReset={resetAll} />
         ) : (
           <IncompleteView isEn={isEn} />
         )}
@@ -93,7 +108,7 @@ export default function BeautyDna() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-function CompleteView({ dna, isEn, readOnly = false }: { dna: BeautyDna; isEn: boolean; readOnly?: boolean }) {
+function CompleteView({ dna, isEn, readOnly = false, onReset }: { dna: BeautyDna; isEn: boolean; readOnly?: boolean; onReset?: () => void }) {
   const persona = getPersona(dna, isEn)
   const routine = buildRoutine(dna, isEn)
   const reading = buildReadingCards(dna, isEn)
@@ -232,21 +247,18 @@ function CompleteView({ dna, isEn, readOnly = false }: { dna: BeautyDna; isEn: b
         retakeLabel={L.retake}
       />
 
-      {!readOnly && (
+      {!readOnly && onReset && (
         <div className="pb-12 text-center">
           <button
             type="button"
-            onClick={() => {
-              clearDna()
-              if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
+            onClick={onReset}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-navy transition-colors"
           >
             <span className="material-symbols-outlined text-base">restart_alt</span>
             {isEn ? 'Start over (clear my saved results)' : '처음부터 다시 하기 (저장된 결과 지우기)'}
           </button>
           <p className="mt-1.5 text-[11px] text-slate-400">
-            {isEn ? 'Your results are saved on this device only.' : '이 결과는 이 기기에만 저장돼 있어요.'}
+            {isEn ? 'Your results are saved on this device only — nothing is sent to a server.' : '이 결과는 이 기기에만 저장돼요. 서버로 전송되지 않아요.'}
           </p>
         </div>
       )}
