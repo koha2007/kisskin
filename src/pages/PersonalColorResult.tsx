@@ -9,6 +9,7 @@ import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
+import DnaTracker from '../components/beauty-dna/DnaTracker'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
   BentoPalette,
@@ -228,6 +229,8 @@ export default function PersonalColorResult({ code }: Props) {
         />
 
         {/* Cross-promo — 다른 진단 3종 */}
+        <DnaTracker field="personalColor" code={code} />
+
         <RelatedTools exclude="personal-color" />
 
         {/* Other seasons */}

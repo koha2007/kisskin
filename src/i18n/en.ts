@@ -369,6 +369,14 @@ export default {
   'tools.fs.badge': 'Face Shape Quiz · 2026',
   'tools.fs.previewCta': 'Preview 5 shapes',
 
+  // "I found my makeup" (beauty-dna)
+  'tools.beautyDna.done': 'done',
+  'tools.beautyDna.doQuiz': 'Take it',
+  'tools.beautyDna.allDone': 'All 4 done — see your routine and products below',
+  'tools.beautyDna.hubCardTitle': 'I Found My Makeup',
+  'tools.beautyDna.hubCardDesc': 'Do the 4 quizzes → a routine + product list built for you.',
+  'tools.beautyDna.hubCardCta': 'Open',
+
   // RecommendedProducts
   'recProducts.aria': 'Recommended products',
   'recProducts.badge': 'Shopping Guide',

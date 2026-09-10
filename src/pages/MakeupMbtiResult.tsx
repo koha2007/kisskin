@@ -15,6 +15,7 @@ import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
+import DnaTracker from '../components/beauty-dna/DnaTracker'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
   BentoPhoto,
@@ -321,6 +322,8 @@ export default function MakeupMbtiResult({ code }: Props) {
         }
 
         {/* Related tools — drive cross-tool retention */}
+        <DnaTracker field="mbti" code={code} />
+
         <RelatedTools exclude="makeup-mbti" />
 
         {/* Share */}

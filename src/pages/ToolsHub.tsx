@@ -1,6 +1,7 @@
 import { MBTI_ORDER, MAKEUP_MBTI_TYPES } from '../lib/makeup-mbti/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ToolCard from '../components/ToolCard'
+import DnaProgress from '../components/beauty-dna/DnaProgress'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -105,6 +106,22 @@ const TOOLS: Tool[] = [
     koCta: '진단',
     enCta: 'Find mine',
     accent: 'var(--color-tool-perfume)',
+    badge: 'NEW',
+    available: true,
+  },
+  {
+    koHref: '/tools/beauty-dna/',
+    enHref: '/en/tools/beauty-dna/',
+    icon: 'auto_awesome_mosaic',
+    koTitle: '나만의 메이크업 찾았다',
+    koMeta: '진단 4종 통합 · 맞춤 루틴+제품',
+    enMeta: 'Merges 4 quizzes · routine + products',
+    enTitle: 'I Found My Makeup',
+    koDesc: '진단 4가지를 모으면 맞춤 메이크업 루틴과 제품 리스트.',
+    enDesc: 'Do the 4 quizzes → a routine and product list built for you.',
+    koCta: '모아보기',
+    enCta: 'Open',
+    accent: 'var(--color-tool-ai)',
     badge: 'NEW',
     available: true,
   },
@@ -224,9 +241,11 @@ export default function ToolsHub() {
             <h2 className="t-h2 text-navy mb-1.5">
               {isEn ? 'Free diagnostics' : '무료 진단 도구'}
             </h2>
-            <p className="t-caption text-slate-500 mb-6">
+            <p className="t-caption text-slate-500 mb-5">
               {isEn ? 'No sign-up, unlimited retries.' : '가입 없이, 몇 번이든 다시 할 수 있어요.'}
             </p>
+            {/* 4종 진행도 — "나만의 메이크업 찾았다" 카드로 이어지는 넛지 */}
+            <DnaProgress compact className="mb-6" />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {TOOLS.filter((t) => t.koHref !== '/analysis/').map((tool) => (
                 <ToolCard

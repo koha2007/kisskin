@@ -8,6 +8,7 @@ export type AffiliatePageType =
   | 'face_shape'
   | 'mbti'
   | 'perfume_type'
+  | 'beauty_dna'
   | 'review'
   | 'guide'
   | 'news'

@@ -9,6 +9,7 @@ import ShareBar from '../components/ShareBar'
 import IdentityCard from '../components/IdentityCard'
 import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
+import DnaTracker from '../components/beauty-dna/DnaTracker'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
   BentoFacts,
@@ -224,6 +225,8 @@ export default function PerfumeTypeResult({ code }: Props) {
         />
 
         {/* Cross-promo — 다른 진단 3종 */}
+        <DnaTracker field="perfume" code={code} />
+
         <RelatedTools exclude="perfume-type" titleKo="다른 무료 진단도 함께" titleEn="Try the other free quizzes too" />
 
         {/* Other types */}
