@@ -20,6 +20,7 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     date: '2026-09-09',
     readMinutes: 3,
     tags: ['K-Beauty Exports', 'Small Brands', 'Global Trends'],
+    image: '/news/k-beauty-record-august-exports-small-brands-rise.webp',
     seoTitle: 'August K-Beauty Exports Surge 52% as Small Brands Lead',
     seoDescription:
       'South Korean cosmetics exports jumped 52.1% in August 2026, driven by small brands which accounted for 68.7% of total sales.',

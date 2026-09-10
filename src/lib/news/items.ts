@@ -17,6 +17,7 @@ export const NEWS_ITEMS: NewsItem[] = [
     date: '2026-09-09',
     readMinutes: 3,
     tags: ['K‑뷰티 수출', '소형 브랜드', '글로벌 트렌드'],
+    image: '/news/k-beauty-record-august-exports-small-brands-rise.webp',
     seoTitle: '8월 K‑뷰티 수출 52% 급증, 소형 브랜드 강세',
     seoDescription:
       '2026년 8월 한국 화장품 수출이 전년 대비 52.1% 급증하고 소형 브랜드가 전체의 68.7%를 차지하며 수출 주역으로 떠올랐습니다.',

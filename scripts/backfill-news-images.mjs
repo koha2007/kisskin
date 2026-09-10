@@ -41,6 +41,8 @@ const DRY = argv.includes('--dry')
 const NO_SCENE = argv.includes('--no-scene')
 const LIMIT = (() => { const i = argv.indexOf('--limit'); return i >= 0 ? Math.max(1, Number(argv[i + 1]) || 0) : Infinity })()
 const ONLY = (() => { const i = argv.indexOf('--only'); return i >= 0 ? new Set((argv[i + 1] || '').split(',').map((s) => s.trim()).filter(Boolean)) : null })()
+// --male / --female: 인물 성별 고정(특정 카드를 원하는 성별로 다시 뽑을 때). 미지정 시 슬러그 해시로 남녀 혼합.
+const GENDER = argv.includes('--male') ? 'male' : argv.includes('--female') ? 'female' : undefined
 
 function loadEnv(key) {
   if (process.env[key]) return process.env[key]
@@ -129,7 +131,8 @@ async function sceneFor(geminiKey, b) {
 async function genImage(openaiKey, item) {
   const market = hash(item.slug) % 2 === 0 ? 'kr' : 'global'
   // 뉴스는 산업 트렌드라 남녀를 섞는다(allowMen). gen-news.mjs genImage 와 동일.
-  const promptItem = { slug: item.slug, category: item.category, market, allowMen: true, imageScene: item.imageScene }
+  // --male/--female 지정 시 그 성별로 고정.
+  const promptItem = { slug: item.slug, category: item.category, market, allowMen: true, gender: GENDER, imageScene: item.imageScene }
   let b64
   for (let retry = 0; retry < 3 && !b64; retry++) {
     b64 = await generateImageB64(openaiKey, buildImagePrompt(promptItem, retry), '3:4')

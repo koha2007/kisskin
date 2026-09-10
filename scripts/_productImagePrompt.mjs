@@ -79,9 +79,13 @@ export function buildImagePrompt(item, retry = 0) {
   const pool = item.market === 'global' ? SUBJECT_GLOBAL : SUBJECT_KR
   // 남성 모델은 립/치크 제품 컷엔 어울리지 않으니 헤어·스킨케어·향수에서만 허용.
   // 단 뉴스 무드컷(allowMen)은 특정 제품이 아니라 산업 트렌드라 남녀를 모두 섞는다.
-  const subjects = item.allowMen || ['hair', 'skincare', 'fragrance'].includes(item.category)
-    ? pool
-    : pool.filter((s) => !s.includes(' man '))
+  const subjects = item.gender === 'male'
+    ? pool.filter((s) => s.includes(' man '))
+    : item.gender === 'female'
+      ? pool.filter((s) => !s.includes(' man '))
+      : item.allowMen || ['hair', 'skincare', 'fragrance'].includes(item.category)
+        ? pool
+        : pool.filter((s) => !s.includes(' man '))
   const subject = pick(subjects, h, 0)
   const framing = pick(FRAMING, h, 1)
   const lighting = pick(LIGHTING, h, 2)
