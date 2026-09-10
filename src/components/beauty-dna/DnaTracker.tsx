@@ -13,38 +13,34 @@ interface Props {
 /**
  * 4개 결과 페이지에 하나씩 심는다:
  *  1) 마운트 시 이 진단 결과를 localStorage(kissin:dna:v1)에 기록
- *  2) 다른 진단이 1개 이상 끝나 있고 아직 4/4 가 아니면 "완성까지 N개" 스트립을 띄운다
- * 위치: 결과 페이지 히어로 바로 아래(롱폼 앞) — 2026-09-10 상단으로 올림(하단은 눈에 안 띔).
+ *  2) 진행 중이면 "다음 진단으로 바로 가기" + 완성이면 "결과 보기" 를 띄운다
+ * 위치: 결과 페이지 히어로 바로 아래(롱폼 앞).
  */
 export default function DnaTracker({ field, code }: Props) {
   const { locale } = useI18n()
   const isEn = locale === 'en'
-  const { dna, setField, done, total, complete, missing } = useBeautyDna()
+  const { setField, done, total, complete, missing } = useBeautyDna()
+  const toolHref = (p: string) => (isEn ? `/en${p}` : p)
 
   useEffect(() => {
     setField(field, code)
   }, [field, code, setField])
 
-  // 이 진단만 끝난 상태(1/4)면 아무것도 안 띄운다 — 홈/허브 카드로 충분.
-  const others = done - (dna[field] ? 1 : 0)
-  if (!complete && others < 1) return null
+  // 결과 페이지에선 최소 1개(현재 진단)는 항상 저장되므로 done>=1. 아무것도 없으면(이론상) 숨김.
+  if (done < 1) return null
 
-  const href = isEn ? '/en/tools/beauty-dna/' : '/tools/beauty-dna/'
+  const dnaHref = isEn ? '/en/tools/beauty-dna/' : '/tools/beauty-dna/'
   const missLabels = missing.map((m) => (isEn ? DNA_FIELD_META[m].labelEn : DNA_FIELD_META[m].labelKo))
+  const nextMeta = missing.length ? DNA_FIELD_META[missing[0]] : null
+  const nextLabel = nextMeta ? (isEn ? nextMeta.labelEn : nextMeta.labelKo) : ''
 
   const line = complete
     ? isEn
       ? 'All 4 done — your personalized makeup routine and product list are ready.'
       : '4가지 완료 — 나에게 딱 맞는 메이크업 루틴과 제품 리스트가 준비됐어요.'
     : isEn
-      ? missLabels.length === 1
-        ? `Just ${missLabels[0]} left — then your makeup routine and shopping list are ready.`
-        : `${missLabels.join(' and ')} left — ${missLabels.length} more and your routine and shopping list are ready.`
-      : missLabels.length === 1
-        ? `${missLabels[0]} 하나만 더 하면 맞춤 메이크업 루틴과 쇼핑 리스트가 완성돼요.`
-        : `${missLabels.join(' · ')} ${missLabels.length}가지만 더 하면 맞춤 메이크업 루틴과 쇼핑 리스트가 완성돼요.`
-
-  const ctaLabel = complete ? (isEn ? 'See my result' : '내 결과 보기') : (isEn ? 'View progress' : '진행 상황 보기')
+      ? `${missLabels.length} more (${missLabels.join(', ')}) and your routine + shopping list are ready.`
+      : `${missLabels.join(' · ')} ${missLabels.length}가지만 더 하면 맞춤 메이크업 루틴과 쇼핑 리스트가 완성돼요.`
 
   return (
     <section className="py-8 md:py-10">
@@ -75,14 +71,29 @@ export default function DnaTracker({ field, code }: Props) {
                 </span>
               </div>
               <p className="text-sm md:text-base font-semibold text-navy leading-snug">{line}</p>
+              {!complete && (
+                <a href={dnaHref} className="mt-1 inline-block text-xs font-semibold text-slate-500 underline hover:text-navy">
+                  {isEn ? 'View progress' : '진행 상황 보기'}
+                </a>
+              )}
             </div>
-            <a
-              href={href}
-              className="shrink-0 inline-flex items-center justify-center gap-1.5 bg-navy text-white px-6 py-3 text-sm md:text-base font-bold hover:bg-navy-mid transition-colors"
-            >
-              {ctaLabel}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
+            {complete ? (
+              <a
+                href={dnaHref}
+                className="shrink-0 inline-flex items-center justify-center gap-1.5 bg-navy text-white px-6 py-3 text-sm md:text-base font-bold hover:bg-navy-mid transition-colors"
+              >
+                {isEn ? 'See my result' : '내 결과 보기'}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+            ) : nextMeta ? (
+              <a
+                href={toolHref(nextMeta.path)}
+                className="shrink-0 inline-flex items-center justify-center gap-1.5 bg-navy text-white px-6 py-3 text-sm md:text-base font-bold hover:bg-navy-mid transition-colors"
+              >
+                {isEn ? `Next: ${nextLabel}` : `다음: ${nextLabel} 진단하기`}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+            ) : null}
           </div>
         </div>
       </div>
