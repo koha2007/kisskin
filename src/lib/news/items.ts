@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-next-gen-collab',
+    category: 'global',
+    title: '로레알·코스맥스, 차세대 뷰티 혁신 위해 MOU 체결',
+    summary:
+      '로레알 그룹과 국내 ODM 강자인 코스맥스가 지난 9월 8일(현지시간) 파리에서 ‘차세대 뷰티 혁신’ 공동 연구를 위한 MOU를 체결했습니다. 양사는 K-뷰티 영감을 기반으로 한 글로벌 제품 개발과 미래형 원료·감각 디자인 연구에 협력할 예정입니다.',
+    body: [
+      '> TLDR: 로레알·코스맥스 MOU | 글로벌 K-뷰티 제품 공동개발 | 원료·감각 디자인 협력',
+      '로레알 그룹과 코스맥스가 2026년 9월 8일(현지시간), 파리에서 ‘차세대 뷰티 혁신’을 위한 업무협약(MOU)을 체결했습니다. 양사는 글로벌 제품 개발과 혁신 연구를 함께 추진할 계획입니다.',
+      '> DATA: MOU는 9월 8일 파리에서 체결되었으며, 양측은 원료, 활성 성분, 감각적 제품 설계에 대한 공동 연구를 진행할 예정입니다.',
+      '이번 협약은 프랑스–한국 수교 140주년을 기념하는 양국 정상회의의 일환으로 체결됐으며, 로레알의 글로벌 R&D 역량과 소비자 통찰력, 코스맥스의 민첩한 K-뷰티 기반 제품 개발 역량이 결합됩니다.',
+      '소비자 관점에서 볼 때, 이번 협력은 K-뷰티의 혁신성과 글로벌 브랜드의 과학력이 결합된 차세대 제품을 기대할 수 있는 중요한 신호입니다.',
+    ],
+    date: '2026-09-11',
+    readMinutes: 3,
+    tags: ['MOU', '글로벌협업', 'K‑뷰티 혁신'],
+    image: '/news/loreal-cosmax-next-gen-collab.webp',
+    seoTitle: '로레알 코스맥스 MOU 체결 뉴스',
+    seoDescription:
+      '로레알과 코스맥스가 글로벌 시장을 겨냥한 K-뷰티 기반 차세대 제품 개발을 위해 MOU를 체결했다는 내용을 다룹니다.',
+  },
+  {
     slug: 'loreal-cosmax-kbeauty-innovation-mou',
     category: 'global',
     title: '로레알과 코스맥스, 차세대 뷰티 혁신 협력 위한 MOU 체결',

@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'naming-fluffy-powder-blush',
+    category: 'cheek',
+    brand: '네이밍',
+    name: '플러피 파우더 블러쉬',
+    title: '네이밍 플러피 파우더 블러쉬 — 가루 날림 거의 없는 여름 필수 파우더 블러셔',
+    summary:
+      '입자 고운 파우더로 가루 날림이 거의 없고 브러쉬 포함 구성이라 여름 지성 피부도 깔끔한 생기 연출 가능한 올영 인기 블러셔.',
+    highlights: ['입자 고운 파우더', '가루 날림 거의 없음', '브러쉬 포함 구성'],
+    details: [
+      '입자가 매우 고와서 피부에 부드럽게 밀착되고 가루 날림이 거의 없어 여름에도 깔끔한 마무리가 가능합니다.',
+      '20가지 색 구성으로 원하는 톤에 맞춰 선택 폭이 넓고 실패해도 다른 색으로 쉽게 교체할 수 있습니다.',
+      '브러쉬가 포함된 단품 구성으로 별도 도구 없이 바로 사용 가능하며 여행 키트로도 실용적입니다.',
+    ],
+    whoFor:
+      '지성 피부로 여름에도 블러셔가 쉽게 번지거나 녹는 게 고민인 사람에게 좋고, 다양한 컬러 옵션이 필요해 선택폭을 넓히고 싶은 메이크업 입문자에게도 적합합니다.',
+    howTo: [
+      '동봉된 브러쉬로 내용물을 1~2회 톡톡 털어 블러셔 양을 조절한 뒤 광대 중앙에 가볍게 쓸어 발라 자연스럽게 블렌딩하세요.',
+      '더 선명한 생기를 원할 때는 볼 중앙에 얇게 한 번 더 레이어링하면 맑은 혈색 표현이 가능합니다.',
+    ],
+    pros: [
+      '입자 고와 가루 날림 거의 없음으로 지속력 좋음',
+      '브러쉬 포함으로 별도 도구 필요 없음',
+    ],
+    colorFit:
+      '봄 웜·가을 웜 톤에 잘 어울리며, 피치·코랄 계열 컬러 중심으로 구성되어 따뜻한 혈색을 살리기 좋습니다.',
+    image: '/products/naming-fluffy-powder-blush.webp',
+    coupangQuery: '네이밍 플러피 파우더 블러쉬',
+    globalQuery: 'Naming Fluffy Powder Blush',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-09-11',
+    tags: ['입자고운', '가루날림없음', '브러쉬포함'],
+    seoTitle: '네이밍 플러피 파우더 블러쉬 여름 인기 블러셔',
+    seoDescription:
+      '고운 입자로 가루 날림 거의 없고 브러쉬 포함 구성으로 여름에도 선명한 생기 표현 가능한 인기 블러셔',
+  },
+  {
     slug: 'banila-co-covericious-ultimate-cover-cushion',
     category: 'base',
     brand: '바닐라코',

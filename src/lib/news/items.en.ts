@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-next-gen-collab',
+    category: 'global',
+    title: 'L\'Oréal and Cosmax Sign MOU for Next-Generation Beauty Innovation',
+    summary:
+      'L\'Oréal Group and domestic ODM leader Cosmax signed a memorandum of understanding (MOU) in Paris on September 8 (local time) for joint research on \'Next-Generation Beauty Innovation.\' The two companies plan to collaborate on global product development inspired by K-beauty, as well as research into future ingredients and sensory design.',
+    body: [
+      '> TLDR: L\'Oréal–Cosmax MOU | Joint Global K-Beauty Product Development | Ingredient & Sensory Design Collaboration',
+      'L\'Oréal Group and Cosmax signed a memorandum of understanding (MOU) for \'Next-Generation Beauty Innovation\' in Paris on September 8, 2026 (local time). The two companies plan to jointly drive global product development and innovative research.',
+      '> DATA: The MOU was signed in Paris on September 8, and both parties will conduct joint research on raw materials, active ingredients, and sensory product design.',
+      'This agreement was signed as part of the bilateral summit celebrating the 140th anniversary of diplomatic relations between France and South Korea. It combines L\'Oréal\'s global R&D capabilities and consumer insights with Cosmax\'s agile K-beauty-based product development expertise.',
+      'From a consumer perspective, this collaboration is a significant signal pointing toward next-generation products that blend K-beauty\'s innovation with the scientific power of a global brand.',
+    ],
+    date: '2026-09-11',
+    readMinutes: 3,
+    tags: ['MOU', 'Global Collaboration', 'K-Beauty Innovation'],
+    image: '/news/loreal-cosmax-next-gen-collab.webp',
+    seoTitle: 'L\'Oréal and Cosmax Sign MOU for K-Beauty Innovation',
+    seoDescription:
+      'L\'Oréal and Cosmax partner in Paris to co-develop next-generation K-beauty products, advanced ingredients, and sensory design.',
+  },
+  {
     slug: 'loreal-cosmax-kbeauty-innovation-mou',
     category: 'global',
     title: 'L\'Oréal and Cosmax Sign MOU for Next-Gen Beauty Innovation',

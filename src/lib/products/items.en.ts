@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'naming-fluffy-powder-blush',
+    category: 'cheek',
+    brand: 'NAMING',
+    name: 'Fluffy Powder Blush',
+    title: 'NAMING Fluffy Powder Blush — A Summer Must-Have Powder Blush with Virtually No Fallout',
+    summary:
+      'An Olive Young favorite featuring fine powder particles with virtually no fallout and an included brush, allowing even summer oily skin to achieve a neat, lively flush.',
+    highlights: ['Fine powder particles', 'Virtually no fallout', 'Includes a brush'],
+    details: [
+      'The ultra-fine powder particles adhere smoothly to the skin with virtually no fallout, delivering a neat finish even in the summer.',
+      'With a wide spectrum of 20 shades, it offers broad options to match your desired tone, making it easy to swap colors if needed.',
+      'Comes as a single item including a brush, so you can use it immediately without extra tools, making it practical as a travel kit.',
+    ],
+    whoFor:
+      'Ideal for those with oily skin worried about blush smudging or melting in summer, and great for makeup beginners who want a wide selection of shade options.',
+    howTo: [
+      'Lightly tap the included brush 1-2 times to control the amount of powder, then gently sweep it over the center of the cheekbones and blend naturally.',
+      'For a more vibrant look, layer a thin coat over the center of the cheeks to express a clear, healthy flush.',
+    ],
+    pros: [
+      'Fine particles with virtually no fallout ensure long-lasting wear',
+      'Includes a brush, so no separate tools are needed',
+    ],
+    colorFit:
+      'Complements Spring Warm and Autumn Warm tones best, centered around peach and coral shades to enhance a warm, healthy flush.',
+    image: '/products/naming-fluffy-powder-blush.webp',
+    coupangQuery: '네이밍 플러피 파우더 블러쉬',
+    globalQuery: 'Naming Fluffy Powder Blush',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-09-11',
+    tags: ['FineParticles', 'NoFallout', 'BrushIncluded'],
+    seoTitle: 'NAMING Fluffy Powder Blush Review & Guide',
+    seoDescription:
+      'Discover NAMING Fluffy Powder Blush featuring fine particles, no fallout, an included brush, and 20 shades for a fresh summer glow.',
+  },
+  {
     slug: 'banila-co-covericious-ultimate-cover-cushion',
     category: 'base',
     brand: 'BANILA CO',
