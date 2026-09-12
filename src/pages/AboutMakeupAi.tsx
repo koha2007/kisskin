@@ -94,7 +94,7 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
           {/* 3. Women styles */}
           <section id="women-styles" className="mb-14">
             <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">3. 여성을 위한 9가지 K-뷰티 스타일</h2>
-            <p className="mb-6">kissinskin은 2026년 기준 가장 대표적인 9가지 여성 K-뷰티 스타일을 온디바이스 시뮬레이션으로 제공합니다. 각 스타일의 핵심을 정리합니다.</p>
+            <p className="mb-6">kissinskin은 2026년 기준 가장 대표적인 9가지 여성 K-뷰티 스타일을 AI로 시뮬레이션합니다. 각 스타일의 핵심을 정리합니다.</p>
             <div className="space-y-5 not-prose">
               {WOMEN_STYLES.map(s => (
                 <div key={s.name} className="bg-white rounded-2xl p-5 border border-primary/15">
@@ -122,11 +122,14 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
           {/* 5. AI principle */}
           <section id="ai-principle" className="mb-14">
             <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">5. AI 메이크업 시뮬레이션의 원리</h2>
-            <p className="mb-4">kissinskin의 AI 메이크업 시뮬레이션은 크게 <strong>3단계</strong>로 동작합니다.</p>
-            <p className="mb-4"><strong>1단계 · 얼굴 분석(Face Analysis)</strong>: 업로드된 사진에서 얼굴 랜드마크(눈·코·입·광대·턱 등 68~98개 포인트)를 추출합니다. 이 단계에서 얼굴형, 피부톤, 눈·입술 크기 비율이 계산됩니다. 추출된 데이터는 익명화된 벡터 형태로만 처리되며, 원본 사진은 서버에 저장되지 않습니다.</p>
-            <p className="mb-4"><strong>2단계 · 스타일 매핑(Style Mapping)</strong>: 사용자가 선택한 스타일(예: Cloudglow Skin, Berry Stain Lip)의 "스타일 프로파일"이 AI에 입력됩니다. 각 프로파일은 수백 장의 레퍼런스 이미지와 브랜드 컬러 공식을 학습한 결과이며, 사용자의 얼굴 벡터에 맞게 컬러·강도·배치가 동적으로 조정됩니다.</p>
-            <p className="mb-4"><strong>3단계 · 생성 및 합성(Generation & Composite)</strong>: 최종 이미지는 사용자의 원본 얼굴 구조를 유지한 채, 메이크업 레이어만 자연스럽게 합성됩니다. 이 과정에서 얼굴의 개인 정체성(눈매·입꼬리 각도·광대 높이 등)은 보존되며, 오직 "메이크업 레이어"만 적용됩니다. 이 원칙 덕분에 "전혀 다른 사람처럼 보이는" 부자연스러운 결과 없이 실제 본인이 그 메이크업을 한 것처럼 시뮬레이션됩니다.</p>
-            <p className="mb-4">메이크업 합성은 서버가 아니라 사용자 기기(브라우저)에서 실시간으로 이뤄집니다. 원본 사진 위에 메이크업 레이어만 오버레이로 입히기 때문에 얼굴은 100% 그대로 보존되며, 9가지 룩 중 원하는 것을 골라 1~2초 안에 즉시 적용·전환할 수 있습니다. 여성·남성 각각 9가지(메이크업 8 + 헤어 컬러 1)를 제공하고, 선택한 룩은 결과 페이지에서 크게 보고 다운로드·공유할 수 있습니다.</p>
+            <p className="mb-4">kissinskin의 AI 메이크업 시뮬레이션은 <strong>3단계</strong>로 동작합니다.</p>
+            <p className="mb-4"><strong>1단계 · 사진 분석</strong>: 업로드한 사진에서 얼굴형·이목구비 비율·피부톤을 파악합니다. 원본 사진은 분석 후 서버에 저장하지 않습니다.</p>
+            <p className="mb-4"><strong>2단계 · 스타일 적용</strong>: 선택한 룩(예: Cloudglow Skin, Berry Stain Lip)의 프롬프트에 맞춰 AI 이미지 생성 모델이 메이크업과 헤어 컬러를 함께 입힙니다.</p>
+            <p className="mb-4"><strong>3단계 · 얼굴 보존 생성</strong>: 이목구비·표정·얼굴 구조는 그대로 고정한 채 메이크업 레이어만 자연스럽게 합성합니다. "전혀 다른 사람처럼 보이는" 결과를 막는 핵심 장치입니다.</p>
+            <p className="mb-4">이미지 생성은 기기가 아니라 서버에서 이뤄지며, 한 장을 만드는 데 보통 최대 1분 정도 걸립니다. 9가지 룩(여성·남성 각각) 모두 메이크업과 헤어 컬러가 함께 바뀌며, 완성된 결과는 결과 페이지에서 저장·다운로드·공유할 수 있습니다.</p>
+            <p className="mb-0 rounded-lg bg-cream border border-primary/15 px-5 py-4 text-[15px]">
+              <strong className="text-navy">무료·유료 안내</strong> — 로그인 후 첫 1회는 무료이며 카드가 필요 없습니다. 더 만들고 싶다면 크레딧을 $2.99부터 충전하면 됩니다.
+            </p>
           </section>
 
           {/* 6. Photo tips */}

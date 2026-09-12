@@ -125,7 +125,7 @@ export default function AboutMakeupAiBodyEn() {
 
         <section id="women-styles" className="mb-14">
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">3. Nine signature K-beauty styles for women</h2>
-          <p className="mb-6">kissinskin simulates the nine most representative Korean women\'s makeup styles for 2026 (eight makeup looks plus one hair color), all rendered on your device. The essentials of each:</p>
+          <p className="mb-6">kissinskin uses AI to simulate the nine most representative Korean women\'s makeup styles for 2026 — each one changing both makeup and hair color together. The essentials of each:</p>
           <div className="space-y-5 not-prose">
             {WOMEN_STYLES_EN.map((s) => (
               <div key={s.name} className="bg-white rounded-2xl p-5 border border-primary/15">
@@ -151,11 +151,14 @@ export default function AboutMakeupAiBodyEn() {
 
         <section id="ai-principle" className="mb-14">
           <h2 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mb-5">5. How the AI simulation works</h2>
-          <p className="mb-4">The kissinskin AI makeup simulation runs in three stages.</p>
-          <p className="mb-4"><strong>Stage 1 · Face analysis.</strong> The uploaded photo is processed to extract 68–98 facial landmarks (eyes, nose, lips, cheekbones, jaw). From these, the system computes face shape, skin tone, and eye/lip ratios. The data is processed only as an anonymized vector; the original photo is never stored on the server.</p>
-          <p className="mb-4"><strong>Stage 2 · Style mapping.</strong> The selected style (Cloudglow Skin, Berry Stain Lip, etc.) loads its "style profile" into the AI. Each profile is the result of training on hundreds of reference images and brand color formulas, dynamically adapted to your face vector — color, intensity, placement.</p>
-          <p className="mb-4"><strong>Stage 3 · Generation and composite.</strong> The final image preserves your original facial structure and only blends the makeup layer on top. Personal identity (eye shape, mouth angle, cheekbone height) is preserved; only the makeup layer is applied. This rule is what prevents "looks like a different person" results — what you see is your actual face wearing that look.</p>
-          <p className="mb-4">Makeup is composited on your own device (in the browser), not on a server. Because only the makeup layer is overlaid on top of your original photo, your face is preserved 100%, and you can pick any of the nine looks and switch between them in 1–2 seconds. Nine styles each (eight makeup looks plus one hair color) are offered for women and men, and the selected look can be opened, downloaded, or shared from the result page.</p>
+          <p className="mb-4">The kissinskin AI makeup simulation runs in three steps.</p>
+          <p className="mb-4"><strong>Step 1 · Photo analysis.</strong> We read your face shape, feature proportions, and skin tone from the uploaded photo. The original photo is never stored after analysis.</p>
+          <p className="mb-4"><strong>Step 2 · Style applied.</strong> An AI image-generation model applies the chosen look's makeup and hair color together, following that look's style prompt (Cloudglow Skin, Berry Stain Lip, and so on).</p>
+          <p className="mb-4"><strong>Step 3 · Face-locked generation.</strong> Your features, expression, and facial structure stay fixed while only the makeup layer is blended in — the safeguard against a "looks like a different person" result.</p>
+          <p className="mb-4">Generation happens on our servers, not your device, and one image usually takes up to about a minute. All nine looks (for women and men) change both makeup and hair color together, and the finished result can be saved, downloaded, or shared from the result page.</p>
+          <p className="mb-0 rounded-lg bg-cream border border-primary/15 px-5 py-4 text-[15px]">
+            <strong className="text-navy">Free vs. paid</strong> — log in and your first look is free, no card required. Want more? Credits start at $2.99.
+          </p>
         </section>
 
         <section id="photo-tips" className="mb-14">

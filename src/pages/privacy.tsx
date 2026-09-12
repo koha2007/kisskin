@@ -66,7 +66,15 @@ function PrivacyKo() {
         <li><strong>생체 데이터 고지:</strong> 얼굴 사진은 일부 법률(예: 미국 일리노이 BIPA, 텍사스 CUBI, 워싱턴주 법)상 생체 데이터에 해당할 수 있습니다. 당사는 사진에서 생체 식별자 또는 템플릿을 추출, 저장, 생성하지 않습니다. 사진은 오직 AI 메이크업 시뮬레이션 생성 목적으로만 사용되며 보관되지 않습니다.</li>
       </ul>
 
-      <h3>3.2 결제 정보</h3>
+      <h3>3.2 생성된 메이크업 결과 이미지 (저장·공유 시)</h3>
+      <ul>
+        <li>위 3.1항은 <strong>업로드한 원본 사진</strong>에 관한 내용입니다. 이와 별도로 AI가 생성한 <strong>메이크업 결과 이미지</strong>는 다르게 처리됩니다.</li>
+        <li>결과 화면에서 <strong>저장</strong> 또는 <strong>공유</strong> 버튼을 누르면(모바일에서는 결과 화면을 여는 시점에 미리 준비되기도 합니다), 생성된 결과 이미지가 클라우드 저장소(<strong>Supabase Storage</strong>)에 업로드되어 고유 링크(<code>/result/&#123;id&#125;</code>)로 보관됩니다. 소셜 공유 시 미리보기(Open Graph 카드)를 표시하고, 링크를 통해 결과를 다시 볼 수 있게 하기 위해서입니다.</li>
+        <li>이 이미지는 추측 불가능한 무작위 ID를 알아야만 접근할 수 있는 공개 링크로 보관되며, 별도 요청이 없는 한 <strong>자동으로 만료되지 않습니다</strong>.</li>
+        <li>삭제를 원하시면 <strong>support@kissinskin.net</strong>으로 결과 링크(URL)를 보내 주십시오. 영업일 기준 3일 이내에 삭제해 드립니다.</li>
+      </ul>
+
+      <h3>3.3 결제 정보</h3>
       <ul>
         <li>모든 결제 처리는 <strong>Polar</strong>(<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>)가 Merchant of Record 자격으로 수행합니다.</li>
         <li>당사는 신용카드 번호, CVV, 전체 청구 세부사항을 <strong>수신·열람·저장하지 않습니다</strong>.</li>
@@ -74,7 +82,7 @@ function PrivacyKo() {
         <li>당사는 Polar로부터 거래 확인, 주문 금액, 고객 지원용 참조 ID를 전달받을 수 있습니다.</li>
       </ul>
 
-      <h3>3.3 자동 수집 데이터 · 쿠키</h3>
+      <h3>3.4 자동 수집 데이터 · 쿠키</h3>
       <p>본 사이트는 현재 제3자 디스플레이 광고(배너 광고)를 게재하지 않습니다. 당사는 사이트 운영과 익명 이용 분석을 위해 다음 제3자 서비스의 쿠키와 유사 기술(localStorage, 픽셀)을 사용합니다. EU/EEA·영국 이용자에게는 <strong>Google Consent Mode v2</strong>가 적용되어, 쿠키 배너에서 "모두 동의"를 선택하기 전까지 분석 쿠키는 비활성 상태로 유지됩니다.</p>
       <table className="legal-table">
         <thead>

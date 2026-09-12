@@ -34,7 +34,7 @@ interface Props {
 // 결제 관련 칩(환불·Polar)은 소진 후 충전 단계에서 실제로 적용되는 내용이라 유지한다.
 const TRUST = [
   { icon: 'card_giftcard', label: '첫 1회 무료', labelEn: '1st try free' },
-  { icon: 'verified_user', label: '7일 환불보장', labelEn: '7-day refund' },
+  { icon: 'verified_user', label: '14일 이내 환불 요청', labelEn: 'Refund within 14 days' },
   { icon: 'lock', label: 'Polar 안전결제', labelEn: 'Secure checkout' },
 ]
 

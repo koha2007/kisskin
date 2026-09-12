@@ -100,8 +100,8 @@ export default {
   'home.toolsShowcase.quizzesDesc': '하나씩 1분이면 끝나요. 4가지가 모이면 위에서 결과를 볼 수 있어요.',
   'home.dna.homeCta': '내 맞춤 결과 보기',
   'home.dna.featLabel': '4가지 진단 → 하나의 결과',
-  'home.dna.featDesc': '셀카 없이, 무료 진단 4가지 결과를 종합해 나만의 메이크업과 제품을 찾아드려요.',
-  'home.dna.featNote': '결과 종합·제품 추천은 무료 · 로그인 없이. 모델 얼굴 생성만 로그인 후 첫 1회 무료, 2회부터 크레딧 충전.',
+  'home.dna.featDesc': '4가지 진단을 마치면 나에게 맞는 메이크업 루틴과 추천 제품 리스트를 보여드려요.',
+  'home.dna.featNote': '결과·제품 추천은 무료. 모델 얼굴 생성은 로그인 후 첫 1회 무료, 이후 크레딧 결제.',
 
   // Styles Section
   'home.styles.badge': '2026 K-뷰티 트렌드',

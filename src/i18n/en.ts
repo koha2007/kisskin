@@ -98,8 +98,8 @@ export default {
   'home.toolsShowcase.quizzesDesc': 'One minute each. Once all four are in, your result is ready above.',
   'home.dna.homeCta': 'See my personalized result',
   'home.dna.featLabel': '4 quizzes → one result',
-  'home.dna.featDesc': 'No selfie — we synthesize your four free quiz results into your own makeup and product list.',
-  'home.dna.featNote': 'The combined result and product picks are free, no login. Only the AI model face needs a login — first one free, then credits.',
+  'home.dna.featDesc': 'Finish the 4 quizzes and get a routine and product list built just for you.',
+  'home.dna.featNote': 'The result and product picks are free. Generating the model face needs a login — first one free, then credits.',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',

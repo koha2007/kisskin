@@ -33,17 +33,17 @@ export default function ToolUpsellCTA({ name, accentColor, accentColorTo, tool, 
     : (isEn ? 'Ready to see it on your own face?' : '이제 내 얼굴로 직접 적용해볼까요?')
 
   const subline = isEn
-    ? `Upload one selfie and AI creates 5 K-beauty makeup looks tailored to ${name} instantly.`
-    : `셀카 한 장이면 AI가 ${name}에 어울리는 5가지 K-뷰티 룩을 즉시 만들어드려요.`
+    ? `Upload one selfie and AI creates 9 K-beauty makeup looks tailored to ${name} instantly.`
+    : `셀카 한 장이면 AI가 ${name}에 어울리는 9가지 K-뷰티 룩을 즉시 만들어드려요.`
 
   const trust = isEn
     ? [
-        { icon: 'bolt', label: 'Results in ~60s' },
-        { icon: 'verified_user', label: 'Refund if unsatisfied' },
+        { icon: 'bolt', label: 'Ready in ~1 min' },
+        { icon: 'verified_user', label: 'No card needed' },
       ]
     : [
-        { icon: 'bolt', label: '약 60초면 완성' },
-        { icon: 'verified_user', label: '결과 불만족 시 환불' },
+        { icon: 'bolt', label: '최대 1분 완성' },
+        { icon: 'verified_user', label: '카드 불필요' },
       ]
 
   const trackClick = () => {
@@ -98,11 +98,11 @@ export default function ToolUpsellCTA({ name, accentColor, accentColorTo, tool, 
           style={{ background: `linear-gradient(135deg, ${accentColor}, ${to})`, boxShadow: `0 14px 32px -10px ${accentColor}80` }}
         >
           <span className="text-xl leading-none">💄</span>
-          {isEn ? 'Start now · $2.99' : '시작하기 · $2.99'}
+          {isEn ? 'Try it free' : '무료로 시작하기'}
           <span className="material-symbols-outlined">arrow_forward</span>
         </a>
         <p className="mt-4 text-xs text-slate-400">
-          {isEn ? 'No sign-up needed · one-time payment' : '가입 없이 바로 시작 · 1회 결제'}
+          {isEn ? 'Log in for your first look free · credits from $2.99 after' : '로그인하면 첫 1회 무료 · 이후 크레딧 $2.99부터'}
         </p>
       </div>
     </section>

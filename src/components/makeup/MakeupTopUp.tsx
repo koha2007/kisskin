@@ -168,8 +168,8 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
       <div className="flex flex-col items-center gap-3">
         <p className="text-[11px] text-white/50 max-w-xs">
           {isEn
-            ? 'Secure checkout via Polar. 7-day refund guarantee.'
-            : 'Polar 안전 결제 · 7일 환불 보장.'}
+            ? 'Secure checkout via Polar. Refund requests accepted within 14 days.'
+            : 'Polar 안전 결제 · 구매일로부터 14일 이내 환불 요청 가능.'}
         </p>
         <button
           onClick={onBack}
