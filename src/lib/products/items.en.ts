@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'dior-diorshow-5-couleurs-charmed-green',
+    category: 'trend',
+    brand: 'Dior',
+    name: 'Diorshow 5 Couleurs 365 Chanced Green Eyeshadow Palette (Limited Edition)',
+    title: 'Dior Diorshow 5 Couleurs 365 Chanced Green Palette – Lucky Limited Edition Eye Makeup',
+    summary:
+      'Dior\'s Autumn 2026 limited edition \'Diorshow 5 Couleurs 365 Chanced Green Palette\' is a new makeup release drawing global attention with its four-leaf clover motif case and green-toned shade lineup.',
+    highlights: ['Four-leaf clover decorated case', '5-shade green color lineup', 'Limited edition'],
+    details: [
+      'A limited-edition eyeshadow palette featuring a couture case adorned with a four-leaf clover motif.',
+      'Centered around green tones with a versatile range of shades, offering color combinations perfectly tailored to autumn season trends.',
+      'A limited-edition release for the Autumn 2026 collection that gained immediate attention in global markets, including the US and Europe.',
+    ],
+    whoFor:
+      'Ideal for those looking to try green-accented point makeup, especially users who prefer autumnal vibes or trendy limited-edition products.',
+    howTo: [
+      'Apply a medium green shade over the entire eyelid as a base, then accent the inner corner or lower lash line with a lighter green to add dimension.',
+      'Finish by applying the darkest green shade along the outer edge or lower lash line like an eyeliner to create depth.',
+    ],
+    pros: [
+      'High collectible value thanks to the four-leaf clover decoration',
+      'Mix of green shades allows for seasonal point makeup looks',
+    ],
+    cons: [
+      'Green color tones may not suit everyone\'s preference',
+    ],
+    image: '/products/dior-diorshow-5-couleurs-charmed-green.webp',
+    coupangQuery: '디올 디올쇼 5 꾸르르르르 찬스드 그린 팔레트',
+    globalQuery: 'Dior Diorshow 5 Couleurs Charmed Green palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-12',
+    tags: ['Dior', 'Limited Edition', 'Green Makeup'],
+    seoTitle: 'Dior Diorshow 5 Couleurs 365 Chanced Green Palette',
+    seoDescription:
+      'Discover the Dior Diorshow 5 Couleurs 365 Chanced Green Eyeshadow Palette featuring a clover case and fall greens.',
+  },
+  {
     slug: 'naming-fluffy-powder-blush',
     category: 'cheek',
     brand: 'NAMING',

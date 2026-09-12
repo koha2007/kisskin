@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'soft-focus-blur-makeup-trend-kbeauty',
+    category: 'trend',
+    title: 'K-Beauty’s Softly Diffused ‘Blur’ Makeup Trend Expands Globally',
+    summary:
+      'Over the past two to three weeks, global beauty media have taken keen notice of the \'blur (soft-focus)\' makeup trend originating in South Korea. The essence lies in a muted, natural \'soft-focus\' finish rather than sharp, defined contours.',
+    body: [
+      '> TLDR: Soft-focus blur trend | Spreading across lips and blush | Emphasizing K-beauty\'s natural aesthetic',
+      'Global beauty media outlets are spotlighting the newly emerging \'blur (soft-focus)\' makeup trend from Korea. Applying diffused color expressions to the lips and blush creates a natural, effortless mood.',
+      '> KEY: Global beauty press highlights the K-beauty trend using keywords such as \'blur\' or \'soft focus\' (peekkorea.com)',
+      'This trend is analyzed as a shift away from Instagram-era sharp contours and strictly defined lips toward a more \'blended-out\' color expression. Under-eye highlights and aegyo-sal emphasis are also mentioned in the same context (peekkorea.com).',
+      'From a consumer perspective, this trend reflects growing demand for an effortless, natural \'effortlessly chic\' look. Industry observers note it as a key example of K-beauty\'s signature soft aesthetic expanding further into color cosmetics.',
+    ],
+    date: '2026-09-12',
+    readMinutes: 3,
+    tags: ['BlurMakeup', 'SoftFocus', 'KBeautyTrends'],
+    image: '/news/soft-focus-blur-makeup-trend-kbeauty.webp',
+    seoTitle: 'K-Beauty\'s Soft-Focus \'Blur\' Makeup Goes Global',
+    seoDescription:
+      'Global media spotlight Korea\'s soft-focus blur makeup trend, celebrating diffused lip and blush colors alongside natural K-beauty aesthetics.',
+  },
+  {
     slug: 'loreal-cosmax-next-gen-collab',
     category: 'global',
     title: 'L\'Oréal and Cosmax Sign MOU for Next-Generation Beauty Innovation',

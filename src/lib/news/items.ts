@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'soft-focus-blur-makeup-trend-kbeauty',
+    category: 'trend',
+    title: 'K-뷰티, 부드럽게 퍼지는 ‘블러’ 메이크업 트렌드 글로벌 확산',
+    summary:
+      '최근 2~3주 사이 글로벌 뷰티 미디어들이 한국에서 발생한 ‘블러(soft‑focus)’ 메이크업 트렌드를 주목하고 있습니다. 선명한 윤곽보다 흐릿하고 자연스러운 ‘소프트 포커스’ 표현이 핵심입니다.',
+    body: [
+      '> TLDR: 소프트 포커스 블러 트렌드 | 입술·볼터치 중심 확산 | K‑뷰티의 자연스러운 미학 강조',
+      '글로벌 뷰티 매체들이 한국에서 새롭게 떠오른 ‘블러(soft‑focus)’ 메이크업 트렌드를 조명하고 있습니다. 입술 및 블러셔에 흐릿한 색감 표현을 적용해 자연스러운 분위기를 연출합니다.',
+      '> KEY: 글로벌 뷰티 언론에서 ‘blur’ 또는 ‘soft focus’ 키워드로 K‑뷰티 트렌드를 언급(peekkorea.com)',
+      '이 트렌드는 인스타그램 시절의 선명한 윤곽이나 정의된 립 대신, ‘풀어지는 듯한’ 색감 표현으로 전환된 것으로 분석됩니다. under‑eye highlight나 aegyo‑sal 강조도 같은 맥락에서 언급됩니다(peekkorea.com).',
+      '소비자 관점에서 이 트렌드는 ‘꾸민 듯 안 꾸민 듯’ 자연스러운 연출을 선호하는 니즈를 반영합니다. K‑뷰티 특유의 부드러운 아름다움을 메이크업으로 확장한 사례로 주목됩니다.',
+    ],
+    date: '2026-09-12',
+    readMinutes: 3,
+    tags: ['블러메이크업', '소프트포커스', 'K‑뷰티트렌드'],
+    image: '/news/soft-focus-blur-makeup-trend-kbeauty.webp',
+    seoTitle: 'K뷰티 블러 메이크업 트렌드 확산',
+    seoDescription:
+      '최근 부드럽고 확산된 색감의 ‘블러’ 메이크업 트렌드가 글로벌 뷰티 미디어에 주목받으며 K‑뷰티의 새로운 표현 방식으로 떠오르고 있습니다.',
+  },
+  {
     slug: 'loreal-cosmax-next-gen-collab',
     category: 'global',
     title: '로레알·코스맥스, 차세대 뷰티 혁신 위해 MOU 체결',

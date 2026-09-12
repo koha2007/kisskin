@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'dior-diorshow-5-couleurs-charmed-green',
+    category: 'trend',
+    brand: '디올',
+    name: '디올쇼 5 꾸르르르르 365 찬스드 그린 아이섀도우 팔레트 (한정판)',
+    title: '디올 디올쇼 5 꾸르르르르 365 찬스드 그린 팔레트 – 행운을 품은 리미티드 아이 메이크업',
+    summary:
+      '디올의 2026 가을 리미티드 ‘디올쇼 5 꾸르르르르 365 찬스드 그린 팔레트’는 네잎클로버 모티프 케이스와 그린 계열 컬러 구성으로 글로벌 시장에서 주목받고 있는 메이크업 신제품입니다.',
+    highlights: ['네잎클로버 장식 케이스', '그린 계열 5색 구성', '리미티드 에디션'],
+    details: [
+      '네잎클로버 모티프가 담긴 꾸뛰르 케이스가 특징인 리미티드 아이섀도우 팔레트입니다.',
+      '그린 톤을 중심으로 다양한 색조 구성으로, 가을 시즌 트렌드에 맞는 컬러 조합을 제공합니다.',
+      '2026년 가을 컬렉션의 한정 상품으로 글로벌 시장(미국·유럽 등)에서 출시 직후 주목받고 있습니다.',
+    ],
+    whoFor:
+      '그린 계열의 포인트 메이크업을 시도해보고 싶은 이들에게 적합하며, 특히 가을 분위기 메이크업이나 트렌디한 리미티드 제품을 선호하는 이용자에게 잘 맞습니다.',
+    howTo: [
+      '눈두덩이 전체에 중간 그린 톤을 베이스로 깔고, 눈 앞머리나 언더에 라이트 그린을 포인트로 얹어 입체감을 살려주세요.',
+      '마무리로 가장 진한 그린 컬러를 쉐도우 외곽이나 언더 라이너처럼 활용해 깊이 있는 연출이 가능합니다.',
+    ],
+    pros: [
+      '네잎클로버 장식으로 소장 가치',
+      '그린 계열 믹스로 계절감 있는 포인트 연출 가능',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 그린 컬러 톤',
+    ],
+    image: '/products/dior-diorshow-5-couleurs-charmed-green.webp',
+    coupangQuery: '디올 디올쇼 5 꾸르르르르 찬스드 그린 팔레트',
+    globalQuery: 'Dior Diorshow 5 Couleurs Charmed Green palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-12',
+    tags: ['디올', '한정판', '그린메이크업'],
+    seoTitle: '디올쇼 5 꾸르르르르 찬스드 그린 팔레트 리미티드',
+    seoDescription:
+      '디올의 행운을 상징한 한정판 아이섀도우 팔레트, 리미티드로 지금 글로벌에서 화제입니다.',
+  },
+  {
     slug: 'naming-fluffy-powder-blush',
     category: 'cheek',
     brand: '네이밍',
