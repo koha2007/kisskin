@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'nooni-apple-seed-lip-oil-target-us-debut',
+    category: 'lip',
+    title: 'nooni Launches Signature ‘Apple Seed Lip Oil’ Across 1,778 US Target Stores and Online',
+    summary:
+      'K-beauty brand nooni\'s signature \'Apple Seed Lip Oil\' launched across 1,778 Target stores in the US and online starting September 6, 2026. Building on 450 million TikTok views and 5.1 million units sold globally, the brand is expanding its offline retail footprint.',
+    body: [
+      '> TLDR: ① nooni Lip Oil launches at US Target | ② 450M TikTok views, 5.1M global units sold | ③ Expanding K-beauty accessibility via US retail growth',
+      'K-beauty brand nooni\'s flagship product, \'Apple Seed Lip Oil\', became available across 1,778 Target stores in the US and online starting September 6, 2026.',
+      '> DATA: Tracked performance of 450 million views on TikTok and 5.1 million units sold worldwide',
+      'The high-shine, volumizing lip oil gained viral popularity through TikTok and e-commerce, and this Target rollout demonstrates how digital-first trends are successfully scaling into brick-and-mortar retail.',
+      'This launch provides US consumers with greater access to incorporate K-beauty into their daily routines, marking a major milestone in broadening nooni\'s global footprint.',
+    ],
+    date: '2026-09-13',
+    readMinutes: 3,
+    tags: ['nooni', 'Lip Oil', 'K-beauty', 'US Launch'],
+    image: '/news/nooni-apple-seed-lip-oil-target-us-debut.webp',
+    seoTitle: 'nooni Apple Seed Lip Oil Launches at 1,778 Target Stores',
+    seoDescription:
+      'K-beauty brand nooni expands into 1,778 US Target stores and online with its viral Apple Seed Lip Oil, building on over 5.1 million units sold globally.',
+  },
+  {
     slug: 'soft-focus-blur-makeup-trend-kbeauty',
     category: 'trend',
     title: 'K-Beauty’s Softly Diffused ‘Blur’ Makeup Trend Expands Globally',

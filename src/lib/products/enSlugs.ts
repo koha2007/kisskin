@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'torriden-dive-in-low-molecular-hyaluronic-acid-serum',
   'dior-diorshow-5-couleurs-charmed-green',
   'naming-fluffy-powder-blush',
   'banila-co-covericious-ultimate-cover-cushion',

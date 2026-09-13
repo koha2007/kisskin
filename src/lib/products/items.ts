@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'torriden-dive-in-low-molecular-hyaluronic-acid-serum',
+    category: 'skincare',
+    brand: '토리든',
+    name: '다이브인 저분자 히알루론산 세럼',
+    title: '토리든 다이브인 세럼 — 입소문 난 고수분 히알루론산 집중 보습',
+    summary:
+      '올리브영과 화해, 글로우픽에서 상위권을 유지 중인 토리든 다이브인 저분자 히알루론산 세럼은 5중 히알루론산과 판테놀·마데카소사이드가 피부 깊숙이 수분을 공급해 촉촉하고 탄력 있는 피부로 가꿔줍니다.',
+    highlights: ['5중 히알루론산', '가벼운 수분층 제형', '민감 피부도 순한'],
+    details: [
+      '5가지 분자 크기의 히알루론산이 피부 장벽 깊은 층까지 수분을 채워주는 보습 설계입니다.',
+      '워터리한 제형이지만 끈적임 없이 빠르게 흡수되어, 메이크업 전 단계에 잘 어울립니다.',
+      '판테놀과 마데카소사이드가 보습과 함께 진정 효과를 더해 민감한 피부도 부담 없이 사용할 수 있습니다.',
+    ],
+    whoFor:
+      '건조하거나 수분 부족을 느끼는 모든 피부 타입, 특히 복합성 또는 민감성 피부에 적합합니다. 끈적임 없이 가볍고 깊은 수분감을 원하는 20~30대 피부에도 잘 맞습니다.',
+    howTo: [
+      '세안 후 토너로 피부결을 정돈한 뒤, 펌핑하여 얼굴 위에 부드럽게 펴 발라 흡수시켜 줍니다.',
+      '건조가 느껴지는 부위에는 한 겹 더 레이어링해 사용할 수 있으며, 메이크업 전 수분 베이스로 활용해도 좋습니다.',
+    ],
+    pros: [
+      '입소문과 리뷰 기반 인기 제품으로 신뢰도 높음',
+      '빠르게 흡수되며 촉촉함 지속',
+    ],
+    cons: [
+      '호불호가 갈릴 수 있는 점: 깊은 보습감으로 인해 지성 피부에서는 다소 무겁게 느껴질 수 있음',
+    ],
+    image: '/products/torriden-dive-in-low-molecular-hyaluronic-acid-serum.webp',
+    coupangQuery: '토리든 다이브인 세럼',
+    globalQuery: 'Torriden Dive-In Hyaluronic Acid Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-13',
+    tags: ['고보습세럼', '히알루론산', '민감피부추천'],
+    seoTitle: '토리든 다이브인 저분자 히알루론산 세럼',
+    seoDescription:
+      '올리브영·화해·글로우픽 인기 1위, 5중 히알루론산으로 깊은 수분과 탄력을 채워주는 고보습 세럼.',
+  },
+  {
     slug: 'dior-diorshow-5-couleurs-charmed-green',
     category: 'trend',
     brand: '디올',

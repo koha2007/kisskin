@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'torriden-dive-in-low-molecular-hyaluronic-acid-serum',
+    category: 'skincare',
+    brand: 'Torriden',
+    name: 'DIVE-IN Low Molecular Hyaluronic Acid Serum',
+    title: 'Torriden DIVE-IN Serum — Viral High-Moisture Hyaluronic Acid Hydration',
+    summary:
+      'Consistently top-ranked on Olive Young, Hwahae, and GlowPick, Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum delivers deep hydration with 5D Complex Hyaluronic Acid, Panthenol, and Madecassoside for supple, dewy skin.',
+    highlights: ['5D Complex Hyaluronic Acid', 'Lightweight watery texture', 'Gentle on sensitive skin'],
+    details: [
+      'Formulated with 5 different molecular sizes of hyaluronic acid to deeply hydrate across skin barrier layers.',
+      'A watery formula that absorbs quickly without stickiness, making it ideal before makeup application.',
+      'Contains Panthenol and Madecassoside to soothe while moisturizing, making it comfortable for sensitive skin.',
+    ],
+    whoFor:
+      'Suitable for all skin types feeling dry or dehydrated, especially combination or sensitive skin. Perfect for those in their 20s and 30s seeking lightweight, deep hydration without a sticky finish.',
+    howTo: [
+      'After cleansing and prepping skin with toner, dispense an appropriate amount and gently smooth over the face to absorb.',
+      'Layer once more on areas that feel extra dry, or use as a hydrating base before applying makeup.',
+    ],
+    pros: [
+      'Highly trusted viral product backed by strong consumer reviews',
+      'Absorbs quickly with long-lasting hydration',
+    ],
+    cons: [
+      'May feel slightly heavy on very oily skin due to its deep moisturizing formula',
+    ],
+    image: '/products/torriden-dive-in-low-molecular-hyaluronic-acid-serum.webp',
+    coupangQuery: '토리든 다이브인 세럼',
+    globalQuery: 'Torriden Dive-In Hyaluronic Acid Serum',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-13',
+    tags: ['DeepHydrationSerum', 'HyaluronicAcid', 'SensitiveSkinChoice'],
+    seoTitle: 'Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum',
+    seoDescription:
+      'Discover Torriden DIVE-IN Serum with 5D Hyaluronic Acid for deep, non-sticky hydration suitable for sensitive skin.',
+  },
+  {
     slug: 'dior-diorshow-5-couleurs-charmed-green',
     category: 'trend',
     brand: 'Dior',

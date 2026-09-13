@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'nooni-apple-seed-lip-oil-target-us-debut',
+    category: 'lip',
+    title: 'nooni ‘Apple Seed Lip Oil’, 미국 타겟(Target) 1,778개 매장 및 온라인 입점',
+    summary:
+      'K-뷰티 브랜드 nooni의 시그니처 ‘Apple Seed Lip Oil’이 2026년 9월 6일부터 미국 Target 매장 1,778개와 온라인에서 판매를 시작했습니다. TikTok 4억 5천만뷰, 전 세계 510만 개 판매 기록을 바탕으로 오프라인 진출을 확대합니다.',
+    body: [
+      '> TLDR: ① nooni 립 오일 미국 Target 입점 | ② TikTok 4.5억 뷰, 전 세계 510만 개 판매 | ③ 미국 유통 확대로 K‑뷰티 접근성 강화',
+      'K-뷰티 브랜드 nooni의 대표 제품 ‘Apple Seed Lip Oil’이 2026년 9월 6일부터 미국 Target 매장 1,778곳과 온라인을 통해 판매되기 시작했습니다.',
+      '> DATA: TikTok에서 4억 5천만 뷰, 전 세계 510만 개 판매 실적 확인됨',
+      '이 제품은 높은 볼륨의 하이라이트 립 오일로, 틱톡과 이커머스를 통해 입소문을 탔으며, 이번 Target 입점은 온라인 중심의 유행이 오프라인으로 확산되고 있음을 보여줍니다.',
+      '미국 소비자들에게 K‑뷰티를 일상 뷰티 루틴에 접목할 기회를 제공하고, nooni 브랜드의 글로벌 영향력을 확대하는 중요한 전환점입니다.',
+    ],
+    date: '2026-09-13',
+    readMinutes: 3,
+    tags: ['nooni', '립오일', 'K-뷰티', '미국출시'],
+    image: '/news/nooni-apple-seed-lip-oil-target-us-debut.webp',
+    seoTitle: 'nooni 애플 시드 립 오일, 타겟 미국 입점',
+    seoDescription:
+      'nooni의 인기 립 오일이 미국 Target 매장 1,778곳과 온라인에 9월 6일 출시된 배경과 의미를 자세히 소개합니다.',
+  },
+  {
     slug: 'soft-focus-blur-makeup-trend-kbeauty',
     category: 'trend',
     title: 'K-뷰티, 부드럽게 퍼지는 ‘블러’ 메이크업 트렌드 글로벌 확산',
