@@ -526,11 +526,12 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         </div>
       </section>
 
-      {/* ── 3단계 (네이비 배경) ── */}
+      {/* ── 이용 방법 — 무료/유료 두 트랙 (네이비 배경) ──
+          2026-09-13: 기존엔 유료(셀카→분석→9룩) 3단계만 설명해 무료 진단 경로가
+          안내에서 아예 빠져 있었다. 벤치마크(Duolingo/Notion류 free-vs-paid 카드)처럼
+          "각자 독립된 가치가 있는 두 경로"를 나란히 두 카드로 분류 — 순서는 무료 우선. */}
       <section id="how" className="py-12 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* 2026-07-22 개편: 초대형 넘버링 타이포(YouCam 방식). 2026-09-10: 모바일에서
-              세 단계가 세로로 쌓이며 한 화면을 먹어 번호를 제목 옆으로 붙이고 여백을 줄였다. */}
           <SectionHeader
             titleId="how-title"
             tone="dark"
@@ -538,20 +539,70 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             title={t('home.how.title')}
           />
 
-          <div className="grid md:grid-cols-3 gap-5 md:gap-8 lg:gap-14 max-w-4xl mx-auto">
-            {[
-              { num: '01', title: t('home.how.step1'), desc: t('home.how.step1Desc') },
-              { num: '02', title: t('home.how.step2'), desc: t('home.how.step2Desc') },
-              { num: '03', title: t('home.how.step3'), desc: t('home.how.step3Desc') },
-            ].map((step) => (
-              <div key={step.num} className="border-t border-white/20 pt-4 md:pt-5 text-left">
-                <div className="flex items-center gap-3 md:block">
-                  <span className="font-serif text-2xl md:text-[3.25rem] leading-none text-primary md:mb-3 md:block">{step.num}</span>
-                  <h3 className="text-base md:text-xl font-bold text-white">{step.title}</h3>
-                </div>
-                <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1.5 md:mt-3">{step.desc}</p>
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto items-stretch">
+            {/* 무료 트랙 */}
+            <div className="flex flex-col rounded-2xl border border-white/15 bg-white/[0.04] p-6 md:p-8">
+              <span className="inline-flex w-fit items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary mb-4">
+                {t('home.how.freeBadge')}
+              </span>
+              <h3 className="font-serif text-xl md:text-2xl font-semibold text-white mb-6 leading-snug">
+                {t('home.how.freeTitle')}
+              </h3>
+              <div className="flex-1 space-y-4">
+                {[
+                  { num: '01', title: t('home.how.freeStep1'), desc: t('home.how.freeStep1Desc') },
+                  { num: '02', title: t('home.how.freeStep2'), desc: t('home.how.freeStep2Desc') },
+                  { num: '03', title: t('home.how.freeStep3'), desc: t('home.how.freeStep3Desc') },
+                ].map((step) => (
+                  <div key={step.num} className="flex gap-3 border-t border-white/10 pt-4 first:border-t-0 first:pt-0">
+                    <span className="font-serif text-lg leading-none text-primary shrink-0">{step.num}</span>
+                    <div>
+                      <h4 className="text-sm md:text-base font-bold text-white">{step.title}</h4>
+                      <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+              <a
+                href={toolHref('/tools/beauty-dna/')}
+                className="mt-6 inline-flex items-center justify-center gap-2 bg-white text-navy px-6 py-3 font-bold text-sm hover:bg-slate-100 transition-colors"
+              >
+                {t('home.how.freeCta')}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+            </div>
+
+            {/* 유료 트랙 */}
+            <div className="flex flex-col rounded-2xl border border-primary/30 bg-primary/[0.07] p-6 md:p-8">
+              <span className="inline-flex w-fit items-center rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white mb-4">
+                {t('home.how.payBadge')}
+              </span>
+              <h3 className="font-serif text-xl md:text-2xl font-semibold text-white mb-6 leading-snug">
+                {t('home.how.payTitle')}
+              </h3>
+              <div className="flex-1 space-y-4">
+                {[
+                  { num: '01', title: t('home.how.payStep1'), desc: t('home.how.payStep1Desc') },
+                  { num: '02', title: t('home.how.payStep2'), desc: t('home.how.payStep2Desc') },
+                  { num: '03', title: t('home.how.payStep3'), desc: t('home.how.payStep3Desc') },
+                ].map((step) => (
+                  <div key={step.num} className="flex gap-3 border-t border-white/10 pt-4 first:border-t-0 first:pt-0">
+                    <span className="font-serif text-lg leading-none text-primary shrink-0">{step.num}</span>
+                    <div>
+                      <h4 className="text-sm md:text-base font-bold text-white">{step.title}</h4>
+                      <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="/analysis/"
+                className="mt-6 inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 font-bold text-sm hover:bg-primary-dark transition-colors"
+              >
+                {t('home.how.payCta')}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
