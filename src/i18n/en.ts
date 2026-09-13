@@ -57,6 +57,8 @@ export default {
   'home.hero.trust2': 'No card needed',
   'home.hero.trust3': 'Deleted instantly',
   'home.hero.viewQuizzes': '4 Free Quizzes',
+  'home.hero.quizCta': 'Find my makeup — 4 free quizzes',
+  'home.hero.directLink': 'Already confident? Upload your selfie directly',
   'home.hero.priceLine': '4 free quizzes · AI makeup preview $2.99',
   'home.hero.safe1': 'Secure checkout by Polar',
   'home.hero.safe2': 'Built and run by koha',

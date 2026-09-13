@@ -326,13 +326,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </div>
 
             <div className="order-3 md:order-none flex w-full flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
+            {/* 2026-09-13: 메인 CTA를 셀카 업로드(유료 기능, GA4 상 89% 이탈)에서 무료·
+                비로그인 진단 4종으로 교체 — Stitch Fix/Function of Beauty 처럼 결제 전에
+                가벼운 퀴즈부터 태운다. 셀카 업로드는 아래 보조 링크로 격하. */}
             <div className="animate-fade-in-up-delay2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               <a
-                href="/analysis/"
+                href={toolHref('/tools/beauty-dna/')}
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 text-base font-bold transition-colors"
               >
-                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
-                {t('home.hero.uploadCta')}
+                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>quiz</span>
+                {t('home.hero.quizCta')}
               </a>
               <a
                 href="#styles"
@@ -346,10 +349,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <p className="animate-fade-in-up-delay2 text-xs font-medium text-slate-500">
               {[t('home.hero.trust1'), t('home.hero.trust2'), t('home.hero.trust3')].join(' · ')}
             </p>
-            {/* "가입 시 첫 1회 무료" — 예전엔 slate-400 로 거의 안 보였다. 핵심 가치 제안이므로
-                체크 아이콘 + primary 텍스트로 한 단계 끌어올린다(알약 배경은 쓰지 않음). */}
-            <p className="animate-fade-in-up-delay2 -mt-1 inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary-dark">
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            {/* 셀카 업로드(유료 기능) 보조 링크 — 메인 CTA에서 내려온 자리. 가격 안내를
+                여기 붙여 "이 기능은 회원가입/유료"라는 맥락이 이 링크에만 걸리게 한다. */}
+            <a
+              href="/analysis/"
+              className="animate-fade-in-up-delay2 -mt-1 inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-500 hover:text-navy transition-colors underline decoration-slate-300 underline-offset-2"
+            >
+              <span className="material-symbols-outlined text-[16px]">photo_camera</span>
+              {t('home.hero.directLink')}
+            </a>
+            <p className="animate-fade-in-up-delay2 -mt-2 text-[11px] text-slate-400">
               {t('home.hero.priceSub')}
             </p>
 

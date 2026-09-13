@@ -59,6 +59,10 @@ export default {
   'home.hero.trust2': '카드 불필요',
   'home.hero.trust3': '즉시 삭제',
   'home.hero.viewQuizzes': '무료 진단 4종',
+  // 히어로 CTA 재구성(2026-09-13): 셀카 업로드(유료 기능, GA4 상 89% 이탈)를 1순위에서
+  // 내리고, 무료·비로그인 진단 4종을 1순위로 올린다. 셀카 업로드는 하단 보조 링크로.
+  'home.hero.quizCta': '무료 진단 4가지로 나만의 메이크업 찾기',
+  'home.hero.directLink': '얼굴형에 자신 있다면, 바로 셀카 올리기',
   'home.hero.priceLine': '무료 진단 4종 · AI 메이크업 미리보기 $2.99',
   'home.hero.safe1': 'Polar 안전결제',
   'home.hero.safe2': 'koha 운영',
