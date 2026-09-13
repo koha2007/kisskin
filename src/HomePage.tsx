@@ -539,6 +539,18 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             title={t('home.how.title')}
           />
 
+          {/* 회원가입 혜택 배너 — 무료 4종 완성 시 모델 생성 1회 + 첫 AI 메이크업 1회,
+              총 2번의 무료 생성 기회가 있다는 걸 두 카드 위에서 한 번에 정리해서 보여준다. */}
+          <div className="max-w-4xl mx-auto mb-6 md:mb-8 flex items-start gap-3 rounded-xl border border-primary/25 bg-primary/[0.08] px-5 py-4">
+            <span className="material-symbols-outlined text-primary shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+              redeem
+            </span>
+            <div>
+              <p className="text-sm md:text-base font-bold text-white">{t('home.how.giftTitle')}</p>
+              <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-0.5">{t('home.how.giftDesc')}</p>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto items-stretch">
             {/* 무료 트랙 */}
             <div className="flex flex-col rounded-2xl border border-white/15 bg-white/[0.04] p-6 md:p-8">
@@ -556,9 +568,30 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 ].map((step) => (
                   <div key={step.num} className="flex gap-3 border-t border-white/10 pt-4 first:border-t-0 first:pt-0">
                     <span className="font-serif text-lg leading-none text-primary shrink-0">{step.num}</span>
-                    <div>
+                    <div className="min-w-0">
                       <h4 className="text-sm md:text-base font-bold text-white">{step.title}</h4>
                       <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1">{step.desc}</p>
+                      {/* 01번 단계엔 실제 4개 도구로 바로 연결되는 칩을 붙인다 —
+                          "아무거나 먼저"가 추상적 문장에 그치지 않고 바로 실행 가능하게. */}
+                      {step.num === '01' && (
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          {[
+                            { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', label: t('home.toolsShowcase.t1Title') },
+                            { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', label: t('home.toolsShowcase.t2Title') },
+                            { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', label: t('home.toolsShowcase.t3Title') },
+                            { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', label: t('home.toolsShowcase.t4Title') },
+                          ].map((tool) => (
+                            <a
+                              key={tool.label}
+                              href={tool.href}
+                              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/15 transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-[15px]" style={{ color: tool.accent }}>{tool.icon}</span>
+                              {tool.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
