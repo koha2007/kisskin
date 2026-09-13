@@ -17,7 +17,8 @@ name: Weekly product digest email
 
 on:
   schedule:
-    - cron: '0 0 * * 0'   # 일요일 00:00 UTC = 09:00 KST
+    - cron: '0 0 * * 0'   # 일요일 00:00 UTC = 09:00 KST (정기)
+    - cron: '0 2 14 9 *'  # ⚠️ 1회성 — 2026-09-14 11:00 KST 임시 발송. 발송 확인 후 이 줄 제거할 것.
   workflow_dispatch:
     inputs:
       dry_run:
