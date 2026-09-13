@@ -145,7 +145,7 @@ export default {
   'home.how.freeStep2': 'Do the other three',
   'home.how.freeStep2Desc': 'Each result page links straight to the next quiz',
   'home.how.freeStep3': 'Get your makeup routine',
-  'home.how.freeStep3Desc': 'Get a routine, a product list, and one free generation of your own model face',
+  'home.how.freeStep3Desc': 'See your routine and product list right away, no login. Log in and your own model-face image generates free (first one).',
   'home.how.freeCta': 'Start for free',
   'home.how.giftTitle': 'Sign up for 2 free generations',
   'home.how.giftDesc': 'Complete all 4 free quizzes for one free model-face generation, plus your first selfie-based AI makeup generation free — two free tries from a single sign-up.',
