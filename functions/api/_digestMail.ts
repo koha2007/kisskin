@@ -81,9 +81,7 @@ const COPY = {
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-// ⚠️ 회사 주소를 아직 안 넣었다. 마케팅 메일은 발신자 실제 우편주소 표기가
-// CAN-SPAM 상 의무다. 첫 정식 발송 전에 아래 ADDRESS 를 채울 것.
-const ADDRESS = '' // 예: 'kissinskin · 서울특별시 ○○구 ○○로 00, 0층'
+const ADDRESS = '코하(koha) · 대표 김용헌 · 사업자등록번호 108-16-82025 · 경기도 남양주시 해밀예당1로 145'
 
 export function renderDigest(
   lang: 'ko' | 'en',
