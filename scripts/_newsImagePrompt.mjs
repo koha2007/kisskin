@@ -45,15 +45,19 @@ export const LIGHTING = [
 ]
 
 export const hash = (s) => { let h = 5381; for (const c of s) h = ((h * 33) ^ c.charCodeAt(0)) >>> 0; return h }
-const pick = (arr, h, salt) => arr[(h + salt) % arr.length]
+// ⚠ 예전엔 pick(arr, h, salt) => arr[(h+salt) % arr.length] 로 네 축을 전부 같은 h 에서
+// +0/+1/+2/+3 만 갈랐다. 배열 길이가 전부 6이라 (h+salt)%6 은 h%6 하나로 완전히 종속돼
+// 4축이 사실상 한 몸으로 움직였다 — 101장인데 실제로는 6가지 조합만 나온 원인
+// (2026-09-14 발견). 축마다 **다른 문자열을 해시**해서 서로 독립시킨다.
+const pick = (arr, seed) => arr[hash(seed) % arr.length]
 
 /** 같은 슬러그 → 항상 같은 그림(재현 가능). retry 를 더하면 변주가 바뀐다. */
 export function buildNewsImagePrompt(item, retry = 0) {
-  const h = hash(item.slug) + retry * 7
-  const products = pick(PRODUCT_SETS, h, 0)
-  const map = pick(MAP_STYLES, h, 1)
-  const backdrop = pick(BACKDROPS, h, 2)
-  const lighting = pick(LIGHTING, h, 3)
+  const seed = `${item.slug}:${retry}`
+  const products = pick(PRODUCT_SETS, `${seed}:products`)
+  const map = pick(MAP_STYLES, `${seed}:map`)
+  const backdrop = pick(BACKDROPS, `${seed}:backdrop`)
+  const lighting = pick(LIGHTING, `${seed}:lighting`)
   return [
     'A minimal, elegant editorial still-life photograph representing global K-beauty industry news and market trends — absolutely NO people, no faces, no hands, no skin.',
     `Composition: ${products}, arranged on ${backdrop}, with ${map}.`,
