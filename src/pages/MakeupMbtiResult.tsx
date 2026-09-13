@@ -215,7 +215,12 @@ export default function MakeupMbtiResult({ code }: Props) {
         {/* Hero — slim: identity card + save (재설계 지시 §2 상단) */}
         <section className="relative pt-12 pb-8 md:pt-16 md:pb-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${type.primaryColor}12 0%, ${type.accentColor}20 100%)` }}>
           <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-            <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{type.code}</p>
+            <span
+              className="inline-flex items-center rounded-full border px-5 py-2 mb-4 font-mono text-lg md:text-2xl font-extrabold tracking-[0.25em]"
+              style={{ borderColor: `${type.primaryColor}55`, background: `${type.primaryColor}14`, color: type.primaryColor }}
+            >
+              {type.code}
+            </span>
             <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{displayName}</h1>
             <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
 
