@@ -19,7 +19,8 @@ import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 import { callGeminiText } from './_geminiText.mjs'
 import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
-import { buildNewsImagePrompt } from './_newsImagePrompt.mjs'
+import { writeNewsWebp } from './_newsWatermark.mjs'
+import { buildNewsImagePrompt, assignNewsImageAxes } from './_newsImagePrompt.mjs'
 
 const ITEMS = resolve('src/lib/news/items.ts')
 const ITEMS_EN = resolve('src/lib/news/items.en.ts')
@@ -162,16 +163,20 @@ function insert(item) {
 // 프롬프트는 뉴스 전용(`_newsImagePrompt.mjs`, 사람 없는 글로벌 정물 컨셉)이다.
 // 실패해도 치명적이지 않음(gen-products.mjs 와 동일하게 실패하면 디자인 카드 폴백).
 async function genImage(openaiKey, item) {
+  // 새 기사는 맨 위에 들어간다 → 바로 아래 기존 카드들과 피사체·색이 겹치지 않게 배정.
+  const existingItems = [...readFileSync(ITEMS, 'utf8').matchAll(/^ {2}\{\n {4}slug: '([^']+)',[\s\S]*?category:\s*'([^']*)'/gm)]
+    .map((m) => ({ slug: m[1], category: m[2] }))
+  const list = [{ slug: item.slug, category: item.category }, ...existingItems]
   let b64
   for (let retry = 0; retry < 3 && !b64; retry++) {
-    b64 = await generateImageB64(openaiKey, buildNewsImagePrompt(item, retry), '3:4')
+    const axes = assignNewsImageAxes(list, { [item.slug]: retry }).get(item.slug)
+    b64 = await generateImageB64(openaiKey, buildNewsImagePrompt(item, retry, axes), '3:4')
     if (!b64) console.warn(`  ↻ ${IMAGE_MODEL} 빈 응답(콘텐츠 필터 추정) — 변주 ${retry + 1} 재시도`)
   }
   if (!b64) throw new Error(`${IMAGE_MODEL}: 이미지 바이트 없음(변주 3회 모두 차단)`)
   mkdirSync(IMG_DIR, { recursive: true })
   const outPath = resolve(IMG_DIR, `${item.slug}.webp`)
-  const sharp = (await import('sharp')).default
-  await sharp(Buffer.from(b64, 'base64')).resize(960, 1280, { fit: 'cover' }).webp({ quality: 80 }).toFile(outPath)
+  await writeNewsWebp(Buffer.from(b64, 'base64'), outPath)
   return `/news/${item.slug}.webp`
 }
 
