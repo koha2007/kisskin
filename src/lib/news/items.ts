@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-mou-global-beauty-innovation',
+    category: 'global',
+    title: '로레알·코스맥스, 차세대 뷰티 혁신 위해 글로벌 협력 MOU 체결',
+    summary:
+      '로레알 그룹과 코스맥스가 2026년 9월 9일 차세대 뷰티 혁신을 위한 업무협약을 체결해 원료·감각 포뮬러·제품 디자인 공동 연구에 나섭니다. 양사의 강점을 결합해 글로벌 시장 트렌드를 선도할 계획입니다.',
+    body: [
+      '> TLDR: 로레알과 코스맥스 업무협약 | 원료·감각 제형 공동 연구 | 글로벌 트렌드 선도',
+      '글로벌 화장품 기업 로레알 그룹과 국내 대표 ODM 코스맥스가 2026년 9월 9일(현지시간), 차세대 뷰티 혁신을 위한 MOU를 체결했습니다. 양사는 원료, 활성 성분, 감각적 제형 개발에 협력할 계획입니다.',
+      '> DATA: MOU 체결일 2026년 9월 9일, 로레알의 글로벌 과학·소비자 인사이트 역량과 코스맥스의 K‑뷰티 제품 디자인 전문성을 결합',
+      '이번 협약은 양국(프랑스·한국) 간 수교 140주년을 기념하는 의미도 지니며, 양측은 미래 뷰티 트렌드 형성과 전 세계 소비자 접점 확대를 목표로 합니다. 코스맥스의 K-뷰티 설계 역량과 로레알의 R&D 노하우가 핵심 드라이버입니다.',
+      '소비자 입장에서는 더욱 혁신적이고 감각적인 제품이 글로벌 시장에 빠르게 선보일 가능성이 커졌습니다. 또한, 두 기업의 협력이 K‑뷰티를 넘어 전 세계 뷰티 트렌드 전반에 영향을 미칠 수 있다는 점이 주목됩니다.',
+    ],
+    date: '2026-09-14',
+    readMinutes: 3,
+    tags: ['글로벌', '협업', '뷰티혁신'],
+    image: '/news/loreal-cosmax-mou-global-beauty-innovation.webp',
+    seoTitle: '로레알 코스맥스, 차세대 뷰티 MOU 체결',
+    seoDescription:
+      '로레알과 코스맥스가 차세대 뷰티 혁신을 위한 글로벌 협력 MOU를 체결했습니다. 양사의 전문성을 결합해 미래 화장품 연구를 공동 추진합니다.',
+  },
+  {
     slug: 'nooni-apple-seed-lip-oil-target-us-debut',
     category: 'lip',
     title: 'nooni ‘Apple Seed Lip Oil’, 미국 타겟(Target) 1,778개 매장 및 온라인 입점',

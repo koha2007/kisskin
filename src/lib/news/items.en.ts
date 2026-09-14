@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-mou-global-beauty-innovation',
+    category: 'global',
+    title: 'L\'Oréal and Cosmax Sign Global MOU for Next-Gen Beauty Innovation',
+    summary:
+      'On September 9, 2026, L\'Oréal Group and Cosmax signed a memorandum of understanding (MOU) for next-generation beauty innovation, embarking on joint research for raw materials, sensory formulas, and product design. The two companies plan to combine their strengths to lead global market trends.',
+    body: [
+      '> TLDR: L\'Oréal & Cosmax MOU | Joint R&D on Raw Materials & Sensory Formulas | Leading Global Beauty Trends',
+      'On September 9, 2026 (local time), global cosmetics leader L\'Oréal Group and leading Korean ODM Cosmax signed an MOU for next-generation beauty innovation. The two companies plan to collaborate on developing raw materials, active ingredients, and sensory formulations.',
+      '> DATA: MOU signed September 9, 2026, combining L\'Oréal\'s global scientific and consumer insight capabilities with Cosmax\'s K-beauty product design expertise',
+      'The agreement also marks the 140th anniversary of diplomatic relations between France and South Korea, aiming to shape future beauty trends and expand reach to consumers worldwide. Cosmax\'s K-beauty formulation capabilities and L\'Oréal\'s R&D know-how serve as key drivers.',
+      'For consumers, this partnership increases the likelihood of highly innovative and sensory products hitting the global market more rapidly. Notably, the collaboration between the two industry leaders is expected to influence global beauty trends well beyond K-beauty.',
+    ],
+    date: '2026-09-14',
+    readMinutes: 3,
+    tags: ['Global', 'Collaboration', 'Beauty Innovation'],
+    image: '/news/loreal-cosmax-mou-global-beauty-innovation.webp',
+    seoTitle: 'L\'Oréal & Cosmax Partner for Next-Gen Beauty Innovation',
+    seoDescription:
+      'L\'Oréal and Cosmax sign a global MOU to co-develop innovative raw materials and sensory beauty formulations for consumers worldwide.',
+  },
+  {
     slug: 'nooni-apple-seed-lip-oil-target-us-debut',
     category: 'lip',
     title: 'nooni Launches Signature ‘Apple Seed Lip Oil’ Across 1,778 US Target Stores and Online',

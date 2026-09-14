@@ -2,6 +2,7 @@
 // Tiny standalone module (no bodies) so the i18n context and nav can import the
 // list cheaply. Keep in sync with NEWS_ITEMS_EN in items.en.ts.
 export const EN_NEWS_SLUGS = [
+  'loreal-cosmax-mou-global-beauty-innovation',
   'nooni-apple-seed-lip-oil-target-us-debut',
   'soft-focus-blur-makeup-trend-kbeauty',
   'loreal-cosmax-next-gen-collab',

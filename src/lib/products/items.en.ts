@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'mielle-rosemary-mint-hair-strengthening-oil',
+    category: 'hair',
+    brand: 'Mielle Organics',
+    name: 'Rosemary Mint Scalp & Hair Strengthening Oil',
+    title: 'Mielle Organics Rosemary Mint Oil — Viral TikTok & Allure Beauty Favorite Hair Oil for Stronger Hair',
+    summary:
+      'Featured as a TikTok viral sensation and Allure Best of Beauty winner, Mielle Organics Rosemary Mint Hair Strengthening Oil is one of the most talked-about hair oils in the global beauty scene today.',
+    highlights: ['Rosemary & Mint Ingredients', 'Scalp Strengthening Effect', 'TikTok Viral Favorite'],
+    details: [
+      'Infused with rosemary and mint extracts, it refreshes the scalp and helps strengthen hair.',
+      'An Allure Best of Beauty award-winner with strong word-of-mouth buzz across TikTok.',
+      'Features a lightweight, non-sticky texture that absorbs well, making it ideal for use both before and after styling.',
+    ],
+    whoFor:
+      'Ideal for users looking to strengthen weakened hair without scalp irritation. Especially recommended for fine hair types prone to breakage.',
+    howTo: [
+      'Dispense a small amount onto your palm and gently massage into the scalp and ends of your hair.',
+      'Apply to dry hair or before/after styling to help strengthen hair and add natural shine.',
+    ],
+    pros: [
+      'Helps strengthen the scalp and hair',
+      'Lightweight, non-sticky texture',
+    ],
+    cons: [
+      'The refreshing mint scent may be a matter of preference for scent-sensitive users',
+    ],
+    image: '/products/mielle-rosemary-mint-hair-strengthening-oil.webp',
+    coupangQuery: '미엘 오가닉스 로즈마리 민트 오일',
+    globalQuery: 'Mielle Organics Rosemary Mint Strengthening Hair Oil',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-14',
+    tags: ['Hair Oil', 'Scalp Strengthening', 'TikTok Viral'],
+    seoTitle: 'Mielle Organics Rosemary Mint Hair Strengthening Oil',
+    seoDescription:
+      'Discover the viral Mielle Organics Rosemary Mint Oil for scalp nourishment, hair strengthening, and weightless shine.',
+  },
+  {
     slug: 'torriden-dive-in-low-molecular-hyaluronic-acid-serum',
     category: 'skincare',
     brand: 'Torriden',

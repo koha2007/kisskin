@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'mielle-rosemary-mint-hair-strengthening-oil',
+    category: 'hair',
+    brand: '미엘 오가닉스',
+    name: '로즈마리 민트 헤어 스트렝스닝 오일',
+    title: '미엘 오가닉스 로즈마리 민트 오일 — 강한 모발을 위한 틱톡·얼루어 인기 헤어 오일',
+    summary:
+      '틱톡 바이럴과 Allure 베스트 오브 뷰티에 선정된 미엘 오가닉스의 로즈마리 민트 헤어 스트렝스닝 오일은 지금 글로벌 시장에서 가장 주목받는 헤어 오일 중 하나입니다.',
+    highlights: ['로즈마리·민트 성분', '두피 강화 효과', '틱톡 화제'],
+    details: [
+      '로즈마리와 민트 추출물이 함유되어 두피를 상쾌하게 하고 모발 강화에 도움을 줍니다.',
+      'Allure 베스트 오브 뷰티 수상 경력이 있는 인기 제품으로, 틱톡에서도 강한 입소문을 타고 있습니다.',
+      '텍스처는 가볍고 끈적임 없이 흡수되어 스타일링 전후 모두 사용하기 좋습니다.',
+    ],
+    whoFor:
+      '두피 자극 없이 모발을 강화하고 싶은 모발이 약해지기 쉬운 사용자에게 적합합니다. 특히 가늘고 쉽게 끊어지는 모발 타입에게 추천합니다.',
+    howTo: [
+      '소량을 손바닥에 덜어 두피와 모발 끝에 부드럽게 마사지하며 도포합니다.',
+      '건조하거나 스타일링 전후에 사용하면 모발을 강화하고 윤기를 더해줍니다.',
+    ],
+    pros: [
+      '두피와 모발 강화에 도움',
+      '가볍고 끈적임 없는 텍스처',
+    ],
+    cons: [
+      '향에 민감한 사용자에겐 상쾌한 민트 향이 호불호가 갈릴 수 있음',
+    ],
+    image: '/products/mielle-rosemary-mint-hair-strengthening-oil.webp',
+    coupangQuery: '미엘 오가닉스 로즈마리 민트 오일',
+    globalQuery: 'Mielle Organics Rosemary Mint Strengthening Hair Oil',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-14',
+    tags: ['헤어오일', '두피강화', '틱톡바이럴'],
+    seoTitle: '틱톡·얼루어 화제 미엘 로즈마리 민트 헤어 오일',
+    seoDescription:
+      '틱톡과 얼루어 베스트 오브 뷰티에 오른 인기 헤어 오일로, 모발 강화와 두피 건강을 동시에 케어하는 오일 트리트먼트입니다.',
+  },
+  {
     slug: 'torriden-dive-in-low-molecular-hyaluronic-acid-serum',
     category: 'skincare',
     brand: '토리든',
