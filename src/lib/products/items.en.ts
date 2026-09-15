@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'poment-cotton-hug-perfume',
+    category: 'fragrance',
+    brand: 'FORMENT',
+    name: 'Cotton Hug Eau de Parfum',
+    title: 'FORMENT Cotton Hug — A Cozy, Soap-Like Daily Fragrance',
+    summary:
+      'Maintaining the #1 ranking in the men\'s and women\'s fragrance category at Olive Young, FORMENT Cotton Hug is a soap-scented Eau de Parfum blending bergamot, white florals, and musk, loved as an everyday commute fragrance.',
+    highlights: ['Soapy, cozy cotton scent', 'Genderless design', 'Long-lasting fragrance (6+ hours)'],
+    details: [
+      'Features a harmonious scent structure with bergamot and green top notes, cozy middle notes of white floral and cotton, and a musk and woody base.',
+      'Released in a manageable 30ml size EDP, making it easy to use daily without burden, with active purchases both online and in stores.',
+      'Lasts over 6 hours, maintaining a soft, clean fragrance for a long time at the office or while out and about.',
+    ],
+    whoFor:
+      'Suitable for anyone desiring a sweet and clean fragrance, especially ideal for those who prefer a light, cozy scent for daily commutes or casual outings.',
+    howTo: [
+      'Spray 2-3 times on the neck or wrists, then lightly mist on collars or hair to layer for longer-lasting scent.',
+      'Apply right before leaving in the morning, and gently rub wrists during the day to reactivate the scent.',
+    ],
+    pros: [
+      'Clean scent perfect for daily work commutes',
+      'Affordable, easy purchase in a compact size',
+    ],
+    cons: [
+      'Scent is subtle, which may be disappointing for those who prefer strong fragrances',
+    ],
+    image: '/products/poment-cotton-hug-perfume.webp',
+    coupangQuery: '포맨트 코튼허그 향수',
+    globalQuery: 'Poment Cotton Hug perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-15',
+    tags: ['Soap Scent', 'Daily Perfume', 'Genderless'],
+    seoTitle: 'FORMENT Cotton Hug Eau de Parfum Review',
+    seoDescription:
+      'Discover FORMENT Cotton Hug EDP, Olive Young\'s top cozy soap-scented fragrance featuring bergamot, floral, and musk notes.',
+  },
+  {
     slug: 'mielle-rosemary-mint-hair-strengthening-oil',
     category: 'hair',
     brand: 'Mielle Organics',

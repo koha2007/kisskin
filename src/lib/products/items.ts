@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'poment-cotton-hug-perfume',
+    category: 'fragrance',
+    brand: '포맨트',
+    name: '코튼허그 오드퍼퓸',
+    title: '포맨트 코튼허그 — 비누처럼 포근한 데일리 향기',
+    summary:
+      '올리브영 남녀 향수 부문 랭킹 1위를 유지 중인 포맨트 코튼허그는 베르가못, 화이트 플로럴, 머스크가 어우러진 비누 향의 오드퍼퓸으로 출근길 데일리로 사랑받는 제품입니다.',
+    highlights: ['비누 같은 코튼 향', '젠더리스 디자인', '6시간 이상 지속되는 향'],
+    details: [
+      '베르가못과 그린 탑 노트에 이어 화이트 플로럴과 코튼의 포근한 미들 노트, 머스크와 우디 베이스가 조화로운 향 구조입니다.',
+      '30ml 소용량 오드퍼퓸으로 출시되어 부담 없이 데일리로 사용하기 좋고, 온라인·매장 구매 모두 활발합니다.',
+      '지속력이 6시간 이상으로 사무실이나 외출 시 부드럽고 깨끗한 향기를 오래 유지해 줍니다.',
+    ],
+    whoFor:
+      '감미롭고 깔끔한 향기를 원하는 남녀 모두에게 잘 맞으며, 특히 출근길이나 데일리 외출용으로 가볍고 포근한 향기를 선호하는 사람에게 적합합니다.',
+    howTo: [
+      '목이나 손목에 2~3회 분사한 후, 옷깃이나 머리카락에도 약하게 뿌려 레이어링하면 향이 오래 지속됩니다.',
+      '아침 외출 직전에 뿌리고, 낮에는 손목을 부드럽게 문질러 향을 한 번 더 활성화해 보세요.',
+    ],
+    pros: [
+      '출근길 데일리로 쓰기 좋은 깔끔한 향',
+      '소용량으로 부담 없이 구매 가능',
+    ],
+    cons: [
+      '향이 은은해 강한 향을 좋아하는 사람에게는 아쉬울 수 있음',
+    ],
+    image: '/products/poment-cotton-hug-perfume.webp',
+    coupangQuery: '포맨트 코튼허그 향수',
+    globalQuery: 'Poment Cotton Hug perfume',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-15',
+    tags: ['비누향', '데일리향수', '젠더리스'],
+    seoTitle: '포맨트 코튼허그 향수',
+    seoDescription:
+      '포맨트 코튼허그는 올리브영 향수 랭킹 1위, 비누처럼 깨끗하고 포근한 데일리 향을 찾는 이들에게 인기 있는 아이템입니다.',
+  },
+  {
     slug: 'mielle-rosemary-mint-hair-strengthening-oil',
     category: 'hair',
     brand: '미엘 오가닉스',

@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'trinny-london-skin-tint-40-plus-launch',
+    category: 'base',
+    title: 'Trinny London, 40대 이상 위한 ‘스킨 틴트’ 신제품 출시',
+    summary:
+      'Trinny London이 40대 이상 피부를 겨냥한 스킨 틴트를 출시했습니다. 고령층 피부에 맞춘 톤 보정과 자연스러운 표현을 중점으로 개발된 새로운 베이스 제품입니다.',
+    body: [
+      '> TLDR: 40대 이상 피부 겨냥 | 자연스러운 톤 보정 | 고급 베이스 제품',
+      'Trinny London이 40대 이상 피부를 위해 설계된 새로운 ‘스킨 틴트’ 베이스 제품을 최근 출시했습니다. 간결하고 효과적인 스킨케어 결합 메이크업 포뮬러로 소개됩니다.',
+      '> DATA: 기사에 따르면 40대 이상 피부를 위한 스킨 틴트라는 점이 강조됨',
+      '이 제품은 창립자가 40대 이상의 소비자가 원하는 기능을 분석해 제작한 것으로, 성숙한 피부 톤 보정과 편리함을 핵심 가치로 내세웁니다. 광고성 문구 없이 실제 사용 경험을 바탕으로 전달하는 기사 톤입니다.',
+      '이런 베이스 제품 출시는 40대 이상 소비자층을 공략하는 시장 세분화 전략의 일환으로 볼 수 있으며, 고령층 메이크업 니즈를 충족시키는 브랜드 대응이 강화되고 있음을 시사합니다.',
+    ],
+    date: '2026-09-15',
+    readMinutes: 3,
+    tags: ['트리니런던', '스킨틴트', '40대메이크업'],
+    image: '/news/trinny-london-skin-tint-40-plus-launch.webp',
+    seoTitle: '40대 위한 트리니 런던 스킨 틴트 출시',
+    seoDescription:
+      '40대 이상을 위한 Trinny London의 새로운 스킨 틴트 출시 소식을 다룹니다.',
+  },
+  {
     slug: 'loreal-cosmax-mou-global-beauty-innovation',
     category: 'global',
     title: '로레알·코스맥스, 차세대 뷰티 혁신 위해 글로벌 협력 MOU 체결',

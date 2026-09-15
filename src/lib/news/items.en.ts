@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'trinny-london-skin-tint-40-plus-launch',
+    category: 'base',
+    title: 'Trinny London Launches New \'Skin Tint\' for Ages 40 and Over',
+    summary:
+      'Trinny London has launched a new skin tint targeting skin for those aged 40 and over. Developed specifically for mature skin, this new base product focuses on tone correction and a natural finish.',
+    body: [
+      '> TLDR: Targeted at skin over 40 | Natural tone correction | Premium base product',
+      'Trinny London recently launched a new \'Skin Tint\' base product designed for skin over 40. It is presented as a simple yet effective hybrid formula combining skincare and makeup.',
+      '> DATA: Article emphasizes that the skin tint is specifically formulated for skin aged 40 and over',
+      'Created after the founder analyzed the specific needs of consumers in their 40s and beyond, the product highlights mature skin tone correction and convenience as its core values. The article maintains a tone based on real user experiences rather than promotional hype.',
+      'The launch of this base product reflects a market segmentation strategy aimed at consumers aged 40 and above, signaling stronger brand initiatives to meet the makeup needs of mature skin.',
+    ],
+    date: '2026-09-15',
+    readMinutes: 3,
+    tags: ['Trinny London', 'Skin Tint', 'Makeup for 40s'],
+    image: '/news/trinny-london-skin-tint-40-plus-launch.webp',
+    seoTitle: 'Trinny London Launches New Skin Tint for Skin Over 40',
+    seoDescription:
+      'Trinny London debuts a new skin tint tailored for mature skin over 40, offering tone correction with a natural hybrid skincare finish.',
+  },
+  {
     slug: 'loreal-cosmax-mou-global-beauty-innovation',
     category: 'global',
     title: 'L\'Oréal and Cosmax Sign Global MOU for Next-Gen Beauty Innovation',
