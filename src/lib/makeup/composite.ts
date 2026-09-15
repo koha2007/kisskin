@@ -27,6 +27,15 @@
 //     · 라벨·설명·브랜드 록업은 카드 **아래 가운데 정렬**. 사진을 가리지 않는다.
 //     · 브랜드 록업에서 핑크 'kissinskin.net' 을 빼고 'kissinskin' 만 남겼다.
 //   블러는 전부 캔버스 로컬 연산(ctx.filter)이라 서버·API 비용이 0 이다.
+//
+// 2026-09-15 — **1080×1920(9:16) + 블러 전면 제거.** (운영자 시안 "00.jpg")
+//   인스타 스토리·릴스·틱톡에 그대로 올리는 세로 풀사이즈로 바꿨다(위 07-23 의 4:5 고정을 대체).
+//   · 카드 안 여백의 블러를 없앴다. 결과물이 대부분 정사각(1024²)이라 3:4 카드 위아래에
+//     블러 띠가 크게 깔렸고, 그게 사진보다 눈에 먼저 들어왔다.
+//   · 사진 카드 = 흰색. 캔버스 폭을 거의 꽉 채우고, 캡션 위로 남는 높이를 전부 쓴다.
+//     사진은 카드 안에서 contain(원본 비율 그대로, 한 픽셀도 안 잘림)으로 최대한 크게.
+//     남는 공간은 흰 여백으로 둔다.
+//   · 라벨·설명·브랜드 록업은 크기·위치 규칙 그대로(카드 아래 가운데).
 
 interface CompositeOpts {
   /** gpt-image 결과 data URL(afterSrc) */
@@ -36,33 +45,17 @@ interface CompositeOpts {
   isEn?: boolean
 }
 
-/** 인스타그램 피드 세로 최대 비율. 1:1 로 바꾸려면 1, 스토리는 16/9 로 두면 된다. */
+/** 인스타 스토리·릴스·틱톡 세로 풀사이즈(9:16). 피드용 4:5 로 돌리려면 5 / 4. */
 const OUT_W = 1080
-const OUT_RATIO = 5 / 4
-const OUT_H = Math.round(OUT_W * OUT_RATIO) // 1350
-
-/** 사진 카드 비율(세로형). 운영자 시안 실측값 826×1101 = 3:4. */
-const CARD_RATIO = 4 / 3
-
-/**
- * 카드 바깥 배경.
- *   'flat' — 단색만(시안 002) ← 채택
- *   'blur' — 같은 사진을 크게 블러해 깔고, 카드 아래쪽에서 단색으로 페이드(시안 003)
- *
- * 2026-07-26 'flat' 채택 근거: 블러의 두 장점(빈 공간 은폐·텍스트 가독성)이 이 레이아웃엔
- *   해당이 없다. 사진은 이미 카드 안에 있고 캡션은 카드 밖 단색 위에 앉는다. 반면 우리가
- *   블러하는 건 앨범아트가 아니라 **사용자 방의 벽·잡동사니**라, 룩 9종이 전부 그 사람 방
- *   색으로 물들어 브랜드 프레임이 깨진다. 단색은 사이트 배경(#f6f6f4)과 같아 누가 뽑아도
- *   같은 프레임이 나온다. 업계 통설도 "피사체 자체가 콘텐츠면 단색 테두리"다.
- *   ※ 카드 '안쪽' 여백은 블러를 유지한다 — 거긴 흰 띠가 곧 죽은 공간으로 보인다.
- */
-const BACKDROP: 'blur' | 'flat' = 'flat'
+const OUT_RATIO = 16 / 9
+const OUT_H = Math.round(OUT_W * OUT_RATIO) // 1920
 
 /** 설명은 2줄까지만 — 더 길어지면 카드가 그만큼 작아진다. */
 const MAX_DESC_LINES = 2
 
 const FONT = 'Pretendard, system-ui, sans-serif'
 const BG = '#f6f6f4'
+const CARD_BG = '#ffffff'
 const INK = '#070953'
 const MUTED = '#475569'
 
@@ -97,8 +90,10 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   } catch { /* 로고 없이도 그린다 */ }
 
   // ── ① 카드 아래 텍스트 블록 선계산 — 남는 높이가 곧 카드 높이다
-  const cardTop = Math.round(H * 0.032)          // 43
-  const cardMaxW = W - Math.round(W * 0.1176) * 2 // 826
+  const cardMargin = Math.round(W * 0.022)       // 24 — 사진이 폭을 거의 꽉 채운다
+  const cardTop = cardMargin
+  const cardW = W - cardMargin * 2               // 1032
+  const textMaxW = W - Math.round(W * 0.1176) * 2 // 826 — 캡션 폭은 기존 그대로
 
   const fontName = Math.max(20, Math.round(W * 0.0444))  // 48
   const fontDesc = Math.max(14, Math.round(W * 0.0296))  // 32
@@ -110,64 +105,37 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   const lineH = Math.round(fontDesc * 1.45)
   const gapCardName = Math.round(W * 0.016)
   const gapDescBrand = Math.round(W * 0.016)
-  const bottomPad = Math.round(W * 0.019)
+  const bottomPad = Math.round(W * 0.03)
   const brandRowH = logo ? logoSize : Math.round(brandFont * 1.3)
 
   ctx.font = `400 ${fontDesc}px ${FONT}`
-  const descLines = wrapLines(ctx, styleDesc, cardMaxW).slice(0, MAX_DESC_LINES)
+  const descLines = wrapLines(ctx, styleDesc, textMaxW).slice(0, MAX_DESC_LINES)
 
   const textBlockH = gapCardName + nameRowH + descLines.length * lineH + gapDescBrand + brandRowH + bottomPad
 
-  // ── ② 카드 사각형 — 3:4 를 유지한 채 남는 높이에 맞춘다
-  const cardH = Math.min(H - cardTop - textBlockH, Math.round(cardMaxW * CARD_RATIO))
-  const cardW = Math.round(cardH / CARD_RATIO)
-  const cardX = Math.round((W - cardW) / 2)
+  // ── ② 흰 카드 — 캡션 위로 남는 높이를 전부 쓴다
+  const cardH = H - cardTop - textBlockH
+  const cardX = cardMargin
   const cardR = Math.round(W * 0.019)
 
   // ── ③ 배경
   ctx.fillStyle = BG
   ctx.fillRect(0, 0, W, H)
-  if (BACKDROP === 'blur' && supportsCanvasFilter(ctx)) {
-    ctx.save()
-    // 블러는 가장자리 픽셀을 투명하게 먹으므로 캔버스보다 크게 그린다
-    const over = Math.round(W * 0.12)
-    ctx.filter = `blur(${Math.round(W * 0.05)}px)`
-    drawCover(ctx, img, -over, -over, W + over * 2, H + over * 2, 0.5, 0.4)
-    ctx.restore()
-    // 카드 아래(텍스트 영역)로 갈수록 단색으로 정리된다
-    const fadeTop = Math.round(H * 0.5)
-    const fade = ctx.createLinearGradient(0, fadeTop, 0, cardTop + cardH)
-    fade.addColorStop(0, hexToRgba(BG, 0))
-    fade.addColorStop(1, hexToRgba(BG, 1))
-    ctx.fillStyle = fade
-    ctx.fillRect(0, fadeTop, W, H - fadeTop)
-  }
 
   // ── ④ 사진 카드
   ctx.save()
-  ctx.shadowColor = 'rgba(7,9,40,0.18)'
+  ctx.shadowColor = 'rgba(7,9,40,0.10)'
   ctx.shadowBlur = Math.round(W * 0.022)
   ctx.shadowOffsetY = Math.round(W * 0.006)
   roundRect(ctx, cardX, cardTop, cardW, cardH, cardR)
-  ctx.fillStyle = BG
+  ctx.fillStyle = CARD_BG
   ctx.fill()
   ctx.restore()
 
   ctx.save()
   roundRect(ctx, cardX, cardTop, cardW, cardH, cardR)
   ctx.clip()
-  // 카드 안 여백 채움 — 원본이 3:4 가 아니어도 카드가 비어 보이지 않게
-  if (supportsCanvasFilter(ctx)) {
-    ctx.save()
-    ctx.filter = `blur(${Math.round(W * 0.035)}px)`
-    const over = Math.round(W * 0.08)
-    drawCover(ctx, img, cardX - over, cardTop - over, cardW + over * 2, cardH + over * 2, 0.5, 0.4)
-    ctx.restore()
-  } else {
-    ctx.fillStyle = averageColor(img)
-    ctx.fillRect(cardX, cardTop, cardW, cardH)
-  }
-  // 원본 전체 — contain 이라 한 픽셀도 잘리지 않는다
+  // 원본 전체 — contain 이라 한 픽셀도 잘리지 않는다. 남는 곳은 흰 여백.
   const nw = img.naturalWidth || cardW
   const nh = img.naturalHeight || cardH
   const fit = Math.min(cardW / nw, cardH / nh)
@@ -183,7 +151,7 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
 
   ctx.fillStyle = INK
   ctx.font = `800 ${fontName}px ${FONT}`
-  ctx.fillText(styleName, W / 2, y + nameRowH / 2, cardMaxW)
+  ctx.fillText(styleName, W / 2, y + nameRowH / 2, textMaxW)
   y += nameRowH
 
   ctx.fillStyle = MUTED
@@ -216,60 +184,6 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.arcTo(x, y + h, x, y, r)
   ctx.arcTo(x, y, x + w, y, r)
   ctx.closePath()
-}
-
-function hexToRgba(hex: string, a: number): string {
-  const n = parseInt(hex.slice(1), 16)
-  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`
-}
-
-function supportsCanvasFilter(ctx: CanvasRenderingContext2D): boolean {
-  const prev = ctx.filter
-  try {
-    ctx.filter = 'blur(2px)'
-    const ok = ctx.filter === 'blur(2px)'
-    ctx.filter = prev
-    return ok
-  } catch {
-    return false
-  }
-}
-
-/** 1×1 로 축소해 평균색을 읽는다. 캔버스가 오염됐거나 실패하면 배경색. */
-function averageColor(img: HTMLImageElement): string {
-  try {
-    const c = document.createElement('canvas')
-    c.width = 1
-    c.height = 1
-    const cx = c.getContext('2d')
-    if (!cx) return BG
-    cx.drawImage(img, 0, 0, 1, 1)
-    const [r, g, b] = cx.getImageData(0, 0, 1, 1).data
-    return `rgb(${r},${g},${b})`
-  } catch {
-    return BG
-  }
-}
-
-/** object-fit: cover 와 같은 그리기. fx/fy 는 0~1 크롭 기준점(0.5,0.4 = 가로 중앙·세로 위쪽). */
-function drawCover(
-  ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement,
-  dx: number,
-  dy: number,
-  dw: number,
-  dh: number,
-  fx = 0.5,
-  fy = 0.5,
-) {
-  const nw = img.naturalWidth || dw
-  const nh = img.naturalHeight || dh
-  const scale = Math.max(dw / nw, dh / nh)
-  const sw = dw / scale
-  const sh = dh / scale
-  const sx = Math.max(0, Math.min(nw - sw, (nw - sw) * fx))
-  const sy = Math.max(0, Math.min(nh - sh, (nh - sh) * fy))
-  ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh)
 }
 
 function measureText(ctx: CanvasRenderingContext2D, text: string, font: string): number {
