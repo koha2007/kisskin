@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'kbeauty-available-at-coles-australia',
+    category: 'skincare',
+    title: '호주 콜스, 첫 K-뷰티 100종 이상 출시로 뷰티 쇼핑 편의 확대',
+    summary:
+      '호주의 대형 슈퍼마켓 체인 콜스가 K-뷰티 브랜드 100종 이상을 9월 중순부터 전면 출시하며 소비자 접근성을 높였습니다. COSRX, Beauty of Joseon, Tony Moly를 포함한 인기 브랜드들이 포함됩니다.',
+    body: [
+      '> TLDR: 호주 콜스 K-뷰티 입점 확대 | 100종 이상 제품 출시 | COSRX, Beauty of Joseon, Tony Moly 포함',
+      '호주의 대형 슈퍼마켓 체인 콜스가 9월 중순부터 K-뷰티 브랜드를 포함한 100종 이상의 스킨케어 제품을 전국 매장과 온라인에 출시합니다.',
+      '> DATA: “100개 이상의 신규 스킨케어 제품”이 9월 중 콜스 전국 출시 예정이며, COSRX와 Beauty of Joseon, Tony Moly 포함 (colesgroup.com.au)',
+      '이번 출시에는 COSRX와 Beauty of Joseon, Tony Moly 등 K-뷰티의 대표 브랜드들이 포함되며, 9월 25일부터 COSRX와 Beauty of Joseon 제품이 순차 유통됩니다. 또한 11일에는 스킨푸드, 더페이스샵, 토니모리 중심의 ‘Trend Drop’ 한정판도 일부 매장에서 선보입니다 (colesgroup.com.au).',
+      '소비자는 일상적인 장보기 과정에서 자연스럽게 K-뷰티 제품을 접할 수 있게 되어 뷰티 접근성이 크게 개선됩니다.',
+    ],
+    date: '2026-09-16',
+    readMinutes: 3,
+    tags: ['K-뷰티', '호주', '소매입점', 'COSRX'],
+    image: '/news/kbeauty-available-at-coles-australia.webp',
+    seoTitle: '호주 콜스에 K-뷰티 100종 이상 입점',
+    seoDescription:
+      '호주의 콜스가 9월 중순부터 COSRX 등 인기 K-뷰티 브랜드 100종 이상을 전국 매장 및 온라인에 선보이며 뷰티 접근성을 강화합니다.',
+  },
+  {
     slug: 'trinny-london-skin-tint-40-plus-launch',
     category: 'base',
     title: 'Trinny London, 40대 이상 위한 ‘스킨 틴트’ 신제품 출시',

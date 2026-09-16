@@ -5,6 +5,47 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'nyx-lip-iv-hydrating-lip-gloss-stain',
+    category: 'lip',
+    brand: 'NYX 프로페셔널 메이크업',
+    name: '립 I.V. 하이드레이팅 글로스 스테인',
+    title: 'NYX 립 I.V. 하이드레이팅 글로스 스테인 – 광택과 지속 컬러를 동시에',
+    summary:
+      '비건 포뮬러로 최대 12시간 수분을 유지하며, 글로스의 반짝임과 립스테인의 지속력을 결합한 NYX의 베스트셀러 립 제품입니다.',
+    highlights: ['글로스+스테인 하이브리드', '12시간 수분 지속', '비건·크루얼티프리'],
+    details: [
+      '립글로스의 촉촉한 광택과 스테인의 지속력을 동시에 제공하는 하이브리드 포뮬러입니다.',
+      '마그네슘, 비타민 B12, 코코넛 워터가 포함되어 최대 12시간 동안 입술에 수분을 공급합니다.',
+      '도포 후 10분 후 닦아내면 자연스러운 입술 착색 효과를 남길 수 있습니다.',
+    ],
+    whoFor:
+      '입술이 건조하거나 글로스의 끈적임 없이 광택과 색감을 원하는 건조한 입술 타입에 특히 잘 어울립니다. 데일리로 물먹은 듯한 립 표현을 선호하고, 지속력도 중시하는 사용자에게 적합합니다.',
+    howTo: [
+      '중심에서 바깥쪽으로 드립형 도포기를 이용해 얇게 1~2회 스와이프해 발라줍니다.',
+      '10분 후, 글로스 층을 가볍게 닦아내면 자연스럽고 지속되는 립 스테인 효과가 남습니다.',
+    ],
+    pros: [
+      '광택과 지속 컬러를 동시에',
+      '풍부한 수분감',
+      '비건·크루얼티 프리',
+    ],
+    cons: [
+      '글로스가 오래 유지되지 않을 수 있음—10분 후 닦아내야 색이 남음',
+    ],
+    colorFit:
+      '여름 쿨: 맑고 촉촉한 피치·베리 계열이 쿨톤 피부에 생기 있게 어울리며 자연스러운 혈색을 살려줍니다.',
+    image: '/products/nyx-lip-iv-hydrating-lip-gloss-stain.webp',
+    coupangQuery: 'NYX 립 I.V 글로스 스테인',
+    globalQuery: 'NYX Lip I.V Hydrating Lip Gloss Stain',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-09-16',
+    tags: ['하이드레이팅', '롱래스팅', '글로스스테인'],
+    seoTitle: 'NYX 립 I.V. 하이드레이팅 글로스 스테인',
+    seoDescription:
+      '이제 미국에서 가장 인기 있는 립 글로스 겸 틴트로, 촉촉한 광택과 자연스러운 지속 컬러를 동시에 경험하세요.',
+  },
+  {
     slug: 'poment-cotton-hug-perfume',
     category: 'fragrance',
     brand: '포맨트',
