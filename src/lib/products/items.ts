@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'etude-color-fix-skinny-mascara',
+    category: 'eye',
+    brand: '에뛰드',
+    name: '컬 픽스 스키니 마스카라',
+    title: '에뛰드 컬 픽스 스키니 마스카라로 하루종일 번짐 없이 컬 픽스!',
+    summary:
+      '올리브영 10년 연속 컬링 마스카라 1위를 차지한 에뛰드 컬 픽스 스키니 마스카라는 슬림한 솔로 속눈썹 한 올 한 올을 고정해 하루 종일 번짐 없이 컬을 유지해주는 인기템입니다.',
+    highlights: ['슬림 솔로 정교한 픽싱', '하루 종일 번짐 방지', '컬 유지력 탁월'],
+    details: [
+      '슬림하고 가는 브러시 솔이 짧고 가는 속눈썹까지 한 올씩 섬세하게 컬링하고 픽싱합니다.',
+      '올리브영에서 10년 연속 컬링 마스카라 1위, 리뷰 70,000건 이상으로 압도적인 인기와 신뢰도를 자랑합니다.',
+      '글로우픽 어워드 컬링 마스카라 부문 1위 수상, 실제 사용자들이 하루 종일 번짐 없이 컬이 유지된다고 후기에 자주 언급합니다.',
+    ],
+    whoFor:
+      '짧고 바른 속눈썹을 가진 분이나, 아침에 컬을 정교하게 만든 뒤 하루 종일 고정하고 싶은 분께 추천합니다. 특히 땀이나 유분에도 번짐 없이 깔끔한 눈매를 유지하고 싶은 여름철 메이크업에 안성맞춤입니다.',
+    howTo: [
+      '속눈썹 뿌리부터 끝까지 지그재그로 슬림하게 발라 컬을 먼저 잡아줍니다.',
+      '솔에 남은 잔여물은 면봉으로 정리하면 더 깔끔한 픽싱 효과를 얻을 수 있습니다.',
+    ],
+    pros: [
+      '슬림 브러시로 섬세한 속눈썹까지 컬링과 픽싱 가능',
+      '오랜 시간 컬 유지, 번짐 없이 깔끔함',
+    ],
+    cons: [
+      '솔이 가늘어 양 조절이 어려운 사용자에겐 처음에 다소 번짐이 있을 수 있음',
+    ],
+    image: '/products/etude-color-fix-skinny-mascara.webp',
+    coupangQuery: '에뛰드 컬 픽스 스키니 마스카라',
+    globalQuery: 'Etude Color Fix Skinny Mascara',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-09-17',
+    tags: ['컬링마스카라', '픽싱마스카라', '베스트셀러'],
+    seoTitle: '에뛰드 컬 픽스 스키니 마스카라 인기 마스카라',
+    seoDescription:
+      '올리브영 10년 연속 컬링 마스카라 1위, 글로우픽 어워드 수상한 에뛰드 컬 픽스 스키니 마스카라의 컬 포기 없는 픽싱력을 확인하세요.',
+  },
+  {
     slug: 'nyx-lip-iv-hydrating-lip-gloss-stain',
     category: 'lip',
     brand: 'NYX 프로페셔널 메이크업',

@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'etude-color-fix-skinny-mascara',
+    category: 'eye',
+    brand: 'ETUDE',
+    name: 'Curl Fix Skinny Mascara',
+    title: 'Keep Your Curl Smudge-Free All Day with ETUDE Curl Fix Skinny Mascara!',
+    summary:
+      'Ranked #1 in curling mascara at Olive Young for 10 consecutive years, ETUDE Curl Fix Skinny Mascara features a slim brush that locks in every single lash for all-day, smudge-free curl hold.',
+    highlights: ['Precise fixing with a slim brush', 'All-day smudge-proof formula', 'Exceptional long-lasting curl'],
+    details: [
+      'The ultra-slim, fine brush precisely curls and fixes even short and delicate lashes one by one.',
+      'Boasts overwhelming popularity and trust as Olive Young\'s #1 curling mascara for 10 consecutive years with over 70,000 reviews.',
+      'Glowpick Award winner in the Curling Mascara category, frequently praised in real user reviews for maintaining all-day, smudge-free curls.',
+    ],
+    whoFor:
+      'Recommended for those with short or straight lashes, or anyone wanting to precisely curl and set their lashes all day. Perfect for summer makeup when you want a clean eye look resistant to sweat and oil.',
+    howTo: [
+      'Apply in a zig-zag motion from lash root to tip with the slim brush to first set the curl.',
+      'Clean off any excess product on the brush with a cotton swab for an even cleaner fixing effect.',
+    ],
+    pros: [
+      'Slim brush allows precise curling and fixing of detailed lashes',
+      'Long-lasting curl hold with a clean, smudge-free finish',
+    ],
+    cons: [
+      'The fine brush may cause slight initial smudging for users who find amount control difficult',
+    ],
+    image: '/products/etude-color-fix-skinny-mascara.webp',
+    coupangQuery: '에뛰드 컬 픽스 스키니 마스카라',
+    globalQuery: 'Etude Color Fix Skinny Mascara',
+    clio: true,
+    clioCategory: 'eye',
+    date: '2026-09-17',
+    tags: ['CurlingMascara', 'FixingMascara', 'Bestseller'],
+    seoTitle: 'ETUDE Curl Fix Skinny Mascara Review & Guide',
+    seoDescription:
+      'Discover ETUDE Curl Fix Skinny Mascara for all-day, smudge-proof curling with a precise slim brush for short and straight lashes.',
+  },
+  {
     slug: 'poment-cotton-hug-perfume',
     category: 'fragrance',
     brand: 'FORMENT',

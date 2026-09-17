@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'k-beauty-ingredient-demand-shifts-txa-azelaic-acid',
+    category: 'skincare',
+    title: 'K-Beauty Shifts Beyond PDRN as TXA and Azelaic Acid Surge in Popularity',
+    summary:
+      'The beauty industry recently confirmed that K-beauty is shifting from a PDRN focus toward clinical ingredients such as TXA and azelaic acid. Consumers are increasingly recognizing ingredient efficacy directly through product names.',
+    body: [
+      '> TLDR: TXA and azelaic acid rise following PDRN popularity | Ingredient names and concentrations featured in product titles | Ingredient searches increase among overseas consumers',
+      'Recently in K-beauty, next-generation clinical ingredients such as tranexamic acid (TXA) and azelaic acid are gaining traction beyond PDRN-centric clinical active ingredients.',
+      '> DATA: Azelaic acid search queries rose 228% YoY; TXA surged 121.7% (prod.biz.chosun.com)',
+      'This trend is driving a movement to explicitly state ingredients and their concentrations in product titles, as consumers increasingly make purchasing decisions based on ingredients rather than brand names (prod.biz.chosun.com).',
+      'From a consumer perspective, providing ingredient-centric information can serve as a key strategy to boost purchase confidence, making rapid trend adoption and clear ingredient communication essential for brands.',
+    ],
+    date: '2026-09-17',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Ingredient Trends', 'TXA', 'Azelaic Acid'],
+    image: '/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp',
+    seoTitle: 'K-Beauty Trends: TXA and Azelaic Acid Surge Beyond PDRN',
+    seoDescription:
+      'K-beauty pivots from PDRN to clinical actives like TXA and azelaic acid as ingredient-focused purchasing gains momentum worldwide.',
+  },
+  {
     slug: 'trinny-london-skin-tint-40-plus-launch',
     category: 'base',
     title: 'Trinny London Launches New \'Skin Tint\' for Ages 40 and Over',

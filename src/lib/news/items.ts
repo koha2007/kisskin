@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'k-beauty-ingredient-demand-shifts-txa-azelaic-acid',
+    category: 'skincare',
+    title: 'K‑뷰티, PDRN 넘어 TXA·아젤라익산 인기 급상승',
+    summary:
+      'K‑뷰티가 PDRN 중심에서 TXA와 아젤라익산 같은 임상 성분 중심으로 전환되고 있음을 최근 업계가 확인했다. 소비자들이 성분 효능을 이름으로 직관적으로 인식하는 추세가 강화되고 있다.',
+    body: [
+      '> TLDR: PDRN 인기 이어 TXA·아젤라익산 부상 | 성분 이름·농도까지 제품명에 표기 | 해외 소비자 중심 성분 검색 증가',
+      '최근 K‑뷰티에서는 PDRN 중심의 클리닉 성분을 넘어 트라넥사믹애시드(TXA)와 아젤라익산 등 차세대 임상 성분이 주목받고 있다.',
+      '> DATA: 아젤라익산 검색어는 전년 대비 228% 증가, TXA는 121.7% 증가 (prod.biz.chosun.com)',
+      '이러한 흐름은 제품명에 성분과 농도를 명시하는 트렌드로 이어지고 있으며, 소비자는 브랜드보다 성분 중심으로 구매 결정을 내리는 경향이 강화되고 있다 (prod.biz.chosun.com).',
+      '소비자 관점에서 이는 성분 중심 정보 제공이 구매 신뢰도를 높이는 전략이 될 수 있으며, 브랜드는 신속한 트렌드 반영과 명확한 성분 커뮤니케이션이 중요해지고 있다.',
+    ],
+    date: '2026-09-17',
+    readMinutes: 3,
+    tags: ['K‑뷰티', '성분트렌드', 'TXA', '아젤라익산'],
+    image: '/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp',
+    seoTitle: 'K‑뷰티, PDRN 넘어 TXA·아젤라익산 인기',
+    seoDescription:
+      'K‑뷰티 시장에서 PDRN을 넘어 TXA와 아젤라익산 등 임상 성분 중심의 제품이 최근 주목받고 있는 이유를 분석합니다.',
+  },
+  {
     slug: 'kbeauty-available-at-coles-australia',
     category: 'skincare',
     title: '호주 콜스, 첫 K-뷰티 100종 이상 출시로 뷰티 쇼핑 편의 확대',
