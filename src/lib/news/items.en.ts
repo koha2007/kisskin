@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'cosrx-becomes-first-k-beauty-patron-british-beauty-council',
+    category: 'skincare',
+    title: 'COSRX Becomes First K-Beauty Patron of the British Beauty Council',
+    summary:
+      'COSRX has been selected as the first K-beauty patron of the British Beauty Council, an organization driving global beauty education, innovation, and industry support. This highlights K-beauty\'s expanding presence in international beauty education and trade networks.',
+    body: [
+      '> TLDR: COSRX First K-Beauty Patron | Expanding Beauty Education & Innovation Network',
+      'Global skincare brand COSRX has been named the first K-beauty patron of the British Beauty Council. With this appointment, K-beauty has earned official recognition within the beauty industry\'s education and innovation networks.',
+      '> DATA: COSRX is the first K‑Beauty patron of the British Beauty Council (announced Aug 20, 2026) (Source: PRNewswire)',
+      'The British Beauty Council is a major organization driving education, innovation, and industrial progress in the beauty sector. COSRX\'s participation as a patron lays the groundwork for K-beauty brands to position themselves at the center of global beauty education and policy networks.',
+      'This move demonstrates that K-beauty\'s influence is expanding beyond product exports to help shape international cosmetics education and industry policies, providing valuable insights into enhancing professional standards as well as consumer reach.',
+    ],
+    date: '2026-09-18',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'COSRX', 'Beauty Education', 'Industry Network'],
+    image: '/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp',
+    seoTitle: 'COSRX Is First K-Beauty Patron of British Beauty Council',
+    seoDescription:
+      'COSRX becomes the first K-beauty patron of the British Beauty Council, expanding Korean skincare\'s influence in global beauty education and policy.',
+  },
+  {
     slug: 'k-beauty-ingredient-demand-shifts-txa-azelaic-acid',
     category: 'skincare',
     title: 'K-Beauty Shifts Beyond PDRN as TXA and Azelaic Acid Surge in Popularity',

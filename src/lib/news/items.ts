@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'cosrx-becomes-first-k-beauty-patron-british-beauty-council',
+    category: 'skincare',
+    title: 'COSRX, K‑뷰티 최초로 British Beauty Council 후원사 선정',
+    summary:
+      '코스알엑스(COSRX)가 글로벌 뷰티 교육·혁신·업계 지원을 담당하는 British Beauty Council의 첫 번째 K‑뷰티 후원사로 선정되었습니다. 이는 K‑뷰티가 국제 뷰티 교육 및 산업 네트워크에서 위상을 확장하고 있음을 보여줍니다.',
+    body: [
+      '> TLDR: COSRX 첫 K‑뷰티 후원사 | 뷰티 교육·혁신 네트워크 확대',
+      '글로벌 스킨케어 브랜드 COSRX가 British Beauty Council의 첫 번째 K‑뷰티 후원사로 선정되었습니다. 이로써 K‑뷰티는 뷰티 업계 교육과 혁신 네트워크에서도 공식적으로 인정받는 위치에 올라섰습니다.',
+      '> DATA: COSRX is the first K‑Beauty patron of the British Beauty Council (announced Aug 20, 2026) (출처: PRNewswire)',
+      'British Beauty Council은 뷰티 분야 교육, 혁신, 산업 발전을 주도하는 주요 기관으로, COSRX가 후원사로 참여함으로써 K‑뷰티 브랜드가 글로벌 뷰티 교육과 정책 네트워크의 중심에 설 수 있는 기반을 마련했습니다.',
+      '이러한 움직임은 단순한 제품 수출을 넘어, K‑뷰티가 국제 미용 교육과 산업 정책의 형성에도 영향력을 확대하고 있음을 보여줍니다. 소비자뿐 아니라 업계 전문성 강화에도 시사점을 제공합니다.',
+    ],
+    date: '2026-09-18',
+    readMinutes: 3,
+    tags: ['K‑뷰티', 'COSRX', '뷰티 교육', '산업 네트워크'],
+    image: '/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp',
+    seoTitle: 'COSRX, British Beauty Council',
+    seoDescription:
+      'COSRX가 세계적 뷰티 교육 및 혁신 기관인 British Beauty Council의 첫 K‑뷰티 후원사로 선정된 사실과 그 의미를',
+  },
+  {
     slug: 'k-beauty-ingredient-demand-shifts-txa-azelaic-acid',
     category: 'skincare',
     title: 'K‑뷰티, PDRN 넘어 TXA·아젤라익산 인기 급상승',

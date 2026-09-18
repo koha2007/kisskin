@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'dior-forever-skin-glow',
+    category: 'base',
+    brand: '디올',
+    name: '포에버 스킨 글로우 파운데이션',
+    title: '디올 포에버 스킨 글로우 – 자연스러운 광채의 미드 커버 파운데이션',
+    summary:
+      '디올 포에버 스킨 글로우는 자연스러운 미드 커버에 촉촉한 글로우 마무리로 미국·유럽·아시아 시장에서 지금 가장 주목받는 베이스 제품입니다.',
+    highlights: ['미드 커버력', '글로우 피니시', '오래 지속되는 착붙감'],
+    details: [
+      '중간 정도의 커버력으로 피부 톤과 결점을 자연스럽게 보정해 줍니다.',
+      '촉촉하고 빛나는 글로우 피니시가 특징이며, 건강한 윤광을 연출합니다.',
+      '포뮬러가 피부에 밀착되어 시간이 흐를수록 자연스럽게 블렌딩됩니다.',
+    ],
+    whoFor:
+      '피부가 건조하거나 보습이 필요한 중성~건성 피부에 적합하며, 자연스러운 윤광과 피부 톤 보정을 원하는 사용자에게 추천합니다. 너무 매트한 마무리를 선호하는 분께는 덜 맞을 수 있습니다.',
+    howTo: [
+      '스폰지나 브러시로 소량을 덜어 이마, 볼, 턱에 점 찍은 뒤 얼굴 중심에서 바깥으로 부드럽게 펴 발라줍니다.',
+      '더 커버가 필요한 부위는 한 번 더 가볍게 덧발라 자연스럽게 레이어링해 완성합니다.',
+    ],
+    pros: [
+      '자연스러운 광채와 중간 커버가 조화롭게 균형을 이룸',
+      '글로우 피니시가 피부를 건강해 보이게 함',
+    ],
+    cons: [
+      '매트한 마무리를 선호하거나 지성피부엔 번들거림이 생길 수 있음',
+    ],
+    image: '/products/dior-forever-skin-glow.webp',
+    coupangQuery: '디올 포에버 스킨 글로우 파운데이션',
+    globalQuery: 'Dior Forever Skin Glow Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-09-18',
+    tags: ['글로우 파운데이션', '미드커버', '디올 베이스'],
+    seoTitle: '디올 포에버 스킨 글로우 파운데이션 리뷰',
+    seoDescription:
+      '지금 글로벌에서 사랑받는 디올의 글로우 파운데이션. 자연스러운 광채와 밀착력 높은 커버를 모두 갖춘 베이스 제품 소개.',
+  },
+  {
     slug: 'etude-color-fix-skinny-mascara',
     category: 'eye',
     brand: '에뛰드',
