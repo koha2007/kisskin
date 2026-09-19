@@ -25,7 +25,7 @@ const NOOP_SUB = () => () => {}
 export default function BeautyDna() {
   const { locale } = useI18n()
   const isEn = locale === 'en'
-  const { dna, complete } = useBeautyDna()
+  const { dna, done, complete } = useBeautyDna()
 
   // 공유 링크(?c=autumn-warm~heart~woody~enfp)로 열면 남의 조합을 읽기 전용으로 보여준다.
   // 프리렌더(server)=null, 클라이언트=?c= 파싱 → useSyncExternalStore 로 하이드레이션
@@ -44,9 +44,15 @@ export default function BeautyDna() {
   const viewComplete = shared ? true : complete
   const readOnly = !!shared
 
+  // 되돌릴 수 없다(생성된 모델 얼굴까지 지워진다 → 재생성은 크레딧 소모). 한 번 확인받는다.
   const resetAll = () => {
+    if (typeof window === 'undefined') return
+    const msg = isEn
+      ? 'Clear your saved quiz results on this device and start over?'
+      : '이 기기에 저장된 진단 결과를 모두 지우고 처음부터 다시 할까요?'
+    if (!window.confirm(msg)) return
     clearDna()
-    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const subtitle = isEn
@@ -90,7 +96,22 @@ export default function BeautyDna() {
                 </button>
               </div>
             ) : (
-              <DnaProgress />
+              <>
+                <DnaProgress />
+                {/* 진행 중 리셋 — 하다 만 흔적을 지울 방법이 여기밖에 없다(완성 전엔 하단 버튼이 안 뜸) */}
+                {done > 0 && (
+                  <p className="mt-6 text-center">
+                    <button
+                      type="button"
+                      onClick={resetAll}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 underline hover:text-navy transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[15px]">restart_alt</span>
+                      {isEn ? 'Clear my saved results' : '저장된 결과 지우고 처음부터'}
+                    </button>
+                  </p>
+                )}
+              </>
             )}
           </div>
         </section>
