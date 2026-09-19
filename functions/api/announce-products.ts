@@ -1,12 +1,15 @@
-// 주간 제품 다이제스트 발송기.
+// 주간 다이제스트 발송기 (제품 + 뉴스).
 //
 // .github/workflows/weekly-digest.yml 이 매주 일요일 호출한다. 워크플로가
-// 지난 7일치 제품을 src/lib/products/items.ts(.en.ts)에서 뽑아 본문에 실어
-// POST 하면, 이 함수가 회원(Supabase auth.users) 전원에게 메일을 보낸다.
+// 지난 7일치 제품·뉴스를 src/lib/{products,news}/items.ts(.en.ts)에서 뽑아
+// 본문에 실어 POST 하면, 이 함수가 회원(Supabase auth.users) 전원에게 메일을 보낸다.
+//
+// 2026-09-19: 발행이 주 1회(뉴스 1 + 제품 1)로 내려가면서 제품만으론 메일이
+// 얇아져 뉴스 섹션을 같이 싣는다. 라우트는 kind 로 갈린다(/products/ vs /news/).
 //
 //   POST /api/announce-products
 //   Authorization: Bearer <ANNOUNCE_TOKEN>
-//   { "products": [DigestItem...], "productsEn": [DigestItem...], "dryRun": false }
+//   { "products": [...], "productsEn": [...], "news": [...], "newsEn": [...], "dryRun": false }
 //
 // dryRun=true 면 발송 없이 수신자 목록/수만 돌려준다 — 첫 발송 전 눈으로 확인용.
 //
@@ -19,7 +22,7 @@
 //   RESEND_API_KEY          (이미 있음) send-report.ts 와 공용
 //   SUPABASE_SERVICE_ROLE_KEY / VITE_SUPABASE_URL   (이미 있음) delete-account.ts 와 공용
 
-import { SITE, optoutUrl, renderDigest, type DigestItem } from './_digestMail'
+import { SITE, optoutUrl, renderDigest, type DigestItem, type DigestSections } from './_digestMail'
 
 interface Env {
   VITE_SUPABASE_URL?: string
@@ -85,7 +88,7 @@ function localeOf(u: AuthUser): 'ko' | 'en' {
   return 'ko' // 기본: 주 사용자층이 한국
 }
 
-function normItems(raw: unknown, enFeed: boolean): DigestItem[] {
+function normItems(raw: unknown, enFeed: boolean, kind: 'products' | 'news' = 'products'): DigestItem[] {
   if (!Array.isArray(raw)) return []
   return raw
     .map((r): DigestItem | null => {
@@ -102,7 +105,7 @@ function normItems(raw: unknown, enFeed: boolean): DigestItem[] {
         url:
           typeof o.url === 'string'
             ? o.url
-            : `${SITE}${enFeed ? '/en' : ''}/products/${slug}/`,
+            : `${SITE}${enFeed ? '/en' : ''}/${kind}/${slug}/`,
       }
     })
     .filter((x): x is DigestItem => x !== null)
@@ -121,17 +124,33 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     return json({ error: 'Unauthorized' }, 401)
   }
 
-  let body: { products?: unknown; productsEn?: unknown; dryRun?: boolean }
+  let body: {
+    products?: unknown
+    productsEn?: unknown
+    news?: unknown
+    newsEn?: unknown
+    dryRun?: boolean
+  }
   try {
     body = (await request.json()) as typeof body
   } catch {
     return json({ error: 'Invalid JSON' }, 400)
   }
 
-  const itemsKo = normItems(body.products, false)
-  const itemsEn = normItems(body.productsEn, true)
-  if (itemsKo.length === 0 && itemsEn.length === 0) {
-    return json({ skipped: true, reason: 'no products in payload' })
+  // 언어별 2개 섹션(제품·뉴스). 한 언어의 섹션이 통째로 비면 다른 언어 것으로 대체한다
+  // (번역이 아직 안 붙은 주에도 빈 메일이 나가지 않게).
+  const koSections = { products: normItems(body.products, false), news: normItems(body.news, false, 'news') }
+  const enSections = { products: normItems(body.productsEn, true), news: normItems(body.newsEn, true, 'news') }
+  const count = (s: DigestSections) => s.products.length + s.news.length
+  if (count(koSections) === 0 && count(enSections) === 0) {
+    return json({ skipped: true, reason: 'no products or news in payload' })
+  }
+  const sectionsFor = (lang: 'ko' | 'en'): DigestSections => {
+    const [own, other] = lang === 'en' ? [enSections, koSections] : [koSections, enSections]
+    return {
+      products: own.products.length ? own.products : other.products,
+      news: own.news.length ? own.news : other.news,
+    }
   }
   const dryRun = body.dryRun === true
 
@@ -169,7 +188,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     ko: recipients.filter((r) => r.lang === 'ko').length,
     en: recipients.filter((r) => r.lang === 'en').length,
   }
-  const previewKo = renderDigest('ko', itemsKo.length ? itemsKo : itemsEn, `${SITE}/api/email-optout`)
+  const previewKo = renderDigest('ko', sectionsFor('ko'), `${SITE}/api/email-optout`)
 
   if (dryRun) {
     return json({
@@ -177,8 +196,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       recipients: recipients.length,
       byLang,
       subject: previewKo.subject,
-      productsKo: itemsKo.length,
-      productsEn: itemsEn.length,
+      productsKo: koSections.products.length,
+      productsEn: enSections.products.length,
+      newsKo: koSections.news.length,
+      newsEn: enSections.news.length,
       emails: recipients.map((r) => r.email),
     })
   }
@@ -190,9 +211,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   const FROM = 'kissinskin <report@kissinskin.net>'
 
   async function sendOne({ email, lang }: { email: string; lang: 'ko' | 'en' }): Promise<string | null> {
-    const feed = lang === 'en' ? (itemsEn.length ? itemsEn : itemsKo) : (itemsKo.length ? itemsKo : itemsEn)
     const unsub = await optoutUrl(env.EMAIL_OPTOUT_SECRET!, email)
-    const { subject, html } = renderDigest(lang, feed, unsub)
+    const { subject, html } = renderDigest(lang, sectionsFor(lang), unsub)
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {

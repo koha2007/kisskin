@@ -769,7 +769,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         </div>
       </section>
 
-      {/* ── 최신 콘텐츠 (메이크업 제품 + 뉴스) — 매일 자동 발행 피드 노출 ── */}
+      {/* ── 최신 콘텐츠 (메이크업 제품 + 뉴스) — 주 1회 자동 발행 피드 노출 ── */}
       <HomeContentSections />
 
       {/* ── 하단 CTA (핑크) ── */}

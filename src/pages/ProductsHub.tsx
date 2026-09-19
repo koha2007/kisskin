@@ -42,7 +42,7 @@ export default function ProductsHub() {
   return (
     <HubShell
       eyebrow="kissinskin · Makeup Products"
-      title={isEn ? 'New K-beauty makeup, picked daily' : '매일 새로 나온 메이크업 제품'}
+      title={isEn ? 'New K-beauty makeup, picked weekly' : '매주 새로 나온 메이크업 제품'}
       subtitle={
         isEn
           ? 'Fresh launches and trending makeup — a quick visual look, with links to buy.'
@@ -51,7 +51,7 @@ export default function ProductsHub() {
       basePath={isEn ? '/en/products' : '/products'}
       items={items}
       categories={categories}
-      totalLabel={isEn ? `${items.length} products` : `${items.length}개 · 매일 업데이트`}
+      totalLabel={isEn ? `${items.length} products` : `${items.length}개 · 매주 업데이트`}
     />
   )
 }

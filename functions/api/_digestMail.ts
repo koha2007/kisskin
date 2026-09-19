@@ -57,20 +57,31 @@ export interface DigestItem {
 
 const COPY = {
   ko: {
-    subject: (n: number) => `이번 주 새로 나온 K-뷰티 ${n}선`,
-    preheader: '지난 한 주 키스인스킨에 올라온 신제품을 한눈에.',
-    heading: '이번 주의 신제품',
-    intro: '지난 한 주 동안 키스인스킨에 새로 소개된 메이크업·스킨케어 제품이에요.',
+    // 제목은 실린 내용에 맞춘다 — 제품만이던 시절의 "N선" 을 뉴스만 실린 주에 쓰면 거짓말이 된다.
+    subject: (p: number, n: number) =>
+      p && n ? `이번 주 K-뷰티 — 신제품 ${p}건 · 뉴스 ${n}건`
+      : p ? `이번 주 새로 나온 K-뷰티 ${p}선`
+      : `이번 주 K-뷰티 뉴스 ${n}건`,
+    preheader: '지난 한 주 키스인스킨에 올라온 신제품과 뉴스를 한눈에.',
+    heading: '이번 주의 K-뷰티',
+    intro: '지난 한 주 동안 키스인스킨에 새로 올라온 제품과 뉴스예요.',
+    productsTitle: '신제품',
+    newsTitle: '뉴스',
     cta: '자세히 보기',
     unsub: '이런 메일을 그만 받고 싶으시면 ',
     unsubLink: '수신거부',
     signoff: 'kissinskin — 셀카 한 장으로 AI K-뷰티 메이크업·퍼스널컬러 진단',
   },
   en: {
-    subject: (n: number) => `${n} new K-beauty picks this week`,
-    preheader: 'The newest products added to kissinskin this past week.',
-    heading: "This week's new arrivals",
-    intro: 'Here are the makeup and skincare products newly featured on kissinskin over the past week.',
+    subject: (p: number, n: number) =>
+      p && n ? `This week in K-beauty — ${p} new, ${n} in the news`
+      : p ? `${p} new K-beauty picks this week`
+      : `${n} K-beauty stories this week`,
+    preheader: 'The newest products and stories added to kissinskin this past week.',
+    heading: 'This week in K-beauty',
+    intro: 'Here is what was newly added to kissinskin over the past week.',
+    productsTitle: 'New arrivals',
+    newsTitle: 'News',
     cta: 'View details',
     unsub: 'To stop receiving these emails, ',
     unsubLink: 'unsubscribe here',
@@ -83,24 +94,34 @@ const esc = (s: string) =>
 
 const ADDRESS = '코하(koha) · 대표 김용헌 · 사업자등록번호 108-16-82025 · 경기도 남양주시 해밀예당1로'
 
+/** 제품은 "브랜드 제품명", 뉴스는 brand 가 비어 있어 제목만 쓴다. */
+const headline = (it: DigestItem) => `${it.brand} ${it.name}`.trim()
+
+export interface DigestSections {
+  products: DigestItem[]
+  news: DigestItem[]
+}
+
 export function renderDigest(
   lang: 'ko' | 'en',
-  items: DigestItem[],
+  sections: DigestSections,
   unsubHref: string,
 ): { subject: string; html: string } {
   const t = COPY[lang]
-  const subject = t.subject(items.length)
+  const subject = t.subject(sections.products.length, sections.news.length)
 
-  const cards = items
-    .map((it) => {
-      const img = it.image
-        ? `<tr><td style="padding:0 0 12px;"><a href="${esc(it.url)}"><img src="${SITE}${esc(it.image)}" width="536" alt="${esc(it.brand)} ${esc(it.name)}" style="width:100%;max-width:536px;border-radius:12px;display:block;"/></a></td></tr>`
-        : ''
-      return `
+  const renderCards = (items: DigestItem[]) =>
+    items
+      .map((it) => {
+        const head = headline(it)
+        const img = it.image
+          ? `<tr><td style="padding:0 0 12px;"><a href="${esc(it.url)}"><img src="${SITE}${esc(it.image)}" width="536" alt="${esc(head)}" style="width:100%;max-width:536px;border-radius:12px;display:block;"/></a></td></tr>`
+          : ''
+        return `
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
         ${img}
         <tr><td style="font:600 17px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;padding-bottom:4px;">
-          ${esc(it.brand)} ${esc(it.name)}
+          ${esc(head)}
         </td></tr>
         <tr><td style="font:400 14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#555;padding-bottom:12px;">
           ${esc(it.summary)}
@@ -111,8 +132,20 @@ export function renderDigest(
           </a>
         </td></tr>
       </table>`
-    })
-    .join('')
+      })
+      .join('')
+
+  // 섹션 제목은 양쪽 다 있을 때만 — 한쪽만 실린 주엔 군더더기다.
+  const both = sections.products.length > 0 && sections.news.length > 0
+  const sectionTitle = (label: string) =>
+    both
+      ? `<tr><td style="font:700 12px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#c2410c;padding:0 0 14px;">${esc(label)}</td></tr>`
+      : ''
+
+  const block = (label: string, items: DigestItem[]) =>
+    items.length ? `${sectionTitle(label)}<tr><td>${renderCards(items)}</td></tr>` : ''
+
+  const body = `${block(t.productsTitle, sections.products)}${block(t.newsTitle, sections.news)}`
 
   const html = `<!doctype html>
 <html lang="${lang}"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -128,7 +161,7 @@ export function renderDigest(
         <tr><td style="font:400 14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#555;padding-bottom:28px;">
           ${t.intro}
         </td></tr>
-        <tr><td>${cards}</td></tr>
+        ${body}
         <tr><td style="border-top:1px solid #eee;padding-top:20px;font:400 12px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#999;">
           ${t.signoff}<br/>
           <a href="${SITE}" style="color:#999;">kissinskin.net</a>

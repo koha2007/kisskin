@@ -1,10 +1,14 @@
-name: Weekly product digest email
+name: Weekly digest email
 
-# 매주 일요일 09:00 KST — 지난 7일간 자동 발행된 메이크업 제품을 요약해
+# 매주 일요일 09:00 KST — 지난 7일간 자동 발행된 메이크업 제품과 뉴스를 요약해
 # 회원(Supabase auth.users) 전원에게 메일 1통을 보낸다.
 #
+# 2026-09-19: 발행이 주 1회(화 06:00 KST, 뉴스 1 + 제품 1)로 내려가 제품만으론
+# 메일이 1건짜리가 된다 → 같은 주 뉴스 1건을 함께 싣는다. 화요일 발행분은
+# 일요일 기준 7일 창에 들어온다.
+#
 # 파이프라인:
-#   build-digest-payload.mjs  지난 7일 제품을 items.ts(.en.ts)에서 뽑아 JSON
+#   build-digest-payload.mjs  지난 7일 제품·뉴스를 items.ts(.en.ts)에서 뽑아 JSON
 #     → POST https://kissinskin.net/api/announce-products  (functions/api/announce-products.ts)
 #       → Supabase 회원 조회 → 운영자/테스트/수신거부 제외 → Resend 로 발송
 #
@@ -18,7 +22,6 @@ name: Weekly product digest email
 on:
   schedule:
     - cron: '0 0 * * 0'   # 일요일 00:00 UTC = 09:00 KST (정기)
-    - cron: '0 2 14 9 *'  # ⚠️ 1회성 — 2026-09-14 11:00 KST 임시 발송. 발송 확인 후 이 줄 제거할 것.
   workflow_dispatch:
     inputs:
       dry_run:
@@ -44,19 +47,21 @@ jobs:
         with:
           node-version: 22
 
-      - name: 지난 7일 제품으로 본문 만들기
+      - name: 지난 7일 제품·뉴스로 본문 만들기
         id: payload
         env:
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          node scripts/build-digest-payload.mjs 8 > /tmp/digest.json
-          COUNT=$(node -e "process.stdout.write(String(JSON.parse(require('fs').readFileSync('/tmp/digest.json')).products.length))")
+          # 인자: 제품 최대 8건, 뉴스 최대 3건. 주 1회 발행이라 실제론 각 1건이지만,
+          # 수동으로 여러 편을 돌린 주에도 메일이 통째로 길어지지 않게 뉴스는 낮게 잡는다.
+          node scripts/build-digest-payload.mjs 8 3 > /tmp/digest.json
+          COUNT=$(node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));process.stdout.write(String(d.products.length+d.news.length))")
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
-          echo "지난 7일 제품 ${COUNT}건"
+          node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));console.log(\`지난 7일 — 제품 \${d.products.length}건, 뉴스 \${d.news.length}건\`)"
 
-      - name: 이번 주 신제품이 없으면 생략
+      - name: 이번 주 새 콘텐츠가 없으면 생략
         if: steps.payload.outputs.count == '0'
-        run: echo "::notice::지난 7일간 신제품 0건 — 다이제스트 발송 생략"
+        run: echo "::notice::지난 7일간 제품·뉴스 0건 — 다이제스트 발송 생략"
 
       - name: 다이제스트 발송 (/api/announce-products)
         if: steps.payload.outputs.count != '0'

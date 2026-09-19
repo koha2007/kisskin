@@ -1,8 +1,17 @@
-name: Daily K-beauty content
+name: Weekly K-beauty content
 
-# 매일 06:00 KST:
+# 매주 화요일 06:00 KST:
 #   · 뉴스 1편 (검색 그라운딩 + 무드컷 이미지) + EN 자동번역
 #   · 메이크업 제품 1건 (검색 그라운딩 + 무드컷 이미지) + EN 자동번역
+#
+# 2026-09-19 매일 → 주 1회로 낮춤. 이유:
+#   ① 구글 2026-03 업데이트의 최우선 단속 대상이 "사람 검수 없는 대량 발행"
+#      (scaled content abuse)이다. 매일 2건(월 60건)은 그 신호에 정확히 걸린다.
+#   ② 검색 업계 권고치는 피드당 월 2~4편. 주 1회면 뉴스 4 + 제품 4 로 딱 그 범위.
+#   ③ 네이버 C-Rank 는 절대량이 아니라 끊기지 않는 규칙성을 본다 — 고정 주기면 충분.
+#   ④ 무드컷 비용 월 ~$3.8 → ~$0.5. 이 OPENAI_API_KEY 는 라이브 유료 AI 메이크업과
+#      같은 키라(한도 $48) 사용자 결제분에 여유가 생긴다.
+# 되돌리려면 아래 cron 을 '0 21 * * *' 로 돌리면 된다.
 # push → Cloudflare Pages 가 자동 빌드/배포(빌드 중 gen:sitemap 이 사이트맵 자동 갱신).
 #
 # 필요한 Secret (Settings → Secrets and variables → Actions):
@@ -10,11 +19,11 @@ name: Daily K-beauty content
 #   · OPENAI_API_KEY  — 2순위 폴백. Gemini 가 죽어도 발행이 계속되게 하는 안전줄이다
 #                       (2026-08-09 결제 사고 때 이게 유일한 생존로였다)
 #
-# 수동 실행: Actions 탭 → Daily K-beauty content → Run workflow (news count 입력 가능).
+# 수동 실행: Actions 탭 → Weekly K-beauty content → Run workflow (news count 입력 가능).
 
 on:
   schedule:
-    - cron: '0 21 * * *'   # 매일 21:00 UTC = 06:00 KST
+    - cron: '0 21 * * 1'   # 매주 월 21:00 UTC = 화 06:00 KST
   workflow_dispatch:
     inputs:
       count:
@@ -23,7 +32,7 @@ on:
         default: '1'
 
 concurrency:
-  group: daily-content
+  group: weekly-content
   cancel-in-progress: false
 
 permissions:
@@ -35,7 +44,7 @@ jobs:
     timeout-minutes: 30    # 생성(≈5~10분) + IndexNow 의 배포 대기(최대 10분)
     steps:
       # fetch-depth: 0 (전체 히스토리) 가 필요하다. 기본값은 얕은 클론(depth 1)인데,
-      # 이 잡은 매일 `npm run gen:sitemap` 을 돌려 sitemap.xml 을 커밋한다. 그 스크립트의
+      # 이 잡은 매 회차 `npm run gen:sitemap` 을 돌려 sitemap.xml 을 커밋한다. 그 스크립트의
       # lastmod 는 `git log -1 --format=%cs -- <소스파일>` 로 정한다(scripts/gen-sitemap.mjs
       # 의 gitDate). 얕은 클론에는 커밋이 하나뿐이라 이 조회가 늘 빈 값을 내고,
       # 결과적으로 정적·도구 페이지 lastmod 는 실제 수정일을 못 따라가고 허브는
@@ -109,7 +118,7 @@ jobs:
             # 바뀌어 커밋이 나갈 수 있는데(다른 커밋이 페이지를 고친 날), 그걸 "자동 발행"
             # 이라고 적으면 나중에 로그만 보고 "발행됐다는데 글이 없다"로 헷갈린다.
             if git diff --cached --name-only | grep -qv '^public/sitemap.xml$'; then
-              MSG="chore(content): 일일 뉴스·메이크업 제품 자동 발행 (KO+EN)"
+              MSG="chore(content): 주간 뉴스·메이크업 제품 자동 발행 (KO+EN)"
             else
               MSG="chore(seo): 사이트맵 lastmod 갱신 (콘텐츠 생성 없음)"
             fi
