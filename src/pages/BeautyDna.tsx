@@ -100,13 +100,13 @@ export default function BeautyDna() {
                 <DnaProgress />
                 {/* 진행 중 리셋 — 하다 만 흔적을 지울 방법이 여기밖에 없다(완성 전엔 하단 버튼이 안 뜸) */}
                 {done > 0 && (
-                  <p className="mt-6 text-center">
+                  <p className="mt-7 text-center">
                     <button
                       type="button"
                       onClick={resetAll}
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 underline hover:text-navy transition-colors"
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm md:text-base font-bold text-slate-600 transition-colors hover:border-navy hover:text-navy"
                     >
-                      <span className="material-symbols-outlined text-[15px]">restart_alt</span>
+                      <span className="material-symbols-outlined text-[20px]">restart_alt</span>
                       {isEn ? 'Clear my saved results' : '저장된 결과 지우고 처음부터'}
                     </button>
                   </p>
