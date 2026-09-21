@@ -98,3 +98,18 @@ export function trackSignUp(method: string): void {
 export function trackLogin(method: string): void {
   trackEvent('login', { method })
 }
+
+/**
+ * 무로그인 사용자가 "결과 저장하기"를 눌러 로그인으로 넘어간 순간.
+ * 퍼널의 빠져 있던 칸이다 — tool_complete 는 많은데 sign_up 이 적다면,
+ * 원인이 "저장을 권하는 자리가 안 보여서"인지 "권했는데 안 눌러서"인지
+ * 이 이벤트 없이는 구분이 안 된다.
+ */
+export function trackSaveIntent(done: number, total: number): void {
+  trackEvent('dna_save_intent', { results_done: done, results_total: total })
+}
+
+/** 진단 결과가 실제로 계정에 올라갔을 때(로그인 후 동기화 완료). */
+export function trackDnaSaved(fields: number): void {
+  trackEvent('dna_saved', { results_saved: fields })
+}

@@ -11,6 +11,7 @@
 import { useI18n } from '../../i18n/I18nContext'
 import { useAuth } from '../../hooks/useAuth'
 import { useBeautyDna } from '../../hooks/useBeautyDna'
+import { trackSaveIntent } from '../../lib/analytics'
 
 export function SaveToAccount() {
   const { locale } = useI18n()
@@ -41,6 +42,7 @@ export function SaveToAccount() {
         </div>
         <a
           href={`${isEn ? '/en' : ''}/auth/?next=${nextParam}`}
+          onClick={() => trackSaveIntent(done, total)}
           className="inline-flex items-center justify-center gap-2 bg-white text-navy px-6 py-3 font-bold text-sm whitespace-nowrap hover:bg-white/90 transition-colors"
         >
           {isEn ? 'Save my results' : '결과 저장하기'}

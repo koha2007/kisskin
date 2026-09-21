@@ -14,6 +14,7 @@
 
 import type { User } from '@supabase/supabase-js'
 import { supabase } from '../supabase'
+import { trackDnaSaved } from '../analytics'
 import {
   readDna,
   DNA_EVENT,
@@ -166,6 +167,8 @@ function runSync(user: User): () => void {
     if (hasAny && (!remote || !sameDna(merged, remote))) {
       lastPushed = JSON.stringify(merged)
       await push(user.id, merged)
+      // 서버에 없던 결과가 올라간 순간 = 저장이 실제로 일어난 순간.
+      if (!remote) trackDnaSaved(DNA_FIELDS.filter((f) => merged[f]).length)
     } else {
       lastPushed = JSON.stringify(merged)
     }

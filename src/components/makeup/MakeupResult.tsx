@@ -13,6 +13,7 @@ import BeforeAfterSlider from './BeforeAfterSlider'
 import { styleById, type MakeupStyleId } from '../../lib/makeup/styles'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { saveSharedResult } from '../../lib/shareResult'
+import { recordLook } from '../../lib/makeup/looks'
 import { isNativeApp, nativeSaveImage, nativeShareImage } from '../../lib/nativePicker'
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
@@ -160,10 +161,16 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
 
   // 결과를 Supabase 에 저장하고 /result/{id} 공유 URL 을 반환(중복 저장 방지).
   const ensureShareUrl = async (compositeDataUrl: string): Promise<string> => {
-    if (shareId) return `https://kissinskin.net/result/${shareId}`
+    if (shareId) {
+      void recordLook(shareId, styleId, styleName).catch(() => {})
+      return `https://kissinskin.net/result/${shareId}`
+    }
     const report = JSON.stringify({ analysis: null, products: [], look: styleName })
     const id = await saveSharedResult(compositeDataUrl, report, '', [styleName])
     setShareId(id)
+    // 로그인 상태면 내 뷰티 기록에도 남긴다. 이미지는 방금 올라갔으니 재업로드 없음.
+    // 실패해도 저장/공유는 이미 끝났으므로 조용히 넘어간다.
+    void recordLook(id, styleId, styleName).catch(() => {})
     return `https://kissinskin.net/result/${id}`
   }
 
@@ -246,6 +253,9 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
   // 합성은 결과 표시 시 미리 만들어 두므로 탭 핸들러가 동기적으로 열려 팝업차단이 없다.
   const handleSave = async () => {
     if (!afterSrc) return
+    // "저장"은 갤러리에만 넣고 끝이었다 → 로그인했다면 내 뷰티 기록에도 담는다.
+    // 아래 분기(네이티브/iOS/다운로드)가 제각각 일찍 return 하므로 여기서 한 번만 건다.
+    void getComposite().then((c) => ensureShareUrl(c.dataUrl)).catch(() => {})
     // 앱 웹뷰: <a download> 가 무반응이라 네이티브 갤러리 저장 브릿지를 쓴다.
     if (isNativeApp()) {
       try {
