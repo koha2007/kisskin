@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'lilybyred-lovebeam-cheek-balm',
+    category: 'cheek',
+    brand: '릴리바이레드',
+    name: '러브빔 치크밤',
+    title: '릴리바이레드 러브빔 치크밤 – 크림 밤으로 빛나는 생기 볼 터치',
+    summary:
+      '크림 밤 제형으로 부드럽게 밀착되며, 은은한 속광과 자연스러운 혈색을 살려주는 여름철 필수 생기 치크밤입니다.',
+    highlights: ['크림 밤 제형', '속광 밀착', '레이어링해도 뭉침 없이 산뜻'],
+    details: [
+      '크림 밤 타입이라 가루날림 없이 부드럽게 피부에 스며들며 자연스러운 혈색을 표현합니다.',
+      '은은하게 돌아오는 속광 효과로 하이라이터 없이도 촉촉한 입체감을 부여합니다.',
+      '여러 번 레이어링해도 끈적임이나 뭉침 없이 산뜻하게 유지되어 지속적인 생기 연출이 가능합니다.',
+    ],
+    whoFor:
+      '더운 날씨에도 메이크업이 쉽게 무너지거나 번지는 피부에 생기 있고 촉촉한 치크 표현을 원하는 분들에게 적합합니다. 가루 블러셔가 건조하거나 뜨겁게 느껴지는 지성·복합성 피부에도 잘 맞습니다.',
+    howTo: [
+      '적당량을 손가락으로 취해 볼 중앙에서 바깥 방향으로 톡톡 두드리며 자연스럽게 블렌딩합니다.',
+      '레이어링할 경우 얇게 여러 번 덧발라 속광과 색감을 조절하면서 마무리합니다.',
+    ],
+    pros: [
+      '크림 제형이라 가루날림 없이 밀착되어 여름철에도 오래 지속됨',
+      '속광 효과로 촉촉한 볼 표현 가능',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 크림 텍스처—번들거림을 싫어하는 경우 불편함을 느낄 수 있음',
+    ],
+    colorFit:
+      '봄 웜·가을 웜 톤에 잘 어울리며, 따뜻한 혈색을 살려 생기 있는 볼 표현이 가능합니다.',
+    image: '/products/lilybyred-lovebeam-cheek-balm.webp',
+    coupangQuery: '릴리바이레드 러브빔 치크밤',
+    globalQuery: 'Lilybyred Lovebeam Cheek Balm',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-09-21',
+    tags: ['크림치크밤', '속광블러셔', '여름생기템'],
+    seoTitle: '러브빔 치크밤 자연스러운 생기 블러셔',
+    seoDescription:
+      '크림 밤 제형으로 산뜻한 속광과 자연스러운 혈색을 살려주는 릴리바이레드 러브빔 치크밤의 매력을 짧고 실감 나게 소개합니다.',
+  },
+  {
     slug: 'dior-forever-skin-glow',
     category: 'base',
     brand: '디올',

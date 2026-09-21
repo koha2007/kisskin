@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'lilybyred-lovebeam-cheek-balm',
+    category: 'cheek',
+    brand: 'lilybyred',
+    name: 'Luv Beam Cheek Balm',
+    title: 'lilybyred Luv Beam Cheek Balm – A Vibrant Cream Flush with an Inner Glow',
+    summary:
+      'A summer essential cheek balm with a cream balm texture that smoothly adheres to the skin, delivering a subtle inner glow and a natural flush of vitality.',
+    highlights: ['Cream balm texture', 'Inner glow adhesion', 'Fresh, cake-free finish even when layered'],
+    details: [
+      'The cream balm formula melts smoothly into the skin without powder fall-out, creating a natural flush of color.',
+      'A subtle inner glow provides a dewy, dimensional look even without highlighter.',
+      'Maintains a fresh finish without stickiness or clumping even after multiple layers, offering long-lasting vitality.',
+    ],
+    whoFor:
+      'Ideal for those who want a vibrant, dewy flush even in hot weather when makeup tends to melt or smudge easily. It also works well for oily and combination skin types that find powder blushes too drying or patchy.',
+    howTo: [
+      'Take a small amount with your fingertips and gently tap from the center of the cheeks outward to blend naturally.',
+      'When layering, apply thin coats repeatedly to adjust the glow and color payoff to your liking.',
+    ],
+    pros: [
+      'Creamy texture adheres without powder fall-out for long-lasting wear even in summer',
+      'Creates dewy, radiant cheeks with an inner glow effect',
+    ],
+    cons: [
+      'Cream texture depends on personal preference—those who dislike a shiny finish may find it overly dewy',
+    ],
+    colorFit:
+      'Complements Spring Warm and Autumn Warm skin tones, enhancing warm undertones for a lively, vibrant cheek look.',
+    image: '/products/lilybyred-lovebeam-cheek-balm.webp',
+    coupangQuery: '릴리바이레드 러브빔 치크밤',
+    globalQuery: 'Lilybyred Lovebeam Cheek Balm',
+    clio: true,
+    clioCategory: 'cheek',
+    date: '2026-09-21',
+    tags: ['Cream Cheek Balm', 'Inner Glow Blush', 'Summer Beauty Essential'],
+    seoTitle: 'lilybyred Luv Beam Cheek Balm Dewy Glow Guide',
+    seoDescription:
+      'Get a natural flush with lilybyred Luv Beam Cheek Balm. Discover how this cream balm delivers a seamless, cake-free inner glow all summer.',
+  },
+  {
     slug: 'etude-color-fix-skinny-mascara',
     category: 'eye',
     brand: 'ETUDE',

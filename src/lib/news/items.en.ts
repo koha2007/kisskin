@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-k-beauty-innovation-mou-global-collab-2026',
+    category: 'global',
+    title: 'L\'Oréal Group and Cosmax Sign MOU for Next-Generation K-Beauty Innovation',
+    summary:
+      'L\'Oréal Group and Korean ODM company Cosmax have entered into a strategic partnership to drive next-generation beauty innovation. The two companies will jointly pursue research into raw materials and sensory formulations to expand their global market presence.',
+    body: [
+      '> TLDR: L\'Oréal–Cosmax MOU | Next-Gen K-Beauty Development | Foundation for Global Expansion',
+      'On September 9, 2026, France\'s L\'Oréal Group and South Korea\'s Cosmax signed a strategic memorandum of understanding (MOU) to drive next-generation beauty innovation.',
+      '> DATA: MOU signed on September 9, 2026; both companies commit to joint research on raw materials, active ingredients, and signature sensory formulation (loreal.com)',
+      'This agreement combines L\'Oréal\'s global beauty science and consumer insight capabilities with Cosmax\'s K-beauty formulation expertise, laying the groundwork to develop new products tailored for the global market.',
+      'From a consumer perspective, this signals that K-beauty is evolving beyond a regional trend into a key driver of global innovation partnerships.',
+    ],
+    date: '2026-09-21',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'MOU', 'Global Collaboration'],
+    image: '/news/loreal-cosmax-k-beauty-innovation-mou-global-collab-2026.webp',
+    seoTitle: 'L\'Oréal and Cosmax Sign MOU for K-Beauty Innovation',
+    seoDescription:
+      'L\'Oréal Group and Cosmax partner to drive next-generation K-beauty innovation through joint research on ingredients and formulation science.',
+  },
+  {
     slug: 'cosrx-becomes-first-k-beauty-patron-british-beauty-council',
     category: 'skincare',
     title: 'COSRX Becomes First K-Beauty Patron of the British Beauty Council',

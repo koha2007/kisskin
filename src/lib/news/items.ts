@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'loreal-cosmax-k-beauty-innovation-mou-global-collab-2026',
+    category: 'global',
+    title: '로레알그룹·코스맥스, 차세대 K-뷰티 혁신 위한 MOU 체결',
+    summary:
+      '로레알그룹과 한국 ODM 기업 코스맥스가 차세대 뷰티 혁신을 위해 전략적 업무협약을 맺었습니다. 양사는 원료, 감각적 포뮬러 연구를 공동 추진해 글로벌 시장 확장을 모색합니다.',
+    body: [
+      '> TLDR: 로레알·코스맥스 MOU | 차세대 K-뷰티 개발 | 글로벌 확장 기반 마련',
+      '프랑스 로레알그룹과 한국 코스맥스가 2026년 9월 9일, 차세대 뷰티 혁신을 위한 전략적 업무협약을 체결했습니다.',
+      '> DATA: MOU 일자는 2026년 9월 9일, 양사는 원료·액티브 성분·감각(signature) 공동 연구 약속 (loreal.com)',
+      '이번 협약은 로레알의 글로벌 뷰티 과학·소비자 인사이트 역량과 코스맥스의 K-뷰티 포뮬레이션 전문성을 결합해, 세계 시장을 겨냥한 신제품 개발의 기반을 다지는 움직임입니다.',
+      '소비자 관점에서 이는 K-뷰티가 단순한 트렌드를 넘어 글로벌 혁신 파트너십을 통해 진화하고 있음을 보여주는 신호입니다.',
+    ],
+    date: '2026-09-21',
+    readMinutes: 3,
+    tags: ['K-뷰티', 'MOU', '글로벌협업'],
+    image: '/news/loreal-cosmax-k-beauty-innovation-mou-global-collab-2026.webp',
+    seoTitle: '로레알-코스맥스 차세대 뷰티 MOU 체결',
+    seoDescription:
+      '로레알그룹과 코스맥스가 차세대 K-뷰티 제품 개발을 위해 업무협약을 체결하고 원료·포뮬러 공동 연구에 나섰습니다.',
+  },
+  {
     slug: 'cosrx-becomes-first-k-beauty-patron-british-beauty-council',
     category: 'skincare',
     title: 'COSRX, K‑뷰티 최초로 British Beauty Council 후원사 선정',
