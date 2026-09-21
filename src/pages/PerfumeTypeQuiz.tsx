@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { trackToolComplete } from '../lib/analytics'
 import { PT_QUESTIONS, computePerfumeType, type PTOption } from '../lib/perfume-type/questions'
 import { PERFUME_TYPES, PERFUME_TYPE_ORDER } from '../lib/perfume-type/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
@@ -49,6 +50,7 @@ export default function PerfumeTypeQuiz() {
         const type = computePerfumeType(next)
         const slug = PERFUME_TYPES[type].slug
         setPhase('redirecting')
+        trackToolComplete('perfume-type', slug)
         if (typeof window !== 'undefined') window.location.href = `${basePath}/${slug}/`
       } else {
         setIdx(idx + 1)

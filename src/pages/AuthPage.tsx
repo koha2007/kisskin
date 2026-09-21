@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
 import { isNativeApp } from '../lib/nativePicker'
+import { trackAuthView, trackSignUpStart } from '../lib/analytics'
 
 function isInAppBrowser(): boolean {
   const ua = navigator.userAgent || navigator.vendor || ''
@@ -92,6 +93,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
 
+  // 이 화면에 몇 명이 닿았고, 어느 기능이 보냈는지(next). 퍼널의 중간 칸이다 —
+  // 도구 완료자 대비 여기 도달률, 여기 도달 대비 가입 완료율을 가른다.
+  useEffect(() => { trackAuthView(mode, next) }, [mode, next])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -126,6 +131,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         return
       }
       if (mode === 'signup') {
+        trackSignUpStart('email')
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -471,6 +477,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           <button
             onClick={async () => {
               setError(null)
+              trackSignUpStart('google')
               const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {

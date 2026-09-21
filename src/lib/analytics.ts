@@ -60,3 +60,41 @@ export function trackToolPromotion(tool: string, slug: string | undefined, slot:
     items: slug ? [{ item_id: slug, item_name: `${tool}:${slug}` }] : undefined,
   })
 }
+
+// ── 가입 퍼널 (2026-09-21) ────────────────────────────────────────
+// 여태 결제 이벤트만 20종 넘게 있고 **가입 관련 이벤트는 하나도 없었다.**
+// 유입의 대부분이 들어오는 무료 도구도 이벤트를 안 쐈다 → 어디서 새는지 모른 채
+// 고치고 있었다. 퍼널: tool_complete → auth_view → sign_up_start → sign_up.
+// (저장 단계는 "내 뷰티 기록"이 생기면 tool_complete 와 auth_view 사이에 들어간다.)
+
+/**
+ * 무료 도구 진단 완료 — 결과 페이지로 넘어가기 **직전**에 쏜다.
+ *
+ * ⚠️ 바로 뒤에 `window.location.href` 가 따라붙어 페이지가 날아간다. 그래서
+ * `transport_type: 'beacon'` 이 필수다 — 일반 전송은 네비게이션에 잘려 유실된다.
+ * 결과 페이지에서 쏘지 않는 이유: 그 URL 은 검색으로도 직접 들어오는 착지
+ * 페이지라, 거기서 쏘면 "진단을 끝낸 사람"과 "구글에서 온 사람"이 섞인다.
+ */
+export function trackToolComplete(tool: string, slug: string): void {
+  trackEvent('tool_complete', { tool, result_slug: slug, transport_type: 'beacon' })
+}
+
+/** 로그인/가입 화면 도달. `next` 로 어느 기능이 사람을 여기로 보냈는지 가른다. */
+export function trackAuthView(mode: string, next: string | null): void {
+  trackEvent('auth_view', { auth_mode: mode, next_path: next ?? '(none)' })
+}
+
+/** 가입 폼 제출 — 성공 전. 제출 대비 완료율로 폼 자체의 이탈을 본다. */
+export function trackSignUpStart(method: string): void {
+  trackEvent('sign_up_start', { method })
+}
+
+/** 가입 완료. GA4 권장 이벤트명이라 표준 리포트에 그대로 잡힌다. */
+export function trackSignUp(method: string): void {
+  trackEvent('sign_up', { method })
+}
+
+/** 로그인 완료. GA4 권장 이벤트명. */
+export function trackLogin(method: string): void {
+  trackEvent('login', { method })
+}

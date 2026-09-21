@@ -43,6 +43,22 @@ export async function optoutUrl(secret: string, email: string): Promise<string> 
   return `${SITE}/api/email-optout?e=${encodeURIComponent(email)}&t=${t}`
 }
 
+// ── 링크 추적 (UTM) ────────────────────────────────────────────────
+// 2026-09-21: 다이제스트가 사이트로 사람을 얼마나 데려오는지 **우리 쪽에서** 재는 장치.
+// Resend 대시보드의 열람/클릭은 Resend 안에만 남고 GA4 와 이어지지 않는다. UTM 을
+// 붙여야 "메일에서 온 세션이 몇이고 그중 몇이 가입했는가"를 한 화면에서 볼 수 있다.
+//
+// utm_content 에 카드별 식별자를 넣어 **어느 카드가 눌리는지**까지 가른다.
+export function withUtm(url: string, campaign: string, content: string): string {
+  const q = `utm_source=email&utm_medium=digest&utm_campaign=${encodeURIComponent(campaign)}&utm_content=${encodeURIComponent(content)}`
+  return url + (url.includes('?') ? '&' : '?') + q
+}
+
+/** 발송 1회를 식별하는 캠페인 id. 회차별 비교의 기준이라 발송기가 한 번만 만들어 넘긴다. */
+export function campaignId(d = new Date()): string {
+  return `digest_${d.toISOString().slice(0, 10).replace(/-/g, '')}`
+}
+
 // ── 메일 본문 ──────────────────────────────────────────────────────
 
 export interface DigestItem {
@@ -106,16 +122,19 @@ export function renderDigest(
   lang: 'ko' | 'en',
   sections: DigestSections,
   unsubHref: string,
+  campaign: string = campaignId(),
 ): { subject: string; html: string } {
   const t = COPY[lang]
   const subject = t.subject(sections.products.length, sections.news.length)
 
-  const renderCards = (items: DigestItem[]) =>
+  const renderCards = (items: DigestItem[], kind: 'product' | 'news') =>
     items
-      .map((it) => {
+      .map((it, i) => {
         const head = headline(it)
+        // 카드마다 다른 utm_content → 어느 줄이 실제로 눌리는지 보인다.
+        const link = withUtm(it.url, campaign, `${kind}${i + 1}_${it.slug}`)
         const img = it.image
-          ? `<tr><td style="padding:0 0 12px;"><a href="${esc(it.url)}"><img src="${SITE}${esc(it.image)}" width="536" alt="${esc(head)}" style="width:100%;max-width:536px;border-radius:12px;display:block;"/></a></td></tr>`
+          ? `<tr><td style="padding:0 0 12px;"><a href="${esc(link)}"><img src="${SITE}${esc(it.image)}" width="536" alt="${esc(head)}" style="width:100%;max-width:536px;border-radius:12px;display:block;"/></a></td></tr>`
           : ''
         return `
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
@@ -127,7 +146,7 @@ export function renderDigest(
           ${esc(it.summary)}
         </td></tr>
         <tr><td>
-          <a href="${esc(it.url)}" style="display:inline-block;font:600 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#fff;background:#111;text-decoration:none;padding:10px 18px;border-radius:8px;">
+          <a href="${esc(link)}" style="display:inline-block;font:600 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#fff;background:#111;text-decoration:none;padding:10px 18px;border-radius:8px;">
             ${t.cta} →
           </a>
         </td></tr>
@@ -142,10 +161,10 @@ export function renderDigest(
       ? `<tr><td style="font:700 12px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#c2410c;padding:0 0 14px;">${esc(label)}</td></tr>`
       : ''
 
-  const block = (label: string, items: DigestItem[]) =>
-    items.length ? `${sectionTitle(label)}<tr><td>${renderCards(items)}</td></tr>` : ''
+  const block = (label: string, items: DigestItem[], kind: 'product' | 'news') =>
+    items.length ? `${sectionTitle(label)}<tr><td>${renderCards(items, kind)}</td></tr>` : ''
 
-  const body = `${block(t.productsTitle, sections.products)}${block(t.newsTitle, sections.news)}`
+  const body = `${block(t.productsTitle, sections.products, 'product')}${block(t.newsTitle, sections.news, 'news')}`
 
   const html = `<!doctype html>
 <html lang="${lang}"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -164,7 +183,7 @@ export function renderDigest(
         ${body}
         <tr><td style="border-top:1px solid #eee;padding-top:20px;font:400 12px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#999;">
           ${t.signoff}<br/>
-          <a href="${SITE}" style="color:#999;">kissinskin.net</a>
+          <a href="${esc(withUtm(SITE + '/', campaign, 'footer'))}" style="color:#999;">kissinskin.net</a>
           ${ADDRESS ? `<br/>${esc(ADDRESS)}` : ''}
           <br/><br/>
           ${t.unsub}<a href="${esc(unsubHref)}" style="color:#999;text-decoration:underline;">${t.unsubLink}</a>.

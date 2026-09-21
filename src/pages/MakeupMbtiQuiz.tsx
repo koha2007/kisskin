@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { trackToolComplete } from '../lib/analytics'
 import { QUESTIONS, computeMbti, type QuizOption } from '../lib/makeup-mbti/questions'
 import { MAKEUP_MBTI_TYPES, MBTI_ORDER } from '../lib/makeup-mbti/types'
 import { MAKEUP_MBTI_EN } from '../lib/makeup-mbti/types.en'
@@ -47,6 +48,7 @@ export default function MakeupMbtiQuiz() {
         setPhase('redirecting')
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('makeup-mbti-answers', JSON.stringify(next))
+          trackToolComplete('makeup-mbti', slug)
           window.location.href = `${basePath}/${slug}/`
         }
       } else {

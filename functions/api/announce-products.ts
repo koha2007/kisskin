@@ -22,7 +22,7 @@
 //   RESEND_API_KEY          (이미 있음) send-report.ts 와 공용
 //   SUPABASE_SERVICE_ROLE_KEY / VITE_SUPABASE_URL   (이미 있음) delete-account.ts 와 공용
 
-import { SITE, optoutUrl, renderDigest, type DigestItem, type DigestSections } from './_digestMail'
+import { SITE, optoutUrl, renderDigest, campaignId, type DigestItem, type DigestSections } from './_digestMail'
 
 interface Env {
   VITE_SUPABASE_URL?: string
@@ -153,6 +153,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
   }
   const dryRun = body.dryRun === true
+  // 발송 1회를 식별하는 id — 회차별 열람·유입 비교의 기준. 한 번만 만들어 전원에게 같은 값을 쓴다
+  // (발송이 자정을 걸쳐도 한 회차가 둘로 쪼개지지 않게).
+  const campaign = campaignId()
 
   // ── 수신자 확정 ────────────────────────────────────────────────
   let users: AuthUser[]
@@ -188,11 +191,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     ko: recipients.filter((r) => r.lang === 'ko').length,
     en: recipients.filter((r) => r.lang === 'en').length,
   }
-  const previewKo = renderDigest('ko', sectionsFor('ko'), `${SITE}/api/email-optout`)
+  const previewKo = renderDigest('ko', sectionsFor('ko'), `${SITE}/api/email-optout`, campaign)
 
   if (dryRun) {
     return json({
       dryRun: true,
+      campaign,
       recipients: recipients.length,
       byLang,
       subject: previewKo.subject,
@@ -218,7 +222,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
   async function sendOne({ email, lang }: { email: string; lang: 'ko' | 'en' }): Promise<string | null> {
     const unsub = await optoutUrl(env.EMAIL_OPTOUT_SECRET!, email)
-    const { subject, html } = renderDigest(lang, sectionsFor(lang), unsub)
+    const { subject, html } = renderDigest(lang, sectionsFor(lang), unsub, campaign)
     let last = ''
     // 429 는 서버가 "잠깐 뒤 다시"라고 말한 것이므로 버리지 않고 재시도한다.
     for (let attempt = 0; attempt < RETRIES; attempt++) {
@@ -234,6 +238,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
           to: [email],
           subject,
           html,
+          // Resend 대시보드에서 회차·언어별로 열람률/클릭률을 갈라 보기 위한 태그.
+          // (열람·클릭 추적 자체는 Resend 도메인 설정에서 켜야 한다 — 코드로는 못 켠다.)
+          tags: [
+            { name: 'campaign', value: campaign },
+            { name: 'lang', value: lang },
+          ],
           headers: {
             'List-Unsubscribe': `<${unsub}>, <mailto:report@kissinskin.net?subject=unsubscribe>`,
             'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
@@ -267,7 +277,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
   const failed = recipients.length - sent
   return json(
-    { sent, failed, recipients: recipients.length, byLang, errors: errors.slice(0, 10) },
+    { campaign, sent, failed, recipients: recipients.length, byLang, errors: errors.slice(0, 10) },
     failed && !sent ? 502 : 200,
   )
 }

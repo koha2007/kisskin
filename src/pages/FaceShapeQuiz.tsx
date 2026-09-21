@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { trackToolComplete } from '../lib/analytics'
 import { FS_QUESTIONS, computeFaceShape, type FSAnswer } from '../lib/face-shape/questions'
 import { FACE_SHAPE_TYPES, FACE_SHAPE_ORDER } from '../lib/face-shape/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
@@ -33,6 +34,7 @@ export default function FaceShapeQuiz() {
         const shape = computeFaceShape(next)
         const slug = FACE_SHAPE_TYPES[shape].slug
         setPhase('redirecting')
+        trackToolComplete('face-shape', slug)
         if (typeof window !== 'undefined') window.location.href = `${basePath}/${slug}/`
       } else {
         setIdx(idx + 1)

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { trackToolComplete } from '../lib/analytics'
 import { PC_QUESTIONS, computeSeason, type PCAnswer } from '../lib/personal-color/questions'
 import { PERSONAL_COLOR_TYPES, SEASON_ORDER } from '../lib/personal-color/types'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
@@ -36,6 +37,7 @@ export default function PersonalColorQuiz() {
         const season = computeSeason(next)
         const slug = PERSONAL_COLOR_TYPES[season].slug
         setPhase('redirecting')
+        trackToolComplete('personal-color', slug)
         if (typeof window !== 'undefined') window.location.href = `${basePath}/${slug}/`
       } else {
         setIdx(idx + 1)
