@@ -131,6 +131,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}${next ?? '/'}`,
+            // 가입 시점의 언어를 남긴다. 주간 다이제스트 메일이 이 값으로 한/영
+            // 본문을 가르는데, 여태 아무도 안 넣어 전원이 기본값 'ko' 였다.
+            // (구글 로그인은 여기를 안 타므로 lib/userLocale.ts 가 로그인 후 채운다.)
+            data: { locale },
           },
         })
         if (error) throw error
