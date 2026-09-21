@@ -207,42 +207,62 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   // ── 발송 ──────────────────────────────────────────────────────
   // 수신자마다 수신거부 링크가 달라 개별 발송한다(Resend /emails). 규모가
   // 작아(수십 통) 배치가 필요 없고, 한 주소가 실패해도 나머지는 나간다.
-  // 동시 5개로 제한해 Resend rate limit 을 건드리지 않는다.
+  //
+  // 2026-09-21: Resend 한도는 "초당 10건"이다. 예전엔 5개씩 병렬로 던지되
+  // 웨이브 사이 대기가 없어 초당 20건 넘게 나갔고, 9/14·9/20 발송에서 수신자
+  // 절반이 429 로 떨어져 나갔다(재시도도 없었다). 이제 웨이브마다 최소
+  // WAVE_MS 를 채우고, 429 는 백오프로 재시도한다.
   const FROM = 'kissinskin <report@kissinskin.net>'
+
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
   async function sendOne({ email, lang }: { email: string; lang: 'ko' | 'en' }): Promise<string | null> {
     const unsub = await optoutUrl(env.EMAIL_OPTOUT_SECRET!, email)
     const { subject, html } = renderDigest(lang, sectionsFor(lang), unsub)
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: FROM,
-        to: [email],
-        subject,
-        html,
+    let last = ''
+    // 429 는 서버가 "잠깐 뒤 다시"라고 말한 것이므로 버리지 않고 재시도한다.
+    for (let attempt = 0; attempt < RETRIES; attempt++) {
+      if (attempt) await sleep(RETRY_MS * 2 ** (attempt - 1))
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
         headers: {
-          'List-Unsubscribe': `<${unsub}>, <mailto:report@kissinskin.net?subject=unsubscribe>`,
-          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
         },
-      }),
-    })
-    if (res.ok) return null
-    return `${email}: ${res.status} ${(await res.text()).slice(0, 120)}`
+        body: JSON.stringify({
+          from: FROM,
+          to: [email],
+          subject,
+          html,
+          headers: {
+            'List-Unsubscribe': `<${unsub}>, <mailto:report@kissinskin.net?subject=unsubscribe>`,
+            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          },
+        }),
+      })
+      if (res.ok) return null
+      last = `${email}: ${res.status} ${(await res.text()).slice(0, 120)}`
+      // 429(한도)와 5xx(일시 장애)만 재시도한다. 400/422 는 다시 보내도 같다.
+      if (res.status !== 429 && res.status < 500) break
+    }
+    return last
   }
 
   let sent = 0
   const errors: string[] = []
-  const CONCURRENCY = 5
+  const CONCURRENCY = 4
+  const WAVE_MS = 600 // 4건 / 0.6초 ≈ 초당 6.7건 — 한도(초당 10건) 아래
+  const RETRIES = 4
+  const RETRY_MS = 1000
   for (let i = 0; i < recipients.length; i += CONCURRENCY) {
+    const started = Date.now()
     const results = await Promise.all(recipients.slice(i, i + CONCURRENCY).map(sendOne))
     for (const err of results) {
       if (err) errors.push(err)
       else sent++
     }
+    const rest = WAVE_MS - (Date.now() - started)
+    if (i + CONCURRENCY < recipients.length && rest > 0) await sleep(rest)
   }
 
   const failed = recipients.length - sent

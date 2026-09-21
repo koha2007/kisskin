@@ -84,3 +84,11 @@ jobs:
             echo "::error::다이제스트 발송 실패 (HTTP $CODE)"
             exit 1
           fi
+          # HTTP 200 은 "요청이 처리됐다"일 뿐 전원 도달을 뜻하지 않는다.
+          # 2026-09-14·09-20 발송은 200 이면서 수신자 절반이 429 로 실패했고,
+          # 워크플로가 초록이라 한 주 동안 아무도 몰랐다. 한 명이라도 실패하면 빨갛게 띄운다.
+          FAILED=$(printf '%s' "$BODY" | node -e "let s='';process.stdin.on('data',c=>s+=c).on('end',()=>{try{process.stdout.write(String(JSON.parse(s).failed??0))}catch{process.stdout.write('0')}})")
+          if [ "$FAILED" != "0" ]; then
+            echo "::error::수신자 $FAILED 명에게 전달 실패 — 위 errors 확인"
+            exit 1
+          fi
