@@ -4,6 +4,7 @@ import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
 import { getCreditBalance } from '../lib/credits'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
+import { BeautyRecord } from '../components/beauty-dna/BeautyRecord'
 
 /**
  * 브랜드 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
@@ -311,6 +312,16 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>arrow_back</span>
         </button>
         <h1 className="t-h2" style={{ color: C.navy, margin: 0 }}>{t('mypage.title')}</h1>
+      </div>
+
+      {/* 내 뷰티 기록 — 이 페이지에서 유일하게 "다시 열어볼 이유"가 되는 자리라 맨 위다.
+          계정 설정(이메일·비밀번호·탈퇴)은 그 아래로 내린다. */}
+      <div style={cardStyle}>
+        <h2 style={sectionTitleStyle}>
+          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>favorite</span>
+          {isKo ? '내 뷰티 기록' : 'My Beauty Record'}
+        </h2>
+        <BeautyRecord bare />
       </div>
 
       {/* 내 정보 */}

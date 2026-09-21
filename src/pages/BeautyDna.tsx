@@ -3,6 +3,7 @@ import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import SectionHeader from '../components/home/SectionHeader'
 import DnaProgress from '../components/beauty-dna/DnaProgress'
+import { SaveToAccount } from '../components/beauty-dna/SaveToAccount'
 import DnaPortrait from '../components/beauty-dna/DnaPortrait'
 import RoutineList from '../components/beauty-dna/RoutineList'
 import RelatedTools from '../components/RelatedTools'
@@ -115,6 +116,9 @@ export default function BeautyDna() {
             )}
           </div>
         </section>
+
+        {/* 공유 링크로 남의 결과를 보는 중(readOnly)엔 권하지 않는다 — 저장할 내 결과가 아니다. */}
+        {!readOnly && <SaveToAccount />}
 
         {viewComplete ? (
           <CompleteView dna={viewDna} isEn={isEn} readOnly={readOnly} onReset={resetAll} />
