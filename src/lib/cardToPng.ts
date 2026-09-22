@@ -36,19 +36,6 @@ async function ensureFonts(): Promise<void> {
   }
 }
 
-/** 브랜드 록업 뱃지(`public/brand-lockup.png`). 실패해도 카드는 그려야 하므로 null 을 돌려준다. */
-async function loadBrandLockup(): Promise<HTMLImageElement | null> {
-  try {
-    const el = new Image()
-    el.crossOrigin = 'anonymous'
-    el.src = '/brand-lockup.png'
-    await new Promise<void>((resolve) => { el.onload = () => resolve(); el.onerror = () => resolve() })
-    return el.complete && el.naturalWidth > 0 ? el : null
-  } catch {
-    return null
-  }
-}
-
 function roundRectPath(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -171,7 +158,7 @@ export async function renderIdentityCardCanvas(
   ctx.fillText(emoji, cx, 720)
 
   // 3) 유형 닉네임 (최대 타이포, shrink-to-fit, wrap as last resort)
-  let nickPx = fitFontSize(ctx, card.nickname, 700, 104, 64, maxTextW)
+  const nickPx = fitFontSize(ctx, card.nickname, 700, 104, 64, maxTextW)
   ctx.font = `700 ${nickPx}px ${FONT_STACK}`
   ctx.fillStyle = '#ffffff'
   const nickLines = wrapLines(ctx, card.nickname, maxTextW)
@@ -228,21 +215,12 @@ export async function renderIdentityCardCanvas(
     y += chipH + chipGap
   }
 
-  // 7) 워터마크 (bottom) — 네이비 뱃지 록업.
-  // 2026-09-22: 'kissinskin.net' 흰 글자였다. 메이크업 공유 카드·뉴스 무드컷과 같은
-  //   마크를 쓰도록 통일했다. 로드 실패 시에는 기존 글자로 떨어뜨린다(저장이 실패하면 안 된다).
-  const lockup = await loadBrandLockup()
-  if (lockup) {
-    const lw = Math.round(CARD_W * 0.28)
-    const lh = Math.round(lw * (lockup.naturalHeight / lockup.naturalWidth))
-    ctx.drawImage(lockup, Math.round(cx - lw / 2), CARD_H - 90 - Math.round(lh / 2), lw, lh)
-  } else {
-    ctx.font = `700 38px ${FONT_STACK}`
-    ctx.fillStyle = 'rgba(255,255,255,0.92)'
-    try { ctx.letterSpacing = '2px' } catch { /* noop */ }
-    ctx.fillText('kissinskin.net', cx, CARD_H - 90)
-    try { ctx.letterSpacing = '0px' } catch { /* noop */ }
-  }
+  // 7) 워터마크 (bottom)
+  ctx.font = `700 38px ${FONT_STACK}`
+  ctx.fillStyle = 'rgba(255,255,255,0.92)'
+  try { ctx.letterSpacing = '2px' } catch { /* noop */ }
+  ctx.fillText('kissinskin.net', cx, CARD_H - 90)
+  try { ctx.letterSpacing = '0px' } catch { /* noop */ }
 
   return canvas
 }
