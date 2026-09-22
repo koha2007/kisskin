@@ -94,54 +94,134 @@ async function loadStyles() {
   return { MAKEUP_STYLES: mod.MAKEUP_STYLES, promptWholeFace: mod.promptWholeFace }
 }
 
-// ── 9명: 룩마다 다른 모델. 글로벌 전환(§8 개정) → 인종 제한 없음. ──
-// 룩의 무드에 맞는 인물/구도를 짝지어 카드가 다양하게 보이도록 한다.
+// ── 9명 캐스팅 (2026-09-22 개정) ─────────────────────────────────────
+// 인종·피부톤만 지정했더니 **9명이 다 같은 사람처럼 나왔다.** 전부 갸름한 계란형에
+// 20대 초중반, 같은 이목구비 비율, 같은 무표정 — 다양성 축이 "피부색 + 헤어"뿐이었다.
+// AI 는 얼굴을 자유롭게 두면 "미의 평균"으로 수렴한다("10,000명 얼굴을 평균내면
+// 대칭적이지만 기억에 남지 않는 얼굴 하나가 나온다"). 브랜드 가이드 없이 AI 크리에이티브를
+// 쓴 브랜드는 브랜드 회상률이 35% 떨어졌다는 측정도 있다.
+//
+// 그래서 얼굴 밖 변수를 고정한 채(배경·의상·크롭) **얼굴 안 변수를 못 박는다**:
+//   ① shape  — 우리 face-shape 도구의 5종을 배분(oval·round·square·oblong·heart).
+//              모델이 확실히 달라 보이고, "우리가 분류하는 얼굴형이 다 여기 있다"는
+//              제품 일관성도 생긴다.
+//   ② age    — 20대 6 · 30대 3(후반 1명). 나이 포용은 매출로 증명돼 있다
+//              (Laura Geller 'Own Your Age' MIV 105%↑, 60대+ 캠페인 매출 20%↑).
+//              특히 "같은 나이대가 쓰는 걸 봐야 산다" — 자기 얼굴 미리보기 제품엔 더 직결.
+//   ③ asym   — 완벽한 대칭은 시각적으로 잊힌다. 룩마다 비대칭 한 가지를 지정한다.
+//   ④ skin   — 주근깨·점·주름·기미. 2026 캐스팅 기준은 완벽함이 아니라 "물음표를 남기는 얼굴".
+//   ⑤ expr/angle — 표정과 고개 각도(±8도)를 변주한다. **시선은 전원 정면 고정**.
+// ⚠ 다양성은 저절로 안 된다. 빼면 기본값("마르고 갸름한 20대")으로 되돌아간다.
 const MODELS = {
   'natural-glow': {
-    subject: 'a young Korean woman in her early 20s with a soft heart-shaped face and long straight black hair',
-    light: 'soft diffused morning window light',
-    backdrop: 'clean warm ivory studio wall',
+    subject:
+      'a Korean woman in her mid 20s with a neutral mid-tone complexion. FACE SHAPE: round — her face is '
+      + 'as wide as it is long, with full cheeks and a soft jawline; do NOT slim it into an oval. '
+      + 'FEATURES: monolid eyes that slope down slightly at the outer corners, a low rounded nose tip, '
+      + 'medium-thickness lips, thick straight brows. ASYMMETRY: her left eye is slightly smaller than her right. '
+      + 'SKIN: visible pores around the nose, a soft natural flush on both cheeks. '
+      + 'HAIR: long layered hair in natural dark brown. '
+      + 'EXPRESSION: a very faint closed-mouth smile, relaxed eyes. '
+      + 'Head turned 5 degrees to her right, eyes looking straight into the camera',
+    light: 'soft diffused frontal light',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'cloud-skin': {
-    subject: 'a young East Asian woman in her mid 20s with a round face and a sleek low bun',
-    light: 'flat cloudy-day daylight, very even and shadowless',
-    backdrop: 'pale grey seamless studio backdrop',
+    subject:
+      'an East Asian woman in her early 20s with a fair cool-toned complexion. FACE SHAPE: oval — fine bone '
+      + 'structure, narrow shoulders, a long neck. FEATURES: inner double eyelids, a slim straight nose bridge, '
+      + 'a thin upper lip, sparse brows. ASYMMETRY: her parting sits off-centre so the two sides of her forehead '
+      + 'are exposed unevenly. SKIN: two or three healed acne marks on the forehead. '
+      + 'HAIR: shoulder-length blunt lob in natural dark brown. '
+      + 'EXPRESSION: completely neutral, lips parted just slightly. '
+      + 'Head straight on, eyes looking straight into the camera',
+    light: 'broad flat overcast daylight with no shadows',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'blood-lip': {
-    subject: 'a young Korean woman in her mid 20s with a sharp jawline and blunt-cut shoulder-length dark hair',
-    light: 'dramatic single-source light with deep falloff',
-    backdrop: 'deep charcoal studio background',
+    subject:
+      'an East Asian woman in her mid 30s with a mid-tone complexion. FACE SHAPE: square — an angular jaw, '
+      + 'wide cheekbones and a broad face; strong bone structure. FEATURES: sharply defined horizontally long '
+      + 'eyes, thick straight brows, a straight nose, a crisp cupid\u2019s bow. ASYMMETRY: her chin sits very '
+      + 'slightly to the left. SKIN: fine lines at the outer eyes and faint nasolabial folds — her mid-30s must '
+      + 'read naturally; do NOT erase them. HAIR: jaw-length blunt bob in natural black. '
+      + 'EXPRESSION: chin lifted very slightly, detached, looking straight ahead. '
+      + 'Head turned 6 degrees to her left, eyes looking straight into the camera',
+    light: 'a single directional light with a soft shadow falling on the opposite side of the face',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'maximalist-eye': {
-    subject: 'a young Latina woman in her early 20s with wavy brown hair and expressive brows',
-    light: 'colourful gelled studio light with a subtle purple rim',
-    backdrop: 'dark plum gradient backdrop',
+    subject:
+      'a South Asian woman in her mid 20s with a warm brown complexion. FACE SHAPE: heart — a broad forehead, '
+      + 'a pointed chin and prominent cheekbones. FEATURES: large deep-set eyes, thick bold natural brows, '
+      + 'a nose with wide nostrils, full lips. ASYMMETRY: her two brows sit at noticeably different heights. '
+      + 'SKIN: a few small moles on the forehead and chin. '
+      + 'HAIR: long voluminous waves in natural dark brown-black. '
+      + 'EXPRESSION: an intense focused gaze with tension in the eyes, mouth closed. '
+      + 'Head straight on, eyes looking straight into the camera',
+    light: 'frontal beauty-dish light with a crisp catchlight in the eyes',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'metallic-eye': {
-    // 짧은 곱슬 + 실버는 "백발"로 읽혔다 → 길고 매끈한 헤어로 바꿔 염색 컬러가 드러나게.
-    subject: 'a young Black woman in her mid 20s with deep brown skin and long sleek shoulder-length hair',
-    light: 'crisp specular light that catches highlights on the skin',
-    backdrop: 'cool graphite studio background',
+    subject:
+      'a Black woman in her early 30s with deep brown skin and golden undertones. FACE SHAPE: oblong — a long '
+      + 'face with high cheekbones and a long neck. FEATURES: almond eyes, a wide nose, full lips, dark brows. '
+      + 'ASYMMETRY: one corner of her mouth sits higher than the other. SKIN: faint horizontal lines on the '
+      + 'forehead, natural sheen on the cheeks. HAIR: shoulder-length voluminous curls in natural dark brown-black. '
+      + 'EXPRESSION: calm and composed, no smile. '
+      + 'Head turned 7 degrees to her right, eyes looking straight into the camera',
+    light: 'slightly harder frontal light that catches crisp highlights on the skin',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'bold-lip': {
-    subject: 'a young Southeast Asian woman in her late 20s with a long bob and centre part',
-    light: 'clean beauty-dish light straight on',
-    backdrop: 'soft blush pink seamless backdrop',
+    subject:
+      'a Southeast Asian woman in her late 30s with a warm tan complexion. FACE SHAPE: round and wide — full '
+      + 'cheeks, a rounded jawline, sturdy broad shoulders and a shortish neck. She carries more weight than a '
+      + 'typical fashion model; do NOT make her slim. FEATURES: small round eyes, a low wide nose, full lips. '
+      + 'ASYMMETRY: a dimple on one cheek only. SKIN: expression lines at the eyes and mouth, faint pigmentation '
+      + 'on the cheekbones — her late 30s must read naturally. '
+      + 'HAIR: long straight hair in dark brown with a few grey strands. '
+      + 'EXPRESSION: a confident closed-mouth smile. '
+      + 'Head straight on, eyes looking straight into the camera',
+    light: 'clean bright frontal light',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'blush-draping': {
-    subject: 'a young South Asian woman in her early 20s with long dark wavy hair',
-    light: 'warm golden-hour side light',
-    backdrop: 'sunlit peach wall with soft shadow',
+    subject:
+      'a Latina/Mediterranean woman in her mid 20s with an olive complexion. FACE SHAPE: heart — a broad '
+      + 'forehead, a pointed chin, prominent cheekbones. FEATURES: an aquiline nose with a visible bridge curve, '
+      + 'large dark eyes, thin lips, dark brows. ASYMMETRY: her nose bends very slightly to one side. '
+      + 'SKIN: heavy freckling across the nose and both cheeks — do NOT remove it. '
+      + 'HAIR: shoulder-length layers with light curtain bangs, natural brown. '
+      + 'EXPRESSION: eyes opened wide as if mildly startled, mouth closed. '
+      + 'Head turned 5 degrees to her left, eyes looking straight into the camera',
+    light: 'slightly warm frontal light',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   grunge: {
-    subject: 'a young white woman in her early 20s with messy shoulder-length hair and freckles',
-    light: 'moody low-key light with hard shadows',
-    backdrop: 'dark textured concrete wall',
+    subject:
+      'a white European woman in her late 20s with a very pale cool complexion and grey-brown eyes. '
+      + 'FACE SHAPE: oblong — a long face with a narrow chin and an angular forehead. FEATURES: hooded eyes '
+      + 'where the lid covers the crease, thin sparse brows, a long straight nose, thin lips. '
+      + 'ASYMMETRY: her eyes are set wide apart and one lid is more hooded than the other. '
+      + 'SKIN: very pale and thin enough that veins show at the neck and collarbone; freckles on the nose. '
+      + 'HAIR: textured shag cut in natural dark ash brown. '
+      + 'EXPRESSION: completely slack and indifferent, lips slightly parted. '
+      + 'Head turned 8 degrees to her left, eyes looking straight into the camera',
+    light: 'moody low-key light with real contrast',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
   'kpop-idol': {
-    subject: 'a young Korean woman in her early 20s with straight black hair and see-through bangs',
-    light: 'bright glossy K-pop stage lighting, glowing and clean',
-    backdrop: 'pastel lilac gradient backdrop',
+    subject:
+      'a Korean woman in her early 20s with a fair complexion. FACE SHAPE: small oval — a small face with a '
+      + 'delicate jawline. FEATURES: large double-lidded eyes, a small straight nose, full lips. '
+      + 'ASYMMETRY: when she smiles only one eye creases more. SKIN: clear thin skin with a soft flush on the '
+      + 'cheeks and fine pores on the nose. '
+      + 'HAIR: long glossy hair with face-framing layers, natural dark brown. '
+      + 'EXPRESSION: a bright smile that reaches the eyes, mouth closed. '
+      + 'Head turned 5 degrees to her right, eyes looking straight into the camera',
+    light: 'clean bright high-key light',
+    backdrop: 'flat matte warm grey studio wall, colour #D6D3CE',
   },
 }
 
@@ -207,10 +287,19 @@ function indexBeforeDir(dir, styles, order) {
 // gen-products.mjs 의 사진 레시피(에디토리얼 뷰티 + 모공 보이는 실제 피부결)를 따른다.
 function beforePrompt(m) {
   return [
-    `A beauty portrait photograph of ${m.subject}, looking straight at the camera with a calm, relaxed expression.`,
+    `A beauty portrait photograph of ${m.subject}.`,
     'Her face is completely bare: absolutely no makeup at all — no foundation, no lipstick, no eyeshadow, no eyeliner, no blush, no mascara.',
     'Clean natural skin with visible pores and real texture, natural untouched eyebrows, natural lip colour.',
-    `Composition: head-and-shoulders beauty portrait, face fully visible and centred, front-facing, vertical ${RATIO} frame.`,
+    // ⚠ 이 문단이 "9명이 다 같은 사람" 을 막는다. MODELS 의 얼굴형·비대칭 지시가 아무리
+    //   구체적이어도, 이 금지가 없으면 모델이 전부 갸름한 계란형 미인으로 수렴한다(실측).
+    'CRITICAL — do not beautify: this is a distinctive real model, not a conventionally pretty face.',
+    'Do NOT converge on the smooth average-attractive AI face. Follow the face shape, face width, jawline',
+    'and feature proportions specified above exactly; do NOT slim the face into an oval by default.',
+    'Do NOT make the face perfectly symmetrical — keep the asymmetry described above. Do NOT slim her body.',
+    'Unretouched model-casting polaroid energy.',
+    `Composition: head-and-shoulders beauty portrait, face fully visible and centred, vertical ${RATIO} frame.`,
+    'Her eyes look straight into the camera in every case, even when her head is turned slightly.',
+    'Wearing an oatmeal-beige ribbed crew-neck sleeveless top; only shoulders and neckline visible, no chest exposed.',
     `Lighting: ${m.light}. Background: ${m.backdrop}.`,
     'Editorial beauty advertising photography, realistic skin texture with visible pores, natural retouching, sharp focus on the face, shallow depth of field.',
     'Show only the person — no product packaging, no tubes, no bottles, no text.',
