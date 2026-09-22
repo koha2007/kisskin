@@ -30,6 +30,8 @@
 //                                               # 민낯은 폴더에서, 애프터만 생성
 //   node scripts/gen-look-models.mjs --before-dir=./casting --dry
 //                                               # 어떤 파일이 어느 룩에 붙는지만 확인(과금 0)
+//   node scripts/gen-look-models.mjs --only=grunge --out-dir=/tmp/looks --force
+//                                               # 운영 파일을 안 건드리고 검증만
 //
 // 비용(대략): Imagen 9장 + gpt-image-2(medium) 9장 ≈ $1.1.
 //   --before-dir 를 쓰면 Imagen 몫이 빠져 절반 이하. --dry 로 먼저 확인할 것.
@@ -43,7 +45,13 @@ import { IMAGE_MODEL, generateImageB64 } from './_geminiImage.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
-const OUT_DIR = resolve(ROOT, 'public/styles/looks')
+// 기본 출력 = 운영에 걸리는 룩 카드. --out-dir 로 딴 데 뽑으면 라이브를 건드리지 않고
+// 프롬프트만 검증할 수 있다(2026-09-22). 검증 없이 곧바로 운영 파일을 덮지 말 것.
+const OUT_DIR = resolve(
+  ROOT,
+  process.argv.slice(2).find((a) => a.startsWith('--out-dir='))?.slice('--out-dir='.length)
+    ?? 'public/styles/looks',
+)
 
 const EDIT_MODEL = 'gpt-image-2'
 
