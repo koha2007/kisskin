@@ -10,6 +10,7 @@ import IdentityCard from '../components/IdentityCard'
 import { localizeCard } from '../lib/identityCard/types'
 import RelatedTools from '../components/RelatedTools'
 import DnaTracker from '../components/beauty-dna/DnaTracker'
+import { SaveToAccount } from '../components/beauty-dna/SaveToAccount'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
   BentoFacts,
@@ -221,6 +222,12 @@ export default function FaceShapeResult({ code }: Props) {
 
         {/* 다른 진단 2~3개 끝난 사람에게 "완성까지 N개" 넛지 — 히어로 바로 아래(2026-09-10) */}
         <DnaTracker field="faceShape" code={code} />
+        {/* 진단 직후 = 저장 의향이 가장 높은 자리. 무로그인 결과는 이 브라우저에만 남으므로
+            "잃지 않으려면"이라는 납득되는 이유로만 로그인을 권한다(도구 자체는 계속 무로그인).
+            로그인 상태거나 저장할 게 없으면 SaveToAccount 가 스스로 숨는다.
+            ⚠ 여태 이 띠는 /tools/beauty-dna/ 에만 있었다. 4종을 다 끝내고 그 페이지까지
+              가야 처음 나오니, 1개만 하고 떠나는 대다수에게선 아무것도 못 남겼다. */}
+        <SaveToAccount />
 
         {/* 유형별 롱폼 본문 — 아코디언 안 마소니 한 칸에 갇혀 있던 고유 콘텐츠를 꺼냈다.
             이 글이 각 유형을 다른 유형과 구별해 주는 유일한 자산인데, 접혀 있는 데다

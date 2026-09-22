@@ -89,7 +89,15 @@
 }
 
 :root {
-  font-family: 'Pretendard', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* ⚠ 2026-09-22 — 여기에 "Pretendard Variable" 이 빠져 있어서 **본문 전체가 system-ui 로
+     폴백**되고 있었다. CDN(index.html)이 싣는 건 Variable 한 종뿐이고 정적 'Pretendard' 는
+     아예 로드되지 않는다. 제목은 --font-serif/--font-display 를 따로 쓰므로 멀쩡했고,
+     :root 를 상속하는 본문만 조용히 맑은고딕/애플고딕으로 렌더됐다.
+     실측: 같은 한글 문장 폭이 body 412.7px vs Pretendard 360.0px (14% 차이).
+     ⚠ document.fonts.check('Pretendard') 는 폴백까지 쳐서 true 를 돌려주므로 판정에 쓰지 말 것 —
+       canvas measureText 로 폭을 재야 진짜가 드러난다.
+     단일 소스는 --font-body(위 @theme). var 가 못 풀릴 때를 대비해 같은 스택을 폴백으로 둔다. */
+  font-family: var(--font-body, "Pretendard Variable", "Pretendard", system-ui, -apple-system, 'Segoe UI', sans-serif);
   line-height: 1.5;
   font-weight: 400;
   color: #333;

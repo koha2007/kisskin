@@ -1110,6 +1110,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
             <p>&copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a></p>
             <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-06-29">{isEn ? 'As of June 2026' : '2026년 6월 기준'}</time></p>
+            {/* 언어 전환 — 상단 토글은 <button onClick> 이라 크롤러가 못 따라간다. 검색엔진이
+                반대편 언어를 발견하고 링크 가중치를 넘기려면 진짜 <a> 가 하나는 있어야 한다.
+                ⚠ ToolsLayout 푸터는 이걸 갖고 있는데(그 주석에 "홈을 제외한 전 페이지"라고
+                  적혀 있다) 홈만 빠져 있었다. 홈이 권위가 가장 높은 페이지인데 여기서
+                  /en/ 로 가는 크롤 경로가 0이었다 — 영어권 유입의 입구가 막혀 있던 셈. */}
+            <p>
+              {isEn ? '한국어로 보기: ' : 'Read in English: '}
+              <a href={isEn ? '/' : '/en/'} className="hover:text-primary underline underline-offset-2">
+                {isEn ? '한국어' : 'English'}
+              </a>
+            </p>
           </div>
         </div>
       </footer>
