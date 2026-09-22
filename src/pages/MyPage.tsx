@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
+import { authErrorMessage } from '../lib/authErrors'
+import { clearDna } from '../lib/beauty-dna/types'
 import { getCreditBalance } from '../lib/credits'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
 import { BeautyRecord } from '../components/beauty-dna/BeautyRecord'
@@ -99,6 +101,23 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       window.location.href = '/'
     }
   })
+
+  // 비밀번호 재설정 메일의 링크로 들어온 경우(?recovery=1) — 새 비밀번호를 정하러 온
+  // 사람이다. 그런데 비밀번호 폼은 계정정보·뷰티기록 아래에 있어 화면 밖이라,
+  // 안내 없이는 "링크를 눌렀는데 아무 일도 안 일어난다"가 된다. 그 자리로 데려간다.
+  const passwordCardRef = useRef<HTMLDivElement>(null)
+  const [isRecovery, setIsRecovery] = useState(false)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (new URLSearchParams(window.location.search).get('recovery') !== '1') return
+    setIsRecovery(true)
+    // 주소창에서 표식을 지운다 — 새로고침할 때마다 다시 뜨지 않게.
+    window.history.replaceState(null, '', window.location.pathname)
+  }, [])
+  useEffect(() => {
+    if (!isRecovery || authLoading || !user) return
+    passwordCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [isRecovery, authLoading, user])
 
   // Redirect unauthenticated users to /auth/ once session check finishes
   useEffect(() => {
@@ -207,8 +226,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       setNewPassword('')
       setConfirmNewPassword('')
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err)
-      setPasswordMsg({ type: 'error', text: message })
+      setPasswordMsg({ type: 'error', text: authErrorMessage(err, locale) })
     } finally {
       setPasswordLoading(false)
     }
@@ -232,12 +250,14 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         const data = await res.json().catch(() => ({}))
         throw new Error(data.error || 'Failed to delete account')
       }
+      // 탈퇴했는데 이 브라우저에 진단 결과·생성된 초상이 남아 있으면,
+      // 다음 사람이 그대로 보게 된다. 계정이 사라진 이상 로컬도 함께 지운다.
+      clearDna()
       await supabase.auth.signOut({ scope: 'local' })
       await onLogout()
       window.location.href = '/'
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err)
-      setDeleteError(message)
+      setDeleteError(authErrorMessage(err, locale))
     } finally {
       setDeleteLoading(false)
     }
@@ -553,11 +573,21 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
 
       {/* 비밀번호 변경 - OAuth가 아닌 경우만 */}
       {!isOAuth && (
-        <div style={cardStyle}>
+        <div style={cardStyle} ref={passwordCardRef}>
           <h2 style={sectionTitleStyle}>
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>lock_reset</span>
             {t('mypage.changePassword')}
           </h2>
+          {isRecovery && (
+            <p style={{
+              margin: '0 0 12px', padding: '10px 12px', borderRadius: '4px',
+              background: 'rgba(199, 147, 64, 0.12)', color: C.navy, fontSize: '13px', lineHeight: 1.5,
+            }}>
+              {isKo
+                ? '메일의 링크로 들어오셨습니다. 아래에 새 비밀번호를 정해 주세요.'
+                : 'You came from the reset link. Set your new password below.'}
+            </p>
+          )}
           <form onSubmit={handlePasswordReset}>
             <div style={{ marginBottom: '12px' }}>
               <label style={{ display: 'block', fontSize: '12px', color: C.muted, marginBottom: '6px' }}>

@@ -67,8 +67,18 @@ export function useAuth() {
   }, [])
 
   const signOut = async () => {
-    await supabase.auth.signOut()
-    setUser(null)
+    // scope:'local' — 이 기기만 로그아웃한다 (2026-09-22).
+    //   Supabase 기본값은 'global' 이라 **모든 기기의 세션이 함께 끊긴다.** 폰에서
+    //   로그아웃했다고 데스크톱까지 튕기는 건 아무도 기대하지 않는 동작이고,
+    //   같은 파일 안 탈퇴 경로(MyPage)는 이미 'local' 을 쓰고 있어 서로 달랐다.
+    //   "모든 기기에서 로그아웃"이 필요해지면 그건 별도 버튼으로 둔다.
+    // 실패해도(네트워크 끊김 등) 로컬 상태는 반드시 비운다 — 안 그러면 화면만
+    //   로그인 상태로 남아 "로그아웃이 안 된다"가 된다.
+    try {
+      await supabase.auth.signOut({ scope: 'local' })
+    } finally {
+      setUser(null)
+    }
   }
 
   return { user, loading, signOut }

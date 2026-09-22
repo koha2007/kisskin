@@ -11,12 +11,19 @@
 //
 // 흐름: 로그인 → pull+merge → (localStorage 가 바뀌면) push. 로그아웃 시 구독 해제.
 // 로컬 데이터는 로그아웃해도 지우지 않는다 — 무로그인 사용자와 같은 상태로 돌아갈 뿐이다.
+//
+// ⚠ 그래서 **누구 기록인지**를 따로 들고 있어야 한다(DNA_OWNER_KEY, types.ts).
+//   공용 기기에서 A 로그아웃 → B 로그인 하면 남아 있던 A 의 기록이 B 계정으로
+//   올라갔다. 아래 runSync 의 `foreign` 분기가 그걸 막는다(2026-09-22).
 
 import type { User } from '@supabase/supabase-js'
 import { supabase } from '../supabase'
 import { trackDnaSaved } from '../analytics'
 import {
   readDna,
+  readDnaOwner,
+  writeDnaOwner,
+  clearDnaPortrait,
   DNA_EVENT,
   DNA_FIELDS,
   DNA_STORAGE_KEY,
@@ -156,11 +163,28 @@ function runSync(user: User): () => void {
   void (async () => {
     const remote = await pull(user.id)
     if (stopped) return
-    const local = readDna()
-    const merged = mergeDna(local, remote ?? {})
 
-    // 화면에 없던 기록이 서버에 있었다면 지금 채워 넣는다.
-    if (!sameDna(merged, local)) persistLocal(merged)
+    // 이 브라우저의 기록이 **다른 계정** 것이면 병합하지 않는다 (2026-09-22).
+    //   공용 기기에서 A 로그아웃 → B 로그인 시, 로그아웃해도 남는 localStorage 를
+    //   그대로 병합해 **A 의 진단 결과가 B 계정에 저장**됐다(B 마이페이지에 A 기록이 뜬다).
+    //   이 경우 로컬을 서버 값으로 갈아끼워 B 는 B 것만 보게 한다. A 의 기록은 이미
+    //   A 계정에 올라가 있으므로 사라지지 않는다.
+    //   소유자 표식이 없으면 = 아직 아무 계정에도 안 붙은 익명 기록 → 기존대로 병합한다
+    //   (무로그인으로 도구 → 가입 퍼널이 이 동작에 기대고 있다).
+    const stored = readDna()
+    const owner = readDnaOwner()
+    const foreign = owner !== null && owner !== user.id
+    const local = foreign ? {} : stored
+    const merged = mergeDna(local, remote ?? {})
+    writeDnaOwner(user.id)
+    // 남의 기록이면 그 사람이 만든 초상 이미지도 남겨두지 않는다(얼굴 사진이다).
+    if (foreign) clearDnaPortrait()
+
+    // 화면에 없던 기록이 서버에 있었거나, 남의 기록을 걷어냈다면 로컬을 맞춘다.
+    // ⚠ 비교 대상은 merge 에 쓴 local 이 아니라 **실제 저장돼 있던 값**(stored)이다.
+    //   foreign 이고 서버도 비어 있으면 merged 와 local 은 둘 다 {} 라 같아서,
+    //   local 과 비교하면 남의 기록이 localStorage 에 그대로 남는다.
+    if (!sameDna(merged, stored)) persistLocal(merged)
 
     // 서버가 비어 있거나(첫 로그인) 로컬에만 있는 항목이 있으면 올린다.
     const hasAny = DNA_FIELDS.some((f) => merged[f])

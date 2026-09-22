@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { useI18n } from '../i18n/I18nContext'
 import { isNativeApp } from '../lib/nativePicker'
 import { trackAuthView, trackSignUpStart } from '../lib/analytics'
+import { authErrorMessage } from '../lib/authErrors'
 
 function isInAppBrowser(): boolean {
   const ua = navigator.userAgent || navigator.vendor || ''
@@ -123,7 +124,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           return
         }
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/mypage/`,
+          // ?recovery=1 은 마이페이지가 "지금 새 비밀번호를 정하세요"로 안내하는 신호다.
+          // 토큰은 URL 해시로 오는데 supabase-js 가 처리 후 해시를 지워버리므로,
+          // 해시 대신 **쿼리**에 표식을 둬야 도착 시점에 확실히 읽힌다.
+          redirectTo: `${window.location.origin}/mypage/?recovery=1`,
         })
         if (error) throw error
         setSuccess(t('auth.resetEmailSent'))
@@ -144,7 +148,17 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           },
         })
         if (error) throw error
-        // Supabase는 이미 존재하는 이메일에 에러 없이 빈 session을 반환할 수 있음
+        // ⚠ 이미 가입된 이메일이면 Supabase 는 **에러 없이** 가짜 user 를 돌려준다
+        //   (이메일 존재 여부를 숨기는 기본 동작). 여태 이걸 "확인 메일 보냄"으로 처리해
+        //   오지도 않을 메일을 기다리게 만들었다. identities 가 빈 배열인 게 그 신호다.
+        //   → 로그인/비밀번호 재설정으로 안내한다. 여기서 막히면 그대로 이탈이다.
+        if (data.user && (data.user.identities?.length ?? 1) === 0) {
+          setError(locale === 'ko'
+            ? '이미 가입된 이메일입니다. 로그인하거나 "비밀번호를 잊으셨나요?"를 눌러 주세요.'
+            : 'This email is already registered. Log in, or use "Forgot your password?".')
+          setLoading(false)
+          return
+        }
         if (data.user && !data.session) {
           // 이메일 확인이 필요한 경우
           setSuccess(t('auth.signupSuccess'))
@@ -160,8 +174,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         nav('home')
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err)
-      setError(message)
+      setError(authErrorMessage(err, locale))
     } finally {
       setLoading(false)
     }
@@ -484,7 +497,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                   redirectTo: `${window.location.origin}${next ?? '/'}`,
                 },
               })
-              if (error) setError(error.message)
+              if (error) setError(authErrorMessage(error, locale))
             }}
             style={{
               width: '100%',
