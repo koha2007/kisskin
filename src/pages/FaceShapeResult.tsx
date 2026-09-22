@@ -264,7 +264,21 @@ export default function FaceShapeResult({ code }: Props) {
             있던 구독 폼은 사실상 아무에게도 보이지 않았다. 글을 다 읽은 직후에 둔다. */}
         <section className="pt-2 pb-10 md:pb-14">
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <EmailSubscribe source="face-shape" resultName={name} />
+            <EmailSubscribe
+              source="face-shape"
+              resultName={name}
+              result={{
+                tool: 'face-shape',
+                code: t.code,
+                label: isEn ? 'Face Shape' : '얼굴형',
+                name,
+                tagline,
+                emoji: t.emoji,
+                path: `${basePath}/${t.slug}/`,
+                image: mood.image,
+                facts: features,
+              }}
+            />
           </div>
         </section>
 

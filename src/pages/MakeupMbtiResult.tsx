@@ -337,7 +337,21 @@ export default function MakeupMbtiResult({ code }: Props) {
             제목은 방금 나온 유형 이름을 부른다(resultName). */}
         <section className="pt-2 pb-10 md:pb-14">
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <EmailSubscribe source="makeup-mbti" resultName={isEn ? `${en.enPersona} (${type.code})` : `${displayName}(${type.code})`} />
+            <EmailSubscribe
+              source="makeup-mbti"
+              resultName={isEn ? `${en.enPersona} (${type.code})` : `${displayName}(${type.code})`}
+              result={{
+                tool: 'makeup-mbti',
+                code: type.code,
+                label: isEn ? 'Makeup MBTI' : '메이크업 MBTI',
+                name: `${displayName} (${type.code})`,
+                tagline,
+                emoji: type.emoji,
+                path: `${basePath}/${type.slug}/`,
+                image: mood.image,
+                bars: axes.map(x => ({ left: x.left, right: x.right, value: x.value })),
+              }}
+            />
           </div>
         </section>
 

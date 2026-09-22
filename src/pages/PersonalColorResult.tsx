@@ -221,7 +221,21 @@ export default function PersonalColorResult({ code }: Props) {
             있던 구독 폼은 사실상 아무에게도 보이지 않았다. 글을 다 읽은 직후에 둔다. */}
         <section className="pt-2 pb-10 md:pb-14">
           <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <EmailSubscribe source="personal-color" resultName={name} />
+            <EmailSubscribe
+              source="personal-color"
+              resultName={name}
+              result={{
+                tool: 'personal-color',
+                code: t.code,
+                label: isEn ? 'Personal Color' : '퍼스널컬러',
+                name,
+                tagline,
+                emoji: t.emoji,
+                path: `${basePath}/${t.slug}/`,
+                image: mood.image,
+                swatches: mood.palette,
+              }}
+            />
           </div>
         </section>
 

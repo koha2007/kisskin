@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "check:keywords": "node scripts/check-keywords.mjs",
+    "test:subscribe": "node scripts/test-subscribe.mjs",
     "gen:sitemap": "node scripts/gen-sitemap.mjs",
     "gen:news": "node scripts/gen-news.mjs",
     "gen:products": "node scripts/gen-products.mjs"
