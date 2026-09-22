@@ -263,7 +263,7 @@ export default {
   'auth.loginBtn': 'Login',
   'auth.signupBtn': 'Sign Up',
   'auth.email': 'Email',
-  'auth.emailNotice': 'Important: Please enter your email address correctly. Your analysis report will be sent to this email, so any typo means you won\'t receive your results.',
+  'auth.emailNotice': 'You sign in with this address, and password resets are sent here too. Double-check it for typos.',
   'auth.password': 'Password',
   'auth.confirmPassword': 'Confirm Password',
   'auth.fillAll': 'Please enter email and password.',

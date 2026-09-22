@@ -1,6 +1,7 @@
 import { usePageContext } from 'vike-react/usePageContext'
 import { I18nProvider } from '../src/i18n/context'
 import CookieConsent from '../src/components/CookieConsent'
+import InstallPrompt from '../src/components/InstallPrompt'
 import '../src/index.css'
 import '../src/App.css'
 
@@ -26,6 +27,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         children
       )}
       <CookieConsent />
+      {/* 홈 화면 설치 유도 — 쿠키 배너가 정리된 뒤에만 뜬다(둘 다 화면 아래 고정). */}
+      <InstallPrompt />
     </I18nProvider>
   )
 }

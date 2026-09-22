@@ -59,5 +59,39 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["beauty", "lifestyle"]
+  "categories": [
+    "beauty",
+    "lifestyle"
+  ],
+  "id": "/",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "shortcuts": [
+    {
+      "name": "무료 진단 4가지",
+      "short_name": "무료 진단",
+      "url": "/tools/",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "AI 메이크업",
+      "short_name": "AI 메이크업",
+      "url": "/analysis/",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
 }

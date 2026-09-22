@@ -364,7 +364,10 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               padding: '12px',
               borderRadius: R.sm,
               border: 'none',
-              background: loading ? C.muted : C.primary,
+              // ⚠ 흰 글자가 얹히는 면이라 원색(#eb4763)을 쓰면 안 된다 — 15px bold 기준
+              // 3.74:1 로 AA(4.5:1) 미달이었다(2026-09-23 실측). 글자가 끼는 자리는
+              // primary-dark 가 규칙이다(src/index.css 팔레트 주석).
+              background: loading ? C.muted : C.primaryDark,
               color: '#fff',
               fontSize: '15px',
               fontWeight: 700,
@@ -476,7 +479,8 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 padding: '10px 20px',
                 borderRadius: R.sm,
                 border: 'none',
-                background: C.primary,
+                // 같은 이유로 여기도 primary-dark — 13px 라 대비 여유가 더 없다.
+                background: C.primaryDark,
                 color: '#fff',
                 fontSize: '13px',
                 fontWeight: 600,
