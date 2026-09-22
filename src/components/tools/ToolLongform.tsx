@@ -38,7 +38,7 @@ export default function ToolLongform({
   return (
     <section className="bg-white py-14 md:py-20">
       <div className="mx-auto max-w-[46rem] px-5 sm:px-6">
-        <p className="t-eyebrow text-primary mb-3">{eyebrow}</p>
+        <p className="t-eyebrow text-primary-dark mb-3">{eyebrow}</p>
         <h2 className="t-h1 text-navy mb-8">{title}</h2>
 
         {/* 본문 폭을 68ch 안쪽으로 묶는다 — 한 줄이 길면 읽다 놓친다 */}

@@ -11,6 +11,7 @@ import ShareBar from '../components/ShareBar'
 import ToolFaq from '../components/ToolFaq'
 import RegionToggle from '../components/RegionToggle'
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
+import { EmailSubscribe } from '../components/EmailSubscribe'
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import { useBeautyDna } from '../hooks/useBeautyDna'
 import { getPersona } from '../lib/beauty-dna/persona'
@@ -125,6 +126,16 @@ export default function BeautyDna() {
         ) : (
           <IncompleteView isEn={isEn} />
         )}
+
+        {/* 주간 레터 — 4종을 다 끝낸 사람은 우리 콘텐츠에 가장 깊이 들어온 사람이다.
+            공유 링크로 남의 결과를 보는 중이라면 권하지 않는다(내 페이지가 아니다). */}
+        {!readOnly && (
+          <section className="pb-12 md:pb-16">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6">
+              <EmailSubscribe source="beauty-dna" />
+            </div>
+          </section>
+        )}
       </main>
       <ToolsFooter />
     </div>
@@ -159,7 +170,7 @@ function CompleteView({ dna, isEn, readOnly = false, onReset }: { dna: BeautyDna
       {/* 통합 리드아웃 */}
       <section className="py-10 md:py-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-3">{L.chips}</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary-dark mb-3">{L.chips}</p>
           <div className="flex flex-wrap justify-center gap-2 mb-5">
             {DNA_FIELDS.map((f) => {
               const d = dnaTypeDisplay(f, dna, isEn)

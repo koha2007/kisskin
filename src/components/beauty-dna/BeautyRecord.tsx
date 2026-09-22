@@ -43,7 +43,7 @@ export function BeautyRecord({ bare = false }: Props) {
           {isEn ? `${done} of ${total} done` : `${total}개 중 ${done}개 완료`}
         </span>
         {done > 0 && (
-          <a href={href('/tools/beauty-dna/')} style={{ fontSize: 13, fontWeight: 600, color: '#eb4763', textDecoration: 'none' }}>
+          <a href={href('/tools/beauty-dna/')} style={{ fontSize: 13, fontWeight: 600, color: '#c9304a', textDecoration: 'none' }}>
             {done === total
               ? (isEn ? 'See my full reading →' : '통합 해석 보기 →')
               : (isEn ? 'See what I have →' : '지금까지 결과 보기 →')}
@@ -75,7 +75,7 @@ export function BeautyRecord({ bare = false }: Props) {
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.name}</span>
                 </div>
               ) : (
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#eb4763' }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#c9304a' }}>
                   {isEn ? 'Take it →' : '진단하기 →'}
                 </div>
               )}
@@ -92,7 +92,7 @@ export function BeautyRecord({ bare = false }: Props) {
             <span style={{ fontSize: 13, fontWeight: 700, color: '#070953' }}>
               {isEn ? 'My makeup looks' : '내 메이크업 룩'}
             </span>
-            <a href={href('/analysis/')} style={{ fontSize: 13, fontWeight: 600, color: '#eb4763', textDecoration: 'none' }}>
+            <a href={href('/analysis/')} style={{ fontSize: 13, fontWeight: 600, color: '#c9304a', textDecoration: 'none' }}>
               {isEn ? 'Make another →' : '새로 만들기 →'}
             </a>
           </div>

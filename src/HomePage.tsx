@@ -5,6 +5,7 @@ import ToolCard from './components/ToolCard'
 import SectionHeader from './components/home/SectionHeader'
 import DnaProgress from './components/beauty-dna/DnaProgress'
 import HomeContentSections from './components/HomeContentSections'
+import { EmailSubscribe } from './components/EmailSubscribe'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, styleById, type MakeupStyleId } from './lib/makeup/styles'
@@ -180,7 +181,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             {/* Mobile-only AI button + hamburger */}
             <button
               onClick={() => onNavigate('analysis')}
-              className="sm:hidden bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
+              className="sm:hidden bg-primary-dark text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
             >
               {t('tools.nav.aiMakeup')}
             </button>
@@ -308,7 +309,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="contents md:flex md:flex-col md:items-start md:gap-6">
             <div className="order-1 md:order-none flex flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
               {/* 눈에 띄는 알약 배지 → 담백한 eyebrow 라벨. 브랜드 한글명은 SEO 위해 유지 */}
-              <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary">
+              <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">
                 {t('home.hero.badge')}
               </p>
 
@@ -619,7 +620,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
             {/* 유료 트랙 */}
             <div className="flex flex-col rounded-2xl border border-primary/30 bg-primary/[0.07] p-6 md:p-8">
-              <span className="inline-flex w-fit items-center rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white mb-4">
+              <span className="inline-flex w-fit items-center rounded-full bg-primary-dark px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white mb-4">
                 {t('home.how.payBadge')}
               </span>
               <h3 className="font-serif text-xl md:text-2xl font-semibold text-white mb-6 leading-snug">
@@ -642,7 +643,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </div>
               <a
                 href="/analysis/"
-                className="mt-6 inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 font-bold text-sm hover:bg-primary-dark transition-colors"
+                className="mt-6 inline-flex items-center justify-center gap-2 bg-primary-dark text-white px-6 py-3 font-bold text-sm hover:brightness-90 transition-[filter]"
               >
                 {t('home.how.payCta')}
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
@@ -683,7 +684,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   />
                 </div>
                 <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-on-dark mb-3">
                     {t('home.dna.featLabel')}
                   </p>
                   <p className="text-white/80 text-sm md:text-base mb-4 max-w-xl leading-relaxed">
@@ -757,7 +758,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 className="h-16 w-16 shrink-0 rounded-xl object-cover object-top"
               />
               <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-bold uppercase tracking-wide text-primary">
+                <p className="text-[11px] font-bold uppercase tracking-wide text-primary-dark">
                   {t('home.toolsShowcase.signatureBadge')}
                 </p>
                 <p className="font-bold text-navy leading-tight">{t('home.toolsShowcase.mainTitle')}</p>
@@ -783,6 +784,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
       {/* ── 최신 콘텐츠 (메이크업 제품 + 뉴스) — 주 1회 자동 발행 피드 노출 ── */}
       <HomeContentSections />
+
+      {/* ── 주간 레터 구독 ── */}
+      {/* 홈에서 가장 값싼 전환이다. 바로 아래 큰 CTA 는 "AI 메이크업 시작"(가입·크레딧이
+          필요한 높은 문턱)이라, 아직 거기까지 갈 마음이 없는 사람이 남기고 갈 수 있는
+          자리가 하나도 없었다. 위 피드(신제품·뉴스)를 방금 본 직후라 "그걸 메일로"가
+          가장 자연스럽게 이어진다. 흰 바탕 위 크림 카드로 두어 아래 네이비 CTA 와 겹치지 않게. */}
+      <section className="bg-white py-14 md:py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <EmailSubscribe source="home" />
+        </div>
+      </section>
 
       {/* ── 하단 CTA (핑크) ── */}
       {/* 2026-07-22 개편: 핑크 3색 그라디언트 + blur blob + 떠 있는 알약 버튼을 전부 뺐다.
@@ -909,7 +921,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <article>
                   <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Why AI makeup simulation helps</h3>
                   <p>
-                    The biggest hesitation before trying a new look is the question <strong className="text-primary">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 9 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
+                    The biggest hesitation before trying a new look is the question <strong className="text-primary-dark">“will this actually suit me?”</strong> — and the time and money you lose if it doesn’t. Swatching every shade in-store is a hassle, and once you’ve bought color cosmetics online, returns are often difficult or impossible. kissinskin lets you simulate 9 signature K-beauty looks from a single selfie, so you can preview the real color payoff and the change in impression before you commit.
                   </p>
                   <p>
                     The AI reads your facial contours, features, and skin tone, then blends the makeup on naturally. Unlike a Photoshop paste-over, it keeps the direction of light, your skin texture, and the curves of your face intact — adding only the lip, cheek, and skin retouching with precision. The result looks close to “you, actually wearing the makeup,” so any look you like is easy to recreate.
@@ -942,7 +954,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <article>
                   <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">Privacy and AI accuracy</h3>
                   <p>
-                    Your uploaded selfie is used for the AI synthesis and then processed and deleted without delay; it is never reused as training data. Result images are not exposed externally unless you explicitly save or share them. kissinskin processes data only within the scope you’ve consented to — see our <a href="/en/privacy/" className="text-primary font-semibold hover:underline">Privacy Policy</a> for details.
+                    Your uploaded selfie is used for the AI synthesis and then processed and deleted without delay; it is never reused as training data. Result images are not exposed externally unless you explicitly save or share them. kissinskin processes data only within the scope you’ve consented to — see our <a href="/en/privacy/" className="text-primary-dark font-semibold hover:underline">Privacy Policy</a> for details.
                   </p>
                   <p>
                     AI makeup synthesis is highly accurate, but not perfect. Photos where the face is turned too far to the side, the lighting is heavily skewed, or a mask or glasses cover a lot can look awkward in some looks. A front-facing selfie in natural light gives the most natural result, and if you don’t like the outcome, try again with a different photo. Confirming the actual shade in-store one more time right before you apply your makeup greatly reduces the chance of a miss.
@@ -954,7 +966,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <article>
                   <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">AI 메이크업 시뮬레이션이 필요한 이유</h3>
                   <p>
-                    새로운 메이크업 룩에 도전할 때 가장 큰 부담은 <strong className="text-primary">"내 얼굴에 어울릴까?"</strong>라는 의문과
+                    새로운 메이크업 룩에 도전할 때 가장 큰 부담은 <strong className="text-primary-dark">"내 얼굴에 어울릴까?"</strong>라는 의문과
                     실패할 경우 발생하는 시간·비용 손실입니다. 매장에서 일일이 발색하기에는 매장 동선이 부담스럽고,
                     온라인 색조 화장품을 구매한 뒤에는 환불이 까다롭거나 사실상 불가능한 경우도 많습니다.
                     kissinskin은 셀카 한 장으로 9가지 K-뷰티 시그니처 룩을 즉시 시뮬레이션해
@@ -1008,7 +1020,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     업로드된 셀카는 AI 합성에 사용된 후 지체 없이 처리·삭제되며, 학습 데이터로 재사용되지 않습니다.
                     결과 이미지는 본인이 명시적으로 저장·공유하지 않는 한 외부에 노출되지 않습니다.
                     kissinskin은 사용자가 동의한 범위 내에서만 데이터를 처리하며,
-                    자세한 내용은 <a href="/privacy/" className="text-primary font-semibold hover:underline">개인정보처리방침</a> 페이지에서 확인할 수 있습니다.
+                    자세한 내용은 <a href="/privacy/" className="text-primary-dark font-semibold hover:underline">개인정보처리방침</a> 페이지에서 확인할 수 있습니다.
                   </p>
                   <p>
                     AI 메이크업 합성은 매우 정확하지만 완벽하지는 않습니다.

@@ -22,6 +22,7 @@ import BentoGrid, {
 import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 import { TypePreviewCard } from '../components/tools/ToolLanding'
+import { EmailSubscribe } from '../components/EmailSubscribe'
 import { trackToolPromotion } from '../lib/analytics'
 
 interface Props { code: FaceShapeCode }
@@ -314,6 +315,16 @@ export default function FaceShapeResult({ code }: Props) {
                 )
               })}
             </div>
+          </div>
+        </section>
+
+        {/* 주간 레터 — 페이지 끝. 히어로 아래 SaveToAccount(가입=높은 문턱)와 일부러
+            멀리 떼어 놓았다. 두 제안이 붙어 있으면 둘 다 광고로 읽히고, 끝까지 내려온
+            사람은 이미 이 도구를 신뢰한 상태라 낮은 문턱(이메일 한 줄)이 먹힌다.
+            source 로 어느 진단이 구독자를 만드는지 갈라 본다. */}
+        <section className="pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+            <EmailSubscribe source="face-shape" />
           </div>
         </section>
       </main>

@@ -132,7 +132,7 @@ export default function HubShell({
         <section className="border-b border-slate-200 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
             <div className="max-w-2xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary mb-3">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-dark mb-3">
                 {eyebrow}
               </div>
               <h1 className="font-serif text-[28px] md:text-[44px] font-semibold text-navy leading-[1.15] tracking-tight mb-3">
@@ -277,7 +277,7 @@ export default function HubShell({
         {/* CTA — content visitors → AI tool. Closes the funnel that GA shows broken. */}
         <section className="border-t border-slate-200 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary mb-3">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-dark mb-3">
               kissinskin · AI tool
             </div>
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy mb-2 tracking-tight">
@@ -290,7 +290,7 @@ export default function HubShell({
             </p>
             <a
               href={isEn ? '/en/' : '/analysis/'}
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-7 py-3.5 text-sm md:text-base font-bold transition-colors"
+              className="inline-flex items-center gap-2 bg-primary-dark hover:brightness-90 text-white px-7 py-3.5 text-sm md:text-base font-bold transition-colors"
             >
               {isEn ? 'Start AI Makeup' : 'AI 메이크업 시작'}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
@@ -412,7 +412,7 @@ function FeaturedCard({ item, href, isEn }: { item: HubItem; href: string; isEn:
         </h2>
         <p className="text-slate-600 text-[15px] leading-relaxed line-clamp-3 mb-4">{item.summary}</p>
         <MetaRow item={item} isEn={isEn} />
-        <span className="inline-flex items-center gap-1 mt-4 text-sm font-bold text-primary group-hover:gap-2 transition-all">
+        <span className="inline-flex items-center gap-1 mt-4 text-sm font-bold text-primary-dark group-hover:gap-2 transition-all">
           {isEn ? 'Read' : '읽기'}
           <span className="material-symbols-outlined text-sm">arrow_forward</span>
         </span>

@@ -62,10 +62,10 @@ export default function FaceShapeQuiz() {
           title={isEn ? "What's your face shape?" : '나의 얼굴형은?'}
           subtitle={isEn ? (
             <>6 questions to identify oval, round, square, oblong, or heart.
-              <strong className="text-primary"> Per-shape contouring</strong>, makeup, hair, and eyewear guidance included.</>
+              <strong className="text-primary-dark"> Per-shape contouring</strong>, makeup, hair, and eyewear guidance included.</>
           ) : (
             <>6문항으로 알아보는 계란형·둥근형·각진형·긴형·하트형.
-              <strong className="text-primary"> 얼굴형별 맞춤 컨투어링</strong>과 메이크업·헤어·안경 가이드를 함께 제공합니다.</>
+              <strong className="text-primary-dark"> 얼굴형별 맞춤 컨투어링</strong>과 메이크업·헤어·안경 가이드를 함께 제공합니다.</>
           )}
           startLabel={t('tools.common.startDiagnosis')}
           onStart={() => setPhase('quiz')}

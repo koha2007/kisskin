@@ -18,9 +18,33 @@
    다시 선언하면 `text-primary`·`bg-navy` 같은 클래스가 그대로 다른 색으로 해석된다.
    호출부를 고칠 필요가 없다.
    ───────────────────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────────
+   액센트와 명도대비 (2026-09-22 실측으로 정한 규칙)
+
+   실측하니 렌더된 10개 페이지에서 WCAG AA(4.5:1) 미달 텍스트가 131건 나왔고,
+   원인은 거의 전부 **액센트 원색을 글자에 쓴 것** 하나였다.
+
+     브랜드 핑크 #eb4763  흰 배경 3.74 · 흰 글자를 얹어도 3.74   (기준 4.5)
+     힐다 버밀리언 #d8503c 흰 배경 4.09 · 흰 글자를 얹어도 4.09
+     도구 6색(틸 3.07 · 세이지 3.10 · 머스터드 2.74 · 플럼 4.31)
+
+   두 값이 같은 이유는 둘 다 '흰색과의 대비'이기 때문이다. 즉 액센트가 글자든 바탕이든
+   **글자가 끼면 똑같이 미달**한다. 그래서 규칙을 색이 아니라 역할로 정한다.
+
+     --color-primary       면·틴트·테두리·점·아이콘 등 **글자가 아닌 것**, 그리고
+                           24px 이상(또는 18.66px 이상 bold) 큰 글자
+     --color-primary-dark  **글자가 끼는 모든 자리** — 작은 라벨의 글자색이자,
+                           흰 글자를 얹는 버튼의 바탕색. 밝은 배경 기준 4.9~5.9:1
+     --color-primary-on-dark  네이비 위에 얹는 액센트 글자(어두운 배경에선 반대로 밝혀야 한다)
+
+   데이터에서 색이 오는 자리(퍼스널컬러 4계절색 등)는 상수로 못 박을 수 없으므로
+   src/lib/a11y/readableInk.ts 가 런타임에 같은 계산을 한다.
+   ───────────────────────────────────────────────────────────────────────── */
 @theme {
   --color-primary: #eb4763;
   --color-primary-dark: #c9304a;
+  /* 네이비(#070953) 위 — 브랜드 핑크는 어두운 배경에선 이미 4.79:1 이라 그대로 쓴다. */
+  --color-primary-on-dark: #eb4763;
   --color-background-light: #f8f6f6;
   --color-background-dark: #211114;
   --color-cream: #faf7f2;
@@ -39,6 +63,17 @@
   --color-tool-face: #7e9b6a;     /* 얼굴형 — 세이지 */
   --color-tool-perfume: #8e6e9e;  /* 향수 — 플럼 */
   --color-tool-guide: #4a5488;    /* 가이드 — 인디고 */
+  /* 같은 6색의 '잉크' 단계 — 글자에만 쓴다(면·점·아이콘은 위 원색 그대로).
+     원색은 밝기가 높아 흰 배경에서 2.7~4.3:1 밖에 안 나온다. 색상·채도는 그대로 두고
+     명도만 내려 4.5:1 을 맞춘 값이다. 인디고는 이미 7.2:1 이라 같은 값을 쓴다.
+     ⚠ 짝을 이루는 값이므로 위 원색을 바꾸면 이 줄도 같이 다시 계산할 것
+       (계산식은 src/lib/a11y/readableInk.ts 와 동일하다). */
+  --color-tool-ai-ink: #c9304a;
+  --color-tool-mbti-ink: #3d7b81;
+  --color-tool-pc-ink: #936b2b;
+  --color-tool-face-ink: #617951;
+  --color-tool-perfume-ink: #876698;
+  --color-tool-guide-ink: #4a5488;
   /* 디자인 시스템: 폰트 1족(Pretendard Variable)만 사용 (DESIGN_SYSTEM.md 단일 소스) */
   /* 본문(body): Pretendard Variable — index.html/+Head.tsx 에서 실제 로드됨 */
   --font-body: "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -65,6 +100,8 @@
 .palette-hilda {
   --color-primary: #d8503c;
   --color-primary-dark: #b03e2d;
+  /* 힐다 네이비(#232a52) 위에서 원색 버밀리언은 3.37:1 로 미달 → 밝은 쪽으로 보정(4.5:1). */
+  --color-primary-on-dark: #e58575;
   --color-background-light: #f5efe3;
   --color-background-dark: #1b1f3a;
   --color-cream: #f2ead9;
@@ -79,6 +116,7 @@
 .palette-brand {
   --color-primary: #eb4763;
   --color-primary-dark: #c9304a;
+  --color-primary-on-dark: #eb4763;
   --color-background-light: #f8f6f6;
   --color-background-dark: #211114;
   --color-cream: #faf7f2;

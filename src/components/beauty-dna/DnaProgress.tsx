@@ -119,7 +119,7 @@ export default function DnaProgress({ compact = false, dark = false, className =
               </div>
               <div className="p-3">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">{label}</p>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-dark">
                   {t('tools.beautyDna.doQuiz')}
                   <span className="material-symbols-outlined text-sm">arrow_forward</span>
                 </span>

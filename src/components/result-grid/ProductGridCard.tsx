@@ -18,6 +18,7 @@ import { getClioCategoryByIcon, getClioLinkByIcon } from '../../lib/affiliate/ca
 import { trackAffiliateClick, type AffiliatePageType } from '../../lib/affiliate/track'
 import { GridCard } from './ResultGrid'
 import { BentoTile, type BentoSpan } from './BentoGrid'
+import { readableInk } from '../../lib/a11y/readableInk'
 
 // Calm, compact buttons — outline chips instead of a loud full-bleed fill
 // (재설계 지시 §4). `border` here sets width only; color comes per-variant.
@@ -100,7 +101,7 @@ export function ProductGridCard({
             rel="noopener noreferrer nofollow sponsored"
             onClick={() => trackAffiliateClick({ merchant: 'amazon', category: item.icon, pageType, pageSlug, slot })}
             className={`${btn} bg-white`}
-            style={{ color: accent, borderColor: `${accent}59` }}
+            style={{ color: readableInk(accent, '#ffffff'), borderColor: `${accent}59` }}
           >
             🛒 {t('region.amazonButton')}
           </a>
@@ -109,7 +110,7 @@ export function ProductGridCard({
             target="_blank"
             rel="noopener noreferrer nofollow sponsored"
             onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: item.icon, pageType, pageSlug, slot })}
-            className={`${btn} border border-amber-300 bg-white text-amber-600`}
+            className={`${btn} border border-amber-300 bg-white text-amber-700`}
           >
             ⭐ {t('region.yesstyleButton')}
           </a>
@@ -122,7 +123,7 @@ export function ProductGridCard({
             rel="sponsored noopener noreferrer"
             onClick={() => trackAffiliateClick({ merchant: 'coupang', category: item.icon, pageType, pageSlug, slot })}
             className={`${btn} bg-white`}
-            style={{ color: accent, borderColor: `${accent}59` }}
+            style={{ color: readableInk(accent, '#ffffff'), borderColor: `${accent}59` }}
           >
             🛒 {t('recProducts.findProducts')}
           </a>
@@ -132,7 +133,7 @@ export function ProductGridCard({
               target="_blank"
               rel="sponsored noopener noreferrer"
               onClick={() => trackAffiliateClick({ merchant: 'clubclio', category: clioCategory ?? 'main', pageType, pageSlug, slot })}
-              className={`${btn} border border-primary/30 bg-white text-primary`}
+              className={`${btn} border border-primary/30 bg-white text-primary-dark`}
             >
               🌹 {t('recProducts.findOnClio')}
             </a>

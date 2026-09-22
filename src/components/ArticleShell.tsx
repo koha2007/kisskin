@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { ToolsNav, ToolsFooter } from './ToolsLayout'
 import { useI18n } from '../i18n/I18nContext'
+import { EmailSubscribe } from './EmailSubscribe'
 
 export type RelatedItem = {
   slug: string
@@ -249,6 +250,16 @@ export default function ArticleShell({
                 </div>
               </a>
             </div>
+          </div>
+        </section>
+
+        {/* 주간 레터 — 글을 끝까지 읽은 사람에게만 권한다. 읽기를 마친 뉴스 독자는
+            "이런 소식을 계속 받겠다"가 가장 자연스러운 지점이라 전환이 제일 높다.
+            아래 AI 메이크업 CTA(유료 퍼널)와 목적이 달라 둘 다 둔다 — 순서는 낮은
+            문턱(이메일) → 높은 문턱(도구 시작). */}
+        <section className="border-t border-slate-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+            <EmailSubscribe source="article" />
           </div>
         </section>
 

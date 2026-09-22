@@ -73,7 +73,7 @@ export default function HomeContentSections() {
                     </span>
                   </div>
                   <div className="p-3">
-                    <div className="text-[11px] font-bold uppercase tracking-wide text-primary truncate">{p.brand}</div>
+                    <div className="text-[11px] font-bold uppercase tracking-wide text-primary-dark truncate">{p.brand}</div>
                     <h3 className="text-[13px] font-semibold leading-snug text-navy line-clamp-2 group-hover:text-primary transition-colors">
                       {p.name}
                     </h3>
@@ -124,7 +124,7 @@ export default function HomeContentSections() {
                     </span>
                   </div>
                   <div className="p-3">
-                    <div className="text-[11px] font-bold uppercase tracking-wide text-primary truncate">{fmt(n.date)}</div>
+                    <div className="text-[11px] font-bold uppercase tracking-wide text-primary-dark truncate">{fmt(n.date)}</div>
                     <h3 className="text-[13px] font-semibold leading-snug text-navy line-clamp-2 group-hover:text-primary transition-colors">
                       {n.title}
                     </h3>

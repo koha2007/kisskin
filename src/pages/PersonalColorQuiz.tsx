@@ -65,10 +65,10 @@ export default function PersonalColorQuiz() {
           title={isEn ? "What's your personal color?" : '나의 퍼스널 컬러는?'}
           subtitle={isEn ? (
             <>6 questions to find your season — Spring Warm, Summer Cool, Autumn Warm, or Winter Cool.
-              <strong className="text-primary"> Per-season color and makeup guidance</strong> grounded in the 4-season system.</>
+              <strong className="text-primary-dark"> Per-season color and makeup guidance</strong> grounded in the 4-season system.</>
           ) : (
             <>6문항으로 알아보는 봄 웜톤 / 여름 쿨톤 / 가을 웜톤 / 겨울 쿨톤.
-              <strong className="text-primary"> 4계절 퍼스널 컬러 시스템</strong>에 기반해 나에게 어울리는 색과 메이크업을 추천해드립니다.</>
+              <strong className="text-primary-dark"> 4계절 퍼스널 컬러 시스템</strong>에 기반해 나에게 어울리는 색과 메이크업을 추천해드립니다.</>
           )}
           startLabel={t('tools.common.startDiagnosis')}
           onStart={() => setPhase('quiz')}

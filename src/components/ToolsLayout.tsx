@@ -117,7 +117,7 @@ export function ToolsNav() {
           {/* Mobile-only AI button + hamburger */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="sm:hidden bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
+            className="sm:hidden bg-primary-dark text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>

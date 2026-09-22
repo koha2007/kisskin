@@ -43,6 +43,33 @@ export async function optoutUrl(secret: string, email: string): Promise<string> 
   return `${SITE}/api/email-optout?e=${encodeURIComponent(email)}&t=${t}`
 }
 
+// ── 용도별 서명 (구독 확인 링크) ────────────────────────────────────
+// 위 signEmail 은 "수신거부" 전용이다. 구독 확인 링크에 같은 서명을 쓰면 한쪽에서 샌
+// 토큰으로 다른 쪽을 실행할 수 있으므로, 용도 문자열을 붙여 서로 다른 값이 나오게 한다.
+
+export async function signScoped(secret: string, scope: string, email: string): Promise<string> {
+  const key = await hmacKey(secret)
+  const sig = await crypto.subtle.sign(
+    'HMAC',
+    key,
+    new TextEncoder().encode(`${scope}:${email.toLowerCase()}`),
+  )
+  return toHex(sig)
+}
+
+export async function verifyScoped(
+  secret: string,
+  scope: string,
+  email: string,
+  hex: string,
+): Promise<boolean> {
+  if (!hex || !/^[0-9a-f]{64}$/i.test(hex)) return false
+  const expected = await signScoped(secret, scope, email)
+  let diff = 0
+  for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ hex.charCodeAt(i)
+  return diff === 0
+}
+
 // ── 링크 추적 (UTM) ────────────────────────────────────────────────
 // 2026-09-21: 다이제스트가 사이트로 사람을 얼마나 데려오는지 **우리 쪽에서** 재는 장치.
 // Resend 대시보드의 열람/클릭은 Resend 안에만 남고 GA4 와 이어지지 않는다. UTM 을

@@ -59,7 +59,7 @@ export function ToolHero({
   return (
     <section className="relative bg-white py-14 md:py-20">
       <div className="relative mx-auto max-w-3xl px-4 sm:px-6 text-center">
-        <p className="t-eyebrow mb-5 inline-flex items-center gap-2 text-primary">
+        <p className="t-eyebrow mb-5 inline-flex items-center gap-2 text-primary-dark">
           <span className="material-symbols-outlined text-sm">{badgeIcon}</span>
           {badge}
         </p>
@@ -79,7 +79,7 @@ export function ToolHero({
         {firstQuestion ? (
           /* 첫 문항을 여기서 바로 받는다 — "시작" 버튼 단계가 사라진다 */
           <div className="mx-auto max-w-xl border border-navy/20 bg-cream p-5 text-left md:p-7">
-            <p className="t-eyebrow mb-2 text-primary">{firstQuestion.tag}</p>
+            <p className="t-eyebrow mb-2 text-primary-dark">{firstQuestion.tag}</p>
             <p className="t-h2 mb-5 text-navy">{firstQuestion.text}</p>
             <div className="flex flex-col gap-2.5">
               {firstQuestion.options.map((o) => (
@@ -99,7 +99,7 @@ export function ToolHero({
         ) : (
           <button
             onClick={onStart}
-            className="bg-primary px-10 py-4 text-lg font-bold text-white transition-colors hover:bg-primary-dark"
+            className="bg-primary-dark px-10 py-4 text-lg font-bold text-white transition-[filter] hover:brightness-90"
           >
             {startLabel}
           </button>
@@ -245,7 +245,7 @@ export function TypePreviewSection({
         <div className="text-center mt-10">
           <button
             onClick={onStart}
-            className="bg-primary hover:bg-primary-dark text-white px-10 py-4 text-lg font-bold inline-flex items-center gap-2 transition-colors"
+            className="bg-primary-dark hover:brightness-90 text-white px-10 py-4 text-lg font-bold inline-flex items-center gap-2 transition-[filter]"
           >
             {startLabel}
             <span className="material-symbols-outlined">arrow_forward</span>

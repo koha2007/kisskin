@@ -35,7 +35,7 @@ export default function SectionHeader({
   }`
   return (
     <div className={`max-w-2xl mx-auto text-center mb-10 md:mb-14 ${className}`}>
-      <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3">
+      <p className={`text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] mb-3 ${dark ? 'text-primary-on-dark' : 'text-primary-dark'}`}>
         {eyebrow}
       </p>
       {level === 3 ? (

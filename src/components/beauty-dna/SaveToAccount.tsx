@@ -29,15 +29,22 @@ export function SaveToAccount() {
     <section className="bg-navy">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
+          {/* 카피 규칙(2026-09-22): "저장하세요"라는 **우리 쪽 동작**이 아니라
+              저장하면 그 사람에게 무엇이 남는지를 먼저 말한다. 잃는 것(브라우저에만 있음)만
+              말하면 겁주기로 읽히고, 얻는 것(4개가 모이면 통합 해석)이 빠져 있었다. */}
           <p className="text-white font-bold text-sm md:text-base">
             {isEn
-              ? `Save your ${done} of ${total} results to your account`
-              : `진단 결과 ${total}개 중 ${done}개, 계정에 저장할까요?`}
+              ? done >= total
+                ? 'Keep all your results — and your combined reading'
+                : `Keep your ${done} result${done > 1 ? 's' : ''} — and pick up where you left off`
+              : done >= total
+                ? '진단 4가지 완료 — 결과와 통합 해석을 계정에 남겨두세요'
+                : `여기까지 한 ${done}개, 다음에도 이어서 볼 수 있게 남겨두세요`}
           </p>
           <p className="text-white/70 text-xs md:text-sm mt-1">
             {isEn
-              ? 'Right now they live only in this browser — clearing it or switching phones loses them.'
-              : '지금은 이 브라우저에만 있어요. 브라우저를 지우거나 폰을 바꾸면 사라져요.'}
+              ? 'They live only in this browser right now. Saving keeps them across devices, and once all four are in we read them together into one makeup profile.'
+              : '지금은 이 브라우저에만 있어요. 저장해 두면 폰을 바꿔도 따라오고, 4가지가 모이면 하나의 메이크업 해석으로 묶어드려요.'}
           </p>
         </div>
         <a
@@ -45,7 +52,9 @@ export function SaveToAccount() {
           onClick={() => trackSaveIntent(done, total)}
           className="inline-flex items-center justify-center gap-2 bg-white text-navy px-6 py-3 font-bold text-sm whitespace-nowrap hover:bg-white/90 transition-colors"
         >
-          {isEn ? 'Save my results' : '결과 저장하기'}
+          {/* 로그인이 필요하다는 사실을 버튼에서 숨기지 않는다 — 눌러보고 로그인 화면이 뜨면
+              그 자리에서 이탈한다(2026-07-31 "가입 없이"가 거짓이었던 건과 같은 뿌리). */}
+          {isEn ? 'Save — free account' : '무료 계정으로 저장'}
           <span className="material-symbols-outlined text-base">arrow_forward</span>
         </a>
       </div>

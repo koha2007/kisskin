@@ -113,3 +113,24 @@ export function trackSaveIntent(done: number, total: number): void {
 export function trackDnaSaved(fields: number): void {
   trackEvent('dna_saved', { results_saved: fields })
 }
+
+// ── 이메일 구독 (2026-09-22) ────────────────────────────────────────
+// 가입 퍼널(auth_view → sign_up)과 **별개의 퍼널**이다. 가입까지 가지 않는 사람을
+// 담는 낮은 문턱이라, 둘을 한 지표로 합치면 무엇이 듣는지 안 보인다.
+//   subscribe_submit  폼 제출(신청 시도)
+//   subscribe_pending 확인 메일 발송 성공 — 화면에서 잴 수 있는 마지막 지점
+//   subscribe_already 이미 구독 중이던 주소
+//   subscribe_error   실패
+// ⚠ 진짜 구독 성립(확인 클릭)은 메일 밖에서 일어나 GA4 에 안 잡힌다. 실제 구독자 수는
+//   Supabase public.email_subscriber(confirmed_at not null) 가 유일한 진실이다.
+// ⚠ source 파라미터를 화면별로 보려면 GA4 맞춤측정기준(이벤트 범위)에 `source` 등록 필요.
+
+/** 구독 폼 제출. slot = 어느 화면(personal-color / article / home …). */
+export function trackSubscribeSubmit(source: string): void {
+  trackEvent('subscribe_submit', { source })
+}
+
+/** 확인 메일이 나갔다(= 신청 성공). */
+export function trackSubscribePending(source: string): void {
+  trackEvent('subscribe_pending', { source })
+}

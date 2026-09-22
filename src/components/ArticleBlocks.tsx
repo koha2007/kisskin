@@ -82,7 +82,7 @@ export function Verdict({ children, label = 'Final Verdict' }: { children: React
         <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
           stars
         </span>
-        <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+        <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-dark">
           {label}
         </div>
       </div>

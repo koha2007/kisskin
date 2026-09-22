@@ -172,7 +172,10 @@ export default function ShareBar({
             href={facebookUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#1877F2] text-white hover:bg-[#155bd0] hover:shadow-md text-sm font-semibold transition-all"
+            /* 페이스북 정식 파랑 #1877F2 위의 흰 글자는 4.23:1 로 AA 미달(2026-09-22 실측).
+               같은 계열에서 한 단계 진한 #155bd0(6.11:1)을 기본으로 쓴다 — 페이스북으로
+               읽히는 파랑은 유지되고 글자는 읽힌다. */
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#155bd0] text-white hover:bg-[#1250b8] hover:shadow-md text-sm font-semibold transition-all"
             aria-label={isEn ? 'Share on Facebook' : 'Facebook에 공유'}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-[15px] h-[15px]">

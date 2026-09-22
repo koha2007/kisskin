@@ -17,6 +17,7 @@
 
 import { useState, type ReactNode } from 'react'
 import { trackToolPromotion } from '../../lib/analytics'
+import { readableInk, tintOver } from '../../lib/a11y/readableInk'
 
 // 타일 제목 공통 스타일.
 // ⚠️ uppercase / tracking 확장을 붙이지 말 것 — 이 제목들은 대부분 한글이고(`시그니처 룩`,
@@ -177,7 +178,10 @@ export function BentoFacts({
       <dl className="divide-y" style={{ borderColor: `${a}1f` }}>
         {rows.map((r, i) => (
           <div key={`${r.label}-${i}`} className="py-2.5 first:pt-0 last:pb-0 sm:flex sm:gap-4" style={i > 0 ? { borderTopWidth: 1, borderColor: `${a}1f` } : undefined}>
-            <dt className="t-label shrink-0 sm:w-24 mb-0.5 sm:mb-0 sm:pt-[0.15rem]" style={{ color: a }}>
+            {/* 유형 상징색을 그대로 글자에 쓰면 흰 바탕에서 대비가 무너진다
+                (가을웜 머스터드 2.15:1 — 11px 라벨이 사실상 안 읽혔다).
+                점·테두리엔 원색 a 를, 글자엔 명도만 낮춘 잉크를 쓴다. */}
+            <dt className="t-label shrink-0 sm:w-24 mb-0.5 sm:mb-0 sm:pt-[0.15rem]" style={{ color: readableInk(a, '#ffffff') }}>
               {r.label}
             </dt>
             <dd className="t-caption text-slate-600 min-w-0">{r.text}</dd>
@@ -205,12 +209,20 @@ export function BentoNote({
   tone?: BentoSurface
 }) {
   const a = accent ?? '#d8503c'
+  // 라벨이 얹히는 실제 바탕 — tint 표면은 액센트 8%(=`${a}14`) 를 섹션 배경 위에 깐 색이다.
+  // 섹션 배경은 도구 결과 화면의 background-light(힐다 #f5efe3). 흰색으로 어림하면
+  // 계산이 헐거워져 실제로는 4.4:1 밖에 안 나온다(2026-09-22 실측).
+  const labelBg = tone === 'tint' ? tintOver(a, 0.08, '#f5efe3') : '#ffffff'
+  // 여유값 4.6 — 틴트가 겹쳐 깔리는 실제 합성색은 코드에서 정확히 알 수 없다. 기준을
+  // 딱 4.5 로 맞추면 브라우저 합성에서 4.49 로 떨어져 아슬아슬하게 미달한다(실측).
+  const LABEL_MIN = 4.6
   return (
     <BentoTile span={span} surface={tone} accent={accent} className="p-4">
+      {/* 아이콘은 글자가 아니라 장식이므로 원색 그대로(비텍스트 기준 3:1). */}
       <span className="material-symbols-outlined text-lg mb-2 block" style={{ color: a }}>
         {icon}
       </span>
-      {label && <div className="t-label mb-1" style={{ color: a }}>{label}</div>}
+      {label && <div className="t-label mb-1" style={{ color: readableInk(a, labelBg, LABEL_MIN) }}>{label}</div>}
       <p className="t-caption text-slate-600">{text}</p>
     </BentoTile>
   )

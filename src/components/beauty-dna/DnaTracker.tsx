@@ -50,7 +50,7 @@ export default function DnaTracker({ field, code }: Props) {
             complete ? 'border-primary/30 bg-primary/[0.04]' : 'border-navy/15 bg-white'
           }`}
         >
-          <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2.5">
+          <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary-dark mb-2.5">
             {complete
               ? (isEn ? 'Ready — I found my makeup' : '완성 — 나만의 메이크업 찾았다')
               : (isEn ? 'kissinskin · I found my makeup' : '나만의 메이크업 찾았다')}

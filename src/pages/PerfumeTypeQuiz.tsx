@@ -78,10 +78,10 @@ export default function PerfumeTypeQuiz() {
           title={isEn ? 'Which perfume type suits you?' : '나에게 어울리는 향수 타입은?'}
           subtitle={isEn ? (
             <>A 5-question quiz reveals your type across 6 fragrance families — Floral, Citrus, Woody, Amber, Fresh, and Gourmand.
-              <strong className="text-primary"> Matched perfume picks</strong> come with a makeup, occasion, and season guide.</>
+              <strong className="text-primary-dark"> Matched perfume picks</strong> come with a makeup, occasion, and season guide.</>
           ) : (
             <>5문항으로 알아보는 플로럴·시트러스·우디·앰버·프레시·구르망 6가지 향수 타입.
-              <strong className="text-primary"> 한국 시장 추천 향수</strong>와 어울리는 메이크업·상황·계절 가이드를 함께 제공합니다.</>
+              <strong className="text-primary-dark"> 한국 시장 추천 향수</strong>와 어울리는 메이크업·상황·계절 가이드를 함께 제공합니다.</>
           )}
           startLabel={isEn ? 'Start the quiz' : '진단 시작'}
           onStart={() => setPhase('quiz')}

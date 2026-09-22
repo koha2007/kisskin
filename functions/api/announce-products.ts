@@ -2,7 +2,12 @@
 //
 // .github/workflows/weekly-digest.yml 이 매주 일요일 호출한다. 워크플로가
 // 지난 7일치 제품·뉴스를 src/lib/{products,news}/items.ts(.en.ts)에서 뽑아
-// 본문에 실어 POST 하면, 이 함수가 회원(Supabase auth.users) 전원에게 메일을 보낸다.
+// 본문에 실어 POST 하면, 이 함수가 아래 두 명단에 메일을 보낸다.
+//
+//   ① 회원 (Supabase auth.users, 이메일 인증 완료)
+//   ② 이메일 구독자 (public.email_subscriber 중 confirmed_at 이 채워진 사람) — 2026-09-22 추가.
+//      가입까지 가지 않는 대다수를 담는 낮은 문턱이다. functions/api/subscribe.ts 가 기록한다.
+//   두 명단은 이메일로 합집합 처리한다(회원이면서 구독 신청도 한 경우 한 통만).
 //
 // 2026-09-19: 발행이 주 1회(뉴스 1 + 제품 1)로 내려가면서 제품만으론 메일이
 // 얇아져 뉴스 섹션을 같이 싣는다. 라우트는 kind 로 갈린다(/products/ vs /news/).
@@ -79,6 +84,25 @@ async function fetchOptouts(supabaseUrl: string, key: string): Promise<Set<strin
   if (!res.ok) throw new Error(`email_optout ${res.status}: ${(await res.text()).slice(0, 200)}`)
   const rows = (await res.json()) as { email: string }[]
   return new Set(rows.map((r) => r.email.toLowerCase()))
+}
+
+/**
+ * 확인을 마친 이메일 구독자. 표가 아직 없으면(마이그레이션 0007 미실행) 빈 배열을 돌려주고
+ * 발송은 회원 대상으로 그대로 진행한다 — 구독 기능 때문에 주간 발송 전체가 멎으면 안 된다.
+ */
+async function fetchSubscribers(
+  supabaseUrl: string,
+  key: string,
+): Promise<{ email: string; locale: string }[]> {
+  const res = await fetch(
+    `${supabaseUrl}/rest/v1/email_subscriber?confirmed_at=not.is.null&select=email,locale`,
+    { headers: { Authorization: `Bearer ${key}`, apikey: key } },
+  )
+  if (!res.ok) {
+    console.error('[announce] email_subscriber', res.status, (await res.text()).slice(0, 200))
+    return []
+  }
+  return (await res.json()) as { email: string; locale: string }[]
 }
 
 function localeOf(u: AuthUser): 'ko' | 'en' {
@@ -160,10 +184,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   // ── 수신자 확정 ────────────────────────────────────────────────
   let users: AuthUser[]
   let optouts: Set<string>
+  let subscribers: { email: string; locale: string }[]
   try {
-    ;[users, optouts] = await Promise.all([
+    ;[users, optouts, subscribers] = await Promise.all([
       listAllUsers(supabaseUrl, srk),
       fetchOptouts(supabaseUrl, srk),
+      fetchSubscribers(supabaseUrl, srk),
     ])
   } catch (e) {
     return json({ error: `Supabase error: ${e instanceof Error ? e.message : String(e)}` }, 502)
@@ -177,19 +203,34 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   )
 
   const seen = new Set<string>()
-  const recipients: { email: string; lang: 'ko' | 'en' }[] = []
+  const recipients: { email: string; lang: 'ko' | 'en'; kind: 'member' | 'subscriber' }[] = []
+  const add = (email: string, lang: 'ko' | 'en', kind: 'member' | 'subscriber') => {
+    if (!email) return
+    if (HARD_EXCLUDE.has(email) || envExclude.has(email) || optouts.has(email)) return
+    if (seen.has(email)) return
+    seen.add(email)
+    recipients.push({ email, lang, kind })
+  }
+
+  // 회원이 먼저다 — 같은 주소가 양쪽에 있으면 회원 쪽 언어 설정을 따른다.
   for (const u of users) {
     const email = (u.email || '').trim().toLowerCase()
-    if (!email || !u.email_confirmed_at) continue
-    if (HARD_EXCLUDE.has(email) || envExclude.has(email) || optouts.has(email)) continue
-    if (seen.has(email)) continue
-    seen.add(email)
-    recipients.push({ email, lang: localeOf(u) })
+    if (!u.email_confirmed_at) continue
+    add(email, localeOf(u), 'member')
+  }
+  for (const sub of subscribers) {
+    const lang = String(sub.locale || '').toLowerCase().startsWith('en') ? 'en' : 'ko'
+    add((sub.email || '').trim().toLowerCase(), lang, 'subscriber')
   }
 
   const byLang = {
     ko: recipients.filter((r) => r.lang === 'ko').length,
     en: recipients.filter((r) => r.lang === 'en').length,
+  }
+  // 구독 입구가 실제로 사람을 데려오는지 회차마다 로그로 남는다.
+  const byKind = {
+    member: recipients.filter((r) => r.kind === 'member').length,
+    subscriber: recipients.filter((r) => r.kind === 'subscriber').length,
   }
   const previewKo = renderDigest('ko', sectionsFor('ko'), `${SITE}/api/email-optout`, campaign)
 
@@ -199,6 +240,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       campaign,
       recipients: recipients.length,
       byLang,
+      byKind,
       subject: previewKo.subject,
       productsKo: koSections.products.length,
       productsEn: enSections.products.length,
@@ -277,7 +319,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
   const failed = recipients.length - sent
   return json(
-    { campaign, sent, failed, recipients: recipients.length, byLang, errors: errors.slice(0, 10) },
+    { campaign, sent, failed, recipients: recipients.length, byLang, byKind, errors: errors.slice(0, 10) },
     failed && !sent ? 502 : 200,
   )
 }

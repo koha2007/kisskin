@@ -4,6 +4,7 @@
 // (아이콘 칩 틴트 + 태그)으로만 사용한다 — 메인은 네이비+핑크. (DESIGN_SYSTEM.md)
 
 import type { CSSProperties } from 'react'
+import { readableInk } from '../lib/a11y/readableInk'
 
 interface ToolCardProps {
   href: string
@@ -27,6 +28,15 @@ interface ToolCardProps {
 }
 
 export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true, image, meta }: ToolCardProps) {
+  // 도구 액센트 6색은 '눈에 띄라고' 고른 밝은 색이라 글자색으로 쓰면 대비가 깨진다
+  // (틸 3.07 · 세이지 3.10 · 머스터드 2.74 — AA 4.5 미달). 2026-09-22 실측.
+  // 면·점·아이콘에는 원색을, **글자(배지·CTA)에는 잉크**를 쓴다. 색상은 그대로고 명도만 내려간다.
+  // accent 는 두 가지 모양으로 온다: 헥스(#4e9fa6)와 CSS 변수(var(--color-tool-mbti)).
+  // 변수는 런타임에 값을 모르므로 계산할 수 없다 → 짝이 되는 -ink 변수로 바꿔 준다
+  // (index.css 에 6색의 잉크 단계가 정의돼 있다). 헥스면 그 자리에서 계산한다.
+  const ink = /^var\(--color-tool-[a-z]+\)$/.test(accent.trim())
+    ? accent.trim().replace(/\)$/, '-ink)')
+    : readableInk(accent, '#ffffff')
   const tint = `color-mix(in srgb, ${accent} 12%, white)`
   const tintHover = `color-mix(in srgb, ${accent} 5%, white)`
   const borderHover = `color-mix(in srgb, ${accent} 45%, white)`
@@ -62,7 +72,7 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
         {tag && (
           <span
             className="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
-            style={{ color: accent, borderColor: `color-mix(in srgb, ${accent} 30%, white)` }}
+            style={{ color: ink, borderColor: `color-mix(in srgb, ${accent} 30%, white)` }}
           >
             <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
             {tag}
@@ -80,7 +90,7 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
       {available && cta && (
         <div
           className="inline-flex items-center gap-1 text-sm font-bold transition-all group-hover:gap-2"
-          style={{ color: accent }}
+          style={{ color: ink }}
         >
           {cta}
           <span className="material-symbols-outlined text-base">arrow_forward</span>

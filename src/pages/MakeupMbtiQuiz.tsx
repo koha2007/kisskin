@@ -82,10 +82,10 @@ export default function MakeupMbtiQuiz() {
           title={isEn ? "What's your Makeup MBTI?" : '나의 메이크업 MBTI는?'}
           subtitle={isEn ? (
             <>An 8-question quiz reads your makeup personality.
-              <strong className="text-primary"> 16 types</strong> — we recommend the K-beauty style and product formula that fits yours.</>
+              <strong className="text-primary-dark"> 16 types</strong> — we recommend the K-beauty style and product formula that fits yours.</>
           ) : (
             <>8문항으로 알아보는 당신의 메이크업 성향.
-              <strong className="text-primary"> 16가지 유형</strong> 중 당신에게 맞는 K-뷰티 스타일과 제품 공식을 추천해드립니다.</>
+              <strong className="text-primary-dark"> 16가지 유형</strong> 중 당신에게 맞는 K-뷰티 스타일과 제품 공식을 추천해드립니다.</>
           )}
           startLabel={t('tools.common.startQuiz')}
           onStart={() => setPhase('quiz')}

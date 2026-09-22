@@ -170,7 +170,7 @@ export default function ToolsHub() {
             YouCam 이 결과물을 먼저 보여주는 방식을 합쳐 주력 1개를 큰 면으로 끌어올린다. */}
         <section className="border-b border-slate-200 bg-cream">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-            <p className="t-eyebrow text-primary mb-4">kissinskin · Tools</p>
+            <p className="t-eyebrow text-primary-dark mb-4">kissinskin · Tools</p>
             <h1 className="t-display text-navy mb-5 max-w-[18ch]">
               {isEn ? 'Every beauty answer, in one place' : '뷰티의 모든 답을 한 곳에서'}
             </h1>
@@ -210,7 +210,7 @@ export default function ToolsHub() {
                   ))}
                 </div>
                 <div className="flex-1 p-6 md:p-10 flex flex-col justify-center">
-                  <p className="t-eyebrow text-primary mb-3">
+                  <p className="t-eyebrow text-primary-on-dark mb-3">
                     {isEn ? 'Signature · Free once' : '시그니처 · 무료 1회'}
                   </p>
                   <h2 className="t-h1 mb-3">
@@ -269,7 +269,7 @@ export default function ToolsHub() {
         {/* MBTI types preview — clean grid */}
         <section className="border-t border-slate-200 bg-background-light py-12 md:py-16">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="t-eyebrow text-primary mb-3">
+            <div className="t-eyebrow text-primary-dark mb-3">
               {isEn ? '16 Makeup MBTI types' : '16가지 메이크업 MBTI'}
             </div>
             <h2 className="t-h2 text-navy mb-2">
