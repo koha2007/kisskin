@@ -3,6 +3,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import ToolCard from '../components/ToolCard'
 import DnaProgress from '../components/beauty-dna/DnaProgress'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
+import { TOOL_CARD_IMAGES } from '../lib/toolCardImages'
 import { useI18n } from '../i18n/I18nContext'
 
 interface Tool {
@@ -50,7 +51,7 @@ const TOOLS: Tool[] = [
     koTitle: '메이크업 MBTI 테스트',
     koMeta: '8문항 · 약 2분 · 16유형',
     enMeta: '8 questions · ~2 min · 16 types',
-    image: '/mood/tool-mbti.webp',
+    image: TOOL_CARD_IMAGES.mbti,
     enTitle: 'Makeup MBTI Quiz',
     koDesc: '8문항으로 보는 내 메이크업 성향 16타입.',
     enDesc: '8 questions → your makeup personality, 16 types.',
@@ -67,7 +68,7 @@ const TOOLS: Tool[] = [
     koTitle: '퍼스널 컬러 자가 진단',
     koMeta: '6문항 · 약 1분 · 4계절',
     enMeta: '6 questions · ~1 min · 4 seasons',
-    image: '/mood/tool-personal-color.webp',
+    image: TOOL_CARD_IMAGES.personalColor,
     enTitle: 'Personal Color Analyzer',
     koDesc: '6문항으로 찾는 봄·여름·가을·겨울 타입.',
     enDesc: '6 questions → Spring, Summer, Autumn or Winter.',
@@ -83,7 +84,7 @@ const TOOLS: Tool[] = [
     koTitle: '얼굴형 자가 진단',
     koMeta: '6문항 · 약 1분 · 5가지 얼굴형',
     enMeta: '6 questions · ~1 min · 5 shapes',
-    image: '/mood/tool-face-shape.webp',
+    image: TOOL_CARD_IMAGES.faceShape,
     enTitle: 'Face Shape Detector',
     koDesc: '6문항으로 보는 5가지 얼굴형 맞춤 가이드.',
     enDesc: '6 questions → 5 face shapes, each with its own guide.',
@@ -99,7 +100,7 @@ const TOOLS: Tool[] = [
     koTitle: '나에게 어울리는 향수',
     koMeta: '5문항 · 약 1분 · 6가지 향',
     enMeta: '5 questions · ~1 min · 6 scents',
-    image: '/mood/tool-perfume.webp',
+    image: TOOL_CARD_IMAGES.perfume,
     enTitle: 'What Perfume Suits Me',
     koDesc: '5문항으로 찾는 6가지 향 타입.',
     enDesc: '5 questions → 6 scent families matched to you.',
@@ -132,7 +133,7 @@ const TOOLS: Tool[] = [
     koTitle: 'K-뷰티 메이크업 완전 가이드',
     koMeta: '장문 가이드 · 읽는 데 약 12분',
     enMeta: 'Long-form · ~12 min read',
-    image: '/mood/tool-guide.webp',
+    image: TOOL_CARD_IMAGES.guide,
     enTitle: 'The Complete K-Beauty Makeup Guide',
     koDesc: 'K-뷰티 메이크업을 깊이 이해하는 심화 가이드.',
     enDesc: 'A long-form guide to how K-beauty makeup actually works.',

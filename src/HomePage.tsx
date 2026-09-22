@@ -10,6 +10,7 @@ import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
+import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
 
 // 히어로에서 "완성 예시" 로 먼저 보여줄 룩 4종 — 톤(내추럴/블러쉬/눈/아이돌)이 서로 겹치지
 // 않게 고른다. 썸네일은 각 룩의 실제 결과(after)를 쓴다.
@@ -662,13 +663,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               영어 카드를 누르면 한국어 페이지로 떨어졌다(2026-07-14 수정). 도구 링크는 반드시 toolHref(). */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
             {[
-              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: '/mood/tool-mbti.webp',
+              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: TOOL_CARD_IMAGES.mbti,
                 title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), meta: t('home.toolsShowcase.t1Tag') },
-              { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', image: '/mood/tool-personal-color.webp',
+              { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', image: TOOL_CARD_IMAGES.personalColor,
                 title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc'), meta: t('home.toolsShowcase.t2Tag') },
-              { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', image: '/mood/tool-face-shape.webp',
+              { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', image: TOOL_CARD_IMAGES.faceShape,
                 title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc'), meta: t('home.toolsShowcase.t3Tag') },
-              { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', image: '/mood/tool-perfume.webp',
+              { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', image: TOOL_CARD_IMAGES.perfume,
                 title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc'), meta: t('home.toolsShowcase.t4Tag') },
             ].map(tool => (
               <ToolCard

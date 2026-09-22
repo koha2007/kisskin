@@ -1,3 +1,4 @@
+import { TOOL_CARD_IMAGES } from '../../lib/toolCardImages'
 import { useI18n } from '../../i18n/I18nContext'
 import { useBeautyDna } from '../../hooks/useBeautyDna'
 import { DNA_FIELDS, DNA_FIELD_META, type DnaField } from '../../lib/beauty-dna/types'
@@ -6,10 +7,10 @@ import { dnaTypeDisplay } from '../../lib/beauty-dna/display'
 // 홈 도구 카드(HomePage.tsx)와 같은 무드컷 재사용 — 미완성 슬롯의 블러 티저용.
 // "완성하면 이런 느낌" 미리보기로 완주 동기를 준다(빈 점선 박스보다 궁금증 유발이 큼).
 const PREVIEW_IMAGE: Record<DnaField, string> = {
-  personalColor: '/mood/tool-personal-color.webp',
-  faceShape: '/mood/tool-face-shape.webp',
-  perfume: '/mood/tool-perfume.webp',
-  mbti: '/mood/tool-mbti.webp',
+  personalColor: TOOL_CARD_IMAGES.personalColor,
+  faceShape: TOOL_CARD_IMAGES.faceShape,
+  perfume: TOOL_CARD_IMAGES.perfume,
+  mbti: TOOL_CARD_IMAGES.mbti,
 }
 
 interface Props {
