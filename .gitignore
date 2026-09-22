@@ -70,3 +70,9 @@ public/after.jpg
 # 홈 Before/After 원본 png (webp만 커밋)
 public/*-444.png
 .design-preview/
+
+# 캐스팅 원본(민낯 PNG)은 운영자가 Playground 에서 받아 넣는 작업 폴더다.
+# 프롬프트 문서(casting/PROMPTS.md)만 버전관리하고 이미지는 올리지 않는다
+# (public 밖 이미지는 저장소에 두지 않는다는 기존 규칙과 같은 취지).
+casting/*
+!casting/PROMPTS.md
