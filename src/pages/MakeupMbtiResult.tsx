@@ -22,7 +22,6 @@ import BentoGrid, {
   BentoPhoto,
   BentoFacts,
   BentoNote,
-  BentoAxes,
   BentoBanner,
   insertScattered,
   scatterSlot,
@@ -31,6 +30,7 @@ import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 import { TypePreviewCard } from '../components/tools/ToolLanding'
 import { EmailSubscribe } from '../components/EmailSubscribe'
+import { readableInk } from '../lib/a11y/readableInk'
 
 interface Props {
   code: MbtiCode
@@ -150,7 +150,6 @@ export default function MakeupMbtiResult({ code }: Props) {
       emoji={type.emoji}
       gradient={type.card.gradient}
     />,
-    <BentoAxes key="axes" title={L.axisTitle} axes={axes} accent={accent} />,
     <BentoFacts
       key="signature"
       title={L.sigTitle}
@@ -214,17 +213,24 @@ export default function MakeupMbtiResult({ code }: Props) {
       <ToolsNav />
 
       <main>
-        {/* Hero — slim: identity card + save (재설계 지시 §2 상단) */}
-        <section className="relative pt-12 pb-8 md:pt-16 md:pb-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${type.primaryColor}12 0%, ${type.accentColor}20 100%)` }}>
-          <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        {/* Hero — 2026-09-22 재설계.
+            전: 모든 요소(코드·이름·일치도·해시태그·9:16 카드·다시진단)를 한 줄로 세로로 쌓아
+                모바일에서만 978px 을 먹었고, 데스크톱에선 넓은 화면 한가운데 좁은 기둥 하나만 섰다.
+            후: 데스크톱은 **왼쪽 정보 / 오른쪽 카드** 2단. 모바일은 그대로 세로지만 중복 CTA
+                (다시 진단 — 아래 공유 섹션에 '다시 하기'로 이미 있다)를 걷어냈다.
+            ⚠ 유형 코드(INFP)는 이 페이지에서 사람들이 가장 먼저 찾는 글자인데 18px 칩에 갇혀
+              있었다. 이름 다음으로 큰 글자로 올린다(운영자 지시). */}
+        <section className="relative pt-10 pb-8 md:pt-16 md:pb-12 overflow-hidden" style={{ background: `linear-gradient(135deg, ${type.primaryColor}12 0%, ${type.accentColor}20 100%)` }}>
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center md:text-left md:grid md:grid-cols-[minmax(0,1fr)_300px] md:items-center md:gap-12">
+            <div className="md:order-1">
             <span
-              className="inline-flex items-center rounded-full border px-5 py-2 mb-4 font-mono text-lg md:text-2xl font-extrabold tracking-[0.25em]"
-              style={{ borderColor: `${type.primaryColor}55`, background: `${type.primaryColor}14`, color: type.primaryColor }}
+              className="inline-flex items-center rounded-full border px-5 py-1.5 mb-4 font-mono text-2xl md:text-4xl font-extrabold tracking-[0.2em]"
+              style={{ borderColor: `${type.primaryColor}55`, background: `${type.primaryColor}14`, color: readableInk(type.primaryColor, '#ffffff', 3) }}
             >
               {type.code}
             </span>
-            <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{displayName}</h1>
-            <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
+            <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.02]">{displayName}</h1>
+            <p className="text-base md:text-xl text-slate-700 max-w-xl mx-auto md:mx-0 leading-relaxed font-medium mb-5">{tagline}</p>
 
             {/* 응답 일치도 — BeautySpark 가 결과에 "94% Match" 를 붙여 공유 동기를 만드는 장치를
                 가져왔다. 다만 저쪽 숫자가 무엇을 재는지는 알 수 없으므로 그대로 흉내내지 않고,
@@ -232,7 +238,7 @@ export default function MakeupMbtiResult({ code }: Props) {
                 쓴다. 퀴즈를 풀지 않고 검색으로 바로 들어온 방문자에겐 근거가 없으므로 뜨지 않는다.
                 (가짜 평점 4.8/150 을 올렸다가 정책 위반으로 내린 전례를 반복하지 않는다.) */}
             {confidence !== null && (
-              <div className="mb-6 inline-flex flex-col items-center gap-1">
+              <div className="mb-6 inline-flex flex-col items-center md:items-start gap-1">
                 <span
                   className="inline-flex items-baseline gap-1.5 border px-4 py-2"
                   style={{ borderColor: `${type.primaryColor}55`, background: `${type.primaryColor}0f` }}
@@ -250,7 +256,7 @@ export default function MakeupMbtiResult({ code }: Props) {
               </div>
             )}
 
-            <div className="flex flex-wrap gap-2 justify-center mb-8">
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-7">
               {/* 영문 페이지에 한글 해시태그(#ESTJ메이크업 …)가 그대로 노출되고 있었다.
                   칩과 카드가 같은 배열을 읽도록 `card.hashtags` 하나로 통일했다 —
                   전에는 칩이 types.en.ts, 카드가 types.ts 를 읽어 출처가 둘이었다. */}
@@ -258,6 +264,27 @@ export default function MakeupMbtiResult({ code }: Props) {
                 <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${type.primaryColor}40` }}>{k}</span>
               ))}
             </div>
+
+            {/* 4가지 축 — 벤토 한가운데(y≈3,700px)에 있던 걸 히어로로 끌어올렸다(2026-09-22).
+                ① 이게 "왜 내가 이 유형인가"의 **유일한 근거**인데 한참 내려가야 나왔고
+                ② 2단으로 바꾼 히어로의 왼쪽 칸이 비어 보였다. 근거를 이름 바로 아래 둔다.
+                벤토의 흰 패널 대신 옅은 선만 쓴다 — 히어로 위에 카드가 또 얹히면 무거워진다. */}
+            <dl className="mx-auto md:mx-0 max-w-sm space-y-2.5 mb-2">
+              {axes.map(x => (
+                <div key={x.label}>
+                  <div className="flex items-center justify-between t-label text-navy/55 mb-1">
+                    <dt>{x.left}</dt>
+                    <dd>{x.right}</dd>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-navy/10 overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${x.value}%`, background: accent }} />
+                  </div>
+                </div>
+              ))}
+            </dl>
+            </div>
+
+            <div className="md:order-2 mt-2 md:mt-0">
             <IdentityCard
               label={isEn ? 'Makeup MBTI' : '메이크업 MBTI'}
               emoji={type.emoji}
@@ -274,11 +301,8 @@ export default function MakeupMbtiResult({ code }: Props) {
               }}
               shareLabel={isEn ? 'Share' : '공유하기'}
             />
-
-            <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
-                <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
-              </a>
+            {/* '다시 진단' 을 여기서 뺐다 — 아래 공유 섹션에 '다시 하기'가 이미 있어
+                같은 동작을 한 페이지에서 두 번 권하고 있었다(2026-09-22). */}
             </div>
           </div>
         </section>
@@ -299,10 +323,23 @@ export default function MakeupMbtiResult({ code }: Props) {
         <ToolLongform
           eyebrow={LF_EYEBROW}
           title={L.more}
+          moreLabel={isEn ? 'Keep reading' : '이어서 읽기'}
           paragraphs={detailParagraphs}
           image={mood.image}
           imageAlt={tagline}
         />
+
+        {/* 주간 레터 — 2026-09-22 에 **페이지 끝에서 여기로 올렸다.**
+            전에는 11,023px 지점(모바일 화면 13개분 아래)에 있었다. 사람은 페이지 길이와
+            무관하게 **위 40% 에서 시간의 65%** 를 쓴다(실측 기반 UX 통계) — 즉 그 자리의
+            구독 폼은 사실상 아무도 못 봤다.
+            글을 다 읽은 직후이자 제품 그리드 앞, 지금 페이지에서 가장 관심이 높은 지점에 둔다.
+            제목은 방금 나온 유형 이름을 부른다(resultName). */}
+        <section className="pt-2 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+            <EmailSubscribe source="makeup-mbti" resultName={isEn ? `${en.enPersona} (${type.code})` : `${displayName}(${type.code})`} />
+          </div>
+        </section>
 
         {/* 결과 벤토 — 사진·데이터 패널은 넓게, 한 줄 팩트는 한 타일에 묶어서 */}
         <section className="py-8 md:py-12">
@@ -361,7 +398,9 @@ export default function MakeupMbtiResult({ code }: Props) {
             <p className="text-center text-slate-500 text-sm mb-8">
               {isEn ? 'Read the other types — useful when you want to compare with friends or family.' : '다른 유형의 설명도 확인해 보세요. 주변 사람의 MBTI로 스타일을 탐색할 수 있어요.'}
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 2026-09-22: 4:5 · 2열 → 정사각 · 3열(모바일). 같은 16개 내부링크를 유지한 채
+                높이를 1/3 로 줄인다. 이 그리드는 '읽을 것'이 아니라 '고를 것'이라 카드가 클 필요가 없다. */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
               {MBTI_ORDER.map(c => {
                 const mt = MAKEUP_MBTI_TYPES[c]
                 const mtEn = MAKEUP_MBTI_EN[c]
@@ -376,7 +415,8 @@ export default function MakeupMbtiResult({ code }: Props) {
                     accent={mbtiGroupColor(c)}
                     image={MBTI_MOOD[c].image}
                     current={isMe}
-                    aspectClass="aspect-[4/5]"
+                    aspectClass="aspect-square"
+                    compact
                   />
                 )
               })}
@@ -384,15 +424,6 @@ export default function MakeupMbtiResult({ code }: Props) {
           </div>
         </section>
 
-        {/* 주간 레터 — 페이지 끝. 히어로 아래 SaveToAccount(가입=높은 문턱)와 일부러
-            멀리 떼어 놓았다. 두 제안이 붙어 있으면 둘 다 광고로 읽히고, 끝까지 내려온
-            사람은 이미 이 도구를 신뢰한 상태라 낮은 문턱(이메일 한 줄)이 먹힌다.
-            source 로 어느 진단이 구독자를 만드는지 갈라 본다. */}
-        <section className="pb-12 md:pb-16">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <EmailSubscribe source="makeup-mbti" />
-          </div>
-        </section>
       </main>
 
       <ToolsFooter />

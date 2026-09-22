@@ -44,6 +44,8 @@ export function ToolHero({
   previewLabel,
   stats,
   firstQuestion,
+  heroImages,
+  heroImagesNote,
 }: {
   badge: string
   badgeIcon: string
@@ -55,19 +57,39 @@ export function ToolHero({
   previewLabel?: string
   stats: HeroStat[]
   firstQuestion?: HeroFirstQuestion
+  /**
+   * 히어로 오른쪽에 깔 사진 2~4장 (2026-09-22).
+   *
+   * 왜: 뷰티 도구인데 첫 화면에 **이미지가 한 장도 없었다.** 1440px 화면에서는 가운데
+   * 768px 기둥 하나만 서고 좌우가 통째로 비어, 글만 빽빽한 설문지처럼 보였다(운영자 지적).
+   * 우리가 가진 가장 강한 자산은 결과물 사진이므로 그걸 히어로로 끌어올린다.
+   * 넘기지 않으면 예전처럼 한 컬럼으로 렌더된다 — 다른 도구를 건드리지 않는다.
+   * ⚠ 모바일에선 숨긴다(CSS). 결과·랜딩이 이미 길다는 지적을 받은 상태라 세로를 더 늘리지 않는다.
+   */
+  heroImages?: string[]
+  /** 사진이 사람이면 AI 생성 고지가 필요하다(EU AI Act 2026-08-02). */
+  heroImagesNote?: string
 }) {
+  const hasVisual = Boolean(heroImages && heroImages.length)
   return (
     <section className="relative bg-white py-14 md:py-20">
-      <div className="relative mx-auto max-w-3xl px-4 sm:px-6 text-center">
+      <div
+        className={`relative mx-auto px-4 sm:px-6 text-center ${
+          hasVisual
+            ? 'max-w-6xl md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] md:items-center md:gap-12 md:text-left'
+            : 'max-w-3xl'
+        }`}
+      >
+        <div>
         <p className="t-eyebrow mb-5 inline-flex items-center gap-2 text-primary-dark">
           <span className="material-symbols-outlined text-sm">{badgeIcon}</span>
           {badge}
         </p>
-        <h1 className="t-display mb-5 text-navy">{title}</h1>
-        <p className="t-body mx-auto mb-8 max-w-2xl text-slate-600">{subtitle}</p>
+        <h1 className="t-display mb-5 text-navy text-balance">{title}</h1>
+        <p className={`t-body mb-8 max-w-2xl text-slate-600 ${hasVisual ? 'mx-auto md:mx-0' : 'mx-auto'}`}>{subtitle}</p>
 
         {/* 수치 스트립 — 값이 크고 라벨이 작다. 전부 실제 값이다. */}
-        <dl className="mx-auto mb-10 flex max-w-lg justify-center divide-x divide-slate-200 border-y border-slate-200">
+        <dl className={`mb-10 flex max-w-lg justify-center divide-x divide-slate-200 border-y border-slate-200 ${hasVisual ? 'mx-auto md:mx-0' : 'mx-auto'}`}>
           {stats.map((s) => (
             <div key={s.label} className="flex-1 px-3 py-4">
               <dd className="t-h2 tabular-nums text-navy">{s.value}</dd>
@@ -78,7 +100,7 @@ export function ToolHero({
 
         {firstQuestion ? (
           /* 첫 문항을 여기서 바로 받는다 — "시작" 버튼 단계가 사라진다 */
-          <div className="mx-auto max-w-xl border border-navy/20 bg-cream p-5 text-left md:p-7">
+          <div className={`max-w-xl border border-navy/20 bg-cream p-5 text-left md:p-7 ${hasVisual ? 'mx-auto md:mx-0' : 'mx-auto'}`}>
             <p className="t-eyebrow mb-2 text-primary-dark">{firstQuestion.tag}</p>
             <p className="t-h2 mb-5 text-navy">{firstQuestion.text}</p>
             <div className="flex flex-col gap-2.5">
@@ -111,6 +133,26 @@ export function ToolHero({
               {previewLabel}
             </a>
           </p>
+        )}
+        </div>
+
+        {hasVisual && (
+          <div className="hidden md:block">
+            <div className={`grid gap-2 ${heroImages!.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+              {heroImages!.slice(0, 4).map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt=""
+                  /* 첫 장만 즉시 — 나머지는 접힌 아래일 수 있다 */
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  className="aspect-[4/5] w-full rounded-lg object-cover"
+                />
+              ))}
+            </div>
+            {heroImagesNote && <p className="t-label mt-2.5 text-slate-500">{heroImagesNote}</p>}
+          </div>
         )}
       </div>
     </section>
@@ -154,6 +196,7 @@ export function TypePreviewCard({
   note,
   current = false,
   aspectClass,
+  compact = false,
 }: {
   href: string
   emoji: string
@@ -168,12 +211,19 @@ export function TypePreviewCard({
   current?: boolean
   /** 높이 고정용 aspect 클래스. 없으면 이름 해시로 벽돌 리듬을 만든다(마소니 전용). */
   aspectClass?: string
+  /**
+   * 촘촘 모드 — 결과 페이지 하단의 '전체 유형' 그리드처럼 **탐색이 목적**인 자리에 쓴다.
+   * 2026-09-22 실측: 16장을 4:5 · 2열로 깔면 모바일에서만 2,682px(화면 3.2개분)를 먹었다.
+   * 그 자리는 페이지 끝이라 어차피 대부분 도달하지 못하는데 길이만 잡아먹는다.
+   * 정사각 + 3열로 줄이면 같은 16개 링크가 약 1/3 높이에 들어간다(내부링크는 그대로 유지).
+   */
+  compact?: boolean
 }) {
   return (
     <a
       href={href}
       aria-current={current ? 'page' : undefined}
-      className={`group mb-3 block break-inside-avoid overflow-hidden rounded-lg border bg-white transition-colors ${
+      className={`group block break-inside-avoid overflow-hidden rounded-lg border bg-white transition-colors ${compact ? '' : 'mb-3'} ${
         current ? 'border-navy ring-2 ring-navy/25' : 'border-slate-200 hover:border-navy'
       }`}
     >
@@ -201,11 +251,11 @@ export function TypePreviewCard({
           </span>
         )}
       </div>
-      <div className="border-t border-slate-100 p-3.5 text-center">
-        <div className="t-caption font-bold text-navy group-hover:text-primary transition-colors">
+      <div className={`border-t border-slate-100 text-center ${compact ? 'px-1.5 py-2' : 'p-3.5'}`}>
+        <div className={`font-bold text-navy group-hover:text-primary transition-colors ${compact ? 'text-[11px] leading-tight' : 't-caption'}`}>
           {name}
         </div>
-        <div className="t-eyebrow text-slate-400 mt-1">{sub}</div>
+        <div className={`text-slate-400 ${compact ? 'text-[10px] font-bold tracking-wider mt-0.5' : 't-eyebrow mt-1'}`}>{sub}</div>
         {/* 사진이 무엇인지 밝힌다. 유형이 다른데 추천 룩이 같을 수 있으므로,
             적어 두지 않으면 겹치는 게 실수처럼 보인다. */}
         {note && <div className="t-label mt-1.5 text-slate-500">{note}</div>}

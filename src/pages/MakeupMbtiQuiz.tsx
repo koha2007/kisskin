@@ -91,6 +91,9 @@ export default function MakeupMbtiQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#types-preview"
           previewLabel={t('tools.mbti.previewCta')}
+          /* 히어로 오른쪽 사진 — 유형 4개를 가족별로 하나씩 뽑아 색이 겹치지 않게 골랐다
+             (틸/세이지/네이비/골드). "16가지 유형"을 말로 하는 대신 보여 준다. */
+          heroImages={['/mood/mb-entp.webp', '/mood/mb-infp.webp', '/mood/mb-estj.webp', '/mood/mb-esfp.webp']}
           stats={[
             { value: '8', label: isEn ? 'questions' : '문항' },
             { value: '16', label: isEn ? 'types' : '유형' },

@@ -23,6 +23,16 @@ interface Props {
   /** 어느 화면이 구독자를 만드는지 재는 값. GA4 와 DB 양쪽에 같은 문자열로 남는다. */
   source: string
   /**
+   * 방금 나온 결과 이름 — 예: "별빛 화가(INFP)". 넘기면 제목이 그 결과를 부르는 문장이 된다.
+   *
+   * 근거(2026-09-22 조사): 진단 결과 화면의 이메일 수집은 **완료자의 35~45%** 를 잡는다.
+   * 일반 팝업(한 자릿수 초반)과 자릿수가 다르다. 결과를 막 받은 순간이 가장 열려 있기 때문이다.
+   * ⚠ 다만 "결과를 메일로 보내드립니다" 라고는 쓰지 않는다 — 우리는 아직 그 기능이 없다.
+   *   못 하는 걸 적어 놓는 순간 "가입 없이 AI 메이크업"(2026-07-31) 과 같은 거짓말이 된다.
+   *   지금 할 수 있는 건 **이 결과에 이어지는 주간 소식**이고, 딱 그만큼만 말한다.
+   */
+  resultName?: string
+  /**
    * card = 크림 카드(본문 흐름 안). band = 진한 네이비 띠(섹션 경계).
    * 한 페이지에 SaveToAccount(네이비 띠)가 이미 있으면 card 를 쓴다 — 진한 띠가
    * 연달아 두 개 나오면 둘 다 광고로 읽힌다.
@@ -31,7 +41,7 @@ interface Props {
   className?: string
 }
 
-export function EmailSubscribe({ source, variant = 'card', className = '' }: Props) {
+export function EmailSubscribe({ source, variant = 'card', className = '', resultName }: Props) {
   const { locale } = useI18n()
   const isEn = locale === 'en'
   const [email, setEmail] = useState('')
@@ -115,7 +125,13 @@ export function EmailSubscribe({ source, variant = 'card', className = '' }: Pro
   // ── 신청 폼 ─────────────────────────────────────────────────────
   // 카피 원칙: "구독하세요" 가 아니라 **무엇이 언제 오는지**를 먼저 말한다.
   // 주기(매주 화요일)와 분량(한 통)을 밝히면 "메일 폭탄" 걱정이 줄어 전환이 오른다.
-  const title = isEn ? 'One K-beauty email, every Tuesday' : '매주 화요일 아침, K-뷰티 한 통'
+  const title = resultName
+    ? isEn
+      ? `More for your ${resultName}, every Tuesday`
+      : `${resultName}에게 어울리는 소식, 매주 화요일에`
+    : isEn
+      ? 'One K-beauty email, every Tuesday'
+      : '매주 화요일 아침, K-뷰티 한 통'
   const sub = isEn
     ? 'The week’s new releases and news, cut down to one short email. No account needed.'
     : '지난 한 주의 신제품과 뉴스만 짧게 추려서. 가입 없이 이메일만 남기면 됩니다.'

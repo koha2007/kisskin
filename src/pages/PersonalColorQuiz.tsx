@@ -74,6 +74,8 @@ export default function PersonalColorQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#seasons-preview"
           previewLabel={t('tools.pc.previewCta')}
+          /* 히어로 오른쪽 사진 — 4계절 무드컷 — 봄·여름·가을·겨울 네 색이 한눈에 대비된다. 데스크톱에서 비어 있던 오른쪽 절반을 채운다(2026-09-22). */
+          heroImages={['/mood/pc-spring.webp', '/mood/pc-summer.webp', '/mood/pc-autumn.webp', '/mood/pc-winter.webp']}
           stats={[
             { value: '6', label: isEn ? 'questions' : '문항' },
             { value: '4', label: isEn ? 'seasons' : '계절' },

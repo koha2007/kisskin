@@ -71,6 +71,8 @@ export default function FaceShapeQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#shapes-preview"
           previewLabel={t('tools.fs.previewCta')}
+          /* 히어로 오른쪽 사진 — 얼굴형 4종 무드컷. 데스크톱에서 비어 있던 오른쪽 절반을 채운다(2026-09-22). */
+          heroImages={['/mood/fs-oval.webp', '/mood/fs-round.webp', '/mood/fs-square.webp', '/mood/fs-heart.webp']}
           stats={[
             { value: '6', label: isEn ? 'questions' : '문항' },
             { value: '5', label: isEn ? 'shapes' : '얼굴형' },

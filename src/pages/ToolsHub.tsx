@@ -263,6 +263,14 @@ export default function ToolsHub() {
                 />
               ))}
             </div>
+            {/* 🚨 EU AI Act(2026-08-02 시행) — 사람처럼 보이는 AI 생성 이미지는 눈에 보이는 고지가
+                의무다. 2026-09-22 에 메이크업 MBTI·얼굴형 카드 사진을 정물에서 **인물**로 바꿨으므로
+                여기에 고지가 붙어야 한다. 조건부 렌더 금지(크롤러에도 보여야 한다). */}
+            <p className="t-label text-slate-500 mt-4">
+              {isEn
+                ? 'Card photos are AI-generated models, not real people.'
+                : '카드 사진은 AI 로 생성한 모델이며 실제 인물이 아닙니다.'}
+            </p>
           </div>
         </section>
 

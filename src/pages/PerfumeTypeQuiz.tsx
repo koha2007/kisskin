@@ -87,6 +87,8 @@ export default function PerfumeTypeQuiz() {
           onStart={() => setPhase('quiz')}
           previewHref="#types-preview"
           previewLabel={isEn ? 'See the 6 types first' : '6가지 타입 먼저 보기'}
+          /* 히어로 오른쪽 사진 — 향 계열 4종 — 플로럴·시트러스·우디·구르망. 데스크톱에서 비어 있던 오른쪽 절반을 채운다(2026-09-22). */
+          heroImages={['/mood/pt-floral.webp', '/mood/pt-citrus.webp', '/mood/pt-woody.webp', '/mood/pt-gourmand.webp']}
           stats={[
             { value: '5', label: isEn ? 'questions' : '문항' },
             { value: '6', label: isEn ? 'scent types' : '향 타입' },

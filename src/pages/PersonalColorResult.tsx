@@ -188,10 +188,20 @@ export default function PersonalColorResult({ code }: Props) {
         <ToolLongform
           eyebrow={LF_EYEBROW}
           title={L.more}
+          moreLabel={isEn ? 'Keep reading' : '이어서 읽기'}
           paragraphs={detailParagraphs}
           image={mood.image}
           imageAlt={tagline}
         />
+
+        {/* 주간 레터 — 2026-09-22 에 **페이지 끝에서 여기로 올렸다.**
+            사람은 페이지 길이와 무관하게 위 40% 에서 시간의 65% 를 쓴다. 맨 아래(86~96% 지점)에
+            있던 구독 폼은 사실상 아무에게도 보이지 않았다. 글을 다 읽은 직후에 둔다. */}
+        <section className="pt-2 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+            <EmailSubscribe source="personal-color" resultName={name} />
+          </div>
+        </section>
 
         {/* 결과 벤토 — 팔레트가 히어로, 한 줄 팩트는 한 타일에 묶어서 */}
         <section className="py-8 md:py-12">
@@ -271,15 +281,6 @@ export default function PersonalColorResult({ code }: Props) {
           </div>
         </section>
 
-        {/* 주간 레터 — 페이지 끝. 히어로 아래 SaveToAccount(가입=높은 문턱)와 일부러
-            멀리 떼어 놓았다. 두 제안이 붙어 있으면 둘 다 광고로 읽히고, 끝까지 내려온
-            사람은 이미 이 도구를 신뢰한 상태라 낮은 문턱(이메일 한 줄)이 먹힌다.
-            source 로 어느 진단이 구독자를 만드는지 갈라 본다. */}
-        <section className="pb-12 md:pb-16">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <EmailSubscribe source="personal-color" />
-          </div>
-        </section>
       </main>
       <ToolsFooter />
     </div>
