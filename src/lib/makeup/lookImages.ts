@@ -25,16 +25,24 @@ export interface LookImage {
 
 const DIR = '/styles/looks'
 
+// 캐시 버스터 — 2026-09-22.
+// 파일명이 고정(`blood-lip-after.webp`)이라 이미지를 바꿔도 이미 방문한 브라우저는
+// `cache-control: public, max-age=14400`(4시간) 동안 옛 사진을 계속 쓴다. 실제로 9룩을
+// 전부 갈아끼운 날 "반영이 안 된다"는 보고가 나왔다(서버는 새 파일, 브라우저가 옛 파일).
+// **이미지를 재생성할 때마다 이 날짜를 올릴 것.** 그래야 기존 방문자도 즉시 새 사진을 본다.
+const V = '20260922'
+const src = (name: string) => `${DIR}/${name}.webp?v=${V}`
+
 export const LOOK_IMAGES: Record<MakeupStyleId, LookImage> = {
-  'natural-glow': { before: `${DIR}/natural-glow-before.webp`, after: `${DIR}/natural-glow-after.webp` },
-  'cloud-skin': { before: `${DIR}/cloud-skin-before.webp`, after: `${DIR}/cloud-skin-after.webp` },
-  'blood-lip': { before: `${DIR}/blood-lip-before.webp`, after: `${DIR}/blood-lip-after.webp` },
-  'maximalist-eye': { before: `${DIR}/maximalist-eye-before.webp`, after: `${DIR}/maximalist-eye-after.webp` },
-  'metallic-eye': { before: `${DIR}/metallic-eye-before.webp`, after: `${DIR}/metallic-eye-after.webp` },
-  'bold-lip': { before: `${DIR}/bold-lip-before.webp`, after: `${DIR}/bold-lip-after.webp` },
-  'blush-draping': { before: `${DIR}/blush-draping-before.webp`, after: `${DIR}/blush-draping-after.webp` },
-  grunge: { before: `${DIR}/grunge-before.webp`, after: `${DIR}/grunge-after.webp` },
-  'kpop-idol': { before: `${DIR}/kpop-idol-before.webp`, after: `${DIR}/kpop-idol-after.webp` },
+  'natural-glow': { before: src('natural-glow-before'), after: src('natural-glow-after') },
+  'cloud-skin': { before: src('cloud-skin-before'), after: src('cloud-skin-after') },
+  'blood-lip': { before: src('blood-lip-before'), after: src('blood-lip-after') },
+  'maximalist-eye': { before: src('maximalist-eye-before'), after: src('maximalist-eye-after') },
+  'metallic-eye': { before: src('metallic-eye-before'), after: src('metallic-eye-after') },
+  'bold-lip': { before: src('bold-lip-before'), after: src('bold-lip-after') },
+  'blush-draping': { before: src('blush-draping-before'), after: src('blush-draping-after') },
+  grunge: { before: src('grunge-before'), after: src('grunge-after') },
+  'kpop-idol': { before: src('kpop-idol-before'), after: src('kpop-idol-after') },
 }
 
 export const lookImage = (id: MakeupStyleId): LookImage | undefined => LOOK_IMAGES[id]
