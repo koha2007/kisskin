@@ -24,6 +24,7 @@ import { useI18n } from '../i18n/I18nContext'
 import { TypePreviewCard } from '../components/tools/ToolLanding'
 import { EmailSubscribe } from '../components/EmailSubscribe'
 import { trackToolPromotion } from '../lib/analytics'
+import { readableInk } from '../lib/a11y/readableInk'
 
 interface Props { code: FaceShapeCode }
 
@@ -86,14 +87,8 @@ export default function FaceShapeResult({ code }: Props) {
 
   // ⑤ 벤토 타일 — 컨투어링 4장·스타일 5장이 전부 따로 회색 박스였다. 각각 한 타일에 접는다.
   // 무드 사진은 바로 위 롱폼이 이미 본문 안에서 크게 쓰고 있어 여기서 다시 쓰지 않는다.
+  // 2026-09-22: `핵심 특징` 타일을 여기서 뺐다 — 같은 목록이 히어로로 올라갔다.
   const baseTiles = [
-    <BentoFacts
-      key="features"
-      title={L.feature}
-      accent={accent}
-      span="full"
-      rows={features.map((f, i) => ({ label: `0${i + 1}`, text: f }))}
-    />,
     <BentoFacts
       key="contour"
       title={L.contour}
@@ -153,33 +148,34 @@ export default function FaceShapeResult({ code }: Props) {
       <ToolsNav />
 
       <main>
-        {/* Hero — slim: identity card + save (재설계 지시 §2 상단) */}
-        <section className="relative pt-12 pb-8 md:pt-16 md:pb-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${t.primaryColor}10 0%, ${t.accentColor}18 100%)` }}>
-          <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-            <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
-            <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{name}</h1>
-            <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
-            <div className="flex flex-wrap gap-2 justify-center mb-8">
-              {card.hashtags.map(k => (
-                <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>{k}</span>
-              ))}
-            </div>
-            <IdentityCard
-              label={isEn ? 'Face Shape' : '얼굴형'}
-              emoji={t.emoji}
-              card={card}
-              fileSlug={`face-shape-${t.code}`}
-              saveLabel={L.save}
-              isEn={isEn}
-              share={{
-                url: `https://kissinskin.net${basePath}/${t.slug}/`,
-                text: isEn
-                  ? `My face shape is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
-                  : `나의 얼굴형은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
-                title: isEn ? `Face shape: ${t.enName}` : `얼굴형: ${t.koName}`,
-              }}
-              shareLabel={isEn ? 'Share' : '공유하기'}
-            />
+        {/* Hero — 2026-09-22 재설계. 메이크업 MBTI 에 먼저 적용한 구조를 4종 전체에 맞춘다.
+            전: 이름·해시태그·9:16 카드·CTA 를 한 줄로 세로로 쌓아 모바일 세로를 크게 먹었고,
+                데스크톱에선 넓은 화면 한가운데 좁은 기둥 하나만 섰다.
+            후: 데스크톱은 **왼쪽 정보 + 근거 + CTA / 오른쪽 카드** 2단.
+            ⚠ AI 메이크업 CTA 는 이 페이지의 핵심 장치라 위치를 그대로 지킨다(아래 주석 참조). */}
+        <section className="relative pt-10 pb-8 md:pt-16 md:pb-12 overflow-hidden" style={{ background: `linear-gradient(135deg, ${t.primaryColor}10 0%, ${t.accentColor}18 100%)` }}>
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center md:text-left md:grid md:grid-cols-[minmax(0,1fr)_300px] md:items-center md:gap-12">
+            <div className="md:order-1">
+              <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
+              <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.02]">{name}</h1>
+              <p className="text-base md:text-xl text-slate-700 max-w-xl mx-auto md:mx-0 leading-relaxed font-medium mb-5">{tagline}</p>
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-7">
+                {card.hashtags.map(k => (
+                  <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>{k}</span>
+                ))}
+              </div>
+
+              {/* 핵심 특징 — 벤토 첫 타일에 있던 걸 히어로로 끌어올렸다(2026-09-22).
+                  이게 "왜 내 얼굴형이 이건가"의 유일한 근거인데 롱폼과 구독 폼을 지나
+                  한참 내려가야 나왔다. 벤토의 흰 패널 대신 번호 + 본문만 쓴다. */}
+              <ul className="mx-auto md:mx-0 max-w-sm space-y-2 text-left">
+                {features.map((f, i) => (
+                  <li key={f} className="flex items-start gap-2.5">
+                    <span className="font-mono t-label mt-0.5 shrink-0" style={{ color: readableInk(accent) }}>{`0${i + 1}`}</span>
+                    <span className="text-sm md:text-base text-slate-700 leading-snug">{f}</span>
+                  </li>
+                ))}
+              </ul>
 
             {/* ⭐ 결과 → AI 메이크업 다리를 2026-08-15 에 여기로 올렸다.
                 그전까지 이 자리 — 결과 카드 바로 아래, 페이지에서 가장 좋은 위치 —
@@ -197,7 +193,7 @@ export default function FaceShapeResult({ code }: Props) {
                 아래 BentoBanner 는 **그대로 뒀다**. 롱폼까지 읽고 내려온 사람에게는
                 여전히 필요하고, 두 자리가 `creative_slot` 으로 갈려 찍히므로 어느
                 위치가 실제로 먹히는지 다음 측정에서 바로 갈린다. */}
-            <div className="mt-8">
+            <div className="mt-7">
               <a
                 href={makeupHref}
                 onClick={() => trackToolPromotion('face_shape', t.code, 'hero_primary')}
@@ -217,6 +213,26 @@ export default function FaceShapeResult({ code }: Props) {
               >
                 <span className="material-symbols-outlined text-base">refresh</span> {L.retake}
               </a>
+            </div>
+            </div>
+
+            <div className="md:order-2 mt-8 md:mt-0">
+            <IdentityCard
+              label={isEn ? 'Face Shape' : '얼굴형'}
+              emoji={t.emoji}
+              card={card}
+              fileSlug={`face-shape-${t.code}`}
+              saveLabel={L.save}
+              isEn={isEn}
+              share={{
+                url: `https://kissinskin.net${basePath}/${t.slug}/`,
+                text: isEn
+                  ? `My face shape is "${t.enName}" ${t.emoji}\n${t.taglineEn ?? t.tagline}\n\n`
+                  : `나의 얼굴형은 "${t.koName}" ${t.emoji}\n${t.tagline}\n\n`,
+                title: isEn ? `Face shape: ${t.enName}` : `얼굴형: ${t.koName}`,
+              }}
+              shareLabel={isEn ? 'Share' : '공유하기'}
+            />
             </div>
           </div>
         </section>
@@ -306,7 +322,9 @@ export default function FaceShapeResult({ code }: Props) {
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
               {L.allShapes}
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {/* 2026-09-22: 4:5 · 2열 → 정사각 · 3열 + compact. 이 그리드는 '읽을 것'이
+                아니라 '고를 것'이라 카드가 클 필요가 없다. 같은 5개 내부링크는 그대로. */}
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
               {FACE_SHAPE_ORDER.map(c => {
                 const s = FACE_SHAPE_TYPES[c]
                 const isMe = s.code === t.code
@@ -320,7 +338,8 @@ export default function FaceShapeResult({ code }: Props) {
                     accent={s.primaryColor}
                     image={FACE_SHAPE_MOOD[c].image}
                     current={isMe}
-                    aspectClass="aspect-[4/5]"
+                    aspectClass="aspect-square"
+                    compact
                   />
                 )
               })}

@@ -13,7 +13,6 @@ import DnaTracker from '../components/beauty-dna/DnaTracker'
 import { SaveToAccount } from '../components/beauty-dna/SaveToAccount'
 import ToolLongform from '../components/tools/ToolLongform'
 import BentoGrid, {
-  BentoPalette,
   BentoFacts,
   BentoNote,
   BentoChips,
@@ -76,8 +75,9 @@ export default function PersonalColorResult({ code }: Props) {
   // ⑤ 벤토 타일 — 퍼스널컬러는 **색 자체가 진단 내용**이라 팔레트가 히어로다.
   // 무드 사진은 바로 위 롱폼이 이미 크게 쓰고 있어 여기서 또 쓰면 같은 사진이 두 번 나온다.
   // 예전엔 `메이크업 · 립/베이스/아이/블러쉬` 4장 + 컬러링 4장이 전부 따로 박스였다.
+  // 2026-09-22: `BentoPalette` 타일을 여기서 뺐다 — 같은 팔레트가 히어로로 올라갔고,
+  // 한 페이지에 색 견본을 두 번 깔 이유가 없다.
   const baseTiles = [
-    <BentoPalette key="palette" title={L.palette} swatches={mood.palette} accent={accent} span="full" />,
     <BentoFacts
       key="coloring"
       title={L.traits}
@@ -136,17 +136,42 @@ export default function PersonalColorResult({ code }: Props) {
       <ToolsNav />
 
       <main>
-        {/* Hero — slim: identity card + save (재설계 지시 §2 상단) */}
-        <section className="relative pt-12 pb-8 md:pt-16 md:pb-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${t.primaryColor}10 0%, ${t.accentColor}18 100%)` }}>
-          <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
-            <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
-            <h1 className="font-serif text-3xl md:text-5xl font-semibold text-navy tracking-tight mb-3 leading-[1.05]">{name}</h1>
-            <p className="text-base md:text-lg text-slate-700 max-w-xl mx-auto leading-relaxed font-medium mb-5">{tagline}</p>
-            <div className="flex flex-wrap gap-2 justify-center mb-8">
-              {keywords.map(k => (
-                <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>#{k}</span>
-              ))}
+        {/* Hero — 2026-09-22 재설계. 메이크업 MBTI 에 먼저 적용한 구조를 4종 전체에 맞춘다.
+            전: 코드·이름·해시태그·9:16 카드·다시진단을 한 줄로 세로로 쌓아 모바일 세로를
+                크게 먹었고, 데스크톱에선 넓은 화면 한가운데 좁은 기둥 하나만 섰다.
+            후: 데스크톱은 **왼쪽 정보 / 오른쪽 카드** 2단. 중복 CTA(다시 진단)를 걷어내고,
+                "왜 내가 이 유형인가"의 근거를 이름 바로 아래로 끌어올렸다. */}
+        <section className="relative pt-10 pb-8 md:pt-16 md:pb-12 overflow-hidden" style={{ background: `linear-gradient(135deg, ${t.primaryColor}10 0%, ${t.accentColor}18 100%)` }}>
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center md:text-left md:grid md:grid-cols-[minmax(0,1fr)_300px] md:items-center md:gap-12">
+            <div className="md:order-1">
+              <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
+              <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.02]">{name}</h1>
+              <p className="text-base md:text-xl text-slate-700 max-w-xl mx-auto md:mx-0 leading-relaxed font-medium mb-5">{tagline}</p>
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-7">
+                {keywords.map(k => (
+                  <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>#{k}</span>
+                ))}
+              </div>
+
+              {/* 핵심 팔레트 — 벤토 맨 위 타일(y≈2,000px)에 있던 걸 히어로로 끌어올렸다.
+                  퍼스널컬러는 **색 자체가 진단 결과**인데, 정작 그 색을 보려면 롱폼과 구독 폼을
+                  지나 한참 내려가야 했다. MBTI 의 4가지 축과 같은 자리다 — 이름 바로 아래가
+                  근거 자리고, 2단으로 바꾼 왼쪽 칸도 이걸로 채워진다.
+                  벤토의 흰 패널 대신 색면만 쓴다(히어로 위에 카드가 또 얹히면 무거워진다). */}
+              <div className="mx-auto md:mx-0 max-w-sm mb-2">
+                <p className="t-label text-navy/55 mb-2">{L.palette}</p>
+                <div className="grid grid-cols-5 gap-2">
+                  {mood.palette.map(s => (
+                    <div key={s.label} className="flex flex-col items-center gap-1.5">
+                      <span className="w-full aspect-square rounded-md border border-black/10" style={{ background: s.hex }} />
+                      <span className="t-label text-slate-500 text-center leading-tight">{s.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+
+            <div className="md:order-2 mt-7 md:mt-0">
             <IdentityCard
               label={isEn ? 'Personal Color' : '퍼스널컬러'}
               emoji={t.emoji}
@@ -163,11 +188,8 @@ export default function PersonalColorResult({ code }: Props) {
               }}
               shareLabel={isEn ? 'Share' : '공유하기'}
             />
-
-            <div className="mt-7">
-              <a href={`${basePath}/`} className="inline-flex items-center gap-2 bg-white border border-navy/25 hover:border-navy px-6 py-3 font-bold t-caption text-navy-mid transition-colors">
-                <span className="material-symbols-outlined text-lg">refresh</span> {L.retake}
-              </a>
+            {/* '다시 진단' 을 여기서 뺐다 — 아래 공유 섹션에 '다시 하기'가 이미 있어
+                같은 동작을 한 페이지에서 두 번 권하고 있었다(2026-09-22). */}
             </div>
           </div>
         </section>
@@ -258,7 +280,9 @@ export default function PersonalColorResult({ code }: Props) {
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-8 tracking-tight leading-tight">
               {L.allSeasons}
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 2026-09-22: 4:5 → 정사각 + compact. 이 그리드는 '읽을 것'이 아니라
+                '고를 것'이라 카드가 클 필요가 없다. 같은 4개 내부링크는 그대로. */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
               {SEASON_ORDER.map(c => {
                 const s = PERSONAL_COLOR_TYPES[c]
                 const isMe = s.code === t.code
@@ -273,7 +297,8 @@ export default function PersonalColorResult({ code }: Props) {
                     accent={s.primaryColor}
                     image={SEASON_MOOD[c].image}
                     current={isMe}
-                    aspectClass="aspect-[4/5]"
+                    aspectClass="aspect-square"
+                    compact
                   />
                 )
               })}
