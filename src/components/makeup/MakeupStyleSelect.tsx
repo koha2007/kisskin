@@ -180,9 +180,12 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
               })}
             </div>
 
-            {/* 이건 "내 결과"가 아니라 모델 예시라는 걸 분명히 한다 — 오인 방지. */}
+            {/* 이건 "내 결과"가 아니라 모델 예시라는 걸 분명히 한다 — 오인 방지.
+                2026-09-22: 모델이 **AI 생성 인물**이라는 사실도 함께 밝힌다(EU AI Act Art.50,
+                2026-08-02 시행 — 사람처럼 보이는 AI 이미지는 눈에 보이는 고지가 필요하다).
+                두 가지를 한 줄에 담는다: 인물은 AI, 메이크업 결과는 진짜 우리 도구 출력. */}
             <span className="absolute top-3.5 right-3 text-[10px] font-bold text-white/70 drop-shadow">
-              {isEn ? 'Real output · sample model' : '실제 생성 예시 (모델 사진)'}
+              {isEn ? 'AI model · real output' : 'AI 모델 · 실제 생성 결과'}
             </span>
 
             <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />

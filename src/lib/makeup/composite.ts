@@ -79,15 +79,18 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
 
-  // ── 로고 선로드(레이아웃 계산에 크기가 필요하다)
-  let logo: HTMLImageElement | null = null
+  // ── 브랜드 록업 선로드(레이아웃 계산에 크기가 필요하다)
+  // 2026-09-22: 원형 로고 + 캔버스에 그린 'kissinskin' 텍스트 조합이었다. 운영자가 정한
+  //   네이비 뱃지 록업 한 장(scripts/gen-brand-lockup.mjs 산출물)으로 통일했다 —
+  //   뉴스 무드컷·무료도구 카드와 같은 마크를 쓴다.
+  let lockup: HTMLImageElement | null = null
   try {
     const el = new Image()
     el.crossOrigin = 'anonymous'
-    el.src = '/logo.png'
+    el.src = '/brand-lockup.png'
     await new Promise<void>((resolve) => { el.onload = () => resolve(); el.onerror = () => resolve() })
-    if (el.complete && el.naturalWidth > 0) logo = el
-  } catch { /* 로고 없이도 그린다 */ }
+    if (el.complete && el.naturalWidth > 0) lockup = el
+  } catch { /* 록업 없이도 그린다 — 아래에서 텍스트로 폴백 */ }
 
   // ── ① 카드 아래 텍스트 블록 선계산 — 남는 높이가 곧 카드 높이다
   const cardMargin = Math.round(W * 0.022)       // 24 — 사진이 폭을 거의 꽉 채운다
@@ -97,16 +100,20 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
 
   const fontName = Math.max(20, Math.round(W * 0.0444))  // 48
   const fontDesc = Math.max(14, Math.round(W * 0.0296))  // 32
-  const brandFont = Math.max(16, Math.round(W * 0.0333)) // 36
-  const logoSize = Math.round(W * 0.038)                 // 41
-  const logoGap = Math.round(W * 0.013)
+  const brandFont = Math.max(16, Math.round(W * 0.0333)) // 36 — 록업 로드 실패 시 폴백용
+
+  // 록업 뱃지 — 폭 기준으로 키우고 높이는 원본 비율을 따른다.
+  const lockupW = Math.round(W * 0.26)                   // 281
+  const lockupH = lockup
+    ? Math.round(lockupW * (lockup.naturalHeight / lockup.naturalWidth))
+    : 0
 
   const nameRowH = Math.round(fontName * 1.25)
   const lineH = Math.round(fontDesc * 1.45)
   const gapCardName = Math.round(W * 0.016)
   const gapDescBrand = Math.round(W * 0.016)
   const bottomPad = Math.round(W * 0.03)
-  const brandRowH = logo ? logoSize : Math.round(brandFont * 1.3)
+  const brandRowH = lockup ? lockupH : Math.round(brandFont * 1.3)
 
   ctx.font = `400 ${fontDesc}px ${FONT}`
   const descLines = wrapLines(ctx, styleDesc, textMaxW).slice(0, MAX_DESC_LINES)
@@ -162,16 +169,16 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   }
   y += gapDescBrand
 
-  // 브랜드 록업 — 로고 + kissinskin 을 한 덩어리로 가운데
-  const brandTextW = measureText(ctx, 'kissinskin', `800 ${brandFont}px ${FONT}`)
-  const brandW = brandTextW + (logo ? logoSize + logoGap : 0)
-  const brandX = Math.round((W - brandW) / 2)
-  const brandMid = y + brandRowH / 2
-  if (logo) ctx.drawImage(logo, brandX, Math.round(brandMid - logoSize / 2), logoSize, logoSize)
-  ctx.textAlign = 'left'
-  ctx.fillStyle = INK
-  ctx.font = `800 ${brandFont}px ${FONT}`
-  ctx.fillText('kissinskin', brandX + (logo ? logoSize + logoGap : 0), brandMid + 1)
+  // 브랜드 록업 — 네이비 뱃지 한 장을 가운데
+  if (lockup) {
+    ctx.drawImage(lockup, Math.round((W - lockupW) / 2), y, lockupW, lockupH)
+  } else {
+    // 록업 로드 실패(오프라인·캐시 미스) — 저장이 실패하면 안 되니 텍스트로 대체한다.
+    ctx.textAlign = 'center'
+    ctx.fillStyle = INK
+    ctx.font = `800 ${brandFont}px ${FONT}`
+    ctx.fillText('kissinskin', W / 2, y + brandRowH / 2 + 1)
+  }
 
   return canvas
 }
@@ -184,14 +191,6 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.arcTo(x, y + h, x, y, r)
   ctx.arcTo(x, y, x + w, y, r)
   ctx.closePath()
-}
-
-function measureText(ctx: CanvasRenderingContext2D, text: string, font: string): number {
-  const prev = ctx.font
-  ctx.font = font
-  const w = ctx.measureText(text).width
-  ctx.font = prev
-  return w
 }
 
 function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxW: number): string[] {

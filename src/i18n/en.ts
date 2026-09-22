@@ -38,6 +38,7 @@ export default {
   'home.slider.title': '9 trending K-beauty looks',
   'home.slider.subtitle': 'Preview the looks that suit your face',
   'home.slider.selectHint': 'Pick a look and it’s generated on your selfie right away',
+  'home.slider.aiDisclosure': 'Models are AI-generated images. Each after shot is the real output of the kissinskin tool run on that before shot.',
   'home.cta.button': 'Start AI makeup',
   'nav.home': 'Home',
   'nav.diagnose': 'Try',

@@ -40,6 +40,7 @@ export default {
   'home.slider.title': '트렌디한 K-뷰티 스타일 9가지',
   'home.slider.subtitle': '내 얼굴에 어울리는 룩을 미리 만나보세요',
   'home.slider.selectHint': '원하는 메이크업을 선택하면 바로 그 메이크업으로 생성돼요',
+  'home.slider.aiDisclosure': '모델은 AI 생성 이미지입니다. 애프터는 그 비포에 kissinskin 도구를 실제로 돌린 결과입니다.',
   'home.cta.button': 'AI 메이크업 시작하기',
   'nav.home': '홈',
   'nav.diagnose': '진단',

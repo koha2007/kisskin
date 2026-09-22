@@ -18,8 +18,10 @@
 // 얼굴 구조·이목구비·머리카락은 구조적으로 보존된다(§8). 프롬프트도 정체성 불변 명시.
 // 피부 광채(dewy/glass)는 OpenAI 가 아니라 glow(MediaPipe) 레이어가 담당.
 //
-// ⚠️ 머리색 변경(옛 Cloud Skin·K-pop)은 이 아키텍처에선 불가 — 머리카락은 마스크
-//    밖이라 원본으로 복원된다. 해당 룩은 피부/메이크업 요소만 반영한다.
+// ⚠️ 위 마스크 설명은 promptFor(마스크) 경로 한정이다. 머리카락이 마스크 밖이라
+//    그 경로에선 머리색을 못 바꾼다. **현재 라이브는 whole-face 경로(promptWholeFace)**라
+//    헤어 염색이 실제로 적용된다 — style.hair 참조. (2026-09-22 주석 정정: 이 문구가
+//    "머리색은 절대 안 바뀐다"로 오독돼 룩 카드 제작 방향을 잘못 잡을 뻔했다.)
 // ════════════════════════════════════════════════════════════════════
 
 export type MakeupStyleId =
@@ -69,6 +71,7 @@ export interface MakeupStyle {
    * 룩과 함께 바뀌는 헤어 "컬러" (2026-07-12). 룩마다 다른 염색을 입혀 변화를 크게 보여준다.
    * ⚠ 컬러만 바꾼다 — 헤어스타일/길이/컷/가르마/헤어라인은 FACE_LOCK 이 그대로 고정한다.
    *   (헤어라인이 움직이면 얼굴 동일성이 깨진다.)
+   * ⚠ 무채색 금지 — HAIR_RULE 이 모든 값 뒤에 자동으로 붙는다(아래 참조).
    */
   hair: string
   /** 스타일별 "적용할 메이크업" raw 지시문. promptWholeFace(whole-face)/promptFor(마스크)가 프리앰블로 감싼다. */
@@ -90,6 +93,25 @@ const PRESERVE =
 
 const base = (point: string) => `Within the masked area, ${BASE_RETOUCH}. Then, ${point}${PRESERVE}`
 
+/**
+ * 헤어 공통 규칙 — 모든 style.hair 뒤에 promptWholeFace() 가 자동으로 붙인다.
+ *
+ * 왜(2026-09-22): "회색기 도는 염색"이 전부 백발(노화)로 읽히는 사고가 세 번 났다.
+ *   · 2026-07-12 metallic-eye 의 실버 그레이 → 브론즈로 교체(개별 대응)
+ *   · 2026-09-22 cloud-skin('ash' + 'milky') → 회백색. 운영자 표현 "할머니 머리"
+ *   · 2026-09-22 grunge('ash greige') → 같은 증상 + cloud-skin 과 색이 겹침
+ * 개별 값에 'never grey' 를 하나씩 적는 방식은 두 번 빠뜨렸으므로(위 2·3번),
+ * 규칙을 여기 한 곳에 두고 전 룩에 강제한다. 새 룩을 추가해도 자동 적용된다.
+ *
+ * ⚠ 의도적으로 무채색/애쉬 염색을 넣고 싶어지면, 이 규칙을 지우지 말고 해당 룩에만
+ *   예외를 적을 것 — 지우면 위 세 사고가 전부 되돌아온다.
+ */
+const HAIR_RULE =
+  ' The dye must read as a deliberate, flattering salon colour on a young person: it must keep visible warmth ' +
+  'and pigment. Never render the hair grey, silver, white, washed-out, dusty or faded, and never let it look ' +
+  'like greying or ageing hair — if the colour is a light or cool shade, keep it clearly tinted (beige, blonde, ' +
+  'rose or brown) with softly darker roots rather than desaturated grey.'
+
 // 옛 여성 9룩(그리드 좌→우, 위→아래) 순서 그대로 복원.
 export const MAKEUP_STYLES: MakeupStyle[] = [
   {
@@ -104,9 +126,15 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     glow: 0.24,
     hair: 'a soft natural dark brown with warm chocolate depth, subtly lighter and glossier than plain black.',
     prompt:
-      'give the skin a dewy, luminous healthy glow (moist but never greasy), add a soft natural peach blush only ' +
-        'on the apples of the cheeks kept subtle and narrow, and a soft nude "my-lips-but-better" lip keeping the ' +
-        'original lip shape.',
+      // 2026-09-22 — 비포와 애프터가 거의 구분되지 않았다("안 바뀌었네"). 9칸 중 첫 칸이자
+      // 무료 체험이 가장 많이 닿는 룩이라 변화가 안 보이면 바로 이탈이다. 자연스러움은 유지하되
+      // "한 듯 안 한 듯"이 **한 듯** 쪽으로 오도록 각 요소를 한 단계씩 올린다.
+      'give the skin a dewy, luminous healthy glow (moist but never greasy) that is clearly more radiant and ' +
+        'even than bare skin, add a soft natural peach blush on the apples of the cheeks — subtle and narrow, ' +
+        'but with enough colour to be plainly visible — softly define and groom the brows, add gently defined ' +
+        'lashes, and a soft nude "my-lips-but-better" lip with a healthy tint and sheen, keeping the ' +
+        'original lip shape. The result must still read as effortless everyday makeup, but it must be ' +
+        'unmistakable at a glance that makeup has been applied — never identical to the bare face.',
   },
   {
     id: 'cloud-skin',
@@ -118,10 +146,15 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#cfc9e8',
     maskAreas: ['skinInner', 'lips'],
     glow: 0.2,
-    hair: 'a soft ash brown with a cool, milky tone that echoes the airy complexion.',
+    // 2026-09-22 — 'ash' + 'milky' 조합이 회백색(백발)으로 나왔다. 뽀얀 무드는 유지하되
+    // 밝기를 회색이 아니라 "따뜻한 베이지"로 낸다. HAIR_RULE 이 추가로 무채색을 막는다.
+    hair:
+      'a soft milk-tea beige brown — light and creamy with clear golden-beige warmth and softly darker roots, ' +
+      'glossy and healthy like a fresh salon dye.',
     prompt:
       'create a soft "cloud skin" complexion — a smooth, poreless-looking soft-matte veil that is noticeably ' +
-        'brighter, milkier and more even than bare skin (cloud-like and airy, never cakey), and keep the lips a ' +
+        'brighter and more even than bare skin (cloud-like and airy, never cakey, and never grey, ashen or ' +
+        'drained of colour — the skin must keep its own healthy warmth), and keep the lips a ' +
         'clean natural tone with no strong color. Do NOT add blush to the cheeks.',
   },
   {
@@ -200,9 +233,14 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     glow: 0.16,
     hair: 'a soft rose brown with a mauve-pink cast, romantic and dusty.',
     prompt:
-      'apply a "blush draping" look — a clearly visible layered pink-coral blush swept from the cheekbones up ' +
-        'toward the temples (a diffused, sculpting wash of color, not a small dot), and keep the lips a soft ' +
-        'coordinating rosy tone.',
+      // 2026-09-22 — "clearly visible" 만으론 광대에 뭉친 붉은 얼룩(술 취한 볼)이 나왔다.
+      // 드레이핑의 핵심은 채도가 아니라 **방향(광대→관자놀이)과 가장자리 그라데이션**이라
+      // 강도 상한과 경계 처리를 명시한다.
+      'apply a "blush draping" look — a layered pink-coral blush swept diagonally from the cheekbones up toward ' +
+        'the temples, following that lifted direction so it sculpts the face, and keep the lips a soft ' +
+        'coordinating rosy tone. The blush must be sheer and fully blended: veil-like layers of colour with no ' +
+        'hard edge, no solid patch and no round dot on the apples, and the natural skin texture must still show ' +
+        'through it. Flushed and sculpted, never sunburnt, blotchy or feverish.',
   },
   {
     id: 'grunge',
@@ -214,7 +252,11 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#4a3d52',
     maskAreas: ['skinInner', 'eyes', 'lips'],
     glow: 0.06,
-    hair: 'a smoky ash greige — desaturated grey-brown with a matte, lived-in feel.',
+    // 2026-09-22 — 'ash greige(desaturated grey-brown)' 가 백발로 읽혔고 cloud-skin 과도 겹쳤다.
+    // 그런지의 "날것" 무드는 회색이 아니라 **자란 뿌리가 드러난 탈색**으로 내는 게 정확하다.
+    hair:
+      'a lived-in bleached blonde with deliberately dark grown-out roots — a cool, slightly undone punk salon ' +
+      'bleach that still reads unmistakably blonde (never grey or silver), with visible root contrast.',
     prompt:
       'create an edgy grunge look — a smudged smoky eye in dark grey-brown tones, a dark berry lip, and a matte ' +
         'skin finish for an intense, moody vibe. Do NOT change the eye or lip shape; only add makeup.',
@@ -229,9 +271,13 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
     accent: '#f39ac4',
     maskAreas: ['skinInner', 'lips', 'cheeks'],
     glow: 0.32,
-    // "네이비 블루블랙"은 결과가 그냥 검정으로 읽혀 변화가 보이지 않았다(2026-07-12 실측).
-    // 확실히 파랗게 — 실내에서도 블루로 보이도록 채도를 올린다.
-    hair: 'a vivid sapphire blue — unmistakably, visibly BLUE (not black, not navy-so-dark-it-reads-black), a fresh salon dye with blue light across the strands and softly darker roots.',
+    // 2026-07-12 — "네이비 블루블랙"이 그냥 검정으로 읽혀 변화가 안 보여 사파이어 블루로 올렸다.
+    // 2026-09-22 — 그 파랑이 반대로 **메이크업을 잡아먹었다**. 이 룩의 핵심은 유리알 광택·그라데
+    //   이션 핑크 립인데 화면엔 파란 머리만 남았고, 셀카를 넣은 사용자에게도 "내가 아닌" 결과가 된다.
+    //   머리는 거들고 메이크업이 주인공이 되도록, 요즘 아이돌 톤의 밝은 브라운으로 되돌린다.
+    hair:
+      'a warm rose-brown "milk tea" — a bright, on-trend K-pop idol brown with a soft pink cast, high gloss and ' +
+      'softly darker roots. Keep it a natural-looking brown so the makeup, not the hair, is the focus.',
     prompt:
       'create a K-pop idol look — glossy "glass skin" with a luminous glazed glow, a soft gradient blurred pink ' +
         'lip (deeper in the center fading out), a light pink flush on the apples of the cheeks, and a subtle ' +
@@ -268,7 +314,7 @@ export function promptWholeFace(style: MakeupStyle): string {
     'letterbox or change the composition; the output must have the same proportions as the input.\n\n' +
     `First, ${BASE_RETOUCH}. Then apply the makeup: ${style.prompt}\n\n` +
     // 헤어 컬러도 룩의 일부 — 염색만 하고 헤어 "형태"는 손대지 않는다(헤어라인이 움직이면 동일인이 아니게 됨).
-    `Then dye the hair: ${style.hair} Recolour ONLY — keep the exact same hairstyle, cut, length, volume, ` +
+    `Then dye the hair: ${style.hair}${HAIR_RULE} Recolour ONLY — keep the exact same hairstyle, cut, length, volume, ` +
     'parting, strand-by-strand flow and hairline as the original photo. The dye must look like real salon-dyed ' +
     'hair with natural shine, depth and darker roots — not a flat colour overlay, not a wig. Keep the eyebrows ' +
     'their natural colour unless the look says otherwise.\n\n' +

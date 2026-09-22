@@ -429,6 +429,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <p className="mt-3 text-center text-xs text-slate-400">
               {isEn ? 'Drag the handle to compare' : '가운데 손잡이를 좌우로 드래그해 비교해보세요'}
             </p>
+            {/* AI 생성 고지 — 아래 9룩 그리드와 같은 이유(EU AI Act Art.50, 2026-08-02 시행). */}
+            <p className="mt-1.5 text-center text-[11px] leading-relaxed text-slate-400">
+              {t('home.slider.aiDisclosure')}
+            </p>
 
             {/* 룩 선택 — 누르면 위 슬라이더가 그 룩으로 제자리 교체된다(스크롤 이동 없음).
                 2026-07-22: 글자만 있는 알약 칩이었는데 "샘플이 안 보여 눌러볼 이유가 없다"는
@@ -523,6 +527,14 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </a>
             ))}
           </div>
+          {/* AI 생성 고지 (2026-09-22) — EU AI Act Article 50 의 투명성 의무가 2026-08-02 부터
+              시행됐다. 사람처럼 보이는 AI 생성 이미지는 **눈에 보이는** 고지가 필요하고, EU 내
+              법인 유무와 무관하게 적용된다. 이 9룩 카드와 위 히어로 슬라이더가 사이트에서 AI
+              생성 인물이 가장 크게 걸리는 자리다(뉴스/가이드 컷은 ArticleShell 이 이미 고지 중).
+              ⚠ 조건부 렌더 금지 — 크롤러에 콘텐츠 없음으로 잡힌다. 항상 그린다. */}
+          <p className="mt-6 text-center text-[11px] leading-relaxed text-slate-400">
+            {t('home.slider.aiDisclosure')}
+          </p>
         </div>
       </section>
 
