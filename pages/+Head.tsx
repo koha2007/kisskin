@@ -14,10 +14,16 @@ export default function Head() {
           검증기가 앞의 것만 읽고 실패할 수 있으므로 반드시 하나만 남긴다. */}
       <meta name="commission-factory-verification" content="f1d19eec63034cf0877b6adf7fc2e9a4" />
       <meta name="google-adsense-account" content="ca-pub-5109067049933124" />
-      {/* Google Consent Mode v2 — default deny until the cookie banner records a choice. */}
+      {/* Google Consent Mode v2.
+          분석 쿠키는 EEA·영국·스위스만 동의 전 차단, 그 밖은 기본 허용(배너 "필수만 허용"으로 끌 수 있음).
+          광고 쿠키는 광고가 없으니 전 지역 차단.
+          2026-09-26: 예전엔 전 세계를 동의 전 차단해서 GA4 가 "모두 동의"를 누른 사람만 셌다
+          — Clarity 30일 고유 960명 vs GA4 171명(약 18%). 배너·개인정보처리방침은 처음부터
+          "EU·영국만"이라고 적고 있었으니 코드가 방침과 어긋나 있던 것.
+          region 을 지정한 default 가 지정 안 한 default 보다 우선한다. */}
       <script
         dangerouslySetInnerHTML={{
-          __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
+          __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted',functionality_storage:'granted',security_storage:'granted'});gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500,region:['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']});`,
         }}
       />
       {/* AdSense 로더는 2026-07-31 에 뺐다. 소유 확인 메타(위 google-adsense-account)는

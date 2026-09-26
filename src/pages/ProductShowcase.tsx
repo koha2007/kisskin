@@ -67,6 +67,62 @@ export default function ProductShowcase({ slug }: Props) {
           <span className="text-slate-400">{categoryLabel}</span>
         </nav>
 
+        {/* Brand + name */}
+        <div>
+          <div className="text-[13px] font-bold uppercase tracking-[0.15em] text-primary">{item.brand}</div>
+          <h1 className="mt-1.5 font-serif text-[26px] md:text-[34px] font-semibold leading-tight text-navy tracking-tight">
+            {item.name}
+          </h1>
+          {/* 영문 제품명 병기 — 한글 페이지에만.
+              왜: 이 제품들은 실재하는 상품이고 해외에서는 영문명으로 검색된다.
+              그런데 한글 상세에는 영문명이 단 한 번도 등장하지 않아("Dr.G Red Blemish
+              Clear Soothing Cream" 0회) 영어 검색어와 맞물릴 지점이 아예 없었다.
+              globalQuery 는 이미 갖고 있는 실제 영문 브랜드+제품명이다 — 지어내는 정보가
+              아니라 있는 데이터를 드러내는 것. EN 페이지는 본문이 이미 영문이라 생략. */}
+          {!isEn && item.globalQuery && (
+            <p className="mt-1 text-[13px] font-medium text-slate-400 tracking-tight">{item.globalQuery}</p>
+          )}
+        </div>
+
+        {/* Buy — region-aware affiliate buttons.
+            2026-08-15 에 본문 맨 뒤에서 여기로 올렸다. 실측(390×844)에서 구매 링크가
+            페이지의 **53.5%** 지점(2026px)에 있었는데, 이 페이지 방문자의 체류는
+            1~20초다. 아무도 도달하지 못하는 자리에 있었고 실제로 어필리에이트 클릭이
+            0 이었다. 제품명으로 검색해 온 사람에게 "어디서 사나"는 상세 설명보다
+            먼저 나와야 하는 정보다 — 상세는 이미 살 마음이 있는 사람이 읽는다.
+            (같은 종류의 실수를 face-shape 결과에서도 했다 — 743bd48.)
+
+            2026-09-26 에 한 번 더 — 이제 이미지보다도 위, 제품명 바로 아래.
+            8/15 수정 뒤에도 390×844 첫 화면은 [AI 얼굴 + "실제 제품 아님" + 쿠키 배너]였고
+            구매 버튼은 스크롤 아래였다. 네이버 검색어가 "다이슨 에어스트레이트",
+            "페리페라 쿨톤이셔서" 같은 **제품명**이라는 게 서치어드바이저로 확인됐고
+            (구매 의도), Clarity 3일치 네이버→제품 18세션이 전부 1~9초·클릭 0 이었다.
+            그 사람의 첫 화면 질문은 "그 제품 맞나? 어디서 사나?" 둘뿐이라 둘을 먼저 준다. */}
+        <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <h2 className="text-sm font-bold text-navy whitespace-nowrap">{isEn ? 'Where to buy' : '구매하기'}</h2>
+            <RegionToggle pageType="product" />
+          </div>
+          {/* clioLink: item.clio 는 "색조 카테고리라 클리오에 해당 매대가 있다"까지만
+              뜻한다(gen-products.mjs 가 카테고리로만 정한다). 실제로 버튼을 붙일지는
+              브랜드가 결정한다 — 안 그러면 나스·디올 페이지에 클럽클리오 매대 링크가
+              붙는다. 자세한 이유는 config/affiliate.ts clioBrandMatchAny 주석. */}
+          <ProductBuyButtons
+            coupangQuery={item.coupangQuery}
+            coupangAffiliateUrl={item.affiliateUrl}
+            globalQuery={item.globalQuery}
+            clioLink={
+              item.clio && clioBrandMatch(item.brand)
+                ? CLIO_CATEGORY_LINKS[item.clioCategory]
+                : null
+            }
+            pageType="product"
+            pageSlug={item.slug}
+            trackCategory={item.category}
+          />
+          <AffiliateDisclosure className="mt-4" />
+        </section>
+
         {/* Hero — image, or design gradient fallback.
             ⚠️ 이 이미지는 **제품 사진이 아니다.** scripts/gen-products.mjs 의 프롬프트가
             'Show only the person — no product packaging, no tubes, no bottles.' 로
@@ -81,7 +137,7 @@ export default function ProductShowcase({ slug }: Props) {
             ⚠️ max-h 로 높이를 조이면 aspect-ratio 가 폭을 함께 줄인다 → mx-auto 가 없으면
             왼쪽으로 쏠리고 오른쪽에 빈 칸이 남는다(sm: 에만 있던 것을 상시로 올렸다). */}
         <div
-          className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-sm aspect-[4/5] max-h-[38vh] mx-auto sm:max-h-none sm:aspect-[3/4] sm:max-w-md flex items-center justify-center"
+          className="mt-7 relative overflow-hidden rounded-3xl border border-slate-200 shadow-sm aspect-[4/5] max-h-[38vh] mx-auto sm:max-h-none sm:aspect-[3/4] sm:max-w-md flex items-center justify-center"
           style={{ background: gradient }}
         >
           {item.image ? (
@@ -121,23 +177,7 @@ export default function ProductShowcase({ slug }: Props) {
           )}
         </div>
 
-        {/* Brand + name */}
-        <div className="mt-6">
-          <div className="text-[13px] font-bold uppercase tracking-[0.15em] text-primary">{item.brand}</div>
-          <h1 className="mt-1.5 font-serif text-[26px] md:text-[34px] font-semibold leading-tight text-navy tracking-tight">
-            {item.name}
-          </h1>
-          {/* 영문 제품명 병기 — 한글 페이지에만.
-              왜: 이 제품들은 실재하는 상품이고 해외에서는 영문명으로 검색된다.
-              그런데 한글 상세에는 영문명이 단 한 번도 등장하지 않아("Dr.G Red Blemish
-              Clear Soothing Cream" 0회) 영어 검색어와 맞물릴 지점이 아예 없었다.
-              globalQuery 는 이미 갖고 있는 실제 영문 브랜드+제품명이다 — 지어내는 정보가
-              아니라 있는 데이터를 드러내는 것. EN 페이지는 본문이 이미 영문이라 생략. */}
-          {!isEn && item.globalQuery && (
-            <p className="mt-1 text-[13px] font-medium text-slate-400 tracking-tight">{item.globalQuery}</p>
-          )}
-          <p className="mt-3 text-slate-600 text-[15px] md:text-[17px] leading-relaxed">{item.summary}</p>
-        </div>
+        <p className="mt-6 text-slate-600 text-[15px] md:text-[17px] leading-relaxed">{item.summary}</p>
 
         {/* Highlights — short, visual chips */}
         {item.highlights.length > 0 && (
@@ -155,38 +195,6 @@ export default function ProductShowcase({ slug }: Props) {
             ))}
           </ul>
         )}
-
-        {/* Buy — region-aware affiliate buttons.
-            2026-08-15 에 본문 맨 뒤에서 여기로 올렸다. 실측(390×844)에서 구매 링크가
-            페이지의 **53.5%** 지점(2026px)에 있었는데, 이 페이지 방문자의 체류는
-            1~20초다. 아무도 도달하지 못하는 자리에 있었고 실제로 어필리에이트 클릭이
-            0 이었다. 제품명으로 검색해 온 사람에게 "어디서 사나"는 상세 설명보다
-            먼저 나와야 하는 정보다 — 상세는 이미 살 마음이 있는 사람이 읽는다.
-            (같은 종류의 실수를 face-shape 결과에서도 했다 — 743bd48.) */}
-        <section className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <h2 className="text-sm font-bold text-navy">{isEn ? 'Where to buy' : '구매하기'}</h2>
-            <RegionToggle pageType="product" />
-          </div>
-          {/* clioLink: item.clio 는 "색조 카테고리라 클리오에 해당 매대가 있다"까지만
-              뜻한다(gen-products.mjs 가 카테고리로만 정한다). 실제로 버튼을 붙일지는
-              브랜드가 결정한다 — 안 그러면 나스·디올 페이지에 클럽클리오 매대 링크가
-              붙는다. 자세한 이유는 config/affiliate.ts clioBrandMatchAny 주석. */}
-          <ProductBuyButtons
-            coupangQuery={item.coupangQuery}
-            coupangAffiliateUrl={item.affiliateUrl}
-            globalQuery={item.globalQuery}
-            clioLink={
-              item.clio && clioBrandMatch(item.brand)
-                ? CLIO_CATEGORY_LINKS[item.clioCategory]
-                : null
-            }
-            pageType="product"
-            pageSlug={item.slug}
-            trackCategory={item.category}
-          />
-          <AffiliateDisclosure className="mt-4" />
-        </section>
 
         {/* Details — longer, concrete feature sentences */}
         {item.details && item.details.length > 0 && (
