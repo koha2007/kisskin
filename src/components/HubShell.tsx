@@ -15,6 +15,8 @@ export type HubItem = {
   categoryEmoji: string
   /** Optional hero image (photo-led cards). Absent → gradient + emoji fallback. */
   image?: string
+  /** 이미지 alt. 없으면 title. 제품처럼 그림이 실물이 아닌 곳은 그 사실을 적어 넘긴다. */
+  imageAlt?: string
   rightMeta?: ReactNode
 }
 
@@ -356,7 +358,7 @@ function MasonryCard({
         style={{ background: headerGradient(item.categoryColor) }}
       >
         {item.image ? (
-          <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+          <img src={item.image} alt={item.imageAlt ?? item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         ) : (
           <>
             <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />
@@ -392,7 +394,7 @@ function FeaturedCard({ item, href, isEn }: { item: HubItem; href: string; isEn:
         style={{ background: headerGradient(item.categoryColor) }}
       >
         {item.image ? (
-          <img src={item.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+          <img src={item.image} alt={item.imageAlt ?? item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         ) : (
           <>
             <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.24), transparent 58%)' }} />

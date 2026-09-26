@@ -56,7 +56,7 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
       {/* 결과 사진(허브에서만 전달) — YouCam 처럼 "무엇을 해 주는지" 먼저 보여준다. */}
       {image && (
         <span className="block aspect-[16/9] overflow-hidden bg-cream">
-          <img src={image} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
+          <img src={image} alt={title} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
         </span>
       )}
       <div className="flex flex-1 flex-col p-5 md:p-6">

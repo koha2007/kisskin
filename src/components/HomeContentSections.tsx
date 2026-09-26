@@ -60,7 +60,7 @@ export default function HomeContentSections() {
                 >
                   <div className="relative aspect-[4/5] flex items-center justify-center" style={{ background: gradient(meta.color) }}>
                     {p.image ? (
-                      <img src={p.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                      <img src={p.image} alt={isEn ? `${p.name} — illustrative image` : `${p.name} 연출컷`} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
                       <>
                         <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />
@@ -111,7 +111,7 @@ export default function HomeContentSections() {
                 >
                   <div className="relative aspect-[4/5] flex items-center justify-center" style={{ background: gradient(meta.color) }}>
                     {n.image ? (
-                      <img src={n.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                      <img src={n.image} alt={n.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
                       <>
                         <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />

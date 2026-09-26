@@ -397,7 +397,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     <span className="block aspect-square">
                       <img
                         src={LOOK_IMAGES[s.id].after}
-                        alt=""
+                        alt={isEn ? `${s.subEn} makeup look — AI-generated model` : `${s.nameKo} 메이크업 룩 — AI 생성 모델`}
                         loading="lazy"
                         decoding="async"
                         className="h-full w-full object-cover"
@@ -455,7 +455,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               >
                 <img
                   src={LOOK_IMAGES[s.id].after}
-                  alt=""
+                  alt={isEn ? `${s.subEn} makeup look — AI-generated model` : `${s.nameKo} 메이크업 룩 — AI 생성 모델`}
                   loading="lazy"
                   decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -620,7 +620,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <div className="md:w-2/5 lg:w-1/3 shrink-0">
                   <img
                     src="/dna/feature.webp"
-                    alt=""
+                    alt={isEn ? 'Personalized beauty kit from four free tests' : '무료 진단 4종으로 만든 맞춤 뷰티 키트'}
                     loading="lazy"
                     decoding="async"
                     className="aspect-[4/3] w-full object-cover md:aspect-auto md:h-full"

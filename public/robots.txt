@@ -2,10 +2,14 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/
 
+# /analysis/? — 룩 선택(?style=9종)·충전(?topup=1) 링크가 같은 페이지를 11개 URL 로 보이게 해서
+#   네이버 사이트진단이 "title·description 중복 11건"으로 잡았다(2026-09-26). canonical 은 이미
+#   /analysis/ 인데도 따로 센다 → 쿼리 붙은 주소만 수집에서 뺀다. /analysis/ 본체는 그대로 수집.
 # ⚠️ 봇은 **자기 이름의 블록이 있으면 `User-agent: *` 블록을 통째로 무시한다.**
 #    그래서 아래 각 블록은 위의 * 블록을 상속하지 않는다 — 규칙을 하나하나 다시 적어야 한다.
 #    실제로 Googlebot 블록에 `/cdn-cgi/` 가 빠져 있어서, 구글봇만 Cloudflare 의 이메일 난독화
@@ -15,6 +19,7 @@ User-agent: Googlebot
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/
@@ -24,6 +29,7 @@ User-agent: Mediapartners-Google
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /cdn-cgi/
 
@@ -32,6 +38,7 @@ User-agent: AdsBot-Google
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /cdn-cgi/
 
@@ -39,6 +46,7 @@ User-agent: AdsBot-Google-Mobile
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /cdn-cgi/
 
@@ -46,6 +54,7 @@ User-agent: Bingbot
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/
@@ -54,6 +63,7 @@ User-agent: Yeti
 Allow: /
 Disallow: /api/
 Disallow: /auth
+Disallow: /analysis/?
 Disallow: /mypage
 Disallow: /result/
 Disallow: /cdn-cgi/

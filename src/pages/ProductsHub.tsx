@@ -25,6 +25,8 @@ export default function ProductsHub() {
           categoryColor: meta.color,
           categoryEmoji: meta.emoji,
           image: p.image,
+          // 제품 이미지는 실물이 아닌 AI 연출컷이다(상세 페이지 배지와 같은 말).
+          imageAlt: isEn ? `${p.title} — illustrative image` : `${p.title} 연출컷`,
         }
       }),
     [source, isEn],
