@@ -28,6 +28,10 @@ on:
         description: '1 = 발송 없이 수신자 수만 확인'
         required: false
         default: ''
+      operator_only:
+        description: '1 = 운영자 사본(koha3d77@gmail.com)만 발송 — 회원에겐 안 나감'
+        required: false
+        default: ''
 
 concurrency:
   group: weekly-digest
@@ -51,10 +55,15 @@ jobs:
         id: payload
         env:
           DRY_RUN: ${{ github.event.inputs.dry_run }}
+          OPERATOR_ONLY: ${{ github.event.inputs.operator_only }}
         run: |
           # 인자: 제품 최대 8건, 뉴스 최대 3건. 주 1회 발행이라 실제론 각 1건이지만,
           # 수동으로 여러 편을 돌린 주에도 메일이 통째로 길어지지 않게 뉴스는 낮게 잡는다.
           node scripts/build-digest-payload.mjs 8 3 > /tmp/digest.json
+          if [ "$OPERATOR_ONLY" = "1" ]; then
+            node -e "const f='/tmp/digest.json',fs=require('fs'),d=JSON.parse(fs.readFileSync(f));d.onlyOperator=true;fs.writeFileSync(f,JSON.stringify(d))"
+            echo "::notice::운영자 사본만 발송"
+          fi
           COUNT=$(node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));process.stdout.write(String(d.products.length+d.news.length))")
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));console.log(\`지난 7일 — 제품 \${d.products.length}건, 뉴스 \${d.news.length}건\`)"

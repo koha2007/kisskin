@@ -21,6 +21,11 @@
 // 제외: 운영자·테스트 계정(아래 상수) + DIGEST_EXCLUDE_EMAILS(env, 콤마) +
 //       public.email_optout(수신거부) + 이메일 미인증 계정.
 //
+// 운영자 사본: OPERATOR_COPY 주소는 회원 명단과 별개로 매주 한 통 받는다(2026-09-27 운영자 요청 —
+// 실제 발송본을 받은메일함에서 직접 확인하려고). byKind.operator 로 따로 세고 Resend 태그
+// kind=operator 가 붙어, 회원 수·열람률 통계에는 섞이지 않는다.
+// onlyOperator=true 면 운영자 사본만 보낸다(회차 재확인·조판 확인용).
+//
 // 필요한 Cloudflare 환경변수(대시보드 → Settings → Environment variables):
 //   ANNOUNCE_TOKEN          이 엔드포인트 호출용 공유 토큰 (GitHub Actions 시크릿과 동일값)
 //   EMAIL_OPTOUT_SECRET     수신거부 링크 HMAC 서명 키
@@ -43,13 +48,17 @@ interface Env {
 const HARD_EXCLUDE = new Set(
   [
     'koha2007@naver.com',
-    'koha3d77@gmail.com',
     'sigeomyong0306@gmail.com', // 표시이름 "시험용"
     'audit-signup-29551@gmail.com',
     'dangni81@naver.com',
     'dsngni81@naver.com',
   ].map((e) => e.toLowerCase()),
 )
+
+// 매주 사본을 받는 운영자 주소. HARD_EXCLUDE 에 같이 넣지 말 것(넣으면 제외가 이긴다).
+const OPERATOR_COPY = new Set(['koha3d77@gmail.com'].map((e) => e.toLowerCase()))
+
+type Kind = 'member' | 'subscriber' | 'operator'
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } })
@@ -154,6 +163,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     news?: unknown
     newsEn?: unknown
     dryRun?: boolean
+    onlyOperator?: boolean
   }
   try {
     body = (await request.json()) as typeof body
@@ -177,6 +187,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
   }
   const dryRun = body.dryRun === true
+  const onlyOperator = body.onlyOperator === true
   // 발송 1회를 식별하는 id — 회차별 열람·유입 비교의 기준. 한 번만 만들어 전원에게 같은 값을 쓴다
   // (발송이 자정을 걸쳐도 한 회차가 둘로 쪼개지지 않게).
   const campaign = campaignId()
@@ -203,9 +214,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   )
 
   const seen = new Set<string>()
-  const recipients: { email: string; lang: 'ko' | 'en'; kind: 'member' | 'subscriber' }[] = []
-  const add = (email: string, lang: 'ko' | 'en', kind: 'member' | 'subscriber') => {
+  const recipients: { email: string; lang: 'ko' | 'en'; kind: Kind }[] = []
+  const add = (email: string, lang: 'ko' | 'en', kind: Kind) => {
     if (!email) return
+    // 운영자 주소는 회원·구독자 명단에서 오면 건너뛰고 아래에서 operator 로만 넣는다.
+    if (kind !== 'operator' && OPERATOR_COPY.has(email)) return
+    if (onlyOperator && kind !== 'operator') return
     if (HARD_EXCLUDE.has(email) || envExclude.has(email) || optouts.has(email)) return
     if (seen.has(email)) return
     seen.add(email)
@@ -222,6 +236,11 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     const lang = String(sub.locale || '').toLowerCase().startsWith('en') ? 'en' : 'ko'
     add((sub.email || '').trim().toLowerCase(), lang, 'subscriber')
   }
+  // 운영자 사본 — 회원 계정의 언어 설정을 따르고, 없으면 ko.
+  for (const email of OPERATOR_COPY) {
+    const u = users.find((x) => (x.email || '').trim().toLowerCase() === email)
+    add(email, u ? localeOf(u) : 'ko', 'operator')
+  }
 
   const byLang = {
     ko: recipients.filter((r) => r.lang === 'ko').length,
@@ -231,6 +250,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   const byKind = {
     member: recipients.filter((r) => r.kind === 'member').length,
     subscriber: recipients.filter((r) => r.kind === 'subscriber').length,
+    operator: recipients.filter((r) => r.kind === 'operator').length,
   }
   const previewKo = renderDigest('ko', sectionsFor('ko'), `${SITE}/api/email-optout`, campaign)
 
@@ -262,7 +282,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-  async function sendOne({ email, lang }: { email: string; lang: 'ko' | 'en' }): Promise<string | null> {
+  async function sendOne({ email, lang, kind }: { email: string; lang: 'ko' | 'en'; kind: Kind }): Promise<string | null> {
     const unsub = await optoutUrl(env.EMAIL_OPTOUT_SECRET!, email)
     const { subject, html } = renderDigest(lang, sectionsFor(lang), unsub, campaign)
     let last = ''
@@ -285,6 +305,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
           tags: [
             { name: 'campaign', value: campaign },
             { name: 'lang', value: lang },
+            { name: 'kind', value: kind },
           ],
           headers: {
             'List-Unsubscribe': `<${unsub}>, <mailto:report@kissinskin.net?subject=unsubscribe>`,
