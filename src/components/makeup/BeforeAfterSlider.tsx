@@ -122,9 +122,10 @@ export default function BeforeAfterSlider({
 
         {/* 핸들 — 터치 드래그는 여기서만 시작한다(그래야 이미지 위에서 세로 스크롤 가능) */}
         <div className="absolute top-0 bottom-0 w-0.5 bg-white/90 shadow" style={{ left: `${pos}%` }}>
-          {/* 손가락용 히트 영역(56px)을 노브(36px)보다 크게 잡았다 */}
+          {/* 손가락용 히트 영역(56px)을 노브(36px)보다 크게 잡았다.
+              2026-09-28: 세로 가운데(top-1/2)면 입·턱을 덮어 틱톡 커버에서 얼굴이 가려졌다 → 아래로 */}
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center touch-none"
+            className="absolute top-[88%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center touch-none"
             onTouchStart={onTouchStartHandle}
           >
             <div className="w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center text-navy">
