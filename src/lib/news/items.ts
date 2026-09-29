@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'kbeauty-global-online-market-hits-15-billion',
+    category: 'global',
+    title: '2025년 글로벌 온라인 K-뷰티 시장 규모, 150억 달러로 1년 만에 20% 성장',
+    summary:
+      'Euromonitor 보고서에 따르면 2025년 글로벌 온라인 K-뷰티 시장 규모는 150억 달러로, 2024년 125억 달러 대비 약 20% 성장했습니다. 특히 미국이 해외 온라인 판매의 54%를 차지하며 핵심 시장으로 자리 잡았습니다.',
+    body: [
+      '> TLDR: 시장 규모 150억 달러 | 1년 전보다 약 20% 성장 | 미국이 해외 판매의 54%',
+      '글로벌 온라인 기반 K-뷰티 시장이 2025년 기준 150억 달러로 2024년 125억 달러에서 약 20% 성장했습니다.',
+      '> DATA: 2025년 시장 규모 150억 달러, 전년 대비 약 20% 성장; 미국이 해외 온라인 판매의 54%',
+      '이 성장은 디지털 중심 전략과 미국 및 유럽의 강한 수요에 힘입은 것이며, TikTok 기반 소셜 커머스도 중요한 역할을 했습니다.',
+      '소비자 입장에서는 K-뷰티가 단순한 유행을 넘어 지속 가능한 글로벌 소비 트렌드로 자리잡았다는 점이 시사됩니다.',
+    ],
+    date: '2026-09-29',
+    readMinutes: 3,
+    tags: ['K-뷰티', '온라인시장', '글로벌성장'],
+    image: '/news/kbeauty-global-online-market-hits-15-billion.webp',
+    seoTitle: '2025년 K-뷰티 글로벌 온라인 시장 150억 달러',
+    seoDescription:
+      '2025년 온라인 기반 K-뷰티 시장이 2024년 대비 약 20% 성장한 150억 달러에 달했으며 미국이 절반 이상을 차지한 글로벌 시장',
+  },
+  {
     slug: 'loreal-cosmax-k-beauty-innovation-mou-global-collab-2026',
     category: 'global',
     title: '로레알그룹·코스맥스, 차세대 K-뷰티 혁신 위한 MOU 체결',

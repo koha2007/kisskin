@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'flower-knows-strawberry-cupid-palette',
+    category: 'trend',
+    brand: 'Flower Knows',
+    name: 'Strawberry Cupid Makeup Palette',
+    title: 'Flower Knows Strawberry Cupid Palette — A Viral Fairy-Tale Beauty Hit',
+    summary:
+      'Exclusively available at Ulta Beauty, the Flower Knows Strawberry Cupid Makeup Palette is a viral multi-palette loved on social media for its fairy-tale aesthetic and gorgeous shade selection.',
+    highlights: ['6 versatile shades', 'Limited-edition release', 'Glitter & matte mix'],
+    details: [
+      'A multi-use palette featuring 6 shades (including eyeshadows, blush, and highlighter) to create various looks.',
+      'Part of Flower Knows\' limited-edition \'Strawberry Cupid\' collection, available exclusively at Ulta Beauty.',
+      'Combines glitter and matte textures to complete eyes, cheeks, and highlights all in one palette.',
+    ],
+    whoFor:
+      'Ideal for makeup lovers who prefer a mix of subtle glitters and matte shades. Highly recommended for anyone wanting to easily create versatile looks anytime, anywhere.',
+    howTo: [
+      'Apply a subtle glitter shade as a base around the eyes, then layer matte colors for a natural gradient.',
+      'Softly brush the blush shade onto the cheeks, and finish by adding radiant accent points with the highlighter.',
+    ],
+    pros: [
+      'Versatile 6-shade layout offers great portability and multi-use function',
+      'Glitter and matte combination enables diverse texture options',
+    ],
+    cons: [
+      'Glitter particle texture may not suit everyone\'s preference',
+    ],
+    image: '/products/flower-knows-strawberry-cupid-palette.webp',
+    coupangQuery: '플라워노즈 스트로베리 큐피드 팔레트',
+    globalQuery: 'Flower Knows Strawberry Cupid Makeup Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-29',
+    tags: ['LimitedEdition', 'MultiPalette', 'GlitterMatteMix'],
+    seoTitle: 'Flower Knows Strawberry Cupid Palette Review',
+    seoDescription:
+      'Discover the viral Flower Knows Strawberry Cupid Makeup Palette featuring 6 matte and glitter shades for eyes, cheeks, and highlight.',
+  },
+  {
     slug: 'lilybyred-lovebeam-cheek-balm',
     category: 'cheek',
     brand: 'lilybyred',

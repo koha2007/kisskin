@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'flower-knows-strawberry-cupid-palette',
+    category: 'trend',
+    brand: '플라워노즈',
+    name: '스트로베리 큐피드 메이크업 팔레트',
+    title: '플라워노즈 스트로베리 큐피드 팔레트 — 동화 속 색감의 히트템',
+    summary:
+      'Ulta Beauty에서 한정 판매 중인 플라워노즈 스트로베리 큐피드 메이크업 팔레트는 화려한 컬러 구성과 동화적인 감성으로 SNS 화제를 모은 인기 멀티 팔레트입니다.',
+    highlights: ['6색 구성', '한정판 출시', '글리터·매트 믹스'],
+    details: [
+      '6가지 컬러(섀도우·블러셔·하이라이터 포함)로 구성된 멀티 팔레트로 다양한 룩 연출 가능.',
+      '플라워노즈의 한정판 컬렉션 \'스트로베리 큐피드\'로 지금 Ulta Beauty에서만 만날 수 있음.',
+      '글리터와 매트 텍스처 믹스로 눈, 볼, 하이라이터까지 한 팔레트로 해결.',
+    ],
+    whoFor:
+      '은은한 글리터와 매트 컬러 믹스를 선호하는 톤일한 피부의 메이크업 애호가에게 적합합니다. 언제 어디서나 다채로운 룩을 손쉽게 완성하고 싶은 이에게 특히 추천합니다.',
+    howTo: [
+      '눈가에는 은은한 글리터 음영을 먼저 깔고, 매트 컬러로 자연스러운 그러데이션을 완성하세요.',
+      '볼에는 블러셔 색상을 소프트하게 터치하고, 하이라이터 컬러로 광채 포인트를 더해 마무리합니다.',
+    ],
+    pros: [
+      '다기능 6색 구성으로 휴대성과 활용도 뛰어남',
+      '글리터와 매트 조합으로 다양한 텍스처 표현 가능',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 글리터 입자감',
+    ],
+    image: '/products/flower-knows-strawberry-cupid-palette.webp',
+    coupangQuery: '플라워노즈 스트로베리 큐피드 팔레트',
+    globalQuery: 'Flower Knows Strawberry Cupid Makeup Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-09-29',
+    tags: ['한정판', '멀티팔레트', '글리터매트믹스'],
+    seoTitle: '플라워노즈 스트로베리 큐피드 팔레트',
+    seoDescription:
+      '지금 Ulta Beauty에서 인기 폭발 중인 플라워노즈 한정판 스트로베리 큐피드 메이크업 팔레트를 사진 중심으로 간결 소개합니다.',
+  },
+  {
     slug: 'lilybyred-lovebeam-cheek-balm',
     category: 'cheek',
     brand: '릴리바이레드',

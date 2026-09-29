@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'kbeauty-global-online-market-hits-15-billion',
+    category: 'global',
+    title: 'Global Online K-Beauty Market Reaches $15 Billion in 2025, Growing 20% YoY',
+    summary:
+      'According to a report by Euromonitor, the global online K-beauty market reached $15 billion in 2025, growing approximately 20% from $12.5 billion in 2024. The U.S. particularly established itself as a core market, accounting for 54% of overseas online sales.',
+    body: [
+      '> TLDR: Market size $15B | ~20% growth year-over-year | US represents 54% of overseas sales',
+      'The global online K-beauty market reached $15 billion in 2025, expanding by roughly 20% from $12.5 billion in 2024.',
+      '> DATA: 2025 market size $15 billion, ~20% YoY growth; US accounts for 54% of overseas online sales',
+      'This growth was driven by digital-first strategies and strong demand in the U.S. and Europe, with TikTok-driven social commerce also playing a significant role.',
+      'For consumers, this signals that K-beauty has established itself beyond a simple fad into a sustainable global consumer trend.',
+    ],
+    date: '2026-09-29',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Online Market', 'Global Growth'],
+    image: '/news/kbeauty-global-online-market-hits-15-billion.webp',
+    seoTitle: 'Global Online K-Beauty Market Hits $15B in 2025',
+    seoDescription:
+      'The global online K-beauty market expanded 20% to $15 billion in 2025, driven by strong U.S. demand and TikTok social commerce.',
+  },
+  {
     slug: 'loreal-cosmax-k-beauty-innovation-mou-global-collab-2026',
     category: 'global',
     title: 'L\'Oréal Group and Cosmax Sign MOU for Next-Generation K-Beauty Innovation',
