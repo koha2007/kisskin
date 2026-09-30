@@ -14,6 +14,7 @@ import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import { isNativeApp, nativeOpenExternal } from '../../lib/nativePicker'
 import { PRIMARY, screenBg, surfaceStyle } from './theme'
+import { rememberPendingPack } from '../../lib/purchaseTracking'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
   const w = window as unknown as { gtag?: (...a: unknown[]) => void }
@@ -74,6 +75,9 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
         setErr(isEn ? 'Could not start checkout. Please try again.' : '결제를 시작하지 못했어요. 다시 시도해 주세요.')
         setBusy(null); return
       }
+
+      // 복귀(/analysis/?checkout_id=) 때 GA4 purchase 에 팩 정보를 싣기 위해 적어 둔다.
+      rememberPendingPack({ id: pack.id, credits: pack.credits, value: pack.value })
 
       // 앱이면 시스템 브라우저로. 브릿지가 없는 옛 APK 는 false 가 오므로
       // 그때는 기존대로 웹뷰 안에서 진행한다(결제가 아예 막히는 것보다 낫다).

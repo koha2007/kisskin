@@ -29,6 +29,7 @@ import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
 import { buildImagePrompt } from './_productImagePrompt.mjs'
 import { callGeminiText } from './_geminiText.mjs'
+import { writeMarkedWebp } from './_newsWatermark.mjs'
 
 const ITEMS = resolve('src/lib/products/items.ts')
 const ITEMS_EN = resolve('src/lib/products/items.en.ts')
@@ -277,8 +278,7 @@ async function genImage(openaiKey, item) {
   const buf = Buffer.from(b64, 'base64')
   mkdirSync(IMG_DIR, { recursive: true })
   const outPath = resolve(IMG_DIR, `${item.slug}.webp`)
-  const sharp = (await import('sharp')).default
-  await sharp(buf).resize(960, 1280, { fit: 'cover' }).webp({ quality: 80 }).toFile(outPath)
+  await writeMarkedWebp(buf, outPath) // 960×1280 + 오른쪽 위 로고마크(2026-09-30)
   return `/products/${item.slug}.webp`
 }
 

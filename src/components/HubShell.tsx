@@ -60,10 +60,14 @@ function monthLabel(key: string, isEn: boolean) {
 // Deterministic per-slug height so the masonry reads as bricks rather than a
 // uniform grid — no images, so the header aspect creates the Pinterest rhythm.
 const HEADER_ASPECTS = ['aspect-[4/3]', 'aspect-[1/1]', 'aspect-[5/6]', 'aspect-[4/5]']
-function slugAspect(slug: string) {
+// 사진 카드는 세로형만 쓴다. 무드컷은 3:4 이고 로고마크가 **오른쪽 위**에 박혀 있어
+// (2026-09-30), 4:3·1:1 로 자르면 위가 160~280px 날아가 마크가 사라진다. object-top 과 함께.
+const IMAGE_ASPECTS = ['aspect-[5/6]', 'aspect-[4/5]', 'aspect-[3/4]']
+function slugAspect(slug: string, hasImage = false) {
   let h = 0
   for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) | 0
-  return HEADER_ASPECTS[Math.abs(h) % HEADER_ASPECTS.length]
+  const set = hasImage ? IMAGE_ASPECTS : HEADER_ASPECTS
+  return set[Math.abs(h) % set.length]
 }
 
 // Category-color gradient header (color → toward navy) — the single accent point.
@@ -354,11 +358,11 @@ function MasonryCard({
       className="group mb-4 block break-inside-avoid overflow-hidden rounded-lg border border-slate-200 bg-white transition-colors hover:border-navy"
     >
       <div
-        className={`relative ${slugAspect(item.slug)} flex items-center justify-center`}
+        className={`relative ${slugAspect(item.slug, !!item.image)} flex items-center justify-center`}
         style={{ background: headerGradient(item.categoryColor) }}
       >
         {item.image ? (
-          <img src={item.image} alt={item.imageAlt ?? item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+          <img src={item.image} alt={item.imageAlt ?? item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top" />
         ) : (
           <>
             <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.22), transparent 60%)' }} />
@@ -394,7 +398,7 @@ function FeaturedCard({ item, href, isEn }: { item: HubItem; href: string; isEn:
         style={{ background: headerGradient(item.categoryColor) }}
       >
         {item.image ? (
-          <img src={item.image} alt={item.imageAlt ?? item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+          <img src={item.image} alt={item.imageAlt ?? item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top" />
         ) : (
           <>
             <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.24), transparent 58%)' }} />

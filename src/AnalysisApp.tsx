@@ -5,7 +5,8 @@ import { navigate } from 'vike/client/router'
 import { useI18n } from './i18n/I18nContext'
 import { supabase } from './lib/supabase'
 import { saveSharedResult } from './lib/shareResult'
-import { isInternalTraffic, markInternalIfFamily, isInternalEmail } from './lib/internalTraffic'
+import { isInternalTraffic, markInternalIfFamily } from './lib/internalTraffic'
+import { firePurchaseOnce } from './lib/purchaseTracking'
 import type { User } from '@supabase/supabase-js'
 
 // ── Google Analytics helper ──────────────────────────────────────
@@ -33,27 +34,6 @@ function purchaseItems(type: 'one-time' | 'subscription') {
     ? [{ item_id: 'analysis_subscription', item_name: 'AI Makeup Analysis (subscription)', price: 9.88 }]
     : [{ item_id: 'analysis_per_use', item_name: 'AI Makeup Analysis (per-use)', price: 2.99 }]
 }
-// Fire GA4 `purchase` at most once per Polar checkout id. The embedded-checkout
-// success/confirmed callback and the mobile redirect-return path can both resolve
-// for a single payment with the SAME checkout id (success_url uses {CHECKOUT_ID},
-// which equals the embed's checkout id), which would otherwise double-count revenue:
-// GA4 sums event-level revenue but dedupes transactions by transaction_id.
-// localStorage persists across the redirect/reload, unlike a module-level flag.
-// Also drops family/operator purchases — Polar returns the checkout customerEmail,
-// which lets us catch family devices that paid before logging in (so the
-// markInternalIfFamily login-hook never ran). Polar dashboard is untouched.
-function firePurchaseOnce(transactionId: string, params: Record<string, unknown>, customerEmail?: string | null) {
-  if (!transactionId) return
-  if (isInternalEmail(customerEmail)) { markInternalIfFamily(customerEmail); return }
-  const KEY = 'kisskin_purchased'
-  try {
-    const fired: string[] = JSON.parse(localStorage.getItem(KEY) || '[]')
-    if (fired.includes(transactionId)) return
-    localStorage.setItem(KEY, JSON.stringify([...fired, transactionId].slice(-20)))
-  } catch { /* localStorage blocked — fire once rather than drop the conversion */ }
-  gtagEvent('purchase', { transaction_id: transactionId, ...params })
-}
-
 type Gender = 'female' | 'male' | null
 type SkinType = 'oily' | 'dry' | 'combination' | 'normal' | 'not_sure' | null
 

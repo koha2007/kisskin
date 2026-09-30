@@ -31,6 +31,7 @@ import { resolve } from 'node:path'
 import { buildImagePrompt } from './_productImagePrompt.mjs'
 import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
 import { callGeminiText } from './_geminiText.mjs'
+import { writeMarkedWebp } from './_newsWatermark.mjs'
 
 const ITEMS_KO = resolve('src/lib/products/items.ts')
 const ITEMS_EN = resolve('src/lib/products/items.en.ts')
@@ -150,8 +151,7 @@ async function genImage(openaiKey, item) {
   if (!b64) throw new Error(`${IMAGE_MODEL}: 이미지 바이트 없음(변주 3회 모두 차단)`)
   mkdirSync(IMG_DIR, { recursive: true })
   const outPath = resolve(IMG_DIR, `${item.slug}.webp`)
-  const sharp = (await import('sharp')).default
-  await sharp(Buffer.from(b64, 'base64')).resize(960, 1280, { fit: 'cover' }).webp({ quality: 80 }).toFile(outPath)
+  await writeMarkedWebp(Buffer.from(b64, 'base64'), outPath) // 960×1280 + 오른쪽 위 로고마크(2026-09-30)
   return `/products/${item.slug}.webp`
 }
 

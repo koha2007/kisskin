@@ -18,6 +18,7 @@ import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '.
 import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
+import { trackCheckoutReturn } from '../../lib/purchaseTracking'
 import { screenBg, btnPrimary, btnPrimaryStyle } from './theme'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
@@ -177,6 +178,9 @@ export default function MakeupFlow() {
       .catch(() => { /* 확인 실패 시 안내를 띄우지 않음(생성 시 게이트가 최종 판정) */ })
     return () => { cancelled = true }
   }, [])
+
+  // 크레딧 결제 복귀(/analysis/?checkout_id=) → 결제 확인 후 GA4 purchase 1회. 충전 자체는 서버 웹훅 몫.
+  useEffect(() => { trackCheckoutReturn() }, [])
 
   // 테스트/직접진입: /analysis/?topup=1 → 크레딧 충전 화면 바로 표시(무료 소진·잔액0 상태를
   // 만들 필요 없이 결제 흐름을 눈으로 확인·테스트). 충전은 100% 할인코드로 무료 결제 가능.
