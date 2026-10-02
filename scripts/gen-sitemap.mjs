@@ -238,6 +238,8 @@ const PATH_SOURCES = [
   { test: (p) => p === '/analysis/',           files: ['pages/analysis', 'src/components/makeup'] },
   { test: (p) => p === '/tools/',              files: ['pages/tools/+Page.tsx', 'src/pages/ToolsHub.tsx'] },
   { test: (p) => p === '/tools/beauty-dna/',   files: ['pages/tools/beauty-dna', 'src/pages/BeautyDna.tsx', 'src/lib/beauty-dna', 'src/components/beauty-dna'] },
+  { test: (p) => p === '/looks/',              files: ['pages/looks/+Page.tsx', 'src/pages/LooksHub.tsx', 'src/lib/looks', 'public/looks/charts'] },
+  { test: (p) => /^\/looks\/[a-z-]+\/$/.test(p),   files: ['pages/looks/@id', 'src/pages/LookHowTo.tsx', 'src/lib/looks', 'public/looks/charts'] },
   { test: (p) => p === '/news/',               files: ['src/pages/NewsHub.tsx'] },
   { test: (p) => p === '/guides/',             files: ['src/pages/GuidesHub.tsx'] },
   { test: (p) => p === '/reviews/',            files: ['src/pages/ReviewsHub.tsx'] },

@@ -140,6 +140,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* Unified site nav — must match ToolsNav in src/components/ToolsLayout.tsx */}
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
+            <a href={isEn ? '/en/looks/' : '/looks/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'How-To' : '메이크업 방법'}</a>
             <a href={isEn ? '/en/news/' : '/news/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
             <a href={isEn ? '/en/products/' : '/products/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Products' : '메이크업 제품'}</a>
             <a href={isEn ? '/en/about/' : '/about/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.about')}</a>
@@ -222,6 +223,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <ul className="flex-1 overflow-y-auto py-2">
                 {[
                   { href: toolHref('/tools/'), label: t('common.freeTools') },
+                  { href: isEn ? '/en/looks/' : '/looks/', label: isEn ? 'Makeup How-To' : '메이크업 방법' },
                   { href: isEn ? '/en/news/' : '/news/', label: t('nav.news') },
                   { href: isEn ? '/en/products/' : '/products/', label: isEn ? 'Makeup Products' : '메이크업 제품' },
                   { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
@@ -506,6 +508,56 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <p className="mt-6 text-center text-[11px] leading-relaxed text-slate-400">
             {t('home.slider.aiDisclosure')}
           </p>
+        </div>
+      </section>
+
+      {/* ── 메이크업 방법 (페이스 차트) — 2026-10-02 ──
+          바로 위 9룩 섹션은 "사진(결과)", 여기는 "그림(방법)". 같은 9룩을 아티스트 페이스 차트로
+          보여주고 /looks/{id}/ 단계 페이지로 보낸다. 브랜드 비전(미술 × 메이크업)이 홈에서
+          가장 직접 보이는 자리. 모바일=가로 스크롤, PC=9칸 한 줄을 넘치면 스크롤. */}
+      <section id="how-to" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="howto-title">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-10">
+            <div>
+              <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
+                {isEn ? 'Step by step' : '단계별 따라 하기'}
+              </p>
+              <h2 id="howto-title" className="font-serif text-3xl md:text-[2.6rem] leading-tight text-navy">
+                {isEn ? 'How to do each look' : '이 룩, 직접 하는 법'}
+              </h2>
+              <p className="mt-3 text-slate-600 text-sm md:text-base max-w-xl">
+                {isEn
+                  ? 'Every look drawn on a makeup artist’s face chart — where each step goes, the shades and the tools.'
+                  : '메이크업 아티스트의 페이스 차트로 그렸어요. 어디에, 어떤 색을, 무엇으로 — 4단계로.'}
+              </p>
+            </div>
+            <a href={isEn ? '/en/looks/' : '/looks/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
+              {isEn ? 'All 9 how-tos' : '9룩 방법 전체 보기'}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
+          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-3 md:gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-0 pb-2 [scrollbar-width:thin]">
+            {MAKEUP_STYLES.map((s, i) => (
+              <a
+                key={s.id}
+                href={`${isEn ? '/en' : ''}/looks/${s.id}/`}
+                className="group snap-start shrink-0 w-[42%] sm:w-[30%] md:w-[calc((100%-5rem)/5.4)] block"
+              >
+                <span className="relative block aspect-[3/4] overflow-hidden bg-cream border border-slate-200">
+                  <img
+                    src={`/looks/charts/${s.id}.webp`}
+                    alt={isEn ? `${s.subEn} face chart` : `${s.nameKo} 페이스 차트`}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute left-1/2 top-[-28%] w-[150%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                  <span className="absolute left-2 top-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-navy px-1.5 text-[11px] font-extrabold text-white">{i + 1}</span>
+                </span>
+                <span className="mt-2 block text-sm font-bold text-navy truncate">{isEn ? s.subEn : s.nameKo}</span>
+                <span className="block text-xs text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1094,6 +1146,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href={toolHref('/tools/personal-color/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
                 <li><a href={toolHref('/tools/face-shape/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
                 <li><a href={toolHref('/tools/perfume-type/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
+                <li><a href={isEn ? '/en/looks/' : '/looks/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup How-To' : '메이크업 방법'}</a></li>
                 <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
                 <li><a href={isEn ? '/en/products/' : '/products/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Products' : '메이크업 제품'}</a></li>
                 <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>

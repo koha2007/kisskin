@@ -122,7 +122,7 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
           <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
             {isEn ? 'Step-by-step makeup' : '단계별 메이크업'}
           </p>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-tight">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-tight break-keep">
             {isEn ? `How to do ${style.subEn.replace(/ MAKEUP$/i, '').toLowerCase()} makeup` : `${style.nameKo.replace(/ 메이크업$/, '')} 메이크업 하는 법`}
           </h1>
           <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl leading-relaxed">

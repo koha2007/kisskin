@@ -55,6 +55,7 @@ export function ToolsNav() {
   const links: NavLink[] = [
     // Unified site nav — must match the home nav in src/HomePage.tsx.
     { href: localePath('/tools/', isEn), label: t('common.freeTools') },
+    { href: isEn ? '/en/looks/' : '/looks/', label: isEn ? 'How-To' : '메이크업 방법' },
     { href: isEn ? '/en/news/' : '/news/', label: isEn ? 'News' : '뉴스' },
     { href: isEn ? '/en/products/' : '/products/', label: isEn ? 'Makeup Products' : '메이크업 제품' },
     { href: localePath('/about/', isEn), label: isEn ? 'About' : '소개' },
@@ -230,6 +231,7 @@ export function ToolsFooter() {
               <li><a href={localePath('/tools/personal-color/', isEn)} className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href={localePath('/tools/face-shape/', isEn)} className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>
               <li><a href={localePath('/tools/perfume-type/', isEn)} className="hover:text-primary">{t('tools.footer.perfume')}</a></li>
+              <li><a href={isEn ? '/en/looks/' : '/looks/'} className="hover:text-primary">{isEn ? 'Makeup How-To' : '메이크업 방법'}</a></li>
               <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary">{isEn ? 'News' : '뉴스'}</a></li>
               <li><a href={isEn ? '/en/products/' : '/products/'} className="hover:text-primary">{isEn ? 'Makeup Products' : '메이크업 제품'}</a></li>
               <li><a href={localePath('/about-makeup-ai/', isEn)} className="hover:text-primary">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>

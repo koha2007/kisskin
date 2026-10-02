@@ -507,6 +507,27 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
           </div>
         )}
 
+        {/* 이 룩 직접 하는 법 — 2026-10-02. 내 얼굴에서 결과를 본 바로 그때가 "실제로 하려면?"이
+            가장 궁금한 순간이다. /looks/{id}/ 단계 페이지(페이스 차트 + 4단계)로 보낸다. */}
+        {!pending && (
+          <a
+            href={`${isEn ? '/en' : ''}/looks/${styleId}/`}
+            onClick={() => gtagEvent('look_howto_from_result', { style: styleId })}
+            className="mt-4 flex items-center gap-3 p-3 hover:brightness-125 transition"
+            style={surfaceStyle}
+          >
+            <span className="relative block h-16 w-14 shrink-0 overflow-hidden rounded-md bg-[#f3eee6]">
+              <img src={`/looks/charts/${styleId}.webp`} alt="" loading="lazy" decoding="async"
+                className="absolute left-1/2 top-[-30%] w-[150%] max-w-none -translate-x-1/2" />
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block text-[13px] font-bold">{isEn ? 'How to do this look yourself' : '이 룩 직접 하는 법'}</span>
+              <span className="block text-[12px] text-white/65">{isEn ? 'Face chart + 4 steps, shades and tools' : '페이스 차트 + 4단계 · 색 · 도구'}</span>
+            </span>
+            <span className="material-symbols-outlined text-white/70">arrow_forward</span>
+          </a>
+        )}
+
         {/* 이메일로 받기 — 로그인 시 자동 채움, 익명은 직접 입력 */}
         {!pending && (
           <section className="mt-4 p-4" style={surfaceStyle}>

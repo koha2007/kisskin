@@ -1,7 +1,6 @@
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { MAKEUP_STYLES } from '../lib/makeup/styles'
-import { LOOK_IMAGES } from '../lib/makeup/lookImages'
 import { LOOK_HOWTO } from '../lib/looks/howto'
 import { useSavedLooks } from '../lib/looks/savedLooks'
 
@@ -20,7 +19,7 @@ export default function LooksHub() {
           <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
             {isEn ? 'Makeup how-to' : '메이크업 방법'}
           </p>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-tight">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-tight break-keep">
             {isEn ? '9 K-beauty looks, step by step' : 'K-뷰티 9룩, 단계별로 따라 하기'}
           </h1>
           <p className="mt-4 text-base md:text-lg text-slate-600 leading-relaxed">
@@ -35,10 +34,11 @@ export default function LooksHub() {
             const how = LOOK_HOWTO[s.id]
             return (
               <a key={s.id} href={`${prefix}/looks/${s.id}/`} className="group block bg-white border border-slate-200 hover:border-navy transition-colors">
+                {/* 2026-10-02: 모델 사진 → 페이스 차트. 홈 9룩 섹션(사진)과 겹치지 않고 "방법" 섹션임이 한눈에 보인다 */}
                 <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
-                  <img src={LOOK_IMAGES[s.id].after} alt={isEn ? `${s.subEn} — AI-generated model` : `${s.nameKo} — AI 생성 모델`}
+                  <img src={`/looks/charts/${s.id}.webp`} alt={isEn ? `${s.subEn} face chart` : `${s.nameKo} 페이스 차트`}
                     loading="lazy" decoding="async"
-                    className="h-full w-full object-cover object-[50%_25%] transition-transform duration-500 group-hover:scale-105" />
+                    className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
                   {saved.includes(s.id) && (
                     <span className="absolute right-2 top-2 inline-flex items-center gap-1 bg-primary px-2 py-1 text-[10px] font-bold text-white">
                       <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>bookmark</span>
