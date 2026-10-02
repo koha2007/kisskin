@@ -648,7 +648,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     텅 비어 보였다 → PC 는 사진을 absolute 로 깔아 카드 높이를 글이 정하게 한다. */}
                 <div className="relative md:w-2/5 lg:w-1/3 shrink-0">
                   <img
-                    src="/dna/feature.webp"
+                    src="/dna/feature.webp?v=20261002a"
                     alt={isEn ? 'Personalized beauty kit from four free tests' : '무료 진단 4종으로 만든 맞춤 뷰티 키트'}
                     loading="lazy"
                     decoding="async"
