@@ -391,3 +391,23 @@ export const AREA_LABEL: Record<HowToArea, { ko: string; en: string }> = {
   lips: { ko: '입술', en: 'Lips' },
   hair: { ko: '헤어', en: 'Hair' },
 }
+
+/**
+ * 페이스 차트(메이크업 아티스트가 쓰는 얼굴 도안, public/looks/charts/{id}.webp).
+ * 2026-10-02 벤치마킹: NYX·Makeup by Mario·Estée Lauder 가 공식 페이스 차트를 쓰고,
+ * "어디에 바르는지"를 그림으로 보여주는 게 글보다 빨리 읽힌다. 모든 룩이 **같은 빈 도안**
+ * (blank.webp)에 그려져 좌표가 고정 → 단계 번호 핀을 코드로 얹는다.
+ * 새 룩 차트 생성: _archive/originals/face-charts/ 의 blank.png 를 gpt-image-2 edit 로.
+ */
+export const CHART_LOOKS: readonly MakeupStyleId[] = [
+  'natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol',
+]
+
+/** 1024×1536 차트 기준 부위 중심·반경(px). 핀 위치와 스포트라이트에 쓴다. */
+export const CHART_ZONE: Record<HowToArea, { cx: number; cy: number; rx: number; ry: number }> = {
+  skin: { cx: 512, cy: 740, rx: 310, ry: 380 },
+  eyes: { cx: 512, cy: 614, rx: 250, ry: 80 },
+  cheeks: { cx: 512, cy: 765, rx: 290, ry: 105 },
+  lips: { cx: 508, cy: 896, rx: 120, ry: 56 },
+  hair: { cx: 512, cy: 330, rx: 340, ry: 240 },
+}

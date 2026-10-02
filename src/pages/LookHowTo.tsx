@@ -6,7 +6,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import BeforeAfterSlider from '../components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
-import { LOOK_HOWTO, AREA_CROP, AREA_LABEL, SEASON_SHADES, type HowToArea } from '../lib/looks/howto'
+import { LOOK_HOWTO, AREA_CROP, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, type HowToArea, type HowToStep } from '../lib/looks/howto'
 import { PERSONAL_COLOR_TYPES } from '../lib/personal-color/types'
 import { useSavedLooks } from '../lib/looks/savedLooks'
 import { trackEvent } from '../lib/analytics'
@@ -32,6 +32,58 @@ export function CropImg({ src, area, alt }: { src: string; area: HowToArea; alt:
         style={{ width: `${100 / c.w}%`, left: `${(-c.x / c.w) * 100}%`, top: `${(-c.y / c.h) * 100}%` }}
       />
     </span>
+  )
+}
+
+/**
+ * 메이크업 맵 — 아티스트 페이스 차트 위에 단계 번호 핀.
+ * 벤치마킹(2026-10-02): 페이스 차트(NYX·Makeup by Mario 공식 차트)처럼 "어디에"를 그림 한 장으로.
+ * 차트 1024×1536 중 y 300~1160 만 보여준다(얼굴). 핀 좌표는 CHART_ZONE.
+ */
+function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep[]; isEn: boolean }) {
+  const Y0 = 300, Y1 = 1160
+  const pins = new Map<HowToArea, number[]>()
+  steps.forEach((s, i) => pins.set(s.area, [...(pins.get(s.area) ?? []), i + 1]))
+  return (
+    <figure className="bg-white border border-slate-200 p-4 md:p-6">
+      <figcaption className="flex items-baseline justify-between gap-3 mb-3">
+        <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-dark">{isEn ? 'Makeup map' : '메이크업 맵'}</span>
+        <span className="text-xs text-slate-500">{isEn ? 'Numbers = steps below' : '번호 = 아래 단계'}</span>
+      </figcaption>
+      <div className="relative w-full overflow-hidden bg-cream" style={{ aspectRatio: `1024 / ${Y1 - Y0}` }}>
+        <img
+          src={`/looks/charts/${id}.webp`}
+          alt={isEn ? 'Face chart illustration of this look' : '이 룩의 페이스 차트 일러스트'}
+          loading="lazy"
+          decoding="async"
+          className="absolute left-0 w-full max-w-none"
+          style={{ top: `${(-Y0 / (Y1 - Y0)) * 100}%` }}
+        />
+        {[...pins.entries()].map(([area, nums]) => {
+          const z = CHART_ZONE[area]
+          const left = ((z.cx + z.rx * 0.85) / 1024) * 100
+          const top = ((z.cy - z.ry * 0.85 - Y0) / (Y1 - Y0)) * 100
+          return (
+            <span key={area}>
+              <span
+                className="absolute rounded-[50%] border-2 border-dashed border-primary/70"
+                style={{
+                  left: `${((z.cx - z.rx) / 1024) * 100}%`, top: `${((z.cy - z.ry - Y0) / (Y1 - Y0)) * 100}%`,
+                  width: `${((z.rx * 2) / 1024) * 100}%`, height: `${((z.ry * 2) / (Y1 - Y0)) * 100}%`,
+                }}
+                aria-hidden="true"
+              />
+              <span
+                className="absolute -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full bg-navy px-2 h-7 min-w-7 text-xs font-extrabold text-white shadow"
+                style={{ left: `${Math.min(left, 92)}%`, top: `${Math.max(top, 4)}%` }}
+              >
+                {nums.join('·')}
+              </span>
+            </span>
+          )
+        })}
+      </div>
+    </figure>
   )
 }
 
@@ -108,6 +160,8 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
             </a>
           </div>
 
+          <div className="space-y-5 md:space-y-6">
+          {CHART_LOOKS.includes(id) && <FaceChartMap id={id} steps={how.steps} isEn={isEn} />}
           <ol className="space-y-5 md:space-y-6">
             {how.steps.map((s, i) => (
               <li key={i} className="bg-white border border-slate-200 overflow-hidden">
@@ -142,6 +196,7 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
               </li>
             )}
           </ol>
+          </div>
         </section>
 
         <MemberPerks id={id} />
