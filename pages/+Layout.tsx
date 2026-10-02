@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   // 경계를 URL 한 곳에서 정하므로 페이지마다 클래스를 흩뿌릴 필요가 없다.
   // display:contents 라 박스를 만들지 않아 레이아웃에 영향이 없고,
   // 커스텀 프로퍼티 상속은 그대로 통과한다.
-  const isContentArea = /^(\/en)?\/(tools|guides|news|reviews|products)(\/|$)/.test(path)
+  const isContentArea = /^(\/en)?\/(tools|guides|news|reviews|products|looks)(\/|$)/.test(path)
   return (
     <I18nProvider initialLocale={initialLocale}>
       {isContentArea ? (

@@ -1,0 +1,70 @@
+import { useI18n } from '../i18n/I18nContext'
+import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
+import { MAKEUP_STYLES } from '../lib/makeup/styles'
+import { LOOK_IMAGES } from '../lib/makeup/lookImages'
+import { LOOK_HOWTO } from '../lib/looks/howto'
+import { useSavedLooks } from '../lib/looks/savedLooks'
+
+// 메이크업 방법 허브 (/looks/) — 9룩 카드 → 룩별 단계 페이지.
+export default function LooksHub() {
+  const { locale } = useI18n()
+  const isEn = locale === 'en'
+  const prefix = isEn ? '/en' : ''
+  const { saved } = useSavedLooks()
+
+  return (
+    <div className="font-display bg-background-light min-h-screen">
+      <ToolsNav />
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <header className="max-w-2xl mb-10 md:mb-14">
+          <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
+            {isEn ? 'Makeup how-to' : '메이크업 방법'}
+          </p>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-navy leading-tight">
+            {isEn ? '9 K-beauty looks, step by step' : 'K-뷰티 9룩, 단계별로 따라 하기'}
+          </h1>
+          <p className="mt-4 text-base md:text-lg text-slate-600 leading-relaxed">
+            {isEn
+              ? 'Every look broken into 4 steps — skin, eyes, cheeks, lips — with the shades and tools for each. Pick one and start.'
+              : '룩마다 피부·눈·볼·입술 4단계로 나눠, 단계별 색과 도구까지 정리했어요. 하나 골라 시작해 보세요.'}
+          </p>
+        </header>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+          {MAKEUP_STYLES.map((s) => {
+            const how = LOOK_HOWTO[s.id]
+            return (
+              <a key={s.id} href={`${prefix}/looks/${s.id}/`} className="group block bg-white border border-slate-200 hover:border-navy transition-colors">
+                <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
+                  <img src={LOOK_IMAGES[s.id].after} alt={isEn ? `${s.subEn} — AI-generated model` : `${s.nameKo} — AI 생성 모델`}
+                    loading="lazy" decoding="async"
+                    className="h-full w-full object-cover object-[50%_25%] transition-transform duration-500 group-hover:scale-105" />
+                  {saved.includes(s.id) && (
+                    <span className="absolute right-2 top-2 inline-flex items-center gap-1 bg-primary px-2 py-1 text-[10px] font-bold text-white">
+                      <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>bookmark</span>
+                      {isEn ? 'Saved' : '저장됨'}
+                    </span>
+                  )}
+                </span>
+                <span className="block p-3 md:p-5">
+                  <span className="block text-sm md:text-lg font-extrabold text-navy leading-tight">{isEn ? s.subEn : s.nameKo}</span>
+                  <span className="mt-1.5 hidden md:block text-sm text-slate-600 leading-relaxed">{isEn ? how.introEn : how.introKo}</span>
+                  <span className="mt-2 block text-[11px] md:text-xs font-semibold text-slate-500">
+                    {how.minutes}{isEn ? ' min' : '분'} · {isEn ? how.levelEn : how.levelKo}
+                  </span>
+                </span>
+              </a>
+            )
+          })}
+        </div>
+
+        <p className="mt-10 text-center text-[11px] text-slate-400 max-w-xl mx-auto leading-relaxed">
+          {isEn
+            ? 'Models are AI-generated. Each after shot is a visualization by the kissinskin tool, not a photo of the steps applied by hand.'
+            : '모델은 AI 생성 이미지예요. 애프터는 키스인스킨 도구가 만든 시각화로, 단계대로 손으로 칠한 실제 사진이 아니에요.'}
+        </p>
+      </main>
+      <ToolsFooter />
+    </div>
+  )
+}
