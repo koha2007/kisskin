@@ -6,10 +6,14 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import BeforeAfterSlider from '../components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
-import { LOOK_HOWTO, AREA_CROP, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, type HowToArea, type HowToStep } from '../lib/looks/howto'
+import { LOOK_HOWTO, AREA_CROP, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, COMMON_SAFETY_KO, COMMON_SAFETY_EN, type HowToArea, type HowToStep } from '../lib/looks/howto'
 import { PERSONAL_COLOR_TYPES } from '../lib/personal-color/types'
 import { useSavedLooks } from '../lib/looks/savedLooks'
 import { trackEvent } from '../lib/analytics'
+import { useRegion } from '../hooks/useRegion'
+import { AFFILIATE_ENABLED, buildSearchLink, buildAmazonLink, buildYesStyleLink } from '../lib/recommendations/types'
+import { trackAffiliateClick } from '../lib/affiliate/track'
+import RegionToggle from '../components/RegionToggle'
 
 // 룩별 메이크업 방법 페이지 (/looks/{id}/).
 // 방법은 전부 공개 — 검색엔진과 틱톡에서 온 사람이 같은 내용을 본다(클로킹 없음).
@@ -48,7 +52,7 @@ function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep
     <figure className="bg-white border border-slate-200 p-4 md:p-6">
       <figcaption className="flex items-baseline justify-between gap-3 mb-3">
         <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-dark">{isEn ? 'Makeup map' : '메이크업 맵'}</span>
-        <span className="text-xs text-slate-500">{isEn ? 'Numbers = steps below' : '번호 = 아래 단계'}</span>
+        <span className="text-xs text-slate-500">{isEn ? 'Numbers = steps below · AI-generated illustration' : '번호 = 아래 단계 · AI 생성 일러스트'}</span>
       </figcaption>
       <div className="relative w-full overflow-hidden bg-cream" style={{ aspectRatio: `1024 / ${Y1 - Y0}` }}>
         <img
@@ -84,6 +88,61 @@ function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep
         })}
       </div>
     </figure>
+  )
+}
+
+/**
+ * 이 단계 제품 찾기 — 지역별 검색 링크(쿠팡 / YesStyle·Amazon). 2026-10-02.
+ * 정책: 제휴 링크는 rel="sponsored" + 페이지 안 경제적 이해관계 고지(ShopDisclosure) 필수
+ * (공정위 추천·보증 심사지침, 쿠팡 파트너스 고지 문구, FTC). 특정 브랜드를 "추천"하지 않고
+ * 단계에 맞는 **제품 종류 검색**으로 보낸다 — 효능·순위 주장이 생기지 않는다.
+ */
+function ShopLinks({ step, look, n, isEn }: { step: HowToStep; look: MakeupStyleId; n: number; isEn: boolean }) {
+  const [region] = useRegion()
+  if (!AFFILIATE_ENABLED) return null
+  const cls = 'inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-navy hover:border-navy transition-colors'
+  const slug = `${look}-${n}`
+  if (region === 'global') {
+    return (
+      <div className="mt-3 flex flex-wrap gap-2">
+        <a href={buildYesStyleLink(step.shopEn)} target="_blank" rel="noopener noreferrer nofollow sponsored" className={cls}
+          onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: step.area, pageType: 'looks', pageSlug: slug })}>
+          <span className="material-symbols-outlined text-sm">shopping_bag</span>{isEn ? 'Find on YesStyle' : 'YesStyle에서 찾기'}
+        </a>
+        <a href={buildAmazonLink(step.shopEn)} target="_blank" rel="noopener noreferrer nofollow sponsored" className={cls}
+          onClick={() => trackAffiliateClick({ merchant: 'amazon', category: step.area, pageType: 'looks', pageSlug: slug })}>
+          <span className="material-symbols-outlined text-sm">shopping_bag</span>{isEn ? 'Find on Amazon' : 'Amazon에서 찾기'}
+        </a>
+      </div>
+    )
+  }
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      <a href={buildSearchLink(step.searchKeywords)} target="_blank" rel="noopener noreferrer nofollow sponsored" className={cls}
+        onClick={() => trackAffiliateClick({ merchant: 'coupang', category: step.area, pageType: 'looks', pageSlug: slug })}>
+        <span className="material-symbols-outlined text-sm">shopping_bag</span>
+        {isEn ? `Find "${step.searchKeywords}" on Coupang` : `쿠팡에서 "${step.searchKeywords}" 찾기`}
+      </a>
+    </div>
+  )
+}
+
+/**
+ * 제휴 고지 — 링크가 처음 나오기 전에, 눈에 보이게. 이 페이지에 실제로 있는 링크만 정확히 적는다
+ * (결과 페이지용 문구는 클리오·"유형별 추천"을 말해 여기엔 맞지 않음). 쿠팡 파트너스 필수 문구 포함.
+ * Amazon·YesStyle 은 아직 제휴 미승인 = 일반 검색(config/affiliate.ts) — 승인되면 문구도 바꿀 것.
+ */
+function ShopDisclosure({ isEn }: { isEn: boolean }) {
+  if (!AFFILIATE_ENABLED) return null
+  return (
+    <p className="flex gap-2 text-[11px] leading-relaxed text-slate-500 bg-white/60 border border-slate-200 px-3 py-2">
+      <span className="material-symbols-outlined text-sm shrink-0">info</span>
+      <span>
+        {isEn
+          ? 'Coupang links on this page are affiliate links (Coupang Partners) — we may earn a commission at no extra cost to you. YesStyle and Amazon links are plain searches. Each link searches for a product type, not a specific brand we endorse.'
+          : '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 수수료는 제품 가격에 영향을 주지 않아요. 링크는 특정 브랜드 추천이 아니라 단계에 맞는 제품 종류 검색이에요.'}
+      </span>
+    </p>
   )
 }
 
@@ -162,6 +221,8 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
 
           <div className="space-y-5 md:space-y-6">
           {CHART_LOOKS.includes(id) && <FaceChartMap id={id} steps={how.steps} isEn={isEn} />}
+          {AFFILIATE_ENABLED && <RegionToggle pageType="looks" />}
+          <ShopDisclosure isEn={isEn} />
           <ol className="space-y-5 md:space-y-6">
             {how.steps.map((s, i) => (
               <li key={i} className="bg-white border border-slate-200 overflow-hidden">
@@ -185,16 +246,19 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
                     <Swatches colors={s.swatches} />
                     <span className="text-xs font-semibold text-slate-500">{isEn ? s.toolsEn : s.toolsKo}</span>
                   </div>
+                  <ShopLinks step={s} look={id} n={i + 1} isEn={isEn} />
                 </div>
               </li>
             ))}
 
-            {(isEn ? how.safetyEn : how.safetyKo) && (
-              <li className="list-none flex gap-3 bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 leading-relaxed">
-                <span className="material-symbols-outlined text-lg shrink-0">info</span>
-                <span>{isEn ? how.safetyEn : how.safetyKo}</span>
-              </li>
-            )}
+            {/* 안전 안내 — 룩별(염색·눈가 펄) + 모든 룩 공통(패치테스트·이상 시 중단) */}
+            <li className="list-none flex gap-3 bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900 leading-relaxed">
+              <span className="material-symbols-outlined text-lg shrink-0">health_and_safety</span>
+              <span>
+                {(isEn ? how.safetyEn : how.safetyKo) && <>{isEn ? how.safetyEn : how.safetyKo} </>}
+                {isEn ? COMMON_SAFETY_EN : COMMON_SAFETY_KO}
+              </span>
+            </li>
           </ol>
           </div>
         </section>

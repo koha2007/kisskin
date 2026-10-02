@@ -60,8 +60,8 @@ export default function LooksHub() {
 
         <p className="mt-10 text-center text-[11px] text-slate-400 max-w-xl mx-auto leading-relaxed">
           {isEn
-            ? 'Models are AI-generated. Each after shot is a visualization by the kissinskin tool, not a photo of the steps applied by hand.'
-            : '모델은 AI 생성 이미지예요. 애프터는 키스인스킨 도구가 만든 시각화로, 단계대로 손으로 칠한 실제 사진이 아니에요.'}
+            ? 'Face-chart illustrations are AI-generated. They show where each step goes — not a photo of a real result. Each look page also has an AI-model before/after.'
+            : '페이스 차트 일러스트는 AI로 생성했어요. 어디에 바르는지 보여주는 그림이며 실제 결과 사진이 아니에요. 룩 페이지에는 AI 모델 비포·애프터도 있어요.'}
         </p>
       </main>
       <ToolsFooter />

@@ -558,6 +558,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </a>
             ))}
           </div>
+          <p className="mt-3 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
         </div>
       </section>
 

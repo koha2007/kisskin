@@ -41,7 +41,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
 function PrivacyKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 5월 2일</p>
+      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 2일</p>
 
       <h2>1. 서문</h2>
       <p>kissinskin("당사")은 <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a> 웹사이트를 운영합니다. 본 개인정보처리방침은 AI 메이크업 분석 서비스("서비스") 이용 시 이용자의 정보를 어떻게 수집, 이용, 보호, 공개하는지 설명합니다.</p>
@@ -72,6 +72,12 @@ function PrivacyKo() {
         <li>결과 화면에서 <strong>저장</strong> 또는 <strong>공유</strong> 버튼을 누르면(모바일에서는 결과 화면을 여는 시점에 미리 준비되기도 합니다), 생성된 결과 이미지가 클라우드 저장소(<strong>Supabase Storage</strong>)에 업로드되어 고유 링크(<code>/result/&#123;id&#125;</code>)로 보관됩니다. 소셜 공유 시 미리보기(Open Graph 카드)를 표시하고, 링크를 통해 결과를 다시 볼 수 있게 하기 위해서입니다.</li>
         <li>이 이미지는 추측 불가능한 무작위 ID를 알아야만 접근할 수 있는 공개 링크로 보관되며, 별도 요청이 없는 한 <strong>자동으로 만료되지 않습니다</strong>.</li>
         <li>삭제를 원하시면 <strong>support@kissinskin.net</strong>으로 결과 링크(URL)를 보내 주십시오. 영업일 기준 3일 이내에 삭제해 드립니다.</li>
+      </ul>
+
+      <h3>3.2.1 계정에 저장하는 기록 (로그인 회원)</h3>
+      <ul>
+        <li>로그인한 회원이 직접 저장한 <strong>무료 진단 결과(내 뷰티 기록)</strong>, <strong>저장한 AI 메이크업 룩</strong>, <strong>저장한 메이크업 방법(/looks/)</strong> 목록은 마이페이지에서 다시 볼 수 있도록 계정에 연결해 보관합니다(Supabase).</li>
+        <li>업로드한 원본 사진은 저장되지 않습니다. 진단 유형·룩 이름 같은 결과 값을 저장하며, AI 메이크업 룩은 3.2항의 생성 결과 이미지 링크를 함께 기록합니다. 이 기록은 <strong>회원 탈퇴 시 계정과 함께 삭제</strong>되며, 결과 이미지 자체의 삭제는 3.2항에 따라 요청하실 수 있습니다.</li>
       </ul>
 
       <h3>3.3 결제 정보</h3>
@@ -117,7 +123,7 @@ function PrivacyKo() {
       </table>
       <p><strong>디스플레이 광고:</strong> 본 사이트는 현재 Google AdSense를 포함한 어떠한 제3자 디스플레이 광고도 게재하지 않으며, 광고 목적의 쿠키를 사용하지 않습니다. 향후 광고를 도입할 경우 본 방침을 갱신하고 쿠키 배너에서 별도 동의를 받습니다.</p>
       <p><strong>동의 변경:</strong> 쿠키 동의는 브라우저 저장소를 비우거나 사이트 데이터를 삭제하면 다시 표시됩니다.</p>
-      <p><strong>쿠팡 파트너스 어필리에이트 링크:</strong> 추천 제품 카드 일부에 쿠팡 어필리에이트 링크가 포함되어 있으며 <code>rel="sponsored"</code>로 표기됩니다. 해당 링크를 <strong>클릭한 시점에만</strong> 쿠팡 도메인(<code>link.coupang.com</code>, <code>coupang.com</code>)이 자체 트래킹 쿠키(예: <code>OVERSEAS_GUEST_COUNTRY</code>, <code>X-CP-PG-NID</code>)를 발행합니다. 이러한 쿠키는 kissinskin.net이 발행하지 않으며 당사는 해당 데이터에 접근할 수 없습니다. 어필리에이트 수익은 추천 선정에 영향을 주지 않습니다. 자세한 내용은 <a href="https://partners.coupang.com" target="_blank" rel="noopener noreferrer">쿠팡 파트너스</a> 정책을 참고하세요.</p>
+      <p><strong>쿠팡 파트너스 어필리에이트 링크:</strong> 추천 제품 카드 일부와 메이크업 방법(/looks/) 페이지의 "제품 찾기" 버튼에 쿠팡 어필리에이트 링크가 포함되어 있으며 <code>rel="sponsored"</code>로 표기됩니다. 해당 링크를 <strong>클릭한 시점에만</strong> 쿠팡 도메인(<code>link.coupang.com</code>, <code>coupang.com</code>)이 자체 트래킹 쿠키(예: <code>OVERSEAS_GUEST_COUNTRY</code>, <code>X-CP-PG-NID</code>)를 발행합니다. 이러한 쿠키는 kissinskin.net이 발행하지 않으며 당사는 해당 데이터에 접근할 수 없습니다. 어필리에이트 수익은 추천 선정에 영향을 주지 않습니다. 자세한 내용은 <a href="https://partners.coupang.com" target="_blank" rel="noopener noreferrer">쿠팡 파트너스</a> 정책을 참고하세요.</p>
       <p><strong>링크프라이스(클리오) 어필리에이트 링크:</strong> 일부 추천 카드 및 향수 진단 결과 페이지에는 링크프라이스 제휴마케팅을 통한 클리오(<code>clubclio.co.kr</code>) 공식몰 어필리에이트 링크가 포함되어 있으며 <code>rel="sponsored"</code>로 표기됩니다. 해당 링크를 <strong>클릭한 시점에만</strong> 링크프라이스 도메인(<code>newtip.net</code>) 및 클리오 도메인이 자체 트래킹 쿠키를 발행합니다. 이러한 쿠키는 kissinskin.net이 발행하지 않으며 당사는 해당 데이터에 접근할 수 없습니다. 어필리에이트 수익은 추천 선정에 영향을 주지 않습니다. 자세한 내용은 <a href="https://www.linkprice.com" target="_blank" rel="noopener noreferrer">링크프라이스</a> 정책을 참고하세요.</p>
 
       <h2>4. 처리의 법적 근거 (GDPR 제6조)</h2>
@@ -308,7 +314,7 @@ function PrivacyKo() {
 function PrivacyEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: May 2, 2026</p>
+      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 2, 2026</p>
 
       <h2>1. Introduction</h2>
       <p>kissinskin ("we", "our", "us") operates the website <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
@@ -331,6 +337,12 @@ function PrivacyEn() {
         <li>Photos are processed in real-time memory and <strong>discarded immediately</strong> after your analysis results are generated.</li>
         <li>We do not keep, archive, or back up your photos in any form.</li>
         <li><strong>Biometric data notice:</strong> Your facial photo may constitute biometric data under certain laws (e.g., Illinois BIPA, Texas CUBI, Washington state law). We do not extract, store, or create biometric identifiers or templates from your photos. The photo is used solely for the purpose of generating AI makeup simulations and is not retained.</li>
+      </ul>
+
+      <h3>3.1.1 Records Saved to Your Account (signed-in members)</h3>
+      <ul>
+        <li>When a signed-in member saves them, we keep your <strong>free quiz results (My Beauty Record)</strong>, <strong>saved AI makeup looks</strong> and <strong>saved makeup how-tos (/looks/)</strong> linked to your account (Supabase) so you can reopen them on My Page.</li>
+        <li>Your uploaded photos are never stored. We keep result values such as quiz types and look names; a saved AI makeup look also keeps a link to its generated result image. These records are <strong>deleted together with your account</strong>. To delete a generated result image itself, email its link to <strong>support@kissinskin.net</strong>.</li>
       </ul>
 
       <h3>3.2 Payment Information</h3>
@@ -376,7 +388,7 @@ function PrivacyEn() {
       </table>
       <p><strong>Display advertising:</strong> This site currently serves no third-party display ads, including Google AdSense, and uses no advertising cookies. If we introduce advertising in the future, we will update this policy and collect separate consent through the cookie banner.</p>
       <p><strong>Changing your consent:</strong> Clearing your browser storage or site data will re-show the cookie banner.</p>
-      <p><strong>Coupang Partners affiliate links:</strong> Some product recommendation cards contain Coupang affiliate links, marked with <code>rel="sponsored"</code>. Tracking cookies (e.g. <code>OVERSEAS_GUEST_COUNTRY</code>, <code>X-CP-PG-NID</code>) are set by the Coupang domain (<code>link.coupang.com</code>, <code>coupang.com</code>) <strong>only when you click such a link</strong>. These cookies are not set by kissinskin.net and we have no access to the data they collect. Affiliate revenue does not influence which products we recommend. See <a href="https://partners.coupang.com" target="_blank" rel="noopener noreferrer">Coupang Partners</a> for their policies.</p>
+      <p><strong>Coupang Partners affiliate links:</strong> Some product recommendation cards and the "Find on Coupang" buttons on makeup how-to (/looks/) pages contain Coupang affiliate links, marked with <code>rel="sponsored"</code>. Tracking cookies (e.g. <code>OVERSEAS_GUEST_COUNTRY</code>, <code>X-CP-PG-NID</code>) are set by the Coupang domain (<code>link.coupang.com</code>, <code>coupang.com</code>) <strong>only when you click such a link</strong>. These cookies are not set by kissinskin.net and we have no access to the data they collect. Affiliate revenue does not influence which products we recommend. See <a href="https://partners.coupang.com" target="_blank" rel="noopener noreferrer">Coupang Partners</a> for their policies.</p>
       <p><strong>LinkPrice (CLIO) affiliate links:</strong> Some product recommendation cards and perfume diagnostic result pages contain CLIO official store (<code>clubclio.co.kr</code>) affiliate links served through LinkPrice, marked with <code>rel="sponsored"</code>. Tracking cookies are set by the LinkPrice domain (<code>newtip.net</code>) and the CLIO domain <strong>only when you click such a link</strong>. These cookies are not set by kissinskin.net and we have no access to the data they collect. Affiliate revenue does not influence which products we recommend. See <a href="https://www.linkprice.com" target="_blank" rel="noopener noreferrer">LinkPrice</a> for their policies.</p>
 
       <h2>4. Legal Basis for Processing (GDPR Article 6)</h2>
