@@ -11,6 +11,15 @@ import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
 import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
+import { useBeautyDna } from './hooks/useBeautyDna'
+import { DNA_FIELDS, DNA_FIELD_META, type DnaField } from './lib/beauty-dna/types'
+
+const DNA_PREVIEW: Record<DnaField, string> = {
+  personalColor: TOOL_CARD_IMAGES.personalColor,
+  faceShape: TOOL_CARD_IMAGES.faceShape,
+  perfume: TOOL_CARD_IMAGES.perfume,
+  mbti: TOOL_CARD_IMAGES.mbti,
+}
 
 // 히어로에서 "완성 예시" 로 먼저 보여줄 룩 4종 — 톤(내추럴/블러쉬/눈/아이돌)이 서로 겹치지
 // 않게 고른다. 썸네일은 각 룩의 실제 결과(after)를 쓴다.
@@ -36,6 +45,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   }
 
   const { user: authUser } = useAuth()
+  const { dna } = useBeautyDna()
   const user = userProp ?? authUser
 
   const { t, locale, setLocale } = useI18n()
@@ -291,7 +301,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         {/* items-center 였는데, 우측 컬럼이 슬라이더+9썸네일로 길어지자 좌측 카피가 수직
             중앙으로 밀려 헤드라인이 첫 화면(fold) 밖으로 나갔다. 주의의 57%가 첫 화면에
             머문다는 게 히어로 개편의 전제였으므로 상단 정렬로 되돌린다. */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-10 lg:gap-16 items-start">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-x-10 lg:gap-x-16 md:gap-y-10 items-start">
           {/* 좌: 카피.
               모바일에선 이 래퍼가 display:contents 라 아래 두 덩어리(카피 상단 / CTA 하단)가
               그리드 컨테이너의 직계 자식이 된다 → 그 사이에 결과물(order-2)을 끼워 넣는다.
@@ -300,7 +310,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               · 하지만 CTA 2개가 세로로 쌓이면서 결과물이 첫 화면 밖으로 밀렸는데,
                 우리 사용자의 75%가 모바일이다(GA4). 그래서 헤드라인 → 결과물 → CTA 순으로
                 모바일만 재배치한다. 데스크톱은 기존 2단 레이아웃 그대로. */}
-          <div className="contents md:flex md:flex-col md:items-start md:gap-6">
+          <div className="contents md:col-start-1 md:row-start-1 md:flex md:flex-col md:items-start md:gap-6">
             <div className="order-1 md:order-none flex flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
               {/* 눈에 띄는 알약 배지 → 담백한 eyebrow 라벨. 브랜드 한글명은 SEO 위해 유지 */}
               <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">
@@ -363,7 +373,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* 우: 결과물. 예전엔 홈 중반에 있던 비포/애프터를 첫 화면으로 끌어올렸다 */}
           {/* 2026-07-27: 모바일에서 카드가 화면 폭을 거의 다 먹어 스크롤할 곳이 없다는
               지적 → 좌우 여백을 확보하려고 모바일 폭을 340→272px 로 줄였다. */}
-          <div className="order-2 md:order-none animate-fade-in-up-delay w-full max-w-[272px] sm:max-w-[340px] md:max-w-[380px] mx-auto">
+          {/* 2026-10-02: PC 에서 우측(슬라이더+3×3 룩 그리드+버튼)만 길게 내려가고 좌측은 CTA 아래가
+              통째로 비어 보였다(운영자 캡처). 룩 선택은 PC 에서만 좌측 컬럼 아래로 옮긴다 —
+              왼쪽에서 고르고 오른쪽에서 보는 구성. 모바일은 order 로 기존 순서 그대로
+              (헤드라인 → 슬라이더 → 룩 선택 → CTA). */}
+          <div className="order-2 md:order-none md:col-start-2 md:row-start-1 md:row-span-2 animate-fade-in-up-delay w-full max-w-[272px] sm:max-w-[340px] md:max-w-[400px] mx-auto">
             <BeforeAfterSlider
               key={baLook ?? 'hero'}
               beforeSrc={baBefore}
@@ -377,11 +391,23 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <p className="mt-1.5 text-center text-[11px] leading-relaxed text-slate-400">
               {t('home.slider.aiDisclosure')}
             </p>
+          </div>
+
+          <div className="order-2 md:order-none md:col-start-1 md:row-start-2 w-full max-w-[272px] sm:max-w-[340px] md:max-w-none mx-auto md:mx-0 -mt-4 md:mt-0">
+            {/* PC 전용 라벨 — 9칸 한 줄이라 썸네일 위 이름이 안 들어가서, 고른 룩 이름을 여기 보여준다 */}
+            <p className="hidden md:flex items-baseline gap-2 mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
+              {isEn ? 'Pick a look' : '룩 고르기'}
+              <span className="normal-case tracking-normal text-sm font-bold text-navy">
+                {baLook
+                  ? (isEn ? MAKEUP_STYLES.find((s) => s.id === baLook)?.subEn : MAKEUP_STYLES.find((s) => s.id === baLook)?.nameKo)
+                  : (isEn ? '9 K-beauty looks' : 'K-뷰티 9룩')}
+              </span>
+            </p>
 
             {/* 룩 선택 — 누르면 위 슬라이더가 그 룩으로 제자리 교체된다(스크롤 이동 없음).
                 2026-07-22: 글자만 있는 알약 칩이었는데 "샘플이 안 보여 눌러볼 이유가 없다"는
                 지적을 받아 각 룩의 실제 결과 썸네일로 바꿨다. 우리 제품은 결과물이 곧 카피다. */}
-            <div className="mt-4 grid grid-cols-3 gap-1.5" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
+            <div className="grid grid-cols-3 md:grid-cols-9 gap-1.5" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
               {MAKEUP_STYLES.map((s) => {
                 const on = baLook === s.id
                 return (
@@ -390,6 +416,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     type="button"
                     onClick={() => setBaLook(on ? null : s.id)}
                     aria-pressed={on}
+                    title={isEn ? s.subEn : s.nameKo}
                     className={`group relative block overflow-hidden rounded-lg transition-all ${
                       on ? 'ring-2 ring-navy ring-offset-1' : 'ring-1 ring-slate-200 hover:ring-navy/40'
                     }`}
@@ -403,7 +430,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                         className="h-full w-full object-cover"
                       />
                     </span>
-                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-1 pb-1 pt-4">
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-1 pb-1 pt-4 md:hidden">
                       <span className="block truncate text-[10px] font-bold leading-tight text-white">
                         {isEn ? s.subEn : s.nameKo}
                       </span>
@@ -415,7 +442,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
             <a
               href={baLook ? `/analysis/?style=${baLook}` : '/analysis/'}
-              className="mt-3 flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors"
+              className="mt-3 md:mt-4 flex md:inline-flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors"
             >
               {baLook
                 ? (isEn ? 'Try this look on my photo' : '이 룩으로 내 사진 만들기')
@@ -617,13 +644,15 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             >
               <div className="relative flex flex-col md:flex-row md:items-stretch">
                 {/* 4종 진단을 종합한 "맞춤 뷰티 키트" 한 컷 (public/dna/feature.webp) */}
-                <div className="md:w-2/5 lg:w-1/3 shrink-0">
+                {/* 2026-10-02: PC 에서 사진의 원래 비율(세로로 김)이 카드 높이를 정해 오른쪽 네이비 면이
+                    텅 비어 보였다 → PC 는 사진을 absolute 로 깔아 카드 높이를 글이 정하게 한다. */}
+                <div className="relative md:w-2/5 lg:w-1/3 shrink-0">
                   <img
                     src="/dna/feature.webp"
                     alt={isEn ? 'Personalized beauty kit from four free tests' : '무료 진단 4종으로 만든 맞춤 뷰티 키트'}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-[4/3] w-full object-cover md:aspect-auto md:h-full"
+                    className="aspect-[4/3] w-full object-cover md:absolute md:inset-0 md:aspect-auto md:h-full"
                   />
                 </div>
                 <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
@@ -633,6 +662,25 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   <p className="text-white/80 text-sm md:text-base mb-4 max-w-xl leading-relaxed">
                     {t('home.dna.featDesc')}
                   </p>
+                  {/* 무엇을 모아 하나로 만드는지 — 4종 진단 썸네일 + 완료 체크. 카드 전체가 링크라
+                      여기엔 링크를 두지 않는다(중첩 <a> 금지). */}
+                  <ul className="grid grid-cols-4 gap-2 md:gap-3 mb-4 max-w-md">
+                    {DNA_FIELDS.map((f) => (
+                      <li key={f} className="min-w-0">
+                        <span className="relative block aspect-square overflow-hidden bg-white/10">
+                          <img src={DNA_PREVIEW[f]} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                          {dna[f] && (
+                            <span className="absolute right-1 top-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-primary" aria-hidden="true">
+                              <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
+                            </span>
+                          )}
+                        </span>
+                        <span className="mt-1.5 block truncate text-[10px] md:text-[11px] font-semibold text-white/70">
+                          {isEn ? DNA_FIELD_META[f].labelEn : DNA_FIELD_META[f].labelKo}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                   <DnaProgress compact dark className="mb-3" />
                   <p className="text-white/55 text-[11px] md:text-xs leading-relaxed mb-5 max-w-xl">
                     {t('home.dna.featNote')}
