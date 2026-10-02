@@ -18,7 +18,7 @@ export function useSavedLooks() {
   // 서버(user_metadata) 값이 기본, 방금 누른 결과는 덮어쓰기로 즉시 반영한다(effect 로 복사하지 않는다).
   const [override, setOverride] = useState<{ uid: string; list: MakeupStyleId[] } | null>(null)
   const [busy, setBusy] = useState(false)
-  const saved = user && override?.uid === user.id ? override.list : readSaved(user?.user_metadata)
+  const saved = override && user && override.uid === user.id ? override.list : readSaved(user?.user_metadata)
 
   /** 저장/해제를 뒤집고, 뒤집은 뒤 저장 상태를 돌려준다. */
   const toggle = async (id: MakeupStyleId): Promise<boolean> => {

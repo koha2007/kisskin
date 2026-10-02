@@ -7,6 +7,7 @@ import { clearDna } from '../lib/beauty-dna/types'
 import { getCreditBalance } from '../lib/credits'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
 import { BeautyRecord } from '../components/beauty-dna/BeautyRecord'
+import { SavedLooks } from '../components/looks/SavedLooks'
 
 /**
  * 브랜드 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
@@ -342,6 +343,15 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           {isKo ? '내 뷰티 기록' : 'My Beauty Record'}
         </h2>
         <BeautyRecord bare />
+      </div>
+
+      {/* 저장한 메이크업 방법 — /looks/{id}/ 의 "이 룩 저장하기"(2026-10-02) */}
+      <div style={cardStyle}>
+        <h2 style={sectionTitleStyle}>
+          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>bookmark</span>
+          {isKo ? '저장한 메이크업 방법' : 'Saved How-Tos'}
+        </h2>
+        <SavedLooks />
       </div>
 
       {/* 내 정보 */}
