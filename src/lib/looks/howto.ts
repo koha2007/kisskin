@@ -18,19 +18,38 @@ import type { SeasonCode } from '../personal-color/types'
 /** 사진에서 확대해 보여줄 부위 — 9룩 사진이 전부 같은 모델·같은 구도라 좌표 하나로 된다 */
 export type HowToArea = 'skin' | 'eyes' | 'cheeks' | 'lips' | 'hair'
 
-/** 1024×1536 룩 사진 기준 크롭 (비율 0~1). 전부 **2:1** 로 맞춘다(h = w·1024/1536/2) —
- *  단계 카드 위 사진 높이가 같아야 목록이 고르게 읽힌다. 2026-10-02 실측. */
-const r = (x: number, y: number, w: number) => ({ x, y, w, h: (w * 1024) / 1536 / 2 })
+/** 1024×1536 룩 사진 기준 크롭 (비율 0~1). 9룩 사진은 얼굴 위치가 같아 좌표 한 세트로 된다.
+ *  기본 **2:1**(단계 카드 높이를 고르게), 피부만 **1:1** — 베이스는 얼굴 전체에 바르는 단계라
+ *  얼굴이 다 보여야 한다. 2026-10-03 재실측: 예전 좌표는 피부=눈+코, 볼=눈·코·입 전체가 잡혀
+ *  "번호대로 부위가 안 나온다"는 보고가 나왔다 → 부위끼리 겹치지 않게 다시 잡음.
+ *    skin   = 눈썹~턱(얼굴 전체)  eyes = 눈썹+눈
+ *    cheeks = 한쪽 볼(사진 왼쪽) + 콧방울 — 눈·입이 안 들어가야 볼로 읽힌다
+ *    lips   = 입술만 */
+const r = (x: number, y: number, w: number, ratio = 2) => ({ x, y, w, h: (w * 1024) / 1536 / ratio })
 export const AREA_CROP: Record<HowToArea, { x: number; y: number; w: number; h: number }> = {
-  skin: r(0.15, 0.38, 0.7),
-  eyes: r(0.2, 0.34, 0.6),
-  cheeks: r(0.12, 0.42, 0.76),
-  lips: r(0.3, 0.585, 0.4),
+  skin: r(0.21, 0.375, 0.58, 1),
+  eyes: r(0.23, 0.36, 0.52),
+  cheeks: r(0.16, 0.47, 0.4),
+  lips: r(0.32, 0.585, 0.34),
   hair: r(0, 0.02, 1),
+}
+
+/** 같은 부위가 여러 단계에 나올 때 단계 글이 가리키는 **바로 그 자리**를 보여주는 확대 컷.
+ *  (예전엔 볼 3단계가 똑같은 사진 3장이었다.) 단계에 `crop` 을 주면 area 대신 이걸 쓴다. */
+export type CropKey = HowToArea | 'eyeLid' | 'eyeOuter' | 'underEye' | 'cheekTemple' | 'lipLine'
+export const STEP_CROP: Record<CropKey, { x: number; y: number; w: number; h: number }> = {
+  ...AREA_CROP,
+  eyeLid: r(0.2, 0.385, 0.34), // 한쪽 눈 — 눈두덩·속눈썹
+  eyeOuter: r(0.5, 0.385, 0.36), // 사진 오른쪽 눈 꼬리 — 윙·바깥 V
+  underEye: r(0.24, 0.43, 0.3), // 한쪽 눈 아래 — 애교살
+  cheekTemple: r(0.1, 0.36, 0.42, 1), // 관자놀이~광대~볼 — C자 블러셔
+  lipLine: r(0.35, 0.6, 0.28), // 입술 윤곽 확대 — 라이너·선 정리
 }
 
 export interface HowToStep {
   area: HowToArea
+  /** 단계 사진을 area 기본 크롭 대신 더 좁은 자리로(STEP_CROP) */
+  crop?: CropKey
   titleKo: string
   titleEn: string
   bodyKo: string
@@ -110,7 +129,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
     minutes: 15, levelKo: '보통', levelEn: 'Medium',
     keyShade: 'nudeLip',
     steps: [
-      { area: 'skin', titleKo: '보습이 먼저 — 매트는 건조함이 아니다', titleEn: 'Hydrate first — matte is not dry',
+      { area: 'skin', crop: 'cheeks', titleKo: '보습이 먼저 — 매트는 건조함이 아니다', titleEn: 'Hydrate first — matte is not dry',
         bodyKo: '가벼운 보습제를 바르고 완전히 흡수시켜요. 모공·결이 신경 쓰이는 코와 볼에만 블러 프라이머를 눌러 발라요.',
         bodyEn: 'Apply a light moisturizer and let it sink in fully. Press a blurring primer only on the nose and cheeks where texture shows.',
         toolsKo: '수분 크림 · 블러 프라이머', toolsEn: 'Light moisturizer · blurring primer',
@@ -177,7 +196,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
     minutes: 20, levelKo: '도전', levelEn: 'Bold',
     keyShade: 'colorEye',
     steps: [
-      { area: 'eyes', titleKo: '프라이머가 색을 살린다', titleEn: 'Primer makes color pop',
+      { area: 'eyes', crop: 'eyeLid', titleKo: '프라이머가 색을 살린다', titleEn: 'Primer makes color pop',
         bodyKo: '눈두덩 전체에 아이 프라이머(또는 컨실러)를 얇게 펴고 마를 때까지 기다려요. 컬러가 선명해지고 오래 가요.',
         bodyEn: 'Spread eye primer (or concealer) thinly over the lid and let it dry. Colors show brighter and last longer.',
         toolsKo: '아이 프라이머', toolsEn: 'Eye primer',
@@ -189,7 +208,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '컬러 섀도 3색 · 블렌딩 브러시', toolsEn: 'Three color shadows · blending brush',
         swatches: ['#2fb3a5', '#3a5fd0', '#7b3fc4'],
         searchKeywords: '컬러 아이섀도 팔레트', shopEn: 'colorful eyeshadow palette' },
-      { area: 'eyes', titleKo: '굵은 윙 라인', titleEn: 'A bold winged liner',
+      { area: 'eyes', crop: 'eyeOuter', titleKo: '굵은 윙 라인', titleEn: 'A bold winged liner',
         bodyKo: '섀도를 먼저 하고 라인은 나중에(가루 낙하를 닦기 쉬워요). 속눈썹 라인을 따라 그리다 눈꼬리에서 위로 빼 날개를 만들어요.',
         bodyEn: 'Shadow first, liner after (fallout is easier to wipe). Trace the lash line and flick up at the outer corner into a wing.',
         toolsKo: '블랙 펜 라이너', toolsEn: 'Black pen liner',
@@ -218,13 +237,13 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '매트 브라운 섀도', toolsEn: 'Matte brown shadow',
         swatches: ['#8a6448'],
         searchKeywords: '매트 브라운 아이섀도', shopEn: 'matte brown eyeshadow' },
-      { area: 'eyes', titleKo: '촉촉한 브러시로 "포일링"', titleEn: 'Foil it with a damp brush',
+      { area: 'eyes', crop: 'eyeLid', titleKo: '촉촉한 브러시로 "포일링"', titleEn: 'Foil it with a damp brush',
         bodyKo: '브러시에 픽서를 살짝 뿌려 촉촉하게(흥건하면 안 돼요). 메탈릭 섀도를 눈두덩 가운데에 눌러 찍고 바깥으로 넓혀요.',
         bodyEn: 'Mist your brush with setting spray — damp, not dripping. Press metallic shadow onto the center of the lid and build outward.',
         toolsKo: '메탈릭 섀도 · 픽서 · 납작 브러시', toolsEn: 'Metallic shadow · setting spray · flat brush',
         swatches: ['#d4a94a', '#c9c9cf'],
         searchKeywords: '메탈릭 골드 아이섀도', shopEn: 'metallic gold eyeshadow' },
-      { area: 'eyes', titleKo: '애교살 앞쪽에 한 점', titleEn: 'A dot under the inner eye',
+      { area: 'eyes', crop: 'underEye', titleKo: '애교살 앞쪽에 한 점', titleEn: 'A dot under the inner eye',
         bodyKo: '남은 메탈을 눈 앞머리와 애교살 안쪽 1/3에 콕. 마스카라는 위아래 모두.',
         bodyEn: 'Tap leftover metal on the inner corner and the inner third of the lower lid. Mascara top and bottom.',
         toolsKo: '작은 섀도 브러시 · 마스카라', toolsEn: 'Small shadow brush · mascara',
@@ -252,7 +271,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '립 스크럽 · 립밤', toolsEn: 'Lip scrub · balm',
         swatches: ['#e8b4a4'],
         searchKeywords: '립 스크럽', shopEn: 'lip scrub' },
-      { area: 'lips', titleKo: '립 라이너로 윤곽', titleEn: 'Outline with liner',
+      { area: 'lips', crop: 'lipLine', titleKo: '립 라이너로 윤곽', titleEn: 'Outline with liner',
         bodyKo: '라이너를 뾰족하게 깎아 윗입술 산에 X를 그려 대칭을 잡고, 가운데에서 입꼬리 방향으로 윤곽을 그려요.',
         bodyEn: 'Sharpen the liner, mark an X at the cupid’s bow for symmetry, and draw from the center toward each corner.',
         toolsKo: '레드 립 라이너', toolsEn: 'Red lip liner',
@@ -264,7 +283,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '레드·코랄 립스틱 · 립 브러시', toolsEn: 'Red or coral lipstick · lip brush',
         swatches: ['#e0362f', '#f0563f'],
         searchKeywords: '레드 코랄 립스틱', shopEn: 'red coral lipstick' },
-      { area: 'lips', titleKo: '컨실러로 선 정리', titleEn: 'Sharpen the edge with concealer',
+      { area: 'lips', crop: 'lipLine', titleKo: '컨실러로 선 정리', titleEn: 'Sharpen the edge with concealer',
         bodyKo: '작은 브러시에 컨실러를 아주 조금 묻혀 입술 바깥 선을 따라 그리면 경계가 또렷해져요.',
         bodyEn: 'Trace just outside the lip line with a tiny bit of concealer on a small brush for a crisp edge.',
         toolsKo: '컨실러 · 작은 브러시', toolsEn: 'Concealer · small brush',
@@ -286,7 +305,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '크림 또는 파우더 블러셔', toolsEn: 'Cream or powder blush',
         swatches: ['#e8778f', '#f08c7a'],
         searchKeywords: '핑크 크림 블러셔', shopEn: 'pink cream blush' },
-      { area: 'cheeks', titleKo: '관자놀이 쪽으로 C자', titleEn: 'Sweep up in a C',
+      { area: 'cheeks', crop: 'cheekTemple', titleKo: '관자놀이 쪽으로 C자', titleEn: 'Sweep up in a C',
         bodyKo: '광대에서 관자놀이·헤어라인 방향으로 C자를 그리듯 쓸어 올려요. 브러시에 남은 양으로 끝을 흐려요.',
         bodyEn: 'Sweep up and out toward the temple and hairline in a soft C. Use what is left on the brush to fade the end.',
         toolsKo: '블러셔 브러시', toolsEn: 'Blush brush',
@@ -326,7 +345,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '소프트 블랙 펜슬 · 스머지 브러시', toolsEn: 'Soft black pencil · smudge brush',
         swatches: ['#1a1a1a', '#3a3438'],
         searchKeywords: '블랙 펜슬 아이라이너', shopEn: 'black kohl eyeliner pencil' },
-      { area: 'eyes', titleKo: '차콜 섀도로 고정', titleEn: 'Set with charcoal shadow',
+      { area: 'eyes', crop: 'eyeLid', titleKo: '차콜 섀도로 고정', titleEn: 'Set with charcoal shadow',
         bodyKo: '번진 라인 위에 차콜·다크 브라운 섀도를 얹어 고정하고 깊이를 더해요. 마스카라는 위아래 여러 번.',
         bodyEn: 'Press charcoal or dark-brown shadow over the smudge to set and deepen it. Several coats of mascara, top and bottom.',
         toolsKo: '차콜 섀도 · 마스카라', toolsEn: 'Charcoal shadow · mascara',
@@ -355,7 +374,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '수분 크림 · 쿠션 · 젖은 스펀지', toolsEn: 'Hydrating cream · cushion · damp sponge',
         swatches: ['#f4e1d4', '#fbefe7'],
         searchKeywords: '수분 쿠션 파운데이션', shopEn: 'dewy cushion foundation' },
-      { area: 'eyes', titleKo: '애교살 찾기 → 펄', titleEn: 'Find the aegyo-sal, add shimmer',
+      { area: 'eyes', crop: 'underEye', titleKo: '애교살 찾기 → 펄', titleEn: 'Find the aegyo-sal, add shimmer',
         bodyKo: '살짝 웃으면 눈 밑에 도톰하게 올라오는 부분이 애교살이에요. 다크서클 자리가 아니라 그 위에 밝은 쉬머를 얹고, 아래 경계에 연한 브라운으로 그림자를 살짝.',
         bodyEn: 'Smile slightly — the little puff under the eye is the aegyo-sal. Put a light shimmer on it (not on the dark circle) and a soft brown shadow line just beneath.',
         toolsKo: '쉬머 섀도 · 연브라운 섀도', toolsEn: 'Shimmer shadow · soft brown shadow',
@@ -448,11 +467,13 @@ export const CHART_LOOKS: readonly MakeupStyleId[] = [
   'natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol',
 ]
 
-/** 1024×1536 차트 기준 부위 중심·반경(px). 핀 위치와 스포트라이트에 쓴다. */
-export const CHART_ZONE: Record<HowToArea, { cx: number; cy: number; rx: number; ry: number }> = {
-  skin: { cx: 512, cy: 740, rx: 310, ry: 380 },
-  eyes: { cx: 512, cy: 614, rx: 250, ry: 80 },
-  cheeks: { cx: 512, cy: 765, rx: 290, ry: 105 },
-  lips: { cx: 508, cy: 896, rx: 120, ry: 56 },
-  hair: { cx: 512, cy: 330, rx: 340, ry: 240 },
+/** 1024×1536 차트 기준 부위 중심·반경(px). 핀 위치와 스포트라이트에 쓴다.
+ *  px·py = 번호 핀 자리 — 타원 가장자리가 아니라 **그 부위 위**에 둔다(2026-10-03:
+ *  피부 1번이 이마 위 머리선 근처에 떠 있어 어느 부위인지 헷갈렸다). */
+export const CHART_ZONE: Record<HowToArea, { cx: number; cy: number; rx: number; ry: number; px: number; py: number }> = {
+  skin: { cx: 512, cy: 740, rx: 310, ry: 380, px: 512, py: 470 },
+  eyes: { cx: 512, cy: 614, rx: 250, ry: 80, px: 735, py: 614 },
+  cheeks: { cx: 512, cy: 765, rx: 290, ry: 105, px: 700, py: 775 },
+  lips: { cx: 508, cy: 896, rx: 120, ry: 56, px: 628, py: 896 },
+  hair: { cx: 512, cy: 330, rx: 340, ry: 240, px: 512, py: 330 },
 }

@@ -6,7 +6,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import BeforeAfterSlider from '../components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
-import { LOOK_HOWTO, AREA_CROP, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, COMMON_SAFETY_KO, COMMON_SAFETY_EN, type HowToArea, type HowToStep } from '../lib/looks/howto'
+import { LOOK_HOWTO, STEP_CROP, type CropKey, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, COMMON_SAFETY_KO, COMMON_SAFETY_EN, type HowToArea, type HowToStep } from '../lib/looks/howto'
 import { PERSONAL_COLOR_TYPES } from '../lib/personal-color/types'
 import { useSavedLooks } from '../lib/looks/savedLooks'
 import { trackEvent } from '../lib/analytics'
@@ -21,8 +21,8 @@ import RegionToggle from '../components/RegionToggle'
 // 내 퍼스널컬러 맞춤 색 · 이 룩 저장.
 
 /** 같은 구도의 룩 사진에서 한 부위를 확대해 보여준다(새 이미지 파일 없이). */
-export function CropImg({ src, area, alt }: { src: string; area: HowToArea; alt: string }) {
-  const c = AREA_CROP[area]
+export function CropImg({ src, area, alt }: { src: string; area: CropKey; alt: string }) {
+  const c = STEP_CROP[area]
   // 원본 1024×1536 → 크롭 박스의 실제 가로세로비
   const ratio = (c.w * 1024) / (c.h * 1536)
   return (
@@ -65,8 +65,8 @@ function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep
         />
         {[...pins.entries()].map(([area, nums]) => {
           const z = CHART_ZONE[area]
-          const left = ((z.cx + z.rx * 0.85) / 1024) * 100
-          const top = ((z.cy - z.ry * 0.85 - Y0) / (Y1 - Y0)) * 100
+          const left = (z.px / 1024) * 100
+          const top = ((z.py - Y0) / (Y1 - Y0)) * 100
           return (
             <span key={area}>
               <span
@@ -228,7 +228,7 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
               <li key={i} className="bg-white border border-slate-200 overflow-hidden">
                 <CropImg
                   src={img.after}
-                  area={s.area}
+                  area={s.crop ?? s.area}
                   alt={isEn ? `${name} — ${AREA_LABEL[s.area].en} close-up (AI-generated model)` : `${name} — ${AREA_LABEL[s.area].ko} 확대 (AI 생성 모델)`}
                 />
                 <div className="p-5 md:p-6">
