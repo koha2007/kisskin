@@ -36,13 +36,14 @@ export const AREA_CROP: Record<HowToArea, { x: number; y: number; w: number; h: 
 
 /** 같은 부위가 여러 단계에 나올 때 단계 글이 가리키는 **바로 그 자리**를 보여주는 확대 컷.
  *  (예전엔 볼 3단계가 똑같은 사진 3장이었다.) 단계에 `crop` 을 주면 area 대신 이걸 쓴다. */
-export type CropKey = HowToArea | 'eyeLid' | 'eyeOuter' | 'underEye' | 'cheekTemple' | 'lipLine'
+export type CropKey = HowToArea | 'eyeLid' | 'eyeOuter' | 'underEye' | 'cheekTemple' | 'cheekBlend' | 'lipLine'
 export const STEP_CROP: Record<CropKey, { x: number; y: number; w: number; h: number }> = {
   ...AREA_CROP,
   eyeLid: r(0.2, 0.385, 0.34), // 한쪽 눈 — 눈두덩·속눈썹
   eyeOuter: r(0.5, 0.385, 0.36), // 사진 오른쪽 눈 꼬리 — 윙·바깥 V
   underEye: r(0.24, 0.43, 0.3), // 한쪽 눈 아래 — 애교살
   cheekTemple: r(0.1, 0.36, 0.42, 1), // 관자놀이~광대~볼 — C자 블러셔
+  cheekBlend: r(0.16, 0.49, 0.28), // 볼 색만 꽉 차게 — 레이어링(크림+파우더) 질감
   lipLine: r(0.35, 0.6, 0.28), // 입술 윤곽 확대 — 라이너·선 정리
 }
 
@@ -59,6 +60,7 @@ export const CHART_CROP: Record<CropKey, { x: number; y: number; w: number; h: n
   eyeOuter: r(0.54, 0.34, 0.36),
   underEye: r(0.213, 0.375, 0.3),
   cheekTemple: r(0.098, 0.33, 0.42, 1),
+  cheekBlend: r(0.12, 0.405, 0.32),
   lipLine: r(0.356, 0.537, 0.28),
 }
 
@@ -327,7 +329,7 @@ export const LOOK_HOWTO: Record<MakeupStyleId, LookHowTo> = {
         toolsKo: '블러셔 브러시', toolsEn: 'Blush brush',
         swatches: ['#f3a3b2'],
         searchKeywords: '블러셔 브러시', shopEn: 'blush brush' },
-      { area: 'cheeks', titleKo: '크림 위에 파우더 — 레이어링', titleEn: 'Layer cream, then powder',
+      { area: 'cheeks', crop: 'cheekBlend', titleKo: '크림 위에 파우더 — 레이어링', titleEn: 'Layer cream, then powder',
         bodyKo: '크림 블러셔를 먼저 얇게 두드리고, 같은 계열 파우더 블러셔로 살짝 고정하면 색이 깊어지고 오래 가요. 두 겹 다 얇게.',
         bodyEn: 'Tap a thin cream blush first, then set with a similar powder. Color deepens and lasts — keep both layers thin.',
         toolsKo: '크림 블러셔 + 파우더 블러셔', toolsEn: 'Cream blush + powder blush',
