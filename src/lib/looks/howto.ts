@@ -46,6 +46,22 @@ export const STEP_CROP: Record<CropKey, { x: number; y: number; w: number; h: nu
   lipLine: r(0.35, 0.6, 0.28), // 입술 윤곽 확대 — 라이너·선 정리
 }
 
+/** 단계 카드 그림 = 페이스 차트(public/looks/charts/{id}.webp, 1024×1536)에서 같은 자리를 확대.
+ *  2026-10-03 운영자: 위 차트(그림)와 아래 단계 사진이 따로 노는 느낌 → 단계도 그림체로 통일.
+ *  사진은 상단 비포/애프터 슬라이더에만 남는다. 9룩 차트가 같은 빈 도안이라 좌표 한 세트. */
+export const CHART_CROP: Record<CropKey, { x: number; y: number; w: number; h: number }> = {
+  skin: r(0.13, 0.235, 0.74, 1),
+  eyes: r(0.22, 0.3, 0.56),
+  cheeks: r(0.14, 0.4, 0.42),
+  lips: r(0.326, 0.527, 0.34),
+  hair: r(0, 0.02, 1),
+  eyeLid: r(0.193, 0.343, 0.34),
+  eyeOuter: r(0.54, 0.34, 0.36),
+  underEye: r(0.213, 0.375, 0.3),
+  cheekTemple: r(0.098, 0.33, 0.42, 1),
+  lipLine: r(0.356, 0.537, 0.28),
+}
+
 export interface HowToStep {
   area: HowToArea
   /** 단계 사진을 area 기본 크롭 대신 더 좁은 자리로(STEP_CROP) */

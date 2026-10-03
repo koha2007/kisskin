@@ -6,7 +6,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import BeforeAfterSlider from '../components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
-import { LOOK_HOWTO, STEP_CROP, type CropKey, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, COMMON_SAFETY_KO, COMMON_SAFETY_EN, type HowToArea, type HowToStep } from '../lib/looks/howto'
+import { LOOK_HOWTO, STEP_CROP, CHART_CROP, type CropKey, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, COMMON_SAFETY_KO, COMMON_SAFETY_EN, type HowToArea, type HowToStep } from '../lib/looks/howto'
 import { PERSONAL_COLOR_TYPES } from '../lib/personal-color/types'
 import { useSavedLooks } from '../lib/looks/savedLooks'
 import { trackEvent } from '../lib/analytics'
@@ -20,9 +20,10 @@ import RegionToggle from '../components/RegionToggle'
 // 로그인 벽은 "내 것으로 만들기" 세 가지에만: 내 셀카에 입히기(기존 /analysis/ 로그인) ·
 // 내 퍼스널컬러 맞춤 색 · 이 룩 저장.
 
-/** 같은 구도의 룩 사진에서 한 부위를 확대해 보여준다(새 이미지 파일 없이). */
-export function CropImg({ src, area, alt }: { src: string; area: CropKey; alt: string }) {
-  const c = STEP_CROP[area]
+/** 같은 구도의 룩 사진(또는 페이스 차트)에서 한 부위를 확대해 보여준다(새 이미지 파일 없이).
+ *  둘 다 1024×1536 — 좌표표만 다르다(사진=STEP_CROP, 차트=CHART_CROP). */
+export function CropImg({ src, area, alt, crops = STEP_CROP }: { src: string; area: CropKey; alt: string; crops?: typeof STEP_CROP }) {
+  const c = crops[area]
   // 원본 1024×1536 → 크롭 박스의 실제 가로세로비
   const ratio = (c.w * 1024) / (c.h * 1536)
   return (
@@ -226,11 +227,20 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
           <ol className="space-y-5 md:space-y-6">
             {how.steps.map((s, i) => (
               <li key={i} className="bg-white border border-slate-200 overflow-hidden">
-                <CropImg
-                  src={img.after}
-                  area={s.crop ?? s.area}
-                  alt={isEn ? `${name} — ${AREA_LABEL[s.area].en} close-up (AI-generated model)` : `${name} — ${AREA_LABEL[s.area].ko} 확대 (AI 생성 모델)`}
-                />
+                {CHART_LOOKS.includes(id) ? (
+                  <CropImg
+                    src={`/looks/charts/${id}.webp`}
+                    crops={CHART_CROP}
+                    area={s.crop ?? s.area}
+                    alt={isEn ? `${name} — ${AREA_LABEL[s.area].en} close-up (AI-generated illustration)` : `${name} — ${AREA_LABEL[s.area].ko} 확대 (AI 생성 일러스트)`}
+                  />
+                ) : (
+                  <CropImg
+                    src={img.after}
+                    area={s.crop ?? s.area}
+                    alt={isEn ? `${name} — ${AREA_LABEL[s.area].en} close-up (AI-generated model)` : `${name} — ${AREA_LABEL[s.area].ko} 확대 (AI 생성 모델)`}
+                  />
+                )}
                 <div className="p-5 md:p-6">
                   <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">
                     <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-navy text-white text-xs tracking-normal">{i + 1}</span>
