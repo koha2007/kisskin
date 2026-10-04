@@ -114,14 +114,38 @@ async function fetchSubscribers(
   return (await res.json()) as { email: string; locale: string }[]
 }
 
-function localeOf(u: AuthUser): 'ko' | 'en' {
+type Why = 'saved' | 'kr-mail' | 'hangul-name' | 'foreign-tld' | 'foreign-name' | 'default'
+
+// 2026-10-04: 회원 44명 중 30명이 locale 미기록 — 9/21 이전 가입자 + 구글 가입 직후 떠난 사람
+// (syncUserLocale 은 화면이 떠 있어야 돈다). 그중 베트남·중국·인도식 이름이나 .be 주소처럼
+// 누가 봐도 해외인 회원 6명이 한국어 메일을 받고 있었다. 저장값이 없을 때만 아래 신호로 추정한다.
+// 애매하면 영어 쪽 — 한국인은 영어 메일을 읽을 수 있지만 반대는 아니다. 단 이름도 없는
+// 일반 gmail 은 신호가 없으니 기존 기본값(ko)을 지킨다.
+const KR_MAIL = /@(naver\.com|hanmail\.net|daum\.net|kakao\.com|nate\.com|.*\.kr)$/i
+const HANGUL = /[\u3131-\u318e\uac00-\ud7a3]/
+// 국가 도메인으로 끝나는 비한국 주소 (.be/.de/.vn …). .com/.net 등 일반 도메인은 신호가 아니다.
+const FOREIGN_CC = /\.(?!kr$)[a-z]{2}$/i
+
+function localeOf(u: AuthUser): { lang: 'ko' | 'en'; why: Why } {
   const loc = String(u.user_metadata?.locale ?? u.user_metadata?.lang ?? '').toLowerCase()
-  if (loc.startsWith('ko')) return 'ko'
-  if (loc.startsWith('en')) return 'en'
-  return 'ko' // 기본: 주 사용자층이 한국
+  if (loc.startsWith('ko')) return { lang: 'ko', why: 'saved' }
+  if (loc.startsWith('en')) return { lang: 'en', why: 'saved' }
+  const email = String(u.email ?? '')
+  const name = String(u.user_metadata?.full_name ?? u.user_metadata?.name ?? '').trim()
+  if (KR_MAIL.test(email)) return { lang: 'ko', why: 'kr-mail' }
+  if (HANGUL.test(name)) return { lang: 'ko', why: 'hangul-name' }
+  if (FOREIGN_CC.test(email)) return { lang: 'en', why: 'foreign-tld' }
+  if (/\p{L}{2,}/u.test(name)) return { lang: 'en', why: 'foreign-name' }
+  return { lang: 'ko', why: 'default' } // 신호 없음 — 주 사용자층이 한국
 }
 
-function normItems(raw: unknown, enFeed: boolean, kind: 'products' | 'news' = 'products'): DigestItem[] {
+/** 로그(공개 리포의 Actions 로그에 남는다)에 주소를 그대로 찍지 않는다. */
+const maskEmail = (e: string) => {
+  const [a, d = ''] = e.split('@')
+  return `${a.slice(0, 2)}***@${d}`
+}
+
+function normItems(raw: unknown, enFeed: boolean, kind: 'products' | 'news' | 'looks' = 'products'): DigestItem[] {
   if (!Array.isArray(raw)) return []
   return raw
     .map((r): DigestItem | null => {
@@ -139,6 +163,9 @@ function normItems(raw: unknown, enFeed: boolean, kind: 'products' | 'news' = 'p
           typeof o.url === 'string'
             ? o.url
             : `${SITE}${enFeed ? '/en' : ''}/${kind}/${slug}/`,
+        meta: typeof o.meta === 'string' ? o.meta : undefined,
+        steps: Array.isArray(o.steps) ? o.steps.map(String).slice(0, 8) : undefined,
+        number: typeof o.number === 'number' ? o.number : undefined,
       }
     })
     .filter((x): x is DigestItem => x !== null)
@@ -162,6 +189,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     productsEn?: unknown
     news?: unknown
     newsEn?: unknown
+    looks?: unknown
+    looksEn?: unknown
     dryRun?: boolean
     onlyOperator?: boolean
   }
@@ -171,11 +200,19 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     return json({ error: 'Invalid JSON' }, 400)
   }
 
-  // 언어별 2개 섹션(제품·뉴스). 한 언어의 섹션이 통째로 비면 다른 언어 것으로 대체한다
+  // 언어별 3개 섹션(제품·뉴스·메이크업 방법). 한 언어의 섹션이 통째로 비면 다른 언어 것으로 대체한다
   // (번역이 아직 안 붙은 주에도 빈 메일이 나가지 않게).
-  const koSections = { products: normItems(body.products, false), news: normItems(body.news, false, 'news') }
-  const enSections = { products: normItems(body.productsEn, true), news: normItems(body.newsEn, true, 'news') }
-  const count = (s: DigestSections) => s.products.length + s.news.length
+  const koSections = {
+    products: normItems(body.products, false),
+    news: normItems(body.news, false, 'news'),
+    looks: normItems(body.looks, false, 'looks'),
+  }
+  const enSections = {
+    products: normItems(body.productsEn, true),
+    news: normItems(body.newsEn, true, 'news'),
+    looks: normItems(body.looksEn, true, 'looks'),
+  }
+  const count = (s: DigestSections) => s.products.length + s.news.length + s.looks.length
   if (count(koSections) === 0 && count(enSections) === 0) {
     return json({ skipped: true, reason: 'no products or news in payload' })
   }
@@ -184,6 +221,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     return {
       products: own.products.length ? own.products : other.products,
       news: own.news.length ? own.news : other.news,
+      looks: own.looks.length ? own.looks : other.looks,
     }
   }
   const dryRun = body.dryRun === true
@@ -214,8 +252,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   )
 
   const seen = new Set<string>()
-  const recipients: { email: string; lang: 'ko' | 'en'; kind: Kind }[] = []
-  const add = (email: string, lang: 'ko' | 'en', kind: Kind) => {
+  const recipients: { email: string; lang: 'ko' | 'en'; kind: Kind; why: Why | 'form' }[] = []
+  const add = (email: string, lang: 'ko' | 'en', kind: Kind, why: Why | 'form') => {
     if (!email) return
     // 운영자 주소는 회원·구독자 명단에서 오면 건너뛰고 아래에서 operator 로만 넣는다.
     if (kind !== 'operator' && OPERATOR_COPY.has(email)) return
@@ -223,23 +261,25 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     if (HARD_EXCLUDE.has(email) || envExclude.has(email) || optouts.has(email)) return
     if (seen.has(email)) return
     seen.add(email)
-    recipients.push({ email, lang, kind })
+    recipients.push({ email, lang, kind, why })
   }
 
   // 회원이 먼저다 — 같은 주소가 양쪽에 있으면 회원 쪽 언어 설정을 따른다.
   for (const u of users) {
     const email = (u.email || '').trim().toLowerCase()
     if (!u.email_confirmed_at) continue
-    add(email, localeOf(u), 'member')
+    const { lang, why } = localeOf(u)
+    add(email, lang, 'member', why)
   }
   for (const sub of subscribers) {
     const lang = String(sub.locale || '').toLowerCase().startsWith('en') ? 'en' : 'ko'
-    add((sub.email || '').trim().toLowerCase(), lang, 'subscriber')
+    add((sub.email || '').trim().toLowerCase(), lang, 'subscriber', 'form')
   }
   // 운영자 사본 — 회원 계정의 언어 설정을 따르고, 없으면 ko.
   for (const email of OPERATOR_COPY) {
     const u = users.find((x) => (x.email || '').trim().toLowerCase() === email)
-    add(email, u ? localeOf(u) : 'ko', 'operator')
+    const { lang, why } = u ? localeOf(u) : { lang: 'ko' as const, why: 'default' as const }
+    add(email, lang, 'operator', why)
   }
 
   const byLang = {
@@ -266,7 +306,11 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       productsEn: enSections.products.length,
       newsKo: koSections.news.length,
       newsEn: enSections.news.length,
-      emails: recipients.map((r) => r.email),
+      looksKo: koSections.looks.map((l) => l.name),
+      looksEn: enSections.looks.map((l) => l.name),
+      // 언어를 저장값이 아니라 추정으로 정한 수 — 0 이 아니면 아래 목록에서 why 를 볼 것.
+      guessed: recipients.filter((r) => r.why !== 'saved' && r.why !== 'form').length,
+      list: recipients.map((r) => ({ email: maskEmail(r.email), lang: r.lang, kind: r.kind, why: r.why })),
     })
   }
 
@@ -314,7 +358,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         }),
       })
       if (res.ok) return null
-      last = `${email}: ${res.status} ${(await res.text()).slice(0, 120)}`
+      last = `${maskEmail(email)}: ${res.status} ${(await res.text()).slice(0, 120)}`
       // 429(한도)와 5xx(일시 장애)만 재시도한다. 400/422 는 다시 보내도 같다.
       if (res.status !== 429 && res.status < 500) break
     }

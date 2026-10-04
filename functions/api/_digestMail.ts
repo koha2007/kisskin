@@ -96,35 +96,47 @@ export interface DigestItem {
   image?: string
   category?: string
   url: string
+  /** 메이크업 방법 카드 전용 — "10분 · 쉬움" */
+  meta?: string
+  /** 메이크업 방법 카드 전용 — 단계 제목(순서대로) */
+  steps?: string[]
+  /** 메이크업 방법 카드 전용 — 9룩 중 몇 번째인지 */
+  number?: number
 }
 
 const COPY = {
   ko: {
     // 제목은 실린 내용에 맞춘다 — 제품만이던 시절의 "N선" 을 뉴스만 실린 주에 쓰면 거짓말이 된다.
-    subject: (p: number, n: number) =>
-      p && n ? `이번 주 K-뷰티 — 신제품 ${p}건 · 뉴스 ${n}건`
-      : p ? `이번 주 새로 나온 K-뷰티 ${p}선`
-      : `이번 주 K-뷰티 뉴스 ${n}건`,
-    preheader: '지난 한 주 키스인스킨에 올라온 신제품과 뉴스를 한눈에.',
+    subject: (p: number, n: number, look: string) => {
+      const parts = [p && `신제품 ${p}건`, n && `뉴스 ${n}건`, look && `${look} 메이크업 방법`].filter(Boolean)
+      return `이번 주 K-뷰티 — ${parts.join(' · ')}`
+    },
+    preheader: '지난 한 주 키스인스킨에 올라온 신제품·뉴스, 그리고 이번 주의 메이크업 방법.',
     heading: '이번 주의 K-뷰티',
-    intro: '지난 한 주 동안 키스인스킨에 새로 올라온 제품과 뉴스예요.',
+    intro: '지난 한 주 동안 키스인스킨에 새로 올라온 제품과 뉴스, 그리고 이번 주에 따라 해 볼 메이크업이에요.',
     productsTitle: '신제품',
     newsTitle: '뉴스',
+    looksTitle: '이번 주 메이크업 방법',
+    lookNo: (n: number) => `9가지 룩 중 ${n}번`,
+    lookCta: '단계별로 따라하기',
     cta: '자세히 보기',
     unsub: '이런 메일을 그만 받고 싶으시면 ',
     unsubLink: '수신거부',
     signoff: 'kissinskin — 셀카 한 장으로 AI K-뷰티 메이크업·퍼스널컬러 진단',
   },
   en: {
-    subject: (p: number, n: number) =>
-      p && n ? `This week in K-beauty — ${p} new, ${n} in the news`
-      : p ? `${p} new K-beauty picks this week`
-      : `${n} K-beauty stories this week`,
-    preheader: 'The newest products and stories added to kissinskin this past week.',
+    subject: (p: number, n: number, look: string) => {
+      const parts = [p && `${p} new`, n && `${n} in the news`, look && `how to do ${look}`].filter(Boolean)
+      return `This week in K-beauty — ${parts.join(', ')}`
+    },
+    preheader: 'New products and stories from kissinskin, plus this week’s makeup how-to.',
     heading: 'This week in K-beauty',
-    intro: 'Here is what was newly added to kissinskin over the past week.',
+    intro: 'What was newly added to kissinskin this past week, plus one makeup look to try.',
     productsTitle: 'New arrivals',
     newsTitle: 'News',
+    looksTitle: 'Makeup how-to of the week',
+    lookNo: (n: number) => `Look ${n} of 9`,
+    lookCta: 'Follow the steps',
     cta: 'View details',
     unsub: 'To stop receiving these emails, ',
     unsubLink: 'unsubscribe here',
@@ -143,6 +155,8 @@ const headline = (it: DigestItem) => `${it.brand} ${it.name}`.trim()
 export interface DigestSections {
   products: DigestItem[]
   news: DigestItem[]
+  /** 메이크업 방법 — 매주 1룩 (2026-10-04 추가) */
+  looks: DigestItem[]
 }
 
 export function renderDigest(
@@ -152,7 +166,8 @@ export function renderDigest(
   campaign: string = campaignId(),
 ): { subject: string; html: string } {
   const t = COPY[lang]
-  const subject = t.subject(sections.products.length, sections.news.length)
+  const subject = t.subject(sections.products.length, sections.news.length, sections.looks[0]?.name ?? '')
+  const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"
 
   const renderCards = (items: DigestItem[], kind: 'product' | 'news') =>
     items
@@ -181,8 +196,36 @@ export function renderDigest(
       })
       .join('')
 
-  // 섹션 제목은 양쪽 다 있을 때만 — 한쪽만 실린 주엔 군더더기다.
-  const both = sections.products.length > 0 && sections.news.length > 0
+  // 룩 사진은 1024×1536 세로라 폭 가득 넣으면 화면 하나를 다 먹는다 → 사진 왼쪽 좁게 + 단계 목록 오른쪽.
+  // (메일 클라이언트는 object-fit 크롭을 안 받아 줘서 잘라 보여줄 수 없다.)
+  const renderLooks = (items: DigestItem[]) =>
+    items
+      .map((it) => {
+        const link = withUtm(it.url, campaign, `look${it.number ?? 1}_${it.slug}`)
+        const steps = (it.steps ?? [])
+          .map(
+            (st, i) =>
+              `<tr><td valign="top" style="font:700 13px/1.5 ${FONT};color:#c2410c;width:22px;padding:0 0 6px;">${i + 1}</td><td style="font:400 14px/1.5 ${FONT};color:#333;padding:0 0 6px;">${esc(st)}</td></tr>`,
+          )
+          .join('')
+        const img = it.image
+          ? `<td valign="top" width="170" style="padding:0 18px 0 0;"><a href="${esc(link)}"><img src="${SITE}${esc(it.image)}" width="170" alt="${esc(it.name)}" style="width:170px;max-width:170px;border-radius:12px;display:block;"/></a></td>`
+          : ''
+        return `
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+        <tr>${img}<td valign="top">
+          ${it.number ? `<div style="font:600 12px/1.4 ${FONT};color:#999;padding-bottom:4px;">${esc(t.lookNo(it.number))}${it.meta ? ` · ${esc(it.meta)}` : ''}</div>` : ''}
+          <div style="font:600 17px/1.4 ${FONT};color:#111;padding-bottom:4px;">${esc(it.name)}</div>
+          <div style="font:400 14px/1.6 ${FONT};color:#555;padding-bottom:12px;">${esc(it.summary)}</div>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px;">${steps}</table>
+          <a href="${esc(link)}" style="display:inline-block;font:600 13px/1 ${FONT};color:#fff;background:#111;text-decoration:none;padding:10px 18px;border-radius:8px;">${t.lookCta} →</a>
+        </td></tr>
+      </table>`
+      })
+      .join('')
+
+  // 섹션 제목은 두 섹션 이상 실릴 때만 — 하나만 실린 주엔 군더더기다.
+  const both = [sections.products, sections.news, sections.looks].filter((x) => x.length > 0).length > 1
   const sectionTitle = (label: string) =>
     both
       ? `<tr><td style="font:700 12px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#c2410c;padding:0 0 14px;">${esc(label)}</td></tr>`
@@ -191,7 +234,10 @@ export function renderDigest(
   const block = (label: string, items: DigestItem[], kind: 'product' | 'news') =>
     items.length ? `${sectionTitle(label)}<tr><td>${renderCards(items, kind)}</td></tr>` : ''
 
-  const body = `${block(t.productsTitle, sections.products, 'product')}${block(t.newsTitle, sections.news, 'news')}`
+  const body =
+    block(t.productsTitle, sections.products, 'product') +
+    block(t.newsTitle, sections.news, 'news') +
+    (sections.looks.length ? `${sectionTitle(t.looksTitle)}<tr><td>${renderLooks(sections.looks)}</td></tr>` : '')
 
   const html = `<!doctype html>
 <html lang="${lang}"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>

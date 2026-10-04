@@ -16,6 +16,10 @@ name: Weekly digest email
 #   ANNOUNCE_TOKEN  — /api/announce-products 호출용. Cloudflare Pages 환경변수의
 #                     같은 이름 값과 반드시 일치해야 한다.
 #
+# 2026-10-04: 섹션 3개 — 신제품 · 뉴스 · 메이크업 방법(/looks/ 9룩을 1번부터 매주 하나씩).
+# 발송 전 항상 "수신자 점검"(dry-run)을 먼저 돌려 언어별·종류별 명단을 로그에 남긴다(운영자 요청).
+# 리포가 PUBLIC 이라 Actions 로그는 누구나 본다 → 주소는 서버가 마스킹해서 돌려준다.
+#
 # 수동: Actions 탭 → 이 워크플로 → Run workflow → dry_run=1 로 먼저 수신자 확인.
 # 프리뷰: 함수는 프로덕션에 배포돼 있어야 한다(커밋 후 Cloudflare Pages 빌드 완료 뒤).
 
@@ -49,7 +53,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24  # build-digest-payload.mjs 가 howto.ts 를 바로 import(타입 제거)
 
       - name: 지난 7일 제품·뉴스로 본문 만들기
         id: payload
@@ -66,14 +70,42 @@ jobs:
           fi
           COUNT=$(node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));process.stdout.write(String(d.products.length+d.news.length))")
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
-          node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));console.log(\`지난 7일 — 제품 \${d.products.length}건, 뉴스 \${d.news.length}건\`)"
+          node -e "const d=JSON.parse(require('fs').readFileSync('/tmp/digest.json'));console.log(\`지난 7일 — 제품 \${d.products.length}건, 뉴스 \${d.news.length}건 · 이번 주 메이크업 방법: \${d.looks[0].number}번 \${d.looks[0].name}\`)"
 
       - name: 이번 주 새 콘텐츠가 없으면 생략
         if: steps.payload.outputs.count == '0'
         run: echo "::notice::지난 7일간 제품·뉴스 0건 — 다이제스트 발송 생략"
 
-      - name: 다이제스트 발송 (/api/announce-products)
+      # 발송 전 점검 — 실제 발송과 같은 명단 로직을 dry-run 으로 돌려 언어·종류·판정 근거를 남긴다.
+      # 명단을 못 가져오거나(Supabase 오류) 수신자가 0명이면 여기서 멈춘다.
+      - name: 발송 전 수신자 점검 (dry-run)
         if: steps.payload.outputs.count != '0'
+        env:
+          ANNOUNCE_TOKEN: ${{ secrets.ANNOUNCE_TOKEN }}
+        run: |
+          node -e "const f='/tmp/digest.json',fs=require('fs'),d=JSON.parse(fs.readFileSync(f));d.dryRun=true;fs.writeFileSync('/tmp/digest-dry.json',JSON.stringify(d))"
+          RESP=$(curl -sS -w $'\n%{http_code}' -X POST https://kissinskin.net/api/announce-products \
+            -H "Authorization: Bearer $ANNOUNCE_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @/tmp/digest-dry.json)
+          CODE=$(printf '%s' "$RESP" | tail -n1)
+          printf '%s' "$RESP" | sed '$d' > /tmp/check.json
+          if [ "$CODE" != "200" ]; then
+            cat /tmp/check.json; echo "::error::수신자 점검 실패 (HTTP $CODE) — 발송하지 않음"; exit 1
+          fi
+          node -e "
+            const d=JSON.parse(require('fs').readFileSync('/tmp/check.json'));
+            console.log('수신자', d.recipients, '· 언어', JSON.stringify(d.byLang), '· 종류', JSON.stringify(d.byKind));
+            console.log('제목(ko):', d.subject);
+            console.log('메이크업 방법:', d.looksKo, d.looksEn);
+            console.log('--- 명단 (lang kind why email) — why: saved=본인 설정, form=구독폼 언어, 그 외=추정');
+            for (const r of d.list||[]) console.log(r.lang, r.kind.padEnd(10), r.why.padEnd(12), r.email);
+            console.log('::notice::수신자 '+d.recipients+'명 (ko '+d.byLang.ko+' · en '+d.byLang.en+') · 구독자 '+d.byKind.subscriber+' · 추정 언어 '+d.guessed);
+            if (!d.recipients) { console.log('::error::수신자 0명 — 발송 중단'); process.exit(1) }
+          "
+
+      - name: 다이제스트 발송 (/api/announce-products)
+        if: steps.payload.outputs.count != '0' && github.event.inputs.dry_run != '1'
         env:
           ANNOUNCE_TOKEN: ${{ secrets.ANNOUNCE_TOKEN }}
         run: |
