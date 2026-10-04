@@ -1,7 +1,7 @@
 // Shared ProductRecommendation type used across all 3 diagnostic tools.
 // Coupang Partners search affiliate active 2026-05-09.
 
-import { AMAZON_AFFILIATE, YESSTYLE_AFFILIATE, COUPANG_LPTAG } from '../../config/affiliate'
+import { AMAZON_AFFILIATE, COUPANG_LPTAG } from '../../config/affiliate'
 
 /**
  * searchKeywords 작성 규칙 — 위반 시 `npm run check:keywords` 실패
@@ -91,18 +91,11 @@ export function buildAmazonLink(query: string): string {
 /**
  * YesStyle search link (K-beauty global retailer).
  *
- * 승인 전에는 일반 검색(수익 0), 승인 후에는 Commission Factory 딥링크로 감싼다 —
- * config/affiliate.ts 의 YESSTYLE_AFFILIATE 만 채우면 여기 손댈 필요 없다.
- *
- * Live-verified 2026-05-30: the search path is `/en/list.html?q=...&bpt=48`
- * (the `/en/search?q=` form 404s), and long full product names return 0 items —
- * callers pass a simplified "brand + category" query.
+ * 우리 서버(/api/go/yesstyle)를 거쳐 간다 — 검색어를 그대로 YesStyle 에 넣으면
+ * 제품 80개 중 61개가 "0 items"(2026-10-04 실측: 컬러명·미입점 브랜드·rom&nd 표기).
+ * 서버가 검색어를 한 단어씩 덜어내며 결과 있는 첫 후보로 302 한다(functions/api/_yesstyleQuery.ts).
+ * 제휴 딥링크 래핑도 서버에서 한다 — config/affiliate.ts 의 YESSTYLE_AFFILIATE 만 채우면 된다.
  */
 export function buildYesStyleLink(query: string): string {
-  // Drop "&" (e.g. rom&nd) — it breaks YesStyle's query and isn't needed to match.
-  const clean = query.replace(/&/g, '').trim()
-  const dest = `https://www.yesstyle.com/en/list.html?q=${encodeURIComponent(clean)}&bpt=48`
-  const { approved, deeplinkPrefix } = YESSTYLE_AFFILIATE
-  // CF 딥링크는 목적지 URL 을 통째로 인코딩해 프리픽스 뒤에 붙이는 형식이다.
-  return approved && deeplinkPrefix ? `${deeplinkPrefix}${encodeURIComponent(dest)}` : dest
+  return `/api/go/yesstyle?q=${encodeURIComponent(query.trim())}`
 }

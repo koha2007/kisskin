@@ -149,7 +149,7 @@ export const PRODUCT_ITEMS: ProductPost[] = [
     ],
     image: '/products/etude-color-fix-skinny-mascara.webp',
     coupangQuery: '에뛰드 컬 픽스 스키니 마스카라',
-    globalQuery: 'Etude Color Fix Skinny Mascara',
+    globalQuery: 'Etude Curl Fix Mascara',
     clio: true,
     clioCategory: 'eye',
     date: '2026-09-17',
