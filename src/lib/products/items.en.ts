@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'centellian24-madeca-cream-time-reverse',
+    category: 'skincare',
+    brand: 'Centellian24',
+    name: 'Madeca Cream Time Reverse',
+    title: 'Centellian24 Madeca Cream Time Reverse — Soothing, Firming, Deep Moisture Cream',
+    summary:
+      'Centellian24\'s bestselling cream features soothing TECA Complex and active ingredients to deliver firming hydration and elasticity deep within the skin.',
+    highlights: ['Soothing TECA Complex', 'Active Liposome Texture', 'Fine Line Care'],
+    details: [
+      'Active TECA ingredients delivered via nano-liposome technology absorb deep into skin layers for rapid soothing relief.',
+      'Liposomes, ceramides, and hyaluronic acid provide firm deep-layer hydration, clinically proven to sustain elasticity improvements for 240 hours.',
+      'A dual-functional derma cosmetic certified for wrinkle care and brightening, formulated with a low-irritant recipe suitable for sensitive skin.',
+    ],
+    whoFor:
+      'Recommended for dry, sensitive skin concerned with lost elasticity and fine lines. Ideal for those seeking fast soothing and deep hydration without a heavy, overwhelming feel.',
+    howTo: [
+      'Morning and night after cleansing, apply an appropriate amount as the final step of your routine and gently smooth across the face until absorbed.',
+      'On nights when skin feels extra dry, apply a thicker layer to experience quick 5-second elasticity care.',
+    ],
+    pros: [
+      'Soothing moisture that builds firmness from within',
+      'Clinically proven long-lasting elasticity',
+    ],
+    cons: [
+      'Rich texture may feel slightly heavy on oily skin',
+    ],
+    image: '/products/centellian24-madeca-cream-time-reverse.webp',
+    coupangQuery: '센텔리안24 마데카 크림 타임 리버스',
+    globalQuery: 'Centellian24 Madeca Cream Time Reverse',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-10-06',
+    tags: ['SoothingCream', 'FirmingCream', 'DermaCosmetics'],
+    seoTitle: 'Centellian24 Madeca Cream Time Reverse Review',
+    seoDescription:
+      'Discover Centellian24 Madeca Cream Time Reverse for deep soothing hydration, clinical firming care, and fine line reduction for sensitive skin.',
+  },
+  {
     slug: 'flower-knows-strawberry-cupid-palette',
     category: 'trend',
     brand: 'Flower Knows',

@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'k-beauty-exports-august-growth-ecosystem-expansion',
+    category: 'global',
+    title: '8월 K‑뷰티 수출 52.1% 급증, ODM·포장사 수출도 동반 성장',
+    summary:
+      '2026년 8월 한국 화장품 수출이 전년 동기 대비 52.1% 증가한 13억1천만 달러를 기록하며 사상 최대치를 경신했다. 브랜드를 넘어 ODM 및 포장업체까지 수출 호황이 이어지고 있다.',
+    body: [
+      '> TLDR: 8월 수출 52.1%↑ | 수출액 약 13억1천만 달러 | ODM·포장업체도 성장세',
+      '2026년 8월 한국의 화장품 수출이 전년 동월 대비 52.1% 증가하며 약 13억1천만 달러를 기록했다는 소식이 전해졌다.',
+      '> DATA: 8월 화장품 수출 52.1% 증가 → 약 13억1천만 달러 (전년 동월 대비) (출처: News1)',
+      '이러한 수출 증가는 단순히 브랜드 제품에 그치지 않고 ODM(주문자개발생산) 업체와 포장업체 등 뷰티 생태계 전반에 걸쳐 나타나고 있다. 오프라인 유통 확대, 해외 주문 및 ODM 수요 증가가 수출 호조의 주요 배경이다.',
+      '소비자 입장에서는 K‑뷰티의 영역이 제품 수준을 넘어 제조와 포장 인프라까지 글로벌 경쟁력을 갖추고 있다는 사실이 중요하다. 이는 향후 더 다양한 브랜드와 제품이 해외 시장에서 안착할 수 있는 기반을 마련해 준다.',
+    ],
+    date: '2026-10-06',
+    readMinutes: 3,
+    tags: ['K뷰티', '수출', 'ODM'],
+    image: '/news/k-beauty-exports-august-growth-ecosystem-expansion.webp',
+    seoTitle: '8월 K‑뷰티 수출 52% 성장',
+    seoDescription:
+      '8월 한국 화장품 수출이 52.1% 증가하며 ODM·포장까지 수출 전반에 호조가 이어지고 있다는 사실을 전합니다.',
+  },
+  {
     slug: 'kbeauty-global-online-market-hits-15-billion',
     category: 'global',
     title: '2025년 글로벌 온라인 K-뷰티 시장 규모, 150억 달러로 1년 만에 20% 성장',

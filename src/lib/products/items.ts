@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'centellian24-madeca-cream-time-reverse',
+    category: 'skincare',
+    brand: '센텔리안24',
+    name: '마데카 크림 타임 리버스',
+    title: '센텔리안24 마데카 크림 타임 리버스 — 진정과 탄력, 속부터 차오르는 크림',
+    summary:
+      '피부 진정을 돕는 TECA 콤플렉스와 리놀즈 성분이 속부터 탄탄한 보습과 탄력을 주는 센텔리안24의 베스트셀러 크림입니다.',
+    highlights: ['진정 TECA 복합체', '리포좀 활성형 제형', '잔주름 케어'],
+    details: [
+      '활성형 TECA 성분이 나노 리포좀 기술로 피부 3층까지 흡수되어 빠른 진정 효과를 줍니다.',
+      '리포좀과 세라마이드, 히알루론산이 속부터 탄탄한 보습감을 제공하며, 240시간 지속 탄력 개선을 임상적으로 입증했습니다.',
+      '주름 개선과 미백 2중 기능성 인증을 받은 더마 코스메틱으로, 민감한 피부도 사용할 수 있는 저자극 포뮬러입니다.',
+    ],
+    whoFor:
+      '건조하고 예민한 피부, 탄력 저하와 잔주름이 고민인 분께 추천합니다. 빠르게 진정과 보습을 원하면서도 강한 제형은 부담스러운 분에게 잘 맞습니다.',
+    howTo: [
+      '아침저녁 클렌징 후, 마지막 단계에 적당량을 덜어 얼굴 전체에 부드럽게 펴 발라 흡수시켜 줍니다.',
+      '피부가 많이 건조한 밤에는 도톰하게 덧발라 \'5초 탄력 케어\'를 경험해 보세요.',
+    ],
+    pros: [
+      '속부터 탄탄한 진정 보습',
+      '임상 입증된 탄력 지속력',
+    ],
+    cons: [
+      '제형이 묵직해 지성피부에는 답답하게 느껴질 수 있음',
+    ],
+    image: '/products/centellian24-madeca-cream-time-reverse.webp',
+    coupangQuery: '센텔리안24 마데카 크림 타임 리버스',
+    globalQuery: 'Centellian24 Madeca Cream Time Reverse',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-10-06',
+    tags: ['진정크림', '탄력크림', '더마코스메틱'],
+    seoTitle: '마데카 크림 타임 리버스 진정 탄력 크림',
+    seoDescription:
+      '진정과 탄력 케어를 동시에 챙기는 센텔리안24의 마데카 크림 타임 리버스로 건조하고 예민한 피부에 탄탄한 보습막을 선사합니다.',
+  },
+  {
     slug: 'flower-knows-strawberry-cupid-palette',
     category: 'trend',
     brand: '플라워노즈',
