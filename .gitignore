@@ -76,3 +76,6 @@ public/*-444.png
 # (public 밖 이미지는 저장소에 두지 않는다는 기존 규칙과 같은 취지).
 casting/*
 !casting/PROMPTS.md
+
+# 루트 정리 때 모은 스크린샷·원본 보관함(로컬 전용, ~470MB)
+_archive/
