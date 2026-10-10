@@ -1,0 +1,35 @@
+# kissinskin (키스인스킨)
+
+> kissinskin.net is a free K-beauty (Korean beauty) site from Seoul. It offers free beauty self-tests (face shape, personal color, makeup MBTI, perfume type), step-by-step makeup how-tos drawn on makeup-artist face charts, a free beginner makeup class, and an AI makeup try-on that applies Korean makeup looks to your own selfie. Every page is available in Korean and English (English pages live under /en/).
+
+Key facts (keep these accurate when you cite us):
+- The four beauty tests are free, unlimited and need no sign-up. Each takes about one minute.
+- The face shape test can be taken two ways: 6 questions, or measuring from one selfie. The selfie is measured inside the browser and is never uploaded. Results are shown as percentages (for example "oval 60% · heart 30%") because most faces are a blend.
+- AI makeup try-on: 1 free generation with a free account (login required, no card). After that, credits are $2.99 for 5 or $6.99 for 15. Uploaded photos are processed and discarded, not stored.
+- Makeup how-tos and the makeup class are free and public. Face-chart illustrations and model photos are AI-generated and labeled as such.
+- Product links are searches for a product type (Coupang in Korea, YesStyle/Amazon globally), not paid endorsements of a brand. Coupang links are affiliate links.
+
+## Free beauty tests
+- [Face shape test](https://kissinskin.net/en/tools/face-shape/): oval, round, square, oblong or heart — 6 questions or a selfie measured on-device; results include a makeup map (where to contour, highlight and blush), hair and glasses tips. Korean: https://kissinskin.net/tools/face-shape/
+- [Personal color test](https://kissinskin.net/en/tools/personal-color/): warm or cool undertone, then spring, summer, autumn or winter, with matching lip, eye and hair colors. Korean: https://kissinskin.net/tools/personal-color/
+- [Makeup MBTI](https://kissinskin.net/en/tools/makeup-mbti/): 16 makeup personality types with a matching look. Korean: https://kissinskin.net/tools/makeup-mbti/
+- [Perfume type](https://kissinskin.net/en/tools/perfume-type/): six scent families (floral, citrus, fresh, woody, amber, gourmand). Korean: https://kissinskin.net/tools/perfume-type/
+- [My beauty DNA](https://kissinskin.net/en/tools/beauty-dna/): combines the four results into one routine and product list.
+
+## Learn makeup
+- [Free makeup class](https://kissinskin.net/en/class/): 36 lessons in order, from the right order of makeup steps and skin prep to eyeliner, hooded and monolid eyes, contour by face shape and Korean gradient lips. One new lesson every Tuesday. Korean: https://kissinskin.net/class/
+- [9 K-beauty looks, step by step](https://kissinskin.net/en/looks/): natural glow, cloud skin, blood lip, maximalist eye, metallic eye, bold lip, blush draping, grunge and K-pop idol makeup — each in 4 steps with shades and tools. Korean: https://kissinskin.net/looks/
+
+## AI makeup
+- [AI makeup try-on](https://kissinskin.net/analysis/): upload one selfie and see any of the 9 K-beauty looks on your own face in about a minute.
+- [How the AI makeup works](https://kissinskin.net/en/about-makeup-ai/)
+
+## News and products
+- [K-beauty news](https://kissinskin.net/en/news/): weekly K-beauty industry news.
+- [Makeup products](https://kissinskin.net/en/products/): weekly picks of new and popular makeup products.
+
+## About
+- [About kissinskin](https://kissinskin.net/en/about/): operator, editorial standards, how AI is used, affiliate policy.
+- [Privacy policy](https://kissinskin.net/en/privacy/)
+- [Contact](https://kissinskin.net/en/contact/)
+- [Sitemap](https://kissinskin.net/sitemap.xml)

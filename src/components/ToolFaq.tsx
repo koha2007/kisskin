@@ -58,12 +58,28 @@ export default function ToolFaq({ title = '자주 묻는 질문', items, accentC
 
 export const FACE_SHAPE_FAQ_BASE: FaqItem[] = [
   {
+    q: '얼굴형 테스트는 무료인가요?',
+    a: '네. 회원가입도 결제도 필요 없이 무료예요. 6문항에 답하거나 셀카 한 장으로 재면 약 1분 만에 결과가 나와요.',
+  },
+  {
+    q: '얼굴형 종류는 몇 가지인가요?',
+    a: '계란형 · 둥근형 · 각진형 · 긴형 · 하트형 5가지로 나눠요. 얼굴 길이와 너비의 비율, 이마와 턱의 너비, 턱선 각도로 판별해요.',
+  },
+  {
+    q: '사진을 올려야 하나요?',
+    a: '아니요, 두 가지 중에 고르면 돼요. 6문항에 답하는 방식은 사진이 필요 없어요. 셀카로 재는 방식은 사진을 서버로 보내지 않고 브라우저 안에서만 이마 · 광대 · 턱 너비와 얼굴 길이를 재요.',
+  },
+  {
+    q: '얼굴형에 맞는 헤어스타일도 알려주나요?',
+    a: '네. 결과 페이지에서 얼굴형별 메이크업 지도(컨투어 · 하이라이트 · 블러셔 · 눈썹 위치)와 함께 어울리는 헤어스타일과 안경테를 안내해요.',
+  },
+  {
     q: '얼굴형은 변할 수 있나요?',
     a: '뼈 구조 자체는 성인이 된 이후 거의 변하지 않지만, 체중 변화·근육량·붓기·헤어스타일에 따라 인상이 달라 보일 수 있습니다. 진단 결과는 평소 상태 기준이며, 다이어트나 시술 후 다시 측정하면 다른 결과가 나올 수도 있습니다.',
   },
   {
     q: '여러 얼굴형이 섞여 있을 때는 어떻게 해야 하나요?',
-    a: '실제로 100% 한 가지 얼굴형인 사람은 드뭅니다. 진단은 가장 비중이 큰 형태를 알려 주며, 메이크업·헤어 가이드는 주된 형태에 부형을 보완하는 방향으로 적용하면 가장 자연스럽습니다.',
+    a: '실제로 100% 한 가지 얼굴형인 사람은 드뭅니다. 그래서 결과를 "계란형 60% · 하트형 30%"처럼 가까운 정도로 보여 드리며, 메이크업·헤어 가이드는 주된 형태에 부형을 보완하는 방향으로 적용하면 가장 자연스럽습니다.',
   },
   {
     q: '컨투어링이 어색해 보이는 이유는 무엇인가요?',
@@ -80,6 +96,14 @@ export const FACE_SHAPE_FAQ_BASE: FaqItem[] = [
 ]
 
 export const FACE_SHAPE_FAQ_BASE_EN: FaqItem[] = [
+  {
+    q: 'Is the face shape test free?',
+    a: 'Yes — no sign-up and no payment. Answer 6 questions or measure from one selfie and you get your result in about a minute.',
+  },
+  {
+    q: 'Do I need to upload a photo?',
+    a: 'No — you can choose. The 6-question quiz needs no photo. The selfie option measures forehead, cheekbone and jaw widths and face length inside your browser; the photo is never uploaded to a server.',
+  },
   {
     q: 'Can my face shape change over time?',
     a: 'The underlying bone structure barely changes after adulthood, but weight changes, muscle volume, water retention, and hairstyle can shift the impression of your face. Quiz results reflect your typical state, so a re-take after major weight changes or procedures may give a slightly different answer.',
@@ -150,6 +174,14 @@ export const MBTI_FAQ_BASE_EN: FaqItem[] = [
 
 export const PERSONAL_COLOR_FAQ_BASE: FaqItem[] = [
   {
+    q: '퍼스널컬러 진단을 무료로 할 수 있나요?',
+    a: '네. 회원가입이나 결제 없이 무료예요. 6문항에 답하면 약 1분 만에 결과가 나와요.',
+  },
+  {
+    q: '웜톤 쿨톤은 어떻게 구분하나요?',
+    a: '피부에 도는 기본 색조로 나눠요. 노란빛 · 황금빛이 돌고 골드 액세서리가 잘 어울리면 웜톤, 붉은빛 · 푸른빛이 돌고 실버가 잘 어울리면 쿨톤에 가까워요. 이 진단은 혈관 색, 햇빛 반응, 어울리는 립 색 등 6문항으로 웜 · 쿨을 먼저 가른 뒤 봄 · 여름 · 가을 · 겨울 4시즌으로 나눠요.',
+  },
+  {
     q: '온라인 퍼스널 컬러 진단은 정확한가요?',
     a: '오프라인 컬러 드레이프 진단보다는 정확도가 다소 낮지만, 봄웜·여름쿨·가을웜·겨울쿨의 4계절 큰 분류는 70~85% 수준으로 일치합니다. 정밀한 1차/2차 톤 분류가 필요하다면 별도 오프라인 진단을 받아 보고, 평소 옷·메이크업 색 선택 가이드로는 온라인 진단으로도 충분합니다.',
   },
@@ -172,6 +204,10 @@ export const PERSONAL_COLOR_FAQ_BASE: FaqItem[] = [
 ]
 
 export const PERSONAL_COLOR_FAQ_BASE_EN: FaqItem[] = [
+  {
+    q: 'Is the personal color test free?',
+    a: 'Yes — no sign-up and no payment. Answer 6 questions and get your season (spring, summer, autumn or winter) with matching lip, eye and hair colors in about a minute.',
+  },
   {
     q: 'How accurate is an online personal-color diagnosis?',
     a: 'It is somewhat less accurate than an in-person color-drape session, but for the broad four-season split (Spring Warm, Summer Cool, Autumn Warm, Winter Cool) the agreement rate runs roughly 70–85%. For finer sub-tone classification an in-person reading is worth getting, but for everyday clothing and makeup decisions an online quiz is plenty.',

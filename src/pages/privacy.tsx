@@ -66,6 +66,13 @@ function PrivacyKo() {
         <li><strong>생체 데이터 고지:</strong> 얼굴 사진은 일부 법률(예: 미국 일리노이 BIPA, 텍사스 CUBI, 워싱턴주 법)상 생체 데이터에 해당할 수 있습니다. 당사는 사진에서 생체 식별자 또는 템플릿을 추출, 저장, 생성하지 않습니다. 사진은 오직 AI 메이크업 시뮬레이션 생성 목적으로만 사용되며 보관되지 않습니다.</li>
       </ul>
 
+      <h3>3.1.1 얼굴형 셀카 측정 (기기 안에서만 처리)</h3>
+      <ul>
+        <li>얼굴형 진단의 "셀카로 재기"는 사진을 <strong>서버로 보내지 않습니다</strong>. 이용자의 브라우저 안에서 얼굴 윤곽 위치를 찾아 이마 · 광대 · 턱 너비와 얼굴 길이의 비율만 계산합니다.</li>
+        <li>측정선을 그린 축소 사진과 결과 비율은 결과 화면에 다시 보여 주기 위해 <strong>해당 브라우저 탭의 세션 저장소에만</strong> 최대 6시간 남고, 탭을 닫으면 사라집니다. 당사는 이를 수집하거나 볼 수 없습니다.</li>
+        <li>생체 식별자나 얼굴 템플릿을 만들거나 저장하지 않습니다.</li>
+      </ul>
+
       <h3>3.2 생성된 메이크업 결과 이미지 (저장·공유 시)</h3>
       <ul>
         <li>위 3.1항은 <strong>업로드한 원본 사진</strong>에 관한 내용입니다. 이와 별도로 AI가 생성한 <strong>메이크업 결과 이미지</strong>는 다르게 처리됩니다.</li>
@@ -343,6 +350,13 @@ function PrivacyEn() {
       <ul>
         <li>When a signed-in member saves them, we keep your <strong>free quiz results (My Beauty Record)</strong>, <strong>saved AI makeup looks</strong> and <strong>saved makeup how-tos (/looks/)</strong> linked to your account (Supabase) so you can reopen them on My Page.</li>
         <li>Your uploaded photos are never stored. We keep result values such as quiz types and look names; a saved AI makeup look also keeps a link to its generated result image. These records are <strong>deleted together with your account</strong>. To delete a generated result image itself, email its link to <strong>support@kissinskin.net</strong>.</li>
+      </ul>
+
+      <h3>3.1.2 Face Shape Selfie Measurement (processed on your device only)</h3>
+      <ul>
+        <li>The face shape tool's "measure from a selfie" option <strong>never sends your photo to a server</strong>. It runs in your browser, locates the face outline and computes only the ratios of forehead, cheekbone and jaw widths and face length.</li>
+        <li>A small copy of the photo with measurement lines and the resulting ratios are kept <strong>only in that browser tab's session storage</strong> (up to 6 hours, cleared when the tab closes) so the result page can show them. We cannot collect or see them.</li>
+        <li>We do not create or store biometric identifiers or face templates.</li>
       </ul>
 
       <h3>3.2 Payment Information</h3>

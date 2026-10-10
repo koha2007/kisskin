@@ -40,31 +40,7 @@ export default function Head() {
           { "@type": "ListItem", "position": 3, "name": "얼굴형 테스트", "item": "https://kissinskin.net/tools/face-shape/" }
         ]
       }) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org", "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "얼굴형 테스트는 무료인가요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "네. 키스인스킨의 얼굴형 자가 테스트는 회원가입도 결제도 필요 없이 무료입니다. 6문항에 답하면 약 1분 만에 결과가 나옵니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "얼굴형 종류는 몇 가지인가요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "이 테스트는 계란형, 둥근형, 각진형, 긴형, 하트형 5가지로 분류합니다. 얼굴 길이와 폭의 비율, 턱선과 이마의 각도, 광대 위치를 묻는 문항으로 판별합니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "얼굴형에 맞는 헤어스타일도 알려주나요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "네. 결과 페이지에서 얼굴형별로 어울리는 헤어스타일과 컨투어링·메이크업 포인트를 함께 안내합니다." }
-          },
-          {
-            "@type": "Question",
-            "name": "사진을 올려야 하나요?",
-            "acceptedAnswer": { "@type": "Answer", "text": "아니요. 얼굴형 테스트는 6개 문항에 답하는 방식이라 사진 업로드가 필요 없습니다. 사진으로 메이크업을 입혀보는 AI 메이크업은 별도 기능입니다." }
-          }
-        ]
-      }) }} />
+      {/* FAQPage 는 화면에 보이는 FAQ(ToolFaq)에서만 낸다 — 2026-10-10: 여기와 두 벌이었다(구글: 보이지 않는 FAQ·중복 FAQPage 불가) */}
     </>
   )
 }

@@ -84,6 +84,9 @@ for (const [u, h] of pages) {
   if (d.length !== 1) head.push(`${u} description×${d.length}`)
   if (c.length !== 1) head.push(`${u} canonical×${c.length}`)
   else if (c[0][1].replace(SITE, '') !== u) head.push(`${u} canonical→${c[0][1]}`)
+  // FAQPage 는 한 페이지에 하나 — 2026-10-10 도구 랜딩에 head + 본문 두 벌이었다
+  const faqN = (h.match(/"@type":"FAQPage"/g) || []).length
+  if (faqN > 1) head.push(`${u} FAQPage×${faqN}`)
   for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     try { JSON.parse(m[1].includes('&quot;') ? unesc(m[1]) : m[1]) } catch { head.push(`${u} JSON-LD 파싱 오류`) }
   }
