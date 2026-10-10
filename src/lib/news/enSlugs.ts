@@ -37,7 +37,6 @@ export const EN_NEWS_SLUGS = [
   'kbeauty-global-regulatory-summit-ai-2026-sept',
   'kbeauty-oliveyoung-sephora-us-edit-2026-aug',
   'global-makeup-high-adherence-fixer-primer-surge',
-  'kbeauty-us-offline-expansion-1st-gen-revival-2026-aug',
   'kbeauty-h1-2026-us-top-export-market-diversification',
   'kbeauty-jelly-core-makeup-trend-cosmax-2026-july',
   'kbeauty-rx-derma-cosmetics-surge-2026-july',

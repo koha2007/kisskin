@@ -79,3 +79,7 @@ casting/*
 
 # 루트 정리 때 모은 스크린샷·원본 보관함(로컬 전용, ~470MB)
 _archive/
+
+# 자동 점검 보고서(scripts/site-audit.mjs)
+site-audit-report.md
+contrast.txt

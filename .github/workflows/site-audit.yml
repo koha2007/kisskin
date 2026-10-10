@@ -1,0 +1,95 @@
+name: Site audit (biweekly)
+
+# 사이트 전체 자동 점검 — 2026-10-10 운영자 요청: "PC 꺼져 있어도 2주에 한 번 자동으로".
+# 격주 수요일 09:00 KST(화요일 자동 발행 다음 날 — 새 글까지 같이 본다).
+# 문제가 있으면 잡이 **빨간색**으로 끝나고 GitHub 이 운영자 메일로 알린다. 보고서는 잡 요약(Summary)과
+# 아티팩트 site-audit-report 에 남는다. 찾기만 하고 고치지는 않는다.
+# 점검 내용은 scripts/site-audit.mjs 머리말 참고. 수동 실행: Actions → Site audit → Run workflow.
+
+on:
+  schedule:
+    - cron: '0 0 * * 3'   # 매주 수 00:00 UTC = 09:00 KST — 아래 gate 가 격주(짝수 주)만 통과시킨다
+  workflow_dispatch:
+
+concurrency:
+  group: site-audit
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      # cron 은 '2주마다'를 못 쓴다 → 매주 깨어나서 ISO 주차가 짝수일 때만 진행. 수동 실행은 항상 진행.
+      - name: 격주 판정
+        id: gate
+        run: |
+          W=$(date -u +%V)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ $((10#$W % 2)) -ne 0 ]; then
+            echo "홀수 주($W) — 이번 주는 쉰다"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "점검 진행(주차 $W)"; echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v5
+        if: steps.gate.outputs.skip != 'true'
+        with:
+          fetch-depth: 0   # gen-sitemap 의 lastmod 가 git 히스토리를 본다(얕은 클론이면 건너뜀)
+
+      - uses: actions/setup-node@v5
+        if: steps.gate.outputs.skip != 'true'
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: 설치
+        if: steps.gate.outputs.skip != 'true'
+        run: npm ci && npx playwright install --with-deps chromium
+
+      # Supabase URL·anon 키는 **공개값**이다(모든 방문자의 브라우저 번들에 이미 들어 있다 — RLS 로 보호).
+      # 빌드가 이 값 없이는 멈추기 때문에 점검용으로만 적어 둔다. 서비스 키는 절대 여기 두지 말 것.
+      - name: 빌드
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          VITE_SUPABASE_URL: https://vrcltmhhbgnsmdeoxlck.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyY2x0bWhoYmduc21kZW94bGNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMzM4NzksImV4cCI6MjA4OTYwOTg3OX0.0G-mspOrF6wKdHBMCRKw-Hn8_YXKSxCC55DAuDPagg4
+        run: npm run build
+
+      - name: 사이트 점검(정적 · 렌더 · 라이브 · 중복 발행)
+        id: audit
+        if: steps.gate.outputs.skip != 'true'
+        continue-on-error: true
+        run: node scripts/site-audit.mjs
+
+      - name: 명도대비
+        id: contrast
+        if: steps.gate.outputs.skip != 'true'
+        continue-on-error: true
+        env:
+          AUDIT_STRICT: '1'
+        run: |
+          (cd dist/client && python3 -m http.server 4173 >/dev/null 2>&1 &)
+          sleep 1
+          node scripts/audit-contrast.mjs / /en/ /class/ /tools/face-shape/ /looks/ /news/ /products/ | tee contrast.txt
+          echo '' >> "$GITHUB_STEP_SUMMARY"; echo '## 명도대비' >> "$GITHUB_STEP_SUMMARY"; grep '합계' contrast.txt >> "$GITHUB_STEP_SUMMARY" || true
+
+      - uses: actions/upload-artifact@v6
+        if: steps.gate.outputs.skip != 'true' && always()
+        with:
+          name: site-audit-report
+          path: |
+            site-audit-report.md
+            contrast.txt
+          if-no-files-found: ignore
+
+      - name: 판정
+        if: steps.gate.outputs.skip != 'true'
+        run: |
+          echo "audit=${{ steps.audit.outcome }}  contrast=${{ steps.contrast.outcome }}"
+          if [ "${{ steps.audit.outcome }}" != "success" ] || [ "${{ steps.contrast.outcome }}" != "success" ]; then
+            echo "::error::사이트 점검에서 문제 발견 — 이 실행의 Summary(요약)에서 항목을 확인하세요"
+            exit 1
+          fi

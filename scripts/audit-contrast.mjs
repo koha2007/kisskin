@@ -132,3 +132,5 @@ for (const p of PAGES) {
 await browser.close()
 const total = all.reduce((a, b) => a + b.fails.length, 0)
 console.log(`\n합계 실패 ${total}건 / ${PAGES.length}페이지`)
+// 자동 점검(site-audit.yml)에서는 실패가 있으면 잡을 빨간색으로 — 운영자 메일 알림용
+if (process.env.AUDIT_STRICT === '1' && total > 0) process.exit(1)
