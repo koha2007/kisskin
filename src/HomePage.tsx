@@ -10,6 +10,8 @@ import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_IMAGES } from './lib/makeup/lookImages'
+import { CLASS_LESSONS, chartSrc } from './lib/class/lessons'
+import { CURRICULUM } from './lib/class/curriculum'
 import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
 import { useBeautyDna } from './hooks/useBeautyDna'
 import { DNA_FIELDS, DNA_FIELD_META, type DnaField } from './lib/beauty-dna/types'
@@ -561,11 +563,59 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </a>
             ))}
           </div>
-          <a href={isEn ? '/en/class/' : '/class/'} className="mt-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 border border-slate-200 bg-white px-5 py-4 hover:border-navy transition-colors">
-            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark shrink-0">{isEn ? 'New · free class' : 'NEW · 무료 클래스'}</span>
-            <span className="text-sm md:text-base font-bold text-navy flex-1">{isEn ? 'New to makeup? Start from zero — one lesson every week.' : '메이크업이 처음이라면, 완전 기초부터 매주 한 편씩'}</span>
-            <span className="inline-flex items-center gap-1 text-sm font-bold text-navy">{isEn ? 'Makeup class' : '메이크업 클래스'}<span className="material-symbols-outlined text-base">arrow_forward</span></span>
-          </a>
+          <p className="mt-3 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
+        </div>
+      </section>
+
+      {/* ── 무료 메이크업 클래스 — 2026-10-10 ──
+          운영자: "메인화면에 없네?" → 한 줄 배너로는 안 보였다. 9룩 방법 바로 아래 독립 섹션으로.
+          최근 공개 4편 + 다음 주 공개 1칸(재방문 이유). 매주 자동 발행되면 카드가 저절로 바뀐다. */}
+      <section id="class" className="py-16 md:py-24 bg-background-light scroll-mt-16" aria-labelledby="class-title">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-10">
+            <div>
+              <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
+                {isEn ? 'Free makeup class' : '무료 메이크업 클래스'}
+              </p>
+              <h2 id="class-title" className="font-serif text-3xl md:text-[2.6rem] leading-tight text-navy">
+                {isEn ? 'Makeup from zero, one lesson a week' : '완전 기초부터, 매주 한 편씩'}
+              </h2>
+              <p className="mt-3 text-slate-600 text-sm md:text-base max-w-xl">
+                {isEn
+                  ? `${CURRICULUM.length} lessons in order — from the right order of steps to eyeliner, contour and gradient lips. New lesson every Tuesday.`
+                  : `메이크업 순서부터 아이라인 · 컨투어 · 그라데이션 립까지 ${CURRICULUM.length}편을 순서대로. 매주 화요일 새 편이 올라와요.`}
+              </p>
+            </div>
+            <a href={isEn ? '/en/class/' : '/class/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
+              {isEn ? `All ${CURRICULUM.length} lessons` : `${CURRICULUM.length}편 전체 보기`}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
+            {CLASS_LESSONS.slice(-4).map((l) => (
+              <a key={l.slug} href={`${isEn ? '/en' : ''}/class/${l.slug}/`} className="group block bg-white border border-slate-200 hover:border-navy transition-colors">
+                <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
+                  <img src={chartSrc(l.slug)} alt={isEn ? `${l.titleEn} — face chart` : `${l.titleKo} 페이스 차트`} loading="lazy" decoding="async"
+                    className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
+                  <span className="absolute left-2 top-2 inline-flex h-6 items-center justify-center rounded-full bg-navy px-2 text-[11px] font-extrabold text-white">{isEn ? `Lesson ${l.n}` : `${l.n}편`}</span>
+                </span>
+                <span className="block p-3 md:p-4">
+                  <span className="block text-sm md:text-base font-extrabold text-navy leading-snug break-keep">{isEn ? l.titleEn : l.titleKo}</span>
+                  <span className="mt-1 block text-xs text-slate-500">{l.minutes}{isEn ? ' min' : '분'} · {l.steps.length}{isEn ? ' steps' : '단계'} →</span>
+                </span>
+              </a>
+            ))}
+            {(() => {
+              const next = CURRICULUM.find((c) => !CLASS_LESSONS.some((l) => l.slug === c.slug))
+              return next ? (
+                <a href={isEn ? '/en/class/' : '/class/'} className="col-span-2 lg:col-span-1 flex flex-col justify-center gap-2 border border-dashed border-slate-300 p-5 text-center hover:border-navy transition-colors">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{isEn ? `Next Tuesday · lesson ${next.n}` : `다음 화요일 · ${next.n}편`}</span>
+                  <span className="text-base font-extrabold text-navy break-keep">{isEn ? next.titleEn : next.titleKo}</span>
+                  <span className="text-xs text-slate-500">{isEn ? 'Get it in your inbox — subscribe below' : '메일로 받아 보려면 아래에서 구독하세요'}</span>
+                </a>
+              ) : null
+            })()}
+          </div>
           <p className="mt-3 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
         </div>
       </section>

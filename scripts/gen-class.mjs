@@ -13,14 +13,14 @@
 //   5) lessons.json 끝에 덧붙인다. 커밋·푸시·사이트맵·IndexNow 는 워크플로 몫.
 //
 // 안전장치:
-//   · 같은 주 재실행 방지: 마지막 편이 6일 안에 나갔으면 건너뜀(CLASS_FORCE=1 로 무시).
+//   · 같은 주 재실행 방지: 이번 주 화요일 이후 이미 나갔으면 건너뜀(CLASS_FORCE=1 로 무시).
 //   · 문구 규칙은 9룩(src/lib/looks/howto.ts 상단)과 같다 — 화장품법 효능 표현 금지,
 //     실존 인물 이름 금지, 제품은 브랜드가 아니라 "종류" 검색어.
 //   · 사람 검수 없는 대량 발행은 구글 단속 대상 → 주 1편 고정. 여러 편을 한 번에 돌리지 말 것.
 //
 // 사용: node --experimental-strip-types scripts/gen-class.mjs
 //   CLASS_DRY=1   → 생성·검증만 하고 파일을 쓰지 않음(차트도 안 만듦, 비용 = 텍스트 1회)
-//   CLASS_FORCE=1 → 6일 규칙 무시
+//   CLASS_FORCE=1 → 같은 주 재실행 방지 무시
 // ════════════════════════════════════════════════════════════════════
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -41,9 +41,13 @@ if (!item) {
 }
 
 const todayKst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10)
+// 같은 주 재실행 방지: 이번 주 화요일(KST, 발행 요일) 이후에 이미 한 편 나갔으면 건너뛴다.
+// (예전 '6일 이내' 규칙은 10/10 첫 4편 뒤 10/13 정기 발행까지 막아 버렸다.)
+const dow = new Date(`${todayKst}T00:00:00Z`).getUTCDay() // 0=일 … 2=화
+const thisTuesday = new Date(Date.parse(`${todayKst}T00:00:00Z`) - ((dow - 2 + 7) % 7) * 86400000).toISOString().slice(0, 10)
 const last = lessons.map((l) => l.publishedAt).sort().pop()
-if (!DRY && process.env.CLASS_FORCE !== '1' && last && (Date.parse(todayKst) - Date.parse(last)) / 86400000 < 6) {
-  console.log(`[gen-class] 마지막 편이 ${last} 에 나감 — 이번 주는 이미 발행. 건너뜀(CLASS_FORCE=1 로 무시)`)
+if (!DRY && process.env.CLASS_FORCE !== '1' && last && last >= thisTuesday) {
+  console.log(`[gen-class] 이번 주(${thisTuesday}~) 이미 ${last} 에 발행 — 건너뜀(CLASS_FORCE=1 로 무시)`)
   process.exit(0)
 }
 
