@@ -76,9 +76,9 @@
   --color-tool-guide-ink: #4a5488;
   /* 디자인 시스템: 폰트 1족(Pretendard Variable)만 사용 (DESIGN_SYSTEM.md 단일 소스) */
   /* 본문(body): Pretendard Variable — index.html/+Head.tsx 에서 실제 로드됨 */
-  --font-body: "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Pretendard Variable", "Pretendard", "Pretendard Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
   /* legacy 유틸 .font-display 는 전 페이지 본문 래퍼로 쓰여 본문 스택과 동일하게 둔다(Manrope 제거) */
-  --font-display: "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Pretendard Variable", "Pretendard", "Pretendard Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
   /* 제목(display) — 2026-07-22 벤치마킹 후 재조정.
      ① 문제였던 건 세리프 자체가 아니라 **한글 명조**(Noto Serif KR)였다. 한글 명조가
         2010년대 쇼핑몰 느낌을 내 "옛스럽다"의 주원인이었으므로 Noto Serif KR 은 계속 뺀다.
@@ -87,7 +87,7 @@
      → 그래서 스택을 "Cormorant Garamond → Pretendard" 순으로 둔다. 브라우저 폰트 폴백은
        **글리프 단위**로 동작하므로 Cormorant 에 없는 한글은 자동으로 Pretendard(산세리프)로
        떨어진다. 결과: 영문 제목=세리프, 한글 제목=산세리프. 한 토큰으로 양쪽을 동시에 만족. */
-  --font-serif: "Cormorant Garamond", "Pretendard Variable", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Cormorant Garamond", "Pretendard Variable", "Pretendard", "Pretendard Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
   --radius: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
@@ -135,7 +135,7 @@
      ⚠ document.fonts.check('Pretendard') 는 폴백까지 쳐서 true 를 돌려주므로 판정에 쓰지 말 것 —
        canvas measureText 로 폭을 재야 진짜가 드러난다.
      단일 소스는 --font-body(위 @theme). var 가 못 풀릴 때를 대비해 같은 스택을 폴백으로 둔다. */
-  font-family: var(--font-body, "Pretendard Variable", "Pretendard", system-ui, -apple-system, 'Segoe UI', sans-serif);
+  font-family: var(--font-body, "Pretendard Variable", "Pretendard", "Pretendard Fallback", system-ui, -apple-system, 'Segoe UI', sans-serif);
   line-height: 1.5;
   font-weight: 400;
   color: #333;
@@ -159,6 +159,20 @@ html {
    → 아이콘이 들어간 모든 뱃지/버튼/pill 이 site-wide 로 밀린다(Clarity CLS 0.56 = 나쁨).
    글립 실제 폭이 1em 이므로 미리 1em 박스를 잡아두면 시프트가 0 이 된다.
    overflow:hidden 은 폰트 로드 실패 시 리거처 텍스트가 새는 것도 함께 막는다. */
+/* 2026-10-10 점검: Pretendard 가 늦게 도착하면 기본 글꼴로 먼저 그려진 글이 다시 그려지며 줄 높이·줄바꿈이
+   바뀌어 아래가 밀렸다(CLS — Clarity 0.24 "개선 필요", 영문 도구 랜딩 실측 0.16). Pretendard 를 막으면 0 이었다.
+   → 기본 글꼴(Arial/Roboto)을 Pretendard 의 세로 지표(ascent 95% · descent 24%, canvas 실측)와 폭(100.3%)에 맞춘
+   대체 글꼴을 스택에서 Pretendard 바로 뒤에 둔다. 줄 상자는 첫 글꼴 지표로 정해지므로 한글이 시스템 글꼴로
+   그려지는 동안에도 줄 높이가 같다. */
+@font-face {
+  font-family: "Pretendard Fallback";
+  src: local("Arial"), local("ArialMT"), local("Roboto"), local("Helvetica Neue"), local("Liberation Sans");
+  size-adjust: 100.3%;
+  ascent-override: 95%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
 .material-symbols-outlined {
   display: inline-block;
   width: 1em;

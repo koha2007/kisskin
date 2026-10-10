@@ -161,9 +161,10 @@ export default function FaceShapeResult({ code }: Props) {
               <p className="font-mono text-xs md:text-sm tracking-[0.3em] text-slate-500 mb-2">{t.enName.toUpperCase()}</p>
               <h1 className="font-serif text-4xl md:text-6xl font-semibold text-navy tracking-tight mb-3 leading-[1.02]">{name}</h1>
               <p className="text-base md:text-xl text-slate-700 max-w-xl mx-auto md:mx-0 leading-relaxed font-medium mb-5">{tagline}</p>
-              <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-7">
+              {/* 2026-10-10: 한 줄 고정 — 글꼴이 늦게 오면 두 줄→한 줄로 바뀌며 아래가 밀렸다(CLS 0.11) */}
+              <div className="flex flex-nowrap gap-2 justify-center md:justify-start mb-7 overflow-x-auto [scrollbar-width:none]">
                 {card.hashtags.map(k => (
-                  <span key={k} className="px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>{k}</span>
+                  <span key={k} className="shrink-0 whitespace-nowrap px-3 py-1 bg-white/70 backdrop-blur-sm rounded-full text-xs font-bold text-slate-700 border" style={{ borderColor: `${t.primaryColor}40` }}>{k}</span>
                 ))}
               </div>
 

@@ -12,7 +12,7 @@
 //    5 <title>/description/canonical 1개씩 · 자기 자신 · JSON-LD 파싱   6 제목 중복
 //    7 얇은 페이지(본문 900자 미만)                        8 영문 페이지 한글 노출(경고)
 //    9 자동 발행 뉴스·제품 중복(같은 소식/제품이 주소만 바꿔 여러 번 — 10/10 에 16건 나왔던 것)
-//   [렌더: 실제 브라우저]  10 주요 페이지 × PC/모바일 콘솔 오류 · 실패 요청 · 가로 넘침
+//   [렌더: 실제 브라우저]  10 주요 페이지 × PC/모바일 콘솔 오류 · 실패 요청 · 가로 넘침 · 화면 밀림(CLS)
 //   [라이브]              11 주요 주소 응답 코드 · 리디렉트 · 제휴 함수
 //   명도대비는 별도 스텝(scripts/audit-contrast.mjs).
 //
@@ -134,8 +134,16 @@ if (!args.has('--no-render')) {
     '/en/class/', '/en/tools/face-shape/heart/', '/en/looks/', latest('news'), latest('products'), [...pages.keys()].find((u) => /^\/class\/[^/]+\/$/.test(u))].filter(Boolean)
   const b = await chromium.launch()
   const probs = []
+  const clsBad = []
   for (const [w, h] of [[1280, 900], [390, 844]]) {
     const ctx = await b.newContext({ viewport: { width: w, height: h } })
+    // 화면 밀림(CLS) — 2026-10-10 Clarity 0.24 "개선 필요"였던 것. 구글 '좋음' 기준 0.1
+    // 본문 글꼴(Pretendard)은 막고 잰다: CI(리눅스)의 한글 대체 글꼴은 폭이 달라 실제 기기(iOS = Apple SD Gothic Neo,
+    // Pretendard 가 그 지표에 맞춰 만들어졌다)에 없는 줄바꿈 차이를 만든다. 여기서 잡을 건 **구조적 밀림**
+    // (늦게 뜨는 요소·크기 없는 이미지·자리표시 높이 불일치)이다. 라틴 글꼴 밀림은 src/index.css 의
+    // 'Pretendard Fallback'(지표 보정)으로 따로 막았다.
+    await ctx.route(/jsdelivr\.net\/gh\/orioncactus/, (r) => r.abort())
+    await ctx.addInitScript(() => { window.__cls = 0; try { new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__cls += e.value }).observe({ type: 'layout-shift', buffered: true }) } catch {} })
     for (const u of urls) {
       const p = await ctx.newPage(); const errs = []; const fails = []
       p.on('pageerror', (e) => errs.push(e.message.slice(0, 90)))
@@ -144,12 +152,16 @@ if (!args.has('--no-render')) {
       try { await p.goto(`http://localhost:4199${u}`, { waitUntil: 'networkidle', timeout: 30000 }) } catch (e) { errs.push('열기 실패 ' + e.message.slice(0, 50)) }
       await p.waitForTimeout(300)
       const ov = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth).catch(() => 0)
+      await p.waitForTimeout(700)
+      const cls = await p.evaluate(() => window.__cls || 0).catch(() => 0)
+      if (cls > 0.1) clsBad.push(`${u} @${w}px ${cls.toFixed(3)}`)
       if (errs.length || fails.length || ov > 1) probs.push(`${u} @${w}px ${ov > 1 ? `가로넘침 ${ov}px ` : ''}${errs.slice(0, 2).join(' / ')} ${fails.slice(0, 2).join(' ')}`.trim())
       await p.close()
     }
     await ctx.close()
   }
   await b.close(); srv.close()
+  clsBad.length ? E('화면 밀림(CLS>0.1)', `${clsBad.length}건: ${sample(clsBad, 5)} — 글꼴·이미지·늦게 뜨는 요소 자리 확보`) : ok.push('화면 밀림(CLS) 전부 0.1 이하')
   probs.length ? E('렌더', `${probs.length}건: ${sample(probs, 5)}`) : ok.push(`렌더 ${urls.length}페이지 × PC/모바일 오류·넘침 0`)
 }
 

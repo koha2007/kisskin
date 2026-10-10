@@ -23,6 +23,12 @@ export default {
           var h = location.hostname;
           var isProd = h === 'kissinskin.net' || h === 'www.kissinskin.net';
           if (!isProd) return;
+          // 2026-10-10: 자동화·봇 브라우저 제외. GA4 28일 활성 702명 중 싱가포르 194명이 참여율 1%·체류 0초였다
+          // (Microsoft 데이터센터 — 화면을 실제로 그려 보는 크롤러). 사람의 브라우저는 webdriver=false 이고
+          // UA 에 이런 단어가 없다. 대시보드가 사람 숫자만 보이게 GA4·Clarity 를 아예 켜지 않는다.
+          try {
+            if (navigator.webdriver || /bot|crawl|spider|headless|lighthouse|slurp|facebookexternalhit|bingpreview/i.test(navigator.userAgent)) return;
+          } catch (e) {}
           // Internal/family-traffic exclusion. The operator opens the site once per
           // device with ?internal=1; family logins set the same flag from React
           // (src/lib/internalTraffic.ts). Either way we skip GA4 + Clarity entirely
