@@ -5,48 +5,6 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
-    slug: 'kbeauty-global-online-market-hits-15-billion',
-    category: 'global',
-    title: 'Global Online K-Beauty Market Reaches $15 Billion in 2025, Growing 20% YoY',
-    summary:
-      'According to a report by Euromonitor, the global online K-beauty market reached $15 billion in 2025, growing approximately 20% from $12.5 billion in 2024. The U.S. particularly established itself as a core market, accounting for 54% of overseas online sales.',
-    body: [
-      '> TLDR: Market size $15B | ~20% growth year-over-year | US represents 54% of overseas sales',
-      'The global online K-beauty market reached $15 billion in 2025, expanding by roughly 20% from $12.5 billion in 2024.',
-      '> DATA: 2025 market size $15 billion, ~20% YoY growth; US accounts for 54% of overseas online sales',
-      'This growth was driven by digital-first strategies and strong demand in the U.S. and Europe, with TikTok-driven social commerce also playing a significant role.',
-      'For consumers, this signals that K-beauty has established itself beyond a simple fad into a sustainable global consumer trend.',
-    ],
-    date: '2026-09-29',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'Online Market', 'Global Growth'],
-    image: '/news/kbeauty-global-online-market-hits-15-billion.webp',
-    seoTitle: 'Global Online K-Beauty Market Hits $15B in 2025',
-    seoDescription:
-      'The global online K-beauty market expanded 20% to $15 billion in 2025, driven by strong U.S. demand and TikTok social commerce.',
-  },
-  {
-    slug: 'loreal-cosmax-k-beauty-innovation-mou-global-collab-2026',
-    category: 'global',
-    title: 'L\'Oréal Group and Cosmax Sign MOU for Next-Generation K-Beauty Innovation',
-    summary:
-      'L\'Oréal Group and Korean ODM company Cosmax have entered into a strategic partnership to drive next-generation beauty innovation. The two companies will jointly pursue research into raw materials and sensory formulations to expand their global market presence.',
-    body: [
-      '> TLDR: L\'Oréal–Cosmax MOU | Next-Gen K-Beauty Development | Foundation for Global Expansion',
-      'On September 9, 2026, France\'s L\'Oréal Group and South Korea\'s Cosmax signed a strategic memorandum of understanding (MOU) to drive next-generation beauty innovation.',
-      '> DATA: MOU signed on September 9, 2026; both companies commit to joint research on raw materials, active ingredients, and signature sensory formulation (loreal.com)',
-      'This agreement combines L\'Oréal\'s global beauty science and consumer insight capabilities with Cosmax\'s K-beauty formulation expertise, laying the groundwork to develop new products tailored for the global market.',
-      'From a consumer perspective, this signals that K-beauty is evolving beyond a regional trend into a key driver of global innovation partnerships.',
-    ],
-    date: '2026-09-21',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'MOU', 'Global Collaboration'],
-    image: '/news/loreal-cosmax-k-beauty-innovation-mou-global-collab-2026.webp',
-    seoTitle: 'L\'Oréal and Cosmax Sign MOU for K-Beauty Innovation',
-    seoDescription:
-      'L\'Oréal Group and Cosmax partner to drive next-generation K-beauty innovation through joint research on ingredients and formulation science.',
-  },
-  {
     slug: 'cosrx-becomes-first-k-beauty-patron-british-beauty-council',
     category: 'skincare',
     title: 'COSRX Becomes First K-Beauty Patron of the British Beauty Council',
@@ -110,27 +68,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
       'Trinny London debuts a new skin tint tailored for mature skin over 40, offering tone correction with a natural hybrid skincare finish.',
   },
   {
-    slug: 'loreal-cosmax-mou-global-beauty-innovation',
-    category: 'global',
-    title: 'L\'Oréal and Cosmax Sign Global MOU for Next-Gen Beauty Innovation',
-    summary:
-      'On September 9, 2026, L\'Oréal Group and Cosmax signed a memorandum of understanding (MOU) for next-generation beauty innovation, embarking on joint research for raw materials, sensory formulas, and product design. The two companies plan to combine their strengths to lead global market trends.',
-    body: [
-      '> TLDR: L\'Oréal & Cosmax MOU | Joint R&D on Raw Materials & Sensory Formulas | Leading Global Beauty Trends',
-      'On September 9, 2026 (local time), global cosmetics leader L\'Oréal Group and leading Korean ODM Cosmax signed an MOU for next-generation beauty innovation. The two companies plan to collaborate on developing raw materials, active ingredients, and sensory formulations.',
-      '> DATA: MOU signed September 9, 2026, combining L\'Oréal\'s global scientific and consumer insight capabilities with Cosmax\'s K-beauty product design expertise',
-      'The agreement also marks the 140th anniversary of diplomatic relations between France and South Korea, aiming to shape future beauty trends and expand reach to consumers worldwide. Cosmax\'s K-beauty formulation capabilities and L\'Oréal\'s R&D know-how serve as key drivers.',
-      'For consumers, this partnership increases the likelihood of highly innovative and sensory products hitting the global market more rapidly. Notably, the collaboration between the two industry leaders is expected to influence global beauty trends well beyond K-beauty.',
-    ],
-    date: '2026-09-14',
-    readMinutes: 3,
-    tags: ['Global', 'Collaboration', 'Beauty Innovation'],
-    image: '/news/loreal-cosmax-mou-global-beauty-innovation.webp',
-    seoTitle: 'L\'Oréal & Cosmax Partner for Next-Gen Beauty Innovation',
-    seoDescription:
-      'L\'Oréal and Cosmax sign a global MOU to co-develop innovative raw materials and sensory beauty formulations for consumers worldwide.',
-  },
-  {
     slug: 'nooni-apple-seed-lip-oil-target-us-debut',
     category: 'lip',
     title: 'nooni Launches Signature ‘Apple Seed Lip Oil’ Across 1,778 US Target Stores and Online',
@@ -171,27 +108,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     seoTitle: 'K-Beauty\'s Soft-Focus \'Blur\' Makeup Goes Global',
     seoDescription:
       'Global media spotlight Korea\'s soft-focus blur makeup trend, celebrating diffused lip and blush colors alongside natural K-beauty aesthetics.',
-  },
-  {
-    slug: 'loreal-cosmax-next-gen-collab',
-    category: 'global',
-    title: 'L\'Oréal and Cosmax Sign MOU for Next-Generation Beauty Innovation',
-    summary:
-      'L\'Oréal Group and domestic ODM leader Cosmax signed a memorandum of understanding (MOU) in Paris on September 8 (local time) for joint research on \'Next-Generation Beauty Innovation.\' The two companies plan to collaborate on global product development inspired by K-beauty, as well as research into future ingredients and sensory design.',
-    body: [
-      '> TLDR: L\'Oréal–Cosmax MOU | Joint Global K-Beauty Product Development | Ingredient & Sensory Design Collaboration',
-      'L\'Oréal Group and Cosmax signed a memorandum of understanding (MOU) for \'Next-Generation Beauty Innovation\' in Paris on September 8, 2026 (local time). The two companies plan to jointly drive global product development and innovative research.',
-      '> DATA: The MOU was signed in Paris on September 8, and both parties will conduct joint research on raw materials, active ingredients, and sensory product design.',
-      'This agreement was signed as part of the bilateral summit celebrating the 140th anniversary of diplomatic relations between France and South Korea. It combines L\'Oréal\'s global R&D capabilities and consumer insights with Cosmax\'s agile K-beauty-based product development expertise.',
-      'From a consumer perspective, this collaboration is a significant signal pointing toward next-generation products that blend K-beauty\'s innovation with the scientific power of a global brand.',
-    ],
-    date: '2026-09-11',
-    readMinutes: 3,
-    tags: ['MOU', 'Global Collaboration', 'K-Beauty Innovation'],
-    image: '/news/loreal-cosmax-next-gen-collab.webp',
-    seoTitle: 'L\'Oréal and Cosmax Sign MOU for K-Beauty Innovation',
-    seoDescription:
-      'L\'Oréal and Cosmax partner in Paris to co-develop next-generation K-beauty products, advanced ingredients, and sensory design.',
   },
   {
     slug: 'loreal-cosmax-kbeauty-innovation-mou',
@@ -278,27 +194,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
       'South Korean cosmetics exports reached a record $1.35 billion in July 2026, driven by skincare demand and nine consecutive months of global growth.',
   },
   {
-    slug: 'seoul-beauty-week-global-k-beauty-second-largest-industry',
-    category: 'global',
-    title: 'K-Beauty Ranks 2nd Globally in Cosmetics Industry as \'2026 Seoul Beauty Week\' Drives Expansion',
-    summary:
-      'K-beauty has reached second place in the global cosmetics industry, and the Seoul Metropolitan Government will host \'2026 Seoul Beauty Week\' from August 22 to 25 to support global expansion and tech innovation for SMB brands.',
-    body: [
-      '> TLDR: K-Beauty becomes world\'s 2nd largest cosmetics industry | Seoul Beauty Week set for Aug 22–25 | Supporting global expansion for SMB brands',
-      'South Korea\'s cosmetics industry has secured the second-place position in the global market, further expanding the influence of K-beauty.',
-      '> DATA: Seoul Beauty Week will take place from August 22 to 25, 2026, at Dongdaemun Design Plaza, featuring a record 152 participating companies.',
-      'The Seoul Metropolitan Government will hold \'2026 Seoul Beauty Week\' at Dongdaemun Design Plaza (DDP) from August 22 to 25, offering small, medium, and emerging K-beauty brands opportunities for 1-on-1 consultations with overseas buyers, investors, and distributors, as well as hosting a \'K-Beauty 2.0\' forum and discussions on AI and beauty tech.',
-      'From a consumer perspective, this event provides a practical bridge for K-beauty brands seeking global expansion, raising expectations for K-beauty\'s continued growth and innovation.',
-    ],
-    date: '2026-09-06',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'Exports', 'Seoul Beauty Week'],
-    image: '/news/seoul-beauty-week-global-k-beauty-second-largest-industry.webp',
-    seoTitle: 'K-Beauty Hits No. 2 Globally Ahead of Seoul Beauty Week',
-    seoDescription:
-      'K-beauty reaches the No. 2 spot globally while Seoul prepares to host 2026 Seoul Beauty Week to connect SMB cosmetics brands with overseas buyers.',
-  },
-  {
     slug: 'laneige-matin-kim-global-cosmetics-fashion-collab',
     category: 'global',
     title: 'Laneige Launches Global Limited-Edition Collaboration with Matin Kim',
@@ -360,27 +255,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     seoTitle: 'SKIN1004 Launches Azulene Peptide and NAD Creams',
     seoDescription:
       'SKIN1004 introduces Azulene Peptide and 99% pure NAD creams under its Lab in Nature line, expanding high-performance K-beauty skincare.',
-  },
-  {
-    slug: 'kaja-target-beauty-studio-us-launch',
-    category: 'global',
-    title: 'Kaja Secures Entry into Target’s New Prestige Space ‘Target Beauty Studio’',
-    summary:
-      'Korean makeup brand Kaja is launching in Target\'s new prestige beauty space, \'Target Beauty Studio.\' The official omnichannel rollout is scheduled for September 10.',
-    body: [
-      '> TLDR: K-beauty brand Kaja enters Target\'s \'Beauty Studio\' | Launch date: September 10, 2026 | Lineup includes best-sellers',
-      'K-beauty makeup brand Kaja is entering Target\'s new prestige beauty concept, \'Target Beauty Studio.\' The space is scheduled to open on September 10, 2026, with products launching simultaneously online and in physical stores.',
-      '> DATA: The official launch date is September 10, 2026, debuting within the newly designed Target Beauty Studio space across Target stores nationwide and online in the U.S.',
-      'Kaja is entering the retailer with a collection featuring its popular best-sellers, including Beauty Bento, Wink Stamp, and Cheeky Stamp. Target stated that the partnership will deliver an "innovative and creative" K-beauty experience.',
-      'This expansion serves as a significant opportunity to heighten K-beauty awareness and accessibility in the U.S., enabling consumers to easily discover fun and practical products across various formats at Target.',
-    ],
-    date: '2026-09-02',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'Global', 'Target', 'Brand Launch'],
-    image: '/news/kaja-target-beauty-studio-us-launch.webp',
-    seoTitle: 'Kaja to Launch in Target\'s New Target Beauty Studio',
-    seoDescription:
-      'K-beauty makeup brand Kaja confirms its expansion into Target\'s new prestige retail concept, Target Beauty Studio, launching online and in stores.',
   },
   {
     slug: 'kbeauty-exports-indie-brands-record-h1-2026',
@@ -528,27 +402,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     seoTitle: 'Seoul to Soho: K-Beauty Experiential Pop-Up Opens in NYC',
     seoDescription:
       'Discover the \'Seoul to Soho\' K-beauty experiential pop-up in New York City, featuring skincare brands, workshops, and custom services.',
-  },
-  {
-    slug: 'seoul-beauty-week-global-k-beauty-platform',
-    category: 'global',
-    title: 'Seoul Hosts 5th Seoul Beauty Week to Drive Global Expansion for 152 K-Beauty Brands',
-    summary:
-      'The Seoul Metropolitan Government is hosting the 5th Seoul Beauty Week at Dongdaemun Design Plaza from August 22 to 25, 2026, offering 152 beauty and beauty-tech companies 1:1 meetings, investment, and export consultations with international buyers. The event will also feature the \'Beauty 2.0\' forum focusing on regulations, certifications, AI, and global distribution strategies.',
-    body: [
-      '> TLDR: 152 Companies Join Seoul Beauty Week | 1:1 Buyer Meetings | Inaugural \'Beauty 2.0\' Forum',
-      'Hosted by the Seoul Metropolitan Government, \'2026 Seoul Beauty Week\' will take place at Dongdaemun Design Plaza from August 22 to 25. A total of 152 beauty and beauty-tech companies will participate to explore growth opportunities in the global market.',
-      '> DATA: 152 Participating Companies, Event Dates Aug 22–25, Forum Theme \'Beauty 2.0\' (Regulations, Certifications, AI, Global Strategy)',
-      'On the opening day, the first-ever Seoul Beauty Forum will be held under the theme \'Beauty 2.0\' to address key industry topics including regulations, certifications, AI integration, and global distribution strategies. Interactive programs such as K-pop idol makeup sessions, makeover demonstrations, and appearances by domestic and international influencers are also scheduled.',
-      'Seoul Beauty Week aims to empower small and indie brands to expand overseas through direct meetings, investment advice, and export consultations with global buyers, while giving consumers first-hand access to the latest K-beauty trends.',
-    ],
-    date: '2026-08-24',
-    readMinutes: 3,
-    tags: ['Seoul Beauty Week', 'K-Beauty', 'Global Market'],
-    image: '/news/seoul-beauty-week-global-k-beauty-platform.webp',
-    seoTitle: '5th Seoul Beauty Week Expands Global Reach for K-Beauty',
-    seoDescription:
-      'The 5th Seoul Beauty Week connects 152 K-beauty companies with international buyers through 1:1 meetings and the inaugural Beauty 2.0 forum.',
   },
   {
     slug: 'proya-launches-in-ulta-us',
@@ -784,48 +637,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
       'K-beauty brand Jungsaemmool officially debuts on Sephora US online and in 34 stores on August 21, 2026, with plans for Sephora Canada expansion.',
   },
   {
-    slug: 'kbeauty-record-exports-us-top-market-h1-2026',
-    category: 'global',
-    title: 'US Becomes Largest Market for K-Beauty Exports in First Half of 2026',
-    summary:
-      'South Korean cosmetic exports reached an all-time high in the first half of 2026, with the US emerging as the largest export market for the first time.',
-    body: [
-      '> TLDR: Record-high H1 exports | US overtakes China as top export market | Shift in export market structure',
-      'South Korean cosmetic exports achieved double-digit year-on-year growth in the first half of 2026, reaching an all-time high.',
-      '> DATA: Exports to the US surged by over 30%, establishing the country as the top export destination as total exports hit a record high.',
-      'This shift highlights a structural transition from a China-centric export framework to a US-centered model, aligning with a broader trend toward market diversification.',
-      'From a strategic standpoint, this underscores the imperative for K-beauty brands to further solidify their local US distribution networks and marketing strategies.',
-    ],
-    date: '2026-08-10',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'Exports', 'US Market'],
-    image: '/news/kbeauty-record-exports-us-top-market-h1-2026.webp',
-    seoTitle: 'US Becomes Top Market for K-Beauty Exports in 1H 2026',
-    seoDescription:
-      'Discover how South Korean cosmetic exports hit a record high in 1H 2026 as the US overtook China as K-beauty\'s top market.',
-  },
-  {
-    slug: 'kbeauty-global-sales-surge-niq-report-july-2026',
-    category: 'global',
-    title: 'NIQ Report: Global K-Beauty Value Sales Surge 53% YoY',
-    summary:
-      'According to NIQ\'s latest analysis, K-beauty\'s global value sales surged 53% year-over-year, driven by strong growth in Latin America and Europe. Social commerce, innovative formats, and key ingredients are propelling this global expansion.',
-    body: [
-      '> TLDR: Global K-beauty sales up 53% | Latin America up 135% | Explosive growth in social commerce',
-      'In a report published in 2026, global consumer intelligence firm NIQ revealed that K-beauty value sales grew 53% year-over-year.',
-      '> DATA: Value sales +53% YoY, Latin America +135%, Europe +58%, North America e-commerce share confirmed at 76%',
-      'NIQ highlighted remarkable growth particularly in Latin America (Brazil and Mexico) at 135% and Western Europe at 58%, while noting that e-commerce accounted for 76% of total sales in North America. The firm analyzed that format innovations such as sheet masks and essences, alongside ingredient-led breakthroughs like snail mucin and PDRN, served as primary growth drivers.',
-      'The report demonstrates that K-beauty\'s global expansion represents a structural shift rather than a short-term trend, suggesting that brands need to re-evaluate their overseas strategies around social commerce and innovative products.',
-    ],
-    date: '2026-08-09',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'Global Growth', 'NIQ Report'],
-    image: '/news/kbeauty-global-sales-surge-niq-report-july-2026.webp',
-    seoTitle: 'NIQ Report: Global K-Beauty Sales Surge 53% YoY',
-    seoDescription:
-      'Global K-beauty value sales jumped 53% year-over-year according to a new NIQ report, led by explosive growth in Latin America and e-commerce.',
-  },
-  {
     slug: 'mamonde-amazon-premium-beauty-launch',
     category: 'skincare',
     title: 'Mamonde Launches Exclusively on Amazon Premium Beauty in the US',
@@ -866,27 +677,6 @@ export const NEWS_ITEMS_EN: NewsItem[] = [
     seoTitle: 'GS Global Launches K-Beauty Indie Brands in Japan via',
     seoDescription:
       'GS Global debuts three K-beauty indie brands in Japan through Cosme Kitchen, marking a major step in building a global beauty distribution platform.',
-  },
-  {
-    slug: 'kbeauty-amazon-5-trends-2026-aug',
-    category: 'global',
-    title: 'Amazon Unveils 5 Key K-Beauty Global Growth Trends Based on 2026 Prime Day Data',
-    summary:
-      'Amazon has revealed five key trends driving K-beauty\'s global growth, based on its 2026 Prime Day sales data and marketplace analysis. New product launches, market diversification, enhanced operational efficiency, leveraging social marketing, and category expansion were identified as core growth strategies.',
-    body: [
-      '> TLDR: New Product Launches | Market Diversification | Operational Efficiency | Social Marketing | Category Expansion',
-      'Amazon recently captured industry attention by announcing \'5 Key Trends Illustrating K-Beauty\'s Global Growth Trajectory,\' based on its 2026 Prime Day sales data and marketplace analysis. This provides strategic directions for K-beauty brands looking to expand their business in overseas markets.',
-      '> DATA: According to Amazon\'s analysis, new products launched within the last year drove sales increases during Prime Day. Notably, Anua\'s PDRN Hyaluronic Acid line saw U.S. Prime Day sales increase by over 130% year-over-year. Dalba demonstrated a successful case of market diversification, with combined sales in five European countries (UK, Germany, France, Italy, Spain) increasing by 87% year-over-year. Equalberry reported an 831% surge in Prime Day sales compared to last year, attributed to Meta and TikTok advertising. Medicube proved the potential for category expansion, with haircare and bodycare sales increasing by over 500% during Prime Day compared to normal periods.',
-      'Shin Hwa-sook, Head of Amazon Global Selling Korea, stated that \'Korean sellers are expanding their business across diverse countries and categories,\' and announced plans to continuously expand global market entry support programs. This suggests that K-beauty brands must broaden their reach to global consumers through strategic new product development, efficient operations, and digital marketing.',
-      'This Amazon analysis demonstrates that K-beauty is securing continuous growth momentum through comprehensive global strategies that extend beyond mere product strength. Moving forward, K-beauty brands are expected to further strengthen their global competitiveness by thoroughly understanding these trends and flexibly responding to market changes.',
-    ],
-    date: '2026-08-07',
-    readMinutes: 3,
-    tags: ['K-Beauty', 'Amazon', 'Prime Day', 'Global Trends', 'Beauty Industry'],
-    image: '/news/kbeauty-amazon-5-trends-2026-aug.webp',
-    seoTitle: 'Amazon Unveils 5 Key K-Beauty Global Growth Trends',
-    seoDescription:
-      'Amazon\'s analysis of 2026 Prime Day data reveals five key trends and strategies driving K-beauty\'s global expansion, including new launches and market',
   },
   {
     slug: 'kbeauty-global-regulatory-summit-ai-2026-sept',

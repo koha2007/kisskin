@@ -70,7 +70,6 @@ function FaceSvg({ code, title }: { code: FaceShapeCode; title: string }) {
     ))
   return (
     <svg viewBox={`0 0 ${W} 380`} role="img" aria-label={title} className="w-full h-auto">
-      <title>{title}</title>
       <defs>
         <filter id={`${id}-soft`} x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" /></filter>
         <clipPath id={`${id}-clip`}><path d={OUTLINE[code]} /></clipPath>

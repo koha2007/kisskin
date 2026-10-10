@@ -14,6 +14,7 @@
 // 사용: GEMINI_API_KEY=... node scripts/gen-news.mjs [개수(기본1)]
 //       (.dev.vars/.env 에 GEMINI_API_KEY 있으면 자동 로드)
 // ════════════════════════════════════════════════════════════════════
+import { findDupTitle } from './_dedupe.mjs'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
@@ -68,7 +69,8 @@ Google 검색을 사용해 **최근 2~3주 이내 실제로 일어난** 글로�
 - 광고성 문구 금지. 일반 독자에게 정보를 전달하는 톤.
 - 아래 "이미 다룬 주제"와 중복되지 않는 새로운 소식.
 
-이미 다룬 slug(중복 금지): ${ex.slugs.slice(0, 40).join(', ')}
+이미 다룬 소식 제목(같은 사건·발표·보고서·행사는 각도를 바꿔도 중복 — 절대 금지):
+${ex.titles.slice(0, 120).map((t) => `- ${t}`).join('\n')}
 
 출력 형식 — 아래 스키마의 JSON 하나만, \`\`\`json 코드블록으로 감싸서 출력(다른 텍스트 금지):
 {
@@ -104,6 +106,9 @@ function validate(item, ex) {
   const err = []
   if (!item.slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(item.slug)) err.push('slug 형식 오류')
   if (ex.set.has(item.slug)) err.push(`slug 중복: ${item.slug}`)
+  // 주소만 다른 같은 소식 차단(2026-10-10: 로레알·코스맥스 MOU 가 이 구멍으로 4번 나갔다)
+  const dup = item.title && findDupTitle(item.title, ex.titles)
+  if (dup) err.push(`이미 다룬 소식과 같음(${dup.score}): "${dup.title}" — 다른 소식을 고를 것`)
   if (!CATEGORIES.includes(item.category)) err.push(`category 오류: ${item.category}`)
   if (!item.title || item.title.length < 8) err.push('title 너무 짧음')
   if (!item.summary || item.summary.length < 20) err.push('summary 너무 짧음')

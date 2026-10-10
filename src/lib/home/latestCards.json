@@ -1,0 +1,134 @@
+{
+  "products": {
+    "ko": [
+      {
+        "slug": "centellian24-madeca-cream-time-reverse",
+        "brand": "센텔리안24",
+        "name": "마데카 크림 타임 리버스",
+        "category": "skincare",
+        "image": "/products/centellian24-madeca-cream-time-reverse.webp",
+        "date": "2026-10-06"
+      },
+      {
+        "slug": "flower-knows-strawberry-cupid-palette",
+        "brand": "플라워노즈",
+        "name": "스트로베리 큐피드 메이크업 팔레트",
+        "category": "trend",
+        "image": "/products/flower-knows-strawberry-cupid-palette.webp",
+        "date": "2026-09-29"
+      },
+      {
+        "slug": "dior-forever-skin-glow",
+        "brand": "디올",
+        "name": "포에버 스킨 글로우 파운데이션",
+        "category": "base",
+        "image": "/products/dior-forever-skin-glow.webp",
+        "date": "2026-09-18"
+      },
+      {
+        "slug": "etude-color-fix-skinny-mascara",
+        "brand": "에뛰드",
+        "name": "컬 픽스 스키니 마스카라",
+        "category": "eye",
+        "image": "/products/etude-color-fix-skinny-mascara.webp",
+        "date": "2026-09-17"
+      }
+    ],
+    "en": [
+      {
+        "slug": "centellian24-madeca-cream-time-reverse",
+        "brand": "Centellian24",
+        "name": "Madeca Cream Time Reverse",
+        "category": "skincare",
+        "image": "/products/centellian24-madeca-cream-time-reverse.webp",
+        "date": "2026-10-06"
+      },
+      {
+        "slug": "flower-knows-strawberry-cupid-palette",
+        "brand": "Flower Knows",
+        "name": "Strawberry Cupid Makeup Palette",
+        "category": "trend",
+        "image": "/products/flower-knows-strawberry-cupid-palette.webp",
+        "date": "2026-09-29"
+      },
+      {
+        "slug": "etude-color-fix-skinny-mascara",
+        "brand": "ETUDE",
+        "name": "Curl Fix Skinny Mascara",
+        "category": "eye",
+        "image": "/products/etude-color-fix-skinny-mascara.webp",
+        "date": "2026-09-17"
+      },
+      {
+        "slug": "poment-cotton-hug-perfume",
+        "brand": "FORMENT",
+        "name": "Cotton Hug Eau de Parfum",
+        "category": "fragrance",
+        "image": "/products/poment-cotton-hug-perfume.webp",
+        "date": "2026-09-15"
+      }
+    ]
+  },
+  "news": {
+    "ko": [
+      {
+        "slug": "k-beauty-exports-august-growth-ecosystem-expansion",
+        "title": "8월 K‑뷰티 수출 52.1% 급증, ODM·포장사 수출도 동반 성장",
+        "category": "global",
+        "image": "/news/k-beauty-exports-august-growth-ecosystem-expansion.webp",
+        "date": "2026-10-06"
+      },
+      {
+        "slug": "cosrx-becomes-first-k-beauty-patron-british-beauty-council",
+        "title": "COSRX, K‑뷰티 최초로 British Beauty Council 후원사 선정",
+        "category": "skincare",
+        "image": "/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp",
+        "date": "2026-09-18"
+      },
+      {
+        "slug": "k-beauty-ingredient-demand-shifts-txa-azelaic-acid",
+        "title": "K‑뷰티, PDRN 넘어 TXA·아젤라익산 인기 급상승",
+        "category": "skincare",
+        "image": "/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp",
+        "date": "2026-09-17"
+      },
+      {
+        "slug": "kbeauty-available-at-coles-australia",
+        "title": "호주 콜스, 첫 K-뷰티 100종 이상 출시로 뷰티 쇼핑 편의 확대",
+        "category": "skincare",
+        "image": "/news/kbeauty-available-at-coles-australia.webp",
+        "date": "2026-09-16"
+      }
+    ],
+    "en": [
+      {
+        "slug": "cosrx-becomes-first-k-beauty-patron-british-beauty-council",
+        "title": "COSRX Becomes First K-Beauty Patron of the British Beauty Council",
+        "category": "skincare",
+        "image": "/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp",
+        "date": "2026-09-18"
+      },
+      {
+        "slug": "k-beauty-ingredient-demand-shifts-txa-azelaic-acid",
+        "title": "K-Beauty Shifts Beyond PDRN as TXA and Azelaic Acid Surge in Popularity",
+        "category": "skincare",
+        "image": "/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp",
+        "date": "2026-09-17"
+      },
+      {
+        "slug": "trinny-london-skin-tint-40-plus-launch",
+        "title": "Trinny London Launches New 'Skin Tint' for Ages 40 and Over",
+        "category": "base",
+        "image": "/news/trinny-london-skin-tint-40-plus-launch.webp",
+        "date": "2026-09-15"
+      },
+      {
+        "slug": "nooni-apple-seed-lip-oil-target-us-debut",
+        "title": "nooni Launches Signature ‘Apple Seed Lip Oil’ Across 1,778 US Target Stores and Online",
+        "category": "lip",
+        "image": "/news/nooni-apple-seed-lip-oil-target-us-debut.webp",
+        "date": "2026-09-13"
+      }
+    ]
+  }
+}

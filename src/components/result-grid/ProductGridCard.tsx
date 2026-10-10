@@ -13,6 +13,7 @@ import {
 } from '../../lib/recommendations/types'
 import { useRegion } from '../../hooks/useRegion'
 import { useI18n } from '../../i18n/I18nContext'
+import { brandsForLocale } from '../../lib/recommendations/brandNames'
 import { AFFILIATE_CONFIG } from '../../config/affiliate'
 import { getClioCategoryByIcon, getClioLinkByIcon } from '../../lib/affiliate/categoryMapping'
 import { trackAffiliateClick, type AffiliatePageType } from '../../lib/affiliate/track'
@@ -78,9 +79,9 @@ export function ProductGridCard({
         </div>
       </div>
 
-      {item.brandExamples.length > 0 && (
+      {brandsForLocale(item.brandExamples, isEn).length > 0 && (
         <div className="flex flex-wrap gap-1 mb-3">
-          {item.brandExamples.map((b) => (
+          {brandsForLocale(item.brandExamples, isEn).map((b) => (
             <span key={b} className="px-2 py-0.5 rounded-full text-[10px] font-medium text-slate-500 bg-slate-50 border border-slate-200">
               {b}
             </span>

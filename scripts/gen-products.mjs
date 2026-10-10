@@ -23,6 +23,7 @@
 //   PRODUCT_CATEGORY=eye  → 로테이션 무시하고 카테고리 고정
 //   PRODUCT_MARKET=global → 로테이션 무시하고 시장 고정(kr|global)
 // ════════════════════════════════════════════════════════════════════
+import { findDupProduct } from './_dedupe.mjs'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
@@ -88,8 +89,11 @@ function existing() {
   const s = readFileSync(ITEMS, 'utf8')
   const slugs = [...s.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1])
   const names = [...s.matchAll(/name:\s*'([^']+)'/g)].map((m) => m[1])
+  const brands = [...s.matchAll(/brand:\s*'([^']+)'/g)].map((m) => m[1])
   const cats = [...s.matchAll(/category:\s*'([^']+)'/g)].map((m) => m[1])
-  return { slugs, names, cats, set: new Set(slugs) }
+  // brand/name 은 아이템마다 한 번씩 같은 순서로 나온다 → 짝지어 중복 검사에 쓴다
+  const items = names.map((name, i) => ({ brand: brands[i] ?? '', name }))
+  return { slugs, names, cats, items, set: new Set(slugs) }
 }
 
 // 카테고리별 "어떤 제품을 찾아야 하는가" — 립만 반복되지 않도록 예시로 못 박는다.
@@ -132,7 +136,7 @@ Google 검색을 사용해 아래 조건에 **정확히 맞는 실제 제품 1�
 - 아래 "이미 다룬 제품"과 중복 금지.
 
 이미 다룬 slug: ${ex.slugs.slice(0, 40).join(', ')}
-이미 다룬 제품명: ${ex.names.slice(0, 40).join(', ')}
+이미 다룬 제품(브랜드 제품명, 색상·용량 차이만 있는 같은 제품도 금지): ${ex.items.slice(0, 120).map((x) => `${x.brand} ${x.name}`).join(', ')}
 
 출력 — 아래 스키마의 JSON 하나만, \`\`\`json 코드블록으로 감싸서(다른 텍스트 금지):
 {
@@ -178,6 +182,9 @@ function validate(item, ex, category, market) {
   const err = []
   if (!item.slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(item.slug)) err.push('slug 형식 오류')
   if (ex.set.has(item.slug)) err.push(`slug 중복: ${item.slug}`)
+  // 같은 제품을 이름만 조금 바꿔 다시 내는 것 차단(2026-10-10: 티르티르 레드 쿠션 등 5쌍이 이 구멍으로 나갔다)
+  const dupP = item.brand && item.name && findDupProduct(item.brand, item.name, ex.items)
+  if (dupP) err.push(`이미 다룬 제품과 같음(${dupP.score}): ${dupP.brand} ${dupP.name} — 다른 제품을 고를 것`)
   // 로테이션이 정한 카테고리가 최종 결정권을 갖는다(모델이 딴 걸 넣어도 무시).
   if (!CATEGORIES.includes(item.category)) err.push(`category 오류: ${item.category}`)
   item.category = category

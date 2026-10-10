@@ -81,46 +81,6 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Discover the viral Flower Knows Strawberry Cupid Makeup Palette featuring 6 matte and glitter shades for eyes, cheeks, and highlight.',
   },
   {
-    slug: 'lilybyred-lovebeam-cheek-balm',
-    category: 'cheek',
-    brand: 'lilybyred',
-    name: 'Luv Beam Cheek Balm',
-    title: 'lilybyred Luv Beam Cheek Balm – A Vibrant Cream Flush with an Inner Glow',
-    summary:
-      'A summer essential cheek balm with a cream balm texture that smoothly adheres to the skin, delivering a subtle inner glow and a natural flush of vitality.',
-    highlights: ['Cream balm texture', 'Inner glow adhesion', 'Fresh, cake-free finish even when layered'],
-    details: [
-      'The cream balm formula melts smoothly into the skin without powder fall-out, creating a natural flush of color.',
-      'A subtle inner glow provides a dewy, dimensional look even without highlighter.',
-      'Maintains a fresh finish without stickiness or clumping even after multiple layers, offering long-lasting vitality.',
-    ],
-    whoFor:
-      'Ideal for those who want a vibrant, dewy flush even in hot weather when makeup tends to melt or smudge easily. It also works well for oily and combination skin types that find powder blushes too drying or patchy.',
-    howTo: [
-      'Take a small amount with your fingertips and gently tap from the center of the cheeks outward to blend naturally.',
-      'When layering, apply thin coats repeatedly to adjust the glow and color payoff to your liking.',
-    ],
-    pros: [
-      'Creamy texture adheres without powder fall-out for long-lasting wear even in summer',
-      'Creates dewy, radiant cheeks with an inner glow effect',
-    ],
-    cons: [
-      'Cream texture depends on personal preference—those who dislike a shiny finish may find it overly dewy',
-    ],
-    colorFit:
-      'Complements Spring Warm and Autumn Warm skin tones, enhancing warm undertones for a lively, vibrant cheek look.',
-    image: '/products/lilybyred-lovebeam-cheek-balm.webp',
-    coupangQuery: '릴리바이레드 러브빔 치크밤',
-    globalQuery: 'Lilybyred Lovebeam Cheek Balm',
-    clio: true,
-    clioCategory: 'cheek',
-    date: '2026-09-21',
-    tags: ['Cream Cheek Balm', 'Inner Glow Blush', 'Summer Beauty Essential'],
-    seoTitle: 'lilybyred Luv Beam Cheek Balm Dewy Glow Guide',
-    seoDescription:
-      'Get a natural flush with lilybyred Luv Beam Cheek Balm. Discover how this cream balm delivers a seamless, cake-free inner glow all summer.',
-  },
-  {
     slug: 'etude-color-fix-skinny-mascara',
     category: 'eye',
     brand: 'ETUDE',
@@ -386,47 +346,6 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
       'Discover BANILA CO Covericious Cushion with 100-hour long-wearing coverage and 20 inclusive shades enriched with white truffle.',
   },
   {
-    slug: 'clio-pro-eye-palette-air-08-latte-seonim',
-    category: 'eye',
-    brand: 'CLIO',
-    name: 'Pro Eye Palette Air [08 Latte Senior]',
-    title: 'CLIO Pro Eye Palette Air [08 Latte Senior] – A Latte-Toned Palette with Balanced Shimmer & Matte',
-    summary:
-      'CLIO\'s Pro Eye Palette Air 08 Latte Senior is a popular eyeshadow palette in Korea, featuring a versatile range of warm latte tones with exceptional color payoff and seamless blendability.',
-    highlights: ['Warm latte-toned shade selection', 'Shimmer pearl glow', 'Excellent color payoff', 'Easy to blend'],
-    details: [
-      'A well-balanced mix of warm latte-toned matte and shimmer shades offers high versatility, suitable for both everyday looks and accent makeup.',
-      'Fine-textured shimmer pearls add a refined, natural radiance without feeling over-the-top.',
-      'Delivers vibrant pigment and smooth blending, allowing beginners to apply color seamlessly without harsh lines.',
-      'Highly rated in reviews for its thoughtful shade spectrum, ranging from light base colors to deep shades ideal for smudging eyeliner.',
-    ],
-    whoFor:
-      'Ideal for warm skin tones, particularly Autumn Warm, and anyone looking to create versatile looks from everyday soft contouring to focal point makeup. Perfect for everyone from beginners practicing blending to beauty enthusiasts selective about shade lineups.',
-    howTo: [
-      'Apply a light matte shade over the eyelid as a base to even out skin tone, then layer a mid-tone shade to build depth.',
-      'Lightly dab a shimmer shade onto the center of the lid or lower lash line for a subtle, luminous accent.',
-    ],
-    pros: [
-      'Practical color palette tailored for warm skin tones',
-      'Soft blending with a luminous shimmer finish',
-    ],
-    cons: [
-      'May experience fallout, requiring light care to ensure glitter adhesion',
-    ],
-    colorFit:
-      'Autumn Warm. The combination of latte brown shading and shimmer beautifully enhances warm skin tones.',
-    image: '/products/clio-pro-eye-palette-air-08-latte-seonim.webp',
-    coupangQuery: '클리오 프로 아이 팔레트 에어 08 라떼는선임',
-    globalQuery: 'Clio Pro Eye Palette Air 08 Latte Seonim',
-    clio: true,
-    clioCategory: 'eye',
-    date: '2026-09-08',
-    tags: ['CLIO', 'EyeshadowPalette', 'WarmToneEyeshadow'],
-    seoTitle: 'CLIO Pro Eye Palette Air 08 Latte Senior Review',
-    seoDescription:
-      'Discover the CLIO Pro Eye Palette Air 08 Latte Senior featuring warm latte shades, smooth mattes, and elegant shimmers for warm skin tones.',
-  },
-  {
     slug: 'laneige-juicepop-box-lip-tint',
     category: 'lip',
     brand: 'LANEIGE',
@@ -658,44 +577,6 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     seoTitle: 'DEAR DAHLIA Petal Drop Liquid Blush Review & Guide',
     seoDescription:
       'Discover DEAR DAHLIA Petal Drop Liquid Blush, a hydrating watercolor cheek stain with a long-lasting semi-matte finish in 17 versatile shades.',
-  },
-  {
-    slug: 'tirtir-mask-fit-red-cushion-foundation',
-    category: 'base',
-    brand: 'TIRTIR',
-    name: 'Mask Fit Red Cushion Foundation',
-    title: 'TIRTIR Mask Fit Red Cushion – The Viral #1 Glow Cushion',
-    summary:
-      'Recognized by Allure editors and readers, and a viral sensation on TikTok. Bursting with global popularity for its 30+ shades, serum-like hydration, and radiant \'glass skin\' finish.',
-    highlights: ['30+ Shade Range', 'Glass Skin Radiance', 'Serum-Like Hydration'],
-    details: [
-      'Proven global favorite featured on TikTok and Allure \'Best Cushion\' lists.',
-      'Offers over 30 shades to match diverse skin tones with buildable coverage and a natural finish.',
-      'Formulated with skincare ingredients like red propolis, hibiscus, and astaxanthin to nourish and create a dewy, glowing complexion.',
-    ],
-    whoFor:
-      'Ideal for normal-to-dry and combination-dry skin types who love a radiant finish. Highly recommended for anyone wanting natural yet effective coverage with an extensive shade selection.',
-    howTo: [
-      'Take an appropriate amount with the puff and gently pat from the center of the face outward, layering as desired.',
-      'For extra glow and adhesion on dry areas, lightly mist the puff with toner or mist before application.',
-    ],
-    pros: [
-      'Extensive shade range',
-      'Deeply hydrating, radiant finish',
-    ],
-    cons: [
-      'Puff application texture preference may vary by user',
-    ],
-    image: '/products/tirtir-mask-fit-red-cushion-foundation.webp',
-    coupangQuery: '티르티르 마스크 핏 쿠션',
-    globalQuery: 'Tirtir Mask Fit Red Cushion Foundation',
-    clio: false,
-    clioCategory: 'base',
-    date: '2026-09-01',
-    tags: ['CushionFoundation', 'GlassSkin', 'HydratingGlow'],
-    seoTitle: 'TIRTIR Mask Fit Red Cushion Review & Shade Guide',
-    seoDescription:
-      'Discover the viral TIRTIR Mask Fit Red Cushion Foundation featuring 30+ shades for a hydrating glass skin glow.',
   },
   {
     slug: 'iglips-soft-eye-palette',
@@ -1124,44 +1005,6 @@ export const PRODUCT_ITEMS_EN: ProductPost[] = [
     seoTitle: 'Color Wow Dream Coat Supernatural Spray Guide',
     seoDescription:
       'Discover Color Wow Dream Coat Supernatural Spray for silky glass hair that resists frizz and blocks out humidity for up to three washes.',
-  },
-  {
-    slug: 'roundlab-birch-sap-sunscreen',
-    category: 'skincare',
-    brand: 'ROUND LAB',
-    name: 'Birch Juice Moisturizing Sunscreen',
-    title: 'ROUND LAB Birch Juice Moisturizing Sunscreen — Hydrating Sunscreen with No White Cast',
-    summary:
-      'ROUND LAB Birch Juice Moisturizing Sunscreen is a popular mineral sunscreen infused with birch juice, amino acids, minerals, and hyaluronic acid to form a hydrating moisture barrier that applies smoothly without any white cast.',
-    highlights: ['Birch juice moisture barrier', 'Formula with no white cast', 'Popular, high-value favorite'],
-    details: [
-      'Birch juice extract, amino acids, minerals, and hyaluronic acid form a natural moisture barrier on the skin to maintain hydration all day long.',
-      'Formulated as a mineral sunscreen, it leaves virtually no white cast and can be used comfortably even on sensitive skin.',
-      'Proven in popularity and satisfaction, ranking #1 in recommended sunscreens in June 2026 based on real HwaHae user reviews.',
-    ],
-    whoFor:
-      'Ideal for users with dry or sensitive skin who want simultaneous UV protection and moisture. Recommended for those seeking a hydrating sunscreen that applies smoothly without stickiness before makeup.',
-    howTo: [
-      'At the final step of your skincare routine, dispense an adequate amount (about 2–3 pearl-sized drops for the entire face) and gently spread along the skin texture.',
-      'Reapply every 2–3 hours when outdoors to maintain both hydration and UV protection.',
-    ],
-    pros: [
-      'Proven popular product ranked #1 in real user reviews',
-      'Applies smoothly and hydratively with no white cast',
-    ],
-    cons: [
-      'May feel somewhat oily on oily skin types',
-    ],
-    image: '/products/roundlab-birch-sap-sunscreen.webp',
-    coupangQuery: '라운드랩 자작나무 수분 선크림',
-    globalQuery: 'roundlab birch sap sunscreen',
-    clio: false,
-    clioCategory: 'main',
-    date: '2026-08-19',
-    tags: ['BirchJuice', 'MoisturizingSunscreen', 'NoWhiteCast'],
-    seoTitle: 'ROUND LAB Birch Juice Moisturizing Sunscreen Guide',
-    seoDescription:
-      'Discover why ROUND LAB Birch Juice Moisturizing Sunscreen is a top-rated K-beauty sunscreen offering deep hydration without a white cast.',
   },
   {
     slug: 'hince-raw-glow-dewy-ball',

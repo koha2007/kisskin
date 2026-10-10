@@ -1,11 +1,9 @@
 import { useMemo } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import SectionHeader from './home/SectionHeader'
-import { PRODUCT_ITEMS } from '../lib/products/items'
-import { PRODUCT_ITEMS_EN } from '../lib/products/items.en'
-import { NEWS_ITEMS } from '../lib/news/items'
-import { NEWS_ITEMS_EN } from '../lib/news/items.en'
-import { getCategoryMeta } from '../lib/news/types'
+// 피드 전체(본문 포함) 대신 최신 4건 카드 필드만 — scripts/gen-home-cards.mjs 가 빌드마다 만든다(2026-10-10).
+import CARDS from '../lib/home/latestCards.json'
+import { getCategoryMeta, type NewsCategory } from '../lib/news/types'
 
 function byDateDesc<T extends { date: string }>(a: T, b: T) {
   return a.date < b.date ? 1 : -1
@@ -30,11 +28,11 @@ export default function HomeContentSections() {
   const base = isEn ? '/en' : ''
 
   const products = useMemo(
-    () => [...(isEn ? PRODUCT_ITEMS_EN : PRODUCT_ITEMS)].sort(byDateDesc).slice(0, 4),
+    () => [...(isEn ? CARDS.products.en : CARDS.products.ko)].sort(byDateDesc).slice(0, 4),
     [isEn],
   )
   const news = useMemo(
-    () => [...(isEn ? NEWS_ITEMS_EN : NEWS_ITEMS)].sort(byDateDesc).slice(0, 4),
+    () => [...(isEn ? CARDS.news.en : CARDS.news.ko)].sort(byDateDesc).slice(0, 4),
     [isEn],
   )
 
@@ -51,7 +49,7 @@ export default function HomeContentSections() {
           />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {products.map((p) => {
-              const meta = getCategoryMeta(p.category)
+              const meta = getCategoryMeta(p.category as NewsCategory)
               return (
                 <a
                   key={p.slug}
@@ -102,7 +100,7 @@ export default function HomeContentSections() {
           />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {news.map((n) => {
-              const meta = getCategoryMeta(n.category)
+              const meta = getCategoryMeta(n.category as NewsCategory)
               return (
                 <a
                   key={n.slug}

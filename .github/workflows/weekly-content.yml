@@ -51,13 +51,13 @@ jobs:
       # 결과적으로 정적·도구 페이지 lastmod 는 실제 수정일을 못 따라가고 허브는
       # `new Date()` 폴백으로 **매일 그날 날짜**가 찍힌다 = 구글에게 매일 거짓말.
       # lastmod 를 반복해서 못 믿게 만들면 재크롤 신호 자체가 무시된다.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24  # 2026-10-10: gen-class 가 curriculum.ts 를 바로 import(타입 제거)
           cache: npm
 
       - run: npm ci
@@ -111,8 +111,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node --experimental-strip-types scripts/gen-class.mjs && npm run -s check:keywords
 
-      - name: Regenerate sitemap
-        run: npm run gen:sitemap
+      - name: Regenerate sitemap + home cards
+        run: npm run gen:sitemap && node scripts/gen-home-cards.mjs
 
       - name: Commit & push if changed
         id: push
@@ -121,7 +121,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/lib/news/items.ts src/lib/news/items.en.ts src/lib/news/enSlugs.ts \
                   src/lib/products/items.ts src/lib/products/items.en.ts src/lib/products/enSlugs.ts \
-                  src/lib/class/lessons.json \
+                  src/lib/class/lessons.json src/lib/home/latestCards.json \
                   public/news public/products public/class public/sitemap.xml
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"

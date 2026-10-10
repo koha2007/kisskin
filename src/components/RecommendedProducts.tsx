@@ -6,6 +6,7 @@ import { AFFILIATE_CONFIG } from '../config/affiliate'
 import { getClioCategoryByIcon, getClioLinkByIcon } from '../lib/affiliate/categoryMapping'
 import { trackAffiliateClick, type AffiliatePageType } from '../lib/affiliate/track'
 import RegionToggle from './RegionToggle'
+import { brandsForLocale } from '../lib/recommendations/brandNames'
 
 interface Props {
   items: ProductRec[]
@@ -119,7 +120,7 @@ export default function RecommendedProducts({
                     {t('recProducts.brandsLabel')}
                   </div>
                   <div className="flex flex-wrap gap-1.5">
-                    {item.brandExamples.map((b, bi) => (
+                    {brandsForLocale(item.brandExamples, isEn).map((b, bi) => (
                       <span
                         key={bi}
                         className="px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-full text-[0.7rem] font-medium text-slate-600"
