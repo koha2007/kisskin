@@ -102,13 +102,15 @@ export interface DigestItem {
   steps?: string[]
   /** 메이크업 방법 카드 전용 — 9룩 중 몇 번째인지 */
   number?: number
+  /** 번호 줄 문구를 직접 지정(메이크업 클래스: "메이크업 클래스 5편 / 36") — 없으면 lookNo */
+  label?: string
 }
 
 const COPY = {
   ko: {
     // 제목은 실린 내용에 맞춘다 — 제품만이던 시절의 "N선" 을 뉴스만 실린 주에 쓰면 거짓말이 된다.
-    subject: (p: number, n: number, look: string) => {
-      const parts = [p && `신제품 ${p}건`, n && `뉴스 ${n}건`, look && `${look} 메이크업 방법`].filter(Boolean)
+    subject: (p: number, n: number, look: string, isClass = false) => {
+      const parts = [p && `신제품 ${p}건`, n && `뉴스 ${n}건`, look && (isClass ? look : `${look} 메이크업 방법`)].filter(Boolean)
       return `이번 주 K-뷰티 — ${parts.join(' · ')}`
     },
     preheader: '지난 한 주 키스인스킨에 올라온 신제품·뉴스, 그리고 이번 주의 메이크업 방법.',
@@ -125,8 +127,8 @@ const COPY = {
     signoff: 'kissinskin — 셀카 한 장으로 AI K-뷰티 메이크업·퍼스널컬러 진단',
   },
   en: {
-    subject: (p: number, n: number, look: string) => {
-      const parts = [p && `${p} new`, n && `${n} in the news`, look && `how to do ${look}`].filter(Boolean)
+    subject: (p: number, n: number, look: string, isClass = false) => {
+      const parts = [p && `${p} new`, n && `${n} in the news`, look && (isClass ? look.toLowerCase() : `how to do ${look}`)].filter(Boolean)
       return `This week in K-beauty — ${parts.join(', ')}`
     },
     preheader: 'New products and stories from kissinskin, plus this week’s makeup how-to.',
@@ -166,7 +168,8 @@ export function renderDigest(
   campaign: string = campaignId(),
 ): { subject: string; html: string } {
   const t = COPY[lang]
-  const subject = t.subject(sections.products.length, sections.news.length, sections.looks[0]?.name ?? '')
+  // 클래스 편(label 있음)은 제목 자체가 "쿠션 바르는 법"이라 "~ 메이크업 방법"을 붙이지 않는다
+  const subject = t.subject(sections.products.length, sections.news.length, sections.looks[0]?.name ?? '', !!sections.looks[0]?.label)
   const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"
 
   const renderCards = (items: DigestItem[], kind: 'product' | 'news') =>
@@ -214,7 +217,7 @@ export function renderDigest(
         return `
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
         <tr>${img}<td valign="top">
-          ${it.number ? `<div style="font:600 12px/1.4 ${FONT};color:#999;padding-bottom:4px;">${esc(t.lookNo(it.number))}${it.meta ? ` · ${esc(it.meta)}` : ''}</div>` : ''}
+          ${it.number ? `<div style="font:600 12px/1.4 ${FONT};color:#999;padding-bottom:4px;">${esc(it.label ?? t.lookNo(it.number))}${it.meta ? ` · ${esc(it.meta)}` : ''}</div>` : ''}
           <div style="font:600 17px/1.4 ${FONT};color:#111;padding-bottom:4px;">${esc(it.name)}</div>
           <div style="font:400 14px/1.6 ${FONT};color:#555;padding-bottom:12px;">${esc(it.summary)}</div>
           <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px;">${steps}</table>

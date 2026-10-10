@@ -15,6 +15,7 @@ export type AffiliatePageType =
   | 'makeup'
   | 'product'
   | 'looks'
+  | 'class'
 
 // amazon/yesstyle 은 아직 어필리에이트가 아니라 일반 검색 링크다(수익 0). 그래도 클릭은
 // 재는데, 이 숫자가 없으면 "해외에서 실제로 사려는 사람이 있는가"를 알 길이 없고

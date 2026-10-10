@@ -3,6 +3,7 @@ name: Weekly K-beauty content
 # 매주 화요일 06:00 KST:
 #   · 뉴스 1편 (검색 그라운딩 + 무드컷 이미지) + EN 자동번역
 #   · 메이크업 제품 1건 (검색 그라운딩 + 무드컷 이미지) + EN 자동번역
+#   · 메이크업 클래스 다음 편 1편 (커리큘럼 순서, 페이스 차트) — 2026-10-10~
 #
 # 2026-09-19 매일 → 주 1회로 낮춤. 이유:
 #   ① 구글 2026-03 업데이트의 최우선 단속 대상이 "사람 검수 없는 대량 발행"
@@ -99,6 +100,17 @@ jobs:
           # (gen-products.mjs 의 genImage try/catch). 끄려면 PRODUCT_IMAGES: '0'.
         run: node scripts/gen-products.mjs
 
+      # 메이크업 클래스 다음 편(2026-10-10~). 커리큘럼 36편을 순서대로 주 1편.
+      # 페이스 차트 1장(gpt-image-2 ≈ $0.22). 차트가 실패하면 그 주 발행은 취소된다(차트 없는 편은 깨짐).
+      # curriculum.ts 를 그대로 import 하므로 타입 제거 플래그가 필요하다(Node 22).
+      - name: Generate makeup class lesson (KO+EN)
+        id: lesson
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node --experimental-strip-types scripts/gen-class.mjs && npm run -s check:keywords
+
       - name: Regenerate sitemap
         run: npm run gen:sitemap
 
@@ -109,7 +121,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/lib/news/items.ts src/lib/news/items.en.ts src/lib/news/enSlugs.ts \
                   src/lib/products/items.ts src/lib/products/items.en.ts src/lib/products/enSlugs.ts \
-                  public/news public/products public/sitemap.xml
+                  src/lib/class/lessons.json \
+                  public/news public/products public/class public/sitemap.xml
           if git diff --cached --quiet; then
             echo "변경 없음 — 커밋 생략"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
@@ -118,7 +131,7 @@ jobs:
             # 바뀌어 커밋이 나갈 수 있는데(다른 커밋이 페이지를 고친 날), 그걸 "자동 발행"
             # 이라고 적으면 나중에 로그만 보고 "발행됐다는데 글이 없다"로 헷갈린다.
             if git diff --cached --name-only | grep -qv '^public/sitemap.xml$'; then
-              MSG="chore(content): 주간 뉴스·메이크업 제품 자동 발행 (KO+EN)"
+              MSG="chore(content): 주간 뉴스·메이크업 제품·클래스 자동 발행 (KO+EN)"
             else
               MSG="chore(seo): 사이트맵 lastmod 갱신 (콘텐츠 생성 없음)"
             fi
@@ -141,7 +154,7 @@ jobs:
                 | grep '^+.*<loc>' \
                 | sed -E 's/.*<loc>([^<]+)<\/loc>.*/\1/' \
                 | sort -u)
-          HUBS="https://kissinskin.net/news/ https://kissinskin.net/products/ https://kissinskin.net/en/news/ https://kissinskin.net/en/products/"
+          HUBS="https://kissinskin.net/news/ https://kissinskin.net/products/ https://kissinskin.net/en/news/ https://kissinskin.net/en/products/ https://kissinskin.net/class/ https://kissinskin.net/en/class/"
           echo "새 URL:"; echo "$NEW" | sed 's/^/  /'
           # --wait: Cloudflare Pages 배포가 끝나 새 글이 실제로 200 을 줄 때까지 기다린다
           # (배포 전에 알리면 크롤러가 404 를 만나 "없는 페이지"로 학습된다).
@@ -152,7 +165,8 @@ jobs:
       # 둘 다 죽으면 실패(빨강) — 그래야 운영자에게 Actions 실패 메일이 간다.
       - name: 발행 결과 판정
         run: |
-          echo "news=${{ steps.news.outcome }}  product=${{ steps.product.outcome }}"
+          echo "news=${{ steps.news.outcome }}  product=${{ steps.product.outcome }}  lesson=${{ steps.lesson.outcome }}"
+          [ "${{ steps.lesson.outcome }}" = "success" ] || echo "::warning::메이크업 클래스 편 생성 실패 — 다음 주에 같은 편을 다시 시도한다"
           if [ "${{ steps.news.outcome }}" != "success" ] && [ "${{ steps.product.outcome }}" != "success" ]; then
             echo "::error::뉴스·제품 둘 다 생성 실패 — 그날치 발행 0건. Gemini(403=결제/키, 404=신규키 차단, 429=쿼터)와 OPENAI_API_KEY Secret 유무를 확인할 것. 절차는 리포 루트 GEMINI_HOLD.md"
             exit 1

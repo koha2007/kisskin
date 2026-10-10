@@ -58,6 +58,11 @@ export default function LooksHub() {
           })}
         </div>
 
+        <a href={`${prefix}/class/`} className="mt-12 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 border border-slate-200 bg-white px-5 py-4 hover:border-navy transition-colors">
+          <span className="text-sm md:text-base font-bold text-navy flex-1">{isEn ? 'Want the basics first? Order of steps, cushion, eyeliner, contour — one lesson a week.' : '기초부터 배우고 싶다면 — 메이크업 순서·쿠션·아이라인·컨투어까지 매주 한 편'}</span>
+          <span className="inline-flex items-center gap-1 text-sm font-bold text-navy">{isEn ? 'Makeup class' : '메이크업 클래스'}<span className="material-symbols-outlined text-base">arrow_forward</span></span>
+        </a>
+
         <p className="mt-10 text-center text-[11px] text-slate-400 max-w-xl mx-auto leading-relaxed">
           {isEn
             ? 'Face-chart illustrations are AI-generated. They show where each step goes — not a photo of a real result. Each look page also has an AI-model before/after.'

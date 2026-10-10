@@ -194,12 +194,31 @@ for (const t of TYPES) {
   summary[t.base] = { ko, en }
 }
 
+// ── 메이크업 클래스(/class/) — 2026-10-10 ──
+// 데이터가 TS 가 아니라 JSON(src/lib/class/lessons.json, gen-class.mjs 가 매주 덧붙임)이라
+// TYPES 와 따로 처리한다. 모든 편이 KO+EN 짝으로 발행된다.
+{
+  const lessons = JSON.parse(readFileSync(resolve('src/lib/class/lessons.json'), 'utf8'))
+  const tpl = gitDate(['src/pages/ClassLesson.tsx', 'src/pages/LookHowTo.tsx'])
+  let n = 0
+  for (const l of lessons) {
+    const koLoc = `${SITE}/class/${l.slug}/`
+    const enLoc = `${SITE}/en/class/${l.slug}/`
+    const own = gitDate([`public/class/charts/${l.slug}.webp`])
+    const lastmod = [l.publishedAt, tpl, own].filter(Boolean).sort().pop()
+    blocks.push(urlBlock(koLoc, lastmod, '0.8', alt(koLoc, enLoc)))
+    blocks.push(urlBlock(enLoc, lastmod, '0.7', alt(koLoc, enLoc)))
+    n++
+  }
+  summary.class = { ko: n, en: n }
+}
+
 // ── 기존 sitemap 에서 콘텐츠 상세 + 허브 블록을 제거하고 새 블록 삽입 ──
 // 허브(/news/ 등)까지 이 스크립트가 소유하게 된 건 2026-07-28 부터다. 그래야 섹션을
 // 껐다 켜는 게 enabled 한 줄로 끝난다 — 손으로 관리하면 끄는 건 되지만 켜는 쪽에서
 // 지워진 허브 블록을 사람이 기억해 되살려야 한다.
-const DETAIL = /^\/(en\/)?(news|products|guides|reviews)\/[^/]+\/$/
-const HUB = /^\/(en\/)?(news|products|guides|reviews)\/$/
+const DETAIL = /^\/(en\/)?(news|products|guides|reviews|class)\/[^/]+\/$/
+const HUB = /^\/(en\/)?(news|products|guides|reviews|class)\/$/
 let xml = readFileSync(SITEMAP, 'utf8')
 
 let removed = 0
@@ -286,6 +305,14 @@ for (const t of TYPES) {
     `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>${t.hubFreq}</changefreq><priority>${priority}</priority>${alternates}</url>`
   hubBlocks.push(hub(koLoc, '0.9', ''))
   hubBlocks.push(hub(enLoc, '0.8', alt(koLoc, enLoc)))
+}
+
+{
+  const koLoc = `${SITE}/class/`
+  const enLoc = `${SITE}/en/class/`
+  const lastmod = gitDate(['pages/class', 'src/pages/ClassHub.tsx', 'src/lib/class']) || new Date().toISOString().slice(0, 10)
+  hubBlocks.push(`  <url><loc>${koLoc}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>`)
+  hubBlocks.push(`  <url><loc>${enLoc}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>${alt(koLoc, enLoc)}</url>`)
 }
 
 if (!xml.includes('</urlset>')) {

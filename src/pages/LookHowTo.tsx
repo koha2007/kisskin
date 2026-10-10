@@ -45,7 +45,7 @@ export function CropImg({ src, area, alt, crops = STEP_CROP }: { src: string; ar
  * 벤치마킹(2026-10-02): 페이스 차트(NYX·Makeup by Mario 공식 차트)처럼 "어디에"를 그림 한 장으로.
  * 차트 1024×1536 중 y 300~1160 만 보여준다(얼굴). 핀 좌표는 CHART_ZONE.
  */
-function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep[]; isEn: boolean }) {
+export function FaceChartMap({ src, steps, isEn }: { src: string; steps: HowToStep[]; isEn: boolean }) {
   const Y0 = 300, Y1 = 1160
   const pins = new Map<HowToArea, number[]>()
   steps.forEach((s, i) => pins.set(s.area, [...(pins.get(s.area) ?? []), i + 1]))
@@ -57,8 +57,8 @@ function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep
       </figcaption>
       <div className="relative w-full overflow-hidden bg-cream" style={{ aspectRatio: `1024 / ${Y1 - Y0}` }}>
         <img
-          src={`/looks/charts/${id}.webp`}
-          alt={isEn ? 'Face chart illustration of this look' : '이 룩의 페이스 차트 일러스트'}
+          src={src}
+          alt={isEn ? 'Face chart illustration of these steps' : '이 단계들의 페이스 차트 일러스트'}
           loading="lazy"
           decoding="async"
           className="absolute left-0 w-full max-w-none"
@@ -98,7 +98,7 @@ function FaceChartMap({ id, steps, isEn }: { id: MakeupStyleId; steps: HowToStep
  * (공정위 추천·보증 심사지침, 쿠팡 파트너스 고지 문구, FTC). 특정 브랜드를 "추천"하지 않고
  * 단계에 맞는 **제품 종류 검색**으로 보낸다 — 효능·순위 주장이 생기지 않는다.
  */
-function ShopLinks({ step, look, n, isEn }: { step: HowToStep; look: MakeupStyleId; n: number; isEn: boolean }) {
+export function ShopLinks({ step, look, n, isEn, pageType = 'looks' }: { step: HowToStep; look: string; n: number; isEn: boolean; pageType?: 'looks' | 'class' }) {
   const [region] = useRegion()
   if (!AFFILIATE_ENABLED) return null
   const cls = 'inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-navy hover:border-navy transition-colors'
@@ -107,11 +107,11 @@ function ShopLinks({ step, look, n, isEn }: { step: HowToStep; look: MakeupStyle
     return (
       <div className="mt-3 flex flex-wrap gap-2">
         <a href={buildYesStyleLink(step.shopEn)} target="_blank" rel="noopener noreferrer nofollow sponsored" className={cls}
-          onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: step.area, pageType: 'looks', pageSlug: slug })}>
+          onClick={() => trackAffiliateClick({ merchant: 'yesstyle', category: step.area, pageType, pageSlug: slug })}>
           <span className="material-symbols-outlined text-sm">shopping_bag</span>{isEn ? 'Find on YesStyle' : 'YesStyle에서 찾기'}
         </a>
         <a href={buildAmazonLink(step.shopEn)} target="_blank" rel="noopener noreferrer nofollow sponsored" className={cls}
-          onClick={() => trackAffiliateClick({ merchant: 'amazon', category: step.area, pageType: 'looks', pageSlug: slug })}>
+          onClick={() => trackAffiliateClick({ merchant: 'amazon', category: step.area, pageType, pageSlug: slug })}>
           <span className="material-symbols-outlined text-sm">shopping_bag</span>{isEn ? 'Find on Amazon' : 'Amazon에서 찾기'}
         </a>
       </div>
@@ -120,7 +120,7 @@ function ShopLinks({ step, look, n, isEn }: { step: HowToStep; look: MakeupStyle
   return (
     <div className="mt-3 flex flex-wrap gap-2">
       <a href={buildSearchLink(step.searchKeywords)} target="_blank" rel="noopener noreferrer nofollow sponsored" className={cls}
-        onClick={() => trackAffiliateClick({ merchant: 'coupang', category: step.area, pageType: 'looks', pageSlug: slug })}>
+        onClick={() => trackAffiliateClick({ merchant: 'coupang', category: step.area, pageType, pageSlug: slug })}>
         <span className="material-symbols-outlined text-sm">shopping_bag</span>
         {isEn ? `Find "${step.searchKeywords}" on Coupang` : `쿠팡에서 "${step.searchKeywords}" 찾기`}
       </a>
@@ -133,7 +133,7 @@ function ShopLinks({ step, look, n, isEn }: { step: HowToStep; look: MakeupStyle
  * (결과 페이지용 문구는 클리오·"유형별 추천"을 말해 여기엔 맞지 않음). 쿠팡 파트너스 필수 문구 포함.
  * Amazon·YesStyle 은 아직 제휴 미승인 = 일반 검색(config/affiliate.ts) — 승인되면 문구도 바꿀 것.
  */
-function ShopDisclosure({ isEn }: { isEn: boolean }) {
+export function ShopDisclosure({ isEn }: { isEn: boolean }) {
   if (!AFFILIATE_ENABLED) return null
   return (
     <p className="flex gap-2 text-[11px] leading-relaxed text-slate-500 bg-white/60 border border-slate-200 px-3 py-2">
@@ -147,7 +147,7 @@ function ShopDisclosure({ isEn }: { isEn: boolean }) {
   )
 }
 
-function Swatches({ colors }: { colors: string[] }) {
+export function Swatches({ colors }: { colors: string[] }) {
   return (
     <span className="inline-flex items-center gap-1.5" aria-hidden="true">
       {colors.map((c) => (
@@ -221,7 +221,7 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
           </div>
 
           <div className="space-y-5 md:space-y-6">
-          {CHART_LOOKS.includes(id) && <FaceChartMap id={id} steps={how.steps} isEn={isEn} />}
+          {CHART_LOOKS.includes(id) && <FaceChartMap src={`/looks/charts/${id}.webp`} steps={how.steps} isEn={isEn} />}
           {AFFILIATE_ENABLED && <RegionToggle pageType="looks" />}
           <ShopDisclosure isEn={isEn} />
           <ol className="space-y-5 md:space-y-6">

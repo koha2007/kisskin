@@ -141,6 +141,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="hidden md:flex items-center gap-5">
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
             <a href={isEn ? '/en/looks/' : '/looks/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'How-To' : '메이크업 방법'}</a>
+            <a href={isEn ? '/en/class/' : '/class/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Class' : '메이크업 클래스'}</a>
             <a href={isEn ? '/en/news/' : '/news/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
             <a href={isEn ? '/en/products/' : '/products/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Products' : '메이크업 제품'}</a>
             <a href={isEn ? '/en/about/' : '/about/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.about')}</a>
@@ -224,6 +225,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 {[
                   { href: toolHref('/tools/'), label: t('common.freeTools') },
                   { href: isEn ? '/en/looks/' : '/looks/', label: isEn ? 'Makeup How-To' : '메이크업 방법' },
+                  { href: isEn ? '/en/class/' : '/class/', label: isEn ? 'Makeup Class' : '메이크업 클래스' },
                   { href: isEn ? '/en/news/' : '/news/', label: t('nav.news') },
                   { href: isEn ? '/en/products/' : '/products/', label: isEn ? 'Makeup Products' : '메이크업 제품' },
                   { href: isEn ? '/en/about/' : '/about/', label: t('nav.about') },
@@ -536,12 +538,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <span className="material-symbols-outlined text-base">arrow_forward</span>
             </a>
           </div>
-          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-3 md:gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-0 pb-2 [scrollbar-width:thin]">
+          {/* 2026-10-10 운영자: 옆으로 넘기기 대신 9개가 한눈에 — PC 한 줄(9칸), 그 아래 3×3 */}
+          <div className="grid grid-cols-3 lg:grid-cols-9 gap-3 lg:gap-3">
             {MAKEUP_STYLES.map((s, i) => (
               <a
                 key={s.id}
                 href={`${isEn ? '/en' : ''}/looks/${s.id}/`}
-                className="group snap-start shrink-0 w-[42%] sm:w-[30%] md:w-[calc((100%-5rem)/5.4)] block"
+                className="group block min-w-0"
               >
                 <span className="relative block aspect-[3/4] overflow-hidden bg-cream border border-slate-200">
                   <img
@@ -553,11 +556,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   />
                   <span className="absolute left-2 top-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-navy px-1.5 text-[11px] font-extrabold text-white">{i + 1}</span>
                 </span>
-                <span className="mt-2 block text-sm font-bold text-navy truncate">{isEn ? s.subEn : s.nameKo}</span>
+                <span className="mt-2 block text-[13px] lg:text-xs font-bold text-navy leading-snug break-keep line-clamp-2">{isEn ? s.subEn : s.nameKo}</span>
                 <span className="block text-xs text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
               </a>
             ))}
           </div>
+          <a href={isEn ? '/en/class/' : '/class/'} className="mt-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 border border-slate-200 bg-white px-5 py-4 hover:border-navy transition-colors">
+            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark shrink-0">{isEn ? 'New · free class' : 'NEW · 무료 클래스'}</span>
+            <span className="text-sm md:text-base font-bold text-navy flex-1">{isEn ? 'New to makeup? Start from zero — one lesson every week.' : '메이크업이 처음이라면, 완전 기초부터 매주 한 편씩'}</span>
+            <span className="inline-flex items-center gap-1 text-sm font-bold text-navy">{isEn ? 'Makeup class' : '메이크업 클래스'}<span className="material-symbols-outlined text-base">arrow_forward</span></span>
+          </a>
           <p className="mt-3 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
         </div>
       </section>
@@ -1148,6 +1156,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href={toolHref('/tools/face-shape/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
                 <li><a href={toolHref('/tools/perfume-type/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
                 <li><a href={isEn ? '/en/looks/' : '/looks/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup How-To' : '메이크업 방법'}</a></li>
+                <li><a href={isEn ? '/en/class/' : '/class/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Class' : '메이크업 클래스'}</a></li>
                 <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>
                 <li><a href={isEn ? '/en/products/' : '/products/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Products' : '메이크업 제품'}</a></li>
                 <li><a href={isEn ? '/en/about-makeup-ai/' : '/about-makeup-ai/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'K-Beauty Guide' : 'K-뷰티 가이드'}</a></li>

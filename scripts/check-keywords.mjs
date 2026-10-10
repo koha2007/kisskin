@@ -9,6 +9,7 @@ const FILES = [
   'src/lib/recommendations/makeup-mbti.ts',
   'src/lib/recommendations/perfume-type.ts',
   'src/lib/looks/howto.ts',
+  'src/lib/class/lessons.json', // 메이크업 클래스(주간 자동 발행분 포함)
 ]
 
 const MAX_WORDS = 5
@@ -30,7 +31,7 @@ const violations = []
 for (const file of FILES) {
   const content = readFileSync(resolve(file), 'utf8')
   content.split('\n').forEach((line, i) => {
-    const m = line.match(/searchKeywords:\s*'([^']+)'/)
+    const m = line.match(/searchKeywords"?:\s*['"]([^'"]+)['"]/)
     if (!m) return
     const keyword = m[1]
     const words = keyword.trim().split(/\s+/)

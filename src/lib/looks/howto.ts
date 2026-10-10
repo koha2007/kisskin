@@ -16,7 +16,7 @@ import type { MakeupStyleId } from '../makeup/styles'
 import type { SeasonCode } from '../personal-color/types'
 
 /** 사진에서 확대해 보여줄 부위 — 9룩 사진이 전부 같은 모델·같은 구도라 좌표 하나로 된다 */
-export type HowToArea = 'skin' | 'eyes' | 'cheeks' | 'lips' | 'hair'
+export type HowToArea = 'skin' | 'brows' | 'eyes' | 'cheeks' | 'lips' | 'hair'
 
 /** 1024×1536 룩 사진 기준 크롭 (비율 0~1). 9룩 사진은 얼굴 위치가 같아 좌표 한 세트로 된다.
  *  기본 **2:1**(단계 카드 높이를 고르게), 피부만 **1:1** — 베이스는 얼굴 전체에 바르는 단계라
@@ -28,6 +28,7 @@ export type HowToArea = 'skin' | 'eyes' | 'cheeks' | 'lips' | 'hair'
 const r = (x: number, y: number, w: number, ratio = 2) => ({ x, y, w, h: (w * 1024) / 1536 / ratio })
 export const AREA_CROP: Record<HowToArea, { x: number; y: number; w: number; h: number }> = {
   skin: r(0.21, 0.375, 0.58, 1),
+  brows: r(0.22, 0.33, 0.56, 3.5), // 2026-10-10 메이크업 클래스 눈썹 편용(9룩은 안 씀)
   eyes: r(0.23, 0.36, 0.52),
   cheeks: r(0.16, 0.47, 0.4),
   lips: r(0.32, 0.585, 0.34),
@@ -36,7 +37,7 @@ export const AREA_CROP: Record<HowToArea, { x: number; y: number; w: number; h: 
 
 /** 같은 부위가 여러 단계에 나올 때 단계 글이 가리키는 **바로 그 자리**를 보여주는 확대 컷.
  *  (예전엔 볼 3단계가 똑같은 사진 3장이었다.) 단계에 `crop` 을 주면 area 대신 이걸 쓴다. */
-export type CropKey = HowToArea | 'eyeLid' | 'eyeOuter' | 'underEye' | 'cheekTemple' | 'cheekBlend' | 'lipLine'
+export type CropKey = HowToArea | 'eyeLid' | 'eyeOuter' | 'underEye' | 'cheekTemple' | 'cheekBlend' | 'lipLine' | 'jaw'
 export const STEP_CROP: Record<CropKey, { x: number; y: number; w: number; h: number }> = {
   ...AREA_CROP,
   eyeLid: r(0.2, 0.385, 0.34), // 한쪽 눈 — 눈두덩·속눈썹
@@ -45,6 +46,7 @@ export const STEP_CROP: Record<CropKey, { x: number; y: number; w: number; h: nu
   cheekTemple: r(0.1, 0.36, 0.42, 1), // 관자놀이~광대~볼 — C자 블러셔
   cheekBlend: r(0.16, 0.49, 0.28), // 볼 색만 꽉 차게 — 레이어링(크림+파우더) 질감
   lipLine: r(0.35, 0.6, 0.28), // 입술 윤곽 확대 — 라이너·선 정리
+  jaw: r(0.2, 0.6, 0.6, 2.5), // 턱선 — 파운데이션 스와치(메이크업 클래스)
 }
 
 /** 단계 카드 그림 = 페이스 차트(public/looks/charts/{id}.webp, 1024×1536)에서 같은 자리를 확대.
@@ -52,6 +54,7 @@ export const STEP_CROP: Record<CropKey, { x: number; y: number; w: number; h: nu
  *  사진은 상단 비포/애프터 슬라이더에만 남는다. 9룩 차트가 같은 빈 도안이라 좌표 한 세트. */
 export const CHART_CROP: Record<CropKey, { x: number; y: number; w: number; h: number }> = {
   skin: r(0.13, 0.235, 0.74, 1),
+  brows: r(0.22, 0.293, 0.56, 3.5), // 차트 눈썹 y≈520~545(1536 기준)
   eyes: r(0.22, 0.3, 0.56),
   cheeks: r(0.14, 0.4, 0.42),
   lips: r(0.326, 0.527, 0.34),
@@ -62,6 +65,7 @@ export const CHART_CROP: Record<CropKey, { x: number; y: number; w: number; h: n
   cheekTemple: r(0.098, 0.33, 0.42, 1),
   cheekBlend: r(0.12, 0.405, 0.32),
   lipLine: r(0.356, 0.537, 0.28),
+  jaw: r(0.18, 0.53, 0.6, 2.5), // 차트 턱선(스와치 y≈840~990)
 }
 
 export interface HowToStep {
@@ -468,6 +472,7 @@ export const COMMON_SAFETY_EN = 'Try any new product on your inner arm first. If
 
 export const AREA_LABEL: Record<HowToArea, { ko: string; en: string }> = {
   skin: { ko: '피부', en: 'Skin' },
+  brows: { ko: '눈썹', en: 'Brows' },
   eyes: { ko: '눈', en: 'Eyes' },
   cheeks: { ko: '볼', en: 'Cheeks' },
   lips: { ko: '입술', en: 'Lips' },
@@ -490,6 +495,7 @@ export const CHART_LOOKS: readonly MakeupStyleId[] = [
  *  피부 1번이 이마 위 머리선 근처에 떠 있어 어느 부위인지 헷갈렸다). */
 export const CHART_ZONE: Record<HowToArea, { cx: number; cy: number; rx: number; ry: number; px: number; py: number }> = {
   skin: { cx: 512, cy: 740, rx: 310, ry: 380, px: 512, py: 470 },
+  brows: { cx: 512, cy: 532, rx: 250, ry: 38, px: 770, py: 520 },
   eyes: { cx: 512, cy: 614, rx: 250, ry: 80, px: 735, py: 614 },
   cheeks: { cx: 512, cy: 765, rx: 290, ry: 105, px: 700, py: 775 },
   lips: { cx: 508, cy: 896, rx: 120, ry: 56, px: 628, py: 896 },

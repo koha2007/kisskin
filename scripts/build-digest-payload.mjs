@@ -89,6 +89,26 @@ const { LOOK_IMAGES } = await import(pathToFileURL(resolve('src/lib/makeup/lookI
 const week = Math.max(0, Math.floor((now - LOOKS_EPOCH + 12 * 3600 * 1000) / WEEK_MS))
 const style = MAKEUP_STYLES[week % MAKEUP_STYLES.length]
 const how = LOOK_HOWTO[style.id]
+
+// 2026-10-10 운영자: 9룩을 다 보내면(9주차 = 2026-12-13~) 메이크업 클래스 1편부터 이어서.
+// 회차 = week - 9 번째로 **발행된** 편(커리큘럼 순서). 사이트가 주 1편씩 앞서 나가므로
+// 보통 늘 있다. 혹시 아직 안 나온 회차면 9룩 순환으로 돌아간다(빈 섹션보다 낫다).
+const { CLASS_LESSONS } = await import(pathToFileURL(resolve('src/lib/class/lessons.ts')).href)
+const { CURRICULUM } = await import(pathToFileURL(resolve('src/lib/class/curriculum.ts')).href)
+const lesson = week >= MAKEUP_STYLES.length ? CLASS_LESSONS[week - MAKEUP_STYLES.length] : undefined
+const pickLesson = (en) => ({
+  slug: lesson.slug,
+  brand: '',
+  name: en ? lesson.titleEn : lesson.titleKo,
+  summary: en ? lesson.introEn : lesson.introKo,
+  image: `/class/charts/${lesson.slug}.webp`,
+  url: `https://kissinskin.net${en ? '/en' : ''}/class/${lesson.slug}/`,
+  meta: en ? `${lesson.minutes} min · ${lesson.levelEn}` : `${lesson.minutes}분 · ${lesson.levelKo}`,
+  steps: lesson.steps.map((st) => (en ? st.titleEn : st.titleKo)),
+  number: lesson.n,
+  label: en ? `Makeup class · lesson ${lesson.n} of ${CURRICULUM.length}` : `메이크업 클래스 ${lesson.n}편 / ${CURRICULUM.length}`,
+})
+
 const pickLook = (en) => ({
   slug: style.id,
   brand: '',
@@ -106,8 +126,8 @@ process.stdout.write(
     productsEn: sameSlugs(products, loadFeed(resolve('src/lib/products/items.en.ts'), 'PRODUCT_ITEMS_EN'), pickProduct),
     news,
     newsEn: sameSlugs(news, loadFeed(resolve('src/lib/news/items.en.ts'), 'NEWS_ITEMS_EN'), pickNews),
-    looks: [pickLook(false)],
-    looksEn: [pickLook(true)],
+    looks: [lesson ? pickLesson(false) : pickLook(false)],
+    looksEn: [lesson ? pickLesson(true) : pickLook(true)],
     dryRun: process.env.DRY_RUN === '1',
   }),
 )

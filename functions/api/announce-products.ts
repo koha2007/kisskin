@@ -166,6 +166,7 @@ function normItems(raw: unknown, enFeed: boolean, kind: 'products' | 'news' | 'l
         meta: typeof o.meta === 'string' ? o.meta : undefined,
         steps: Array.isArray(o.steps) ? o.steps.map(String).slice(0, 8) : undefined,
         number: typeof o.number === 'number' ? o.number : undefined,
+        label: typeof o.label === 'string' ? o.label : undefined,
       }
     })
     .filter((x): x is DigestItem => x !== null)
