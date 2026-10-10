@@ -8,6 +8,8 @@ import { ToolHero, ToolWhySection, TypePreviewSection, TypePreviewCard } from '.
 import { FACE_SHAPE_MOOD } from '../lib/face-shape/moodImages'
 import { useI18n } from '../i18n/I18nContext'
 import ToolFaq, { FACE_SHAPE_FAQ_BASE, FACE_SHAPE_FAQ_BASE_EN } from '../components/ToolFaq'
+import FaceShapeScan from '../components/face-shape/FaceShapeScan'
+import { quizMix, storeMix } from '../lib/face-shape/measure'
 
 type Phase = 'intro' | 'quiz' | 'redirecting'
 
@@ -33,6 +35,8 @@ export default function FaceShapeQuiz() {
       if (next.length >= FS_QUESTIONS.length) {
         const shape = computeFaceShape(next)
         const slug = FACE_SHAPE_TYPES[shape].slug
+        // 결과 페이지에 "가까운 정도(%)"를 보여주려고 답 비율을 이 탭에만 남긴다(B, 2026-10-10)
+        storeMix({ source: 'quiz', mix: quizMix(next) })
         setPhase('redirecting')
         trackToolComplete('face-shape', slug)
         if (typeof window !== 'undefined') window.location.href = `${basePath}/${slug}/`
@@ -92,6 +96,9 @@ export default function FaceShapeQuiz() {
             })),
           }}
         />
+
+        {/* 2026-10-10: 셀카로 재기(온디바이스 측정). 질문 6개와 나란히 두 번째 길 */}
+        <FaceShapeScan isEn={isEn} basePath={basePath} onQuiz={() => setPhase('quiz')} />
 
         <ToolWhySection title={isEn ? 'Why does face shape matter?' : '얼굴형 진단이 왜 중요한가요?'}>
           {isEn ? (

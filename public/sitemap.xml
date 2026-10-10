@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kissinskin.net/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/" />
@@ -35,7 +35,7 @@
   <!-- Makeup How-To (/looks/) -->
   <url>
     <loc>https://kissinskin.net/looks/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/" />
@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/" />
@@ -53,7 +53,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/natural-glow/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/natural-glow/" />
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/natural-glow/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/natural-glow/" />
@@ -71,7 +71,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/cloud-skin/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/cloud-skin/" />
@@ -80,7 +80,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/cloud-skin/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/cloud-skin/" />
@@ -89,7 +89,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/blood-lip/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blood-lip/" />
@@ -98,7 +98,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/blood-lip/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blood-lip/" />
@@ -107,7 +107,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/maximalist-eye/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/maximalist-eye/" />
@@ -116,7 +116,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/maximalist-eye/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/maximalist-eye/" />
@@ -125,7 +125,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/metallic-eye/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/metallic-eye/" />
@@ -134,7 +134,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/metallic-eye/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/metallic-eye/" />
@@ -143,7 +143,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/bold-lip/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/bold-lip/" />
@@ -152,7 +152,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/bold-lip/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/bold-lip/" />
@@ -161,7 +161,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/blush-draping/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blush-draping/" />
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/blush-draping/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blush-draping/" />
@@ -179,7 +179,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/grunge/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/grunge/" />
@@ -188,7 +188,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/grunge/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/grunge/" />
@@ -197,7 +197,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/kpop-idol/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/kpop-idol/" />
@@ -206,7 +206,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/kpop-idol/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/kpop-idol/" />
@@ -343,7 +343,7 @@
   <!-- English (/en/*) URLs — pages with bilingual content -->
   <url>
     <loc>https://kissinskin.net/en/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/" />

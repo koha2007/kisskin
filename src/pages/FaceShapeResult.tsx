@@ -25,6 +25,8 @@ import { TypePreviewCard } from '../components/tools/ToolLanding'
 import { EmailSubscribe } from '../components/EmailSubscribe'
 import { trackToolPromotion } from '../lib/analytics'
 import { readableInk } from '../lib/a11y/readableInk'
+import FaceShapeMix from '../components/face-shape/FaceShapeMix'
+import FaceShapeMap from '../components/face-shape/FaceShapeMap'
 
 interface Props { code: FaceShapeCode }
 
@@ -236,6 +238,11 @@ export default function FaceShapeResult({ code }: Props) {
             </div>
           </div>
         </section>
+
+        {/* 2026-10-10: 방금 진단한 사람에게만 — 가까운 정도(%) + 셀카 측정선 사진(이 기기 안에서만) */}
+        <FaceShapeMix code={code} isEn={isEn} basePath={basePath} />
+        {/* 2026-10-10: 얼굴형별 메이크업 지도(SVG 도식) + 클래스 11·23·25편 연결 */}
+        <FaceShapeMap code={code} isEn={isEn} />
 
         {/* 다른 진단 2~3개 끝난 사람에게 "완성까지 N개" 넛지 — 히어로 바로 아래(2026-09-10) */}
         <DnaTracker field="faceShape" code={code} />
