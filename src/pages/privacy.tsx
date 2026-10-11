@@ -189,19 +189,20 @@ function PrivacyKo() {
           <tr><td><strong>Polar</strong></td><td>독립 관리자</td><td>결제 처리 (MoR)</td><td>결제 및 청구 정보</td><td>미국 / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
           <tr><td><strong>Cloudflare</strong></td><td>처리자</td><td>웹사이트 호스팅, CDN, 보안, AI 요청 중계(AI Gateway)</td><td>익명 분석, IP (일시적), 중계되는 업로드 사진 (일시적)</td><td>글로벌 (엣지 네트워크)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
           <tr><td><strong>Resend</strong></td><td>처리자</td><td>이메일 발송(구독 확인·뉴스레터·결과 메일), 열람·클릭 측정</td><td>이메일 주소, 메일 내용, 열람·클릭 기록</td><td>미국</td><td><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">resend.com/legal/privacy-policy</a></td></tr>
+          <tr><td><strong>Supabase</strong></td><td>처리자</td><td>회원 계정·로그인, 계정에 저장한 기록, 이메일 구독자 목록, 저장·공유한 결과 이미지 보관</td><td>이메일 주소, 계정 정보, 저장한 진단·룩 기록, 결과 이미지</td><td>싱가포르</td><td><a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">supabase.com/privacy</a></td></tr>
         </tbody>
       </table>
       <p><strong>중요:</strong> 톤·제품 분석 리포트는 <strong>Google Gemini 또는 OpenAI</strong> 로 처리됩니다. 어느 쪽을 쓸지는 서비스 가용성에 따라 요청 시점에 자동으로 정해지며, 두 경우 모두 아래 보호 수준은 동일합니다. OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 당사는 Google Gemini API 를 <strong>유료 등급</strong>으로만 이용하며, <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>상 유료 등급에서는 구글이 프롬프트·업로드 파일·응답을 <strong>자사 제품 개선에 사용하지 않습니다</strong>. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
 
       <h2>8. 국경 간 데이터 이전</h2>
-      <p>데이터는 거주 국가 외 국가(미국 포함)로 이전·처리될 수 있습니다. 당사는 적절한 보호 장치를 마련합니다.</p>
+      <p>데이터는 거주 국가 외 국가(미국·싱가포르 포함)로 이전·처리될 수 있습니다. 당사는 적절한 보호 장치를 마련합니다.</p>
       <ul>
-        <li><strong>EU/EEA → 미국:</strong> OpenAI, Google 및 Polar로의 이전은 EU 집행위원회가 채택한 표준계약조항(SCC) 및/또는 해당하는 경우 EU-미국 데이터 프라이버시 프레임워크로 보호됩니다.</li>
+        <li><strong>EU/EEA → 미국·싱가포르:</strong> OpenAI, Google, Polar, Resend 및 Supabase로의 이전은 EU 집행위원회가 채택한 표준계약조항(SCC) 및/또는 해당하는 경우 EU-미국 데이터 프라이버시 프레임워크로 보호됩니다.</li>
         <li><strong>영국:</strong> 이전은 UK 국제데이터이전협약(IDTA) 또는 EU SCC에 대한 UK 부록으로 보호됩니다.</li>
         <li><strong>대한민국:</strong> 국경 간 이전은 개인정보 보호법 제17조 요구사항을 준수합니다. 서비스 이용에 대한 동의는 명시된 목적의 국경 간 데이터 이전에 대한 동의에 해당합니다.</li>
         <li><strong>브라질:</strong> LGPD 제33조에 따라 동의 및 적절한 보호 장치 기반으로 이전됩니다.</li>
         <li><strong>일본:</strong> APPI 요구사항을 준수하여 적절한 보호 장치와 함께 이전됩니다.</li>
-        <li>당사는 사진 또는 개인정보를 서버에 저장하지 않으므로, 실제 데이터 이전은 일시적이며 API 처리 시간에 한정됩니다.</li>
+        <li>업로드한 사진은 저장하지 않으므로 사진의 이전은 일시적이며 AI 처리 시간에 한정됩니다. 회원 계정·저장한 기록·구독 이메일은 Supabase(싱가포르)에 보관되며, 15항의 기준에 따라 파기됩니다.</li>
       </ul>
 
       <h2>9. 수집하지 않는 데이터</h2>
@@ -305,7 +306,9 @@ function PrivacyKo() {
       <h2>15. 데이터 보관 및 파기</h2>
       <ul>
         <li><strong>사진:</strong> 미보관. AI 처리 완료 즉시 파기.</li>
-        <li><strong>분석 결과:</strong> 브라우저 세션에만 존재. 서버 미저장.</li>
+        <li><strong>분석 결과:</strong> 기본적으로 브라우저에만 존재. 로그인 회원이 직접 저장한 경우에만 계정에 보관(3.2.1항)하며 <strong>회원 탈퇴 시 함께 삭제</strong>.</li>
+        <li><strong>회원 계정:</strong> 탈퇴할 때까지 보관, 탈퇴 즉시 삭제.</li>
+        <li><strong>구독 이메일:</strong> 구독 중에는 보관. 해지하면 다시 발송되지 않도록 <strong>수신거부 목록</strong>에 이메일 주소만 남깁니다. 이 주소까지 완전히 지우려면 <strong>support@kissinskin.net</strong>으로 요청해 주세요. 확인 버튼을 누르지 않은 신청은 발송 대상이 아닙니다.</li>
         <li><strong>거래 참조:</strong> 고객 지원 및 법률/세무 준수를 위해 최대 12개월 보관 후 삭제.</li>
         <li><strong>결제 데이터:</strong> Polar의 데이터 보관 정책 및 관련 금융 규정에 따라 Polar가 보관.</li>
         <li>PIPA(대한민국), LGPD(브라질) 및 기타 관련법의 데이터 파기 요구사항을 준수합니다.</li>
@@ -468,19 +471,20 @@ function PrivacyEn() {
           <tr><td><strong>Polar</strong></td><td>Independent Controller</td><td>Payment processing (MoR)</td><td>Payment & billing info</td><td>United States / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
           <tr><td><strong>Cloudflare</strong></td><td>Data Processor</td><td>Website hosting, CDN, security, AI request relay (AI Gateway)</td><td>Anonymous analytics, IP (transient), relayed uploaded photo (transient)</td><td>Global (edge network)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
           <tr><td><strong>Resend</strong></td><td>Data Processor</td><td>Email delivery (confirmation, newsletter, result emails), open &amp; click measurement</td><td>Email address, email content, open &amp; click records</td><td>United States</td><td><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">resend.com/legal/privacy-policy</a></td></tr>
+          <tr><td><strong>Supabase</strong></td><td>Data Processor</td><td>Member accounts &amp; sign-in, records saved to your account, email subscriber list, storage of saved/shared result images</td><td>Email address, account info, saved quiz &amp; look records, result images</td><td>Singapore</td><td><a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">supabase.com/privacy</a></td></tr>
         </tbody>
       </table>
       <p><strong>Important:</strong> Your tone &amp; product analysis report is processed by <strong>either Google Gemini or OpenAI</strong>. Which one is used is decided automatically at request time based on service availability; the protections below apply either way. OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. We use the Google Gemini API on a <strong>paid tier only</strong>; under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>, Google <strong>does not use</strong> prompts, uploaded files, or responses from paid services to improve its products. We never use your photos to train any model of our own.</p>
 
       <h2>8. International Data Transfers</h2>
-      <p>Your data may be transferred to and processed in countries outside your country of residence, including the United States. We ensure appropriate safeguards are in place:</p>
+      <p>Your data may be transferred to and processed in countries outside your country of residence, including the United States and Singapore. We ensure appropriate safeguards are in place:</p>
       <ul>
-        <li><strong>EU/EEA to US:</strong> Transfers to OpenAI, Google and Polar are protected by Standard Contractual Clauses (SCCs) as adopted by the European Commission, and/or the EU-U.S. Data Privacy Framework where applicable.</li>
+        <li><strong>EU/EEA to US &amp; Singapore:</strong> Transfers to OpenAI, Google, Polar, Resend and Supabase are protected by Standard Contractual Clauses (SCCs) as adopted by the European Commission, and/or the EU-U.S. Data Privacy Framework where applicable.</li>
         <li><strong>UK:</strong> Transfers are protected by the UK International Data Transfer Agreement (IDTA) or UK Addendum to EU SCCs.</li>
         <li><strong>South Korea:</strong> Cross-border transfers comply with PIPA Article 17 requirements. Your consent to use the Service constitutes consent to cross-border data transfer for the stated purposes.</li>
         <li><strong>Brazil:</strong> Transfers comply with LGPD Article 33, based on your consent and adequate safeguards.</li>
         <li><strong>Japan:</strong> Transfers comply with APPI requirements, with appropriate safeguards in place.</li>
-        <li>Since we do not store your photos or personal data on our servers, the actual data transfer is transient and limited to the duration of API processing.</li>
+        <li>We do not store your uploaded photos, so their transfer is transient and limited to the duration of AI processing. Member accounts, records saved to your account and subscription emails are kept in Supabase (Singapore) and deleted as described in Section 15.</li>
       </ul>
 
       <h2>9. Data We Do NOT Collect</h2>
@@ -601,7 +605,9 @@ function PrivacyEn() {
       <h2>15. Data Retention & Destruction</h2>
       <ul>
         <li><strong>Photos:</strong> Not retained. Destroyed immediately after AI processing is complete.</li>
-        <li><strong>Analysis results:</strong> Exist only in your browser session. Not stored on any server.</li>
+        <li><strong>Analysis results:</strong> By default they exist only in your browser. They are kept on your account only if a signed-in member saves them (Section 3.1.1), and are <strong>deleted together with your account</strong>.</li>
+        <li><strong>Member account:</strong> Kept until you delete your account, then deleted immediately.</li>
+        <li><strong>Subscription email:</strong> Kept while you are subscribed. When you unsubscribe, only your email address stays on a <strong>suppression list</strong> so we never email you again. To have that address removed too, email <strong>support@kissinskin.net</strong>. Sign-ups that were never confirmed are not emailed.</li>
         <li><strong>Transaction references:</strong> Retained for up to 12 months for customer support and legal/tax compliance, then deleted.</li>
         <li><strong>Payment data:</strong> Retained by Polar according to their data retention policy and applicable financial regulations.</li>
         <li>We comply with the data destruction requirements under PIPA (South Korea), LGPD (Brazil), and other applicable laws.</li>
