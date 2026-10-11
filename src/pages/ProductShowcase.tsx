@@ -357,36 +357,17 @@ export default function ProductShowcase({ slug }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          // 이 페이지는 "실재하는 상품에 대한 글" 이다 → 글(Article)과 상품(Product)을
-          // 따로 선언하고 about 으로 잇는다. 예전엔 상품을 about: Thing(이름뿐) 으로만
-          // 흘려서, 검색엔진이 이 페이지를 제품 페이지로 이해할 근거가 없었다.
-          //
-          // ⚠️ offers(가격·재고)·aggregateRating(평점)·review 는 **넣지 않는다.**
-          //    우리는 그 데이터를 갖고 있지 않다. 지어내면 구조화 데이터 정책 위반이고
-          //    (2026-07-12 에 가짜 평점 4.8/150 을 이미 한 번 걷어냈다), 리치 결과가
-          //    걸려도 거짓 정보가 SERP 에 뜬다. 있는 것만 — 이름·브랜드·이미지·설명·분류.
+          // ⚠️ schema.org/Product 노드를 **두지 않는다**(2026-10-11).
+          //    Product 를 선언하는 순간 구글은 offers·review·aggregateRating 중 하나를 요구하고,
+          //    셋 다 없으면 "제품 스니펫 — 잘못됨"으로 센다(서치콘솔 8건, 새 제품이 발행될수록 증가).
+          //    우리는 그 데이터를 갖고 있지 않다 — 가격 모름, 우리가 매긴 평점 없음, 판매자 아님.
+          //    지어내면 정책 위반(2026-07-12 가짜 평점 4.8/150 을 걷어낸 전과). image 도 같은 이유로
+          //    Product 에 못 넣는다(AI 연출컷이지 제품 사진이 아님).
+          //    → 상품은 Article.about 의 Thing 으로만 가리킨다. 실제 가격·평점 데이터를 확보하면
+          //      그때 Product 로 되돌릴 것.
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@graph': [
-              {
-                '@type': 'Product',
-                '@id': `${siteBase}/${item.slug}/#product`,
-                name: `${item.brand} ${item.name}`,
-                // 한글 페이지엔 실제 영문 제품명을, 영문 페이지엔 별칭 없이.
-                ...(!isEn && item.globalQuery ? { alternateName: item.globalQuery } : {}),
-                brand: { '@type': 'Brand', name: item.brand },
-                category: categoryLabel,
-                description: item.summary,
-                // ⚠️ image 를 **일부러 뺐다**(2026-08-15). 우리가 가진 그림은 제품 사진이
-                // 아니라 AI 연출컷이다 — gen-products.mjs 프롬프트가 'no product
-                // packaging, no tubes, no bottles' 로 제품을 명시적으로 배제한다.
-                // 그걸 Product.image 로 넘기면 "이게 그 제품의 사진"이라고 구글에
-                // 말하는 것이고, 위 주석이 가격·평점에 세운 기준("있는 것만", 지어내면
-                // 정책 위반)에 그대로 걸린다. 가짜 평점 4.8/150 을 걷어낸 것과 같은 종류다.
-                // ⭐ 실제 제품 사진을 확보하면 그때 다시 넣을 것.
-                // Article.image 는 그대로 둔다 — 그건 이 **글의 삽화**가 맞다.
-                url: `${siteBase}/${item.slug}/`,
-              },
               {
                 '@type': 'Article',
                 headline: `${item.brand} ${item.name}`,
@@ -402,7 +383,12 @@ export default function ProductShowcase({ slug }: Props) {
                   name: 'kissinskin',
                   logo: { '@type': 'ImageObject', url: 'https://kissinskin.net/logo-sm.webp' },
                 },
-                about: { '@id': `${siteBase}/${item.slug}/#product` },
+                about: {
+                  '@type': 'Thing',
+                  name: `${item.brand} ${item.name}`,
+                  ...(!isEn && item.globalQuery ? { alternateName: item.globalQuery } : {}),
+                  description: item.summary,
+                },
                 mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteBase}/${item.slug}/` },
               },
             ],
