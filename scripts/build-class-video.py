@@ -1,7 +1,7 @@
 # 메이크업 클래스 → JJ 변신 영상 조립 (무음, 30fps)
 # ────────────────────────────────────────────────────────────────────
 # 구성: 훅(민낯+제목) → 단계 클립 N개(번호·제목·한 줄 팁) → 완성 홀드 → 엔딩(저장 유도 + kissinskin.net/class)
-# 주소는 영상 내내 카드 바로 아래(위쪽은 정수리 머리카락에 묻혀 안 읽혔다). 글자는 틱톡 안전영역 0.60~0.75H 안.
+# 주소는 영상 내내 카드 바로 아래(위쪽은 정수리 머리카락에 묻혀 안 읽혔다). 글자는 턱(≈0.57H) 아래 0.60~0.80H.
 # 입력: <dir>/step-0..N-9x16.jpg + clip-1..N.mp4 (gen-class-video.mjs)
 # 출력(언어별):
 #   <dir>/class-NN-<slug>-<lang>-tiktok.mp4  1080×1920 고화질 — 틱톡·쇼츠 업로드용(리포에 안 올림)
@@ -63,7 +63,7 @@ def clip_frames(path, n):
     fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
     return [Image.fromarray(fr[i]) for i in np.linspace(0, len(fr) - 1, n).round().astype(int)]
 
-CARD_Y = int(H * 0.60)
+CARD_Y = int(H * 0.64)  # 단계 바(CARD_Y-74)가 턱 아래로 — 0.60 이면 바가 턱·입술 테두리를 덮었다(2026-10-11 운영자)
 
 # ── 부위 표시(2026-10-11 운영자: "번호만으론 어디를 하는지 모르겠다") ─────────────────────
 # 사이트 '메이크업 맵'과 같은 디자인: 지금 부위 = 핑크 점선 테두리(그려지며 등장) + 핑크 번호 핀,
@@ -179,7 +179,7 @@ def build(lang):
     title = title if ko else title.upper()
 
     def watermark(d):
-        y = CARD_Y + 268; f = mono(34); w = d.textlength('kissinskin.net', font=f)
+        y = CARD_Y + 262; f = mono(34); w = d.textlength('kissinskin.net', font=f)
         d.rounded_rectangle(((W - w) / 2 - 18, y - 4, (W + w) / 2 + 18, y + 46), 25, fill=CREAM + (215,))
         centered(d, y, 'kissinskin.net', f, INK + (170,))
 
@@ -237,8 +237,12 @@ def build(lang):
             im = face_marks(kb(fr, 0, z, z), k, min(1, i / 12), k - 1, F)
             emit(overlay(overlay(im, step_card(k, s), min(1, i / 5)), bar(k, k - 1)))
     last = Image.open(f'{D}/step-{len(steps)}-9x16.jpg').convert('RGB')
-    for i in range(30):                                                                           # 완성 홀드 1초 — 모든 핀 + 바 완료
-        emit(overlay(face_marks(kb(last, i / 29, z, z + 0.02), 0, 0, len(steps), F), bar(0, len(steps))))
+    for i in range(24):                                                                           # 완성 0.8초 — 모든 핀 + 바 완료
+        emit(overlay(face_marks(kb(last, i / 89, z, z + 0.02), 0, 0, len(steps), F), bar(0, len(steps))))
+    for i in range(24, 90):                                                                       # 완성 얼굴만 2.2초 — 핀·바·주소가 사라진다
+        a = max(0, 1 - (i - 24) / 9); im = kb(last, i / 89, z, z + 0.02)
+        if a: im = Image.blend(im, overlay(overlay(face_marks(im.copy(), 0, 0, len(steps), F), bar(0, len(steps))), watermark), a)
+        emit(im, mark=False)
     blur = kb(last, 1, z + 0.02, z + 0.02).filter(ImageFilter.GaussianBlur(6))
     for i in range(72): emit(overlay(blur, end_card, min(1, i / 8)), mark=False)                 # 엔딩 2.4초
     enc.stdin.close(); enc.wait()
