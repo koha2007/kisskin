@@ -65,6 +65,114 @@ def clip_frames(path, n):
 
 CARD_Y = int(H * 0.60)
 
+# ── 부위 표시(2026-10-11 운영자: "번호만으론 어디를 하는지 모르겠다") ─────────────────────
+# 사이트 '메이크업 맵'과 같은 디자인: 지금 부위 = 핑크 점선 테두리(그려지며 등장) + 핑크 번호 핀,
+# 끝낸 부위 = 네이비 번호 핀이 남는다. 카드 위 단계 바 = 끝냄(네이비)·지금(핑크)·다음(흐림).
+# 위치는 프레임마다 MediaPipe 로 얼굴을 다시 찾아 따라간다(JJ 가 숨 쉬고 눈 감아도 맞게).
+import cv2, mediapipe as mp
+from mediapipe.tasks.python import vision, BaseOptions
+PINK, NAVY = (235, 71, 99), (7, 9, 83)
+_det = vision.FaceLandmarker.create_from_options(vision.FaceLandmarkerOptions(
+    base_options=BaseOptions(model_asset_path=opt('model', 'casting/face_landmarker.task')), num_faces=1))
+_last = [None]
+def face_pts(im):
+    small = np.asarray(im.resize((W // 2, H // 2)))
+    r = _det.detect(mp.Image(image_format=mp.ImageFormat.SRGB, data=np.ascontiguousarray(small)))
+    if r.face_landmarks:
+        P = np.array([[p.x * W, p.y * H] for p in r.face_landmarks[0]], np.float32)
+        _last[0] = P if _last[0] is None else _last[0] * .4 + P * .6   # 떨림 줄이기
+    return _last[0]
+
+R_BROW = [70, 63, 105, 66, 107, 55, 65, 52, 53, 46]; L_BROW = [300, 293, 334, 296, 336, 285, 295, 282, 283, 276]
+R_EYE = [33, 246, 161, 160, 159, 158, 157, 173, 133, 155, 154, 153, 145, 144, 163, 7]
+L_EYE = [263, 466, 388, 387, 386, 385, 384, 398, 362, 382, 381, 380, 374, 373, 390, 249]
+LIPS = [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291, 375, 321, 405, 314, 17, 84, 181, 91, 146]
+OVAL = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109]
+JAW = [234, 93, 132, 58, 172, 136, 150, 149, 176, 148, 152, 377, 400, 378, 379, 365, 397, 288, 361, 323, 454]
+
+def regions(P, key):  # → [(cx, cy, ax, ay, angle)]  ax/ay = 반지름
+    fw = np.linalg.norm(P[234] - P[454])
+    def fe(idx, sc, minr=.05):
+        (cx, cy), (w, h), a = cv2.fitEllipse(P[idx]); return (cx, cy, max(w / 2 * sc, fw * minr), max(h / 2 * sc, fw * minr), a)
+    def at(c, t, wgt, rx, ry):
+        x, y = P[c] * (1 - wgt) + P[t] * wgt; return (x, y, fw * rx, fw * ry, 0)
+    return {
+        'skin': lambda: [fe(OVAL, 1.04)],
+        'brows': lambda: [fe(R_BROW, 1.3, .045), fe(L_BROW, 1.3, .045)],
+        'eyes': lambda: [fe(R_EYE + [46, 53, 52, 65, 55], 1.15), fe(L_EYE + [276, 283, 282, 295, 285], 1.15)],
+        'cheeks': lambda: [at(50, 117, .4, .17, .12), at(280, 346, .4, .17, .12)],
+        'lips': lambda: [fe(LIPS, 1.3)],
+        'underEye': lambda: [at(230, 23, .5, .12, .05), at(450, 253, .5, .12, .05)],
+        'jaw': lambda: [fe(JAW, 1.0)],
+    }.get(key, lambda: [])()
+
+PART = re.search(r"slug: '" + re.escape(slug) + r"', part: '(\w+)'", cur).group(1)
+def step_key(st):  # 피부 단계의 눈밑·턱 크롭은 '베이스' 파트에서만 그 자리를 뜻한다(1편 베이스는 얼굴 전체)
+    return st.get('crop') if PART == 'base' and st['area'] == 'skin' and st.get('crop') in ('underEye', 'jaw') else st['area']
+KEYS = [step_key(st) for st in steps]
+AREA_KO = {'skin': '피부', 'brows': '눈썹', 'eyes': '눈', 'cheeks': '볼', 'lips': '입술', 'hair': '헤어'}
+AREA_EN = {'skin': 'Skin', 'brows': 'Brows', 'eyes': 'Eyes', 'cheeks': 'Cheeks', 'lips': 'Lips', 'hair': 'Hair'}
+
+def pin_anchor(key, regs):  # 부위 바로 오른쪽(모델의 왼쪽) — 핀끼리 세로로 쌓이지 않게 부위마다 높이가 다르다
+    cx, cy, ax, ay, a = max(regs, key=lambda r: r[0])
+    if key == 'skin': return cx + ax * .78, cy - ay * .62          # 이마 오른쪽
+    if key == 'brows': return cx + max(ax, ay) + 26, cy - 14
+    return cx + max(ax, ay) * (1.0 if key != 'lips' else 1.05) + 30, cy
+
+def face_marks(im, k_now, prog, done_upto, F):
+    """k_now: 지금 단계 번호(0=없음). prog: 테두리 그려진 정도 0~1. done_upto: 여기까지 끝난 단계."""
+    P = face_pts(im)
+    if P is None: return im
+    arr = np.zeros((H, W, 4), np.uint8)
+    if k_now:
+        for (cx, cy, ax, ay, a) in regions(P, KEYS[k_now - 1]):
+            pts = cv2.ellipse2Poly((int(cx), int(cy)), (int(ax), int(ay)), int(a), -90, 270, 3)
+            n = max(2, int(len(pts) * prog))
+            for i in range(0, n - 1, 6):            # 점선: 4칸 그리고 2칸 쉼
+                seg = pts[i:min(i + 4, n)]
+                cv2.polylines(arr, [seg], False, (255, 255, 255, 170), 10, cv2.LINE_AA)
+            for i in range(0, n - 1, 6):
+                seg = pts[i:min(i + 4, n)]
+                cv2.polylines(arr, [seg], False, PINK + (255,), 5, cv2.LINE_AA)
+    layer = Image.fromarray(arr, 'RGBA'); d = ImageDraw.Draw(layer)
+    # 핀: 같은 부위는 번호를 묶는다("1·2") — 사이트 맵과 같은 표기
+    groups = {}
+    for k in range(1, max(done_upto, k_now) + 1):
+        groups.setdefault(KEYS[k - 1], []).append(k)
+    placed = []
+    for key, ks in groups.items():
+        regs = regions(P, key)
+        if not regs: continue
+        x, y = pin_anchor(key, regs)
+        for px, py in placed:                       # 그래도 겹치면 오른쪽으로 비켜 놓기
+            if abs(px - x) < 60 and abs(py - y) < 52: x += 62
+        placed.append((x, y))
+        now = k_now in ks
+        label = '·'.join(map(str, ks)); r = 34 if now else 25
+        fnt = F['num'](34 if now else 25)
+        w = max(2 * r, d.textlength(label, font=fnt) + 30)
+        d.rounded_rectangle((x - w / 2 + 2, y - r + 4, x + w / 2 + 2, y + r + 4), r, fill=(0, 0, 0, 50))
+        d.rounded_rectangle((x - w / 2, y - r, x + w / 2, y + r), r, fill=(PINK if now else NAVY) + (255,), outline=(255, 255, 255, 255), width=3)
+        d.text((x - d.textlength(label, font=fnt) / 2, y - r * .78), label, font=fnt, fill=(255, 255, 255, 255))
+    return Image.alpha_composite(im.convert('RGBA'), layer).convert('RGB')
+
+def stepper(d, k_now, done_upto, F, ko):
+    """카드 바로 위 단계 바."""
+    labels = [f'{k} {(AREA_KO if ko else AREA_EN)[st["area"]]}' for k, st in enumerate(steps, 1)]
+    size = 34
+    while True:
+        fnt = F['body'](size); ws = [d.textlength(t, font=fnt) + 34 for t in labels]
+        if sum(ws) + 10 * (len(ws) - 1) <= W - 140 or size <= 20: break
+        size -= 2
+    x = (W - (sum(ws) + 10 * (len(ws) - 1))) / 2; y0 = CARD_Y - 74
+    for k, (t, w) in enumerate(zip(labels, ws), 1):
+        if k == k_now: bg, fg = PINK + (255,), (255, 255, 255, 255)
+        elif k <= done_upto: bg, fg = NAVY + (240,), (255, 255, 255, 255)
+        else: bg, fg = CREAM + (200,), INK + (120,)
+        d.rounded_rectangle((x, y0 - 4, x + w, y0 + 58), 31, fill=bg)
+        d.text((x + 17, y0 + 27 - size * .62), t, font=fnt, fill=fg)
+        x += w + 10
+
 def build(lang):
     F = fonts(lang); ko = lang == 'ko'
     title = lesson.get('videoTitleKo' if ko else 'videoTitleEn') or (CUR_KO if ko else CUR_EN)
@@ -118,14 +226,19 @@ def build(lang):
         if mark: im = overlay(im, watermark)
         enc.stdin.write(np.asarray(im).tobytes())
 
+    bar = lambda k_now, done: (lambda d: stepper(d, k_now, done, F, ko))
+    _last[0] = None
     s0 = Image.open(f'{D}/step-0-9x16.jpg').convert('RGB')
-    for i in range(48): emit(overlay(kb(s0, i / 47, 1.0, 1.04), hook, min(1, i / 6)))           # 훅 1.6초
+    for i in range(48):                                                                           # 훅 1.6초
+        emit(overlay(overlay(kb(s0, i / 47, 1.0, 1.04), hook, min(1, i / 6)), bar(0, 0), min(1, i / 6)))
     z = 1.04
     for k, s in enumerate(steps, 1):                                                              # 단계 3초씩
         for i, fr in enumerate(clip_frames(f'{D}/clip-{k}.mp4', 90)):
-            emit(overlay(kb(fr, 0, z, z), step_card(k, s), min(1, i / 5)))
+            im = face_marks(kb(fr, 0, z, z), k, min(1, i / 12), k - 1, F)
+            emit(overlay(overlay(im, step_card(k, s), min(1, i / 5)), bar(k, k - 1)))
     last = Image.open(f'{D}/step-{len(steps)}-9x16.jpg').convert('RGB')
-    for i in range(30): emit(kb(last, i / 29, z, z + 0.02))                                       # 완성 홀드 1초
+    for i in range(30):                                                                           # 완성 홀드 1초 — 모든 핀 + 바 완료
+        emit(overlay(face_marks(kb(last, i / 29, z, z + 0.02), 0, 0, len(steps), F), bar(0, len(steps))))
     blur = kb(last, 1, z + 0.02, z + 0.02).filter(ImageFilter.GaussianBlur(6))
     for i in range(72): emit(overlay(blur, end_card, min(1, i / 8)), mark=False)                 # 엔딩 2.4초
     enc.stdin.close(); enc.wait()
