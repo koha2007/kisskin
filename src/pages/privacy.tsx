@@ -41,7 +41,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
 function PrivacyKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 2일</p>
+      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 11일</p>
 
       <h2>1. 서문</h2>
       <p>kissinskin("당사")은 <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a> 웹사이트를 운영합니다. 본 개인정보처리방침은 AI 메이크업 분석 서비스("서비스") 이용 시 이용자의 정보를 어떻게 수집, 이용, 보호, 공개하는지 설명합니다.</p>
@@ -85,6 +85,12 @@ function PrivacyKo() {
       <ul>
         <li>로그인한 회원이 직접 저장한 <strong>무료 진단 결과(내 뷰티 기록)</strong>, <strong>저장한 AI 메이크업 룩</strong>, <strong>저장한 메이크업 방법(/looks/)</strong> 목록은 마이페이지에서 다시 볼 수 있도록 계정에 연결해 보관합니다(Supabase).</li>
         <li>업로드한 원본 사진은 저장되지 않습니다. 진단 유형·룩 이름 같은 결과 값을 저장하며, AI 메이크업 룩은 3.2항의 생성 결과 이미지 링크를 함께 기록합니다. 이 기록은 <strong>회원 탈퇴 시 계정과 함께 삭제</strong>되며, 결과 이미지 자체의 삭제는 3.2항에 따라 요청하실 수 있습니다.</li>
+      </ul>
+
+      <h3>3.2.2 이메일 구독 · 결과 메일</h3>
+      <ul>
+        <li>뉴스레터 구독이나 진단 결과 메일을 신청하면 <strong>이메일 주소, 신청 위치, 언어</strong>를 보관합니다. 구독은 확인 메일의 버튼을 눌러야 시작되며(더블 옵트인), 모든 메일 하단의 링크로 언제든 해지할 수 있습니다.</li>
+        <li>메일은 발송 서비스 <strong>Resend</strong>를 통해 보내며, 메일이 열렸는지(메일 속 1×1 투명 이미지)와 어떤 링크를 눌렀는지(<code>links.kissinskin.net</code> 경유)를 측정합니다. 이 정보는 발송 품질과 콘텐츠 개선에만 쓰며, 구독을 해지하면 이후 측정도 중단됩니다.</li>
       </ul>
 
       <h3>3.3 결제 정보</h3>
@@ -182,6 +188,7 @@ function PrivacyKo() {
           <tr><td><strong>Google (Gemini API)</strong></td><td>처리자</td><td>톤·제품 분석 리포트 생성</td><td>업로드 사진 (일시적)</td><td>미국</td><td><a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">ai.google.dev/terms</a></td></tr>
           <tr><td><strong>Polar</strong></td><td>독립 관리자</td><td>결제 처리 (MoR)</td><td>결제 및 청구 정보</td><td>미국 / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
           <tr><td><strong>Cloudflare</strong></td><td>처리자</td><td>웹사이트 호스팅, CDN, 보안, AI 요청 중계(AI Gateway)</td><td>익명 분석, IP (일시적), 중계되는 업로드 사진 (일시적)</td><td>글로벌 (엣지 네트워크)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
+          <tr><td><strong>Resend</strong></td><td>처리자</td><td>이메일 발송(구독 확인·뉴스레터·결과 메일), 열람·클릭 측정</td><td>이메일 주소, 메일 내용, 열람·클릭 기록</td><td>미국</td><td><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">resend.com/legal/privacy-policy</a></td></tr>
         </tbody>
       </table>
       <p><strong>중요:</strong> 톤·제품 분석 리포트는 <strong>Google Gemini 또는 OpenAI</strong> 로 처리됩니다. 어느 쪽을 쓸지는 서비스 가용성에 따라 요청 시점에 자동으로 정해지며, 두 경우 모두 아래 보호 수준은 동일합니다. OpenAI의 API 데이터 이용 정책에 따르면 API를 통해 전송된 데이터는 <strong>모델 학습에 사용되지 않습니다</strong>. 당사는 Google Gemini API 를 <strong>유료 등급</strong>으로만 이용하며, <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API 약관</a>상 유료 등급에서는 구글이 프롬프트·업로드 파일·응답을 <strong>자사 제품 개선에 사용하지 않습니다</strong>. 당사는 어떠한 경우에도 이용자 사진을 자체 AI 학습에 사용하지 않습니다.</p>
@@ -321,7 +328,7 @@ function PrivacyKo() {
 function PrivacyEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 2, 2026</p>
+      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 11, 2026</p>
 
       <h2>1. Introduction</h2>
       <p>kissinskin ("we", "our", "us") operates the website <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
@@ -357,6 +364,12 @@ function PrivacyEn() {
         <li>The face shape tool's "measure from a selfie" option <strong>never sends your photo to a server</strong>. It runs in your browser, locates the face outline and computes only the ratios of forehead, cheekbone and jaw widths and face length.</li>
         <li>A small copy of the photo with measurement lines and the resulting ratios are kept <strong>only in that browser tab's session storage</strong> (up to 6 hours, cleared when the tab closes) so the result page can show them. We cannot collect or see them.</li>
         <li>We do not create or store biometric identifiers or face templates.</li>
+      </ul>
+
+      <h3>3.1.3 Email Subscription &amp; Result Emails</h3>
+      <ul>
+        <li>When you subscribe to our newsletter or ask for your quiz result by email, we keep your <strong>email address, the page you signed up from, and your language</strong>. A subscription only starts after you click the button in the confirmation email (double opt-in), and you can unsubscribe at any time via the link at the bottom of every email.</li>
+        <li>Emails are sent through <strong>Resend</strong>, which measures whether an email was opened (a 1×1 transparent image in the email) and which links were clicked (redirected via <code>links.kissinskin.net</code>). We use this only to improve delivery and content, and measurement stops once you unsubscribe.</li>
       </ul>
 
       <h3>3.2 Payment Information</h3>
@@ -454,6 +467,7 @@ function PrivacyEn() {
           <tr><td><strong>Google (Gemini API)</strong></td><td>Data Processor</td><td>Tone &amp; product analysis report</td><td>Uploaded photo (transient)</td><td>United States</td><td><a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">ai.google.dev/terms</a></td></tr>
           <tr><td><strong>Polar</strong></td><td>Independent Controller</td><td>Payment processing (MoR)</td><td>Payment & billing info</td><td>United States / EU</td><td><a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener noreferrer">polar.sh/legal/privacy</a></td></tr>
           <tr><td><strong>Cloudflare</strong></td><td>Data Processor</td><td>Website hosting, CDN, security, AI request relay (AI Gateway)</td><td>Anonymous analytics, IP (transient), relayed uploaded photo (transient)</td><td>Global (edge network)</td><td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacy</a></td></tr>
+          <tr><td><strong>Resend</strong></td><td>Data Processor</td><td>Email delivery (confirmation, newsletter, result emails), open &amp; click measurement</td><td>Email address, email content, open &amp; click records</td><td>United States</td><td><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">resend.com/legal/privacy-policy</a></td></tr>
         </tbody>
       </table>
       <p><strong>Important:</strong> Your tone &amp; product analysis report is processed by <strong>either Google Gemini or OpenAI</strong>. Which one is used is decided automatically at request time based on service availability; the protections below apply either way. OpenAI's API data usage policy states that data sent through the API is <strong>not used to train their models</strong>. We use the Google Gemini API on a <strong>paid tier only</strong>; under the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Gemini API Terms</a>, Google <strong>does not use</strong> prompts, uploaded files, or responses from paid services to improve its products. We never use your photos to train any model of our own.</p>
