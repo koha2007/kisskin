@@ -33,7 +33,7 @@ run('python3', ['scripts/build-class-video.py', slug, `--dir=${dir}`])
 // 훅 1.6초 + 단계당 3초 + 완성 1초 + 엔딩 2.4초 (build-class-video.py 와 같은 타임라인)
 const fresh = JSON.parse(readFileSync(LESSONS, 'utf8'))
 const l = fresh.find((x) => x.slug === slug)
-l.video = { seconds: Math.round(1.6 + 3 * l.steps.length + 1 + 2.4) }
+l.video = { seconds: Math.round(1.6 + 3 * l.steps.length + 3 + 2.4) }  // 훅 + 단계 + 완성(핀 0.8 + 얼굴만 2.2) + 엔딩
 writeFileSync(LESSONS, JSON.stringify(fresh, null, 2) + '\n')
 
 mkdirSync('out/class-video', { recursive: true })
