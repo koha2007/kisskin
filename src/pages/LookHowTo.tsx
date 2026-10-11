@@ -292,7 +292,8 @@ function MemberPerks({ id }: { id: MakeupStyleId }) {
   const [justSaved, setJustSaved] = useState(false)
   const how = LOOK_HOWTO[id]
   const next = encodeURIComponent(`${prefix}/looks/${id}/`)
-  const loginHref = `${prefix}/auth/?next=${next}`
+  // /auth/ 는 언어 접두사 없는 앱 경로다(readLocale APP_ROUTE_PREFIXES) — /en/auth/ 는 404.
+  const loginHref = `/auth/?next=${next}`
   const season = dna.personalColor
   const shade = season ? SEASON_SHADES[season][how.keyShade] : null
   const isSaved = saved.includes(id)

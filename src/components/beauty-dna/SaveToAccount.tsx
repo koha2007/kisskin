@@ -48,7 +48,7 @@ export function SaveToAccount() {
           </p>
         </div>
         <a
-          href={`${isEn ? '/en' : ''}/auth/?next=${nextParam}`}
+          href={`/auth/?next=${nextParam}`}
           onClick={() => trackSaveIntent(done, total)}
           className="inline-flex items-center justify-center gap-2 bg-white text-navy px-6 py-3 font-bold text-sm whitespace-nowrap hover:bg-white/90 transition-colors"
         >
