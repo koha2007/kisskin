@@ -1,9 +1,10 @@
+import { useEffect, useRef } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import RegionToggle from '../components/RegionToggle'
 import { CropImg, FaceChartMap, ShopLinks, ShopDisclosure, Swatches } from './LookHowTo'
 import { CHART_CROP, AREA_LABEL, COMMON_SAFETY_KO, COMMON_SAFETY_EN } from '../lib/looks/howto'
-import { CLASS_LESSONS, lessonBySlug, chartSrc } from '../lib/class/lessons'
+import { CLASS_LESSONS, lessonBySlug, chartSrc, videoSrc, videoPoster } from '../lib/class/lessons'
 import { CLASS_PARTS, CURRICULUM } from '../lib/class/curriculum'
 import { MAKEUP_STYLES } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
@@ -73,6 +74,7 @@ export default function ClassLesson({ slug }: { slug: string }) {
           </div>
 
           <div className="space-y-5 md:space-y-6">
+            {l.video && <ClassVideo slug={slug} seconds={l.video.seconds} steps={l.steps.length} isEn={isEn} />}
             {AFFILIATE_ENABLED && <RegionToggle pageType="class" />}
             <ShopDisclosure isEn={isEn} />
             <ol className="space-y-5 md:space-y-6">
@@ -172,5 +174,48 @@ export default function ClassLesson({ slug }: { slug: string }) {
       </main>
       <ToolsFooter />
     </div>
+  )
+}
+
+// JJ 변신 영상(2026-10-11) — 무음·자동 반복. 첫 화면 무게를 늘리지 않으려고 화면에 들어올 때만 src 를 붙여
+// 불러오고(preload 없음), 벗어나면 멈춘다. 포스터(완성 얼굴)가 먼저 보인다. 차트(어디에)와 역할이 달라 둘 다 둔다.
+function ClassVideo({ slug, seconds, steps, isEn }: { slug: string; seconds: number; steps: number; isEn: boolean }) {
+  const ref = useRef<HTMLVideoElement>(null)
+  useEffect(() => {
+    const v = ref.current
+    if (!v || typeof IntersectionObserver === 'undefined') return
+    let started = false
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        if (!v.src) v.src = videoSrc(slug, isEn)
+        v.play().catch(() => {})
+        if (!started) { started = true; trackEvent('class_video_view', { lesson: slug }) }
+      } else v.pause()
+    }, { threshold: 0.35 })
+    io.observe(v)
+    return () => io.disconnect()
+  }, [slug, isEn])
+  return (
+    <figure className="bg-white border border-slate-200 p-4 md:p-5 flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+      <video ref={ref} poster={videoPoster(slug)} muted loop playsInline preload="none" width={720} height={1280}
+        aria-label={isEn ? `JJ following all ${steps} steps (AI-generated model)` : `JJ가 ${steps}단계를 따라 하는 영상 (AI 생성 모델)`}
+        className="w-[62%] sm:w-[220px] md:w-[240px] shrink-0 aspect-[9/16] bg-cream object-cover" />
+      <figcaption className="text-center sm:text-left">
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">
+          {isEn ? `Watch · ${seconds} sec` : `영상 · ${seconds}초`}
+        </p>
+        <p className="mt-2 text-lg md:text-xl font-extrabold text-navy leading-snug break-keep">
+          {isEn ? `All ${steps} steps on one face` : `${steps}단계를 한 얼굴로 한눈에`}
+        </p>
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed break-keep">
+          {isEn
+            ? 'The chart shows where each step goes; the video shows how the face changes. Step-by-step details are below.'
+            : '차트는 어디에 바르는지, 영상은 바르고 나면 어떻게 달라지는지 보여줘요. 단계별 자세한 방법은 아래에 있어요.'}
+        </p>
+        <p className="mt-3 text-[11px] text-slate-400">
+          {isEn ? 'JJ is an AI-generated model. Makeup changes are illustrated by AI.' : 'JJ는 AI로 생성한 모델이에요. 메이크업 변화도 AI로 표현했어요.'}
+        </p>
+      </figcaption>
+    </figure>
   )
 }

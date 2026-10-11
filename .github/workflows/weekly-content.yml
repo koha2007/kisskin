@@ -111,6 +111,38 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node --experimental-strip-types scripts/gen-class.mjs && npm run -s check:keywords
 
+      # 클래스 편 JJ 변신 영상(2026-10-11~). 사진 3장(gpt-image-2) + 단계 전환 클립(Kling, fal.ai) ≈ 편당 $2~3.
+      # 영상이 실패해도 글 발행은 그대로 나간다(continue-on-error). 다음 주에 영상 없는 편을 다시 시도한다.
+      # 필요한 Secret: FAL_KEY (없으면 조용히 건너뜀). 단계 합성은 MediaPipe(파이썬) — 모델 파일은 매번 받는다.
+      - uses: actions/setup-python@v5
+        if: steps.lesson.outcome == 'success'
+        with:
+          python-version: '3.12'
+
+      - name: Makeup class video (JJ)
+        id: classvideo
+        if: steps.lesson.outcome == 'success'
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+        run: |
+          if [ -z "$FAL_KEY" ]; then echo "::warning::FAL_KEY Secret 없음 — 클래스 영상 건너뜀"; exit 0; fi
+          sudo apt-get update -q >/dev/null && sudo apt-get install -y -q ffmpeg libegl1 libgles2 >/dev/null
+          pip install -q mediapipe==1.1.0 numpy pillow
+          mkdir -p casting && curl -sfL -o casting/face_landmarker.task \
+            https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
+          node --experimental-strip-types scripts/class-video.mjs
+
+      # 틱톡·쇼츠 업로드용 1080p 원본(한/영) — Actions 실행 화면 아래 Artifacts 에서 zip 으로 받는다.
+      - uses: actions/upload-artifact@v4
+        if: steps.classvideo.outcome == 'success'
+        with:
+          name: class-video-tiktok
+          path: out/class-video/
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Regenerate sitemap + home cards
         run: npm run gen:sitemap && node scripts/gen-home-cards.mjs
 
@@ -167,6 +199,7 @@ jobs:
         run: |
           echo "news=${{ steps.news.outcome }}  product=${{ steps.product.outcome }}  lesson=${{ steps.lesson.outcome }}"
           [ "${{ steps.lesson.outcome }}" = "success" ] || echo "::warning::메이크업 클래스 편 생성 실패 — 다음 주에 같은 편을 다시 시도한다"
+          [ "${{ steps.classvideo.outcome }}" != "failure" ] || echo "::warning::클래스 JJ 영상 실패 — 글은 발행됨, 다음 주에 영상 없는 편을 다시 시도한다"
           if [ "${{ steps.news.outcome }}" != "success" ] && [ "${{ steps.product.outcome }}" != "success" ]; then
             echo "::error::뉴스·제품 둘 다 생성 실패 — 그날치 발행 0건. Gemini(403=결제/키, 404=신규키 차단, 429=쿼터)와 OPENAI_API_KEY Secret 유무를 확인할 것. 절차는 리포 루트 GEMINI_HOLD.md"
             exit 1

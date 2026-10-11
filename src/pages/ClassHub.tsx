@@ -1,7 +1,7 @@
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { CLASS_PARTS, CURRICULUM } from '../lib/class/curriculum'
-import { CLASS_LESSONS, isPublished, chartSrc } from '../lib/class/lessons'
+import { CLASS_LESSONS, isPublished, chartSrc, lessonBySlug } from '../lib/class/lessons'
 
 // 메이크업 클래스 허브 (/class/) — 2026-10-10.
 // 36편 커리큘럼을 파트별로 전부 보여준다. 나온 편은 카드(차트 썸네일), 아직 안 나온 편은
@@ -63,6 +63,7 @@ export default function ClassHub() {
                             loading="lazy" decoding="async"
                             className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
                           <span className="absolute left-2 top-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-navy px-1.5 text-[11px] font-extrabold text-white">{c.n}</span>
+                          {lessonBySlug(c.slug)?.video && <span className="absolute right-2 top-2 inline-flex h-6 items-center gap-0.5 rounded-full bg-white/90 px-2 text-[11px] font-extrabold text-navy"><span className="material-symbols-outlined text-[14px]">play_arrow</span>{isEn ? 'Video' : '영상'}</span>}
                         </span>
                         <span className="block p-3 md:p-4">
                           <span className="block text-sm md:text-base font-extrabold text-navy leading-snug break-keep">{isEn ? c.titleEn : c.titleKo}</span>

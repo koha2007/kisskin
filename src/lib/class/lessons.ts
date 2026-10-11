@@ -22,6 +22,12 @@ export interface ClassLessonBody {
   chartPrompt: string
   safetyKo?: string
   safetyEn?: string
+  /** JJ 변신 영상 — scripts/build-class-video.py 가 public/class/video/<slug>-<ko|en>.mp4 + <slug>.webp 를 만든다.
+   *  얼굴에 보이는 변화가 없는 편(도구·개념)은 영상 없음. */
+  video?: { seconds: number }
+  /** 영상 제목 카드용 짧은 제목(없으면 커리큘럼 제목) */
+  videoTitleKo?: string
+  videoTitleEn?: string
 }
 
 export type ClassLesson = ClassLessonBody & CurriculumItem
@@ -39,3 +45,5 @@ export const lessonBySlug = (slug: string) => CLASS_LESSONS.find((l) => l.slug =
 export const isPublished = (slug: string) => CLASS_LESSONS.some((l) => l.slug === slug)
 
 export const chartSrc = (slug: string) => `/class/charts/${slug}.webp`
+export const videoSrc = (slug: string, isEn: boolean) => `/class/video/${slug}-${isEn ? 'en' : 'ko'}.mp4`
+export const videoPoster = (slug: string) => `/class/video/${slug}.webp`

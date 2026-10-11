@@ -86,6 +86,9 @@ export interface HowToStep {
   searchKeywords: string
   /** 해외(YesStyle·Amazon) 검색어 */
   shopEn: string
+  /** 클래스 영상 단계 카드의 한 줄 팁(≤20자) — 영상 있는 편만 */
+  shortKo?: string
+  shortEn?: string
 }
 
 /** 가입 후 "내 퍼스널컬러 색"이 고르는 색 계열 */

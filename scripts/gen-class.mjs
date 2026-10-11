@@ -82,10 +82,11 @@ STRUCTURE
 - tipsKo/tipsEn: exactly 2 each. mistakeKo/mistakeEn: one common beginner mistake and what it causes.
 - minutes: realistic time. levelKo ∈ 쉬움|보통|도전 with matching levelEn ∈ Easy|Medium|Bold.
 - chartPrompt: ENGLISH description of the makeup to paint on a blank pencil face chart (front-facing woman) so the steps are visible — colors, textures, exact placement. Paint ONLY on the face and neck; you may describe swatch stripes or product dots on the skin if that teaches the lesson. Never add hands, tools, products, objects, text, arrows or numbers.
+- Video captions (a short JJ makeup video is made from each lesson): videoTitleKo / videoTitleEn = the lesson title shortened for a title card (Korean ≤ 12 characters, English ≤ 22 characters, Title Case). Each step also gets shortKo / shortEn = one punchy tip line for that step (Korean ≤ 16 characters, English ≤ 32 characters, no period).
 - Korean fields must be pure Korean (no English words mixed into Korean sentences; T존·SPF·MLBB are fine).
 
 Return ONLY a JSON object with exactly these keys (example of a finished lesson below — match its tone, length and shape, but write new content for THIS lesson):
-${JSON.stringify({ ...example, slug: undefined, publishedAt: undefined }, null, 1)}`
+${JSON.stringify({ ...example, slug: undefined, publishedAt: undefined, video: undefined }, null, 1)}`
 
 // '주름에 끼어요'처럼 모양을 말하는 건 허용, '주름 개선'처럼 효과를 주장하는 것만 막는다.
 const BANNED_KO = /(주름\s*(개선|완화|감소|을\s*없|이\s*없어|예방)|미백|치료|재생|진정\s*(시|효과|돼|되)|흉터\s*(제거|완화)|피부\s*개선|모공\s*(축소|을\s*줄|이\s*줄)|탄력\s*(개선|강화)|트러블\s*(완화|개선))/
@@ -117,7 +118,7 @@ function validate(o) {
     if (words.length > 5 || words.some((w) => BANNED_KW_TOKENS.has(w))) errs.push(`${at}.searchKeywords 규칙 위반: ${s.searchKeywords}`)
   }
   const join = (...xs) => xs.flat(3).filter((x) => typeof x === 'string').join('\n')
-  const ko = join(o.introKo, o.tipsKo, o.mistakeKo, o.safetyKo, (o.steps ?? []).map((s) => [s.titleKo, s.bodyKo, s.toolsKo]))
+  const ko = join(o.introKo, o.tipsKo, o.mistakeKo, o.safetyKo, (o.steps ?? []).map((s) => [s.titleKo, s.bodyKo, s.toolsKo, s.shortKo]), o.videoTitleKo)
   const en = join(o.introEn, o.tipsEn, o.mistakeEn, o.safetyEn, (o.steps ?? []).map((s) => [s.titleEn, s.bodyEn]))
   const bk = ko.match(BANNED_KO); if (bk) errs.push(`효능 표현(KO): ${bk[0]}`)
   // 한국어 문장에 영어 단어가 섞이면('uniform하게') 번역투 → 다시 쓰게 한다
@@ -127,8 +128,8 @@ function validate(o) {
   return errs
 }
 
-const KEYS = ['introKo', 'introEn', 'minutes', 'levelKo', 'levelEn', 'steps', 'tipsKo', 'tipsEn', 'mistakeKo', 'mistakeEn', 'chartPrompt', 'safetyKo', 'safetyEn']
-const STEP_KEYS = ['area', 'crop', 'titleKo', 'titleEn', 'bodyKo', 'bodyEn', 'toolsKo', 'toolsEn', 'swatches', 'searchKeywords', 'shopEn']
+const KEYS = ['introKo', 'introEn', 'minutes', 'levelKo', 'levelEn', 'steps', 'tipsKo', 'tipsEn', 'mistakeKo', 'mistakeEn', 'chartPrompt', 'safetyKo', 'safetyEn', 'videoTitleKo', 'videoTitleEn']
+const STEP_KEYS = ['area', 'crop', 'titleKo', 'titleEn', 'bodyKo', 'bodyEn', 'toolsKo', 'toolsEn', 'swatches', 'searchKeywords', 'shopEn', 'shortKo', 'shortEn']
 const pick = (o, keys) => Object.fromEntries(keys.filter((k) => o[k] != null && o[k] !== '').map((k) => [k, o[k]]))
 
 console.log(`[gen-class] ${item.n}편 「${item.titleKo}」 (${item.slug}) 생성`)
@@ -178,6 +179,15 @@ try {
   }
 } catch (e) {
   console.warn(`  · 교정 단계 건너뜀: ${String(e.message).slice(0, 120)}`)
+}
+
+// 영상 자막용 짧은 문구는 발행을 막지 않는다 — 길거나 없으면 지우고, 영상 조립이 단계 제목으로 대신한다.
+const tooLong = (v, n) => typeof v !== 'string' || !v.trim() || v.length > n
+if (tooLong(body.videoTitleKo, 14)) delete body.videoTitleKo
+if (tooLong(body.videoTitleEn, 26)) delete body.videoTitleEn
+for (const st of body.steps) {
+  if (tooLong(st.shortKo, 18)) delete st.shortKo
+  if (tooLong(st.shortEn, 36)) delete st.shortEn
 }
 
 if (DRY) {

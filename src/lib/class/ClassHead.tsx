@@ -1,5 +1,5 @@
 // /class/ · /class/{slug}/ 의 <head> — KO/EN 4개 라우트가 공유.
-import { CLASS_LESSONS, lessonBySlug, chartSrc } from './lessons'
+import { CLASS_LESSONS, lessonBySlug, chartSrc, videoSrc, videoPoster } from './lessons'
 import { CLASS_PARTS } from './curriculum'
 
 const SITE = 'https://kissinskin.net'
@@ -88,6 +88,14 @@ export function ClassLessonHead({ slug, isEn }: { slug: string; isEn: boolean })
           name: isEn ? st.titleEn : st.titleKo, text: isEn ? st.bodyEn : st.bodyKo,
         })),
       }) }} />
+      {l.video && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org', '@type': 'VideoObject',
+          name: isEn ? `${name} — all ${l.steps.length} steps` : `${name} — ${l.steps.length}단계 한눈에`,
+          description: desc, thumbnailUrl: `${SITE}${videoPoster(slug)}`, uploadDate: l.publishedAt,
+          duration: `PT${l.video.seconds}S`, contentUrl: `${SITE}${videoSrc(slug, isEn)}`, inLanguage: isEn ? 'en' : 'ko',
+        }) }} />
+      )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org', '@type': 'BreadcrumbList',
         itemListElement: [

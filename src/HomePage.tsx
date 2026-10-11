@@ -598,6 +598,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   <img src={chartSrc(l.slug)} alt={isEn ? `${l.titleEn} — face chart` : `${l.titleKo} 페이스 차트`} loading="lazy" decoding="async"
                     className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
                   <span className="absolute left-2 top-2 inline-flex h-6 items-center justify-center rounded-full bg-navy px-2 text-[11px] font-extrabold text-white">{isEn ? `Lesson ${l.n}` : `${l.n}편`}</span>
+                  {l.video && <span className="absolute right-2 top-2 inline-flex h-6 items-center gap-0.5 rounded-full bg-white/90 px-2 text-[11px] font-extrabold text-navy"><span className="material-symbols-outlined text-[14px]">play_arrow</span>{isEn ? 'Video' : '영상'}</span>}
                 </span>
                 <span className="block p-3 md:p-4">
                   <span className="block text-sm md:text-base font-extrabold text-navy leading-snug break-keep">{isEn ? l.titleEn : l.titleKo}</span>

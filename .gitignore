@@ -83,3 +83,5 @@ _archive/
 # 자동 점검 보고서(scripts/site-audit.mjs)
 site-audit-report.md
 contrast.txt
+out/
+__pycache__/
