@@ -475,6 +475,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           AI 생성 인물 고지는 히어로 슬라이더 아래와 영상 캡션에 있다. */}
       <CollectionDemo isEn={isEn} />
 
+      {/* ── 주간 레터 구독 ──
+          2026-10-12: 페이지 80% 지점에 있어 홈 방문자의 3~6%만 봤다(Clarity 열 지도 30일, PC 3%·모바일 6%).
+          구독 1,000 이 1단계 목표라 시연 영상 바로 아래(약 40% 이상이 보는 자리)로 올렸다.
+          가입·크레딧이 필요 없는 가장 값싼 전환이라, 결과물을 본 직후 "매주 메일로"를 붙인다. */}
+      <section className="bg-white pb-16 md:pb-24">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <EmailSubscribe source="home" />
+        </div>
+      </section>
+
+
       {/* ── 메이크업 방법 (페이스 차트) — 2026-10-02 ──
           바로 위 9룩 섹션은 "사진(결과)", 여기는 "그림(방법)". 같은 9룩을 아티스트 페이스 차트로
           보여주고 /looks/{id}/ 단계 페이지로 보낸다. 브랜드 비전(미술 × 메이크업)이 홈에서
@@ -571,125 +582,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         </div>
       </section>
 
-      {/* ── 이용 방법 — 무료/유료 두 트랙 (네이비 배경) ──
-          2026-09-13: 기존엔 유료(셀카→분석→9룩) 3단계만 설명해 무료 진단 경로가
-          안내에서 아예 빠져 있었다. 벤치마크(Duolingo/Notion류 free-vs-paid 카드)처럼
-          "각자 독립된 가치가 있는 두 경로"를 나란히 두 카드로 분류 — 순서는 무료 우선. */}
-      <section id="how" className="py-16 md:py-24 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            titleId="how-title"
-            tone="dark"
-            eyebrow={t('home.how.badge')}
-            title={t('home.how.title')}
-          />
-
-          {/* 회원가입 혜택 배너 — 무료 4종 완성 시 모델 생성 1회 + 첫 AI 메이크업 1회,
-              총 2번의 무료 생성 기회가 있다는 걸 두 카드 위에서 한 번에 정리해서 보여준다. */}
-          <div className="max-w-4xl mx-auto mb-6 md:mb-8 flex items-start gap-3 rounded-xl border border-primary/25 bg-primary/[0.08] px-5 py-4">
-            <span className="material-symbols-outlined text-primary shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-              redeem
-            </span>
-            <div>
-              <p className="text-sm md:text-base font-bold text-white">{t('home.how.giftTitle')}</p>
-              <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-0.5">{t('home.how.giftDesc')}</p>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto items-stretch">
-            {/* 무료 트랙 */}
-            <div className="flex flex-col rounded-2xl border border-white/15 bg-white/[0.04] p-6 md:p-8">
-              <span className="inline-flex w-fit items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary mb-4">
-                {t('home.how.freeBadge')}
-              </span>
-              <h3 className="font-serif text-xl md:text-2xl font-semibold text-white mb-6 leading-snug">
-                {t('home.how.freeTitle')}
-              </h3>
-              <div className="flex-1 space-y-4">
-                {[
-                  { num: '01', title: t('home.how.freeStep1'), desc: t('home.how.freeStep1Desc') },
-                  { num: '02', title: t('home.how.freeStep2'), desc: t('home.how.freeStep2Desc') },
-                  { num: '03', title: t('home.how.freeStep3'), desc: t('home.how.freeStep3Desc') },
-                ].map((step) => (
-                  <div key={step.num} className="flex gap-3 border-t border-white/10 pt-4 first:border-t-0 first:pt-0">
-                    <span className="font-serif text-lg leading-none text-primary shrink-0">{step.num}</span>
-                    <div className="min-w-0">
-                      <h4 className="text-sm md:text-base font-bold text-white">{step.title}</h4>
-                      <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1">{step.desc}</p>
-                      {/* 01번 단계엔 실제 4개 도구로 바로 연결되는 칩을 붙인다 —
-                          "아무거나 먼저"가 추상적 문장에 그치지 않고 바로 실행 가능하게. */}
-                      {step.num === '01' && (
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          {[
-                            { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', label: t('home.toolsShowcase.t1Title') },
-                            { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', label: t('home.toolsShowcase.t2Title') },
-                            { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', label: t('home.toolsShowcase.t3Title') },
-                            { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', label: t('home.toolsShowcase.t4Title') },
-                          ].map((tool) => (
-                            <a
-                              key={tool.label}
-                              href={tool.href}
-                              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/15 transition-colors"
-                            >
-                              <span className="material-symbols-outlined text-[15px]" style={{ color: tool.accent }}>{tool.icon}</span>
-                              {tool.label}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a
-                href={toolHref('/tools/beauty-dna/')}
-                className="mt-6 inline-flex items-center justify-center gap-2 bg-white text-navy px-6 py-3 font-bold text-sm hover:bg-slate-100 transition-colors"
-              >
-                {t('home.how.freeCta')}
-                <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </a>
-            </div>
-
-            {/* 유료 트랙 */}
-            <div className="flex flex-col rounded-2xl border border-primary/30 bg-primary/[0.07] p-6 md:p-8">
-              <span className="inline-flex w-fit items-center rounded-full bg-primary-dark px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white mb-4">
-                {t('home.how.payBadge')}
-              </span>
-              <h3 className="font-serif text-xl md:text-2xl font-semibold text-white mb-6 leading-snug">
-                {t('home.how.payTitle')}
-              </h3>
-              <div className="flex-1 space-y-4">
-                {[
-                  { num: '01', title: t('home.how.payStep1'), desc: t('home.how.payStep1Desc') },
-                  { num: '02', title: t('home.how.payStep2'), desc: t('home.how.payStep2Desc') },
-                  { num: '03', title: t('home.how.payStep3'), desc: t('home.how.payStep3Desc') },
-                ].map((step) => (
-                  <div key={step.num} className="flex gap-3 border-t border-white/10 pt-4 first:border-t-0 first:pt-0">
-                    <span className="font-serif text-lg leading-none text-primary shrink-0">{step.num}</span>
-                    <div>
-                      <h4 className="text-sm md:text-base font-bold text-white">{step.title}</h4>
-                      <p className="text-slate-300 text-[13px] md:text-sm leading-relaxed mt-1">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a
-                href="/analysis/"
-                className="mt-6 inline-flex items-center justify-center gap-2 bg-primary-dark text-white px-6 py-3 font-bold text-sm hover:brightness-90 transition-[filter]"
-              >
-                {t('home.how.payCta')}
-                <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── "나만의 메이크업 찾았다" 섹션 (구 "나만을 위한 뷰티 솔루션") ──
           2026-09-10: 섹션 제목이 "나만의 메이크업 찾았다"인데 히어로 카드가 AI 메이크업
           시뮬레이터(/analysis/)였다 → 히어로를 beauty-dna 로 교체하고, AI 메이크업은
           4종 카드 아래 슬림 카드로 강등(상단 히어로·상단바·9룩 그리드에 진입점 존치). */}
-      <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 bg-white" aria-labelledby="tools-title">
+      <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 bg-white border-t border-slate-200/70" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             titleId="tools-title"
@@ -697,6 +594,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             title={t('home.toolsShowcase.title1')}
             subtitle={t('home.toolsShowcase.subtitle')}
           />
+
+          {/* 회원가입 혜택 — 2026-10-12 '이용 방법' 섹션(히어로·시연 영상·이 섹션과 겹쳐서 제거)에서
+              다른 곳에 없는 내용만 옮겨 왔다. 무료 진단 4종 완성 → 내 모델 1회 + AI 메이크업 첫 1회. */}
+          <div className="max-w-4xl mx-auto mb-10 md:mb-12 flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/[0.05] px-5 py-4">
+            <span className="material-symbols-outlined text-primary-dark shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>redeem</span>
+            <div>
+              <p className="text-sm md:text-base font-bold text-navy">{t('home.how.giftTitle')}</p>
+              <p className="text-slate-600 text-[13px] md:text-sm leading-relaxed mt-0.5">{t('home.how.giftDesc')}</p>
+            </div>
+          </div>
 
           {/* Featured: 나만의 메이크업 찾았다 (네이비 강조 카드) — 섹션의 주인공 */}
           <div className="mb-12 md:mb-16">
@@ -758,7 +665,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
           {/* 무료 진단 4종 서브헤더 — 시그니처 카드 뒤 퀴즈 카드가 설명 없이 튀어나온다는
               지적(2026-09-10). 같은 섹션 안 하위 블록이라 h3. */}
-          <div className="max-w-4xl mx-auto border-t border-slate-200 pt-10 md:pt-12">
+          <div className="border-t border-slate-200 pt-10 md:pt-12">
             <SectionHeader
               level={3}
               eyebrow={t('home.toolsShowcase.quizzesBadge')}
@@ -771,7 +678,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* 4 Tool Cards — 공통 ToolCard 재사용, 각 "무료" 뱃지 */}
           {/* ⚠ 카드 라벨은 t() 라 영어로 나오는데 href 가 한국어로 고정돼 있었다 → 영어권 방문자가
               영어 카드를 누르면 한국어 페이지로 떨어졌다(2026-07-14 수정). 도구 링크는 반드시 toolHref(). */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
+          {/* 2026-10-12: PC 한 줄 4칸(2×2 보다 ~600px 짧다). 모바일은 한 줄에 하나 그대로. */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {[
               { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: TOOL_CARD_IMAGES.mbti,
                 title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), meta: t('home.toolsShowcase.t1Tag') },
@@ -798,7 +706,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </div>
 
           {/* 셀카로 바로 하고 싶으면 — AI 메이크업(구 시그니처 히어로, 2026-09-10 강등) */}
-          <div className="max-w-4xl mx-auto mt-4">
+          <div className="mt-4">
             <a
               href="/analysis/"
               className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 md:p-5 hover:border-navy transition-colors"
@@ -837,17 +745,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
 
       {/* ── 최신 콘텐츠 (메이크업 제품 + 뉴스) — 주 1회 자동 발행 피드 노출 ── */}
       <HomeContentSections />
-
-      {/* ── 주간 레터 구독 ── */}
-      {/* 홈에서 가장 값싼 전환이다. 바로 아래 큰 CTA 는 "AI 메이크업 시작"(가입·크레딧이
-          필요한 높은 문턱)이라, 아직 거기까지 갈 마음이 없는 사람이 남기고 갈 수 있는
-          자리가 하나도 없었다. 위 피드(신제품·뉴스)를 방금 본 직후라 "그걸 메일로"가
-          가장 자연스럽게 이어진다. 흰 바탕 위 크림 카드로 두어 아래 네이비 CTA 와 겹치지 않게. */}
-      <section className="bg-white py-14 md:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <EmailSubscribe source="home" />
-        </div>
-      </section>
 
       {/* ── 하단 CTA (핑크) ── */}
       {/* 2026-07-22 개편: 핑크 3색 그라디언트 + blur blob + 떠 있는 알약 버튼을 전부 뺐다.
@@ -1150,7 +1047,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
                 <li><a href="/analysis/" className="hover:text-primary transition-colors cursor-pointer">{t('tools.nav.aiMakeup')}</a></li>
                 <li><a href="#how-to" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
-                <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
+                <li><a href="#demo" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
                 <li><a href={toolHref('/tools/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Free Tools' : '무료 도구 모음'}</a></li>
                 <li><a href={toolHref('/tools/makeup-mbti/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup MBTI' : '메이크업 MBTI'}</a></li>
                 <li><a href={toolHref('/tools/personal-color/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
