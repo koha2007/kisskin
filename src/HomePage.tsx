@@ -3,6 +3,7 @@ import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
 import SectionHeader from './components/home/SectionHeader'
+import CollectionDemo from './components/home/CollectionDemo'
 import DnaProgress from './components/beauty-dna/DnaProgress'
 import HomeContentSections from './components/HomeContentSections'
 import { EmailSubscribe } from './components/EmailSubscribe'
@@ -349,7 +350,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 {t('home.hero.quizCta')}
               </a>
               <a
-                href="#styles"
+                href="#demo"
                 className="inline-flex items-center justify-center gap-1.5 px-6 py-4 text-base font-bold text-navy border border-navy/25 hover:border-navy transition-colors"
               >
                 {t('home.hero.viewStyles')}
@@ -469,84 +470,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         </div>
       </section>
 
-      {/* ── 스타일 슬라이더 (트렌디한 K-뷰티 스타일) ── */}
-      <section id="styles" className="py-16 md:py-24 bg-cream scroll-mt-16" aria-labelledby="styles-title">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            titleId="styles-title"
-            eyebrow={t('home.styles.badge')}
-            title={t('home.slider.title')}
-            subtitle={t('home.slider.subtitle')}
-            className="!mb-6 md:!mb-8"
-          />
-          {/* '선택하면 바로 생성' 힌트 — 운영자 유지 요청 */}
-          <p className="text-center mb-8 md:mb-12">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/5 border border-primary/15 px-4 py-1.5 text-primary-dark text-xs md:text-sm font-semibold">
-              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>touch_app</span>
-              {t('home.slider.selectHint')}
-            </span>
-          </p>
-          {/* 9룩 카드 — 각 룩의 실제 결과 이미지. 카드를 누르면 그 룩으로 바로 생성.
-              (2026-07-12: 가로 무한 마퀴 → 3×3 그리드.) */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {MAKEUP_STYLES.map((s) => (
-              <a
-                key={s.id}
-                href={`/analysis/?style=${s.id}`}
-                aria-label={isEn ? `Try AI makeup — ${s.subEn}` : `AI 메이크업 — ${s.nameKo}`}
-                className="group relative rounded-2xl overflow-hidden aspect-[4/5] shadow-lg shadow-navy/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-              >
-                <img
-                  src={LOOK_IMAGES[s.id].after}
-                  alt={isEn ? `${s.subEn} makeup look — AI-generated model` : `${s.nameKo} 메이크업 룩 — AI 생성 모델`}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 to-transparent" />
-                <span className="absolute right-2.5 top-2.5 rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  TRY →
-                </span>
-                <span className="absolute inset-x-3.5 bottom-3 text-left text-white">
-                  <span className="block text-[15px] font-extrabold leading-tight">{isEn ? s.subEn : s.nameKo}</span>
-                  <span className="block text-[10px] font-bold tracking-wider text-white/75 mt-0.5">{s.subEn}</span>
-                </span>
-              </a>
-            ))}
-          </div>
-          {/* AI 생성 고지 (2026-09-22) — EU AI Act Article 50 의 투명성 의무가 2026-08-02 부터
-              시행됐다. 사람처럼 보이는 AI 생성 이미지는 **눈에 보이는** 고지가 필요하고, EU 내
-              법인 유무와 무관하게 적용된다. 이 9룩 카드와 위 히어로 슬라이더가 사이트에서 AI
-              생성 인물이 가장 크게 걸리는 자리다(뉴스/가이드 컷은 ArticleShell 이 이미 고지 중).
-              ⚠ 조건부 렌더 금지 — 크롤러에 콘텐츠 없음으로 잡힌다. 항상 그린다. */}
-          {/* 9룩 전부 받기 — 위 9장을 내 얼굴로 한 번에(모아보기 1장 + 낱장 9장) */}
-          <a
-            href="/analysis/?collection=new"
-            className="mt-6 md:mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 bg-navy p-5 md:p-6 text-white hover:bg-navy-mid transition-colors"
-          >
-            <span className="grid grid-cols-3 gap-[3px] w-24 shrink-0 overflow-hidden rounded-md">
-              {MAKEUP_STYLES.map((s) => (
-                <img key={s.id} src={LOOK_IMAGES[s.id].after} alt="" loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
-              ))}
-            </span>
-            <span className="flex-1 text-center sm:text-left">
-              <span className="block text-lg md:text-xl font-extrabold">{isEn ? 'Get all 9 looks on your face' : '9룩 전부 내 얼굴로 받기'}</span>
-              <span className="mt-1 block text-sm text-white/75 break-keep">
-                {isEn
-                  ? 'One selfie → 9 looks + 1 grid image to post · $4.99'
-                  : '셀카 한 장 → 9룩 + 올리기 좋은 모아보기 1장 · $4.99'}
-              </span>
-            </span>
-            <span className="inline-flex items-center gap-1 bg-primary-dark px-5 py-3 text-sm font-extrabold">
-              {isEn ? 'Start' : '시작하기'}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </span>
-          </a>
-          <p className="mt-6 text-center text-[11px] leading-relaxed text-slate-400">
-            {t('home.slider.aiDisclosure')}
-          </p>
-        </div>
-      </section>
+      {/* 2026-10-12 운영자: 큰 9룩 사진 섹션(#styles) 제거 — 같은 9장이 히어로 썸네일에 이미 있어 겹쳤다.
+          그 자리에 "이렇게 받아요" 시연 영상(사용법 + 결과물), 그 아래 페이스 차트(방법).
+          AI 생성 인물 고지는 히어로 슬라이더 아래와 영상 캡션에 있다. */}
+      <CollectionDemo isEn={isEn} />
 
       {/* ── 메이크업 방법 (페이스 차트) — 2026-10-02 ──
           바로 위 9룩 섹션은 "사진(결과)", 여기는 "그림(방법)". 같은 9룩을 아티스트 페이스 차트로
@@ -1232,7 +1159,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.service')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
                 <li><a href="/analysis/" className="hover:text-primary transition-colors cursor-pointer">{t('tools.nav.aiMakeup')}</a></li>
-                <li><a href="#styles" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
+                <li><a href="#how-to" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#how" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
                 <li><a href={toolHref('/tools/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Free Tools' : '무료 도구 모음'}</a></li>
                 <li><a href={toolHref('/tools/makeup-mbti/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup MBTI' : '메이크업 MBTI'}</a></li>
