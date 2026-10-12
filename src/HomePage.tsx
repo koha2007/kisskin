@@ -446,15 +446,25 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               })}
             </div>
 
-            <a
-              href={baLook ? `/analysis/?style=${baLook}` : '/analysis/'}
-              className="mt-3 md:mt-4 flex md:inline-flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors"
-            >
-              {baLook
-                ? (isEn ? 'Try this look on my photo' : '이 룩으로 내 사진 만들기')
-                : (isEn ? 'Try it on my photo' : '내 사진으로 만들어보기')}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
+            {/* 2026-10-12: 두 갈래 — 한 룩(첫 1회 무료) / 9룩 전부 + 모아보기($4.99, MakeupCollection).
+                9룩이 TikTok·CF 로 알리는 그 상품이라 주 버튼으로, 한 룩은 무료 체험 입구로 옆에. */}
+            <div className="mt-3 md:mt-4 flex flex-col md:flex-row gap-2">
+              <a
+                href="/analysis/?collection=new"
+                className="flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors"
+              >
+                {isEn ? 'All 9 looks on my photo · $4.99' : '9룩 전부 내 사진으로 · $4.99'}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+              <a
+                href={baLook ? `/analysis/?style=${baLook}` : '/analysis/'}
+                className="flex items-center justify-center gap-1.5 border border-navy px-6 py-3.5 text-sm font-bold text-navy hover:bg-navy/5 transition-colors"
+              >
+                {baLook
+                  ? (isEn ? 'Just this look — 1st free' : '이 룩 하나만 · 첫 1회 무료')
+                  : (isEn ? 'One look — 1st free' : '한 룩만 · 첫 1회 무료')}
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -509,6 +519,29 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               법인 유무와 무관하게 적용된다. 이 9룩 카드와 위 히어로 슬라이더가 사이트에서 AI
               생성 인물이 가장 크게 걸리는 자리다(뉴스/가이드 컷은 ArticleShell 이 이미 고지 중).
               ⚠ 조건부 렌더 금지 — 크롤러에 콘텐츠 없음으로 잡힌다. 항상 그린다. */}
+          {/* 9룩 전부 받기 — 위 9장을 내 얼굴로 한 번에(모아보기 1장 + 낱장 9장) */}
+          <a
+            href="/analysis/?collection=new"
+            className="mt-6 md:mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 bg-navy p-5 md:p-6 text-white hover:bg-navy-mid transition-colors"
+          >
+            <span className="grid grid-cols-3 gap-[3px] w-24 shrink-0 overflow-hidden rounded-md">
+              {MAKEUP_STYLES.map((s) => (
+                <img key={s.id} src={LOOK_IMAGES[s.id].after} alt="" loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
+              ))}
+            </span>
+            <span className="flex-1 text-center sm:text-left">
+              <span className="block text-lg md:text-xl font-extrabold">{isEn ? 'Get all 9 looks on your face' : '9룩 전부 내 얼굴로 받기'}</span>
+              <span className="mt-1 block text-sm text-white/75 break-keep">
+                {isEn
+                  ? 'One selfie → 9 looks + 1 grid image to post · $4.99'
+                  : '셀카 한 장 → 9룩 + 올리기 좋은 모아보기 1장 · $4.99'}
+              </span>
+            </span>
+            <span className="inline-flex items-center gap-1 bg-primary-dark px-5 py-3 text-sm font-extrabold">
+              {isEn ? 'Start' : '시작하기'}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </span>
+          </a>
           <p className="mt-6 text-center text-[11px] leading-relaxed text-slate-400">
             {t('home.slider.aiDisclosure')}
           </p>
