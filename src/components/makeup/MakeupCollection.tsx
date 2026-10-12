@@ -18,6 +18,7 @@ import { MAKEUP_STYLES, promptWholeFace, type MakeupStyleId } from '../../lib/ma
 import { lookImage } from '../../lib/makeup/lookImages'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { buildCollectionGrid } from '../../lib/makeup/collectionGrid'
+import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { loadCollection, saveCollection, type CollectionState } from '../../lib/makeup/collectionStore'
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
 import { isNativeApp, nativeSaveImage } from '../../lib/nativePicker'
@@ -103,6 +104,8 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
   const [busy, setBusy] = useState(false)
   const [grid, setGrid] = useState<string | null>(null)
   const [files, setFiles] = useState<File[] | null>(null)
+  // 저장·메일용 낱장 = 사진 아래 룩 이름 + 로고(결과 화면 단일 저장과 같은 1080×1920 디자인)
+  const [singles, setSingles] = useState<string[] | null>(null)
   const [viewer, setViewer] = useState(false)
   const [mail, setMail] = useState<'idle' | 'sending' | 'sent' | 'error' | 'limit'>('idle')
   const [mailTo, setMailTo] = useState('')
@@ -260,9 +263,16 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
       const gridUrl = canvas.toDataURL('image/jpeg', 0.92)
       if (cancelled) return
       setGrid(gridUrl)
+      const branded: string[] = []
+      for (const l of looks) {
+        const c = await buildMakeupComposite({ afterSrc: l.image, styleName: isEn ? l.style.subEn : l.style.nameKo, styleDesc: '' })
+        branded.push(c.toDataURL('image/jpeg', 0.92))
+      }
+      if (cancelled) return
+      setSingles(branded)
       setFiles([
         dataUrlToFile(gridUrl, 'kissinskin-my-9-looks.jpg'),
-        ...looks.map((l, i) => dataUrlToFile(l.image, `kissinskin-${i + 1}-${l.style.id}.jpg`)),
+        ...looks.map((l, i) => dataUrlToFile(branded[i], `kissinskin-${i + 1}-${l.style.id}.jpg`)),
       ])
     })().catch(() => setMsg(isEn ? 'Could not build the grid image.' : '모아보기 이미지를 만들지 못했어요.'))
     return () => { cancelled = true }
@@ -281,7 +291,7 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
     if (!files || !grid || !state) return
     const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean }
     if (isNativeApp()) {
-      const urls = [grid, ...MAKEUP_STYLES.map((s) => state.items[s.id]!.image!)]
+      const urls = [grid, ...(singles ?? [])]
       for (const u of urls) await nativeSaveImage(u)
       gtagEvent('collection_save', { method: 'native' })
       return
@@ -313,14 +323,14 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
   }
 
   async function sendMail() {
-    if (!state || !grid) return
+    if (!grid || !singles) return
     setMail('sending')
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) { setPhase('login'); return }
       const images = [
         { name: 'kissinskin-my-9-looks.jpg', dataUrl: grid },
-        ...MAKEUP_STYLES.map((s, i) => ({ name: `kissinskin-${i + 1}-${s.id}.jpg`, dataUrl: state.items[s.id]!.image! })),
+        ...MAKEUP_STYLES.map((s, i) => ({ name: `kissinskin-${i + 1}-${s.id}.jpg`, dataUrl: singles[i] })),
       ]
       const res = await fetch('/api/collection-mail', {
         method: 'POST',
@@ -394,7 +404,7 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
           <button onClick={saveAll} disabled={!files} className={`${btnPrimary} mt-5`} style={btnPrimaryStyle}>
             {isEn ? 'Save all 10 images' : '10장 모두 저장'}
           </button>
-          <button onClick={sendMail} disabled={!grid || mail === 'sending' || mail === 'sent'} className={`${btnGhost} mt-2.5 w-full disabled:opacity-60`} style={btnGhostStyle}>
+          <button onClick={sendMail} disabled={!singles || mail === 'sending' || mail === 'sent'} className={`${btnGhost} mt-2.5 w-full disabled:opacity-60`} style={btnGhostStyle}>
             <span className="material-symbols-outlined text-base">mail</span>
             {mail === 'sending' ? (isEn ? 'Sending…' : '보내는 중…')
               : mail === 'sent' ? (isEn ? `Sent to ${mailTo}` : `${mailTo} 로 보냈어요`)
@@ -443,7 +453,7 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
               {isEn ? 'Or open this page in Safari/Chrome, or use "Email all 10 to me".' : '안 되면 사파리·크롬으로 열거나 "내 메일로 10장 받기"를 쓰세요.'}
             </p>
             <div className="mx-auto flex max-w-sm flex-col gap-4">
-              {[grid!, ...MAKEUP_STYLES.map((s) => state!.items[s.id]!.image!)].map((src, i) => (
+              {[grid!, ...(singles ?? [])].map((src, i) => (
                 <img key={i} src={src} alt={i === 0 ? (isEn ? 'Grid image' : '모아보기') : `${i}`} className="w-full rounded-lg" />
               ))}
             </div>
