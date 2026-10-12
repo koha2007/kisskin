@@ -71,6 +71,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       }
 
       const pack = CREDIT_PACKS[body.pack]
+      if (!pack.id) return errJson('pack_unavailable', 503, { message: '아직 준비 중인 상품이에요.' })
       checkoutBody.products = [pack.id]
       checkoutBody.metadata = {
         user_id: userId,
@@ -101,7 +102,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       // verifies the payment, resumes the analysis, and fires the GA4 purchase.
       // (The bare homepage has no such handler, so returning to `/` silently drops
       // the conversion.) Trailing slash matches the prerendered canonical route.
-      checkoutBody.success_url = `${origin}/analysis/?checkout_id={CHECKOUT_ID}`
+      // 컬렉션은 복귀하자마자 저장해 둔 셀카로 9룩 생성을 이어가야 해서 collection=1 을 붙인다.
+      const extra = body.pack === 'collection' ? 'collection=1&' : ''
+      checkoutBody.success_url = `${origin}/analysis/?${extra}checkout_id={CHECKOUT_ID}`
     } else {
       checkoutBody.embed_origin = origin
     }

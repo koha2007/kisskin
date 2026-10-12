@@ -10,7 +10,8 @@ import { useState, useEffect, useRef } from 'react'
 import ResultGrid from '../result-grid/ResultGrid'
 import { ProductGridCard } from '../result-grid/ProductGridCard'
 import BeforeAfterSlider from './BeforeAfterSlider'
-import { styleById, type MakeupStyleId } from '../../lib/makeup/styles'
+import { styleById, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
+import { lookImage } from '../../lib/makeup/lookImages'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { saveSharedResult } from '../../lib/shareResult'
 import { recordLook } from '../../lib/makeup/looks'
@@ -103,10 +104,12 @@ interface Props {
   usage?: MakeupUsage
   onRetake: () => void
   onBack: () => void
+  /** 9룩 컬렉션으로 — 결과에 감탄한 바로 이 순간에 "나머지도 내 얼굴로"를 권한다 */
+  onCollection?: () => void
   isEn?: boolean
 }
 
-export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRetake, onBack, isEn = false }: Props) {
+export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRetake, onBack, onCollection, isEn = false }: Props) {
   const style = styleById(styleId)
   // 실제 메이크업 결과가 아직 없으면(P1-3 미연결) 안전한 "생성 준비 중" 상태만 노출.
   const pending = !afterSrc
@@ -489,6 +492,28 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
               {isEn ? 'Top up' : '충전'}
             </a>
           </div>
+        )}
+
+        {/* 9룩 컬렉션 — 2026-10-12. 결과를 본 직후가 "다른 룩은?"이 가장 궁금한 순간(RevenueCat:
+            가치를 본 순간의 결제 제안). 컬렉션은 같은 셀카로 9장을 새로 만든다 — 이 결과는 섞지 않는다. */}
+        {!pending && onCollection && (
+          <button
+            type="button"
+            onClick={() => { gtagEvent('collection_entry', { from: 'result', style: styleId }); onCollection() }}
+            className="mt-4 w-full flex items-center gap-3 p-3 text-left hover:brightness-125 transition"
+            style={{ ...surfaceStyle, borderColor: PRIMARY }}
+          >
+            <span className="grid grid-cols-3 gap-[2px] h-16 w-14 shrink-0 overflow-hidden rounded-md">
+              {MAKEUP_STYLES.map((s) => (
+                <img key={s.id} src={lookImage(s.id)?.after} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              ))}
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block text-[14px] font-extrabold">{isEn ? 'See all 9 looks on your face' : '내 얼굴로 9룩 전부 보기'}</span>
+              <span className="block text-[12px] text-white/70">{isEn ? '9 looks + 1 grid image to post · $4.99' : '9룩 + 올리기 좋은 모아보기 1장 · $4.99'}</span>
+            </span>
+            <span className="material-symbols-outlined text-white/80">arrow_forward</span>
+          </button>
         )}
 
         {/* 공유 링크바 — 생성되면 상시 노출(데스크톱에서도 링크 복사 확실히 보이게) */}

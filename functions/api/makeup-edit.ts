@@ -77,6 +77,8 @@ interface Body {
   // ── 선택 오버라이드(미지정 시 기존 기본값 유지 → 프로덕션 동작 불변) ──
   inputFidelity?: string // 'high'(기본) | 'low'. low = 마스크영역 더 자유롭게 재생성(메이크업 강하게)
   quality?: string       // 'medium'(기본) | 'low' | 'high'
+  /** 9룩 컬렉션 생성 — 무료 1회를 건드리지 않고 항상 크레딧 차감(_packs.ts collection 참고) */
+  collection?: boolean
 }
 
 export async function onRequestPost({ request, env }: { request: Request; env: Env }) {
@@ -112,7 +114,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   const used = parseInt((await env.MAKEUP_USAGE.get(key)) || '0', 10) || 0
 
   // ── 결제 경로 판정: 무료 남으면 free, 소진되면 credit(차감) ──
-  const tier: 'free' | 'credit' = used >= FREE_LIMIT ? 'credit' : 'free'
+  const tier: 'free' | 'credit' = used >= FREE_LIMIT || body.collection ? 'credit' : 'free'
   let creditBalance = 0
 
   if (tier === 'credit') {

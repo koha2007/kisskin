@@ -10,16 +10,9 @@
 //   결제가 끝나면 서버 웹훅이 충전하므로, 앱으로 돌아왔을 때 잔액만 다시
 //   읽어주면 된다(visibilitychange).
 import { useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
-import { isNativeApp, nativeOpenExternal } from '../../lib/nativePicker'
+import { startPackCheckout } from '../../lib/makeup/packCheckout'
 import { PRIMARY, screenBg, surfaceStyle } from './theme'
-import { rememberPendingPack } from '../../lib/purchaseTracking'
-
-function gtagEvent(name: string, params?: Record<string, unknown>) {
-  const w = window as unknown as { gtag?: (...a: unknown[]) => void }
-  if (typeof w.gtag === 'function') w.gtag('event', name, params)
-}
 
 type PackId = 'starter' | 'plus'
 interface Pack { id: PackId; credits: number; price: string; value: number; popular?: boolean }
@@ -57,43 +50,10 @@ export default function MakeupTopUp({ isEn, onBack }: { isEn: boolean; onBack: (
 
   async function buy(pack: Pack) {
     setErr(null); setBusy(pack.id)
-    try {
-      const { data: { session } } = await supabase.auth.getSession()
-      const token = session?.access_token
-      if (!token) { window.location.href = '/auth'; return }
-
-      gtagEvent('begin_checkout', { checkout_type: 'credit', pack: pack.id, value: pack.value, currency: 'USD' })
-
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ pack: pack.id, redirect: true, email: session?.user?.email }),
-      })
-      if (res.status === 401) { window.location.href = '/auth'; return }
-      const d = (await res.json().catch(() => ({}))) as { url?: string; error?: string }
-      if (!res.ok || !d.url) {
-        setErr(isEn ? 'Could not start checkout. Please try again.' : '결제를 시작하지 못했어요. 다시 시도해 주세요.')
-        setBusy(null); return
-      }
-
-      // 복귀(/analysis/?checkout_id=) 때 GA4 purchase 에 팩 정보를 싣기 위해 적어 둔다.
-      rememberPendingPack({ id: pack.id, credits: pack.credits, value: pack.value })
-
-      // 앱이면 시스템 브라우저로. 브릿지가 없는 옛 APK 는 false 가 오므로
-      // 그때는 기존대로 웹뷰 안에서 진행한다(결제가 아예 막히는 것보다 낫다).
-      if (isNativeApp()) {
-        gtagEvent('checkout_redirect', { checkout_type: 'credit', pack: pack.id, checkout_method: 'external_browser' })
-        const opened = await nativeOpenExternal(d.url)
-        if (opened) {
-          setAwaitingExternal(true)
-          setBusy(null)
-          return
-        }
-      }
-
-      window.location.href = d.url // Polar 호스티드 체크아웃으로 이동
-    } catch {
-      setErr(isEn ? 'Something went wrong. Please try again.' : '문제가 생겼어요. 다시 시도해 주세요.')
+    const outcome = await startPackCheckout(pack)
+    if (outcome === 'external') { setAwaitingExternal(true); setBusy(null) }
+    else if (outcome === 'error') {
+      setErr(isEn ? 'Could not start checkout. Please try again.' : '결제를 시작하지 못했어요. 다시 시도해 주세요.')
       setBusy(null)
     }
   }

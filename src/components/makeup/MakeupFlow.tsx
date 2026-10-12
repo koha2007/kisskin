@@ -14,6 +14,7 @@ import MakeupSelfieUpload from './MakeupSelfieUpload'
 import MakeupStyleSelect from './MakeupStyleSelect'
 import MakeupResult, { type MakeupUsage } from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
+import MakeupCollection from './MakeupCollection'
 import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
@@ -47,7 +48,7 @@ function loginHref(style?: MakeupStyleId): string {
 // 에러 후 행동: 같은 작업 재생성 / 처음부터 / 로그인 필요 / 크레딧 충전
 type ErrAction = 'regenerate' | 'restart' | 'login' | 'topup'
 
-type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup'
+type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup' | 'collection'
 interface Selfie { photo: string }
 
 export default function MakeupFlow() {
@@ -68,6 +69,9 @@ export default function MakeupFlow() {
   const [usage, setUsage] = useState<MakeupUsage | null>(null)  // 이번 생성의 과금 결과(무료/크레딧)
   // 미로그인 여부를 업로드 화면에서 미리 알려준다(사진 올린 뒤 게이트에 걸리는 헛수고 방지).
   const [loggedOut, setLoggedOut] = useState(false)
+  // 9룩 컬렉션(2026-10-12): 업로드 뒤 컬렉션으로 갈지 / 결제 복귀로 이어 만들지
+  const [collectionMode, setCollectionMode] = useState(false)
+  const [collectionResume, setCollectionResume] = useState(false)
   const runIdRef = useRef(0)
   const jobIdRef = useRef('')   // 현재 생성 작업의 차감 멱등 키(재시도 시 유지)
 
@@ -188,6 +192,11 @@ export default function MakeupFlow() {
     if (typeof window === 'undefined') return
     const params = new URLSearchParams(window.location.search)
     if (params.get('topup') === '1') setStep('topup')
+    // 9룩 컬렉션: collection=1 = 결제 복귀(기기에 저장한 셀카로 이어 만들기),
+    // collection=new = 셀카부터 올리고 컬렉션으로(룩 페이지·SNS 링크용 입구).
+    const col = params.get('collection')
+    if (col === '1') { setCollectionResume(true); setStep('collection'); return }
+    if (col === 'new') setCollectionMode(true)
     // 홈 캐러셀 카드 선택 → ?style=<id> 로 룩 프리셀렉트(유효한 id 만 반영).
     const s = params.get('style')
     const hasStyle = !!s && MAKEUP_STYLES.some((st) => st.id === s)
@@ -205,11 +214,11 @@ export default function MakeupFlow() {
       keepPendingSelfie(pending)
       setSelfie({ photo: pending })
       jobIdRef.current = ''
-      setStep(hasStyle ? 'processing' : 'style')
+      setStep(col === 'new' ? 'collection' : hasStyle ? 'processing' : 'style')
     }
   }, [])
 
-  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); clearPendingSelfie(); setStep('upload') }
+  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); setCollectionMode(false); clearPendingSelfie(); setStep('upload') }
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
 
@@ -227,7 +236,7 @@ export default function MakeupFlow() {
           // 로그인/충전으로 페이지를 떠나도 사진이 살아있도록 세션에 보관해 둔다
           // (실패해도 진행에는 지장 없음 — 그 경우만 왕복 시 재업로드).
           void savePendingSelfieFromSrc(data.photo)
-          setStep(preselected ? 'processing' : 'style')
+          setStep(collectionMode ? 'collection' : preselected ? 'processing' : 'style')
         }}
       />
     )
@@ -241,6 +250,7 @@ export default function MakeupFlow() {
         loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => setStep('upload')}
         onConfirm={(id) => { jobIdRef.current = ''; setStyleId(id); setStep('processing') }}
+        onCollection={() => { setCollectionMode(true); setStep('collection') }}
       />
     )
   }
@@ -302,6 +312,25 @@ export default function MakeupFlow() {
     return <MakeupTopUp isEn={isEn} onBack={() => setStep(errMsg ? 'error' : 'upload')} />
   }
 
+  if (step === 'collection') {
+    return (
+      <MakeupCollection
+        isEn={isEn}
+        photo={collectionResume ? undefined : selfie?.photo}
+        resume={collectionResume}
+        loginHref={loginHref()}
+        onBack={() => {
+          setCollectionMode(false); setCollectionResume(false)
+          setStep(afterSrc ? 'result' : selfie ? 'style' : 'upload')
+        }}
+        onRetake={() => {
+          runIdRef.current++; jobIdRef.current = ''; setSelfie(null); clearPendingSelfie()
+          setCollectionResume(false); setCollectionMode(true); setStep('upload')
+        }}
+      />
+    )
+  }
+
   // result
   return (
     <MakeupResult
@@ -312,6 +341,7 @@ export default function MakeupFlow() {
       usage={usage ?? undefined}
       onBack={() => setStep('style')}
       onRetake={reset}
+      onCollection={() => { setCollectionMode(true); setStep('collection') }}
     />
   )
 }

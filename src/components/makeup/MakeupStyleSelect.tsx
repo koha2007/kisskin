@@ -33,9 +33,11 @@ interface Props {
   initialStyle?: MakeupStyleId
   /** 미로그인이면 로그인 링크(?next= 포함). 생성 직전 화면이라 여기서도 못박아 준다. */
   loginHref?: string
+  /** 9룩 전부 한 번에(컬렉션) — 고르기 어려운 사람에게 "다 해보기"를 같이 보여준다 */
+  onCollection?: () => void
 }
 
-export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle, loginHref }: Props) {
+export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle, loginHref, onCollection }: Props) {
   const [selected, setSelected] = useState<MakeupStyleId>(initialStyle ?? MAKEUP_STYLES[0].id)
   // 큰 프리뷰에서 비포/애프터를 직접 비교한다. 룩을 바꾸면 애프터로 되돌린다.
   const [showBefore, setShowBefore] = useState(false)
@@ -243,6 +245,15 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
         <button onClick={handleConfirm} className={btnPrimary} style={btnPrimaryStyle}>
           {isEn ? 'Try this style' : '이 스타일로 생성하기'}
         </button>
+        {onCollection && (
+          <button
+            onClick={() => { gtagEvent('collection_entry', { from: 'style_select' }); onCollection() }}
+            className="mt-2.5 w-full py-3 text-[13px] font-bold text-white transition-colors hover:bg-white/5"
+            style={surfaceStyle}
+          >
+            {isEn ? 'Or get all 9 looks + grid image · $4.99' : '또는 9룩 전부 + 모아보기 받기 · $4.99'}
+          </button>
+        )}
       </footer>
     </div>
   )

@@ -53,7 +53,7 @@ const OUT_H = Math.round(OUT_W * OUT_RATIO) // 1920
 /** 설명은 2줄까지만 — 더 길어지면 카드가 그만큼 작아진다. */
 const MAX_DESC_LINES = 2
 
-const FONT = 'Pretendard, system-ui, sans-serif'
+const FONT = '"Pretendard Variable", Pretendard, system-ui, sans-serif'
 // 2026-09-22 — 캔버스 바탕을 아이보리(#f6f6f4)에서 **순백**으로 바꿨다(운영자 지정).
 // 사진 카드도 흰색이라 이제 한 장의 흰 종이로 읽힌다. 카드 경계는 아래 그림자가 맡는다.
 const BG = '#ffffff'
@@ -90,6 +90,9 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
     await new Promise<void>((resolve) => { el.onload = () => resolve(); el.onerror = () => resolve() })
     if (el.complete && el.naturalWidth > 0) logo = el
   } catch { /* 로고 없이도 그린다 */ }
+  // 2026-10-12 — 사이트가 로드하는 이름은 "Pretendard Variable". 'Pretendard' 만 찾으면 캔버스는
+  // 대체 폰트로 그렸다. 캔버스는 폰트가 아직 안 받아졌어도 기다리지 않으므로 먼저 불러 둔다.
+  try { await document.fonts?.load(`800 48px "Pretendard Variable"`) } catch { /* 폴백 폰트로 그린다 */ }
 
   // ── ① 카드 아래 텍스트 블록 선계산 — 남는 높이가 곧 카드 높이다
   const cardMargin = Math.round(W * 0.022)       // 24 — 사진이 폭을 거의 꽉 채운다
