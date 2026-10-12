@@ -38,7 +38,7 @@ export default function ClassLesson({ slug }: { slug: string }) {
     <div className="font-display bg-background-light min-h-screen">
       <ToolsNav />
       <main>
-        <header className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 pb-6 md:pb-10">
+        <header className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 pb-6 md:pb-10">
           <nav className="text-xs text-slate-500 mb-4" aria-label="breadcrumb">
             <a href={`${prefix}/class/`} className="hover:text-navy underline-offset-2 hover:underline">
               {isEn ? 'Makeup class' : '메이크업 클래스'}
@@ -59,8 +59,9 @@ export default function ClassLesson({ slug }: { slug: string }) {
           </div>
         </header>
 
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 md:pb-20 grid md:grid-cols-[minmax(0,380px)_1fr] gap-8 md:gap-12 items-start">
-          <div className="md:sticky md:top-20 w-full max-w-[380px] md:max-w-none mx-auto space-y-4">
+        {/* 본문: PC·모바일 모두 가운데 한 줄 — 2단이면 PC 에서 무게가 오른쪽으로 쏠렸다 */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 md:pb-20 space-y-5 md:space-y-6">
+          <div className="space-y-4">
             <FaceChartMap src={chart} steps={l.steps} isEn={isEn} />
             {l.tool && (
               <a href={`${prefix}${TOOL_LINK[l.tool].href}`}
@@ -196,11 +197,11 @@ function ClassVideo({ slug, seconds, steps, isEn }: { slug: string; seconds: num
     return () => io.disconnect()
   }, [slug, isEn])
   return (
-    <figure className="bg-white border border-slate-200 p-4 md:p-5 flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+    <figure className="bg-white border border-slate-200 p-4 md:p-6 flex flex-col items-center gap-4 md:gap-5">
       <video ref={ref} poster={videoPoster(slug)} muted loop playsInline preload="none" width={720} height={1280}
         aria-label={isEn ? `JJ following all ${steps} steps (AI-generated model)` : `JJ가 ${steps}단계를 따라 하는 영상 (AI 생성 모델)`}
-        className="w-[62%] sm:w-[220px] md:w-[240px] shrink-0 aspect-[9/16] bg-cream object-cover" />
-      <figcaption className="text-center sm:text-left">
+        className="w-full max-w-[400px] aspect-[9/16] bg-cream object-cover" />
+      <figcaption className="text-center max-w-[480px]">
         <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">
           {isEn ? `Watch · ${seconds} sec` : `영상 · ${seconds}초`}
         </p>

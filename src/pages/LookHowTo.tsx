@@ -171,7 +171,7 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
       <ToolsNav />
       <main>
         {/* 헤더 */}
-        <header className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 pb-6 md:pb-10">
+        <header className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 pb-6 md:pb-10">
           <nav className="text-xs text-slate-500 mb-4" aria-label="breadcrumb">
             <a href={`${prefix}/looks/`} className="hover:text-navy underline-offset-2 hover:underline">
               {isEn ? 'Makeup how-to' : '메이크업 방법'}
@@ -201,9 +201,9 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
           </div>
         </header>
 
-        {/* 본문: PC = 좌 비포/애프터 고정 + 우 단계 / 모바일 = 위아래 */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 md:pb-20 grid md:grid-cols-[minmax(0,380px)_1fr] gap-8 md:gap-12 items-start">
-          <div className="md:sticky md:top-20 w-full max-w-[340px] md:max-w-none mx-auto">
+        {/* 본문: PC·모바일 모두 가운데 한 줄 — 2단이면 PC 에서 무게가 오른쪽으로 쏠렸다 */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 md:pb-20 space-y-5 md:space-y-6">
+          <div className="w-full max-w-[420px] mx-auto">
             <BeforeAfterSlider beforeSrc={img.before} afterSrc={img.after} isEn={isEn} />
             <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-400">
               {isEn
