@@ -30,7 +30,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   const dark = tone === 'dark'
   // lining-nums: serif 기본 올드스타일 숫자가 '1분'을 'I분'처럼 보이게 해서 캡하이트 숫자로 고정.
-  const cls = `font-serif lining-nums text-[1.75rem] md:text-[2.5rem] font-semibold tracking-tight leading-[1.15] ${
+  const cls = `font-serif lining-nums text-[1.75rem] md:text-[2.5rem] font-semibold tracking-tight leading-[1.15] break-keep ${
     dark ? 'text-white' : 'text-navy'
   }`
   return (

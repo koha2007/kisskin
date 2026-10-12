@@ -9,6 +9,7 @@
 //
 // 화면에 들어올 때만 받아서 재생(preload=none) — 홈 첫 로딩에 330KB 를 얹지 않는다.
 import { useEffect, useRef } from 'react'
+import SectionHeader from './SectionHeader'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
   const w = window as unknown as { gtag?: (...a: unknown[]) => void }
@@ -47,54 +48,52 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
 
   const steps = isEn ? STEPS_EN : STEPS_KO
   return (
-    <section id="demo" className="py-16 md:py-24 bg-cream scroll-mt-16" aria-labelledby="demo-title">
-      {/* 모바일: 제목 → 영상 → 단계·버튼 / PC: 왼쪽(제목+단계) · 오른쪽(영상) */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[1fr_auto] md:grid-rows-[auto_1fr] gap-x-16 gap-y-8 md:gap-y-0 items-center">
-        <div className="md:col-start-1 md:row-start-1 md:self-end">
-          <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
-            {isEn ? 'How it works' : '이렇게 받아요'}
-          </p>
-          <h2 id="demo-title" className="font-serif text-3xl md:text-[2.6rem] leading-tight text-navy break-keep">
-            {isEn ? 'One selfie, all 9 looks on your face' : '셀카 한 장으로, 9룩 전부 내 얼굴로'}
-          </h2>
-        </div>
-
-        <div className="md:col-start-1 md:row-start-2 md:self-start">
-          <ol className="md:mt-8 space-y-5">
-            {steps.map((s, i) => (
-              <li key={s.t} className="flex gap-4">
-                <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-extrabold text-white">{i + 1}</span>
-                <span>
-                  <span className="block text-base md:text-lg font-extrabold text-navy">{s.t}</span>
-                  <span className="mt-1 block text-sm text-slate-600 leading-relaxed break-keep">{s.d}</span>
-                </span>
-              </li>
-            ))}
-          </ol>
-          <div className="mt-8 flex flex-col sm:flex-row gap-2">
-            <a href="/analysis/?collection=new" onClick={() => gtagEvent('collection_entry', { from: 'home_demo' })}
-              className="inline-flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors">
-              {isEn ? 'Get my 9 looks · $4.99' : '9룩 전부 받기 · $4.99'}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-            <a href="/analysis/" className="inline-flex items-center justify-center border border-navy px-6 py-3.5 text-sm font-bold text-navy hover:bg-navy/5 transition-colors">
-              {isEn ? 'One look — 1st free' : '한 룩만 · 첫 1회 무료'}
-            </a>
+    <section id="demo" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="demo-title">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          titleId="demo-title"
+          eyebrow={isEn ? 'How it works' : '이렇게 받아요'}
+          title={isEn ? 'One selfie, all 9 looks on your face' : '셀카 한 장으로, 9룩 전부 내 얼굴로'}
+        />
+        {/* 모바일: 영상 → 단계·버튼 / PC: 왼쪽 단계 · 오른쪽 영상 */}
+        <div className="max-w-4xl mx-auto grid md:grid-cols-[1fr_auto] gap-x-16 gap-y-10 items-center">
+          <div className="order-2 md:order-1">
+            <ol className="space-y-5">
+              {steps.map((s, i) => (
+                <li key={s.t} className="flex gap-4">
+                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-extrabold text-white">{i + 1}</span>
+                  <span>
+                    <span className="block text-base md:text-lg font-extrabold text-navy">{s.t}</span>
+                    <span className="mt-1 block text-sm text-slate-600 leading-relaxed break-keep">{s.d}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-8 flex flex-col sm:flex-row gap-2">
+              <a href="/analysis/?collection=new" onClick={() => gtagEvent('collection_entry', { from: 'home_demo' })}
+                className="inline-flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors">
+                {isEn ? 'Get my 9 looks · $4.99' : '9룩 전부 받기 · $4.99'}
+                <span className="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+              <a href="/analysis/" className="inline-flex items-center justify-center border border-navy px-6 py-3.5 text-sm font-bold text-navy hover:bg-navy/5 transition-colors">
+                {isEn ? 'One look — 1st free' : '한 룩만 · 첫 1회 무료'}
+              </a>
+            </div>
           </div>
-        </div>
 
-        <figure className="row-start-2 md:col-start-2 md:row-start-1 md:row-span-2 mx-auto w-[240px] md:w-[280px]">
-          <div className="rounded-[2rem] bg-navy p-2 shadow-2xl shadow-navy/25">
-            <video ref={ref} poster={`/demo/collection-${lang}.webp`} muted loop playsInline preload="none" width={390} height={844}
-              aria-label={isEn ? 'Screen recording: creating a 9-look collection from one selfie' : '화면 녹화: 셀카 한 장으로 9룩 컬렉션 만들기'}
-              className="block w-full aspect-[390/844] rounded-[1.6rem] bg-navy object-cover" />
-          </div>
-          <figcaption className="mt-3 text-center text-[11px] leading-relaxed text-slate-400 break-keep">
-            {isEn
-              ? 'Real site screens. The model is AI-generated; results are the tool’s actual output on that photo.'
-              : '실제 사이트 화면이에요. 모델은 AI 생성 이미지, 결과는 그 사진에 도구를 실제로 돌린 출력이에요.'}
-          </figcaption>
-        </figure>
+          <figure className="order-1 md:order-2 mx-auto w-[240px] md:w-[280px]">
+            <div className="rounded-[2rem] bg-navy p-2 shadow-2xl shadow-navy/25">
+              <video ref={ref} poster={`/demo/collection-${lang}.webp`} muted loop playsInline preload="none" width={390} height={844}
+                aria-label={isEn ? 'Screen recording: creating a 9-look collection from one selfie' : '화면 녹화: 셀카 한 장으로 9룩 컬렉션 만들기'}
+                className="block w-full aspect-[390/844] rounded-[1.6rem] bg-navy object-cover" />
+            </div>
+            <figcaption className="mt-3 text-center text-[11px] leading-relaxed text-slate-400 break-keep">
+              {isEn
+                ? 'Real site screens. The model is AI-generated; results are the tool’s actual output on that photo.'
+                : '실제 사이트 화면이에요. 모델은 AI 생성 이미지, 결과는 그 사진에 도구를 실제로 돌린 출력이에요.'}
+            </figcaption>
+          </figure>
+        </div>
       </div>
     </section>
   )

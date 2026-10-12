@@ -156,14 +156,14 @@ export default {
   'home.how.freeCta': '무료로 시작하기',
   'home.how.giftTitle': '회원가입하면 무료 생성 2번',
   'home.how.giftDesc': '무료 진단 4가지를 완성하면 내 모델 무료 생성 1회, 여기에 셀카 기반 AI 메이크업 첫 1회 무료까지 — 가입 한 번으로 두 가지를 모두 무료로 체험할 수 있어요.',
-  'home.how.payBadge': '유료 · 첫 1회 무료',
+  'home.how.payBadge': '첫 1룩 무료 · 9룩 전부 $4.99',
   'home.how.payTitle': 'AI로 내 얼굴에 직접 입혀보기',
   'home.how.payStep1': '사진 업로드',
   'home.how.payStep1Desc': '셀카를 찍거나 갤러리에서 사진을 선택하세요',
-  'home.how.payStep2': 'AI 분석',
-  'home.how.payStep2Desc': '얼굴 특징과 피부 특성을 AI가 시뮬레이션합니다',
-  'home.how.payStep3': '9가지 룩 확인',
-  'home.how.payStep3Desc': '9가지 K-뷰티 메이크업 + 맞춤 제품 추천을 받으세요',
+  'home.how.payStep2': '한 룩 또는 9룩 전부',
+  'home.how.payStep2Desc': '룩 하나는 첫 1회 무료, 9룩 전부는 셀카 한 장으로 한 번에 만들어요',
+  'home.how.payStep3': '저장·공유하기',
+  'home.how.payStep3Desc': '9룩 모아보기와 낱장을 저장하거나 내 메일로 받아 바로 올려요',
   'home.how.payCta': 'AI 메이크업 시작',
   'home.how.tipTitle': '100% 활용 꿀팁',
   'home.how.tipDesc': '증명사진처럼 밝은 곳에서 찍은 정면 독사진, 얼굴에 그림자가 없는 사진일수록 더 정확한 결과가 나옵니다.',
@@ -176,7 +176,7 @@ export default {
   // Final CTA
   'home.cta.title1': '변화는 사진 한 장에서',
   'home.cta.title2': '시작됩니다',
-  'home.cta.subtitle': '셀카 한 장이면 충분해요. 회원가입 후 첫 1회 무료로 9가지 K-뷰티 룩을 만들어드려요.',
+  'home.cta.subtitle': '셀카 한 장이면 충분해요. 회원가입하면 첫 1룩은 무료, 9룩 전부와 모아보기는 $4.99에 한 번에 만들어드려요.',
 
   // Footer
   'home.footer.desc': '키스인스킨(kissinskin) — AI 가상 메이크업 · 퍼스널컬러 진단 · 코스메틱 추천 서비스',

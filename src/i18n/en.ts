@@ -150,14 +150,14 @@ export default {
   'home.how.freeCta': 'Start for free',
   'home.how.giftTitle': 'Sign up for 2 free generations',
   'home.how.giftDesc': 'Complete all 4 free quizzes for one free model-face generation, plus your first selfie-based AI makeup generation free — two free tries from a single sign-up.',
-  'home.how.payBadge': 'Paid · first try free',
+  'home.how.payBadge': 'First look free · all 9 for $4.99',
   'home.how.payTitle': 'Try it on your own face with AI',
   'home.how.payStep1': 'Upload Photo',
   'home.how.payStep1Desc': 'Take a selfie or choose a photo from your gallery',
-  'home.how.payStep2': 'AI Analysis',
-  'home.how.payStep2Desc': 'AI simulates your facial features and skin characteristics',
-  'home.how.payStep3': 'See 9 looks',
-  'home.how.payStep3Desc': 'Receive 9 K-beauty makeup looks + personalized Korean cosmetics recommendations',
+  'home.how.payStep2': 'One look or all 9',
+  'home.how.payStep2Desc': 'Your first single look is free; all 9 are made at once from one selfie',
+  'home.how.payStep3': 'Save and share',
+  'home.how.payStep3Desc': 'Save the 9-look grid and each look, or email them to yourself and post',
   'home.how.payCta': 'Start AI makeup',
   'home.how.tipTitle': 'Pro Tip for Best Results',
   'home.how.tipDesc': 'For 100% accuracy, use a well-lit front-facing solo photo (like an ID photo) with no shadows on your face — the clearer your face, the better the AI results.',
@@ -170,7 +170,7 @@ export default {
   // Final CTA
   'home.cta.title1': 'Change starts with',
   'home.cta.title2': 'a single photo',
-  'home.cta.subtitle': 'One selfie is all it takes. Sign up and your first generation is free — 9 K-beauty looks in about 60 seconds.',
+  'home.cta.subtitle': 'One selfie is all it takes. Sign up and your first look is free — or get all 9 looks plus a grid image for $4.99.',
 
   // Footer
   'home.footer.desc': 'AI K-Beauty Makeup Simulator & Korean Cosmetics Recommendation',

@@ -479,36 +479,25 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           바로 위 9룩 섹션은 "사진(결과)", 여기는 "그림(방법)". 같은 9룩을 아티스트 페이스 차트로
           보여주고 /looks/{id}/ 단계 페이지로 보낸다. 브랜드 비전(미술 × 메이크업)이 홈에서
           가장 직접 보이는 자리. 모바일=가로 스크롤, PC=9칸 한 줄을 넘치면 스크롤. */}
-      <section id="how-to" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="howto-title">
+      <section id="how-to" className="py-16 md:py-24 bg-cream scroll-mt-16" aria-labelledby="howto-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-10">
-            <div>
-              <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
-                {isEn ? 'Step by step' : '단계별 따라 하기'}
-              </p>
-              <h2 id="howto-title" className="font-serif text-3xl md:text-[2.6rem] leading-tight text-navy">
-                {isEn ? 'How to do each look' : '이 룩, 직접 하는 법'}
-              </h2>
-              <p className="mt-3 text-slate-600 text-sm md:text-base max-w-xl">
-                {isEn
-                  ? 'Every look drawn on a makeup artist’s face chart — where each step goes, the shades and the tools.'
-                  : '메이크업 아티스트의 페이스 차트로 그렸어요. 어디에, 어떤 색을, 무엇으로 — 4단계로.'}
-              </p>
-            </div>
-            <a href={isEn ? '/en/looks/' : '/looks/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
-              {isEn ? 'All 9 how-tos' : '9룩 방법 전체 보기'}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-          </div>
-          {/* 2026-10-10 운영자: 옆으로 넘기기 대신 9개가 한눈에 — PC 한 줄(9칸), 그 아래 3×3 */}
-          <div className="grid grid-cols-3 lg:grid-cols-9 gap-3 lg:gap-3">
+          <SectionHeader
+            titleId="howto-title"
+            eyebrow={isEn ? 'Step by step' : '단계별 따라 하기'}
+            title={isEn ? 'How to do each look' : '이 룩, 직접 하는 법'}
+            subtitle={isEn
+              ? 'Every look drawn on a makeup artist’s face chart — where each step goes, the shades and the tools.'
+              : '메이크업 아티스트의 페이스 차트로 그렸어요. 어디에, 어떤 색을, 무엇으로 — 4단계로.'}
+          />
+          {/* 2026-10-12 운영자: 9칸 한 줄은 작다 → PC 도 3×3 으로 크게(폭 3xl) */}
+          <div className="max-w-3xl mx-auto grid grid-cols-3 gap-3 md:gap-5">
             {MAKEUP_STYLES.map((s, i) => (
               <a
                 key={s.id}
                 href={`${isEn ? '/en' : ''}/looks/${s.id}/`}
                 className="group block min-w-0"
               >
-                <span className="relative block aspect-[3/4] overflow-hidden bg-cream border border-slate-200">
+                <span className="relative block aspect-[3/4] overflow-hidden rounded-lg bg-white border border-slate-200">
                   <img
                     src={`/looks/charts/${s.id}.webp`}
                     alt={isEn ? `${s.subEn} face chart` : `${s.nameKo} 페이스 차트`}
@@ -516,41 +505,36 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     decoding="async"
                     className="absolute left-1/2 top-[-28%] w-[150%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]"
                   />
-                  <span className="absolute left-2 top-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-navy px-1.5 text-[11px] font-extrabold text-white">{i + 1}</span>
+                  <span className="absolute left-2 top-2 md:left-3 md:top-3 inline-flex h-6 min-w-6 md:h-7 md:min-w-7 items-center justify-center rounded-full bg-navy px-1.5 text-[11px] md:text-xs font-extrabold text-white">{i + 1}</span>
                 </span>
-                <span className="mt-2 block text-[13px] lg:text-xs font-bold text-navy leading-snug break-keep line-clamp-2">{isEn ? s.subEn : s.nameKo}</span>
-                <span className="block text-xs text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
+                <span className="mt-2 block text-[13px] md:text-base font-bold text-navy leading-snug break-keep line-clamp-2">{isEn ? s.subEn : s.nameKo}</span>
+                <span className="block text-xs md:text-sm text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
               </a>
             ))}
           </div>
-          <p className="mt-3 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
+          <div className="mt-8 md:mt-10 flex flex-col items-center gap-3">
+            <a href={isEn ? '/en/looks/' : '/looks/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
+              {isEn ? 'All 9 how-tos' : '9룩 방법 전체 보기'}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+            <p className="text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
+          </div>
         </div>
       </section>
 
       {/* ── 무료 메이크업 클래스 — 2026-10-10 ──
           운영자: "메인화면에 없네?" → 한 줄 배너로는 안 보였다. 9룩 방법 바로 아래 독립 섹션으로.
           최근 공개 4편 + 다음 주 공개 1칸(재방문 이유). 매주 자동 발행되면 카드가 저절로 바뀐다. */}
-      <section id="class" className="py-16 md:py-24 bg-background-light scroll-mt-16" aria-labelledby="class-title">
+      <section id="class" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="class-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-10">
-            <div>
-              <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-3">
-                {isEn ? 'Free makeup class' : '무료 메이크업 클래스'}
-              </p>
-              <h2 id="class-title" className="font-serif text-3xl md:text-[2.6rem] leading-tight text-navy">
-                {isEn ? 'Makeup from zero, one lesson a week' : '완전 기초부터, 매주 한 편씩'}
-              </h2>
-              <p className="mt-3 text-slate-600 text-sm md:text-base max-w-xl">
-                {isEn
-                  ? `${CURRICULUM.length} lessons in order — from the right order of steps to eyeliner, contour and gradient lips. New lesson every Tuesday.`
-                  : `메이크업 순서부터 아이라인 · 컨투어 · 그라데이션 립까지 ${CURRICULUM.length}편을 순서대로. 매주 화요일 새 편이 올라와요.`}
-              </p>
-            </div>
-            <a href={isEn ? '/en/class/' : '/class/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
-              {isEn ? `All ${CURRICULUM.length} lessons` : `${CURRICULUM.length}편 전체 보기`}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-          </div>
+          <SectionHeader
+            titleId="class-title"
+            eyebrow={isEn ? 'Free makeup class' : '무료 메이크업 클래스'}
+            title={isEn ? 'Makeup from zero, one lesson a week' : '완전 기초부터, 매주 한 편씩'}
+            subtitle={isEn
+              ? `${CURRICULUM.length} lessons in order — from the right order of steps to eyeliner, contour and gradient lips. New lesson every Tuesday.`
+              : `메이크업 순서부터 아이라인 · 컨투어 · 그라데이션 립까지 ${CURRICULUM.length}편을 순서대로. 매주 화요일 새 편이 올라와요.`}
+          />
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
             {CLASS_LESSONS.slice(-4).map((l) => (
               <a key={l.slug} href={`${isEn ? '/en' : ''}/class/${l.slug}/`} className="group block bg-white border border-slate-200 hover:border-navy transition-colors">
@@ -577,7 +561,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               ) : null
             })()}
           </div>
-          <p className="mt-3 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
+          <div className="mt-8 md:mt-10 flex flex-col items-center gap-3">
+            <a href={isEn ? '/en/class/' : '/class/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
+              {isEn ? `All ${CURRICULUM.length} lessons` : `${CURRICULUM.length}편 전체 보기`}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+            <p className="text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
+          </div>
         </div>
       </section>
 
@@ -585,7 +575,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           2026-09-13: 기존엔 유료(셀카→분석→9룩) 3단계만 설명해 무료 진단 경로가
           안내에서 아예 빠져 있었다. 벤치마크(Duolingo/Notion류 free-vs-paid 카드)처럼
           "각자 독립된 가치가 있는 두 경로"를 나란히 두 카드로 분류 — 순서는 무료 우선. */}
-      <section id="how" className="py-12 md:py-28 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
+      <section id="how" className="py-16 md:py-24 bg-navy text-white scroll-mt-16" aria-labelledby="how-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             titleId="how-title"
@@ -699,7 +689,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           2026-09-10: 섹션 제목이 "나만의 메이크업 찾았다"인데 히어로 카드가 AI 메이크업
           시뮬레이터(/analysis/)였다 → 히어로를 beauty-dna 로 교체하고, AI 메이크업은
           4종 카드 아래 슬림 카드로 강등(상단 히어로·상단바·9룩 그리드에 진입점 존치). */}
-      <section id="tools-showcase" className="py-20 md:py-28 scroll-mt-16 bg-white" aria-labelledby="tools-title">
+      <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 bg-white" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             titleId="tools-title"
