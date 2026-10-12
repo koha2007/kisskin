@@ -66,6 +66,13 @@ function dataUrlToFile(dataUrl: string, name: string): File {
   return new File([arr], name, { type })
 }
 
+// 저장 경로 판정 — 인앱 브라우저(인스타·카톡·틱톡·네이버 등)는 다운로드를 무시하거나 파일 공유를
+// 못 해서 "꾹 눌러 저장" 보기로 보낸다. iOS 는 공유 창의 "이미지 N개 저장"이 사진첩으로 바로 간다.
+// 안드로이드 크롬 공유 창엔 "기기에 저장"이 없는 폰이 많아 공유 대신 다운로드(갤러리에 잡힌다).
+const ua = () => (typeof navigator === 'undefined' ? '' : navigator.userAgent)
+const isInApp = () => /KAKAOTALK|Instagram|FBAN|FBAV|NAVER\(inapp|Line\/|musical_ly|BytedanceWebview|TikTok|Snapchat/i.test(ua())
+const isIOS = () => /iPhone|iPad|iPod/.test(ua()) || (/Macintosh/.test(ua()) && typeof document !== 'undefined' && 'ontouchend' in document)
+
 const doneCount = (s: CollectionState | null) => (s ? IDS.filter((id) => s.items[id]?.image).length : 0)
 /** 아직 결제가 필요한 룩 수 — 차감 후 실패한 룩(charged)은 재시도가 무료라 빼고 센다 */
 const neededCredits = (s: CollectionState | null) =>
@@ -96,6 +103,9 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
   const [busy, setBusy] = useState(false)
   const [grid, setGrid] = useState<string | null>(null)
   const [files, setFiles] = useState<File[] | null>(null)
+  const [viewer, setViewer] = useState(false)
+  const [mail, setMail] = useState<'idle' | 'sending' | 'sent' | 'error' | 'limit'>('idle')
+  const [mailTo, setMailTo] = useState('')
   const stateRef = useRef<CollectionState | null>(null)
   const runningRef = useRef(false)
 
@@ -276,8 +286,13 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
       gtagEvent('collection_save', { method: 'native' })
       return
     }
-    // 폰: 공유 시트 한 번으로 10장을 사진첩에 저장/바로 올리기
-    if (typeof nav.share === 'function' && nav.canShare?.({ files })) {
+    if (isInApp()) {
+      setViewer(true)
+      gtagEvent('collection_save', { method: 'longpress' })
+      return
+    }
+    // 아이폰: 공유 시트 한 번으로 10장을 사진첩에 저장/바로 올리기
+    if (isIOS() && typeof nav.share === 'function' && nav.canShare?.({ files })) {
       try {
         await nav.share({ files, title: isEn ? 'My 9 looks' : '나의 9룩' })
         gtagEvent('collection_save', { method: 'share' })
@@ -286,7 +301,7 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
         if ((e as Error).name === 'AbortError') return
       }
     }
-    // 데스크톱: 하나씩 내려받기
+    // 안드로이드 크롬·데스크톱: 하나씩 내려받기(크롬이 "여러 파일 다운로드 허용"을 한 번 묻는다)
     for (const f of files) {
       const a = document.createElement('a')
       a.href = URL.createObjectURL(f)
@@ -295,6 +310,32 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
       await new Promise((r) => setTimeout(r, 250))
     }
     gtagEvent('collection_save', { method: 'download' })
+  }
+
+  async function sendMail() {
+    if (!state || !grid) return
+    setMail('sending')
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) { setPhase('login'); return }
+      const images = [
+        { name: 'kissinskin-my-9-looks.jpg', dataUrl: grid },
+        ...MAKEUP_STYLES.map((s, i) => ({ name: `kissinskin-${i + 1}-${s.id}.jpg`, dataUrl: state.items[s.id]!.image! })),
+      ]
+      const res = await fetch('/api/collection-mail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ images, lang: isEn ? 'en' : 'ko' }),
+      })
+      const d = (await res.json().catch(() => ({}))) as { to?: string }
+      if (res.status === 429) { setMail('limit'); return }
+      if (!res.ok) throw new Error(String(res.status))
+      setMailTo(d.to || '')
+      setMail('sent')
+      gtagEvent('collection_save', { method: 'email' })
+    } catch {
+      setMail('error')
+    }
   }
 
   function saveOne(file: File) {
@@ -353,8 +394,16 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
           <button onClick={saveAll} disabled={!files} className={`${btnPrimary} mt-5`} style={btnPrimaryStyle}>
             {isEn ? 'Save all 10 images' : '10장 모두 저장'}
           </button>
-          <p className="mt-2 text-center text-[11px] text-white/55">
-            {isEn ? 'On phones, choose "Save images" in the share sheet.' : '폰에서는 공유 창에서 "이미지 저장"을 누르면 사진첩에 들어가요.'}
+          <button onClick={sendMail} disabled={!grid || mail === 'sending' || mail === 'sent'} className={`${btnGhost} mt-2.5 w-full disabled:opacity-60`} style={btnGhostStyle}>
+            <span className="material-symbols-outlined text-base">mail</span>
+            {mail === 'sending' ? (isEn ? 'Sending…' : '보내는 중…')
+              : mail === 'sent' ? (isEn ? `Sent to ${mailTo}` : `${mailTo} 로 보냈어요`)
+              : (isEn ? 'Email all 10 to me' : '내 메일로 10장 받기')}
+          </button>
+          {mail === 'error' && <p className="mt-2 text-center text-xs text-red-200">{isEn ? 'Could not send. Please try again.' : '보내지 못했어요. 다시 시도해 주세요.'}</p>}
+          {mail === 'limit' && <p className="mt-2 text-center text-xs text-red-200">{isEn ? 'You can email this up to 3 times a day.' : '메일 받기는 하루 3번까지예요.'}</p>}
+          <p className="mt-2 text-center text-[11px] text-white/55 break-keep">
+            {isEn ? 'Sent only to your account email. Check spam if it does not arrive.' : '로그인한 계정 메일로만 보내요. 안 보이면 스팸함을 확인해 주세요.'}
           </p>
 
           <p className={`${eyebrow} mt-8 mb-3 text-white/55`}>{isEn ? 'Each look' : '낱장'}</p>
@@ -380,6 +429,26 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
           </button>
           {msg && <p className="mt-3 text-center text-xs text-red-200">{msg}</p>}
         </main>
+
+        {/* 인앱 브라우저용 — 다운로드가 막히는 곳에서도 사진 길게 누르기 저장은 된다 */}
+        {viewer && (
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-black/95 px-5 pb-10" role="dialog" aria-modal="true">
+            <div className="sticky top-0 -mx-5 flex items-center gap-3 bg-black/90 px-5 py-4">
+              <p className="flex-1 text-[14px] font-bold text-white break-keep">
+                {isEn ? 'Press and hold each image to save it' : '사진을 꾹 눌러서 하나씩 저장하세요'}
+              </p>
+              <button onClick={() => setViewer(false)} aria-label={isEn ? 'Close' : '닫기'} className="material-symbols-outlined text-white">close</button>
+            </div>
+            <p className="mb-4 text-[12px] text-white/60 break-keep">
+              {isEn ? 'Or open this page in Safari/Chrome, or use "Email all 10 to me".' : '안 되면 사파리·크롬으로 열거나 "내 메일로 10장 받기"를 쓰세요.'}
+            </p>
+            <div className="mx-auto flex max-w-sm flex-col gap-4">
+              {[grid!, ...MAKEUP_STYLES.map((s) => state!.items[s.id]!.image!)].map((src, i) => (
+                <img key={i} src={src} alt={i === 0 ? (isEn ? 'Grid image' : '모아보기') : `${i}`} className="w-full rounded-lg" />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     )
   }

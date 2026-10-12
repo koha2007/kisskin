@@ -23,7 +23,7 @@ export const CREDIT_PACKS: Record<PackId, CreditPack> = {
   // 클라이언트(MakeupCollection)가 9룩을 자동 생성한다. 컬렉션 생성은 무료 1회를 쓰지 않는다
   // (makeup-edit `collection: true`) — 무료로 찍은 셀카와 섞이면 모아보기 얼굴·옷·배경이 달라진다.
   // ⚠ id 가 비어 있으면 결제를 열지 않는다(checkout.ts). Polar 상품을 만든 뒤 여기에 넣을 것.
-  collection: { id: '', credits: 9, price: 4.99 },
+  collection: { id: '46e0ad9c-2e74-4d94-bd8f-d79fc322d25e', credits: 9, price: 4.99 },
 }
 
 export function isPackId(v: unknown): v is PackId {
