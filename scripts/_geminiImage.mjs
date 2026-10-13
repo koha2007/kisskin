@@ -14,7 +14,7 @@
 //
 // ⚠️ 이 코드는 **실키로 검증되지 않았다**(2026-08-09 결제 홀딩 중 작성 — 403 만 돌아옴).
 //    일일 발행은 워크플로의 PRODUCT_IMAGES='0' 로 이 경로를 아예 타지 않으므로
-//    틀렸더라도 글 발행은 멈추지 않는다. 검증은 키가 살아난 뒤 GEMINI_HOLD.md 절차대로.
+//    틀렸더라도 글 발행은 멈추지 않는다. 검증은 키가 살아난 뒤 docs/GEMINI_HOLD.md 절차대로.
 
 export const IMAGE_MODEL = process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image'
 

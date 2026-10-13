@@ -1,7 +1,7 @@
 // 디자인 시스템 통일 — 무료 도구 카드 공통 컴포넌트 (단일 소스).
 // 홈 무료도구 그리드 + /tools 허브가 같은 컴포넌트를 재사용한다.
 // 카드 틀(배경/보더/라운드/그림자/여백)은 전 도구 동일. 도구별 색은 '액센트 1점'
-// (아이콘 칩 틴트 + 태그)으로만 사용한다 — 메인은 네이비+핑크. (DESIGN_SYSTEM.md)
+// (아이콘 칩 틴트 + 태그)으로만 사용한다 — 메인은 네이비+핑크. (docs/DESIGN_SYSTEM.md)
 
 import type { CSSProperties } from 'react'
 import { readableInk } from '../lib/a11y/readableInk'

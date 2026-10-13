@@ -58,5 +58,5 @@ for (const w of [...new Set(WANTED)]) {
 if (missing) {
   console.log(`\n⚠️ ${missing}개 모델을 이 키로 못 쓴다. 위 목록에서 대체 모델을 골라`)
   console.log('   GEMINI_NEWS_MODEL / GEMINI_PRODUCT_MODEL / GEMINI_IMAGE_MODEL 로 지정하거나')
-  console.log('   스크립트 기본값을 바꿀 것. 배경은 리포 루트 GEMINI_HOLD.md')
+  console.log('   스크립트 기본값을 바꿀 것. 배경은 docs/GEMINI_HOLD.md')
 }

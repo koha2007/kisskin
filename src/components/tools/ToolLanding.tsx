@@ -1,7 +1,7 @@
 // Unified landing primitives for the 4 free-tool quizzes (intro phase only).
 // Design language (2026-07-22 개편): 중성 배경 + 사각 단색 버튼 + 6단계 타입 스케일
 // (.t-display / .t-h1 / .t-h2 / .t-body / .t-caption / .t-label — src/index.css).
-// 도구별 색은 옅은 틴트 '액센트 1점'으로만 쓰고 면을 가득 칠하지 않는다(DESIGN_SYSTEM.md).
+// 도구별 색은 옅은 틴트 '액센트 1점'으로만 쓰고 면을 가득 칠하지 않는다(docs/DESIGN_SYSTEM.md).
 // 퀴즈 화면은 QuizScreen, 결과 화면은 IdentityCard + ResultGrid 가 같은 언어를 공유한다.
 
 import type { ReactNode } from 'react'
@@ -228,7 +228,7 @@ export function TypePreviewCard({
       }`}
     >
       {/* 2026-07-22: 2색 그라디언트 패널 + 그림자 이모지 → 단색 틴트 면.
-          그라디언트는 면을 가득 칠해 '액센트 1점' 원칙(DESIGN_SYSTEM.md)을 깨고 있었고,
+          그라디언트는 면을 가득 칠해 '액센트 1점' 원칙(docs/DESIGN_SYSTEM.md)을 깨고 있었고,
           카드 16장이 나란히 놓이면 색면 16개가 서로 싸워 목록 전체가 시끄러웠다. */}
       {/* 2026-07-22: 이모지 + 색면이던 자리에 **실제 결과 사진**을 넣는다.
           유형 16개가 전부 이모지 하나로 구분되던 상태라, 목록을 훑어도 무엇이

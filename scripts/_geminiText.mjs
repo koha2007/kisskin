@@ -103,7 +103,7 @@ async function openaiFallback(prompt, opts, skipped) {
   if (!key) {
     throw new Error(
       `Gemini 전부 막힘(${skipped.join(', ') || 'no key'}) + OPENAI_API_KEY 없음 → 생성 불가.\n` +
-        '  GitHub Actions 라면 리포 Secret 에 OPENAI_API_KEY 를 추가할 것. 배경은 GEMINI_HOLD.md',
+        '  GitHub Actions 라면 리포 Secret 에 OPENAI_API_KEY 를 추가할 것. 배경은 docs/GEMINI_HOLD.md',
     )
   }
   const body = {

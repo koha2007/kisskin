@@ -236,6 +236,6 @@ jobs:
           [ "${{ steps.lesson.outcome }}" = "success" ]  || FAIL="$FAIL 클래스"
           [ "${{ steps.classvideo.outcome }}" != "failure" ] || echo "::warning::클래스 JJ 영상 실패 — 글은 발행됨(수·목 보충 실행이 이번 주 편 영상만 다시 시도)"
           if [ -n "$FAIL" ]; then
-            echo "::error::생성 실패:$FAIL — 위 스텝 로그의 ::error 를 볼 것. 나머지는 발행됨. 다음 보충 실행(수·목 06:00 KST)이 다시 시도한다. Gemini·OpenAI 둘 다 막혔다면 GEMINI_HOLD.md"
+            echo "::error::생성 실패:$FAIL — 위 스텝 로그의 ::error 를 볼 것. 나머지는 발행됨. 다음 보충 실행(수·목 06:00 KST)이 다시 시도한다. Gemini·OpenAI 둘 다 막혔다면 docs/GEMINI_HOLD.md"
             exit 1
           fi
