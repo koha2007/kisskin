@@ -12,7 +12,8 @@ export default function ProductsHub() {
 
   const items = useMemo<HubItem[]>(
     () =>
-      source.map((p) => {
+      // 최신순. EN 누락분 보충(scripts/_weekly.mjs)은 옛 글을 배열 맨 앞에 끼워 넣는다.
+      [...source].sort((a, b) => b.date.localeCompare(a.date)).map((p) => {
         const meta = getCategoryMeta(p.category)
         return {
           slug: p.slug,

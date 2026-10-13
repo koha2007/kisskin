@@ -19,6 +19,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 import { callGeminiText } from './_geminiText.mjs'
+import { todayKst, alreadyThisWeek, missingEn } from './_weekly.mjs'
 import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
 import { writeNewsWebp } from './_newsWatermark.mjs'
 import { buildNewsImagePrompt, assignNewsImageAxes } from './_newsImagePrompt.mjs'
@@ -50,7 +51,7 @@ function loadEnv(key) {
 }
 
 // ── 오늘 날짜(YYYY-MM-DD) ── (빌드/CI 컨텍스트라 Date 사용 정상)
-const today = new Date().toISOString().slice(0, 10)
+const today = todayKst()
 
 // ── 기존 slug + 제목 추출(중복 회피용) ──
 function existing() {
@@ -242,6 +243,24 @@ async function main() {
   const openaiKey = loadEnv('OPENAI_API_KEY')
   if (!apiKey) { console.error('GEMINI_API_KEY 없음 (.dev.vars/.env 또는 env)'); process.exit(1) }
   const count = Math.max(1, parseInt(process.argv[2] || '1', 10))
+  const failures = []
+
+  // ① 지난 실행에서 빠진 EN 번역부터 메운다(예전엔 한 번 빠지면 영원히 KO 만 남았다).
+  for (const it of await missingEn('news', 'NEWS_ITEMS', { max: Number(process.env.EN_BACKFILL_MAX || 2) })) {
+    try {
+      await translateAndInsertEn(apiKey, it)
+      console.log(`  🌐 EN 보충: ${it.slug}`)
+    } catch (e) {
+      failures.push(`EN 보충 ${it.slug}: ${String(e.message).slice(0, 120)}`)
+    }
+  }
+
+  // ② 이번 주 몫이 이미 나갔으면(화요일 정기분 → 수·목 보충 실행) 새 글은 안 쓴다.
+  const done = alreadyThisWeek([...readFileSync(ITEMS, 'utf8').matchAll(/date:\s*'(\d{4}-\d{2}-\d{2})'/g)].map((m) => m[1]))
+  if (done) {
+    console.log(`이번 주 뉴스 이미 발행(${done}) — 새 글 건너뜀`)
+    return finish(failures)
+  }
 
   for (let i = 0; i < count; i++) {
     const ex = existing() // 매번 최신 slug 반영(같은 실행에서 중복 방지)
@@ -275,8 +294,9 @@ async function main() {
           await translateAndInsertEn(apiKey, item)
           console.log(`  🌐 EN 번역 추가: ${item.slug}`)
         } catch (e) {
-          // EN 번역 실패는 치명적이지 않음 — KO 만 발행하고 계속(다음날 재시도 가능).
-          console.warn(`  ⚠️ EN 번역 건너뜀: ${e.message}`)
+          // KO 는 그대로 발행한다. EN 은 다음 실행(수·목 보충)의 ① 단계가 메운다.
+          // 다만 실패는 실패로 보고한다 — 예전엔 경고만 찍고 초록으로 끝나 아무도 몰랐다.
+          failures.push(`EN 번역 ${item.slug}: ${String(e.message).slice(0, 120)}`)
         }
         ok = true
       } catch (e) {
@@ -286,6 +306,13 @@ async function main() {
     if (!ok) { console.error('생성 실패(3회) — 중단'); process.exit(1) }
   }
   console.log('\n다음: `npm run gen:sitemap` 는 빌드에서 자동 실행됩니다. 변경 확인 후 커밋하세요.')
+  finish(failures)
+}
+
+function finish(failures) {
+  if (!failures.length) return
+  for (const f of failures) console.error(`::error::${f}`)
+  process.exit(1)
 }
 
 main()

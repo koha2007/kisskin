@@ -13,6 +13,15 @@ name: Weekly K-beauty content
 #   ④ 무드컷 비용 월 ~$3.8 → ~$0.5. 이 OPENAI_API_KEY 는 라이브 유료 AI 메이크업과
 #      같은 키라(한도 $48) 사용자 결제분에 여유가 생긴다.
 # 되돌리려면 아래 cron 을 '0 21 * * *' 로 돌리면 된다.
+#
+# 2026-10-13 재설계 — 화요일 1회 → 화(정기)·수·목(보충) 3회:
+#   그날 Gemini 503 한 번에 뉴스 EN·클래스 편이 빠졌는데, 워크플로는 초록이었고
+#   다음 기회는 일주일 뒤였다. 지금은
+#   ① _geminiText.mjs 가 5xx 도 다음 모델 → OpenAI 로 넘긴다(근본 원인)
+#   ② 각 생성기는 "이번 주 몫이 이미 나갔으면" 새 글을 안 쓴다(WEEKLY_GUARD=1) — 수·목은 빠진 것만 채운다
+#   ③ KO 만 나가고 EN 이 빠진 글은 다음 실행이 알아서 번역해 넣는다(최근 60일, 회당 2건)
+#   ④ 무엇이든 실패하면 잡이 빨갛게 끝난다 → 운영자에게 Actions 실패 메일
+# 아무것도 빠지지 않은 주의 수·목 실행은 생성 없이 1분 안에 끝난다(비용 0).
 # push → Cloudflare Pages 가 자동 빌드/배포(빌드 중 gen:sitemap 이 사이트맵 자동 갱신).
 #
 # 필요한 Secret (Settings → Secrets and variables → Actions):
@@ -24,13 +33,18 @@ name: Weekly K-beauty content
 
 on:
   schedule:
-    - cron: '0 21 * * 1'   # 매주 월 21:00 UTC = 화 06:00 KST
+    - cron: '0 21 * * 1'   # 매주 월 21:00 UTC = 화 06:00 KST (정기)
+    - cron: '0 21 * * 2,3' # 수·목 06:00 KST (보충 — 이번 주에 빠진 것만)
   workflow_dispatch:
     inputs:
       count:
         description: '생성할 뉴스 편수'
         required: false
         default: '1'
+      en_backfill_max:
+        description: 'EN 누락분 보충 최대 건수(뉴스·제품 각각)'
+        required: false
+        default: '2'
 
 concurrency:
   group: weekly-content
@@ -42,6 +56,9 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    env:
+      WEEKLY_GUARD: '1'    # 같은 주 두 번 발행 금지(scripts/_weekly.mjs) — 수동 실행도 동일
+      EN_BACKFILL_MAX: ${{ github.event.inputs.en_backfill_max || '2' }}
     timeout-minutes: 30    # 생성(≈5~10분) + IndexNow 의 배포 대기(최대 10분)
     steps:
       # fetch-depth: 0 (전체 히스토리) 가 필요하다. 기본값은 얕은 클론(depth 1)인데,
@@ -115,13 +132,13 @@ jobs:
       # 영상이 실패해도 글 발행은 그대로 나간다(continue-on-error). 다음 주에 영상 없는 편을 다시 시도한다.
       # 필요한 Secret: FAL_KEY (없으면 조용히 건너뜀). 단계 합성은 MediaPipe(파이썬) — 모델 파일은 매번 받는다.
       - uses: actions/setup-python@v5
-        if: steps.lesson.outcome == 'success'
+        if: steps.lesson.outputs.generated == 'true'
         with:
           python-version: '3.12'
 
       - name: Makeup class video (JJ)
         id: classvideo
-        if: steps.lesson.outcome == 'success'
+        if: steps.lesson.outputs.generated == 'true'   # 이번 실행에서 새 편이 나왔을 때만(보충 실행마다 $2~3 새지 않게)
         continue-on-error: true
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -162,8 +179,20 @@ jobs:
             # 커밋 메시지는 실제로 바뀐 것에 맞춘다. 생성이 실패해도 사이트맵 lastmod 만
             # 바뀌어 커밋이 나갈 수 있는데(다른 커밋이 페이지를 고친 날), 그걸 "자동 발행"
             # 이라고 적으면 나중에 로그만 보고 "발행됐다는데 글이 없다"로 헷갈린다.
-            if git diff --cached --name-only | grep -qv '^public/sitemap.xml$'; then
-              MSG="chore(content): 주간 뉴스·메이크업 제품·클래스 자동 발행 (KO+EN)"
+            # 2026-10-13: 예전엔 늘 "뉴스·제품·클래스 (KO+EN)"이라 적어서 클래스·EN 이 빠진 날도
+            # 다 나간 것처럼 보였다. 실제 바뀐 파일로 적는다.
+            CH=$(git diff --cached --name-only)
+            PARTS=""
+            add() { PARTS="${PARTS:+$PARTS · }$1"; }
+            echo "$CH" | grep -q '^src/lib/news/items.ts$'        && add "뉴스"
+            echo "$CH" | grep -q '^src/lib/news/items.en.ts$'     && add "뉴스 EN"
+            echo "$CH" | grep -q '^src/lib/products/items.ts$'    && add "제품"
+            echo "$CH" | grep -q '^src/lib/products/items.en.ts$' && add "제품 EN"
+            echo "$CH" | grep -q '^src/lib/class/lessons.json$'   && add "클래스"
+            if [ -n "$PARTS" ]; then
+              MSG="chore(content): 자동 발행 — $PARTS"
+            elif echo "$CH" | grep -qv '^public/sitemap.xml$'; then
+              MSG="chore(content): 자동 발행 부속 파일 갱신"
             else
               MSG="chore(seo): 사이트맵 lastmod 갱신 (콘텐츠 생성 없음)"
             fi
@@ -193,16 +222,18 @@ jobs:
           node scripts/indexnow.mjs --wait $NEW $HUBS
 
       # 맨 뒤에 둔다: 발행·색인을 막지 않으면서 잡의 최종 색만 정한다.
-      # 한쪽만 죽으면 경고(초록) — 나머지는 이미 발행됐다.
-      # 둘 다 죽으면 실패(빨강) — 그래야 운영자에게 Actions 실패 메일이 간다.
+      # 2026-10-13~: 하나라도 실패하면 빨강. 예전엔 한쪽 실패를 경고(초록)로 넘겨서
+      # 클래스·EN 이 빠져도 아무도 몰랐다. 이제 5xx 도 OpenAI 로 폴백하므로 빨강은 진짜 사고다.
+      # 이미 발행된 건 그대로 나가 있고, 빠진 건 다음 보충 실행(수·목)이 다시 시도한다.
       - name: 발행 결과 판정
         run: |
-          echo "news=${{ steps.news.outcome }}  product=${{ steps.product.outcome }}  lesson=${{ steps.lesson.outcome }}"
-          [ "${{ steps.lesson.outcome }}" = "success" ] || echo "::warning::메이크업 클래스 편 생성 실패 — 다음 주에 같은 편을 다시 시도한다"
-          [ "${{ steps.classvideo.outcome }}" != "failure" ] || echo "::warning::클래스 JJ 영상 실패 — 글은 발행됨, 다음 주에 영상 없는 편을 다시 시도한다"
-          if [ "${{ steps.news.outcome }}" != "success" ] && [ "${{ steps.product.outcome }}" != "success" ]; then
-            echo "::error::뉴스·제품 둘 다 생성 실패 — 그날치 발행 0건. Gemini(403=결제/키, 404=신규키 차단, 429=쿼터)와 OPENAI_API_KEY Secret 유무를 확인할 것. 절차는 리포 루트 GEMINI_HOLD.md"
+          echo "news=${{ steps.news.outcome }}  product=${{ steps.product.outcome }}  lesson=${{ steps.lesson.outcome }}  video=${{ steps.classvideo.outcome }}"
+          FAIL=""
+          [ "${{ steps.news.outcome }}" = "success" ]    || FAIL="$FAIL 뉴스"
+          [ "${{ steps.product.outcome }}" = "success" ] || FAIL="$FAIL 제품"
+          [ "${{ steps.lesson.outcome }}" = "success" ]  || FAIL="$FAIL 클래스"
+          [ "${{ steps.classvideo.outcome }}" != "failure" ] || echo "::warning::클래스 JJ 영상 실패 — 글은 발행됨(영상은 유료라 자동 재시도 안 함)"
+          if [ -n "$FAIL" ]; then
+            echo "::error::생성 실패:$FAIL — 위 스텝 로그의 ::error 를 볼 것. 나머지는 발행됨. 다음 보충 실행(수·목 06:00 KST)이 다시 시도한다. Gemini·OpenAI 둘 다 막혔다면 GEMINI_HOLD.md"
             exit 1
           fi
-          [ "${{ steps.news.outcome }}" = "success" ]    || echo "::warning::뉴스 생성 실패 — 제품만 발행됨"
-          [ "${{ steps.product.outcome }}" = "success" ] || echo "::warning::제품 생성 실패 — 뉴스만 발행됨"

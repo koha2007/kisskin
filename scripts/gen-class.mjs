@@ -22,7 +22,7 @@
 //   CLASS_DRY=1   → 생성·검증만 하고 파일을 쓰지 않음(차트도 안 만듦, 비용 = 텍스트 1회)
 //   CLASS_FORCE=1 → 같은 주 재실행 방지 무시
 // ════════════════════════════════════════════════════════════════════
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, appendFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { callGeminiText } from './_geminiText.mjs'
@@ -159,7 +159,7 @@ for (let attempt = 1; attempt <= 8 && rejected < 3 && !body; attempt++) {
   body = { slug: item.slug, publishedAt: todayKst, ...pick(o, KEYS), steps: o.steps.map((s) => pick(s, STEP_KEYS)) }
 }
 if (!body) {
-  console.error('[gen-class] 3회 모두 검증 실패 — 이번 주 발행 취소')
+  console.error('[gen-class] 검증 3회 실패 — 이번 실행 취소(수·목 보충 실행이 같은 편을 다시 시도)')
   process.exit(1)
 }
 
@@ -201,3 +201,6 @@ console.log(`  · 차트 ${out}`)
 lessons.push(body)
 writeFileSync(LESSONS, JSON.stringify(lessons, null, 2) + '\n')
 console.log(`[gen-class] ✅ ${item.n}편 발행 — /class/${item.slug}/ · /en/class/${item.slug}/`)
+// 워크플로가 "이번 실행에서 새 편이 나왔을 때만" 영상($2~3)을 돌리게 알린다.
+// (수·목 보충 실행은 이미 나간 주에 건너뛰는데, 그때마다 영상을 다시 시도하면 돈만 샌다)
+if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, 'generated=true\n')

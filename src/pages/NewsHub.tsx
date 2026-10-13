@@ -12,7 +12,8 @@ export default function NewsHub() {
 
   const items = useMemo<HubItem[]>(
     () =>
-      source.map((n) => {
+      // 최신순. EN 누락분 보충(scripts/_weekly.mjs)은 옛 글을 배열 맨 앞에 끼워 넣는다.
+      [...source].sort((a, b) => b.date.localeCompare(a.date)).map((n) => {
         const meta = getCategoryMeta(n.category)
         return {
           slug: n.slug,

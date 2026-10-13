@@ -30,6 +30,7 @@ import { KO_SCHEMA_LINES, EN_SCHEMA_LINES, applySeoMeta } from './_seoMeta.mjs'
 import { IMAGE_MODEL, generateImageB64 } from './_openaiImage.mjs'
 import { buildImagePrompt } from './_productImagePrompt.mjs'
 import { callGeminiText } from './_geminiText.mjs'
+import { todayKst, alreadyThisWeek, missingEn } from './_weekly.mjs'
 import { writeMarkedWebp } from './_newsWatermark.mjs'
 
 const ITEMS = resolve('src/lib/products/items.ts')
@@ -83,7 +84,7 @@ function loadEnv(key) {
   return undefined
 }
 
-const today = new Date().toISOString().slice(0, 10)
+const today = todayKst()
 
 function existing() {
   const s = readFileSync(ITEMS, 'utf8')
@@ -377,9 +378,12 @@ async function generateOne(apiKey, openaiKey) {
     await translateAndInsertEn(apiKey, item)
     console.log(`  🌐 EN 번역 추가: ${item.slug}`)
   } catch (e) {
-    console.warn(`  ⚠️ EN 번역 건너뜀: ${e.message}`)
+    // KO 는 발행. EN 은 다음 실행(수·목 보충)이 메운다 — 실패는 호출부가 빨갛게 보고한다.
+    throw new EnFailed(`EN 번역 ${item.slug}: ${String(e.message).slice(0, 120)}`)
   }
 }
+
+class EnFailed extends Error {}
 
 // ── 이미지만 다시 뽑기: node scripts/gen-products.mjs regen [slug...|all] ──
 // 글은 그대로 두고 무드컷만 새 프롬프트로 재촬영할 때. 파일명이 slug 기준이라
@@ -411,13 +415,35 @@ async function main() {
   if (process.argv[2] === 'regen') return regen(openaiKey, process.argv.slice(3))
 
   const count = Math.max(1, Math.min(8, Number(process.argv[2]) || 1))
-  let ok = 0
-  for (let i = 0; i < count; i++) {
-    try { await generateOne(apiKey, openaiKey); ok++ } catch (e) { console.error(`  ❌ ${e.message}`) }
-  }
-  if (!ok) { console.error('\n한 건도 생성하지 못함 — 중단'); process.exit(1) }
+  const failures = []
 
-  console.log(`\n총 ${ok}/${count}건 발행. \`npm run gen:sitemap\` 은 빌드에서 자동 실행됩니다. 변경 확인 후 커밋하세요.`)
+  // ① 지난 실행에서 빠진 EN 번역부터 메운다.
+  for (const it of await missingEn('products', 'PRODUCT_ITEMS', { max: Number(process.env.EN_BACKFILL_MAX || 2) })) {
+    try {
+      await translateAndInsertEn(apiKey, it)
+      console.log(`  🌐 EN 보충: ${it.slug}`)
+    } catch (e) {
+      failures.push(e.message)
+    }
+  }
+
+  // ② 이번 주 몫이 이미 나갔으면 새 제품은 안 쓴다(수·목 보충 실행).
+  const done = alreadyThisWeek([...readFileSync(ITEMS, 'utf8').matchAll(/date:\s*'(\d{4}-\d{2}-\d{2})'/g)].map((m) => m[1]))
+  if (done) {
+    console.log(`이번 주 제품 이미 발행(${done}) — 새 제품 건너뜀`)
+  } else {
+    let ok = 0
+    for (let i = 0; i < count; i++) {
+      try { await generateOne(apiKey, openaiKey); ok++ } catch (e) {
+        if (e instanceof EnFailed) { ok++; failures.push(e.message) } else console.error(`  ❌ ${e.message}`)
+      }
+    }
+    if (!ok) failures.push('제품 한 건도 생성하지 못함')
+    else console.log(`\n총 ${ok}/${count}건 발행. \`npm run gen:sitemap\` 은 빌드에서 자동 실행됩니다.`)
+  }
+
+  for (const f of failures) console.error(`::error::${f}`)
+  if (failures.length) process.exit(1)
 }
 
 main()
