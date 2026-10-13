@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'k-beauty-pop-up-hudson-yards-nyc',
+    category: 'global',
+    title: '신세계 HYPER GROUND, 뉴욕 허드슨 야드에 K‑뷰티 팝업 30여 브랜드 선보여',
+    summary:
+      '신세계의 HYPER GROUND 플랫폼이 10월 2일부터 뉴욕 허드슨 야드에 30여 개 한국 뷰티 브랜드 팝업을 열고 연말까지 운영합니다. 미국 시장에서 K‑뷰티 체험 확대와 브랜드 인지도 강화 전략입니다.',
+    body: [
+      '> TLDR: 뉴욕 허드슨 야드 팝업 | 30여 브랜드 참여 | 연말까지 운영',
+      '신세계의 HYPER GROUND가 2026년 10월 2일 뉴욕 허드슨 야드에 팝업 스토어를 오픈했습니다. 30개 이상의 한국 뷰티 브랜드를 한자리에서 만날 수 있는 공간입니다.',
+      '> DATA: 30여 개 브랜드가 참여, 운영 기간은 10월 2일~12월 31일',
+      '팝업은 신세계 백화점이 기획한 K‑뷰티 플랫폼으로, 이전 파리 팝업에서는 약 10개 브랜드가 참여한 것과 비교해 규모가 3배 이상 확대됐습니다. 이는 미국 내 K‑뷰티 경험 제공을 위한 전략적 확장으로 보입니다.',
+      '소비자 관점에서, 연말까지 지속되는 이 팝업은 현지 체험 기회를 통해 브랜드를 직접 체험하고 새로운 K‑뷰티를 발견할 수 있는 기회를 제공합니다.',
+    ],
+    date: '2026-10-13',
+    readMinutes: 3,
+    tags: ['K-뷰티', '팝업', '미국'],
+    image: '/news/k-beauty-pop-up-hudson-yards-nyc.webp',
+    seoTitle: '뉴욕 허드슨 야드 K‑뷰티 팝업 30개 브랜드 오픈',
+    seoDescription:
+      '신세계 HYPER GROUND가 10월 2일 뉴욕 허드슨 야드에 30여 개 K‑뷰티 브랜드 팝업을 열어 연말까지 운영하는 소식입니다.',
+  },
+  {
     slug: 'k-beauty-exports-august-growth-ecosystem-expansion',
     category: 'global',
     title: '8월 K‑뷰티 수출 52.1% 급증, ODM·포장사 수출도 동반 성장',

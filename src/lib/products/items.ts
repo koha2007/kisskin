@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'fwee-lip-cheek-blurry-pudding-pot',
+    category: 'cheek',
+    brand: '프위 (Fwee)',
+    name: '립 앤 치크 블러리 푸딩 팟',
+    title: '프위 립 앤 치크 블러리 푸딩 팟 — 말랑한 무스 제형으로 자연스러운 생기 연출',
+    summary:
+      '푸딩처럼 말랑한 무스 제형으로 입술과 볼 모두에 사용할 수 있는 멀티 틴트. 35가지 섬세한 컬러 구성에 빛나는 생기감을 더해 글로벌 트렌드 중심에 있는 인기 제품입니다.',
+    highlights: ['무스 같은 텍스처', '35가지 세밀한 컬러', '립·치크 멀티 사용 가능'],
+    details: [
+      '입술과 볼에 모두 사용할 수 있는 크리미 무스 텍스처로, 톡톡 두드리면 자연스러운 혈색과 광택감이 동시에 연출됩니다.',
+      '총 35가지 섬세한 컬러로 다양한 피부톤에 맞춰 선택할 수 있으며, 특히 분홍·코랄 계열이 인기입니다.',
+      'Allure 2026 베스트 크림 블러쉬로 선정될 만큼 글로벌 인지도가 높으며, 부드러운 발색과 쉬운 블렌딩이 장점입니다.',
+    ],
+    whoFor:
+      '생기 있는 치크 메이크업과 립 컬러를 하나로 해결하고 싶은 멀티 유저에게 적합합니다. 특히 크리미한 제형을 선호하고, 다양한 컬러 선택지를 원하는 한국인 웜톤 피부에도 잘 어울립니다.',
+    howTo: [
+      '손가락 끝에 아주 소량 덜어 볼 중앙에 가볍게 두드리듯 바르고, 경계 없이 블렌딩합니다.',
+      '입술에도 바른 뒤 두들겨 발라주면 치크와 립이 자연스럽게 이어지는 프레시한 룩이 완성됩니다.',
+    ],
+    pros: [
+      '말랑한 무스 제형으로 블렌딩 쉽고 자연스럽게 발색됨',
+      '풍부한 35가지 컬러 선택지가 있어 톤 맞춤 가능',
+    ],
+    cons: [
+      '크리미 제형이라 지성 피부에는 지속력 아쉬울 수 있음',
+    ],
+    colorFit:
+      '봄 웜 / 가을 웜: 코랄·피치 계열이 따뜻한 피부 톤에 자연스럽게 어울립니다.',
+    image: '/products/fwee-lip-cheek-blurry-pudding-pot.webp',
+    coupangQuery: '프위 립 앤 치크 푸딩 팟',
+    globalQuery: 'Fwee Lip & Cheek Blurry Pudding Pot',
+    clio: false,
+    clioCategory: 'cheek',
+    date: '2026-10-13',
+    tags: ['크림블러쉬', '멀티틴트', '글로우치크'],
+    seoTitle: '프위 푸딩 팟 블러셔 자연스러운 생기',
+    seoDescription:
+      '톡톡 두드리면 생기 있는 복숭아빛 치크 메이크업이 완성되는 프위 립 앤 치크 푸딩 팟 리뷰.',
+  },
+  {
     slug: 'centellian24-madeca-cream-time-reverse',
     category: 'skincare',
     brand: '센텔리안24',

@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'fwee-lip-cheek-blurry-pudding-pot',
+    category: 'cheek',
+    brand: 'fwee',
+    name: 'Lip & Cheek Blurry Pudding Pot',
+    title: 'fwee Lip & Cheek Blurry Pudding Pot — Soft Mousse Formula for a Natural, Vibrant Flush',
+    summary:
+      'A versatile multi-tint with a bouncy pudding-mousse texture for both lips and cheeks. Featuring 35 detailed shade options that add a vibrant, radiant glow, this viral product is a global beauty favorite.',
+    highlights: ['Soft mousse-like texture', '35 versatile shades', 'Dual-use for lips and cheeks'],
+    details: [
+      'The creamy mousse formula works seamlessly on lips and cheeks, creating a natural flush and soft glow with just a few gentle dabs.',
+      'Available in 35 nuanced shades to suit a wide range of skin tones, with pink and coral shades being fan favorites.',
+      'Recognized globally and named an Allure 2026 Best Cream Blush, acclaimed for its soft color payoff and effortless blending.',
+    ],
+    whoFor:
+      'Ideal for multi-use makeup lovers looking to match their lip and cheek colors in one step. Perfect for those who prefer creamy textures and want a vast shade selection, including Warm Tone skin.',
+    howTo: [
+      'Take a tiny amount on your fingertip, tap lightly onto the center of your cheeks, and blend outward seamlessly.',
+      'Apply to the lips and pat lightly to complete a fresh, cohesive look where cheek and lip shades harmonize naturally.',
+    ],
+    pros: [
+      'Bouncy mousse texture blends effortlessly for a natural color payoff',
+      'Extensive 35-shade range allows for precise skin tone matching',
+    ],
+    cons: [
+      'Creamy texture may offer shorter wear time on oily skin types',
+    ],
+    colorFit:
+      'Spring Warm / Autumn Warm: Coral and peach shades naturally complement warm skin tones.',
+    image: '/products/fwee-lip-cheek-blurry-pudding-pot.webp',
+    coupangQuery: '프위 립 앤 치크 푸딩 팟',
+    globalQuery: 'Fwee Lip & Cheek Blurry Pudding Pot',
+    clio: false,
+    clioCategory: 'cheek',
+    date: '2026-10-13',
+    tags: ['CreamBlush', 'MultiTint', 'GlowCheek'],
+    seoTitle: 'fwee Lip & Cheek Blurry Pudding Pot Review & Swatches',
+    seoDescription:
+      'Discover fwee\'s Lip & Cheek Blurry Pudding Pot in 35 shades for an effortless, natural lip and cheek flush.',
+  },
+  {
     slug: 'centellian24-madeca-cream-time-reverse',
     category: 'skincare',
     brand: 'Centellian24',

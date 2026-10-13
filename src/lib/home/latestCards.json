@@ -2,6 +2,14 @@
   "products": {
     "ko": [
       {
+        "slug": "fwee-lip-cheek-blurry-pudding-pot",
+        "brand": "프위 (Fwee)",
+        "name": "립 앤 치크 블러리 푸딩 팟",
+        "category": "cheek",
+        "image": "/products/fwee-lip-cheek-blurry-pudding-pot.webp",
+        "date": "2026-10-13"
+      },
+      {
         "slug": "centellian24-madeca-cream-time-reverse",
         "brand": "센텔리안24",
         "name": "마데카 크림 타임 리버스",
@@ -24,17 +32,17 @@
         "category": "base",
         "image": "/products/dior-forever-skin-glow.webp",
         "date": "2026-09-18"
-      },
-      {
-        "slug": "etude-color-fix-skinny-mascara",
-        "brand": "에뛰드",
-        "name": "컬 픽스 스키니 마스카라",
-        "category": "eye",
-        "image": "/products/etude-color-fix-skinny-mascara.webp",
-        "date": "2026-09-17"
       }
     ],
     "en": [
+      {
+        "slug": "fwee-lip-cheek-blurry-pudding-pot",
+        "brand": "fwee",
+        "name": "Lip & Cheek Blurry Pudding Pot",
+        "category": "cheek",
+        "image": "/products/fwee-lip-cheek-blurry-pudding-pot.webp",
+        "date": "2026-10-13"
+      },
       {
         "slug": "centellian24-madeca-cream-time-reverse",
         "brand": "Centellian24",
@@ -58,19 +66,18 @@
         "category": "eye",
         "image": "/products/etude-color-fix-skinny-mascara.webp",
         "date": "2026-09-17"
-      },
-      {
-        "slug": "poment-cotton-hug-perfume",
-        "brand": "FORMENT",
-        "name": "Cotton Hug Eau de Parfum",
-        "category": "fragrance",
-        "image": "/products/poment-cotton-hug-perfume.webp",
-        "date": "2026-09-15"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "k-beauty-pop-up-hudson-yards-nyc",
+        "title": "신세계 HYPER GROUND, 뉴욕 허드슨 야드에 K‑뷰티 팝업 30여 브랜드 선보여",
+        "category": "global",
+        "image": "/news/k-beauty-pop-up-hudson-yards-nyc.webp",
+        "date": "2026-10-13"
+      },
       {
         "slug": "k-beauty-exports-august-growth-ecosystem-expansion",
         "title": "8월 K‑뷰티 수출 52.1% 급증, ODM·포장사 수출도 동반 성장",
@@ -91,13 +98,6 @@
         "category": "skincare",
         "image": "/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp",
         "date": "2026-09-17"
-      },
-      {
-        "slug": "kbeauty-available-at-coles-australia",
-        "title": "호주 콜스, 첫 K-뷰티 100종 이상 출시로 뷰티 쇼핑 편의 확대",
-        "category": "skincare",
-        "image": "/news/kbeauty-available-at-coles-australia.webp",
-        "date": "2026-09-16"
       }
     ],
     "en": [
