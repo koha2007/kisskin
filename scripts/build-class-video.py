@@ -8,6 +8,7 @@
 #   public/class/video/<slug>-<lang>.mp4      720×1280 웹용(~2MB) — 클래스 페이지
 #   public/class/video/<slug>.webp            포스터(완성 얼굴) — 영상 로딩 전 첫 화면
 # 사용: python3 scripts/build-class-video.py <lesson-slug> [--dir=...] [--lang=ko,en] [--no-web]
+import math
 import json, re, subprocess, sys, os, numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -151,6 +152,9 @@ def face_marks(im, k_now, prog, done_upto, F):
         label = '·'.join(map(str, ks)); r = 34 if now else 25
         fnt = F['num'](34 if now else 25)
         w = max(2 * r, d.textlength(label, font=fnt) + 30)
+        # 정수로 맞춘다 — 소수 좌표에 w == 2r(동그란 핀)이면 Pillow 내부 사각형이 부동소수 오차로
+        # x1 < x0 가 돼 ValueError (2026-10-13 5편 EN 빌드에서 터짐)
+        x, y, w = round(x), round(y), 2 * math.ceil(w / 2)
         d.rounded_rectangle((x - w / 2 + 2, y - r + 4, x + w / 2 + 2, y + r + 4), r, fill=(0, 0, 0, 50))
         d.rounded_rectangle((x - w / 2, y - r, x + w / 2, y + r), r, fill=(PINK if now else NAVY) + (255,), outline=(255, 255, 255, 255), width=3)
         d.text((x - d.textlength(label, font=fnt) / 2, y - r * .78), label, font=fnt, fill=(255, 255, 255, 255))

@@ -48,6 +48,13 @@ const thisTuesday = new Date(Date.parse(`${todayKst}T00:00:00Z`) - ((dow - 2 + 7
 const last = lessons.map((l) => l.publishedAt).sort().pop()
 if (!DRY && process.env.CLASS_FORCE !== '1' && last && last >= thisTuesday) {
   console.log(`[gen-class] 이번 주(${thisTuesday}~) 이미 ${last} 에 발행 — 건너뜀(CLASS_FORCE=1 로 무시)`)
+  // 이번 주 편의 영상이 아직 없으면(화요일 영상 실패) 수·목 보충 실행이 영상만 다시 시도하게 알린다.
+  // 이번 주 편에 한정 — 지난 편들까지 훑으면 실패가 반복될 때 매번 $2~3 씩 샌다.
+  const wk = lessons.filter((l) => l.publishedAt >= thisTuesday && !l.video && CURRICULUM.find((c) => c.slug === l.slug)?.part !== 'start')
+  if (wk.length && process.env.GITHUB_OUTPUT) {
+    appendFileSync(process.env.GITHUB_OUTPUT, 'needvideo=true\n')
+    console.log(`[gen-class] 이번 주 편 영상 없음(${wk.map((l) => l.slug).join(', ')}) — 영상만 다시 시도`)
+  }
   process.exit(0)
 }
 

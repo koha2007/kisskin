@@ -129,16 +129,18 @@ jobs:
         run: node --experimental-strip-types scripts/gen-class.mjs && npm run -s check:keywords
 
       # 클래스 편 JJ 변신 영상(2026-10-11~). 사진 3장(gpt-image-2) + 단계 전환 클립(Kling, fal.ai) ≈ 편당 $2~3.
-      # 영상이 실패해도 글 발행은 그대로 나간다(continue-on-error). 다음 주에 영상 없는 편을 다시 시도한다.
+      # 영상이 실패해도 글 발행은 그대로 나간다(continue-on-error). 수·목 보충 실행이 이번 주 편 영상만 다시 시도한다.
       # 필요한 Secret: FAL_KEY (없으면 조용히 건너뜀). 단계 합성은 MediaPipe(파이썬) — 모델 파일은 매번 받는다.
       - uses: actions/setup-python@v5
-        if: steps.lesson.outputs.generated == 'true'
+        if: steps.lesson.outputs.generated == 'true' || steps.lesson.outputs.needvideo == 'true'
         with:
           python-version: '3.12'
 
       - name: Makeup class video (JJ)
         id: classvideo
-        if: steps.lesson.outputs.generated == 'true'   # 이번 실행에서 새 편이 나왔을 때만(보충 실행마다 $2~3 새지 않게)
+        # 새 편이 나왔거나, 이번 주 편 영상이 아직 없을 때만(화 실패 → 수·목 재시도, 주당 최대 3번).
+        # 지난 편은 다시 안 훑는다 — 실패가 반복되면 매번 $2~3 씩 샌다.
+        if: steps.lesson.outputs.generated == 'true' || steps.lesson.outputs.needvideo == 'true'
         continue-on-error: true
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -232,7 +234,7 @@ jobs:
           [ "${{ steps.news.outcome }}" = "success" ]    || FAIL="$FAIL 뉴스"
           [ "${{ steps.product.outcome }}" = "success" ] || FAIL="$FAIL 제품"
           [ "${{ steps.lesson.outcome }}" = "success" ]  || FAIL="$FAIL 클래스"
-          [ "${{ steps.classvideo.outcome }}" != "failure" ] || echo "::warning::클래스 JJ 영상 실패 — 글은 발행됨(영상은 유료라 자동 재시도 안 함)"
+          [ "${{ steps.classvideo.outcome }}" != "failure" ] || echo "::warning::클래스 JJ 영상 실패 — 글은 발행됨(수·목 보충 실행이 이번 주 편 영상만 다시 시도)"
           if [ -n "$FAIL" ]; then
             echo "::error::생성 실패:$FAIL — 위 스텝 로그의 ::error 를 볼 것. 나머지는 발행됨. 다음 보충 실행(수·목 06:00 KST)이 다시 시도한다. Gemini·OpenAI 둘 다 막혔다면 GEMINI_HOLD.md"
             exit 1

@@ -246,7 +246,7 @@ async function main() {
   const failures = []
 
   // ① 지난 실행에서 빠진 EN 번역부터 메운다(예전엔 한 번 빠지면 영원히 KO 만 남았다).
-  for (const it of await missingEn('news', 'NEWS_ITEMS', { max: Number(process.env.EN_BACKFILL_MAX || 2) })) {
+  for (const it of await missingEn('news', 'NEWS_ITEMS', { days: Number(process.env.EN_BACKFILL_DAYS || 60), max: Number(process.env.EN_BACKFILL_MAX || 2) })) {
     try {
       await translateAndInsertEn(apiKey, it)
       console.log(`  🌐 EN 보충: ${it.slug}`)

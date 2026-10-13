@@ -474,6 +474,9 @@
     "mistakeEn": "Applying a thick layer all over your face from the start can cause foundation to look cakey and settle into fine lines.",
     "chartPrompt": "on the face, a soft even skin tone with a sheer layer of foundation, slightly more coverage only on the under eyes and center of the face, and the outer face left nearly bare; show subtle swatch dots on the hand and center of face to illustrate amount and placement",
     "videoTitleKo": "얇게 파운데이션 바르기",
-    "videoTitleEn": "Natural Foundation Tips"
+    "videoTitleEn": "Natural Foundation Tips",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
