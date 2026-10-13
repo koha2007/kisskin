@@ -5,6 +5,161 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'laura-geller-cream-full-face-basics-palette',
+    category: 'trend',
+    brand: 'Laura Geller',
+    name: 'Cream Full Face Basics Palette',
+    title: 'Laura Geller Cream Full Face Basics Palette — Hydration & Natural Glow in One',
+    summary:
+      'Laura Geller\'s all-in-one cream formula palette launched in March, featuring bronzer, blush, highlighter, and eyeshadow for a comfortable, dewy glow.',
+    highlights: ['Cream-texture multi palette', 'Specially designed for 40+ skin', 'Natural radiant finish'],
+    details: [
+      'Moisturizing cream formula combines bronzer, blush, highlighter, and eyeshadow in one palette for all-in-one use.',
+      'Delivers a natural glow, developed with comfort and hydration in mind for women over 40.',
+      'Since its March 2026 launch, it\'s gained global attention through the \'Just Add Cream\' campaign and social media buzz.',
+    ],
+    whoFor:
+      'Ideal for dry or mature skin and women over 40 seeking simplified makeup. Recommended for those wanting to prevent dryness and achieve a natural glow with a cream formula.',
+    howTo: [
+      'Use fingertips or a brush to dab a small amount onto desired areas (cheeks, forehead, eyes) and blend naturally.',
+      'Contour with bronzer, add color with blush, highlight for glow, and softly apply shadow on eyelids for a unified look.',
+    ],
+    pros: [
+      'All-in-one palette covers multiple steps',
+      'Cream formula gives hydrated, natural-looking skin',
+    ],
+    cons: [
+      'Cream texture may not suit everyone\'s preference',
+    ],
+    image: '/products/laura-geller-cream-full-face-basics-palette.webp',
+    coupangQuery: '로라 겔러 크림 풀 페이스 팔레트',
+    globalQuery: 'Laura Geller Cream Full Face Basics Palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-18',
+    tags: ['all-in-one palette', 'cream makeup', 'natural glow'],
+    seoTitle: 'Laura Geller Cream Full Face Basics Palette Review & Guide',
+    seoDescription:
+      'Discover Laura Geller\'s Cream Full Face Basics Palette: an all-in-one, hydrating cream palette for a natural glow, ideal for mature or dry skin.',
+  },
+  {
+    slug: 'k18-gloss-absolu-glaze-drops',
+    category: 'hair',
+    brand: 'Kerastase',
+    name: 'Gloss Absolu Glaze Drops Hair Oil',
+    title: 'Kerastase Gloss Absolu Glaze Drops – Lightweight Glassy Shine',
+    summary:
+      'Kerastase\'s lightest hair oil uses a silicone blend and hyaluronic acid to add shine and softness, keeping hair sleek for up to 4 days.',
+    highlights: ['Ultra-light silicone blend', 'Hyaluronic acid moisture lock', '4-day sleek finish'],
+    details: [
+      'Uses an ultra-light silicone blend instead of heavy plant oils for soft, shiny hair without weighing it down.',
+      'Hyaluronic acid draws moisture into hair, maintaining hydration and gloss all day.',
+      'Smooths hair cuticles for up to 4 days of frizz control and a glass-like finish.',
+    ],
+    whoFor:
+      'Ideal for fine, frizz-prone hair and those wanting lightweight shine without greasiness. Also suitable for medium to thick hair, but best for those who dislike heavy products.',
+    howTo: [
+      'After towel-drying, apply a small amount to your palms and distribute evenly from mid-lengths to ends.',
+      'For extra shine and softness, use one drop on dry hair as a finishing touch on dry days.',
+    ],
+    pros: [
+      'Absorbs lightly for non-greasy, glassy shine',
+      'All-day moisture thanks to hyaluronic acid',
+    ],
+    cons: [
+      'Scent may be strong for those sensitive to fragrance',
+    ],
+    image: '/products/k18-gloss-absolu-glaze-drops.webp',
+    coupangQuery: '케라스테즈 글로스 압솔루 글레이즈 드롭스',
+    globalQuery: 'Kérastase Gloss Absolu Glaze Drops hair oil',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-08-29',
+    tags: ['shine', 'ultra-lightweight', 'frizz control'],
+    seoTitle: 'Kerastase Gloss Absolu Glaze Drops Review & Benefits',
+    seoDescription:
+      'Discover Kerastase\'s lightest hair oil for glassy shine and frizz control, with hyaluronic acid for all-day hydration.',
+  },
+  {
+    slug: 'nyx-lip-iv-hydrating-lip-gloss-stain',
+    category: 'lip',
+    brand: 'NYX Professional Makeup',
+    name: 'Lip I.V. Hydrating Gloss Stain',
+    title: 'NYX Lip I.V. Hydrating Gloss Stain – Shine and Lasting Color in One',
+    summary:
+      'A vegan formula that keeps lips hydrated for up to 12 hours, combining the shine of a gloss with the long-lasting color of a lip stain. One of NYX\'s bestselling lip products.',
+    highlights: ['Gloss + stain hybrid', '12-hour hydration', 'Vegan & cruelty-free'],
+    details: [
+      'Hybrid formula delivers the moisturizing shine of a gloss and the lasting power of a stain.',
+      'Infused with magnesium, vitamin B12, and coconut water to hydrate lips for up to 12 hours.',
+      'For a natural stain effect, gently wipe off the gloss layer after 10 minutes.',
+    ],
+    whoFor:
+      'Ideal for dry lips or those who want shine and color without stickiness. Perfect for daily use and users who value both a dewy lip look and lasting color.',
+    howTo: [
+      'Using the drip-shaped applicator, swipe a thin layer 1–2 times from the center to the outer edges of the lips.',
+      'After 10 minutes, gently wipe off the gloss layer for a natural, long-lasting lip stain effect.',
+    ],
+    pros: [
+      'Shine and lasting color in one',
+      'Intense hydration',
+      'Vegan & cruelty-free',
+    ],
+    cons: [
+      'Gloss may not last long—stain effect remains only after wiping off gloss after 10 minutes',
+    ],
+    colorFit:
+      'Summer Cool: Clear, dewy peach and berry shades brighten cool-toned skin and enhance natural lip color.',
+    image: '/products/nyx-lip-iv-hydrating-lip-gloss-stain.webp',
+    coupangQuery: 'NYX 립 I.V 글로스 스테인',
+    globalQuery: 'NYX Lip I.V Hydrating Lip Gloss Stain',
+    clio: false,
+    clioCategory: 'lip',
+    date: '2026-09-16',
+    tags: ['hydrating', 'long-lasting', 'gloss stain'],
+    seoTitle: 'NYX Lip I.V. Hydrating Gloss Stain Review & Color Guide',
+    seoDescription:
+      'Discover NYX Lip I.V. Hydrating Gloss Stain: vegan, 12-hour hydration, gloss shine, and lasting color. Find the best shades for cool-toned skin.',
+  },
+  {
+    slug: 'dior-forever-skin-glow',
+    category: 'base',
+    brand: 'Dior',
+    name: 'Forever Skin Glow Foundation',
+    title: 'Dior Forever Skin Glow – Natural Radiance Mid-Coverage Foundation',
+    summary:
+      'Dior Forever Skin Glow is a top base product in the US, Europe, and Asia, offering natural mid coverage with a dewy, radiant finish.',
+    highlights: ['Medium coverage', 'Glowing finish', 'Long-lasting adherence'],
+    details: [
+      'Provides natural correction of skin tone and imperfections with medium coverage.',
+      'Features a hydrating, radiant glow finish for a healthy look.',
+      'Formula blends seamlessly into skin over time for a natural effect.',
+    ],
+    whoFor:
+      'Best for normal to dry skin needing hydration, and those seeking a natural glow and tone correction. Less suitable for those preferring a matte finish.',
+    howTo: [
+      'Apply a small amount with a sponge or brush to forehead, cheeks, and chin, then blend outward from the center of the face.',
+      'Layer lightly on areas needing more coverage for a natural finish.',
+    ],
+    pros: [
+      'Balanced natural radiance and medium coverage',
+      'Glowing finish gives skin a healthy look',
+    ],
+    cons: [
+      'May appear shiny on oily skin or for those who prefer a matte finish',
+    ],
+    image: '/products/dior-forever-skin-glow.webp',
+    coupangQuery: '디올 포에버 스킨 글로우 파운데이션',
+    globalQuery: 'Dior Forever Skin Glow Foundation',
+    clio: false,
+    clioCategory: 'base',
+    date: '2026-09-18',
+    tags: ['glow foundation', 'medium coverage', 'Dior base'],
+    seoTitle: 'Dior Forever Skin Glow Foundation: Radiant Medium Coverage',
+    seoDescription:
+      'Discover Dior Forever Skin Glow Foundation—natural radiance, medium coverage, and hydration for healthy-looking skin. Ideal for normal to dry skin.',
+  },
+  {
     slug: 'fwee-lip-cheek-blurry-pudding-pot',
     category: 'cheek',
     brand: 'fwee',

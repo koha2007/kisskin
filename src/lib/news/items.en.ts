@@ -5,6 +5,90 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'olive-young-kbeauty-us-sephora-launch-2026',
+    category: 'global',
+    title: 'Olive Young to Launch 19 K-Beauty Brands in 500+ US Sephora Stores on August 20',
+    summary:
+      'Nineteen Korean beauty brands curated by Olive Young will officially launch in over 500 Sephora stores and online in the US starting August 20, 2026. A dedicated space at the Times Square flagship store will also be introduced, significantly expanding K-beauty accessibility.',
+    body: [
+      '> TLDR: 19 brands curated by Olive Young | Launching August 20 in 500+ US Sephora stores and online | Dedicated New York Times Square space opening',
+      'The strategic partnership between Olive Young and Sephora is moving forward, with 19 Korean beauty brands set to launch in over 500 Sephora stores and online in the US from August 20, 2026.',
+      '> DATA: 19 Korean brands will debut in over 500 Sephora stores and online in the US starting August 20, 2026 (cosmeticsbusiness.com)',
+      'This launch marks the first execution of the partnership announced in January this year, and a dedicated \'Olive Young K-Beauty Zone\' will be established at Sephora\'s Times Square flagship store in New York. This is expected to further strengthen K-beauty awareness and accessibility in the US.',
+      'From a consumer perspective, both offline experiences and online accessibility will expand, offering more opportunities to directly discover the latest K-beauty trends and new products.',
+    ],
+    date: '2026-08-18',
+    readMinutes: 3,
+    tags: ['K-Beauty', 'Sephora', 'Olive Young', 'US Expansion'],
+    image: '/news/olive-young-kbeauty-us-sephora-launch-2026.webp',
+    seoTitle: 'Olive Young to Launch 19 K-Beauty Brands in US Sephora',
+    seoDescription:
+      'Olive Young will introduce 19 K-beauty brands in 500+ US Sephora stores and online from August 2026, with a flagship space in Times Square.',
+  },
+  {
+    slug: 'kbeauty-available-at-coles-australia',
+    category: 'skincare',
+    title: 'Coles Australia Expands Beauty Shopping with Launch of Over 100 K-Beauty Products',
+    summary:
+      'Australian supermarket giant Coles is increasing consumer access by launching over 100 K-beauty brands nationwide from mid-September, including popular names like COSRX, Beauty of Joseon, and Tony Moly.',
+    body: [
+      '> TLDR: Coles Australia expands K-beauty lineup | Launches over 100 products | Includes COSRX, Beauty of Joseon, Tony Moly',
+      'Australian supermarket chain Coles will launch more than 100 skincare products, including K-beauty brands, in stores nationwide and online starting mid-September.',
+      '> DATA: “Over 100 new skincare products” are scheduled for nationwide release at Coles in September, including COSRX, Beauty of Joseon, and Tony Moly (colesgroup.com.au)',
+      'This launch features leading K-beauty brands such as COSRX, Beauty of Joseon, and Tony Moly, with COSRX and Beauty of Joseon products rolling out sequentially from September 25. Additionally, a limited-edition ‘Trend Drop’ featuring Skinfood, The Face Shop, and Tony Moly will be available at select stores on the 11th (colesgroup.com.au).',
+      'Consumers will now be able to discover K-beauty products as part of their everyday grocery shopping, significantly improving beauty accessibility.',
+    ],
+    date: '2026-09-16',
+    readMinutes: 3,
+    tags: ['K-beauty', 'Australia', 'Retail Launch', 'COSRX'],
+    image: '/news/kbeauty-available-at-coles-australia.webp',
+    seoTitle: 'Coles Australia Launches 100+ K-Beauty Products Nationwide',
+    seoDescription:
+      'Coles Australia debuts over 100 K-beauty products, including COSRX and Beauty of Joseon, in stores and online for easier access to trending skincare.',
+  },
+  {
+    slug: 'k-beauty-exports-august-growth-ecosystem-expansion',
+    category: 'global',
+    title: 'K-Beauty Exports Surge 52.1% in August; ODM and Packaging Firms Also See Growth',
+    summary:
+      'In August 2026, Korean cosmetics exports hit a record high of $1.31 billion, up 52.1% year-on-year. The export boom is extending beyond brands to ODM and packaging companies.',
+    body: [
+      '> TLDR: August exports up 52.1% | Export value around $1.31 billion | ODM and packaging companies also on the rise',
+      'In August 2026, Korea\'s cosmetics exports rose by 52.1% year-on-year, reaching approximately $1.31 billion.',
+      '> DATA: August cosmetics exports up 52.1% → about $1.31 billion (year-on-year) (Source: News1)',
+      'This export growth is not limited to branded products but is seen across the entire beauty ecosystem, including ODM (Original Design Manufacturing) and packaging companies. Expansion of offline distribution, increased overseas orders, and rising ODM demand are key drivers behind the strong export performance.',
+      'For consumers, it\'s significant that K-beauty now demonstrates global competitiveness not only in products but also in manufacturing and packaging infrastructure. This lays the groundwork for a wider variety of brands and products to establish themselves in overseas markets.',
+    ],
+    date: '2026-10-06',
+    readMinutes: 3,
+    tags: ['K-beauty', 'exports', 'ODM'],
+    image: '/news/k-beauty-exports-august-growth-ecosystem-expansion.webp',
+    seoTitle: 'K-Beauty Exports Jump 52% in August, ODM & Packaging',
+    seoDescription:
+      'K-beauty exports soared 52.1% in August 2026, with ODM and packaging firms also seeing strong growth. Discover the drivers behind this record surge.',
+  },
+  {
+    slug: 'k-beauty-pop-up-hudson-yards-nyc',
+    category: 'global',
+    title: 'Shinsegae HYPER GROUND Showcases 30+ K-Beauty Brands in New York’s Hudson Yards Popup',
+    summary:
+      'Shinsegae\'s HYPER GROUND platform will host a popup featuring over 30 Korean beauty brands at New York\'s Hudson Yards from October 2 through the end of the year, aiming to expand K-beauty experiences and brand awareness in the US market.',
+    body: [
+      '> TLDR: New York Hudson Yards popup | Over 30 brands participating | Open through year-end',
+      'Shinsegae’s HYPER GROUND opened a popup store at New York’s Hudson Yards on October 2, 2026. This space brings together more than 30 Korean beauty brands in one location.',
+      '> DATA: Over 30 brands participating, operating period is October 2 to December 31',
+      'The popup is a K-beauty platform curated by Shinsegae Department Store, and its scale is more than three times larger than the previous Paris popup, which featured about 10 brands. This reflects a strategic expansion to provide K-beauty experiences in the US.',
+      'From a consumer perspective, this popup, running through the end of the year, offers local visitors the chance to directly experience brands and discover new K-beauty products.',
+    ],
+    date: '2026-10-13',
+    readMinutes: 3,
+    tags: ['K-beauty', 'popup', 'United States'],
+    image: '/news/k-beauty-pop-up-hudson-yards-nyc.webp',
+    seoTitle: 'Shinsegae HYPER GROUND Brings 30+ K-Beauty Brands to NYC',
+    seoDescription:
+      'Shinsegae\'s HYPER GROUND opens a large K-beauty popup at Hudson Yards, NYC, featuring 30+ brands and hands-on experiences through year-end.',
+  },
+  {
     slug: 'cosrx-becomes-first-k-beauty-patron-british-beauty-council',
     category: 'skincare',
     title: 'COSRX Becomes First K-Beauty Patron of the British Beauty Council',

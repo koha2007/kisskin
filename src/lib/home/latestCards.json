@@ -60,12 +60,12 @@
         "date": "2026-09-29"
       },
       {
-        "slug": "etude-color-fix-skinny-mascara",
-        "brand": "ETUDE",
-        "name": "Curl Fix Skinny Mascara",
-        "category": "eye",
-        "image": "/products/etude-color-fix-skinny-mascara.webp",
-        "date": "2026-09-17"
+        "slug": "dior-forever-skin-glow",
+        "brand": "Dior",
+        "name": "Forever Skin Glow Foundation",
+        "category": "base",
+        "image": "/products/dior-forever-skin-glow.webp",
+        "date": "2026-09-18"
       }
     ]
   },
@@ -102,6 +102,20 @@
     ],
     "en": [
       {
+        "slug": "k-beauty-pop-up-hudson-yards-nyc",
+        "title": "Shinsegae HYPER GROUND Showcases 30+ K-Beauty Brands in New York’s Hudson Yards Popup",
+        "category": "global",
+        "image": "/news/k-beauty-pop-up-hudson-yards-nyc.webp",
+        "date": "2026-10-13"
+      },
+      {
+        "slug": "k-beauty-exports-august-growth-ecosystem-expansion",
+        "title": "K-Beauty Exports Surge 52.1% in August; ODM and Packaging Firms Also See Growth",
+        "category": "global",
+        "image": "/news/k-beauty-exports-august-growth-ecosystem-expansion.webp",
+        "date": "2026-10-06"
+      },
+      {
         "slug": "cosrx-becomes-first-k-beauty-patron-british-beauty-council",
         "title": "COSRX Becomes First K-Beauty Patron of the British Beauty Council",
         "category": "skincare",
@@ -114,20 +128,6 @@
         "category": "skincare",
         "image": "/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp",
         "date": "2026-09-17"
-      },
-      {
-        "slug": "trinny-london-skin-tint-40-plus-launch",
-        "title": "Trinny London Launches New 'Skin Tint' for Ages 40 and Over",
-        "category": "base",
-        "image": "/news/trinny-london-skin-tint-40-plus-launch.webp",
-        "date": "2026-09-15"
-      },
-      {
-        "slug": "nooni-apple-seed-lip-oil-target-us-debut",
-        "title": "nooni Launches Signature ‘Apple Seed Lip Oil’ Across 1,778 US Target Stores and Online",
-        "category": "lip",
-        "image": "/news/nooni-apple-seed-lip-oil-target-us-debut.webp",
-        "date": "2026-09-13"
       }
     ]
   }

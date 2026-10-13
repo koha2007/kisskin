@@ -384,5 +384,96 @@
     "mistakeKo": "마른 스펀지로 파운데이션을 바르면 제품을 다 빨아들여 두껍고 얼룩져요.",
     "mistakeEn": "A dry sponge soaks up foundation and leaves it thick and streaky.",
     "chartPrompt": "a finished soft makeup: a smooth thin base, a soft peach cream blush on the apples of the cheeks with a gently tapped, diffused texture, a soft warm-brown eyeshadow wash blended on the lids, and a soft coral lip"
+  },
+  {
+    "slug": "foundation-not-cakey",
+    "publishedAt": "2026-10-13",
+    "introKo": "파운데이션을 많이 바르면 금방 두꺼워 보이고 들뜰 수 있어요. 적은 양으로 얼굴 중앙부터 바르고, 커버가 더 필요한 곳만 한 번 더 얹는 게 자연스러워요.",
+    "introEn": "Applying too much foundation can quickly make your skin look heavy and cakey. Start with a small amount in the center of your face, then add a little more only where you need extra coverage.",
+    "minutes": 8,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "skin",
+        "titleKo": "적은 양만 덜어내기",
+        "titleEn": "Dispense a small amount",
+        "bodyKo": "손등에 콩알만큼 파운데이션을 덜어요. 한 번에 많이 쓰지 말고, 부족하면 나중에 조금 더 덜어내요.",
+        "bodyEn": "Dispense a pea-sized amount of foundation onto the back of your hand. Avoid using too much at once; you can always add a bit more if needed.",
+        "toolsKo": "리퀴드 파운데이션",
+        "toolsEn": "Liquid foundation",
+        "swatches": [
+          "#f5e0ce"
+        ],
+        "searchKeywords": "촉촉 리퀴드 파운데이션",
+        "shopEn": "dewy liquid foundation",
+        "shortKo": "파운데이션은 소량만",
+        "shortEn": "Start with a small amount"
+      },
+      {
+        "area": "skin",
+        "crop": "cheekTemple",
+        "titleKo": "얼굴 중앙부터 바깥으로",
+        "titleEn": "Apply from the center outward",
+        "bodyKo": "코, 볼, 이마 중앙에 파운데이션을 점찍듯 얹고, 바깥쪽으로 얇게 펴 발라요. 얼굴 외곽은 남은 양만 가볍게 쓸어줘요.",
+        "bodyEn": "Dot foundation onto your nose, cheeks, and the center of your forehead, then blend outward in thin layers. On the outer edges of your face, lightly sweep on only the remaining product for a sheer finish.",
+        "toolsKo": "브러시 또는 스펀지",
+        "toolsEn": "Brush or sponge",
+        "swatches": [
+          "#f5e0ce"
+        ],
+        "searchKeywords": "파운데이션 브러시 스펀지",
+        "shopEn": "foundation brush sponge",
+        "shortKo": "중앙부터 얇게 펴바르기",
+        "shortEn": "Blend out from the center"
+      },
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "필요한 곳만 레이어링",
+        "titleEn": "Layer only where needed",
+        "bodyKo": "붉은기, 잡티, 다크서클 등 커버가 더 필요한 곳에만 소량을 한 번 더 얹어요. 여러 번 두껍게 바르지 않아요.",
+        "bodyEn": "Gently layer a small amount only on areas that require extra coverage, such as redness, spots, or dark circles. Avoid building up thick layers all over.",
+        "toolsKo": "손가락 또는 스펀지",
+        "toolsEn": "Finger or sponge",
+        "swatches": [
+          "#f5e0ce"
+        ],
+        "searchKeywords": "얇은 커버 파운데이션",
+        "shopEn": "sheer cover foundation",
+        "shortKo": "잡티에만 한 번 더",
+        "shortEn": "Layer only on blemishes"
+      },
+      {
+        "area": "skin",
+        "crop": "jaw",
+        "titleKo": "들뜸 원인 체크",
+        "titleEn": "Check for patchiness",
+        "bodyKo": "각질이 일어나거나 파운데이션이 뭉친 곳이 없는지 턱선, 코 옆, 눈 밑을 확인해요. 밀착이 잘 안 된 부분은 스펀지로 두드려 정리해요.",
+        "bodyEn": "Check your jawline, sides of the nose, and under-eye area for dry patches or cakeyness. Gently tap any areas that haven't adhered well with a sponge to blend them out.",
+        "toolsKo": "스펀지",
+        "toolsEn": "Sponge",
+        "swatches": [
+          "#f5e0ce"
+        ],
+        "searchKeywords": "메이크업 퍼프 스펀지",
+        "shopEn": "makeup sponge puff",
+        "shortKo": "들뜸은 스펀지로 정리",
+        "shortEn": "Fix patchy spots with sponge"
+      }
+    ],
+    "tipsKo": [
+      "얇게 여러 번 바르는 게 한 번에 두껍게 바르는 것보다 자연스러워요.",
+      "얼굴 외곽은 파운데이션을 거의 바르지 않아야 경계가 안 생겨요."
+    ],
+    "tipsEn": [
+      "Applying thin layers looks far more natural than applying one thick coat.",
+      "Keep the outer perimeter of your face almost bare to prevent visible foundation lines."
+    ],
+    "mistakeKo": "처음부터 얼굴 전체에 두껍게 바르면 금방 들뜨고 주름에 끼어 보일 수 있어요.",
+    "mistakeEn": "Applying a thick layer all over your face from the start can cause foundation to look cakey and settle into fine lines.",
+    "chartPrompt": "on the face, a soft even skin tone with a sheer layer of foundation, slightly more coverage only on the under eyes and center of the face, and the outer face left nearly bare; show subtle swatch dots on the hand and center of face to illustrate amount and placement",
+    "videoTitleKo": "얇게 파운데이션 바르기",
+    "videoTitleEn": "Natural Foundation Tips"
   }
 ]
