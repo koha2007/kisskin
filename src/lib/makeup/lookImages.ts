@@ -30,7 +30,7 @@ const DIR = '/styles/looks'
 // `cache-control: public, max-age=14400`(4시간) 동안 옛 사진을 계속 쓴다. 실제로 9룩을
 // 전부 갈아끼운 날 "반영이 안 된다"는 보고가 나왔다(서버는 새 파일, 브라우저가 옛 파일).
 // **이미지를 재생성할 때마다 이 날짜를 올릴 것.** 그래야 기존 방문자도 즉시 새 사진을 본다.
-const V = '20260922'
+const V = '20261017'
 const src = (name: string) => `${DIR}/${name}.webp?v=${V}`
 
 export const LOOK_IMAGES: Record<MakeupStyleId, LookImage> = {
