@@ -23,6 +23,8 @@ interface Props {
   label: string
   emoji: string
   card: IdentityCardData
+  /** 유형 일러스트(같은 출처 경로) — 있으면 카드 아치 창을 채운다(없으면 이모지) */
+  illustration?: string
   /** PNG 파일명 슬러그 — e.g. "perfume-floral" */
   fileSlug: string
   saveLabel?: string
@@ -37,11 +39,13 @@ interface Props {
   isEn?: boolean
 }
 
-export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, share, shareLabel, isEn = false }: Props) {
+export default function IdentityCard({ label, emoji, card, illustration, fileSlug, saveLabel, share, shareLabel, isEn = false }: Props) {
   const [saving, setSaving] = useState(false)
   const [shared, setShared] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
-  const [from, to] = card.gradient
+  // 화면 미리보기 = 저장될 PNG 그 자체(2026-10-17). 예전엔 DOM 으로 같은 모양을 따로 그려
+  // 캔버스와 1:1 을 손으로 맞췄다 — 리디자인 때마다 둘이 어긋날 위험. 이제 한 렌더러만 있다.
+  const [preview, setPreview] = useState<string | null>(null)
 
   const fileName = `kissinskin-${fileSlug}.png`
   const showToast = (msg: string) => {
@@ -63,12 +67,12 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
   //   `const card = localizeCard(t.card, isEn)` 를 렌더마다 새로 만들어서(EN 경로),
   //   객체를 의존성에 넣으면 저장 버튼을 눌러 setSaving 이 리렌더를 일으키는 순간
   //   이펙트가 다시 돌며 방금 쓰려던 캐시를 지워 버린다.
-  const cardKey = `${label}|${emoji}|${fileName}|${card.nickname}|${card.identityLine}|${card.hashtags.join(',')}`
+  const cardKey = `${label}|${emoji}|${illustration ?? ''}|${fileName}|${card.nickname}|${card.identityLine}|${card.hashtags.join(',')}`
   useEffect(() => {
     imageRef.current = null
     let cancelled = false
-    buildIdentityCardImage({ label, emoji, card }, fileName)
-      .then((img) => { if (!cancelled) imageRef.current = img })
+    buildIdentityCardImage({ label, emoji, card, illustration }, fileName)
+      .then((img) => { if (!cancelled) { imageRef.current = img; setPreview(img.dataUrl) } })
       .catch(() => { /* 탭 시 온디맨드로 재시도 */ })
     return () => { cancelled = true }
     // 카드 내용이 바뀌면(로케일 토글 등) 다시 만든다.
@@ -77,7 +81,7 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
 
   const getImage = async (): Promise<IdentityCardImage> => {
     if (imageRef.current) return imageRef.current
-    const img = await buildIdentityCardImage({ label, emoji, card }, fileName)
+    const img = await buildIdentityCardImage({ label, emoji, card, illustration }, fileName)
     imageRef.current = img
     return img
   }
@@ -189,7 +193,7 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
         const img = await getImage()
         const ok = await nativeSaveImage(img.dataUrl)
         if (ok) {
-          trackCardSaved({ label, emoji, card }, 'native')
+          trackCardSaved({ label, emoji, card, illustration }, 'native')
           showToast(isEn ? 'Saved to your gallery' : '갤러리에 저장했어요')
         } else {
           showToast(isEn ? 'Save failed — allow photo permission and try again' : '저장에 실패했어요. 사진 권한을 허용하고 다시 시도해 주세요')
@@ -204,19 +208,19 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
         : '이미지를 길게 눌러 "사진에 저장"을 선택하세요'
       const cached = imageRef.current
       if (isIOS && cached && openImageTab(cached.file)) {
-        trackCardSaved({ label, emoji, card }, 'newtab')
+        trackCardSaved({ label, emoji, card, illustration }, 'newtab')
         showToast(saveHint)
         return
       }
 
       const img = cached ?? await getImage()
       if (isIOS && openImageTab(img.file)) {
-        trackCardSaved({ label, emoji, card }, 'newtab')
+        trackCardSaved({ label, emoji, card, illustration }, 'newtab')
         showToast(saveHint)
         return
       }
       downloadFile(img.file)
-      trackCardSaved({ label, emoji, card }, 'download')
+      trackCardSaved({ label, emoji, card, illustration }, 'download')
       showToast(isEn ? 'Saved to your device' : '이미지를 저장했어요')
     } catch (e) {
       console.error('card save failed', e)
@@ -228,37 +232,25 @@ export default function IdentityCard({ label, emoji, card, fileSlug, saveLabel, 
 
   return (
     <div className="flex flex-col items-center gap-5">
-      {/* 9:16 미리보기 — 실제 PNG와 동일 레이아웃의 축소판 */}
+      {/* 9:16 미리보기 — 저장될 PNG 를 그대로 보여 준다. 렌더 전(SSR·첫 순간)엔 같은 크기의
+          종이색 자리에 닉네임만(글자는 검색·스크린리더용으로도 남는다) — 자리 크기가 같아 밀림 없음. */}
       <div
-        className="w-full max-w-[300px] rounded-3xl shadow-2xl overflow-hidden text-white"
-        style={{ aspectRatio: '9 / 16', background: `linear-gradient(135deg, ${from} 0%, ${to} 100%)` }}
+        className="relative w-full max-w-[300px] rounded-3xl shadow-2xl overflow-hidden"
+        style={{ aspectRatio: '9 / 16', background: '#F3EADC' }}
       >
-        <div className="h-full w-full flex flex-col items-center justify-between px-6 py-8 text-center">
-          <p className="text-[11px] font-semibold tracking-[0.3em] text-white/80 uppercase">{label}</p>
-
-          <div className="flex flex-col items-center gap-3 -mt-2">
-            <div className="text-[88px] leading-none drop-shadow-lg">{emoji}</div>
-            <h3 className="text-3xl font-extrabold leading-tight px-1">{card.nickname}</h3>
-            <p className="text-[11px] font-semibold tracking-[0.2em] text-white/75">
-              {card.enName.toUpperCase()}
-            </p>
-            <p className="text-sm font-medium text-white/95 leading-snug px-1">“{card.identityLine}”</p>
+        {preview ? (
+          <img
+            src={preview}
+            alt={`${label} — ${card.nickname}: ${card.identityLine}`}
+            className="absolute inset-0 h-full w-full"
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center text-navy">
+            <p className="text-[11px] font-bold tracking-[0.3em] text-[#B5523B]">{label}</p>
+            <p className="text-2xl font-extrabold">{card.nickname}</p>
+            <p className="text-xs text-navy/70">“{card.identityLine}”</p>
           </div>
-
-          <div className="flex flex-col items-center gap-3 w-full">
-            <div className="flex flex-wrap justify-center gap-1.5">
-              {card.hashtags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[10px] font-semibold bg-white/16 rounded-full px-2.5 py-1 whitespace-nowrap"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <p className="text-[11px] font-bold tracking-wider text-white/90">kissinskin.net</p>
-          </div>
-        </div>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-2.5">

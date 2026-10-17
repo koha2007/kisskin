@@ -15,18 +15,33 @@ export interface ToolMood {
   makeupImage?: string
   /** 스타일/패션 무드 이미지(4:5) — 선택. */
   fashionImage?: string
+  /** 남성 인물(3:4) — 랜딩 카드의 여성/남성 전환용 */
+  imageMale?: string
+  /** 같은 여성 인물 + 이 얼굴형 추천 룩(3:4) — 결과 화면 비포/애프터 */
+  lookImage?: string
+  /** 결과 카드(IdentityCard) 아치 창 일러스트(2:3) */
+  cardArt?: string
 }
+
+const art = (c: FaceShapeCode): ToolMood => ({
+  image: `/mood/fs-${c}.webp`,
+  imageMale: `/mood/fs-${c}-m.webp`,
+  lookImage: `/mood/fs-${c}-look.webp`,
+  cardArt: `/cards/fs-${c}.webp`,
+})
 
 // 운영자 편집 지점: oval: { image: '/mood/face-oval.jpg', makeupImage: '…' } 형태로 추가.
 const OVERRIDES: Partial<Record<FaceShapeCode, ToolMood>> = {
   // 2026-07-22 생성(scripts/gen-mood-images.mjs). 여기만 인물을 쓴다 —
   // 얼굴 윤곽 자체가 진단 내용이라 정물로는 전달이 안 된다.
   // 메이크업을 최소화해 턱선·이마 폭이 그대로 읽히도록 생성했다.
-  oval: { image: '/mood/fs-oval.webp' },
-  round: { image: '/mood/fs-round.webp' },
-  square: { image: '/mood/fs-square.webp' },
-  oblong: { image: '/mood/fs-oblong.webp' },
-  heart: { image: '/mood/fs-heart.webp' },
+  // 2026-10-17 호감형 재촬영(gpt-image-2): 크림 스튜디오·옅은 미소·니트 통일, 여성·남성 각 5,
+  // 한국인 위주 + 다양한 인종. 전엔 회색 배경·무표정·여성만이라 증명사진처럼 차가웠다.
+  oval: art('oval'),
+  round: art('round'),
+  square: art('square'),
+  oblong: art('oblong'),
+  heart: art('heart'),
 }
 
 export const FACE_SHAPE_MOOD: Record<FaceShapeCode, ToolMood> = Object.fromEntries(

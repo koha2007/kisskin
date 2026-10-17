@@ -17,6 +17,8 @@ export default function FaceShapeQuiz() {
   const { t, locale } = useI18n()
   const isEn = locale === 'en'
   const [phase, setPhase] = useState<Phase>('intro')
+  // 얼굴형 카드 사진 — 여성/남성 전환(2026-10-17, 남성 5종 추가)
+  const [sex, setSex] = useState<'f' | 'm'>('f')
   const [idx, setIdx] = useState(0)
   const [answers, setAnswers] = useState<FSAnswer[]>([])
   const [fading, setFading] = useState(false)
@@ -123,6 +125,21 @@ export default function FaceShapeQuiz() {
           columnsClass="columns-2 md:columns-5"
           startLabel={t('tools.common.startDiagnosis')}
           onStart={() => setPhase('quiz')}
+          toolbar={
+            <div role="group" aria-label={isEn ? 'Example photos' : '예시 사진'} className="inline-flex border border-navy/20 bg-white">
+              {(['f', 'm'] as const).map((k) => (
+                <button
+                  key={k}
+                  type="button"
+                  aria-pressed={sex === k}
+                  onClick={() => setSex(k)}
+                  className={`px-5 py-2 text-sm font-bold transition-colors ${sex === k ? 'bg-navy text-white' : 'text-navy/70 hover:text-navy'}`}
+                >
+                  {k === 'f' ? (isEn ? 'Women' : '여성') : (isEn ? 'Men' : '남성')}
+                </button>
+              ))}
+            </div>
+          }
         >
           {FACE_SHAPE_ORDER.map(c => {
             const ft = FACE_SHAPE_TYPES[c]
@@ -134,7 +151,9 @@ export default function FaceShapeQuiz() {
                 name={isEn ? ft.enName : ft.koName}
                 sub={isEn ? ft.koName : ft.enName}
                 accent={ft.primaryColor}
-                image={FACE_SHAPE_MOOD[c].image}
+                image={(sex === 'm' && FACE_SHAPE_MOOD[c].imageMale) || FACE_SHAPE_MOOD[c].image}
+                // 2026-10-17: 높이를 통일한다 — 이름 해시 벽돌 리듬이 5장일 땐 들쭉날쭉으로만 보였다
+                aspectClass="aspect-[4/5]"
               />
             )
           })}

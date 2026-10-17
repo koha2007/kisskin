@@ -60,7 +60,7 @@ const Z: Record<FaceShapeCode, Zones> = {
 const C = { contour: 'rgb(132,98,78)', highlight: 'rgb(255,251,238)', blush: 'rgb(238,124,112)' }
 const expand = (es: E[]) => es.flatMap((e) => (e.mirror ? [e, { ...e, cx: W - e.cx, rot: -(e.rot ?? 0) }] : [e]))
 
-function FaceSvg({ code, title }: { code: FaceShapeCode; title: string }) {
+function FaceSvg({ code, title, accent }: { code: FaceShapeCode; title: string; accent: string }) {
   const id = `fs-${code}`
   const z = Z[code]
   const layer = (es: E[], color: string, op: number) =>
@@ -74,27 +74,29 @@ function FaceSvg({ code, title }: { code: FaceShapeCode; title: string }) {
         <filter id={`${id}-soft`} x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" /></filter>
         <clipPath id={`${id}-clip`}><path d={OUTLINE[code]} /></clipPath>
       </defs>
-      <rect width={W} height="380" fill="#f6f1e8" />
-      {/* 목 */}
-      <path d="M122,290 L112,380 M178,290 L188,380" stroke="#6b6460" strokeWidth="1.3" fill="none" />
-      <path d={OUTLINE[code]} fill="#f3e4d6" />
+      {/* 2026-10-17 리디자인 — 결과 카드·캐릭터와 같은 컷페이퍼(마티스풍) 언어.
+          전: 연필 선 얼굴 하나(엉성해 보였다). 후: 종이 바탕 + 유형색 아치 + 채운 얼굴(프로 페이스 차트처럼
+          머리·어깨는 그리지 않는다 — 얼굴 윤곽이 곧 정보다). */}
+      <rect width={W} height="380" fill="#F3EADC" />
+      <path d="M30,380 L30,150 A120,120 0 0 1 270,150 L270,380 Z" fill={accent} opacity="0.2" />
+      <path d={OUTLINE[code]} fill="#F2D9C4" />
       <g clipPath={`url(#${id}-clip)`} filter={`url(#${id}-soft)`}>
         {layer(z.contour, C.contour, 0.55)}
         {layer(z.blush, C.blush, 0.55)}
         {layer(z.highlight, C.highlight, 1)}
       </g>
-      <path d={OUTLINE[code]} fill="none" stroke="#3f3a37" strokeWidth="1.6" />
-      {/* 눈썹 · 눈 · 코 · 입 — 연필 선 */}
-      <g fill="none" stroke="#4a4340" strokeLinecap="round">
-        <path d={BROW[code]} strokeWidth="3.2" />
-        <path d={BROW[code]} strokeWidth="3.2" transform={`translate(${W} 0) scale(-1 1)`} />
-        <path d="M103,176 Q118,166 133,176 Q118,183 103,176 Z" strokeWidth="1.3" />
-        <path d="M167,176 Q182,166 197,176 Q182,183 167,176 Z" strokeWidth="1.3" />
-        <path d="M136,224 Q150,233 164,224" strokeWidth="1.3" />
-        <path d="M132,262 Q141,256 150,259 Q159,256 168,262 Q150,274 132,262 Z" strokeWidth="1.3" />
+      <path d={OUTLINE[code]} fill="none" stroke="#232a52" strokeWidth="1.4" opacity="0.55" />
+      {/* 눈썹 · 눈 · 코 · 입 */}
+      <g fill="none" stroke="#232a52" strokeLinecap="round">
+        <path d={BROW[code]} strokeWidth="3.6" />
+        <path d={BROW[code]} strokeWidth="3.6" transform={`translate(${W} 0) scale(-1 1)`} />
+        <path d="M136,224 Q150,233 164,224" strokeWidth="1.4" opacity="0.6" />
       </g>
-      <circle cx="118" cy="175.5" r="4" fill="#4a4340" />
-      <circle cx="182" cy="175.5" r="4" fill="#4a4340" />
+      <path d="M103,176 Q118,166 133,176 Q118,183 103,176 Z" fill="#fff" stroke="#232a52" strokeWidth="1.3" />
+      <path d="M167,176 Q182,166 197,176 Q182,183 167,176 Z" fill="#fff" stroke="#232a52" strokeWidth="1.3" />
+      <circle cx="118" cy="175.5" r="4.2" fill="#232a52" />
+      <circle cx="182" cy="175.5" r="4.2" fill="#232a52" />
+      <path d="M132,262 Q141,255 150,258 Q159,255 168,262 Q150,276 132,262 Z" fill="#D9776A" />
     </svg>
   )
 }
@@ -122,7 +124,7 @@ export default function FaceShapeMap({ code, isEn }: { code: FaceShapeCode; isEn
     <section className="py-10 md:py-14 bg-white border-y border-slate-200" aria-labelledby="fs-map-title">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 grid md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] gap-8 md:gap-12 items-start">
         <figure className="w-full max-w-[320px] mx-auto border border-slate-200">
-          <FaceSvg code={code} title={isEn ? `${name}: where to contour, highlight and blush` : `${name} 컨투어 · 하이라이트 · 블러셔 위치`} />
+          <FaceSvg code={code} accent={t.primaryColor} title={isEn ? `${name}: where to contour, highlight and blush` : `${name} 컨투어 · 하이라이트 · 블러셔 위치`} />
         </figure>
         <div className="min-w-0">
           <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-2">{isEn ? 'Makeup map' : '메이크업 지도'}</p>

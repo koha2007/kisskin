@@ -242,6 +242,7 @@ export default function FaceShapeResult({ code }: Props) {
             <IdentityCard
               label={isEn ? 'Face Shape' : '얼굴형'}
               emoji={t.emoji}
+              illustration={mood.cardArt}
               card={card}
               fileSlug={`face-shape-${t.code}`}
               saveLabel={L.save}
@@ -263,6 +264,41 @@ export default function FaceShapeResult({ code }: Props) {
         <FaceShapeMix code={code} isEn={isEn} basePath={basePath} />
         {/* 2026-10-10: 얼굴형별 메이크업 지도(SVG 도식) + 클래스 11·23·25편 연결 */}
         <FaceShapeMap code={code} isEn={isEn} />
+
+        {/* 이 얼굴형 + 추천 룩 비포/애프터 — 2026-10-17. 히어로 버튼("'룩' 내 얼굴로 보기")이 무엇을
+            해 주는지 실제로 보여 준다. 같은 인물에 우리 AI 메이크업과 같은 프롬프트로 입혔다. */}
+        {mood.lookImage && mood.image && (
+          <section className="py-10 md:py-14 bg-background-light" aria-labelledby="fs-look-title">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+              <p className="t-label text-primary-dark mb-2">{isEn ? 'AI makeup preview' : 'AI 메이크업 미리보기'}</p>
+              <h2 id="fs-look-title" className="t-h1 text-navy mb-6 break-keep">
+                {isEn ? `${t.enName} + ${lookName}` : `${t.koName} + '${lookName}' 룩`}
+              </h2>
+              <div className="grid grid-cols-2 gap-3 md:gap-5">
+                {[
+                  { src: mood.image, cap: isEn ? 'Bare face' : '맨얼굴' },
+                  { src: mood.lookImage, cap: lookName },
+                ].map((f) => (
+                  <figure key={f.cap}>
+                    <img src={f.src} alt={`${name} — ${f.cap}`} loading="lazy" decoding="async" width={900} height={1200} className="w-full h-auto aspect-[3/4] object-cover" />
+                    <figcaption className="mt-2 text-sm font-bold text-navy">{f.cap}</figcaption>
+                  </figure>
+                ))}
+              </div>
+              <a
+                href={makeupHref}
+                onClick={() => { keepLocale(); trackToolPromotion('face_shape', t.code, 'look_preview') }}
+                className="mt-7 inline-flex items-center justify-center gap-2 break-keep bg-primary hover:bg-primary-dark text-white px-7 py-3.5 font-bold transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">auto_awesome</span>
+                {isEn ? 'Try it on my selfie' : '내 셀카로 해보기'}
+              </a>
+              <p className="mt-3 text-xs text-slate-500">
+                {isEn ? 'Example person created with AI. Your result uses your own photo.' : 'AI로 만든 예시 인물이에요. 실제 결과는 내 사진으로 만들어져요.'}
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* 다른 진단 2~3개 끝난 사람에게 "완성까지 N개" 넛지 — 히어로 바로 아래(2026-09-10) */}
         <DnaTracker field="faceShape" code={code} />

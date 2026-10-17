@@ -273,11 +273,14 @@ export function TypePreviewSection({
   children,
   startLabel,
   onStart,
+  toolbar,
 }: {
   id?: string
   title: string
   subtitle: string
   columnsClass?: string
+  /** 제목과 카드 사이(예: 여성/남성 전환) */
+  toolbar?: ReactNode
   children: ReactNode
   startLabel: string
   onStart: () => void
@@ -290,6 +293,7 @@ export function TypePreviewSection({
             {title}
           </h2>
           <p className="t-caption text-slate-500">{subtitle}</p>
+          {toolbar && <div className="mt-5 flex justify-center">{toolbar}</div>}
         </div>
         <div className={`${columnsClass} gap-3 [column-fill:_balance]`}>{children}</div>
         <div className="text-center mt-10">
