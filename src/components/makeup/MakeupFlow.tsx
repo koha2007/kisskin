@@ -20,6 +20,7 @@ import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
 import { trackCheckoutReturn } from '../../lib/purchaseTracking'
+import { getCreditBalance } from '../../lib/credits'
 import { screenBg, btnPrimary, btnPrimaryStyle } from './theme'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
@@ -51,6 +52,12 @@ type ErrAction = 'regenerate' | 'restart' | 'login' | 'topup'
 type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup' | 'collection'
 interface Selfie { photo: string }
 
+// 크레딧 충전(Polar) 왕복에도 고르던 룩이 살아남게 — 셀카는 pendingSelfie 가 맡는다.
+const RESUME_STYLE_KEY = 'kisskin_resume_style'
+
+// 충전 복귀 안내: 확인 중 → 잔액 확인됨 / 웹훅 반영이 늦음
+type PaidNotice = { state: 'checking' } | { state: 'ok'; balance: number } | { state: 'late' }
+
 export default function MakeupFlow() {
   const { locale } = useI18n()
   const isEn = locale === 'en'
@@ -72,6 +79,11 @@ export default function MakeupFlow() {
   // 9룩 컬렉션(2026-10-12): 업로드 뒤 컬렉션으로 갈지 / 결제 복귀로 이어 만들지
   const [collectionMode, setCollectionMode] = useState(false)
   const [collectionResume, setCollectionResume] = useState(false)
+  // 2026-10-17: 유일한 외부 결제자가 크레딧을 한 번도 못 쓰고 떠났다. 충전 후 복귀하면
+  // 안내 없이 '사진 올리기' 첫 화면이 떠서 결제가 된 건지조차 알 수 없었다 → 복귀 안내 + 셀카·룩 복원.
+  // checkout_id 는 trackCheckoutReturn 이 주소에서 걷어내므로 첫 렌더에 미리 잡아 둔다.
+  const paidReturnRef = useRef(typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('checkout_id'))
+  const [paidNotice, setPaidNotice] = useState<PaidNotice | null>(null)
   const runIdRef = useRef(0)
   const jobIdRef = useRef('')   // 현재 생성 작업의 차감 멱등 키(재시도 시 유지)
 
@@ -204,6 +216,14 @@ export default function MakeupFlow() {
       setStyleId(s as MakeupStyleId)
       setPreselected(true)
     }
+    // 충전 복귀: 충전 전에 고르던 룩을 선택해 둔다(곧장 생성하진 않는다 — 한 번 눌러 확인).
+    if (paidReturnRef.current) {
+      try {
+        const r = sessionStorage.getItem(RESUME_STYLE_KEY)
+        sessionStorage.removeItem(RESUME_STYLE_KEY)
+        if (!hasStyle && r && MAKEUP_STYLES.some((st) => st.id === r)) setStyleId(r as MakeupStyleId)
+      } catch { /* 없으면 첫 룩 */ }
+    }
 
     // 홈 히어로에서 이미 사진을 고르고 왔다면(세션에 맡겨둔 셀카) 업로드 단계를 건너뛴다.
     // 룩까지 정해져 있으면 곧장 생성으로, 아니면 스타일 선택으로.
@@ -218,13 +238,62 @@ export default function MakeupFlow() {
     }
   }, [])
 
+  // 충전 복귀 → 잔액이 들어올 때까지(웹훅) 잠깐 기다렸다가 "결제 완료 · 크레딧 N개"를 보여 준다.
+  useEffect(() => {
+    if (!paidReturnRef.current) return
+    let cancelled = false
+    setPaidNotice({ state: 'checking' })
+    ;(async () => {
+      for (let i = 0; i < 10 && !cancelled; i++) {
+        const b = await getCreditBalance().catch(() => 0)
+        if (cancelled) return
+        if (b > 0) { setPaidNotice({ state: 'ok', balance: b }); return }
+        await new Promise((r) => setTimeout(r, 2000))
+      }
+      if (!cancelled) setPaidNotice({ state: 'late' })
+    })()
+    return () => { cancelled = true }
+  }, [])
+
+  // 충전 화면으로 — Polar 왕복(페이지 이동)에도 지금 셀카·룩을 이어 쓰도록 맡겨 둔다.
+  const goTopup = () => {
+    if (selfie) void savePendingSelfieFromSrc(selfie.photo)
+    try { sessionStorage.setItem(RESUME_STYLE_KEY, styleId) } catch { /* 없으면 첫 룩 */ }
+    setStep('topup')
+  }
+
   const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); setCollectionMode(false); clearPendingSelfie(); setStep('upload') }
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
 
+  // 충전 복귀 안내 — 사진 올리기·룩 고르기 화면 위에 띄운다. 생성을 시작하면 닫는다.
+  const notice = paidNotice && (step === 'upload' || step === 'style') ? (
+    <div role="status" className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-[max(12px,env(safe-area-inset-top))] font-display">
+      <button
+        onClick={() => setPaidNotice(null)}
+        className="flex w-full max-w-md items-start gap-2 rounded-2xl px-4 py-3 text-left text-[13px] leading-snug text-white shadow-lg break-keep"
+        style={{ background: paidNotice.state === 'late' ? '#7a4b12' : '#1f5e3a' }}
+      >
+        <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+          {paidNotice.state === 'ok' ? 'check_circle' : paidNotice.state === 'late' ? 'schedule' : 'hourglass_top'}
+        </span>
+        <span className="flex-1">
+          {paidNotice.state === 'checking' && (isEn ? 'Confirming your payment…' : '결제를 확인하고 있어요…')}
+          {paidNotice.state === 'ok' && (isEn
+            ? `Payment complete — you have ${paidNotice.balance} credit${paidNotice.balance === 1 ? '' : 's'}. ${selfie ? 'Pick a look to continue.' : 'Upload a selfie to start.'} Each look uses 1.`
+            : `결제 완료 — 크레딧 ${paidNotice.balance}개가 들어왔어요. ${selfie ? '룩을 고르면 이어서 만들어요.' : '셀카를 올리면 바로 시작해요.'} 룩 하나에 1개씩 쓰여요.`)}
+          {paidNotice.state === 'late' && (isEn
+            ? 'Payment received, but your credits are taking longer to appear. Refresh in a minute — if they still don\'t show, contact us from the Contact page.'
+            : '결제는 접수됐는데 크레딧 반영이 늦어지고 있어요. 1분 뒤 새로고침해 주세요. 그래도 안 보이면 문의하기로 알려 주세요.')}
+        </span>
+      </button>
+    </div>
+  ) : null
+
   // ── 렌더 ──
   if (step === 'upload') {
     return (
+      <>{notice}
       <MakeupSelfieUpload
         isEn={isEn}
         hintLabel={preselected ? (isEn ? styleById(styleId).subEn : styleById(styleId).nameKo) : undefined}
@@ -239,19 +308,22 @@ export default function MakeupFlow() {
           setStep(collectionMode ? 'collection' : preselected ? 'processing' : 'style')
         }}
       />
+      </>
     )
   }
 
   if (step === 'style') {
     return (
+      <>{notice}
       <MakeupStyleSelect
         isEn={isEn}
         initialStyle={styleId}
         loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => setStep('upload')}
-        onConfirm={(id) => { jobIdRef.current = ''; setStyleId(id); setStep('processing') }}
+        onConfirm={(id) => { jobIdRef.current = ''; setStyleId(id); setPaidNotice(null); setStep('processing') }}
         onCollection={() => { setCollectionMode(true); setStep('collection') }}
       />
+      </>
     )
   }
 
@@ -286,7 +358,7 @@ export default function MakeupFlow() {
           </div>
         ) : errAction === 'topup' ? (
           <div className="flex w-full max-w-[260px] flex-col items-center gap-3">
-            <button onClick={() => setStep('topup')} className={btn} style={btnPrimaryStyle}>
+            <button onClick={goTopup} className={btn} style={btnPrimaryStyle}>
               {isEn ? 'Top up credits' : '크레딧 충전'}
             </button>
             <button onClick={regenerate} className="text-xs text-white/60 underline underline-offset-2">
@@ -342,6 +414,7 @@ export default function MakeupFlow() {
       onBack={() => setStep('style')}
       onRetake={reset}
       onCollection={() => { setCollectionMode(true); setStep('collection') }}
+      onTopup={goTopup}
     />
   )
 }

@@ -53,8 +53,10 @@ function checkRateLimit(ip: string, pathname: string): boolean {
 export async function onRequest(context: { request: Request; next: () => Promise<Response> }) {
   const url = new URL(context.request.url)
 
-  // kisskin.pages.dev → kissinskin.net redirect (exclude API routes)
-  if (url.hostname === 'kisskin.pages.dev' && !url.pathname.startsWith('/api/')) {
+  // kisskin.pages.dev · www → kissinskin.net redirect (exclude API routes)
+  // www 는 2026-10-17 까지 200 으로 따로 열려 있었다 — 로그인 세션·결제 복귀가 출처(origin)마다
+  // 갈라져서 www 에서 로그인/결제한 사람은 kissinskin.net 에서 "로그인 안 됨"으로 보였다.
+  if ((url.hostname === 'kisskin.pages.dev' || url.hostname === 'www.kissinskin.net') && !url.pathname.startsWith('/api/')) {
     url.hostname = 'kissinskin.net'
     return Response.redirect(url.toString(), 301)
   }

@@ -106,10 +106,12 @@ interface Props {
   onBack: () => void
   /** 9룩 컬렉션으로 — 결과에 감탄한 바로 이 순간에 "나머지도 내 얼굴로"를 권한다 */
   onCollection?: () => void
+  /** 충전 화면으로(셀카·룩을 맡겨 두고 간다 → 결제 복귀 후 이어 만들기). 없으면 링크로 이동. */
+  onTopup?: () => void
   isEn?: boolean
 }
 
-export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRetake, onBack, onCollection, isEn = false }: Props) {
+export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRetake, onBack, onCollection, onTopup, isEn = false }: Props) {
   const style = styleById(styleId)
   // 실제 메이크업 결과가 아직 없으면(P1-3 미연결) 안전한 "생성 준비 중" 상태만 노출.
   const pending = !afterSrc
@@ -488,9 +490,15 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
                 {isEn ? `${balanceNow} credit${balanceNow === 1 ? '' : 's'} left` : `크레딧 ${balanceNow}개 남음`}
               </span>
             )}
-            <a href="/analysis/?topup=1" className="font-bold underline underline-offset-2 text-white/85">
-              {isEn ? 'Top up' : '충전'}
-            </a>
+            {onTopup ? (
+              <button onClick={onTopup} className="font-bold underline underline-offset-2 text-white/85">
+                {isEn ? 'Top up' : '충전'}
+              </button>
+            ) : (
+              <a href="/analysis/?topup=1" className="font-bold underline underline-offset-2 text-white/85">
+                {isEn ? 'Top up' : '충전'}
+              </a>
+            )}
           </div>
         )}
 
