@@ -51,6 +51,7 @@ const HARD_EXCLUDE = new Set(
     'sigeomyong0306@gmail.com', // 표시이름 "시험용"
     'audit-signup-29551@gmail.com',
     'dangni81@naver.com',
+    'dangni81@gmail.com', // 가족 — 구글 로그인 계정
     'dsngni81@naver.com',
   ].map((e) => e.toLowerCase()),
 )

@@ -37,6 +37,7 @@ const FAMILY_EMAILS = new Set([
   'koha2007@naver.com',
   'koha3d77@gmail.com',
   'dangni81@naver.com',
+  'dangni81@gmail.com',
   'shj01205@naver.com',
 ])
 
