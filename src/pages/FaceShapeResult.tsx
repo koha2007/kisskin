@@ -27,8 +27,20 @@ import { trackToolPromotion } from '../lib/analytics'
 import { readableInk } from '../lib/a11y/readableInk'
 import FaceShapeMix from '../components/face-shape/FaceShapeMix'
 import FaceShapeMap from '../components/face-shape/FaceShapeMap'
+import { styleById, type MakeupStyleId } from '../lib/makeup/styles'
 
 interface Props { code: FaceShapeCode }
+
+// 얼굴형 → 결과 화면에서 바로 입혀 볼 추천 룩(FaceShapeMap 의 블러셔·컨투어 방향과 맞춘다).
+//   계란형=무엇이든 어울려 내추럴부터 · 둥근형=사선 드레이핑으로 길어 보이게 · 각진형=소프트 포커스로
+//   각을 풀기 · 긴형=가로 블러셔 중심 아이돌 룩 · 하트형=시선을 아래로 내리는 볼드 립.
+const FACE_SHAPE_LOOK: Record<FaceShapeCode, MakeupStyleId> = {
+  oval: 'natural-glow',
+  round: 'blush-draping',
+  square: 'cloud-skin',
+  oblong: 'kpop-idol',
+  heart: 'bold-lip',
+}
 
 export default function FaceShapeResult({ code }: Props) {
   const t = FACE_SHAPE_TYPES[code]
@@ -49,7 +61,14 @@ export default function FaceShapeResult({ code }: Props) {
   const basePath = isEn ? '/en/tools/face-shape' : '/tools/face-shape'
   // AI 메이크업으로 가는 목적지. 히어로 CTA 와 아래 BentoBanner 가 같은 값을 써야
   // 해서 한 곳으로 뽑았다(예전엔 두 군데에 각각 박혀 있었다).
-  const makeupHref = isEn ? '/en/' : '/analysis/'
+  // 2026-10-17: 얼굴형별 추천 룩을 미리 골라서 보낸다(?style=). 진단 147명 → 저장 4명 —
+  // "아무 메이크업"보다 "내 얼굴형에 맞는 이 룩"이 눌러 볼 이유가 된다. EN 은 예전엔 홈(/en/)으로
+  // 보내 한 단계를 더 걸었다 → 같은 /analysis/ 로, 클릭 때 언어를 en 으로 맞춰 둔다.
+  const look = styleById(FACE_SHAPE_LOOK[t.code])
+  // 버튼 한 줄에 들어가게 '블러쉬 드레이핑 & 레이어링' → '블러쉬 드레이핑'
+  const lookName = (isEn ? look.subEn.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()) : look.nameKo).split(' & ')[0].replace(/ (메이크업|Makeup)$/, '')
+  const makeupHref = `/analysis/?style=${look.id}`
+  const keepLocale = () => { if (isEn) { try { localStorage.setItem('kisskin_locale', 'en') } catch { /* 없으면 브라우저 언어 */ } } }
 
   const accent = t.primaryColor
 
@@ -70,8 +89,8 @@ export default function FaceShapeResult({ code }: Props) {
         // 히어로 CTA. 문구는 제품과 정확히 일치시킬 것 — 룩은 9종이고(5종 아님),
         // 무료 1회도 **로그인을 지난다**(MakeupFlow 게이트). 없다고 해놓고 벽을
         // 세우면 그 자리에서 튕긴다(2026-07-31 정정).
-        heroCta: 'Try makeup on my face',
-        heroCtaSub: 'One selfie → 9 K-beauty looks. First try free (sign-in required).',
+        heroCta: `Try ${lookName} on my face`,
+        heroCtaSub: `Picked for ${t.enName} faces. One selfie, first try free (quick sign-in).`,
         forehead: 'Forehead', cheekbone: 'Cheekbones', jawline: 'Jawline', highlighter: 'Highlight',
         brow: 'Brow', lip: 'Lip', blush: 'Blush', hair: 'Hair', glasses: 'Glasses',
       }
@@ -81,8 +100,8 @@ export default function FaceShapeResult({ code }: Props) {
         retake: '다시 진단', save: '이미지 저장하기', female: i18n('tools.common.female'), male: i18n('tools.common.male'),
         bannerTitle: '이 룩, 내 얼굴에 직접', bannerDesc: 'AI로 어울리는 메이크업을 내 셀카에 입혀보세요. 얼굴은 그대로예요.',
         bannerCta: 'AI 메이크업 체험',
-        heroCta: '내 얼굴로 메이크업 해보기',
-        heroCtaSub: '셀카 한 장 → 9가지 K-뷰티 룩 · 첫 1회 무료 (로그인 필요)',
+        heroCta: `'${lookName}' 내 얼굴로 보기`,
+        heroCtaSub: `${t.koName}에 어울리는 룩 · 셀카 한 장 · 첫 1회 무료 (간편 로그인)`,
         forehead: '이마', cheekbone: '광대', jawline: '턱 라인', highlighter: '하이라이터',
         brow: '눈썹', lip: '립', blush: '블러쉬', hair: '헤어', glasses: '안경',
       }
@@ -199,8 +218,8 @@ export default function FaceShapeResult({ code }: Props) {
             <div className="mt-7">
               <a
                 href={makeupHref}
-                onClick={() => trackToolPromotion('face_shape', t.code, 'hero_primary')}
-                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 bg-primary hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
+                onClick={() => { keepLocale(); trackToolPromotion('face_shape', t.code, 'hero_primary') }}
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 break-keep bg-primary hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
               >
                 <span className="material-symbols-outlined text-xl">auto_awesome</span>
                 {L.heroCta}
