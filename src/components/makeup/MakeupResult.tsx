@@ -7,6 +7,7 @@
 // 룩 이미지 + 스타일명/설명 + 브랜딩으로 구성된다.
 
 import { useState, useEffect, useRef } from 'react'
+import MarketingConsent from '../MarketingConsent'
 import ResultGrid from '../result-grid/ResultGrid'
 import { ProductGridCard } from '../result-grid/ProductGridCard'
 import BeforeAfterSlider from './BeforeAfterSlider'
@@ -560,6 +561,9 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
             <span className="material-symbols-outlined text-white/70">arrow_forward</span>
           </a>
         )}
+
+        {/* 주간 메일 수신 동의(선택) — 아직 안 고른 회원에게만. 결과를 본 직후가 가장 받아들이는 때 */}
+        {!pending && <MarketingConsent isEn={isEn} variant="prompt" />}
 
         {/* 이메일로 받기 — 로그인 시 자동 채움, 익명은 직접 입력 */}
         {!pending && (

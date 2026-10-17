@@ -8,6 +8,7 @@ import { getCreditBalance } from '../lib/credits'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
 import { BeautyRecord } from '../components/beauty-dna/BeautyRecord'
 import { SavedLooks } from '../components/looks/SavedLooks'
+import MarketingConsent from '../components/MarketingConsent'
 
 /**
  * 브랜드 팔레트 토큰 (2026-07-23) — AuthPage.tsx 와 같은 값. 이 두 페이지만
@@ -352,6 +353,11 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           {isKo ? '저장한 메이크업 방법' : 'Saved How-Tos'}
         </h2>
         <SavedLooks />
+      </div>
+
+      {/* 주간 메일 수신 동의(광고성 정보, 선택) — 2026-10-17. 동의한 회원에게만 보낸다. */}
+      <div style={cardStyle}>
+        <MarketingConsent isEn={!isKo} variant="setting" />
       </div>
 
       {/* 내 정보 */}

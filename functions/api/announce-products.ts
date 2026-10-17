@@ -270,6 +270,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   for (const u of users) {
     const email = (u.email || '').trim().toLowerCase()
     if (!u.email_confirmed_at) continue
+    // 2026-10-17: 광고성 정보 수신에 **명시적으로 동의한** 회원만(정보통신망법 제50조). 무료 가입은
+    // 거래관계 예외가 아니다. 동의는 사이트 안 MarketingConsent 에서 받는다(user_metadata).
+    if (u.user_metadata?.marketing_consent !== true) continue
     const { lang, why } = localeOf(u)
     add(email, lang, 'member', why)
   }

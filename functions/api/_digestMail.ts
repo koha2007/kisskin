@@ -111,7 +111,8 @@ const COPY = {
     // 제목은 실린 내용에 맞춘다 — 제품만이던 시절의 "N선" 을 뉴스만 실린 주에 쓰면 거짓말이 된다.
     subject: (p: number, n: number, look: string, isClass = false) => {
       const parts = [p && `신제품 ${p}건`, n && `뉴스 ${n}건`, look && (isClass ? look : `${look} 메이크업 방법`)].filter(Boolean)
-      return `이번 주 K-뷰티 — ${parts.join(' · ')}`
+      // 정보통신망법 제50조 ④ — 광고성 메일은 제목 맨 앞에 (광고)
+      return `(광고) 이번 주 K-뷰티 — ${parts.join(' · ')}`
     },
     preheader: '지난 한 주 키스인스킨에 올라온 신제품·뉴스, 그리고 이번 주의 메이크업 방법.',
     heading: '이번 주의 K-뷰티',
@@ -261,6 +262,8 @@ export function renderDigest(
           ${t.signoff}<br/>
           <a href="${esc(withUtm(SITE + '/', campaign, 'footer'))}" style="color:#999;">kissinskin.net</a>
           ${ADDRESS ? `<br/>${esc(ADDRESS)}` : ''}
+          <br/>${lang === 'ko' ? '문의' : 'Contact'}: <a href="mailto:support@kissinskin.net" style="color:#999;">support@kissinskin.net</a>
+          <br/>${lang === 'ko' ? '이 메일은 수신에 동의하신 분께 보내는 광고성 정보입니다.' : 'You are receiving this because you opted in to the kissinskin letter.'}
           <br/><br/>
           ${t.unsub}<a href="${esc(unsubHref)}" style="color:#999;text-decoration:underline;">${t.unsubLink}</a>.
         </td></tr>
