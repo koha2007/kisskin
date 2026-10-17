@@ -54,8 +54,9 @@ export async function onRequest(context: { request: Request; next: () => Promise
   const url = new URL(context.request.url)
 
   // kisskin.pages.dev · www → kissinskin.net redirect (exclude API routes)
-  // www 는 2026-10-17 까지 200 으로 따로 열려 있었다 — 로그인 세션·결제 복귀가 출처(origin)마다
-  // 갈라져서 www 에서 로그인/결제한 사람은 kissinskin.net 에서 "로그인 안 됨"으로 보였다.
+  // www 는 200 으로 따로 열려 있어 로그인 세션·결제 복귀가 출처(origin)마다 갈린다(2026-10-17).
+  // ⚠ 이 미들웨어는 _routes.json include(/api·/result·/blog)에만 돈다 — 일반 페이지의 www·pages.dev
+  //    리다이렉트는 Cloudflare 대시보드 Redirect Rule 몫이고, 여기선 그 경로들만 덮는다.
   if ((url.hostname === 'kisskin.pages.dev' || url.hostname === 'www.kissinskin.net') && !url.pathname.startsWith('/api/')) {
     url.hostname = 'kissinskin.net'
     return Response.redirect(url.toString(), 301)
