@@ -413,7 +413,7 @@ export default function FaceShapeResult({ code }: Props) {
                     name={isEn ? s.enName : s.koName}
                     sub={isMe ? L.me : (isEn ? s.koName : s.enName)}
                     accent={s.primaryColor}
-                    image={FACE_SHAPE_MOOD[c].image}
+                    image={FACE_SHAPE_MOOD[c].illus || FACE_SHAPE_MOOD[c].image}
                     current={isMe}
                     aspectClass="aspect-square"
                     compact

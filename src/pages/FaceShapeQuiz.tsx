@@ -78,7 +78,7 @@ export default function FaceShapeQuiz() {
           previewHref="#shapes-preview"
           previewLabel={t('tools.fs.previewCta')}
           /* 히어로 오른쪽 사진 — 얼굴형 4종 무드컷. 데스크톱에서 비어 있던 오른쪽 절반을 채운다(2026-09-22). */
-          heroImages={['/mood/fs-oval.webp', '/mood/fs-round.webp', '/mood/fs-square.webp', '/mood/fs-heart.webp']}
+          heroImages={['/mood/fs-oval-ill-f.webp', '/mood/fs-round-ill-m.webp', '/mood/fs-oblong-ill-f.webp', '/mood/fs-heart-ill-m.webp']}
           stats={[
             { value: '6', label: isEn ? 'questions' : '문항' },
             { value: '5', label: isEn ? 'shapes' : '얼굴형' },
@@ -151,7 +151,7 @@ export default function FaceShapeQuiz() {
                 name={isEn ? ft.enName : ft.koName}
                 sub={isEn ? ft.koName : ft.enName}
                 accent={ft.primaryColor}
-                image={(sex === 'm' && FACE_SHAPE_MOOD[c].imageMale) || FACE_SHAPE_MOOD[c].image}
+                image={(sex === 'm' ? FACE_SHAPE_MOOD[c].illusMale : FACE_SHAPE_MOOD[c].illus) || FACE_SHAPE_MOOD[c].image}
                 // 2026-10-17: 높이를 통일한다 — 이름 해시 벽돌 리듬이 5장일 땐 들쭉날쭉으로만 보였다
                 aspectClass="aspect-[4/5]"
               />

@@ -9,97 +9,12 @@ import { trackEvent } from '../../lib/analytics'
 // 그 얼굴형으로 정확히 못 그리고(둥근형인데 턱이 뾰족) 컨투어 위치도 흐렸다 → 교과서식 SVG 도식.
 // 윤곽·영역이 전부 좌표라 "어디에"가 틀릴 일이 없고, 비용 0, 크롤러도 읽는다(alt + 범례 텍스트).
 // 영역은 src/lib/face-shape/types.ts 의 contouring/recommendedStyle 문장과 맞춰 그렸다 — 문장을 바꾸면 여기도.
+// 2026-10-17: 운영자가 SVG 를 "엉성하다"고 해 gpt-image-2(high)로 다시 그렸다. 이번엔 영역 문장을 프롬프트에
+// 그대로 넣고 5장을 눈으로 검수(둥근형 턱·각진형 턱 모서리·긴형 위아래 컨투어 확인) → 일러스트로 교체.
+// 문장을 바꾸면 차트도 다시 그려야 한다(프롬프트: 세션 스크래치 charts.json, 같은 문장 그대로).
 
-const W = 300
-const OUTLINE: Record<FaceShapeCode, string> = {
-  oval: 'M150,55 C208,55 244,105 244,175 C244,250 205,338 150,340 C95,338 56,250 56,175 C56,105 92,55 150,55 Z',
-  round: 'M150,80 C215,80 252,125 252,190 C252,250 225,305 150,322 C75,305 48,250 48,190 C48,125 85,80 150,80 Z',
-  square: 'M150,62 C200,62 238,72 240,120 L242,250 C242,285 230,300 205,312 C185,322 168,326 150,326 C132,326 115,322 95,312 C70,300 58,285 58,250 L60,120 C62,72 100,62 150,62 Z',
-  oblong: 'M150,40 C200,40 228,80 230,150 L230,250 C230,300 205,338 150,350 C95,338 70,300 70,250 L70,150 C72,80 100,40 150,40 Z',
-  heart: 'M150,64 C185,56 230,60 244,100 C254,135 246,190 225,240 C205,285 175,320 150,348 C125,320 95,285 75,240 C54,190 46,135 56,100 C70,60 115,56 150,64 Z',
-}
-const BROW: Record<FaceShapeCode, string> = {
-  oval: 'M95,153 Q118,140 140,148',
-  round: 'M95,155 Q116,132 140,148',
-  square: 'M95,152 C108,143 128,142 140,149',
-  oblong: 'M95,151 Q118,146 140,149',
-  heart: 'M95,153 Q118,142 140,148',
-}
-
-type E = { cx: number; cy: number; rx: number; ry: number; rot?: number; mirror?: boolean }
-type Zones = { contour: E[]; highlight: E[]; blush: E[] }
-const NOSE: E = { cx: 150, cy: 200, rx: 3.5, ry: 20 }
-const Z: Record<FaceShapeCode, Zones> = {
-  oval: {
-    contour: [{ cx: 80, cy: 222, rx: 22, ry: 8, rot: 28, mirror: true }],
-    blush: [{ cx: 100, cy: 206, rx: 24, ry: 13, rot: -15, mirror: true }],
-    highlight: [{ cx: 96, cy: 191, rx: 16, ry: 5, rot: -20, mirror: true }, NOSE],
-  },
-  round: {
-    contour: [{ cx: 76, cy: 228, rx: 34, ry: 9, rot: 35, mirror: true }, { cx: 60, cy: 262, rx: 9, ry: 28, mirror: true }],
-    blush: [{ cx: 92, cy: 200, rx: 27, ry: 10, rot: -30, mirror: true }],
-    highlight: [{ cx: 150, cy: 120, rx: 12, ry: 22 }, NOSE, { cx: 150, cy: 300, rx: 12, ry: 7 }],
-  },
-  square: {
-    contour: [{ cx: 70, cy: 292, rx: 24, ry: 15, rot: -38, mirror: true }, { cx: 72, cy: 86, rx: 22, ry: 13, rot: 35, mirror: true }],
-    blush: [{ cx: 100, cy: 208, rx: 17, ry: 16, mirror: true }],
-    highlight: [{ cx: 150, cy: 110, rx: 16, ry: 14 }, NOSE, { cx: 150, cy: 310, rx: 14, ry: 7 }],
-  },
-  oblong: {
-    contour: [{ cx: 150, cy: 50, rx: 72, ry: 12 }, { cx: 150, cy: 344, rx: 42, ry: 9 }],
-    blush: [{ cx: 90, cy: 212, rx: 30, ry: 10, mirror: true }],
-    highlight: [{ cx: 110, cy: 196, rx: 22, ry: 5, mirror: true }],
-  },
-  heart: {
-    contour: [{ cx: 66, cy: 106, rx: 17, ry: 26, rot: 15, mirror: true }, { cx: 150, cy: 340, rx: 11, ry: 7 }],
-    blush: [{ cx: 98, cy: 222, rx: 24, ry: 10, mirror: true }],
-    highlight: [{ cx: 150, cy: 316, rx: 10, ry: 8 }, { cx: 112, cy: 250, rx: 12, ry: 6, mirror: true }, NOSE],
-  },
-}
-
+// 범례 색(컨투어·하이라이트·블러셔) — 그림은 페이스 차트 일러스트(/mood/fs-*-chart.webp)
 const C = { contour: 'rgb(132,98,78)', highlight: 'rgb(255,251,238)', blush: 'rgb(238,124,112)' }
-const expand = (es: E[]) => es.flatMap((e) => (e.mirror ? [e, { ...e, cx: W - e.cx, rot: -(e.rot ?? 0) }] : [e]))
-
-function FaceSvg({ code, title, accent }: { code: FaceShapeCode; title: string; accent: string }) {
-  const id = `fs-${code}`
-  const z = Z[code]
-  const layer = (es: E[], color: string, op: number) =>
-    expand(es).map((e, i) => (
-      <ellipse key={i} cx={e.cx} cy={e.cy} rx={e.rx} ry={e.ry} fill={color} opacity={op}
-        transform={e.rot ? `rotate(${e.rot} ${e.cx} ${e.cy})` : undefined} />
-    ))
-  return (
-    <svg viewBox={`0 0 ${W} 380`} role="img" aria-label={title} className="w-full h-auto">
-      <defs>
-        <filter id={`${id}-soft`} x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" /></filter>
-        <clipPath id={`${id}-clip`}><path d={OUTLINE[code]} /></clipPath>
-      </defs>
-      {/* 2026-10-17 리디자인 — 결과 카드·캐릭터와 같은 컷페이퍼(마티스풍) 언어.
-          전: 연필 선 얼굴 하나(엉성해 보였다). 후: 종이 바탕 + 유형색 아치 + 채운 얼굴(프로 페이스 차트처럼
-          머리·어깨는 그리지 않는다 — 얼굴 윤곽이 곧 정보다). */}
-      <rect width={W} height="380" fill="#F3EADC" />
-      <path d="M30,380 L30,150 A120,120 0 0 1 270,150 L270,380 Z" fill={accent} opacity="0.2" />
-      <path d={OUTLINE[code]} fill="#F2D9C4" />
-      <g clipPath={`url(#${id}-clip)`} filter={`url(#${id}-soft)`}>
-        {layer(z.contour, C.contour, 0.55)}
-        {layer(z.blush, C.blush, 0.55)}
-        {layer(z.highlight, C.highlight, 1)}
-      </g>
-      <path d={OUTLINE[code]} fill="none" stroke="#232a52" strokeWidth="1.4" opacity="0.55" />
-      {/* 눈썹 · 눈 · 코 · 입 */}
-      <g fill="none" stroke="#232a52" strokeLinecap="round">
-        <path d={BROW[code]} strokeWidth="3.6" />
-        <path d={BROW[code]} strokeWidth="3.6" transform={`translate(${W} 0) scale(-1 1)`} />
-        <path d="M136,224 Q150,233 164,224" strokeWidth="1.4" opacity="0.6" />
-      </g>
-      <path d="M103,176 Q118,166 133,176 Q118,183 103,176 Z" fill="#fff" stroke="#232a52" strokeWidth="1.3" />
-      <path d="M167,176 Q182,166 197,176 Q182,183 167,176 Z" fill="#fff" stroke="#232a52" strokeWidth="1.3" />
-      <circle cx="118" cy="175.5" r="4.2" fill="#232a52" />
-      <circle cx="182" cy="175.5" r="4.2" fill="#232a52" />
-      <path d="M132,262 Q141,255 150,258 Q159,255 168,262 Q150,276 132,262 Z" fill="#D9776A" />
-    </svg>
-  )
-}
 
 // 이 얼굴형에 이어지는 클래스 편(커리큘럼 11·23·25) — 아직 안 나왔으면 "곧 공개"로 허브에
 const CLASS_LINKS = [
@@ -124,7 +39,14 @@ export default function FaceShapeMap({ code, isEn }: { code: FaceShapeCode; isEn
     <section className="py-10 md:py-14 bg-white border-y border-slate-200" aria-labelledby="fs-map-title">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 grid md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] gap-8 md:gap-12 items-start">
         <figure className="w-full max-w-[320px] mx-auto border border-slate-200">
-          <FaceSvg code={code} accent={t.primaryColor} title={isEn ? `${name}: where to contour, highlight and blush` : `${name} 컨투어 · 하이라이트 · 블러셔 위치`} />
+          {/* 2026-10-17: 코드로 그린 도형 → 메이크업 아티스트 페이스 차트 일러스트(gpt-image-2).
+              위치는 아래 설명(contouring·blush·highlighter)과 맞춰 생성·검수했다. */}
+          <img
+            src={`/mood/fs-${code}-chart.webp`}
+            alt={isEn ? `${name}: where to contour, highlight and blush` : `${name} 컨투어 · 하이라이트 · 블러셔 위치`}
+            width={768} height={1152} loading="lazy" decoding="async"
+            className="block w-full h-auto"
+          />
         </figure>
         <div className="min-w-0">
           <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark mb-2">{isEn ? 'Makeup map' : '메이크업 지도'}</p>

@@ -21,13 +21,20 @@ export interface ToolMood {
   lookImage?: string
   /** 결과 카드(IdentityCard) 아치 창 일러스트(2:3) */
   cardArt?: string
+  /** 얼굴형 카드용 일러스트(3:4) — 같은 여성·남성 한 명씩, 얼굴형만 바꿔 그림(따라하기 페이스 차트 그림체) */
+  illus?: string
+  illusMale?: string
 }
 
 const art = (c: FaceShapeCode): ToolMood => ({
-  image: `/mood/fs-${c}.webp`,
+  // -f: 10/17 재촬영본. 옛 이름(fs-${c}.webp)은 같은 파일로 남겨 두되 브라우저 캐시(4시간)에 옛 사진이 남아 새 이름을 쓴다
+  image: `/mood/fs-${c}-f.webp`,
   imageMale: `/mood/fs-${c}-m.webp`,
   lookImage: `/mood/fs-${c}-look.webp`,
   cardArt: `/cards/fs-${c}.webp`,
+  // 10/17 운영자: "완전 다른 사람들" 대신 같은 한국인 여성·남성 한 명씩 얼굴형만 바꿔서 — 비교가 한눈에
+  illus: `/mood/fs-${c}-ill-f.webp`,
+  illusMale: `/mood/fs-${c}-ill-m.webp`,
 })
 
 // 운영자 편집 지점: oval: { image: '/mood/face-oval.jpg', makeupImage: '…' } 형태로 추가.
