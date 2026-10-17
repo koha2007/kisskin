@@ -24,6 +24,17 @@ import { ProductGridCard } from '../components/result-grid/ProductGridCard'
 import { useI18n } from '../i18n/I18nContext'
 import { TypePreviewCard } from '../components/tools/ToolLanding'
 import { EmailSubscribe } from '../components/EmailSubscribe'
+import { trackToolPromotion } from '../lib/analytics'
+import { styleById, type MakeupStyleId } from '../lib/makeup/styles'
+
+// 시즌 → 결과 화면에서 바로 입혀 볼 추천 룩(2026-10-17, 얼굴형과 같은 방식).
+//   봄 웜=피치 블러셔·누드 립 · 여름 쿨=그라데이션 핑크 립 · 가을 웜=골드 메탈릭 · 겨울 쿨=버건디/레드 립.
+const SEASON_LOOK: Record<SeasonCode, MakeupStyleId> = {
+  spring: 'natural-glow',
+  summer: 'kpop-idol',
+  autumn: 'metallic-eye',
+  winter: 'blood-lip',
+}
 
 interface Props { code: SeasonCode }
 
@@ -45,6 +56,12 @@ export default function PersonalColorResult({ code }: Props) {
   const shoppingTips = isEn && t.shoppingTipsEn ? t.shoppingTipsEn : t.shoppingTips
   const basePath = isEn ? '/en/tools/personal-color' : '/tools/personal-color'
   const accent = t.primaryColor
+  // 히어로 CTA·아래 배너 공용. 예전엔 히어로에 메이크업 버튼이 아예 없었고(배너만, 페이지 맨 아래),
+  // EN 은 홈(/en/)으로 갔다 → 시즌별 룩을 골라 둔 /analysis/ 로, 클릭 때 언어를 맞춘다.
+  const look = styleById(SEASON_LOOK[t.code])
+  const lookName = (isEn ? look.subEn.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()) : look.nameKo).split(' & ')[0].replace(/ (메이크업|Makeup)$/, '')
+  const makeupHref = `/analysis/?style=${look.id}`
+  const keepLocale = () => { if (isEn) { try { localStorage.setItem('kisskin_locale', 'en') } catch { /* 없으면 브라우저 언어 */ } } }
 
   // 카드 본문(닉네임·한 줄 문장·해시태그)을 로케일에 맞춰 한 번만 갈아끼운다.
   // 화면 미리보기와 저장되는 1080×1920 PNG 가 같은 객체를 읽으므로 자동으로 같이 맞는다.
@@ -169,6 +186,25 @@ export default function PersonalColorResult({ code }: Props) {
                   ))}
                 </div>
               </div>
+
+              {/* 결과 → AI 메이크업 다리(2026-10-17). 퍼스널컬러 진입 2위(KO 106 + EN 99/30일)인데
+                  히어로에 갈 곳이 없었다. 얼굴형과 같은 자리·같은 모양. */}
+              <div className="mt-7">
+                <a
+                  href={makeupHref}
+                  onClick={() => { keepLocale(); trackToolPromotion('personal_color', t.code, 'hero_primary') }}
+                  className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 break-keep bg-primary hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
+                >
+                  <span className="material-symbols-outlined text-xl">auto_awesome</span>
+                  {isEn ? `Try ${lookName} on my face` : `'${lookName}' 내 얼굴로 보기`}
+                  <span className="material-symbols-outlined text-lg transition-transform group-hover:translate-x-0.5">arrow_forward</span>
+                </a>
+                <p className="mt-3 text-xs text-slate-500 leading-relaxed">
+                  {isEn
+                    ? `Picked for ${t.enName}. One selfie, first try free (quick sign-in).`
+                    : `${t.koName}에 어울리는 룩 · 셀카 한 장 · 첫 1회 무료 (간편 로그인)`}
+                </p>
+              </div>
             </div>
 
             <div className="md:order-2 mt-7 md:mt-0">
@@ -250,7 +286,7 @@ export default function PersonalColorResult({ code }: Props) {
                 title={L.bannerTitle}
                 desc={L.bannerDesc}
                 ctaLabel={L.bannerCta}
-                href={isEn ? '/en/' : '/analysis/'}
+                href={makeupHref}
                 tool="personal_color"
                 slug={t.code}
                 gradient={t.card.gradient}
