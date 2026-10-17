@@ -99,11 +99,11 @@ export default function MakeupFlow() {
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
       if (!token) {
-        setErrMsg(isEn
-          ? 'Log in to try AI makeup — your 1st try is free, no card needed.'
-          : '로그인하면 AI 메이크업을 무료 1회 체험할 수 있어요. 카드 필요 없어요.')
-        setErrAction('login')
-        setStep('error')
+        // 2026-10-17: 찡그린 얼굴 에러 화면 → '로그인' 한 번 더, 를 건너뛰고 곧장 로그인으로.
+        // 셀카는 업로드 때 세션에 맡겨 뒀고(savePendingSelfieFromSrc) 룩은 ?style= 로 실려 가서,
+        // 로그인 화면이 "이 룩을 바로 만들어 드려요"로 받고 복귀 즉시 생성이 이어진다.
+        gtagEvent('makeup_login_gate', { style: id })
+        window.location.href = loginHref(id)
         return
       }
 
