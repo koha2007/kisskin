@@ -4,7 +4,7 @@
 // 녹화한 영상(셀카 고르기 → $4.99 → 9룩 생성 → 모아보기 → 낱장)을 홈 한가운데 둔다.
 // 영상은 실제 사이트 화면을 Playwright 로 녹화한 것. 얼굴은 9룩 카드와 같은 AI 생성 모델이고,
 // 결과는 그 사진에 도구를 실제로 돌린 출력(LOOK_IMAGES)이다 — 꾸민 결과가 아니다. 결제창 화면만 잘랐다.
-// 다시 만들 때: 대화 기록의 _rec.mjs 방식(가짜 세션 + makeup-edit 를 룩 애프터로 응답) → ffmpeg 로
+// 다시 만들 때: scripts/rec-collection-demo.mjs(가짜 세션 + makeup-edit 를 룩 애프터로 응답) → ffmpeg 로
 // 흰 로딩 구간을 잘라 public/demo/collection-{ko,en}.mp4.
 //
 // 화면에 들어올 때만 받아서 재생(preload=none) — 홈 첫 로딩에 330KB 를 얹지 않는다.
@@ -37,7 +37,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
     let started = false
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) {
-        if (!v.src) v.src = `/demo/collection-${lang}.mp4`
+        if (!v.src) v.src = `/demo/collection-${lang}.mp4?v=20261017`
         v.play().catch(() => {})
         if (!started) { started = true; gtagEvent('home_demo_view', { lang }) }
       } else v.pause()
@@ -83,7 +83,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
 
           <figure className="order-1 md:order-2 mx-auto w-[240px] md:w-[280px]">
             <div className="rounded-[2rem] bg-navy p-2 shadow-2xl shadow-navy/25">
-              <video ref={ref} poster={`/demo/collection-${lang}.webp`} muted loop playsInline preload="none" width={390} height={844}
+              <video ref={ref} poster={`/demo/collection-${lang}.webp?v=20261017`} muted loop playsInline preload="none" width={390} height={844}
                 aria-label={isEn ? 'Screen recording: creating a 9-look collection from one selfie' : '화면 녹화: 셀카 한 장으로 9룩 컬렉션 만들기'}
                 className="block w-full aspect-[390/844] rounded-[1.6rem] bg-navy object-cover" />
             </div>
