@@ -28,17 +28,28 @@ async function verifySignature(
 
   // Polar SDK uses the secret as raw UTF-8 bytes for HMAC key
   // (internally: base64(utf8(secret)) → passed to standardwebhooks which base64-decodes it back)
-  const secretBytes = new TextEncoder().encode(secret)
+  // 단, Polar 가 2025-09 이후 새로 만드는 엔드포인트는 Standard Webhooks 원형(시크릿을 base64 디코드)일 수 있다.
+  // 시크릿 재설정·엔드포인트 재생성 때 결제 반영이 조용히 끊기지 않게 두 방식을 모두 받아 준다.
+  const keys: Uint8Array[] = [new TextEncoder().encode(secret)]
+  try {
+    const b64 = secret.replace(/^(whsec_|polar_whs_)/, '')
+    keys.push(Uint8Array.from(atob(b64), c => c.charCodeAt(0)))
+  } catch {
+    // base64 가 아니면 UTF-8 방식만 쓴다
+  }
 
-  const key = await crypto.subtle.importKey(
-    'raw', secretBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
-  )
   const payload = new TextEncoder().encode(`${webhookId}.${timestamp}.${body}`)
-  const sig = await crypto.subtle.sign('HMAC', key, payload)
-  const expected = btoa(String.fromCharCode(...new Uint8Array(sig)))
-
   // signatures header: "v1,<base64> v1,<base64> ..."
-  return signatures.split(' ').some(s => s.replace('v1,', '') === expected)
+  const provided = signatures.split(' ').map(s => s.replace('v1,', ''))
+  for (const secretBytes of keys) {
+    const key = await crypto.subtle.importKey(
+      'raw', secretBytes as BufferSource, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
+    )
+    const sig = await crypto.subtle.sign('HMAC', key, payload)
+    const expected = btoa(String.fromCharCode(...new Uint8Array(sig)))
+    if (provided.includes(expected)) return true
+  }
+  return false
 }
 
 // Supabase REST helper
