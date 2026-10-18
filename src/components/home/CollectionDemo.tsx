@@ -16,15 +16,16 @@ function gtagEvent(name: string, params?: Record<string, unknown>) {
   if (typeof w.gtag === 'function') w.gtag('event', name, params)
 }
 
+// 2026-10-18 운영자: "보자마자 이해되고, 나도 해 볼까 하는 마음이 드는 문구로" — 기능 나열 → 내가 겪는 장면으로.
 const STEPS_KO = [
-  { t: '셀카 한 장 올리기', d: '정면 사진 한 장이면 돼요. 사진은 이 기기 밖으로 저장되지 않아요.' },
-  { t: '9룩이 내 얼굴로', d: '내추럴 글로우부터 K-pop 아이돌까지 9룩을 2~3분 안에 한 번에 만들어요.' },
-  { t: '10장 받아서 올리기', d: '"나한테 제일 어울리는 건?" 모아보기 1장 + 룩별 낱장 9장. 저장·메일로 받기.' },
+  { t: '앨범에서 셀카 한 장 고르기', d: '평소 찍어 둔 정면 셀카면 충분해요. 사진은 이 기기 밖으로 저장되지 않아요.' },
+  { t: '커피 한 모금 하는 사이, 9룩 완성', d: '내추럴 글로우부터 K-pop 아이돌까지 — 2~3분이면 9룩이 전부 내 얼굴로.' },
+  { t: '제일 예쁜 나를 골라 자랑하기', d: '"나한테 뭐가 제일 잘 어울려?" 한눈에 보는 모아보기 1장 + 룩별 9장. 저장해서 바로 올려요.' },
 ]
 const STEPS_EN = [
-  { t: 'Upload one selfie', d: 'One front-facing photo is all it takes. Your selfie never leaves this device.' },
-  { t: 'All 9 looks on your face', d: 'From Natural Glow to K-Pop Idol — all 9 looks made in 2–3 minutes.' },
-  { t: 'Get 10 images to post', d: 'A "which one suits me?" grid + each look on its own. Save or email them.' },
+  { t: 'Pick a selfie from your camera roll', d: 'Any front-facing selfie you already have works. Your photo never leaves this device.' },
+  { t: 'Sip your coffee — 9 looks are done', d: 'From Natural Glow to K-Pop Idol, all 9 looks land on your own face in 2–3 minutes.' },
+  { t: 'Find your best look and show it off', d: '"Which one suits me most?" — one side-by-side grid + each look on its own. Save it and post.' },
 ]
 
 export default function CollectionDemo({ isEn }: { isEn: boolean }) {
@@ -52,8 +53,8 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           titleId="demo-title"
-          eyebrow={isEn ? 'How it works' : '이렇게 받아요'}
-          title={isEn ? 'One selfie, all 9 looks on your face' : '셀카 한 장으로, 9룩 전부 내 얼굴로'}
+          eyebrow={isEn ? 'Done in 3 minutes' : '3분이면 끝나요'}
+          title={isEn ? 'Which look suits you? Try all 9 and see.' : '어울리는 룩, 다 해 보면 보여요'}
         />
         {/* 모바일: 영상 → 단계·버튼 / PC: 왼쪽 단계 · 오른쪽 영상 */}
         <div className="max-w-4xl mx-auto grid md:grid-cols-[1fr_auto] gap-x-16 gap-y-10 items-center">
