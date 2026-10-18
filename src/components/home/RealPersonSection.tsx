@@ -4,9 +4,15 @@
 // (10/17 성장 점검: AI 모델 → 실제 사람 결과로). Rhode "you + rhode"·Fenty "your Fenty face" 자리.
 // 첫 사람은 운영자 본인(koha) — 사진은 운영자 셀카, 애프터는 그 셀카에 라이브 도구를 돌린 출력이다
 // (public/home-ba-*.webp, 2026-07-04 f2f9412). 운영자 확인 10/18: "홈에 모자 쓴 사람이 나야".
+// 2026-10-18 추가: 같은 운영자의 9룩 컬렉션 낱장 8장(public/real/, scripts/crop-real-person.mjs) 띠.
+//   히어로 9룩은 AI 모델이라 "실제 사람 × 여러 룩"을 보여 주는 유일한 자리.
 // ⚠ 다른 사람 사진을 여기 올릴 땐 반드시 본인 동의 + 18세 이상 + 축소본만(10/17 성장 점검 안전 조건).
 import BeforeAfterSlider from '../makeup/BeforeAfterSlider'
 import { trackEvent } from '../../lib/analytics'
+import { MAKEUP_STYLES } from '../../lib/makeup/styles'
+
+// 운영자 사진이 있는 룩(K-pop 아이돌은 받은 파일에 없다)
+const REAL_LOOKS = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge'] as const
 
 export default function RealPersonSection({ isEn }: { isEn: boolean }) {
   return (
@@ -15,7 +21,7 @@ export default function RealPersonSection({ isEn }: { isEn: boolean }) {
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(at 15% 20%, rgba(235, 71, 99, 0.18) 0px, transparent 45%)' }}
       />
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-center">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-24 md:pb-16 grid md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-center">
         <figure className="mx-auto w-full max-w-[280px] md:max-w-[340px]">
           <BeforeAfterSlider beforeSrc="/home-ba-before.webp" afterSrc="/home-ba-after.webp" isEn={isEn} />
           <figcaption className="mt-3 text-center text-[11px] leading-relaxed text-white/55 break-keep">
@@ -59,6 +65,34 @@ export default function RealPersonSection({ isEn }: { isEn: boolean }) {
             </a>
           </div>
         </div>
+      </div>
+
+      {/* 같은 사람 × 8룩 — 셀카 한 장으로 받은 9룩 컬렉션 낱장 */}
+      <div className="relative max-w-6xl mx-auto pb-16 md:pb-24">
+        <p className="px-4 sm:px-6 lg:px-8 text-sm md:text-base font-extrabold text-white">
+          {isEn ? 'Same person, one selfie — 8 of his 9 looks' : '같은 사람, 셀카 한 장으로 — 9룩 중 8장'}
+        </p>
+        <ul className="mt-4 flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 scroll-px-4 sm:scroll-px-6 lg:scroll-px-8 pb-2 [scrollbar-width:thin]">
+          {REAL_LOOKS.map((id) => {
+            const st = MAKEUP_STYLES.find((x) => x.id === id)
+            const name = isEn ? st?.subEn : st?.nameKo
+            return (
+              <li key={id} className="snap-start shrink-0 w-[38vw] max-w-[170px] md:w-[150px]">
+                <a href={`/analysis/?style=${id}`} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_real_look', promotion_id: id })} className="group block">
+                  <span className="block aspect-[4/5] overflow-hidden rounded-lg ring-1 ring-white/15 group-hover:ring-white/60 transition">
+                    <img src={`/real/koha-${id}.webp`} alt={isEn ? `koha with ${name} makeup — AI result from his selfie` : `운영자 koha의 ${name} — 셀카로 만든 AI 결과`} loading="lazy" decoding="async" width={480} height={600} className="h-full w-full object-cover" />
+                  </span>
+                  <span className="mt-2 block truncate text-xs font-bold text-white/80 group-hover:text-white">{name}</span>
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+        <p className="mt-2 px-4 sm:px-6 lg:px-8 text-[11px] text-white/45 break-keep">
+          {isEn
+            ? 'Collection images kissinskin made from one selfie of koha (AI-generated). Tap a look to try it on yours.'
+            : 'koha의 셀카 한 장으로 kissinskin이 만든 컬렉션 낱장이에요(AI 생성 이미지). 룩을 누르면 내 얼굴로 해 볼 수 있어요.'}
+        </p>
       </div>
     </section>
   )
