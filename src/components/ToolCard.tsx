@@ -25,9 +25,11 @@ interface ToolCardProps {
   image?: string
   /** "6문항 · 약 1분" 처럼 실제 수치. 진단 도구를 누르게 만드는 유일한 정보다. */
   meta?: string
+  /** 모바일 2열용(홈). 640px 미만에서 아이콘 칩·수치 줄을 숨기고 여백·글자를 줄인다. */
+  compact?: boolean
 }
 
-export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true, image, meta }: ToolCardProps) {
+export default function ToolCard({ href, icon, accent, title, desc, tag, cta, available = true, image, meta, compact = false }: ToolCardProps) {
   // 도구 액센트 6색은 '눈에 띄라고' 고른 밝은 색이라 글자색으로 쓰면 대비가 깨진다
   // (틸 3.07 · 세이지 3.10 · 머스터드 2.74 — AA 4.5 미달). 2026-09-22 실측.
   // 면·점·아이콘에는 원색을, **글자(배지·CTA)에는 잉크**를 쓴다. 색상은 그대로고 명도만 내려간다.
@@ -59,8 +61,8 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
           <img src={image} alt={title} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
         </span>
       )}
-      <div className="flex flex-1 flex-col p-5 md:p-6">
-      <div className="mb-4 flex items-center justify-between gap-2">
+      <div className={`flex flex-1 flex-col ${compact ? 'p-3.5 sm:p-5' : 'p-5'} md:p-6`}>
+      <div className={`mb-4 items-center justify-between gap-2 ${compact ? 'hidden sm:flex' : 'flex'}`}>
         <div
           className="flex h-12 w-12 items-center justify-center rounded-xl"
           style={{ background: tint, color: accent }}
@@ -80,11 +82,11 @@ export default function ToolCard({ href, icon, accent, title, desc, tag, cta, av
         )}
       </div>
 
-      <h3 className="mb-1.5 text-[17px] md:text-lg font-bold leading-snug text-navy">{title}</h3>
-      <p className="mb-3 flex-1 text-sm leading-relaxed text-slate-600">{desc}</p>
+      <h3 className={`mb-1.5 ${compact ? 'text-[15px] sm:text-[17px]' : 'text-[17px]'} md:text-lg font-bold leading-snug text-navy break-keep`}>{title}</h3>
+      <p className={`mb-3 flex-1 ${compact ? 'text-[13px] sm:text-sm' : 'text-sm'} leading-relaxed text-slate-600 break-keep`}>{desc}</p>
 
       {meta && (
-        <p className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-slate-500">{meta}</p>
+        <p className={`mb-4 text-[11px] font-semibold uppercase tracking-wide text-slate-500 ${compact ? 'hidden sm:block' : ''}`}>{meta}</p>
       )}
 
       {available && cta && (

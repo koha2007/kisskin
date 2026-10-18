@@ -98,7 +98,7 @@ export default {
   // Sub-header between the signature (AI makeup) card and the 4 quiz cards (2026-09-10)
   'home.toolsShowcase.quizzesBadge': 'Free · no signup',
   'home.toolsShowcase.quizzesTitle': 'These 4 decide your makeup',
-  'home.toolsShowcase.quizzesDesc': 'One minute each. Once all four are in, your result is ready above.',
+  'home.toolsShowcase.quizzesDesc': 'One minute each, no sign-up. Once all four are in, your personal result is ready below.',
   'home.dna.homeCta': 'See my personalized result',
   'home.dna.featLabel': '4 quizzes → one result',
   'home.dna.featDesc': 'Finish the 4 quizzes and get a routine and product list built just for you.',

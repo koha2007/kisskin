@@ -96,3 +96,27 @@
 - https://www.navattic.com/customer/highlights · https://www.navattic.com/blog/increase-conversions-for-interactive-demos
 - https://rownd.io/blog/why-you-should-delay-authentication-onboarding-in-your-app
 - 사이트 캡처: remini.ai · photoroom.com · rhodeskin.com · fentybeauty.com · patmcgrath.com · glossier.com · tirtir.global · global.oliveyoung.com · perfectcorp.com
+
+## 4. 1차 착수 기록 (2026-10-18, 운영자 "지금 바로 시작")
+
+**데이터 재점검:** GA4 직접 접근 불가(API 키 없음·크롬 확장 미연결) → 10/17 GA4·Clarity 30일 스냅샷 + Supabase 직접 조회.
+Supabase: Auth 57, 10/17 이후 신규 가입 0 → "룩 고름 49 → 생성 9" 누수 결론 그대로.
+**추가 벤치마크(10/18 캡처):** Lensa(첫 화면 = 가운데 큰 제목 → START NOW 하나 → 별점·다운로드 한 줄 → 결과 사진 띠),
+Remini 재확인(H1 80px·버튼 "Try Remini" 하나), Rhode(H1 176px). 화해·Sephora 는 팝업·접근 거부로 비교 제외.
+
+| 바꾼 것 | 근거 |
+|---|---|
+| 히어로 버튼 5개 → 주 버튼 1개("내 얼굴로 무료 체험") + 글자 링크 1줄(무료 진단) | Clarity 45% 지점 도달 9~10%, Remini·Lensa |
+| 슬라이더 크게 + 룩 고르기 = 동그라미 9개(고르면 버튼이 그 룩으로 이동) | 룩 고름→생성 누수, 데모 직접 만지기(Navattic) |
+| 히어로 이미지 경량본(600px·192px) — 9룩 썸네일만 1MB → ~100KB | 모바일 75% |
+| 페이스 차트 3×3 → "메이크업도 아트다" 초대형 제목 + 가로 띠 | 브랜드 비전, Rhode |
+| 무료 진단: 혜택 띠+대형 카드+하위 제목+4카드+슬림 카드 → 제목 1 + 4카드(퍼스널컬러·얼굴형 먼저, 모바일 2열) + 맞춤 결과 띠 1줄 | 진입 2·3위가 얼굴형·퍼스널컬러 |
+| 클래스·신제품·뉴스 섹션 3개 → 탭 하나(세 패널 모두 DOM 유지) | Photoroom, 홈 하단 거의 안 읽힘 |
+| 홈 길이 PC 9,875 → 6,798px · 모바일 12,636 → 7,932px | |
+
+**일부러 안 바꾼 것:** /analysis/ "로그인 필수" 안내(7/13 의도적 결정 + 10/17 관문 수정 측정 중) · 도구 랜딩 4종
+(첫 화면에 1번 문항이 바로 보이는 퀴즈형 = 이미 벤치마크 방향, tool_complete 147 로 가장 잘 도는 구간).
+
+**측정(2~3주 뒤):** GA4 `select_promotion` creative_slot = `home_hero_primary` / `home_hero_quiz` / `home_hero_look`,
+`home_explore_tab`, 그리고 style_selected → free_trial_used. 9/13 에 주 버튼을 무료 진단으로 바꿨던 이유(업로드 89% 이탈)가
+되살아나는지 확인 — 나쁘면 주 버튼을 무료 진단으로 되돌린다.

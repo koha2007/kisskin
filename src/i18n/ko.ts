@@ -102,7 +102,7 @@ export default {
   // 시그니처(AI 메이크업) 카드와 아래 퀴즈 4장 사이 서브헤더 (2026-09-10)
   'home.toolsShowcase.quizzesBadge': '무료 · 로그인 불필요',
   'home.toolsShowcase.quizzesTitle': '이 4가지가 내 메이크업을 정해요',
-  'home.toolsShowcase.quizzesDesc': '하나씩 1분이면 끝나요. 4가지가 모이면 위에서 결과를 볼 수 있어요.',
+  'home.toolsShowcase.quizzesDesc': '가입 없이 하나씩 1분이면 끝나요. 4가지가 모이면 아래에서 내 맞춤 결과를 볼 수 있어요.',
   'home.dna.homeCta': '내 맞춤 결과 보기',
   'home.dna.featLabel': '4가지 진단 → 하나의 결과',
   'home.dna.featDesc': '4가지 진단을 마치면 나에게 맞는 메이크업 루틴과 추천 제품 리스트를 보여드려요.',

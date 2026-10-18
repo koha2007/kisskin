@@ -10,12 +10,15 @@ import { EmailSubscribe } from './components/EmailSubscribe'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
-import { LOOK_IMAGES } from './lib/makeup/lookImages'
-import { CLASS_LESSONS, chartSrc } from './lib/class/lessons'
-import { CURRICULUM } from './lib/class/curriculum'
+import { LOOK_HERO, lookThumb } from './lib/makeup/lookImages'
+import { trackEvent } from './lib/analytics'
 import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
 import { useBeautyDna } from './hooks/useBeautyDna'
-import { DNA_FIELDS, DNA_FIELD_META, type DnaField } from './lib/beauty-dna/types'
+import { DNA_FIELDS, type DnaField } from './lib/beauty-dna/types'
+
+// 룩 이름 — 버튼 문구·동그라미 라벨용. subEn 은 대문자 표기라 여기선 사람이 읽는 꼴로.
+const LOOK_NAME_KO = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.nameKo])) as Record<MakeupStyleId, string>
+const LOOK_NAME_EN = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.subEn.toLowerCase().replace(/(^|[\s-])\S/g, (c) => c.toUpperCase()).replace('K-pop', 'K-Pop')])) as Record<MakeupStyleId, string>
 
 const DNA_PREVIEW: Record<DnaField, string> = {
   personalColor: TOOL_CARD_IMAGES.personalColor,
@@ -65,14 +68,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
   // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
-  // ── 히어로 비포/애프터 ── 기본은 대표 컷(룩 라벨 없음). 슬라이더 아래 9룩 그리드를
-  // 누르면 제자리에서 그 룩의 비포/애프터로 교체된다.
-  // 2026-09-22: CTA 아래에 있던 '완성 예시' 썸네일 4칸을 걷어냈다(운영자 지시) — 바로 옆
-  // 슬라이더 아래에 같은 일을 하는 9룩 그리드가 이미 있어 한 화면에 같은 선택지가 두 번
-  // 나와 있었다. 9칸 쪽이 전체를 보여주므로 4칸이 덜어낼 쪽이다.
-  const [baLook, setBaLook] = useState<MakeupStyleId | null>(null)
-  const baBefore = baLook ? LOOK_IMAGES[baLook].before : '/home-ba-before.webp'
-  const baAfter = baLook ? LOOK_IMAGES[baLook].after : '/home-ba-after.webp'
+  // ── 히어로 데모 ── 기본은 볼드 립(변화가 가장 눈에 띈다). 사용자가 직접 고르면(baPicked)
+  // 주 버튼이 그 룩으로 바로 가는 링크·문구로 바뀐다.
+  const [baLook, setBaLook] = useState<MakeupStyleId>('bold-lip')
+  const [baPicked, setBaPicked] = useState(false)
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
   // structured data always matches the visible text in the active language.
   const homeFaq = isEn
@@ -293,179 +292,103 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </nav>
 
       <main>
-      {/* ── 히어로 ── */}
-      {/* 2026-07-21 리디자인 — "결과물 우선" 히어로.
-          이전 히어로는 좌:설명문 / 우:빈 점선 업로드 박스라 첫 화면에 우리 제품의 유일한
-          무기(비포/애프터)가 없었다. Lensa·Remini 패턴대로 결과물 자체를 히어로로 올리고,
-          핑크 메시 그라데이션(4겹 radial)은 뉴트럴 배경으로 교체했다. */}
-      <section className="relative py-12 md:py-20 overflow-hidden bg-cream" aria-labelledby="hero-title">
-        {/* 액센트는 한 겹만 — 우상단에 아주 옅은 웜 워시 */}
+      {/* ── 히어로 ── 2026-10-18 대개편 (docs/REDESIGN_BENCHMARK_2026-10.md)
+          이전: 버튼 5개(무료 진단·예시 보기·셀카 링크·$4.99·첫 1회 무료) + 작은 슬라이더 + 9칸 그리드.
+          홈 진입자의 90%가 첫 화면만 본다(Clarity: 45% 지점 도달 PC 9%·모바일 10%)는 데서 출발해
+          Remini·Lensa 구조로 바꿨다 — 큰 제목 → 버튼 하나 → 직접 만져 보는 데모.
+          · 주 버튼 = "내 얼굴로 해 보기" 하나. 고른 룩이 있으면 그 룩으로 바로 간다.
+          · $4.99 9룩 컬렉션은 바로 아래 시연 영상 섹션이 맡는다(가격은 첫 화면에서 뺀다).
+          · 셀카가 부담스러운 사람용 무료 진단은 버튼이 아니라 글자 링크 한 줄로.
+          · 룩 고르기 = 인스타 스토리식 동그라미 9개(얼굴 확대 썸네일, 192px 경량본).
+          GA4: select_promotion creative_slot = home_hero_primary / home_hero_quiz / home_hero_look. */}
+      <section className="relative overflow-hidden bg-cream" aria-labelledby="hero-title">
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(at 82% 8%, rgba(216, 80, 60, 0.07) 0px, transparent 55%)' }}
+          style={{ background: 'radial-gradient(at 85% 0%, rgba(235, 71, 99, 0.10) 0px, transparent 50%), radial-gradient(at 0% 100%, rgba(7, 9, 83, 0.05) 0px, transparent 45%)' }}
         />
-
-        {/* items-center 였는데, 우측 컬럼이 슬라이더+9썸네일로 길어지자 좌측 카피가 수직
-            중앙으로 밀려 헤드라인이 첫 화면(fold) 밖으로 나갔다. 주의의 57%가 첫 화면에
-            머문다는 게 히어로 개편의 전제였으므로 상단 정렬로 되돌린다. */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-x-10 lg:gap-x-16 md:gap-y-10 items-start">
-          {/* 좌: 카피.
-              모바일에선 이 래퍼가 display:contents 라 아래 두 덩어리(카피 상단 / CTA 하단)가
-              그리드 컨테이너의 직계 자식이 된다 → 그 사이에 결과물(order-2)을 끼워 넣는다.
-              · 예전에 이미지를 통째로 맨 위(order-1)로 올렸더니 첫 화면이 사진+쿠키 배너로
-                가득 차 헤드라인이 아예 안 보였다. 그래서 헤드라인은 계속 맨 위에 둔다.
-              · 하지만 CTA 2개가 세로로 쌓이면서 결과물이 첫 화면 밖으로 밀렸는데,
-                우리 사용자의 75%가 모바일이다(GA4). 그래서 헤드라인 → 결과물 → CTA 순으로
-                모바일만 재배치한다. 데스크톱은 기존 2단 레이아웃 그대로. */}
-          <div className="contents md:col-start-1 md:row-start-1 md:flex md:flex-col md:items-start md:gap-6">
-            <div className="order-1 md:order-none flex flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
-              {/* 눈에 띄는 알약 배지 → 담백한 eyebrow 라벨. 브랜드 한글명은 SEO 위해 유지 */}
-              <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">
-                {t('home.hero.badge')}
-              </p>
-
-              <h1
-                id="hero-title"
-                className="animate-fade-in-up text-[2.6rem] md:text-[3.4rem] lg:text-[4rem] font-extrabold leading-[1.04] tracking-[-0.035em] text-navy"
-              >
-                {t('home.hero.title1')}<br />
-                <span className="text-primary">{t('home.hero.title2')}</span> {t('home.hero.title3')}
-              </h1>
-
-              <p className="animate-fade-in-up-delay text-[15px] md:text-lg text-slate-600 max-w-md leading-relaxed">
-                {t('home.hero.subtitle')}
-              </p>
-            </div>
-
-            <div className="order-3 md:order-none flex w-full flex-col items-center md:items-start text-center md:text-left gap-4 md:gap-6">
-            {/* 2026-09-13: 메인 CTA를 셀카 업로드(유료 기능, GA4 상 89% 이탈)에서 무료·
-                비로그인 진단 4종으로 교체 — Stitch Fix/Function of Beauty 처럼 결제 전에
-                가벼운 퀴즈부터 태운다. 셀카 업로드는 아래 보조 링크로 격하. */}
-            <div className="animate-fade-in-up-delay2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-              <a
-                href={toolHref('/tools/beauty-dna/')}
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 text-base font-bold transition-colors"
-              >
-                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>quiz</span>
-                {t('home.hero.quizCta')}
-              </a>
-              <a
-                href="#demo"
-                className="inline-flex items-center justify-center gap-1.5 px-6 py-4 text-base font-bold text-navy border border-navy/25 hover:border-navy transition-colors"
-              >
-                {t('home.hero.viewStyles')}
-              </a>
-            </div>
-
-            {/* 신뢰 띠 — 핑크 점 대신 가운뎃점 구분자로 담백하게 */}
-            <p className="animate-fade-in-up-delay2 text-xs font-medium text-slate-500">
-              {[t('home.hero.trust1'), t('home.hero.trust2'), t('home.hero.trust3')].join(' · ')}
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 md:py-20 grid md:grid-cols-[1.15fr_0.85fr] gap-8 md:gap-12 lg:gap-16 items-center">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">
+              {t('home.hero.badge')}
             </p>
-            {/* 셀카 업로드(유료 기능) 보조 링크 — 메인 CTA에서 내려온 자리. 가격 안내를
-                여기 붙여 "이 기능은 회원가입/유료"라는 맥락이 이 링크에만 걸리게 한다. */}
-            <a
-              href="/analysis/"
-              className="animate-fade-in-up-delay2 -mt-1 inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-500 hover:text-navy transition-colors underline decoration-slate-300 underline-offset-2"
+            <h1
+              id="hero-title"
+              className={`animate-fade-in-up mt-4 md:mt-6 text-[2.6rem] sm:text-[3.2rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-navy break-keep ${isEn ? 'md:text-[3.6rem] lg:text-[4.4rem]' : 'md:text-[4.2rem] lg:text-[5.4rem]'}`}
             >
-              <span className="material-symbols-outlined text-[16px]">photo_camera</span>
-              {t('home.hero.directLink')}
+              {t('home.hero.title1')}<br />
+              <span className="text-primary">{t('home.hero.title2')}</span>{' '}
+              {/* 한글은 PC 에서 3줄(사보기 전에, / 내 얼굴에 / 발라본다). 영문은 2줄이 자연스럽다. */}
+              {!isEn && <br className="hidden md:block" />}
+              {t('home.hero.title3')}
+            </h1>
+            <p className="animate-fade-in-up-delay mt-4 md:mt-7 text-[15px] md:text-lg text-slate-600 max-w-md leading-relaxed break-keep">
+              {isEn
+                ? 'One selfie, 9 K-beauty looks on your own face. Your first look is free.'
+                : '셀카 한 장이면 K-뷰티 9룩이 내 얼굴로. 첫 1회는 무료예요.'}
+            </p>
+            <a
+              href={baPicked ? `/analysis/?style=${baLook}` : '/analysis/'}
+              onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_primary', promotion_id: baPicked ? baLook : 'none' })}
+              className="animate-fade-in-up-delay2 mt-6 md:mt-9 inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-primary-dark hover:bg-navy text-white h-14 md:h-16 px-9 md:px-11 text-base md:text-lg font-extrabold shadow-lg shadow-primary/25 transition-colors"
+            >
+              <span aria-hidden="true" className="material-symbols-outlined text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>face_retouching_natural</span>
+              {baPicked
+                ? (isEn ? 'Try this look on my face' : '이 룩, 내 얼굴로 체험')
+                : (isEn ? 'Try it on my face — free' : '내 얼굴로 무료 체험')}
             </a>
-            <p className="animate-fade-in-up-delay2 -mt-2 text-[11px] text-slate-400">
-              {t('home.hero.priceSub')}
+            <p className="animate-fade-in-up-delay2 mt-3 text-xs font-medium text-slate-500">
+              {isEn ? '1st look free · No card · Photo deleted right away' : '첫 1회 무료 · 카드 불필요 · 사진 바로 삭제'}
             </p>
-
-            </div>
+            <a
+              href={toolHref('/tools/beauty-dna/')}
+              onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_quiz' })}
+              className="animate-fade-in-up-delay2 mt-4 md:mt-6 inline-flex items-center gap-1 text-[13px] md:text-sm font-bold text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy"
+            >
+              {isEn ? 'No selfie? Start with 4 free 1-minute quizzes' : '셀카가 부담되면 — 1분 무료 진단 4가지부터'}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
           </div>
 
-          {/* 우: 결과물. 예전엔 홈 중반에 있던 비포/애프터를 첫 화면으로 끌어올렸다 */}
-          {/* 2026-07-27: 모바일에서 카드가 화면 폭을 거의 다 먹어 스크롤할 곳이 없다는
-              지적 → 좌우 여백을 확보하려고 모바일 폭을 340→272px 로 줄였다. */}
-          {/* 2026-10-02: PC 에서 우측(슬라이더+3×3 룩 그리드+버튼)만 길게 내려가고 좌측은 CTA 아래가
-              통째로 비어 보였다(운영자 캡처). 룩 선택은 PC 에서만 좌측 컬럼 아래로 옮긴다 —
-              왼쪽에서 고르고 오른쪽에서 보는 구성. 모바일은 order 로 기존 순서 그대로
-              (헤드라인 → 슬라이더 → 룩 선택 → CTA). */}
-          <div className="order-2 md:order-none md:col-start-2 md:row-start-1 md:row-span-2 animate-fade-in-up-delay w-full max-w-[272px] sm:max-w-[340px] md:max-w-[400px] mx-auto">
-            <BeforeAfterSlider
-              key={baLook ?? 'hero'}
-              beforeSrc={baBefore}
-              afterSrc={baAfter}
-              isEn={isEn}
-            />
-            <p className="mt-3 text-center text-xs text-slate-400">
-              {isEn ? 'Drag the handle to compare' : '가운데 손잡이를 좌우로 드래그해 비교해보세요'}
-            </p>
-            {/* AI 생성 고지 — 아래 9룩 그리드와 같은 이유(EU AI Act Art.50, 2026-08-02 시행). */}
-            <p className="mt-1.5 text-center text-[11px] leading-relaxed text-slate-400">
-              {t('home.slider.aiDisclosure')}
-            </p>
-          </div>
-
-          <div className="order-2 md:order-none md:col-start-1 md:row-start-2 w-full max-w-[272px] sm:max-w-[340px] md:max-w-none mx-auto md:mx-0 -mt-4 md:mt-0">
-            {/* PC 전용 라벨 — 9칸 한 줄이라 썸네일 위 이름이 안 들어가서, 고른 룩 이름을 여기 보여준다 */}
-            <p className="hidden md:flex items-baseline gap-2 mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
-              {isEn ? 'Pick a look' : '룩 고르기'}
-              <span className="normal-case tracking-normal text-sm font-bold text-navy">
-                {baLook
-                  ? (isEn ? MAKEUP_STYLES.find((s) => s.id === baLook)?.subEn : MAKEUP_STYLES.find((s) => s.id === baLook)?.nameKo)
-                  : (isEn ? '9 K-beauty looks' : 'K-뷰티 9룩')}
+          {/* 데모 — 슬라이더 + 룩 동그라미. 고르면 제자리에서 바뀌고 위 버튼 문구도 그 룩으로 바뀐다. */}
+          <div className="animate-fade-in-up-delay w-full max-w-[300px] sm:max-w-[360px] md:max-w-[400px] lg:max-w-[440px] mx-auto">
+            <div className="relative">
+              <BeforeAfterSlider key={baLook} beforeSrc={LOOK_HERO[baLook].before} afterSrc={LOOK_HERO[baLook].after} isEn={isEn} />
+              <span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-navy shadow-sm">
+                {isEn ? LOOK_NAME_EN[baLook] : LOOK_NAME_KO[baLook]}
               </span>
-            </p>
-
-            {/* 룩 선택 — 누르면 위 슬라이더가 그 룩으로 제자리 교체된다(스크롤 이동 없음).
-                2026-07-22: 글자만 있는 알약 칩이었는데 "샘플이 안 보여 눌러볼 이유가 없다"는
-                지적을 받아 각 룩의 실제 결과 썸네일로 바꿨다. 우리 제품은 결과물이 곧 카피다. */}
-            <div className="grid grid-cols-3 md:grid-cols-9 gap-1.5" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
+            </div>
+            <div className="mt-4 -mx-4 px-4 md:mx-0 md:px-0 flex md:grid md:grid-cols-9 gap-2.5 md:gap-1 overflow-x-auto md:overflow-visible snap-x pb-1 [scrollbar-width:none]" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
               {MAKEUP_STYLES.map((s) => {
                 const on = baLook === s.id
                 return (
                   <button
                     key={s.id}
                     type="button"
-                    onClick={() => setBaLook(on ? null : s.id)}
+                    onClick={() => { setBaLook(s.id); setBaPicked(true); trackEvent('select_promotion', { creative_slot: 'home_hero_look', promotion_id: s.id }) }}
                     aria-pressed={on}
-                    title={isEn ? s.subEn : s.nameKo}
-                    className={`group relative block overflow-hidden rounded-lg transition-all ${
-                      on ? 'ring-2 ring-navy ring-offset-1' : 'ring-1 ring-slate-200 hover:ring-navy/40'
-                    }`}
+                    className="snap-start shrink-0 flex w-[60px] md:w-auto flex-col items-center gap-1"
                   >
-                    <span className="block aspect-square">
+                    <span className={`block h-[52px] w-[52px] md:h-11 md:w-11 lg:h-12 lg:w-12 rounded-full p-[2px] transition-all ${on ? 'bg-gradient-to-tr from-primary to-navy' : 'bg-slate-200'}`}>
                       <img
-                        src={LOOK_IMAGES[s.id].after}
+                        src={lookThumb(s.id)}
                         alt={isEn ? `${s.subEn} makeup look — AI-generated model` : `${s.nameKo} 메이크업 룩 — AI 생성 모델`}
-                        loading="lazy"
+                        width={48}
+                        height={48}
                         decoding="async"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full rounded-full border-2 border-cream object-cover"
                       />
                     </span>
-                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-1 pb-1 pt-4 md:hidden">
-                      <span className="block truncate text-[10px] font-bold leading-tight text-white">
-                        {isEn ? s.subEn : s.nameKo}
-                      </span>
+                    <span className={`w-full truncate text-center text-[10px] leading-tight ${on ? 'font-extrabold text-navy' : 'font-semibold text-slate-500'}`}>
+                      {isEn ? LOOK_NAME_EN[s.id] : s.nameKo}
                     </span>
                   </button>
                 )
               })}
             </div>
-
-            {/* 2026-10-12: 두 갈래 — 한 룩(첫 1회 무료) / 9룩 전부 + 모아보기($4.99, MakeupCollection).
-                9룩이 TikTok·CF 로 알리는 그 상품이라 주 버튼으로, 한 룩은 무료 체험 입구로 옆에. */}
-            <div className="mt-3 md:mt-4 flex flex-col md:flex-row gap-2">
-              <a
-                href="/analysis/?collection=new"
-                className="flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors"
-              >
-                {isEn ? 'All 9 looks on my photo · $4.99' : '9룩 전부 내 사진으로 · $4.99'}
-                <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </a>
-              <a
-                href={baLook ? `/analysis/?style=${baLook}` : '/analysis/'}
-                className="flex items-center justify-center gap-1.5 border border-navy px-6 py-3.5 text-sm font-bold text-navy hover:bg-navy/5 transition-colors"
-              >
-                {baLook
-                  ? (isEn ? 'Just this look — 1st free' : '이 룩 하나만 · 첫 1회 무료')
-                  : (isEn ? 'One look — 1st free' : '한 룩만 · 첫 1회 무료')}
-              </a>
-            </div>
+            {/* AI 생성 고지 — EU AI Act Art.50(2026-08-02 시행) */}
+            <p className="mt-2 text-center text-[11px] leading-relaxed text-slate-400 break-keep">
+              {isEn ? 'Drag to compare. ' : '손잡이를 밀어 비교해 보세요. '}{t('home.slider.aiDisclosure')}
+            </p>
           </div>
         </div>
       </section>
@@ -486,207 +409,79 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </section>
 
 
-      {/* ── 메이크업 방법 (페이스 차트) — 2026-10-02 ──
-          바로 위 9룩 섹션은 "사진(결과)", 여기는 "그림(방법)". 같은 9룩을 아티스트 페이스 차트로
-          보여주고 /looks/{id}/ 단계 페이지로 보낸다. 브랜드 비전(미술 × 메이크업)이 홈에서
-          가장 직접 보이는 자리. 모바일=가로 스크롤, PC=9칸 한 줄을 넘치면 스크롤. */}
-      <section id="how-to" className="py-16 md:py-24 bg-cream scroll-mt-16" aria-labelledby="howto-title">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            titleId="howto-title"
-            eyebrow={isEn ? 'Step by step' : '단계별 따라 하기'}
-            title={isEn ? 'How to do each look' : '이 룩, 직접 하는 법'}
-            subtitle={isEn
-              ? 'Every look drawn on a makeup artist’s face chart — where each step goes, the shades and the tools.'
-              : '메이크업 아티스트의 페이스 차트로 그렸어요. 어디에, 어떤 색을, 무엇으로 — 4단계로.'}
-          />
-          {/* 2026-10-12 운영자: 9칸 한 줄은 작다 → PC 도 3×3 으로 크게(폭 3xl) */}
-          <div className="max-w-3xl mx-auto grid grid-cols-3 gap-3 md:gap-5">
-            {MAKEUP_STYLES.map((s, i) => (
-              <a
-                key={s.id}
-                href={`${isEn ? '/en' : ''}/looks/${s.id}/`}
-                className="group block min-w-0"
-              >
-                <span className="relative block aspect-[3/4] overflow-hidden rounded-lg bg-white border border-slate-200">
-                  <img
-                    src={`/looks/charts/${s.id}.webp`}
-                    alt={isEn ? `${s.subEn} face chart` : `${s.nameKo} 페이스 차트`}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute left-1/2 top-[-28%] w-[150%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]"
-                  />
-                  <span className="absolute left-2 top-2 md:left-3 md:top-3 inline-flex h-6 min-w-6 md:h-7 md:min-w-7 items-center justify-center rounded-full bg-navy px-1.5 text-[11px] md:text-xs font-extrabold text-white">{i + 1}</span>
-                </span>
-                <span className="mt-2 block text-[13px] md:text-base font-bold text-navy leading-snug break-keep line-clamp-2">{isEn ? s.subEn : s.nameKo}</span>
-                <span className="block text-xs md:text-sm text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
-              </a>
-            ))}
+      {/* ── 메이크업도 아트다 — 페이스 차트 9룩 (2026-10-18 대개편) ──
+          이전: 3×3 페이스 차트 그리드(PC 약 1,900px). 브랜드 비전(미술 × 메이크업)이 가장 직접 보이는
+          자리라 Rhode 식 아주 큰 한 문장 + 갤러리처럼 옆으로 넘기는 차트 띠로 바꿨다(높이 절반 이하).
+          차트는 /looks/{id}/ 단계 페이지로 간다. */}
+      <section id="how-to" className="relative py-16 md:py-28 bg-white scroll-mt-16 overflow-hidden" aria-labelledby="howto-title">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-end">
+          <div>
+            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">
+              {isEn ? 'Face charts · step by step' : '페이스 차트 · 단계별 따라 하기'}
+            </p>
+            <h2 id="howto-title" className="mt-4 font-serif text-[3.4rem] sm:text-[4.5rem] md:text-[6.5rem] lg:text-[8rem] font-semibold leading-[0.92] tracking-[-0.04em] text-navy break-keep">
+              {isEn ? <>Makeup<br /><em className="text-primary-dark">is art.</em></> : <>메이크업도<br /><span className="text-primary-dark">아트다.</span></>}
+            </h2>
           </div>
-          <div className="mt-8 md:mt-10 flex flex-col items-center gap-3">
-            <a href={isEn ? '/en/looks/' : '/looks/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
+          <div className="max-w-sm md:pb-3">
+            <p className="text-[15px] md:text-base text-slate-600 leading-relaxed break-keep">
+              {isEn
+                ? 'Every look drawn on a makeup artist’s face chart — where each step goes, which shade, and with what. Four steps each.'
+                : '9룩 모두 메이크업 아티스트의 페이스 차트로 그렸어요. 어디에, 어떤 색을, 무엇으로 — 룩마다 4단계.'}
+            </p>
+            <a href={isEn ? '/en/looks/' : '/looks/'} className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
               {isEn ? 'All 9 how-tos' : '9룩 방법 전체 보기'}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
             </a>
-            <p className="text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
           </div>
         </div>
-      </section>
-
-      {/* ── 무료 메이크업 클래스 — 2026-10-10 ──
-          운영자: "메인화면에 없네?" → 한 줄 배너로는 안 보였다. 9룩 방법 바로 아래 독립 섹션으로.
-          최근 공개 4편 + 다음 주 공개 1칸(재방문 이유). 매주 자동 발행되면 카드가 저절로 바뀐다. */}
-      <section id="class" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="class-title">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            titleId="class-title"
-            eyebrow={isEn ? 'Free makeup class' : '무료 메이크업 클래스'}
-            title={isEn ? 'Makeup from zero, one lesson a week' : '완전 기초부터, 매주 한 편씩'}
-            subtitle={isEn
-              ? `${CURRICULUM.length} lessons in order — from the right order of steps to eyeliner, contour and gradient lips. New lesson every Tuesday.`
-              : `메이크업 순서부터 아이라인 · 컨투어 · 그라데이션 립까지 ${CURRICULUM.length}편을 순서대로. 매주 화요일 새 편이 올라와요.`}
-          />
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
-            {CLASS_LESSONS.slice(-4).map((l) => (
-              <a key={l.slug} href={`${isEn ? '/en' : ''}/class/${l.slug}/`} className="group block bg-white border border-slate-200 hover:border-navy transition-colors">
-                <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
-                  <img src={chartSrc(l.slug)} alt={isEn ? `${l.titleEn} — face chart` : `${l.titleKo} 페이스 차트`} loading="lazy" decoding="async"
-                    className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
-                  <span className="absolute left-2 top-2 inline-flex h-6 items-center justify-center rounded-full bg-navy px-2 text-[11px] font-extrabold text-white">{isEn ? `Lesson ${l.n}` : `${l.n}편`}</span>
-                  {l.video && <span className="absolute right-2 top-2 inline-flex h-6 items-center gap-0.5 rounded-full bg-white/90 px-2 text-[11px] font-extrabold text-navy"><span className="material-symbols-outlined text-[14px]">play_arrow</span>{isEn ? 'Video' : '영상'}</span>}
-                </span>
-                <span className="block p-3 md:p-4">
-                  <span className="block text-sm md:text-base font-extrabold text-navy leading-snug break-keep">{isEn ? l.titleEn : l.titleKo}</span>
-                  <span className="mt-1 block text-xs text-slate-500">{l.minutes}{isEn ? ' min' : '분'} · {l.steps.length}{isEn ? ' steps' : '단계'} →</span>
-                </span>
-              </a>
-            ))}
-            {(() => {
-              const next = CURRICULUM.find((c) => !CLASS_LESSONS.some((l) => l.slug === c.slug))
-              return next ? (
-                <a href={isEn ? '/en/class/' : '/class/'} className="col-span-2 lg:col-span-1 flex flex-col justify-center gap-2 border border-dashed border-slate-300 p-5 text-center hover:border-navy transition-colors">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{isEn ? `Next Tuesday · lesson ${next.n}` : `다음 화요일 · ${next.n}편`}</span>
-                  <span className="text-base font-extrabold text-navy break-keep">{isEn ? next.titleEn : next.titleKo}</span>
-                  <span className="text-xs text-slate-500">{isEn ? 'Get it in your inbox — subscribe below' : '메일로 받아 보려면 아래에서 구독하세요'}</span>
+        <div className="mt-10 md:mt-14 max-w-6xl mx-auto">
+          <ul className="flex gap-3 md:gap-5 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 scroll-px-4 sm:scroll-px-6 lg:scroll-px-8 pb-3 [scrollbar-width:thin]">
+            {MAKEUP_STYLES.map((s, i) => (
+              <li key={s.id} className="snap-start shrink-0 w-[46vw] max-w-[220px] md:w-[230px] md:max-w-none">
+                <a href={`${isEn ? '/en' : ''}/looks/${s.id}/`} className="group block">
+                  <span className="relative block aspect-[3/4] overflow-hidden bg-cream ring-1 ring-slate-200 group-hover:ring-navy transition-colors">
+                    <img
+                      src={`/looks/charts/${s.id}.webp`}
+                      alt={isEn ? `${s.subEn} face chart` : `${s.nameKo} 페이스 차트`}
+                      loading="lazy"
+                      decoding="async"
+                      className="absolute left-1/2 top-[-28%] w-[150%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                    <span className="absolute left-3 top-3 font-serif text-2xl md:text-3xl font-semibold italic text-navy/80 lining-nums">{String(i + 1).padStart(2, '0')}</span>
+                  </span>
+                  <span className="mt-2.5 block text-sm md:text-base font-bold text-navy leading-snug break-keep">{isEn ? LOOK_NAME_EN[s.id] : s.nameKo}</span>
+                  <span className="block text-xs text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
                 </a>
-              ) : null
-            })()}
-          </div>
-          <div className="mt-8 md:mt-10 flex flex-col items-center gap-3">
-            <a href={isEn ? '/en/class/' : '/class/'} className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
-              {isEn ? `All ${CURRICULUM.length} lessons` : `${CURRICULUM.length}편 전체 보기`}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-            <p className="text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
-          </div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 px-4 sm:px-6 lg:px-8 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
         </div>
       </section>
 
-      {/* ── "나만의 메이크업 찾았다" 섹션 (구 "나만을 위한 뷰티 솔루션") ──
-          2026-09-10: 섹션 제목이 "나만의 메이크업 찾았다"인데 히어로 카드가 AI 메이크업
-          시뮬레이터(/analysis/)였다 → 히어로를 beauty-dna 로 교체하고, AI 메이크업은
-          4종 카드 아래 슬림 카드로 강등(상단 히어로·상단바·9룩 그리드에 진입점 존치). */}
+      {/* ── 무료 진단 4가지 — 2026-10-18 대개편으로 한 덩어리로 압축 ──
+          이전: 회원가입 혜택 띠 + 네이비 대형 카드(beauty-dna) + 하위 제목 + 카드 4장 + 슬림 카드 (PC 약 1,500px).
+          진단 → 룩 → 제품을 한 줄로 잇는 게 목적이라(퀴즈 퍼널 10~20%대, Fenty "Find your shade")
+          제목 하나 + 카드 4장 + "4가지 모이면 맞춤 결과" 띠 한 줄로 줄였다. */}
       <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 bg-white border-t border-slate-200/70" aria-labelledby="tools-title">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             titleId="tools-title"
-            eyebrow={t('home.toolsShowcase.badge')}
-            title={t('home.toolsShowcase.title1')}
-            subtitle={t('home.toolsShowcase.subtitle')}
+            eyebrow={t('home.toolsShowcase.quizzesBadge')}
+            title={t('home.toolsShowcase.quizzesTitle')}
+            subtitle={t('home.toolsShowcase.quizzesDesc')}
           />
 
-          {/* 회원가입 혜택 — 2026-10-12 '이용 방법' 섹션(히어로·시연 영상·이 섹션과 겹쳐서 제거)에서
-              다른 곳에 없는 내용만 옮겨 왔다. 무료 진단 4종 완성 → 내 모델 1회 + AI 메이크업 첫 1회. */}
-          <div className="max-w-4xl mx-auto mb-10 md:mb-12 flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/[0.05] px-5 py-4">
-            <span className="material-symbols-outlined text-primary-dark shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>redeem</span>
-            <div>
-              <p className="text-sm md:text-base font-bold text-navy">{t('home.how.giftTitle')}</p>
-              <p className="text-slate-600 text-[13px] md:text-sm leading-relaxed mt-0.5">{t('home.how.giftDesc')}</p>
-            </div>
-          </div>
-
-          {/* Featured: 나만의 메이크업 찾았다 (네이비 강조 카드) — 섹션의 주인공 */}
-          <div className="mb-12 md:mb-16">
-            <a
-              href={toolHref('/tools/beauty-dna/')}
-              className="group block relative overflow-hidden bg-navy text-white transition-colors hover:bg-navy-mid"
-            >
-              <div className="relative flex flex-col md:flex-row md:items-stretch">
-                {/* 4종 진단을 종합한 "맞춤 뷰티 키트" 한 컷 (public/dna/feature.webp) */}
-                {/* 2026-10-02: PC 에서 사진의 원래 비율(세로로 김)이 카드 높이를 정해 오른쪽 네이비 면이
-                    텅 비어 보였다 → PC 는 사진을 absolute 로 깔아 카드 높이를 글이 정하게 한다. */}
-                <div className="relative md:w-2/5 lg:w-1/3 shrink-0">
-                  <img
-                    src="/dna/feature.webp?v=20261002a"
-                    alt={isEn ? 'Personalized beauty kit from four free tests' : '무료 진단 4종으로 만든 맞춤 뷰티 키트'}
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-[4/3] w-full object-cover md:absolute md:inset-0 md:aspect-auto md:h-full"
-                  />
-                </div>
-                <div className="flex-1 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-on-dark mb-3">
-                    {t('home.dna.featLabel')}
-                  </p>
-                  <p className="text-white/80 text-sm md:text-base mb-4 max-w-xl leading-relaxed">
-                    {t('home.dna.featDesc')}
-                  </p>
-                  {/* 무엇을 모아 하나로 만드는지 — 4종 진단 썸네일 + 완료 체크. 카드 전체가 링크라
-                      여기엔 링크를 두지 않는다(중첩 <a> 금지). */}
-                  <ul className="grid grid-cols-4 gap-2 md:gap-3 mb-4 max-w-md">
-                    {DNA_FIELDS.map((f) => (
-                      <li key={f} className="min-w-0">
-                        <span className="relative block aspect-square overflow-hidden bg-white/10">
-                          <img src={DNA_PREVIEW[f]} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                          {dna[f] && (
-                            <span className="absolute right-1 top-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-primary" aria-hidden="true">
-                              <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
-                            </span>
-                          )}
-                        </span>
-                        <span className="mt-1.5 block truncate text-[10px] md:text-[11px] font-semibold text-white/70">
-                          {isEn ? DNA_FIELD_META[f].labelEn : DNA_FIELD_META[f].labelKo}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <DnaProgress compact dark className="mb-3" />
-                  <p className="text-white/55 text-[11px] md:text-xs leading-relaxed mb-5 max-w-xl">
-                    {t('home.dna.featNote')}
-                  </p>
-                  <span className="inline-flex w-fit items-center gap-2 font-bold text-sm md:text-base bg-white text-navy px-6 py-3.5 group-hover:gap-3 transition-all">
-                    {t('home.dna.homeCta')}
-                    <span className="material-symbols-outlined">arrow_forward</span>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          {/* 무료 진단 4종 서브헤더 — 시그니처 카드 뒤 퀴즈 카드가 설명 없이 튀어나온다는
-              지적(2026-09-10). 같은 섹션 안 하위 블록이라 h3. */}
-          <div className="border-t border-slate-200 pt-10 md:pt-12">
-            <SectionHeader
-              level={3}
-              eyebrow={t('home.toolsShowcase.quizzesBadge')}
-              title={t('home.toolsShowcase.quizzesTitle')}
-              subtitle={t('home.toolsShowcase.quizzesDesc')}
-              className="!mb-7 md:!mb-8"
-            />
-          </div>
-
-          {/* 4 Tool Cards — 공통 ToolCard 재사용, 각 "무료" 뱃지 */}
-          {/* ⚠ 카드 라벨은 t() 라 영어로 나오는데 href 가 한국어로 고정돼 있었다 → 영어권 방문자가
-              영어 카드를 누르면 한국어 페이지로 떨어졌다(2026-07-14 수정). 도구 링크는 반드시 toolHref(). */}
-          {/* 2026-10-12: PC 한 줄 4칸(2×2 보다 ~600px 짧다). 모바일은 한 줄에 하나 그대로. */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {/* 4 Tool Cards — ⚠ 도구 링크는 반드시 toolHref()(영문 카드가 한국어 페이지로 떨어지던 2026-07-14 버그) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
             {[
-              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: TOOL_CARD_IMAGES.mbti,
-                title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), meta: t('home.toolsShowcase.t1Tag') },
               { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', image: TOOL_CARD_IMAGES.personalColor,
                 title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc'), meta: t('home.toolsShowcase.t2Tag') },
               { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', image: TOOL_CARD_IMAGES.faceShape,
                 title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc'), meta: t('home.toolsShowcase.t3Tag') },
+              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: TOOL_CARD_IMAGES.mbti,
+                title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), meta: t('home.toolsShowcase.t1Tag') },
               { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', image: TOOL_CARD_IMAGES.perfume,
                 title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc'), meta: t('home.toolsShowcase.t4Tag') },
             ].map(tool => (
@@ -701,35 +496,43 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 meta={tool.meta}
                 tag={isEn ? 'FREE' : '무료'}
                 cta={t('home.toolsShowcase.cardCta')}
+                compact
               />
             ))}
           </div>
 
-          {/* 셀카로 바로 하고 싶으면 — AI 메이크업(구 시그니처 히어로, 2026-09-10 강등) */}
-          <div className="mt-4">
-            <a
-              href="/analysis/"
-              className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 md:p-5 hover:border-navy transition-colors"
-            >
-              <img
-                src={LOOK_IMAGES[MAKEUP_STYLES[0].id].after}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="h-16 w-16 shrink-0 rounded-xl object-cover object-top"
-              />
-              <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-bold uppercase tracking-wide text-primary-dark">
-                  {t('home.toolsShowcase.signatureBadge')}
-                </p>
-                <p className="font-bold text-navy leading-tight">{t('home.toolsShowcase.mainTitle')}</p>
-                <p className="text-xs md:text-sm text-slate-500 leading-snug mt-0.5">
-                  {t('home.toolsShowcase.mainDesc')}
-                </p>
-              </div>
-              <span className="material-symbols-outlined text-slate-400 group-hover:text-navy shrink-0">arrow_forward</span>
-            </a>
-          </div>
+          {/* 4가지가 모이면 — 하나의 맞춤 결과(beauty-dna). 진행 상태가 보이게 체크 4칸 + 진행 막대. */}
+          <a
+            href={toolHref('/tools/beauty-dna/')}
+            className="group mt-5 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 bg-navy text-white px-5 py-5 md:px-8 md:py-6 hover:bg-navy-mid transition-colors"
+          >
+            <ul className="flex gap-2 shrink-0" aria-hidden="true">
+              {DNA_FIELDS.map((f) => (
+                <li key={f} className="relative h-12 w-12 overflow-hidden bg-white/10">
+                  <img src={DNA_PREVIEW[f]} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  {dna[f] && (
+                    <span className="absolute inset-0 flex items-center justify-center bg-navy/55">
+                      <span className="material-symbols-outlined text-[20px] text-white" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-on-dark">{t('home.dna.featLabel')}</p>
+              <p className="mt-1 text-sm md:text-base text-white/85 leading-relaxed break-keep">{t('home.dna.featDesc')}</p>
+              <DnaProgress compact dark className="mt-2" />
+            </div>
+            <span className="inline-flex w-fit shrink-0 items-center gap-2 bg-white text-navy px-5 py-3 text-sm font-bold group-hover:gap-3 transition-all">
+              {t('home.dna.homeCta')}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </span>
+          </a>
+          <p className="mt-3 text-center text-xs text-slate-500 break-keep">
+            <span className="font-bold text-navy">{t('home.how.giftTitle')}</span> — {t('home.dna.featNote')}
+          </p>
+
+          {/* 2026-10-18: AI 메이크업 슬림 카드 제거 — 새 히어로의 주 버튼과 같은 일을 했다. */}
 
           <div className="text-center mt-10 md:mt-12">
             <a
@@ -752,7 +555,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           마무리한다. 여기서는 결과물 한 장을 배경으로 깔고 그 위에 조판을 올렸다. */}
       <section className="relative overflow-hidden bg-navy text-white">
         <img
-          src="/home-ba-after.webp"
+          src={LOOK_HERO['bold-lip'].after}
           alt=""
           loading="lazy"
           decoding="async"

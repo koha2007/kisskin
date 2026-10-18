@@ -46,3 +46,13 @@ export const LOOK_IMAGES: Record<MakeupStyleId, LookImage> = {
 }
 
 export const lookImage = (id: MakeupStyleId): LookImage | undefined => LOOK_IMAGES[id]
+
+// 홈 히어로용 경량본 — scripts/gen-look-variants.mjs 산출(2026-10-18 대개편).
+// 원본 그대로면 홈 첫 화면에서 9룩 썸네일만 1MB 였다. 히어로 600×900(~35KB), 동그라미 192×192(~8KB).
+export const LOOK_HERO: Record<MakeupStyleId, LookImage> = Object.fromEntries(
+  (Object.keys(LOOK_IMAGES) as MakeupStyleId[]).map((id) => [id, {
+    before: `${DIR}/hero/${id}-before.webp?v=${V}`,
+    after: `${DIR}/hero/${id}-after.webp?v=${V}`,
+  }]),
+) as Record<MakeupStyleId, LookImage>
+export const lookThumb = (id: MakeupStyleId) => `${DIR}/thumb/${id}.webp?v=${V}`
