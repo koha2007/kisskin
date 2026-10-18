@@ -4,15 +4,14 @@
 // (10/17 성장 점검: AI 모델 → 실제 사람 결과로). Rhode "you + rhode"·Fenty "your Fenty face" 자리.
 // 첫 사람은 운영자 본인(koha) — 사진은 운영자 셀카, 애프터는 그 셀카에 라이브 도구를 돌린 출력이다
 // (public/home-ba-*.webp, 2026-07-04 f2f9412). 운영자 확인 10/18: "홈에 모자 쓴 사람이 나야".
-// 2026-10-18 추가: 같은 운영자의 9룩 컬렉션 낱장 8장(public/real/, scripts/crop-real-person.mjs) 띠.
+// 2026-10-18 추가: 같은 운영자의 9룩 컬렉션 낱장 9장(public/real/, scripts/crop-real-person.mjs) 띠.
 //   히어로 9룩은 AI 모델이라 "실제 사람 × 여러 룩"을 보여 주는 유일한 자리.
 // ⚠ 다른 사람 사진을 여기 올릴 땐 반드시 본인 동의 + 18세 이상 + 축소본만(10/17 성장 점검 안전 조건).
 import BeforeAfterSlider from '../makeup/BeforeAfterSlider'
 import { trackEvent } from '../../lib/analytics'
 import { MAKEUP_STYLES } from '../../lib/makeup/styles'
 
-// 운영자 사진이 있는 룩(K-pop 아이돌은 받은 파일에 없다)
-const REAL_LOOKS = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge'] as const
+const REAL_LOOKS = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol'] as const
 
 export default function RealPersonSection({ isEn }: { isEn: boolean }) {
   return (
@@ -70,7 +69,7 @@ export default function RealPersonSection({ isEn }: { isEn: boolean }) {
       {/* 같은 사람 × 8룩 — 셀카 한 장으로 받은 9룩 컬렉션 낱장 */}
       <div className="relative max-w-6xl mx-auto pb-16 md:pb-24">
         <p className="px-4 sm:px-6 lg:px-8 text-sm md:text-base font-extrabold text-white">
-          {isEn ? 'Same person, one selfie — 8 of his 9 looks' : '같은 사람, 셀카 한 장으로 — 9룩 중 8장'}
+          {isEn ? 'Same person, one selfie — all 9 looks' : '같은 사람, 셀카 한 장으로 — 9룩 전부'}
         </p>
         <ul className="mt-4 flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 scroll-px-4 sm:scroll-px-6 lg:scroll-px-8 pb-2 [scrollbar-width:thin]">
           {REAL_LOOKS.map((id) => {
