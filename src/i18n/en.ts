@@ -26,9 +26,8 @@ export default {
   // 2026-07-21 copy swap — benefit ("see it before you buy") over feature ("9 looks").
   // Search keywords now live in the subtitle: "personal color analysis korea" is our
   // one real advantage in EN search (we are actually in Seoul).
-  'home.hero.title1': 'Try it on your face',
-  'home.hero.title2': 'before',
-  'home.hero.title3': 'you buy.',
+  'home.hero.title1': 'One selfie.',
+  'home.hero.title2': 'Nine of you.',
   'home.hero.subtitle': 'One selfie. 9 K-beauty makeup looks on your own face — one at a time, or all 9 at once. Free AI personal color and makeup analysis from Seoul, Korea.',
   // free-pivot home redesign (2026-06-29) new keys
   'home.hero.uploadCta': 'Upload your selfie — free',
