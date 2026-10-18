@@ -1,20 +1,26 @@
 #!/usr/bin/env node
 /**
- * 홈 '실제 사람' 섹션 — 운영자 koha 의 9룩 컬렉션 낱장(라이브 도구 결과)을 사이트용으로 자른다.
+ * 홈 '실제 사람' 섹션 띠 — 운영자 koha 의 9룩 정면 사진을 사이트용으로 자른다.
  *
  *   node scripts/crop-real-person.mjs
  *
- * 원본: casting/originals/1-002.jpg ~ 1-010.jpg (git 밖, 1080×1350 낱장 카드, 2026-10-18 운영자 제공).
- * 카드 안 사진 영역은 x 166~914, y 106~1110. 아래 라벨 띠(y ~1040~)는 폰에서 카드를 넘기던 중
- * 캡처돼 다음 카드 라벨이 겹쳐 비치는 장이 있어서(3·6번) 라벨 위까지만 4:5 로 자른다.
+ * 원본: casting/originals/OpenAI Playground 2026-07-19 at 17.11.23.png (git 밖, 1086×1448 3×3, 2026-10-18 운영자 지정).
+ * 칸마다 아래쪽에 한국어 라벨이 박혀 있어 라벨 위까지만 4:5(320×400)로 자른다. 순서 = 9룩 번호 순.
+ * (그 전엔 비스듬한 컬렉션 낱장 casting/originals/1-002~010.jpg 를 썼다 — 운영자가 정면 사진으로 바꾸라 함.)
  */
 import sharp from 'sharp'
 import { mkdir } from 'node:fs/promises'
 
-const MAP = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol']
+const SRC = 'casting/originals/OpenAI Playground 2026-07-19 at 17.11.23.png'
+const ORDER = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol']
+const { width, height } = await sharp(SRC).metadata()
+const cw = width / 3, ch = height / 3
 await mkdir('public/real', { recursive: true })
-for (const [i, id] of MAP.entries()) {
-  const src = `casting/originals/1-${String(i + 2).padStart(3, '0')}.jpg`
-  await sharp(src).extract({ left: 168, top: 106, width: 744, height: 930 }).resize(480, 600).webp({ quality: 80 }).toFile(`public/real/koha-${id}.webp`)
-  console.log('✓', src, '→', id)
+for (const [i, id] of ORDER.entries()) {
+  const r = Math.floor(i / 3), c = i % 3
+  await sharp(SRC)
+    .extract({ left: Math.round(c * cw + 21), top: Math.round(r * ch + 6), width: 320, height: 400 })
+    .webp({ quality: 82 })
+    .toFile(`public/real/koha-front-${id}.webp`)
+  console.log('✓', id)
 }

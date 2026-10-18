@@ -9,13 +9,16 @@ import DnaProgress from './components/beauty-dna/DnaProgress'
 import HomeContentSections from './components/HomeContentSections'
 import { EmailSubscribe } from './components/EmailSubscribe'
 import MobileBottomNav from './components/home/MobileBottomNav'
+import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
+import { LOOK_HERO, lookThumb } from './lib/makeup/lookImages'
 import { trackEvent } from './lib/analytics'
 import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
 import { useBeautyDna } from './hooks/useBeautyDna'
 import { DNA_FIELDS, type DnaField } from './lib/beauty-dna/types'
 
 // 룩 이름 — 버튼 문구·동그라미 라벨용. subEn 은 대문자 표기라 여기선 사람이 읽는 꼴로.
+const LOOK_NAME_KO = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.nameKo])) as Record<MakeupStyleId, string>
 const LOOK_NAME_EN = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.subEn.toLowerCase().replace(/(^|[\s-])\S/g, (c) => c.toUpperCase()).replace('K-pop', 'K-Pop')])) as Record<MakeupStyleId, string>
 
 const DNA_PREVIEW: Record<DnaField, string> = {
@@ -66,7 +69,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
   // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
-  // ── 히어로 데모 ── 3×3 에서 사용자가 직접 고르면(baPicked) 주 버튼이 그 룩으로 바로 가는 링크·문구로 바뀐다.
+  // ── 히어로 데모 ── 기본은 볼드 립(변화가 가장 눈에 띈다). 사용자가 직접 고르면(baPicked)
+  // 주 버튼이 그 룩으로 바로 가는 링크·문구로 바뀐다.
   const [baLook, setBaLook] = useState<MakeupStyleId>('bold-lip')
   const [baPicked, setBaPicked] = useState(false)
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
@@ -309,9 +313,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               {t('home.hero.badge')}
             </p>
             {/* 2026-10-18 운영자: 헤드라인을 글로벌 사례처럼 — "사보기 전에, 내 얼굴에 발라본다"(기능 설명) →
-                "셀카 한 장, 아홉 명의 나."(결과·정체성). 실측 사례: Rhode "Edited, efficacious, intentional." ·
+                "셀카 한 장, 아홉 명의 나."(결과·정체성). 실측: Rhode "Edited, efficacious, intentional." ·
                 Lensa "Create a feed worth following." · Photoroom "Sell at first sight" — 3~6단어, 결과를 말한다.
-                옆의 3×3(운영자 실제 9룩)이 문장을 바로 증명한다. 예전 문구의 뜻("사기 전에 발라 본다")은 부제로. */}
+                예전 문구의 뜻("사기 전에 발라 본다")은 부제로 옮겼다. */}
             <h1
               id="hero-title"
               className="animate-fade-in-up mt-4 md:mt-6 text-[2.9rem] sm:text-[3.4rem] md:text-[4.4rem] lg:text-[5.6rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-navy break-keep"
@@ -347,48 +351,47 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </a>
           </div>
 
-          {/* 데모 — 운영자 koha 의 실제 9룩 3×3 (2026-10-18 운영자 제안, 이전엔 AI 모델 슬라이더 + 동그라미 9개).
-              "아홉 명의 나"를 실제 사람 얼굴로 증명한다(10/17 성장 점검: AI 모델 → 실제 사람 결과).
-              칸을 누르면 그 룩이 선택되고 위 주 버튼이 그 룩으로 간다(home_hero_look). */}
-          <figure className="animate-fade-in-up-delay w-full max-w-[340px] sm:max-w-[400px] md:max-w-[440px] mx-auto">
-            <div className="grid grid-cols-3 gap-1.5 md:gap-2" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
-              {MAKEUP_STYLES.map((s, i) => {
-                const on = baPicked && baLook === s.id
+          {/* 데모 — 슬라이더 + 룩 동그라미. 고르면 제자리에서 바뀌고 위 버튼 문구도 그 룩으로 바뀐다. */}
+          <div className="animate-fade-in-up-delay w-full max-w-[300px] sm:max-w-[360px] md:max-w-[400px] lg:max-w-[440px] mx-auto">
+            <div className="relative">
+              <BeforeAfterSlider key={baLook} beforeSrc={LOOK_HERO[baLook].before} afterSrc={LOOK_HERO[baLook].after} isEn={isEn} />
+              <span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-navy shadow-sm">
+                {isEn ? LOOK_NAME_EN[baLook] : LOOK_NAME_KO[baLook]}
+              </span>
+            </div>
+            <div className="mt-4 -mx-4 px-4 md:mx-0 md:px-0 flex md:grid md:grid-cols-9 gap-2.5 md:gap-1 overflow-x-auto md:overflow-visible snap-x pb-1 [scrollbar-width:none]" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
+              {MAKEUP_STYLES.map((s) => {
+                const on = baLook === s.id
                 return (
                   <button
                     key={s.id}
                     type="button"
                     onClick={() => { setBaLook(s.id); setBaPicked(true); trackEvent('select_promotion', { creative_slot: 'home_hero_look', promotion_id: s.id }) }}
                     aria-pressed={on}
-                    className={`group relative block overflow-hidden rounded-md transition-all ${on ? 'ring-[3px] ring-primary ring-offset-2 ring-offset-cream' : 'ring-1 ring-black/5 hover:ring-navy/40'}`}
+                    className="snap-start shrink-0 flex w-[60px] md:w-auto flex-col items-center gap-1"
                   >
-                    <span className="block aspect-[4/5]">
+                    <span className={`block h-[52px] w-[52px] md:h-11 md:w-11 lg:h-12 lg:w-12 rounded-full p-[2px] transition-all ${on ? 'bg-gradient-to-tr from-primary to-navy' : 'bg-slate-200'}`}>
                       <img
-                        src={`/real/koha-${s.id}.webp`}
-                        alt={isEn ? `koha with ${LOOK_NAME_EN[s.id]} makeup — AI result from his selfie` : `운영자 koha의 ${s.nameKo} — 셀카로 만든 AI 결과`}
-                        width={480}
-                        height={600}
-                        fetchPriority={i < 3 ? 'high' : undefined}
+                        src={lookThumb(s.id)}
+                        alt={isEn ? `${s.subEn} makeup look — AI-generated model` : `${s.nameKo} 메이크업 룩 — AI 생성 모델`}
+                        width={48}
+                        height={48}
                         decoding="async"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                        className="h-full w-full rounded-full border-2 border-cream object-cover"
                       />
                     </span>
-                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent px-1.5 pb-1.5 pt-5 text-left">
-                      <span className="block truncate text-[10px] md:text-[11px] font-extrabold leading-tight text-white">
-                        <span className="opacity-70">{i + 1}.</span> {isEn ? LOOK_NAME_EN[s.id] : s.nameKo}
-                      </span>
+                    <span className={`w-full truncate text-center text-[10px] leading-tight ${on ? 'font-extrabold text-navy' : 'font-semibold text-slate-500'}`}>
+                      {isEn ? LOOK_NAME_EN[s.id] : s.nameKo}
                     </span>
                   </button>
                 )
               })}
             </div>
-            {/* 실제 사람 + AI 생성 고지 — EU AI Act Art.50(2026-08-02 시행) */}
-            <figcaption className="mt-3 text-center text-[11px] leading-relaxed text-slate-500 break-keep">
-              {isEn
-                ? 'Real person: koha, who runs kissinskin. 9 looks made by kissinskin from one selfie (AI-generated). Tap a look to try it.'
-                : '실제 사람: 운영자 koha. 셀카 한 장으로 kissinskin이 만든 9룩이에요(AI 생성 이미지). 룩을 눌러 골라 보세요.'}
-            </figcaption>
-          </figure>
+            {/* AI 생성 고지 — EU AI Act Art.50(2026-08-02 시행) */}
+            <p className="mt-2 text-center text-[11px] leading-relaxed text-slate-400 break-keep">
+              {isEn ? 'Drag to compare. ' : '손잡이를 밀어 비교해 보세요. '}{t('home.slider.aiDisclosure')}
+            </p>
+          </div>
         </div>
       </section>
 
