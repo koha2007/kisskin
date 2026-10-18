@@ -19,6 +19,7 @@
 
 import { useState } from 'react'
 import { pickImage } from '../../lib/nativePicker'
+import { lookThumb } from '../../lib/makeup/lookImages'
 import {
   screenBg, surfaceStyle, footerScrim, BORDER, SURFACE,
   btnPrimary, btnPrimaryStyle, btnGhost, btnGhostStyle, chip, stepBar,
@@ -118,6 +119,22 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
             </span>
             {(isEn ? 'Selected look · ' : '선택한 룩 · ') + hintLabel}
           </span>
+        )}
+
+        {/* 이런 셀카면 → 이렇게 (2026-10-18 대개편 2차)
+            /analysis/ 는 검색으로 곧장 들어오는 입구(30일 진입 158, 홈 다음)인데, 처음 온 사람은 무엇을
+            받는지 한 장도 못 본 채 업로드부터 요구받았다. 결과 예시 + 좋은 입력 예시(정면·모자 없음)를
+            한 줄로 같이 보여 준다. 사진을 고르면 자리를 비켜 준다. */}
+        {!photo && (
+          <div className="mt-4 flex items-center gap-3 px-3 py-2.5" style={surfaceStyle}>
+            <img src={lookThumb('bold-lip', 'before')} alt={isEn ? 'Example selfie' : '예시 셀카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover" />
+            <span className="material-symbols-outlined text-white/50 text-lg shrink-0" aria-hidden="true">arrow_forward</span>
+            <img src={lookThumb('bold-lip')} alt={isEn ? 'Example result — Bold Lip' : '예시 결과 — 볼드 립'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover ring-2 ring-[rgba(235,71,99,0.9)]" />
+            <span className="min-w-0 text-[12px] leading-snug text-white/75 break-keep">
+              <span className="block font-extrabold text-white">{isEn ? 'A selfie like this → this' : '이런 셀카면 → 이렇게'}</span>
+              {isEn ? 'Front-facing, bright, no hat. Example model is AI-generated.' : '정면·밝은 곳·모자 없이. 예시 모델은 AI 생성 이미지예요.'}
+            </span>
+          </div>
         )}
 
         {/* 업로드 프레임 — 결과물과 같은 3:4. 누르면 앨범(가장 흔한 경로)이 열리고,

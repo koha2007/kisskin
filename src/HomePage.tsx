@@ -4,6 +4,7 @@ import { useAuth } from './hooks/useAuth'
 import ToolCard from './components/ToolCard'
 import SectionHeader from './components/home/SectionHeader'
 import CollectionDemo from './components/home/CollectionDemo'
+import RealPersonSection from './components/home/RealPersonSection'
 import DnaProgress from './components/beauty-dna/DnaProgress'
 import HomeContentSections from './components/HomeContentSections'
 import { EmailSubscribe } from './components/EmailSubscribe'
@@ -396,6 +397,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* 2026-10-12 운영자: 큰 9룩 사진 섹션(#styles) 제거 — 같은 9장이 히어로 썸네일에 이미 있어 겹쳤다.
           그 자리에 "이렇게 받아요" 시연 영상(사용법 + 결과물), 그 아래 페이스 차트(방법).
           AI 생성 인물 고지는 히어로 슬라이더 아래와 영상 캡션에 있다. */}
+      {/* 실제 사람 결과(운영자 본인) — 히어로의 AI 모델 데모 바로 다음에 "진짜 사람도 되나?"에 답한다 */}
+      <RealPersonSection isEn={isEn} />
+
       <CollectionDemo isEn={isEn} />
 
       {/* ── 주간 레터 구독 ──
@@ -555,7 +559,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           마무리한다. 여기서는 결과물 한 장을 배경으로 깔고 그 위에 조판을 올렸다. */}
       <section className="relative overflow-hidden bg-navy text-white">
         <img
-          src={LOOK_HERO['bold-lip'].after}
+          src="/home-ba-after.webp"
           alt=""
           loading="lazy"
           decoding="async"

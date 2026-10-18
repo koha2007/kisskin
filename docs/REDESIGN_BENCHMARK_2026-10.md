@@ -120,3 +120,11 @@ Remini 재확인(H1 80px·버튼 "Try Remini" 하나), Rhode(H1 176px). 화해·
 **측정(2~3주 뒤):** GA4 `select_promotion` creative_slot = `home_hero_primary` / `home_hero_quiz` / `home_hero_look`,
 `home_explore_tab`, 그리고 style_selected → free_trial_used. 9/13 에 주 버튼을 무료 진단으로 바꿨던 이유(업로드 89% 이탈)가
 되살아나는지 확인 — 나쁘면 주 버튼을 무료 진단으로 되돌린다.
+
+## 5. 2차 (2026-10-18)
+- **실제 사람 섹션**(히어로 바로 아래, 네이비 띠): 운영자 koha 본인 셀카(홈의 모자 쓴 남성 = 운영자, 10/18 확인) 비포/애프터 +
+  "만든 사람이 먼저 자기 얼굴로 해 봤어요". Rhode "you + rhode"·Fenty 자리. GA4 `select_promotion` creative_slot=`home_real_person`.
+  다른 사람 사진은 본인 동의·18+·축소본 조건(10/17 성장 점검)으로만 추가.
+- **/analysis/ 업로드 화면**: "이런 셀카면 → 이렇게" 예시 한 줄(9룩 모델 비포→볼드 립). 검색으로 곧장 오는 사람이 결과를 한 장도
+  못 본 채 업로드를 요구받던 문제. 셀카 가이드("모자 없이")와 맞추려고 여기엔 모자 쓴 운영자 사진 대신 정면 모델을 썼다.
+- 도구 랜딩 4종은 이미 1번 문항 즉시 노출 + 유형 미리보기 카드 구조라 손대지 않음.

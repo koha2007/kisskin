@@ -55,4 +55,5 @@ export const LOOK_HERO: Record<MakeupStyleId, LookImage> = Object.fromEntries(
     after: `${DIR}/hero/${id}-after.webp?v=${V}`,
   }]),
 ) as Record<MakeupStyleId, LookImage>
-export const lookThumb = (id: MakeupStyleId) => `${DIR}/thumb/${id}.webp?v=${V}`
+export const lookThumb = (id: MakeupStyleId, kind: 'before' | 'after' = 'after') =>
+  `${DIR}/thumb/${id}${kind === 'before' ? '-before' : ''}.webp?v=${V}`
