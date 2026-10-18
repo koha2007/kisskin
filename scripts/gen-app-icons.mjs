@@ -26,10 +26,17 @@
  *
  *   대상                     보이는 영역
  *   ──────────────────────────────────────────
+ *   웹 any 아이콘             마스크 없음 → 투명 배경 + 로고를 크게
  *   웹 maskable 아이콘        안쪽 80% 원   (maskable 규격)
  *   Expo adaptive-icon       안쪽 66.7% 원 (108dp 중 72dp)
  *   iOS 스퀘어클             거의 전체
  *   favicon                  마스크 없음 → 투명 배경 + 로고를 크게
+ *
+ * ── any 와 maskable 을 한 파일로 쓰지 않는다
+ * 예전엔 8종 모두 purpose:"any maskable" 로 maskable 규격(흰 배경, 로고 64%)
+ * 하나만 구웠다. 그런데 윈도우 바탕화면 바로가기·크롬 앱 목록·작업표시줄은
+ * 마스크 없이 'any' 를 그대로 쓴다 → 흰 사각형 안에 작은 로고(운영자 제보
+ * 10/18). 그래서 any = 투명 + 큰 로고, maskable = 별도 파일로 나눈다.
  */
 import sharp from 'sharp'
 import { writeFile } from 'node:fs/promises'
@@ -51,8 +58,10 @@ const LOGO_UNMASKED = 0.92
 
 /** [출력경로, 캔버스크기, 보이는영역비율, 배경] — visible=0 이면 마스크 없는 대상 */
 const TARGETS = [
-  // 웹 PWA — manifest.json 에 purpose:"any maskable" 로 선언된 8종
-  ...[72, 96, 128, 144, 152, 192, 384, 512].map((s) => [`public/icons/icon-${s}x${s}.png`, s, 0.8, WHITE]),
+  // 웹 PWA any — 마스크 없이 그대로 보이는 곳(윈도우 바로가기·크롬 앱 목록·작업표시줄)
+  ...[72, 96, 128, 144, 152, 192, 384, 512].map((s) => [`public/icons/icon-${s}x${s}.png`, s, 0, CLEAR]),
+  // 웹 PWA maskable — 안드로이드 홈 화면이 원·스퀘어클로 자른다
+  ...[192, 512].map((s) => [`public/icons/icon-maskable-${s}x${s}.png`, s, 0.8, WHITE]),
   // iOS 홈 화면 — 스퀘어클 마스크. 투명은 검정으로 렌더되므로 흰 배경 필수.
   ['public/apple-touch-icon.png', 180, 1, WHITE],
   // 브라우저 탭 — 마스킹 없음. 다크 탭바에서 흰 사각형이 되지 않게 투명 유지.
@@ -118,14 +127,14 @@ for (const [rel, canvas, visible, background] of TARGETS) {
   if (!DRY) await writeFile(path.join(ROOT, rel), buf)
   const bg = background.alpha === 0 ? '투명' : '흰색'
   const pct = ((visible ? visible * LOGO_OF_VISIBLE : LOGO_UNMASKED) * 100).toFixed(0)
-  console.log(`  ✓ ${rel.padEnd(42)} ${String(canvas).padStart(4)}px  로고 ${pct.padStart(2)}%   배경 ${bg}`)
+  console.log(`  ✓ ${rel.padEnd(44)} ${String(canvas).padStart(4)}px  로고 ${pct.padStart(2)}%   배경 ${bg}`)
 }
 
 // favicon.ico — 탭 아이콘이라 마스킹 없음. 투명 배경 + 로고를 크게.
 const icoPngs = []
 for (const s of ICO_SIZES) icoPngs.push(await render(s, 0, CLEAR))
 if (!DRY) await writeFile(path.join(ROOT, 'public/favicon.ico'), packIco(icoPngs, ICO_SIZES))
-console.log(`  ✓ ${'public/favicon.ico'.padEnd(42)} ${ICO_SIZES.join('/')}  로고 ${(LOGO_UNMASKED * 100).toFixed(0)}%   배경 투명`)
+console.log(`  ✓ ${'public/favicon.ico'.padEnd(44)} ${ICO_SIZES.join('/')}  로고 ${(LOGO_UNMASKED * 100).toFixed(0)}%   배경 투명`)
 
 console.log(`\n완료: ${TARGETS.length + 1}개 파일`)
 console.log('※ Expo 에셋(kisskin-app/assets/*)은 네이티브라 재빌드해야 반영된다.')
