@@ -1178,7 +1178,7 @@ export default function AnalysisApp() {
       </div>
       {showInstallBanner && (
         <div className="pwa-install-banner">
-          <img src="/icons/icon-96x96.png" alt="kissinskin" className="pwa-install-icon" />
+          <img src="/icons/icon-96x96-v2.png" alt="kissinskin" className="pwa-install-icon" />
           <div className="pwa-install-text"><strong>kissinskin</strong><span>{locale === 'ko' ? '홈 화면에 추가하고 빠르게 이용하세요' : 'Add to home screen for quick access'}</span></div>
           <button className="pwa-install-btn" onClick={handleInstallClick}>{locale === 'ko' ? '설치' : 'Install'}</button>
           <button className="pwa-install-close" onClick={dismissInstallBanner} aria-label="Close"><span className="material-symbols-outlined">close</span></button>
@@ -1189,7 +1189,7 @@ export default function AnalysisApp() {
           <div className="share-modal">
             <div className="share-modal-header"><h3>{locale === 'ko' ? '앱 설치 방법' : 'How to Install'}</h3><button className="share-modal-close" onClick={() => setShowIosGuide(false)} aria-label="Close"><span className="material-symbols-outlined">close</span></button></div>
             <div style={{ padding: '24px 20px', textAlign: 'center' }}>
-              <img src="/icons/icon-96x96.png" alt="kissinskin" style={{ width: 64, height: 64, borderRadius: 14, margin: '0 auto 16px', display: 'block' }} />
+              <img src="/icons/icon-96x96-v2.png" alt="kissinskin" style={{ width: 64, height: 64, borderRadius: 14, margin: '0 auto 16px', display: 'block' }} />
               <div style={{ fontSize: 14, color: '#475569', lineHeight: 1.8, textAlign: 'left' }}>
                 <p style={{ margin: '0 0 16px', fontWeight: 700, textAlign: 'center', color: '#121570' }}>{locale === 'ko' ? 'Safari에서 홈 화면에 추가하세요' : 'Add to Home Screen from Safari'}</p>
                 <p style={{ margin: '0 0 10px' }}><strong>1.</strong> {locale === 'ko' ? ' 하단의 ' : ' Tap the '}<span className="material-symbols-outlined" style={{ fontSize: 18, verticalAlign: 'middle', color: '#007AFF' }}>ios_share</span>{locale === 'ko' ? ' 공유 버튼을 탭하세요' : ' share button below'}</p>

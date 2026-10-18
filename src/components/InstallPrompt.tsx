@@ -140,7 +140,7 @@ export default function InstallPrompt() {
     >
       <div className="pointer-events-auto mx-auto flex max-w-xl items-center gap-3 rounded-xl bg-navy px-4 py-3 text-white shadow-2xl">
         <img
-          src="/icons/icon-192x192.png"
+          src="/icons/icon-192x192-v2.png"
           alt=""
           width={40}
           height={40}

@@ -37,6 +37,11 @@
  * 하나만 구웠다. 그런데 윈도우 바탕화면 바로가기·크롬 앱 목록·작업표시줄은
  * 마스크 없이 'any' 를 그대로 쓴다 → 흰 사각형 안에 작은 로고(운영자 제보
  * 10/18). 그래서 any = 투명 + 큰 로고, maskable = 별도 파일로 나눈다.
+ *
+ * ── 아이콘을 바꾸면 파일명도 바꾼다(-v2 → -v3 …)
+ * public/_headers 가 /icons/* 를 1년 immutable 로 내보내서, 같은 이름으로 덮어쓰면
+ * 클라우드플레어 엣지가 옛 그림을 계속 준다(10/18 실측 age 33일). 이름을 올리고
+ * manifest·+Head·sw.js·InstallPrompt·AnalysisApp 참조를 함께 바꿀 것.
  */
 import sharp from 'sharp'
 import { writeFile } from 'node:fs/promises'
@@ -59,13 +64,13 @@ const LOGO_UNMASKED = 0.92
 /** [출력경로, 캔버스크기, 보이는영역비율, 배경] — visible=0 이면 마스크 없는 대상 */
 const TARGETS = [
   // 웹 PWA any — 마스크 없이 그대로 보이는 곳(윈도우 바로가기·크롬 앱 목록·작업표시줄)
-  ...[72, 96, 128, 144, 152, 192, 384, 512].map((s) => [`public/icons/icon-${s}x${s}.png`, s, 0, CLEAR]),
+  ...[72, 96, 128, 144, 152, 192, 384, 512].map((s) => [`public/icons/icon-${s}x${s}-v2.png`, s, 0, CLEAR]),
   // 웹 PWA maskable — 안드로이드 홈 화면이 원·스퀘어클로 자른다
   ...[192, 512].map((s) => [`public/icons/icon-maskable-${s}x${s}.png`, s, 0.8, WHITE]),
   // iOS 홈 화면 — 스퀘어클 마스크. 투명은 검정으로 렌더되므로 흰 배경 필수.
   ['public/apple-touch-icon.png', 180, 1, WHITE],
   // 브라우저 탭 — 마스킹 없음. 다크 탭바에서 흰 사각형이 되지 않게 투명 유지.
-  ['public/icons/icon-32x32.png', 32, 0, CLEAR],
+  ['public/icons/icon-32x32-v2.png', 32, 0, CLEAR],
   // Expo 앱
   ['kisskin-app/assets/adaptive-icon.png', 1024, 0.667, WHITE],
   ['kisskin-app/assets/icon.png', 1024, 1, WHITE],

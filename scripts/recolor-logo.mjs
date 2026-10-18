@@ -28,7 +28,7 @@ const TARGETS = [
   'logo.png',
   'logo-sm.webp',
   'apple-touch-icon.png',
-  ...[32, 72, 96, 128, 144, 152, 192, 384, 512].map((s) => `icons/icon-${s}x${s}.png`),
+  ...[32, 72, 96, 128, 144, 152, 192, 384, 512].map((s) => `icons/icon-${s}x${s}-v2.png`),
 ]
 const ICO = 'favicon.ico'
 const ICO_SIZES = [16, 32, 48, 64, 128]
@@ -65,7 +65,7 @@ async function recolorFile(rel) {
 
 // favicon.ico 는 멀티사이즈 컨테이너라 마스터에서 다시 굽는다.
 async function rebuildIco() {
-  const master = await sharp(path.join(PUBLIC, 'icons/icon-512x512.png')).ensureAlpha()
+  const master = await sharp(path.join(PUBLIC, 'icons/icon-512x512-v2.png')).ensureAlpha()
   const pngs = await Promise.all(
     ICO_SIZES.map((s) => master.clone().resize(s, s, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer()),
   )
