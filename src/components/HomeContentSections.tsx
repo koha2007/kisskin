@@ -102,7 +102,7 @@ export default function HomeContentSections() {
             ))}
             {next && (
               <a href={`${base}/class/`} className="col-span-2 lg:col-span-1 flex flex-col justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white/60 p-5 text-center hover:border-navy transition-colors">
-                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{isEn ? `Next Tuesday · lesson ${next.n}` : `다음 화요일 · ${next.n}편`}</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{isEn ? `Coming next · lesson ${next.n}` : `다음 공개 · ${next.n}편`}</span>
                 <span className="text-base font-extrabold text-navy break-keep">{isEn ? next.titleEn : next.titleKo}</span>
                 <span className="text-xs text-slate-500">{isEn ? 'Get it in your inbox — subscribe above' : '메일로 받아 보려면 위에서 구독하세요'}</span>
               </a>

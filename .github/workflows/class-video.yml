@@ -1,0 +1,83 @@
+name: Class video (manual)
+
+# 메이크업 클래스 편 하나의 JJ 변신 영상을 손으로 만든다 — 2026-10-20.
+# 주간 자동 발행은 '시작하기' 파트(1~4편)를 영상 대상에서 빼므로, 2~4편처럼 빠진 편을 채울 때 쓴다.
+# 편당 ≈ $2.1~2.4 (gpt-image-2 사진 1~2장 + Kling 전환 클립 $0.42 × 단계). 한 번에 한 편만.
+# 로컬 .env 의 FAL_KEY 는 폐기됐다 → 리포 Secret(FAL_KEY) 을 쓰는 여기서 돌린다.
+#
+# 수동: Actions 탭 → Class video (manual) → Run workflow → slug 입력(예: skin-prep)
+# 결과: public/class/video/<slug>-{ko,en}.mp4 · 포스터 + lessons.json video 기록을 main 에 푸시,
+#       틱톡용 1080p 원본은 실행 화면 아래 Artifacts.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: '영상 만들 클래스 편 slug (src/lib/class/lessons.json)'
+        required: true
+
+concurrency:
+  group: weekly-content    # 주간 발행과 같은 그룹 — lessons.json 동시 수정 방지
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 대상 확인 (이미 영상 있으면 중단 — 중복 과금 방지)
+        env:
+          SLUG: ${{ github.event.inputs.slug }}
+        run: |
+          node -e "
+            const l = require('./src/lib/class/lessons.json').find((x) => x.slug === process.env.SLUG)
+            if (!l) { console.error('::error::lessons.json 에 없는 slug: ' + process.env.SLUG); process.exit(1) }
+            if (l.video) { console.error('::error::이미 영상 있음: ' + process.env.SLUG); process.exit(1) }
+            console.log('대상: ' + l.slug + ' · ' + l.steps.length + '단계')
+          "
+
+      - name: Makeup class video (JJ)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+          SLUG: ${{ github.event.inputs.slug }}
+        run: |
+          sudo apt-get update -q >/dev/null && sudo apt-get install -y -q ffmpeg libegl1 libgles2 >/dev/null
+          pip install -q mediapipe==1.1.0 numpy pillow
+          mkdir -p casting && curl -sfL -o casting/face_landmarker.task \
+            https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
+          node --experimental-strip-types scripts/class-video.mjs "$SLUG"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: class-video-${{ github.event.inputs.slug }}
+          path: out/class-video/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Commit & push
+        env:
+          SLUG: ${{ github.event.inputs.slug }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/lib/class/lessons.json public/class
+          git diff --cached --quiet && { echo "변경 없음"; exit 0; }
+          git commit -m "chore(class): $SLUG 편 JJ 영상"
+          git pull --rebase -q && git push

@@ -149,7 +149,7 @@ export default function ClassLesson({ slug }: { slug: string }) {
               </a>
             ) : upcoming ? (
               <div className="block bg-white/60 border border-dashed border-slate-300 p-5 text-right">
-                <span className="text-xs font-semibold text-slate-500">{isEn ? `Next week · lesson ${upcoming.n}` : `다음 주 공개 · ${upcoming.n}편`}</span>
+                <span className="text-xs font-semibold text-slate-500">{isEn ? `Coming next · lesson ${upcoming.n}` : `다음 공개 · ${upcoming.n}편`}</span>
                 <span className="mt-1 block font-extrabold text-slate-500">{isEn ? upcoming.titleEn : upcoming.titleKo}</span>
               </div>
             ) : null}

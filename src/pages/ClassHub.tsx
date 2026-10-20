@@ -31,7 +31,7 @@ export default function ClassHub() {
                 : `메이크업 순서부터 아이라인 · 컨투어 · 그라데이션 립까지 ${CURRICULUM.length}편을 순서대로. 편마다 아티스트의 페이스 차트로 어디에 바르는지 그렸고, 단계별 제품도 찾아 드려요.`}
             </p>
             <p className="mt-3 text-sm font-semibold text-slate-500">
-              {isEn ? `${CLASS_LESSONS.length} of ${CURRICULUM.length} lessons out · new lesson every Tuesday` : `${CURRICULUM.length}편 중 ${CLASS_LESSONS.length}편 공개 · 매주 화요일 새 편`}
+              {isEn ? `${CLASS_LESSONS.length} of ${CURRICULUM.length} lessons out · new lessons every Tue & Fri` : `${CURRICULUM.length}편 중 ${CLASS_LESSONS.length}편 공개 · 매주 화·금 새 편`}
             </p>
           </div>
           {first && (
