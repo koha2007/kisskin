@@ -3,7 +3,7 @@
 // 메이크업 클래스 주간 자동 발행 — 커리큘럼(src/lib/class/curriculum.ts) 순서대로 다음 한 편
 // ────────────────────────────────────────────────────────────────────
 // 2026-10-10 운영자 요청: 뉴스·제품처럼 주 1회 자동으로, 완전 기초부터 단계별로.
-// 2026-10-20~ 주 2회(화·금 06:00 KST) — weekly-content.yml 이 부른다.
+// 2026-10-20~ 주 3회(화·목·토 06:00 KST) — weekly-content.yml 이 부른다.
 //
 // 흐름:
 //   1) lessons.json 에 아직 없는 첫 커리큘럼 편을 고른다(36편 다 나가면 아무것도 안 하고 끝)
@@ -13,10 +13,10 @@
 //   5) lessons.json 끝에 덧붙인다. 커밋·푸시·사이트맵·IndexNow 는 워크플로 몫.
 //
 // 안전장치:
-//   · 같은 회차 재실행 방지: 최근 화·금 이후 이미 나갔으면 건너뜀(CLASS_FORCE=1 로 무시).
+//   · 같은 회차 재실행 방지: 최근 화·목·토 이후 이미 나갔으면 건너뜀(CLASS_FORCE=1 로 무시).
 //   · 문구 규칙은 9룩(src/lib/looks/howto.ts 상단)과 같다 — 화장품법 효능 표현 금지,
 //     실존 인물 이름 금지, 제품은 브랜드가 아니라 "종류" 검색어.
-//   · 사람 검수 없는 대량 발행은 구글 단속 대상 → 회차당 1편(주 2편) 고정. 여러 편을 한 번에 돌리지 말 것.
+//   · 사람 검수 없는 대량 발행은 구글 단속 대상 → 회차당 1편(주 3편) 고정. 여러 편을 한 번에 돌리지 말 것.
 //
 // 사용: node --experimental-strip-types scripts/gen-class.mjs
 //   CLASS_DRY=1   → 생성·검증만 하고 파일을 쓰지 않음(차트도 안 만듦, 비용 = 텍스트 1회)
@@ -41,12 +41,12 @@ if (!item) {
 }
 
 const todayKst = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10)
-// 같은 회차 재실행 방지: 2026-10-20 운영자 "주 2회로 가자" → 발행 회차 = 화·금(KST).
-// 가장 최근 화요일 또는 금요일(=이번 회차 시작) 이후에 이미 한 편 나갔으면 건너뛴다.
-// 수·목 실행은 화요일 회차, 토 실행은 금요일 회차의 보충이다.
+// 같은 회차 재실행 방지: 2026-10-20 운영자 "주 3회로 가자" → 발행 회차 = 화·목·토(KST).
+// 가장 최근 화·목·토(=이번 회차 시작) 이후에 이미 한 편 나갔으면 건너뛴다.
+// 수·금·일 실행은 바로 앞 회차의 보충이다.
 // (예전 '6일 이내' 규칙은 10/10 첫 4편 뒤 10/13 정기 발행까지 막아 버렸다.)
-const dow = new Date(`${todayKst}T00:00:00Z`).getUTCDay() // 0=일 … 2=화 … 5=금
-const back = Math.min((dow - 2 + 7) % 7, (dow - 5 + 7) % 7)
+const dow = new Date(`${todayKst}T00:00:00Z`).getUTCDay() // 0=일 … 2=화 · 4=목 · 6=토
+const back = Math.min(...[2, 4, 6].map((d) => (dow - d + 7) % 7))
 const slotStart = new Date(Date.parse(`${todayKst}T00:00:00Z`) - back * 86400000).toISOString().slice(0, 10)
 const last = lessons.map((l) => l.publishedAt).sort().pop()
 if (!DRY && process.env.CLASS_FORCE !== '1' && last && last >= slotStart) {
