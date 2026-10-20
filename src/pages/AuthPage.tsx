@@ -558,6 +558,26 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
           )}
         </form>
 
+        {/* 가입 고지 — 2026-10-20. 구글·이메일 어느 쪽으로 가입해도 이 화면을 지나므로 폼 밖에 둔다.
+            광고성 메일 동의는 여기서 묶어 받지 않는다(정보통신망법 제50조: 별도·선택) → MarketingConsent. */}
+        {mode !== 'forgot' && (
+          <p style={{ marginTop: '20px', fontSize: '12px', lineHeight: 1.6, color: C.muted, textAlign: 'center', wordBreak: 'keep-all' }}>
+            {locale === 'ko' ? (
+              <>
+                계속하면 <a href="/terms/" style={{ color: C.navy, textDecoration: 'underline' }}>이용약관</a>과{' '}
+                <a href="/privacy/" style={{ color: C.navy, textDecoration: 'underline' }}>개인정보처리방침</a>에 동의하는 것으로 봅니다.
+                광고성 메일은 따로 동의하신 경우에만 보내요.
+              </>
+            ) : (
+              <>
+                By continuing, you agree to our <a href="/en/terms/" style={{ color: C.navy, textDecoration: 'underline' }}>Terms</a> and{' '}
+                <a href="/en/privacy/" style={{ color: C.navy, textDecoration: 'underline' }}>Privacy Policy</a>.
+                We only send promotional emails if you opt in separately.
+              </>
+            )}
+          </p>
+        )}
+
       </div>
     </div>
   )

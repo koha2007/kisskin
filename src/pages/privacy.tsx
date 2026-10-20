@@ -41,7 +41,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
 function PrivacyKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 11일</p>
+      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 20일</p>
 
       <h2>1. 서문</h2>
       <p>kissinskin("당사")은 <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a> 웹사이트를 운영합니다. 본 개인정보처리방침은 AI 메이크업 분석 서비스("서비스") 이용 시 이용자의 정보를 어떻게 수집, 이용, 보호, 공개하는지 설명합니다.</p>
@@ -90,6 +90,7 @@ function PrivacyKo() {
       <h3>3.2.2 이메일 구독 · 결과 메일</h3>
       <ul>
         <li>뉴스레터 구독이나 진단 결과 메일을 신청하면 <strong>이메일 주소, 신청 위치, 언어</strong>를 보관합니다. 구독은 확인 메일의 버튼을 눌러야 시작되며(더블 옵트인), 모든 메일 하단의 링크로 언제든 해지할 수 있습니다.</li>
+        <li>회원 가입만으로는 주간 메일(광고성 정보)을 보내지 않습니다. 회원에게는 사이트 안에서 <strong>수신 동의(선택)</strong>를 따로 받으며, 동의 여부와 일시를 계정에 기록하고 마이페이지에서 언제든 바꿀 수 있습니다. 동의하지 않아도 서비스 이용에는 제한이 없습니다. 비밀번호 재설정·구매한 결과물 전달 같은 서비스 안내 메일은 동의와 관계없이 발송됩니다.</li>
         <li>메일은 발송 서비스 <strong>Resend</strong>를 통해 보내며, 메일이 열렸는지(메일 속 1×1 투명 이미지)와 어떤 링크를 눌렀는지(<code>links.kissinskin.net</code> 경유)를 측정합니다. 이 정보는 발송 품질과 콘텐츠 개선에만 쓰며, 구독을 해지하면 이후 측정도 중단됩니다.</li>
       </ul>
 
@@ -331,7 +332,7 @@ function PrivacyKo() {
 function PrivacyEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 11, 2026</p>
+      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 20, 2026</p>
 
       <h2>1. Introduction</h2>
       <p>kissinskin ("we", "our", "us") operates the website <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
@@ -372,6 +373,7 @@ function PrivacyEn() {
       <h3>3.1.3 Email Subscription &amp; Result Emails</h3>
       <ul>
         <li>When you subscribe to our newsletter or ask for your quiz result by email, we keep your <strong>email address, the page you signed up from, and your language</strong>. A subscription only starts after you click the button in the confirmation email (double opt-in), and you can unsubscribe at any time via the link at the bottom of every email.</li>
+        <li>Creating an account does not sign you up for the weekly (promotional) email. Members are asked separately, on the site, whether they want it <strong>(optional)</strong>; we record your choice and when you made it, and you can change it any time on My Page. Saying no does not limit the service. Service emails such as password resets and delivery of something you bought are sent regardless.</li>
         <li>Emails are sent through <strong>Resend</strong>, which measures whether an email was opened (a 1×1 transparent image in the email) and which links were clicked (redirected via <code>links.kissinskin.net</code>). We use this only to improve delivery and content, and measurement stops once you unsubscribe.</li>
       </ul>
 

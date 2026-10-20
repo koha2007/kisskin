@@ -154,7 +154,7 @@ export function EmailSubscribe({ source, variant = 'card', className = '', resul
       : {
           already: '이 주소는 이미 명단에 있어요. 더 하실 건 없습니다.',
           pending: result
-            ? `${email} 로 결과를 보냈어요. 같은 메일 안의 버튼을 누르면 매주 화요일 레터도 시작됩니다.${spam}`
+            ? `${email} 로 결과를 보냈어요. 같은 메일 안의 버튼을 누르면 매주 일요일 레터도 시작됩니다.${spam}`
             : `${email} 로 확인 메일을 보냈어요. 그 안의 버튼을 눌러야 구독이 시작됩니다.${spam}`,
           sent: `${email} 로 결과를 보냈어요.${spam}`,
           recent: `${email} 로 이미 한 통 보냈어요. 메일함을 확인해 주세요.${spam}`,
@@ -181,18 +181,18 @@ export function EmailSubscribe({ source, variant = 'card', className = '', resul
 
   // ── 신청 폼 ─────────────────────────────────────────────────────
   // 카피 원칙: "구독하세요" 가 아니라 **무엇이 언제 오는지**를 먼저 말한다.
-  // 주기(매주 화요일)와 분량(한 통)을 밝히면 "메일 폭탄" 걱정이 줄어 전환이 오른다.
+  // 주기(매주 일요일 — digest 크론과 같아야 한다)와 분량(한 통)을 밝히면 "메일 폭탄" 걱정이 줄어 전환이 오른다.
   const title = result
     ? isEn
       ? `Email me my result${resultName ? `: ${resultName}` : ''}`
       : `${resultName ? `${resultName} ` : ''}결과를 메일로 받아보세요`
     : resultName
       ? isEn
-        ? `More for your ${resultName}, every Tuesday`
-        : `${resultName}에게 어울리는 소식, 매주 화요일에`
+        ? `More for your ${resultName}, every Sunday`
+        : `${resultName}에게 어울리는 소식, 매주 일요일에`
       : isEn
-        ? 'One K-beauty email, every Tuesday'
-        : '매주 화요일 아침, K-뷰티 한 통'
+        ? 'One K-beauty email, every Sunday'
+        : '매주 일요일 아침, K-뷰티 한 통'
   // 결과 메일 폼에서도 레터를 숨기지 않는다 — 같은 메일 안에 확인 버튼이 들어가므로,
   // 말하지 않고 보내면 "신청한 적 없는 메일" 이 된다.
   const sub = result

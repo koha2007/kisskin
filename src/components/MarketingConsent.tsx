@@ -5,6 +5,7 @@
 // 동의 요청 메일을 보내는 것도 광고 전송으로 보므로, 동의는 사이트 안에서만 받는다.
 //
 // 저장: Supabase user_metadata.marketing_consent(true/false) + marketing_consent_at.
+// 처리 결과 고지(시행령 제62조의3): 동의·거부를 바꾸면 **전송자·일시·결과**를 바로 화면에 보여 준다.
 // announce-products.ts 는 marketing_consent === true 인 회원에게만 보낸다.
 //
 //   variant="prompt"  — 아직 고르지 않은 회원에게만 뜨는 카드(결정하면 사라짐)
@@ -19,6 +20,7 @@ export default function MarketingConsent({ isEn, variant }: { isEn: boolean; var
   const [consent, setConsent] = useState<Consent>(null)
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
+  const [at, setAt] = useState<string | null>(null) // 마지막 동의·거부 일시(ISO)
 
   useEffect(() => {
     let cancelled = false
@@ -28,17 +30,32 @@ export default function MarketingConsent({ isEn, variant }: { isEn: boolean; var
       setLoggedIn(!!u)
       const v = u?.user_metadata?.marketing_consent
       setConsent(typeof v === 'boolean' ? v : null)
+      const a = u?.user_metadata?.marketing_consent_at
+      setAt(typeof a === 'string' ? a : null)
     }).catch(() => { /* 비로그인 취급 */ })
     return () => { cancelled = true }
   }, [])
 
   const save = async (v: boolean) => {
     setBusy(true)
+    const now = new Date().toISOString()
     const { error } = await supabase.auth.updateUser({
-      data: { marketing_consent: v, marketing_consent_at: new Date().toISOString() },
+      data: { marketing_consent: v, marketing_consent_at: now },
     })
     setBusy(false)
-    if (!error) { setConsent(v); setDone(true) }
+    if (!error) { setConsent(v); setAt(now); setDone(true) }
+  }
+
+  // "kissinskin · 2026.10.20 수신 동의" — 전송자·일시·결과 세 가지를 한 줄로.
+  const receipt = (v: boolean) => {
+    if (!at) return ''
+    const d = new Date(at)
+    const date = isEn
+      ? d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+      : `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`
+    return isEn
+      ? `kissinskin · ${v ? 'opted in' : 'opted out'} on ${date}`
+      : `kissinskin · ${date} 수신 ${v ? '동의' : '거부'}`
   }
 
   if (!loggedIn) return null
@@ -49,6 +66,7 @@ export default function MarketingConsent({ isEn, variant }: { isEn: boolean; var
         {consent
           ? (isEn ? 'Done — the weekly K-beauty letter will start on Sunday.' : '신청 완료 — 일요일마다 K-뷰티 메일을 보내 드려요.')
           : (isEn ? 'Got it — no letters.' : '알겠어요. 메일은 보내지 않을게요.')}
+        <span className="mt-1 block text-[11px] text-white/55">{receipt(!!consent)}</span>
       </p>
     )
   }
@@ -64,6 +82,7 @@ export default function MarketingConsent({ isEn, variant }: { isEn: boolean; var
         <div className="min-w-0">
           <p className="text-sm font-bold text-navy">{title} {isEn ? '(optional)' : '(선택)'}</p>
           <p className="mt-1 text-xs leading-relaxed text-slate-500 break-keep">{desc}</p>
+          {consent !== null && at && <p className="mt-1 text-[11px] text-slate-500">{receipt(consent)}</p>}
         </div>
         <button
           disabled={busy}
