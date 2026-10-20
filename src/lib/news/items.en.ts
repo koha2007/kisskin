@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'marshique-ulta-beauty-entry',
+    category: 'global',
+    title: 'MARSHIQUE Announces Official Launch at Ulta Beauty, North America\'s Largest Beauty Retailer',
+    summary:
+      'Global beauty brand MARSHIQUE officially launched online at Ulta Beauty in the U.S. on October 18, 2026, with in-store sales set to begin across more than 500 locations on November 1.',
+    body: [
+      '> TLDR: MARSHIQUE enters U.S. market in earnest | Dual online and offline launch at Ulta Beauty | In-store sales at 500+ nationwide locations starting November',
+      'Global beauty brand MARSHIQUE has announced its official launch at Ulta Beauty, North America’s largest beauty retailer, stepping up its expansion into the U.S. market.',
+      '> DATA: MARSHIQUE completed its online launch on Ulta.com on October 18, 2026, and will begin offline sales across more than 500 Ulta Beauty stores nationwide starting November 1.',
+      'Backed by Ulta Beauty’s robust distribution network, this launch provides a significant opportunity to elevate MARSHIQUE’s brand awareness and accessibility.',
+      'From a consumer perspective, expanded online and offline access to MARSHIQUE products is expected to broaden opportunities for product trials and purchasing choices.',
+    ],
+    date: '2026-10-20',
+    readMinutes: 3,
+    tags: ['MARSHIQUE', 'Ulta Beauty', 'Global Beauty', 'US Expansion'],
+    image: '/news/marshique-ulta-beauty-entry.webp',
+    seoTitle: 'MARSHIQUE Expands to U.S. Market via Ulta Beauty',
+    seoDescription:
+      'MARSHIQUE launches at Ulta Beauty on Oct 18, 2026, expanding to 500+ U.S. stores on Nov 1 to boost global market reach.',
+  },
+  {
     slug: 'ai-skincare-personalization-2026',
     category: 'trend',
     title: 'AI Skincare Personalization — Algorithms Recommend Tailored Cosmetics',

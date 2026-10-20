@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'unove-deep-damage-treatment',
+    category: 'hair',
+    brand: '유노브',
+    name: '딥 데미지 트리트먼트',
+    title: '유노브 딥 데미지 트리트먼트 – 손상모 4년 1위 헤어팩',
+    summary:
+      '올리브영에서 4년 연속 헤어 트리트먼트 인기 1위 제품인 유노브 딥 데미지 트리트먼트는 단백질 중심 포뮬러로 손상모에 즉각적인 회복 효과를 선사합니다.',
+    highlights: ['단백질 집중 케어', '높은 리뷰 평점', '빠른 회복 효과'],
+    details: [
+      '단백질 기반 포뮬러로 손상된 모발 속부터 케어해 즉각적인 회복을 돕습니다.',
+      '올리브영 사용자 리뷰 평점 4.9, 리뷰 수 8만 건 이상으로 높은 신뢰도를 보입니다.',
+      '짧은 시간 사용해도 머릿결이 부드러워져 일상적인 손상 회복에 적합합니다.',
+    ],
+    whoFor:
+      '염색·열·자외선으로 손상되어 갈라진 모발 끝을 집중적으로 케어하고 싶은 분께 적합합니다. 특히 회복 효과를 빠르게 느끼고 싶은 손상모 타입에 추천합니다.',
+    howTo: [
+      '샴푸 후 물기를 가볍게 제거한 모발에 적당량을 덜어 손상된 부분 중심으로 고르게 도포합니다.',
+      '5분 정도 방치한 후 미온수로 깨끗이 헹궈낸 뒤, 드라이 전후로 매끄러운 결감을 느껴보세요.',
+    ],
+    pros: [
+      '단백질 포뮬러로 내부부터 손상 모발 회복에 효과적입니다.',
+      '압도적인 리뷰 수와 평점으로 신뢰도가 높습니다.',
+    ],
+    cons: [
+      '호불호 갈릴 수 있는 점: 무거운 마무리를 선호하지 않는 경우 다소 부담스러울 수 있습니다.',
+    ],
+    image: '/products/unove-deep-damage-treatment.webp',
+    coupangQuery: '유노브 딥 데미지 트리트먼트',
+    globalQuery: 'UNOVE deep damage treatment hair mask',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-10-20',
+    tags: ['손상모케어', '헤어팩', '단백질트리트먼트'],
+    seoTitle: '유노브 딥 데미지 트리트먼트 헤어팩 1위',
+    seoDescription:
+      '올리브영 헤어 트리트먼트 인기 1위 유노브 딥 데미지 트리트먼트의 핵심 특징과 사용 팁을 짧고 명료하게 알려드립니다.',
+  },
+  {
     slug: 'fwee-lip-cheek-blurry-pudding-pot',
     category: 'cheek',
     brand: '프위 (Fwee)',

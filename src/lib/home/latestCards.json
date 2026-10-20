@@ -2,6 +2,14 @@
   "products": {
     "ko": [
       {
+        "slug": "unove-deep-damage-treatment",
+        "brand": "유노브",
+        "name": "딥 데미지 트리트먼트",
+        "category": "hair",
+        "image": "/products/unove-deep-damage-treatment.webp",
+        "date": "2026-10-20"
+      },
+      {
         "slug": "fwee-lip-cheek-blurry-pudding-pot",
         "brand": "프위 (Fwee)",
         "name": "립 앤 치크 블러리 푸딩 팟",
@@ -24,17 +32,17 @@
         "category": "trend",
         "image": "/products/flower-knows-strawberry-cupid-palette.webp",
         "date": "2026-09-29"
-      },
-      {
-        "slug": "dior-forever-skin-glow",
-        "brand": "디올",
-        "name": "포에버 스킨 글로우 파운데이션",
-        "category": "base",
-        "image": "/products/dior-forever-skin-glow.webp",
-        "date": "2026-09-18"
       }
     ],
     "en": [
+      {
+        "slug": "unove-deep-damage-treatment",
+        "brand": "UNOVE",
+        "name": "Deep Damage Treatment",
+        "category": "hair",
+        "image": "/products/unove-deep-damage-treatment.webp",
+        "date": "2026-10-20"
+      },
       {
         "slug": "fwee-lip-cheek-blurry-pudding-pot",
         "brand": "fwee",
@@ -58,19 +66,18 @@
         "category": "trend",
         "image": "/products/flower-knows-strawberry-cupid-palette.webp",
         "date": "2026-09-29"
-      },
-      {
-        "slug": "dior-forever-skin-glow",
-        "brand": "Dior",
-        "name": "Forever Skin Glow Foundation",
-        "category": "base",
-        "image": "/products/dior-forever-skin-glow.webp",
-        "date": "2026-09-18"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "marshique-ulta-beauty-entry",
+        "title": "MARSHIQUE, 북미 최대 뷰티 리테일러 울타(Ulta Beauty)에 공식 입점 발표",
+        "category": "global",
+        "image": "/news/marshique-ulta-beauty-entry.webp",
+        "date": "2026-10-20"
+      },
       {
         "slug": "k-beauty-pop-up-hudson-yards-nyc",
         "title": "신세계 HYPER GROUND, 뉴욕 허드슨 야드에 K‑뷰티 팝업 30여 브랜드 선보여",
@@ -91,16 +98,16 @@
         "category": "skincare",
         "image": "/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp",
         "date": "2026-09-18"
-      },
-      {
-        "slug": "k-beauty-ingredient-demand-shifts-txa-azelaic-acid",
-        "title": "K‑뷰티, PDRN 넘어 TXA·아젤라익산 인기 급상승",
-        "category": "skincare",
-        "image": "/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp",
-        "date": "2026-09-17"
       }
     ],
     "en": [
+      {
+        "slug": "marshique-ulta-beauty-entry",
+        "title": "MARSHIQUE Announces Official Launch at Ulta Beauty, North America's Largest Beauty Retailer",
+        "category": "global",
+        "image": "/news/marshique-ulta-beauty-entry.webp",
+        "date": "2026-10-20"
+      },
       {
         "slug": "k-beauty-pop-up-hudson-yards-nyc",
         "title": "Shinsegae HYPER GROUND Showcases 30+ K-Beauty Brands in New York’s Hudson Yards Popup",
@@ -121,13 +128,6 @@
         "category": "skincare",
         "image": "/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp",
         "date": "2026-09-18"
-      },
-      {
-        "slug": "k-beauty-ingredient-demand-shifts-txa-azelaic-acid",
-        "title": "K-Beauty Shifts Beyond PDRN as TXA and Azelaic Acid Surge in Popularity",
-        "category": "skincare",
-        "image": "/news/k-beauty-ingredient-demand-shifts-txa-azelaic-acid.webp",
-        "date": "2026-09-17"
       }
     ]
   }

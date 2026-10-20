@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'marshique-ulta-beauty-entry',
+    category: 'global',
+    title: 'MARSHIQUE, 북미 최대 뷰티 리테일러 울타(Ulta Beauty)에 공식 입점 발표',
+    summary:
+      '글로벌 뷰티 브랜드 MARSHIQUE가 2026년 10월 18일 미국 울타 뷰티 온라인에 공식 런칭했으며, 11월 1일부터는 500개 이상 매장에서 오프라인 판매를 시작합니다.',
+    body: [
+      '> TLDR: MARSHIQUE 미국 시장 본격 진출 | Ulta Beauty 온라인·오프라인 동시 입점 | 11월부터 전국 500여 매장에서 판매 시작',
+      '글로벌 뷰티 브랜드 MARSHIQUE가 북미 최대 뷰티 리테일러인 Ulta Beauty에 공식 입점을 발표하며 미국 시장 공략에 나섰습니다.',
+      '> DATA: MARSHIQUE는 2026년 10월 18일 Ulta.com에서 온라인 런칭을 완료했고, 11월 1일부터는 전국 500개 이상의 Ulta Beauty 매장에서 판매를 시작합니다.',
+      '이번 입점은 Ulta Beauty의 강력한 유통망을 기반으로 MARSHIQUE의 브랜드 인지도와 접근성을 크게 높일 수 있는 기회를 마련해 줍니다.',
+      '소비자 관점에서 보면, MARSHIQUE 제품을 온라인과 오프라인에서 더 쉽게 접할 수 있게 된 만큼, 제품 체험과 구매 선택의 폭도 넓어질 것으로 기대됩니다.',
+    ],
+    date: '2026-10-20',
+    readMinutes: 3,
+    tags: ['MARSHIQUE', 'Ulta Beauty', '글로벌뷰티', '미국진출'],
+    image: '/news/marshique-ulta-beauty-entry.webp',
+    seoTitle: 'MARSHIQUE, Ulta Beauty에 공식 입점',
+    seoDescription:
+      'MARSHIQUE가 Ulta Beauty 온라인과 500개 이상 오프라인 매장에서 오는 11월부터 판매를 시작한다는 최신 글로벌 뷰티',
+  },
+  {
     slug: 'k-beauty-pop-up-hudson-yards-nyc',
     category: 'global',
     title: '신세계 HYPER GROUND, 뉴욕 허드슨 야드에 K‑뷰티 팝업 30여 브랜드 선보여',

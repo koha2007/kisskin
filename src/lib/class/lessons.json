@@ -478,5 +478,101 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "how-to-use-cushion",
+    "publishedAt": "2026-10-20",
+    "introKo": "쿠션은 빠르게 베이스를 끝낼 수 있지만, 퍼프에 찍은 대로 얼굴에 올리면 쉽게 두꺼워지고 들뜰 수 있어요. 양 조절과 터치 방향만 잘 잡으면 매끈해 보이는 피부를 만들 수 있어요.",
+    "introEn": "Cushion compacts are quick and convenient, but pressing a freshly loaded puff directly onto your skin can make the finish look heavy. With a few tweaks in puff control and technique, you can achieve a smooth look.",
+    "minutes": 5,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "skin",
+        "titleKo": "퍼프 양 조절하기",
+        "titleEn": "Control the puff amount",
+        "bodyKo": "스펀지를 퍼프로 살짝 눌러 제형을 묻힌 뒤, 뚜껑 안쪽 팔레트에 두세 번 두드려 양을 덜어내요. 퍼프 전체에 얇고 고르게 펼쳐져야 피부에 들뜸 없이 밀착돼요.",
+        "bodyEn": "Press the puff gently into the sponge, then tap it two or three times against the inner lid to remove excess product. Spreading it thinly across the puff helps it apply seamlessly.",
+        "toolsKo": "쿠션 파운데이션",
+        "toolsEn": "Cushion foundation",
+        "swatches": [
+          "#e8c8b0",
+          "#dfb89c"
+        ],
+        "searchKeywords": "밀착 커버 쿠션 파운데이션",
+        "shopEn": "cushion foundation compact",
+        "shortKo": "뚜껑 안쪽에 덜어 쓰기",
+        "shortEn": "Tap off excess on inner lid"
+      },
+      {
+        "area": "skin",
+        "crop": "cheekBlend",
+        "titleKo": "문지르지 말고 톡톡 두드리기",
+        "titleEn": "Pat, never rub",
+        "bodyKo": "퍼프를 쓱 밀어서 바르면 이전 스킨케어가 밀리고 결이 남아요. 직각으로 가볍게 톡톡 두드려 밀착시켜야 매끈해 보여요.",
+        "bodyEn": "Swiping drags your skincare and leaves streaks. Tapping straight down presses the product in so skin looks smoother.",
+        "toolsKo": "쿠션 퍼프",
+        "toolsEn": "Cushion puff",
+        "swatches": [
+          "#e8c8b0"
+        ],
+        "searchKeywords": "밀착 루비셀 쿠션 퍼프",
+        "shopEn": "cushion puff replacement",
+        "shortKo": "밀지 말고 톡톡 두드리기",
+        "shortEn": "Pat gently instead of rubbing"
+      },
+      {
+        "area": "skin",
+        "crop": "jaw",
+        "titleKo": "얼굴 중앙에서 바깥쪽으로",
+        "titleEn": "Center of face to edges",
+        "bodyKo": "양 볼과 이마처럼 커버가 필요한 얼굴 중앙부터 시작해요. 퍼프에 남은 소량으로 턱선과 헤어라인 쪽으로 갈수록 얇게 펼쳐야 경계가 생기지 않아요.",
+        "bodyEn": "Start at the cheeks and forehead where you need the most coverage. Use only the remaining product on the puff as you move toward the jaw and hairline so the color fades naturally.",
+        "toolsKo": "쿠션 파운데이션",
+        "toolsEn": "Cushion foundation",
+        "swatches": [
+          "#e8c8b0",
+          "#f2d8c4"
+        ],
+        "searchKeywords": "내추럴 베어 쿠션 파운데이션",
+        "shopEn": "natural cushion foundation",
+        "shortKo": "중앙은 두껍게 외곽은 얇게",
+        "shortEn": "Thicker inside thinner outside"
+      },
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "퍼프 접어 코 옆과 눈 밑 마무리",
+        "titleEn": "Fold puff for narrow crevices",
+        "bodyKo": "퍼프를 반으로 접어 코 옆 굴곡과 눈 밑을 살살 두드려요. 잔여량으로만 가볍게 터치해야 얇은 피부층에 끼임이나 뭉침이 생기지 않아요.",
+        "bodyEn": "Fold the puff in half and gently tap around the sides of the nose and under the eyes. Using only the leftover product helps prevent creasing or buildup on delicate areas.",
+        "toolsKo": "쿠션 퍼프",
+        "toolsEn": "Cushion puff",
+        "swatches": [
+          "#e8c8b0"
+        ],
+        "searchKeywords": "물방울 모양 쿠션 퍼프",
+        "shopEn": "teardrop cushion puff",
+        "shortKo": "접은 퍼프로 좁은 곳 가다듬기",
+        "shortEn": "Fold puff for tight crevices"
+      }
+    ],
+    "tipsKo": [
+      "양 조절을 뚜껑 안쪽에서 확실히 하면 수정 화장도 뭉치지 않아요.",
+      "퍼프가 오염되면 균일하게 발리지 않으니 자주 세척하거나 교체해 주세요."
+    ],
+    "tipsEn": [
+      "Removing excess product on the inner cap keeps even touch-ups from caking.",
+      "Wash or replace your puff regularly so product applies evenly."
+    ],
+    "mistakeKo": "퍼프에 제형을 듬뿍 묻혀 피부에 바로 찍으면 두꺼운 층이 생겨 시간이 지나 들뜨고 밀려요.",
+    "mistakeEn": "Pressing a fully loaded puff directly onto the skin creates a thick layer that can cake and separate over time.",
+    "chartPrompt": "a smooth even cushion base applied to the entire face, bright and slightly fuller coverage at the center of cheeks and forehead fading subtly toward the hairline and jawline, clean seamless finish around nose and under eyes",
+    "videoTitleKo": "쿠션 바르는 법",
+    "videoTitleEn": "How to Use a Cushion",
+    "video": {
+      "seconds": 19
+    }
   }
 ]

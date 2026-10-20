@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'unove-deep-damage-treatment',
+    category: 'hair',
+    brand: 'UNOVE',
+    name: 'Deep Damage Treatment',
+    title: 'UNOVE Deep Damage Treatment – Korea\'s #1 Hair Pack for 4 Years',
+    summary:
+      'Olive Young\'s #1 hair treatment for 4 consecutive years, UNOVE Deep Damage Treatment delivers instant repair for damaged hair with its protein-rich formula.',
+    highlights: ['Intensive protein care', 'High review rating', 'Fast damage repair'],
+    details: [
+      'Helps instantly repair damaged hair from within using a protein-based formula.',
+      'Highly trusted with over 80,000 reviews and a 4.9 rating on Olive Young.',
+      'Leaves hair smooth even after short use, making it ideal for daily damage care.',
+    ],
+    whoFor:
+      'Ideal for those who want intensive care for split ends damaged by dyeing, heat, or UV rays. Especially recommended for damaged hair types looking for fast recovery.',
+    howTo: [
+      'After shampooing, gently squeeze out excess water, take an appropriate amount, and apply evenly focusing on damaged areas.',
+      'Leave on for about 5 minutes, rinse thoroughly with lukewarm water, and enjoy silky hair before and after blow-drying.',
+    ],
+    pros: [
+      'Protein formula effectively repairs damaged hair from the inside out.',
+      'Highly trusted with an overwhelming number of reviews and a top rating.',
+    ],
+    cons: [
+      'May feel slightly heavy for those who dislike a rich, deep finish.',
+    ],
+    image: '/products/unove-deep-damage-treatment.webp',
+    coupangQuery: '유노브 딥 데미지 트리트먼트',
+    globalQuery: 'UNOVE deep damage treatment hair mask',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-10-20',
+    tags: ['Damaged Hair Care', 'Hair Pack', 'Protein Treatment'],
+    seoTitle: 'UNOVE Deep Damage Treatment Review | K-Beauty Hair Care',
+    seoDescription:
+      'Discover UNOVE Deep Damage Treatment, Korea\'s top-rated protein hair pack designed to instantly repair and smooth severely damaged hair.',
+  },
+  {
     slug: 'laura-geller-cream-full-face-basics-palette',
     category: 'trend',
     brand: 'Laura Geller',
