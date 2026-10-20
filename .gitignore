@@ -30,6 +30,7 @@ dist-ssr
 
 # Misc files
 *.txt
+!.github/class-video-request.txt
 !public/robots.txt
 !public/ads.txt
 # IndexNow 소유 증명 키 — 배포돼 있어야 네이버/Bing 이 색인 요청을 수락한다.
