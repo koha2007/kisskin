@@ -383,7 +383,10 @@
     ],
     "mistakeKo": "마른 스펀지로 파운데이션을 바르면 제품을 다 빨아들여 두껍고 얼룩져요.",
     "mistakeEn": "A dry sponge soaks up foundation and leaves it thick and streaky.",
-    "chartPrompt": "a finished soft makeup: a smooth thin base, a soft peach cream blush on the apples of the cheeks with a gently tapped, diffused texture, a soft warm-brown eyeshadow wash blended on the lids, and a soft coral lip"
+    "chartPrompt": "a finished soft makeup: a smooth thin base, a soft peach cream blush on the apples of the cheeks with a gently tapped, diffused texture, a soft warm-brown eyeshadow wash blended on the lids, and a soft coral lip",
+    "video": {
+      "seconds": 19
+    }
   },
   {
     "slug": "foundation-not-cakey",
