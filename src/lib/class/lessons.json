@@ -213,7 +213,10 @@
     ],
     "mistakeKo": "건조하다고 무거운 크림을 듬뿍 바르면 그 위의 베이스가 미끄러져 오히려 빨리 무너져요.",
     "mistakeEn": "Piling on a heavy cream because skin feels dry makes the base slide and break down faster.",
-    "chartPrompt": "no color makeup at all, only skincare: a fresh dewy hydrated sheen on the skin, plus small dots of white sunscreen cream placed on the forehead, both cheeks, the nose and the chin as if just dotted on before spreading, and bare lips with a clear balm shine"
+    "chartPrompt": "no color makeup at all, only skincare: a fresh dewy hydrated sheen on the skin, plus small dots of white sunscreen cream placed on the forehead, both cheeks, the nose and the chin as if just dotted on before spreading, and bare lips with a clear balm shine",
+    "video": {
+      "seconds": 19
+    }
   },
   {
     "slug": "undertone-foundation-shade",
@@ -299,7 +302,10 @@
     ],
     "mistakeKo": "매장 형광등 아래서 손등에 발라 고르면 얼굴과 색이 달라요. 손등은 얼굴보다 어둡고 노래요.",
     "mistakeEn": "Testing on the back of your hand under store lights misleads you — hands are darker and yellower than faces.",
-    "chartPrompt": "a bare face with no makeup except three short vertical foundation swatch stripes painted side by side on the left side of the jawline, in three slightly different beige shades: one pinkish, one neutral, one golden"
+    "chartPrompt": "a bare face with no makeup except three short vertical foundation swatch stripes painted side by side on the left side of the jawline, in three slightly different beige shades: one pinkish, one neutral, one golden",
+    "video": {
+      "seconds": 19
+    }
   },
   {
     "slug": "makeup-tools-basics",
