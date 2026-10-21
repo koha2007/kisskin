@@ -55,6 +55,7 @@ const EN_MIRRORED_TOOL_PREFIXES = [
   '/tools/personal-color/',
   '/tools/makeup-mbti/',
   '/tools/perfume-type/',
+  '/tools/fortune-makeup/',
 ]
 
 // Individual guide/review/news articles with a hand-written English version.

@@ -73,6 +73,14 @@ function PrivacyKo() {
         <li>생체 식별자나 얼굴 템플릿을 만들거나 저장하지 않습니다.</li>
       </ul>
 
+      <h3>3.1.1-2 관상·사주 메이크업 (기기 안에서만 처리)</h3>
+      <ul>
+        <li>관상 측정은 얼굴형 측정과 같은 방식으로 <strong>브라우저 안에서만</strong> 이뤄지며 사진을 서버로 보내지 않습니다. 눈매 · 이목구비 비율 같은 수치만 계산합니다.</li>
+        <li>입력한 <strong>생년월일(과 선택한 태어난 시)</strong>은 사주 계산에만 쓰이며 서버로 보내지 않습니다. 결과 · 생년월일 · 관상 도감은 다시 보여 주기 위해 <strong>이 기기의 브라우저 저장소(localStorage)</strong>에만 남고, 브라우저 데이터를 지우면 사라집니다. 당사는 이를 수집하거나 볼 수 없습니다.</li>
+        <li>"친구에게 보내기" 링크에는 동물상 · 운 점수 · 오행 요약만 담기며 <strong>사진과 생년월일은 들어가지 않습니다</strong>.</li>
+        <li>처방 메이크업을 내 얼굴에 입혀 보는 경우에만 셀카가 AI 메이크업 생성에 쓰이며, 처리 방식은 3.1항(AI 메이크업)과 같습니다.</li>
+      </ul>
+
       <h3>3.2 생성된 메이크업 결과 이미지 (저장·공유 시)</h3>
       <ul>
         <li>위 3.1항은 <strong>업로드한 원본 사진</strong>에 관한 내용입니다. 이와 별도로 AI가 생성한 <strong>메이크업 결과 이미지</strong>는 다르게 처리됩니다.</li>
@@ -369,6 +377,14 @@ function PrivacyEn() {
         <li>The face shape tool's "measure from a selfie" option <strong>never sends your photo to a server</strong>. It runs in your browser, locates the face outline and computes only the ratios of forehead, cheekbone and jaw widths and face length.</li>
         <li>A small copy of the photo with measurement lines and the resulting ratios are kept <strong>only in that browser tab's session storage</strong> (up to 6 hours, cleared when the tab closes) so the result page can show them. We cannot collect or see them.</li>
         <li>We do not create or store biometric identifiers or face templates.</li>
+      </ul>
+
+      <h3>3.1.2-2 Face Reading &amp; Five Elements Makeup (processed on your device only)</h3>
+      <ul>
+        <li>Face reading runs <strong>in your browser only</strong>, like the face shape tool — your photo is not sent to a server. It computes only ratios such as eye shape and feature proportions.</li>
+        <li>Your <strong>birth date (and optional birth hour)</strong> is used only to compute your five elements and is not sent to a server. Your result, birth date and Face Dex stay <strong>in this device's browser storage (localStorage)</strong> so they can be shown again, and disappear when you clear your browser data. We cannot collect or see them.</li>
+        <li>"Send to friends" links contain only your animal face, fortune scores and element summary — <strong>never your photo or birth date</strong>.</li>
+        <li>Only if you choose to try the prescribed makeup on your face is your selfie used for AI makeup generation, handled exactly as in Section 3.1 (AI makeup).</li>
       </ul>
 
       <h3>3.1.3 Email Subscription &amp; Result Emails</h3>

@@ -16,6 +16,7 @@ const EN_TOOL_PATHS = new Set<string>([
   '/tools/personal-color/',
   '/tools/makeup-mbti/',
   '/tools/perfume-type/',
+  '/tools/fortune-makeup/',
 ])
 
 function localePath(path: string, isEn: boolean): string {
@@ -228,6 +229,7 @@ export function ToolsFooter() {
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('tools.footer.toolsTitle')}</h3>
             <ul className="flex flex-col gap-2 text-slate-300 text-sm">
               <li><a href={isEn ? '/en/' : '/analysis/'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
+              <li><a href={localePath('/tools/fortune-makeup/', isEn)} className="hover:text-primary">{isEn ? 'Face Reading Makeup' : '관상·사주 메이크업'}</a></li>
               <li><a href={localePath('/tools/makeup-mbti/', isEn)} className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
               <li><a href={localePath('/tools/personal-color/', isEn)} className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>
               <li><a href={localePath('/tools/face-shape/', isEn)} className="hover:text-primary">{t('tools.footer.faceShape')}</a></li>
