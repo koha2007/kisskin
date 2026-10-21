@@ -306,7 +306,7 @@ const FACE_LOCK_WHOLEFACE =
  * whole-face 편집 프롬프트(옛 9룩 방식, 마스크 없음). 사진 전체를 재생성하되
  * FACE_LOCK 프리앰블로 얼굴 동일성을 지시한다. MakeupFlow whole-face 경로가 사용.
  */
-export function promptWholeFace(style: MakeupStyle): string {
+export function promptWholeFace(style: Pick<MakeupStyle, 'subEn' | 'prompt' | 'hair'>): string {
   return (
     `You are a top makeup artist. Edit this selfie photo to apply the "${style.subEn}" makeup look. ` +
     `${FACE_LOCK_WHOLEFACE}\n\n` +
