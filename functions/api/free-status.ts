@@ -5,6 +5,8 @@
 // 판정 규칙·저장소는 makeup-edit / dna-portrait 와 같은 _freeUsage.ts.
 // ════════════════════════════════════════════════════════════════════
 import { FREE_LIMITS, getFreeUsed, verifyUser, type FreePool, type UsageStore } from './_freeUsage'
+import { CREDIT_PACKS } from './_packs'
+import { isFirstPurchase } from './checkout'
 
 interface Env {
   MAKEUP_USAGE?: UsageStore
@@ -33,5 +35,7 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
     const used = Math.min(await getFreeUsed(env, pool, user), FREE_LIMITS[pool])
     out[pool] = { used, limit: FREE_LIMITS[pool], left: FREE_LIMITS[pool] - used }
   }
-  return json(out)
+  // 첫 결제 특가($0.99) 노출 여부 — 상품이 준비돼 있고 충전 이력이 없을 때만
+  const firstOffer = !!CREDIT_PACKS.first.id && (await isFirstPurchase(env, user.id))
+  return json({ ...out, firstOffer })
 }

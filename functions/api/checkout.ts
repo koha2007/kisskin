@@ -36,6 +36,21 @@ async function verifyUserId(env: Env, token: string): Promise<string | null> {
   }
 }
 
+/** 계정에 크레딧 충전 이력이 없으면 true(첫 결제 특가 자격). 조회 실패 = false(특가를 함부로 열지 않음) */
+export async function isFirstPurchase(env: { VITE_SUPABASE_URL?: string; SUPABASE_SERVICE_ROLE_KEY?: string }, userId: string): Promise<boolean> {
+  if (!env.VITE_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return false
+  try {
+    const res = await fetch(
+      `${env.VITE_SUPABASE_URL}/rest/v1/credit_transactions?user_id=eq.${encodeURIComponent(userId)}&type=eq.charge&select=id&limit=1`,
+      { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}` } },
+    )
+    if (!res.ok) return false
+    return ((await res.json()) as unknown[]).length === 0
+  } catch {
+    return false
+  }
+}
+
 export async function onRequestPost(context: { request: Request; env: Env }) {
   const { request, env } = context
 
@@ -72,6 +87,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
 
       const pack = CREDIT_PACKS[body.pack]
       if (!pack.id) return errJson('pack_unavailable', 503, { message: '아직 준비 중인 상품이에요.' })
+      // 첫 결제 한정 — 충전 이력이 한 번이라도 있으면 거절(계정당 1회)
+      if (body.pack === 'first' && !(await isFirstPurchase(env, userId))) {
+        return errJson('first_used', 409, { message: '첫 결제 특가는 한 번만 쓸 수 있어요.' })
+      }
       checkoutBody.products = [pack.id]
       checkoutBody.metadata = {
         user_id: userId,
