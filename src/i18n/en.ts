@@ -292,7 +292,7 @@ export default {
   'mypage.changePasswordBtn': 'Change Password',
   'mypage.passwordChanged': 'Password changed successfully.',
   'mypage.deleteAccount': 'Delete Account',
-  'mypage.deleteWarning': 'All data will be permanently deleted and cannot be recovered.',
+  'mypage.deleteWarning': 'Your account, saved records and remaining credits will be permanently deleted. Payment records and free-pass abuse-prevention records are kept as described in our Privacy Policy.',
   'mypage.deleteAccountBtn': 'Delete Account',
   'mypage.deleteConfirm': 'Are you sure you want to delete your account?',
   'mypage.deleteConfirmBtn': 'Delete',

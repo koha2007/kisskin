@@ -41,7 +41,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
 function PrivacyKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 20일</p>
+      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 21일</p>
 
       <h2>1. 서문</h2>
       <p>kissinskin("당사")은 <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a> 웹사이트를 운영합니다. 본 개인정보처리방침은 AI 메이크업 분석 서비스("서비스") 이용 시 이용자의 정보를 어떻게 수집, 이용, 보호, 공개하는지 설명합니다.</p>
@@ -308,7 +308,8 @@ function PrivacyKo() {
       <ul>
         <li><strong>사진:</strong> 미보관. AI 처리 완료 즉시 파기.</li>
         <li><strong>분석 결과:</strong> 기본적으로 브라우저에만 존재. 로그인 회원이 직접 저장한 경우에만 계정에 보관(3.2.1항)하며 <strong>회원 탈퇴 시 함께 삭제</strong>.</li>
-        <li><strong>회원 계정:</strong> 탈퇴할 때까지 보관, 탈퇴 즉시 삭제.</li>
+        <li><strong>회원 계정:</strong> 탈퇴할 때까지 보관, 탈퇴 즉시 삭제. 남은 크레딧과 크레딧 사용 내역도 함께 삭제되며 복구되지 않습니다.</li>
+        <li><strong>가입 무료권 사용 기록:</strong> 탈퇴 후 다시 가입해 무료권을 반복해서 받는 것을 막기 위해, 무료권을 사용한 경우 <strong>이메일 주소·로그인 계정 고유번호를 되돌릴 수 없게 변환한 값(해시)</strong>과 사용 횟수만 남깁니다. 원래 이메일 주소는 이 기록에서 알아낼 수 없습니다. 삭제를 원하시면 <strong>support@kissinskin.net</strong>으로 요청해 주세요.</li>
         <li><strong>구독 이메일:</strong> 구독 중에는 보관. 해지하면 다시 발송되지 않도록 <strong>수신거부 목록</strong>에 이메일 주소만 남깁니다. 이 주소까지 완전히 지우려면 <strong>support@kissinskin.net</strong>으로 요청해 주세요. 확인 버튼을 누르지 않은 신청은 발송 대상이 아닙니다.</li>
         <li><strong>거래 참조:</strong> 고객 지원 및 법률/세무 준수를 위해 최대 12개월 보관 후 삭제.</li>
         <li><strong>결제 데이터:</strong> Polar의 데이터 보관 정책 및 관련 금융 규정에 따라 Polar가 보관.</li>
@@ -332,7 +333,7 @@ function PrivacyKo() {
 function PrivacyEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 20, 2026</p>
+      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 21, 2026</p>
 
       <h2>1. Introduction</h2>
       <p>kissinskin ("we", "our", "us") operates the website <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
@@ -608,7 +609,8 @@ function PrivacyEn() {
       <ul>
         <li><strong>Photos:</strong> Not retained. Destroyed immediately after AI processing is complete.</li>
         <li><strong>Analysis results:</strong> By default they exist only in your browser. They are kept on your account only if a signed-in member saves them (Section 3.1.1), and are <strong>deleted together with your account</strong>.</li>
-        <li><strong>Member account:</strong> Kept until you delete your account, then deleted immediately.</li>
+        <li><strong>Member account:</strong> Kept until you delete your account, then deleted immediately. Any remaining credits and credit history are deleted with it and cannot be restored.</li>
+        <li><strong>Free sign-up pass records:</strong> To stop the free passes from being claimed again by deleting and re-creating an account, if you used a free pass we keep only a <strong>one-way converted value (hash) of your email address and sign-in account ID</strong> plus the number of passes used. Your email address cannot be recovered from it. To have it removed, email <strong>support@kissinskin.net</strong>.</li>
         <li><strong>Subscription email:</strong> Kept while you are subscribed. When you unsubscribe, only your email address stays on a <strong>suppression list</strong> so we never email you again. To have that address removed too, email <strong>support@kissinskin.net</strong>. Sign-ups that were never confirmed are not emailed.</li>
         <li><strong>Transaction references:</strong> Retained for up to 12 months for customer support and legal/tax compliance, then deleted.</li>
         <li><strong>Payment data:</strong> Retained by Polar according to their data retention policy and applicable financial regulations.</li>

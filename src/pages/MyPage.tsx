@@ -4,6 +4,7 @@ import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
 import { authErrorMessage } from '../lib/authErrors'
 import { clearDna } from '../lib/beauty-dna/types'
+import { clearCollection } from '../lib/makeup/collectionStore'
 import { getCreditBalance } from '../lib/credits'
 import { getFreeStatus, type FreeStatus } from '../lib/freeStatus'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
@@ -258,6 +259,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       // 탈퇴했는데 이 브라우저에 진단 결과·생성된 초상이 남아 있으면,
       // 다음 사람이 그대로 보게 된다. 계정이 사라진 이상 로컬도 함께 지운다.
       clearDna()
+      await clearCollection().catch(() => { /* 기기 저장소 없음 */ })   // 9룩 컬렉션 셀카·결과(IndexedDB)
       await supabase.auth.signOut({ scope: 'local' })
       await onLogout()
       window.location.href = '/'
@@ -733,6 +735,14 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             <p style={{ fontSize: '13px', color: DANGER, marginBottom: '12px', fontWeight: 600 }}>
               {t('mypage.deleteConfirm')}
             </p>
+            {/* 남은 크레딧은 탈퇴와 함께 사라진다(on delete cascade) — 결제한 사람이 모르고 잃지 않게 */}
+            {credits !== null && credits > 0 && (
+              <p style={{ fontSize: '13px', color: DANGER, marginBottom: '12px', lineHeight: 1.5 }}>
+                {isKo
+                  ? `남은 크레딧 ${credits}개가 함께 삭제되며 복구되지 않아요.`
+                  : `Your ${credits} remaining credit${credits === 1 ? '' : 's'} will be deleted and cannot be restored.`}
+              </p>
+            )}
             {deleteError && (
               <div style={{
                 padding: '10px 14px',

@@ -302,7 +302,7 @@ export default {
   'mypage.changePasswordBtn': '비밀번호 변경',
   'mypage.passwordChanged': '비밀번호가 변경되었습니다.',
   'mypage.deleteAccount': '회원 탈퇴',
-  'mypage.deleteWarning': '탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.',
+  'mypage.deleteWarning': '탈퇴 시 계정과 저장한 기록·남은 크레딧이 삭제되며 복구할 수 없습니다. 결제 기록과 무료권 중복 방지 기록은 개인정보처리방침에 따라 보관됩니다.',
   'mypage.deleteAccountBtn': '회원 탈퇴하기',
   'mypage.deleteConfirm': '정말 탈퇴하시겠습니까?',
   'mypage.deleteConfirmBtn': '탈퇴',
