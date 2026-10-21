@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useI18n } from '../../i18n/I18nContext'
 import { useAuth } from '../../hooks/useAuth'
 import type { BeautyDna } from '../../lib/beauty-dna/types'
 import { writeDnaPortrait, encodeDnaCode } from '../../lib/beauty-dna/types'
 import { generateDnaPortrait } from '../../lib/beauty-dna/generate'
+import { getFreeStatus } from '../../lib/freeStatus'
 
 type Phase = 'idle' | 'loading' | 'done' | 'error'
 type ErrKind = 'login' | 'topup' | 'unconfigured' | 'retry'
@@ -51,6 +52,14 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
   const [tier, setTier] = useState<'free' | 'credit' | null>(null)
   // 새 생성마다 새 jobId(차감), 에러 재시도는 같은 jobId(멱등) — makeup-edit 패턴
   const jobIdRef = useRef<string | null>(null)
+  // 가입 무료권(무료 도구 1장) 남았는지 — 이미 쓴 사람에게 "첫 1회 무료"를 띄우지 않는다.
+  const [dnaFreeLeft, setDnaFreeLeft] = useState<number | null>(null)
+  useEffect(() => {
+    if (!user?.id) return
+    let cancelled = false
+    getFreeStatus().then((st) => { if (!cancelled) setDnaFreeLeft(st ? st.dna.left : null) })
+    return () => { cancelled = true }
+  }, [user?.id, tier])
 
   if (readOnly && phase !== 'done') return null
 
@@ -138,7 +147,9 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
                   <span className="material-symbols-outlined text-base">refresh</span>
                   {L.again}
                 </button>
-                <p className="mt-1.5 text-[11px] text-slate-400">{isEn ? 'Uses 1 credit' : '크레딧 1회 사용'}</p>
+                <p className="mt-1.5 text-[11px] text-slate-400">
+                  {dnaFreeLeft ? L.free : (isEn ? 'Uses 1 credit' : '크레딧 1회 사용')}
+                </p>
               </div>
             )}
           </figure>
@@ -186,8 +197,10 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
                   {L.cta}
                   <span className="material-symbols-outlined text-base">auto_awesome</span>
                 </button>
-                {phase === 'idle' && (
-                  <p className="mt-2 text-[11px] font-semibold text-primary-dark">{L.free}</p>
+                {phase === 'idle' && dnaFreeLeft !== null && (
+                  <p className="mt-2 text-[11px] font-semibold text-primary-dark">
+                    {dnaFreeLeft > 0 ? L.free : (isEn ? 'Uses 1 credit' : '크레딧 1회 사용')}
+                  </p>
                 )}
               </>
             ) : (

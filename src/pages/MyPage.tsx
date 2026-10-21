@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import { authErrorMessage } from '../lib/authErrors'
 import { clearDna } from '../lib/beauty-dna/types'
 import { getCreditBalance } from '../lib/credits'
+import { getFreeStatus, type FreeStatus } from '../lib/freeStatus'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
 import { BeautyRecord } from '../components/beauty-dna/BeautyRecord'
 import { SavedLooks } from '../components/looks/SavedLooks'
@@ -159,6 +160,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   const [orders, setOrders] = useState<OrderRow[]>([])
   const [ordersLoading, setOrdersLoading] = useState(false)
   const [credits, setCredits] = useState<number | null>(null)
+  const [freeStatus, setFreeStatus] = useState<FreeStatus | null>(null)
 
   const isOAuth = user?.app_metadata?.provider && user.app_metadata.provider !== 'email'
   const isKo = locale === 'ko'
@@ -200,6 +202,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
     getCreditBalance()
       .then((n) => { if (!cancelled) setCredits(n) })
       .catch(() => { if (!cancelled) setCredits(0) })
+    getFreeStatus().then((st) => { if (!cancelled) setFreeStatus(st) })
     return () => { cancelled = true }
   }, [user?.id])
 
@@ -418,9 +421,16 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         </div>
         <p style={{ fontSize: '12px', color: C.muted, margin: '12px 0 0', lineHeight: 1.5 }}>
           {isKo
-            ? '크레딧 1개 = AI 메이크업 1장. 첫 1회는 무료로 체험할 수 있어요.'
-            : '1 credit = 1 AI makeup. Your first try is free.'}
+            ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(AI 메이크업 1장 + 뷰티 DNA 모델 1장)은 크레딧보다 먼저 쓰여요.'
+            : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 AI makeup + 1 Beauty DNA model) are used before credits.'}
         </p>
+        {freeStatus && (
+          <p style={{ fontSize: '12px', color: C.navy, margin: '6px 0 0', lineHeight: 1.5, fontWeight: 600 }}>
+            {isKo
+              ? `무료권 남음 ${freeStatus.makeup.left + freeStatus.dna.left}/2 · AI 메이크업 ${freeStatus.makeup.left > 0 ? '남음' : '사용함'} · 뷰티 DNA ${freeStatus.dna.left > 0 ? '남음' : '사용함'}`
+              : `Free passes left ${freeStatus.makeup.left + freeStatus.dna.left}/2 · AI makeup ${freeStatus.makeup.left > 0 ? 'available' : 'used'} · Beauty DNA ${freeStatus.dna.left > 0 ? 'available' : 'used'}`}
+          </p>
+        )}
       </div>
 
       {/* 구독 관리 */}

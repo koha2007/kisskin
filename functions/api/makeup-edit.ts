@@ -8,7 +8,7 @@
 //   • 부분 편집(Stage 2, MediaPipe 마스크): mask 가 오면 그 영역만 재생성하고
 //     "마스크 밖 원본 합성"·glow 레이어는 클라이언트가 처리한다. (코드 보존 — 재사용 대비)
 //
-// 비용 가드 (fail-closed): 계정(user_id)당 무료 N회. 저장소(env.MAKEUP_USAGE,
+// 비용 가드 (fail-closed): 계정(user_id·이메일)당 무료 N회(_freeUsage.ts). 저장소(env.MAKEUP_USAGE,
 // KV류)가 없으면 OpenAI 를 호출하지 않고 503 → 무방비 과금 노출을 원천 차단.
 //
 // 크레딧 차감 (P1-5 3단계, "결제 토큰" 모델):
@@ -21,11 +21,7 @@
 // 설정: gpt-image-2, medium quality. (input_fidelity 미지원 모델이라 전송 안 함.)
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits } from './_credits'
-
-interface UsageStore {
-  get(key: string): Promise<string | null>
-  put(key: string, value: string): Promise<void>
-}
+import { FREE_LIMITS, getFreeUsed, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -37,23 +33,8 @@ interface Env {
   VITE_SUPABASE_URL?: string
 }
 
-/** Supabase 토큰 → user_id 검증(기존 delete-account.ts 와 동일 패턴, auth 무변경). */
-async function verifyUserId(env: Env, token: string): Promise<string | null> {
-  if (!env.VITE_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return null
-  try {
-    const res = await fetch(`${env.VITE_SUPABASE_URL}/auth/v1/user`, {
-      headers: { Authorization: `Bearer ${token}`, apikey: env.SUPABASE_SERVICE_ROLE_KEY },
-    })
-    if (!res.ok) return null
-    const u = (await res.json()) as { id?: string }
-    return u.id || null
-  } catch {
-    return null
-  }
-}
-
-// 계정(user_id)당 무료 허용 횟수. 2026-07-05: 3 → 1 (무료 1회 체험).
-const FREE_LIMIT = 1
+// 계정당 무료 장수 — 가입 무료권 2장 중 메이크업 1장(_freeUsage.ts). 9룩 컬렉션은 항상 크레딧.
+const FREE_LIMIT = FREE_LIMITS.makeup
 
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } })
@@ -98,8 +79,8 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (!authHeader.startsWith('Bearer ')) {
     return json({ error: 'login_required', message: '로그인하면 AI 메이크업을 무료 1회 체험할 수 있어요.' }, 401)
   }
-  const userId = await verifyUserId(env, authHeader.slice(7))
-  if (!userId) {
+  const user = await verifyUser(env, authHeader.slice(7))
+  if (!user) {
     return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
   }
 
@@ -110,8 +91,9 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   }
   // 무료 판정 신원 = user_id (계정당 무료 FREE_LIMIT회). IP·지문을 섞지 않으므로
   // 셀룰러 IP 로테이션·웹뷰 저장소 초기화로 무료를 리셋하는 우회가 불가능하다.
-  const key = 'mu:user:' + userId
-  const used = parseInt((await env.MAKEUP_USAGE.get(key)) || '0', 10) || 0
+  // 탈퇴 후 같은 이메일 재가입도 소진 상태 유지(이메일 해시 키 병행).
+  const userId = user.id
+  const used = await getFreeUsed(env.MAKEUP_USAGE, 'makeup', user)
 
   // ── 결제 경로 판정: 무료 남으면 free, 소진되면 credit(차감) ──
   const tier: 'free' | 'credit' = used >= FREE_LIMIT || body.collection ? 'credit' : 'free'
@@ -190,7 +172,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
 
   if (tier === 'free') {
     // 무료: 성공 시에만 사용량 증가(실패 호출은 무료 소진 안 시킴).
-    try { await env.MAKEUP_USAGE.put(key, String(used + 1)) } catch { /* 기록 실패해도 결과는 반환 */ }
+    await setFreeUsed(env.MAKEUP_USAGE, 'makeup', user, used + 1)
     return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT })
   }
 

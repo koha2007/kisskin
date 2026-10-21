@@ -12,11 +12,7 @@
 // 설정: gpt-image-2, medium, size 1024x1536 (베이스가 3:4 세로).
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits } from './_credits'
-
-interface UsageStore {
-  get(key: string): Promise<string | null>
-  put(key: string, value: string): Promise<void>
-}
+import { FREE_LIMITS, getFreeUsed, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -28,25 +24,12 @@ interface Env {
   ASSETS?: { fetch: (input: string | Request) => Promise<Response> }
 }
 
-const FREE_LIMIT = 1
+// 가입 무료권 2장 중 무료 도구 1장(_freeUsage.ts)
+const FREE_LIMIT = FREE_LIMITS.dna
 const SHAPES = ['oval', 'round', 'square', 'oblong', 'heart']
 
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } })
-
-async function verifyUserId(env: Env, token: string): Promise<string | null> {
-  if (!env.VITE_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return null
-  try {
-    const res = await fetch(`${env.VITE_SUPABASE_URL}/auth/v1/user`, {
-      headers: { Authorization: `Bearer ${token}`, apikey: env.SUPABASE_SERVICE_ROLE_KEY },
-    })
-    if (!res.ok) return null
-    const u = (await res.json()) as { id?: string }
-    return u.id || null
-  } catch {
-    return null
-  }
-}
 
 interface Body {
   prompt?: string
@@ -68,15 +51,15 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (!authHeader.startsWith('Bearer ')) {
     return json({ error: 'login_required', message: '로그인하면 내 메이크업 모델을 무료 1회 만들 수 있어요.' }, 401)
   }
-  const userId = await verifyUserId(env, authHeader.slice(7))
-  if (!userId) return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
+  const user = await verifyUser(env, authHeader.slice(7))
+  if (!user) return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
 
   // ── 비용 가드 ──
   if (!env.MAKEUP_USAGE) return json({ error: 'guard_unconfigured', message: '사용량 저장소가 설정되지 않았습니다.' }, 503)
 
   // 셀카 메이크업(mu:user:)과 **별도** 무료 풀
-  const key = 'mu:dna:user:' + userId
-  const used = parseInt((await env.MAKEUP_USAGE.get(key)) || '0', 10) || 0
+  const userId = user.id
+  const used = await getFreeUsed(env.MAKEUP_USAGE, 'dna', user)
   const tier: 'free' | 'credit' = used >= FREE_LIMIT ? 'credit' : 'free'
   let creditBalance = 0
 
@@ -144,7 +127,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   const image_out = `data:image/png;base64,${b64}`
 
   if (tier === 'free') {
-    try { await env.MAKEUP_USAGE.put(key, String(used + 1)) } catch { /* 기록 실패해도 결과 반환 */ }
+    await setFreeUsed(env.MAKEUP_USAGE, 'dna', user, used + 1)
     return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT })
   }
   return json({ image: image_out, tier: 'credit', balance: creditBalance })

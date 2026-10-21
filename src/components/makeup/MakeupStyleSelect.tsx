@@ -11,7 +11,8 @@
 //
 // 1개 선택 = 1크레딧 = 결과 1장.
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getFreeStatus, type FreeStatus } from '../../lib/freeStatus'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { lookImage } from '../../lib/makeup/lookImages'
 import {
@@ -45,6 +46,25 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
   const preview = lookImage(selected)
 
   const pick = (id: MakeupStyleId) => { setSelected(id); setShowBefore(false) }
+
+  // 이번 생성이 가입 무료권인지 크레딧인지 생성 "전"에 알려 준다(2026-10-21).
+  // 무료권이 남아 있으면 크레딧보다 먼저 쓰인다 — 크레딧 보유자가 놀라지 않게.
+  const [freeStatus, setFreeStatus] = useState<FreeStatus | null>(null)
+  useEffect(() => {
+    if (loginHref) return
+    let cancelled = false
+    getFreeStatus().then((st) => { if (!cancelled) setFreeStatus(st) })
+    return () => { cancelled = true }
+  }, [loginHref])
+  const costLine = !freeStatus
+    ? (isEn ? '1 credit · 1 result image' : '1크레딧 = 결과 1장 생성')
+    : freeStatus.makeup.left > 0
+      ? (isEn
+        ? `This one uses your free sign-up pass (credits stay ${freeStatus.balance})`
+        : `이번 생성은 가입 무료권 사용 · 크레딧 ${freeStatus.balance}개 그대로`)
+      : (isEn
+        ? `Uses 1 credit · you have ${freeStatus.balance}`
+        : `크레딧 1개 사용 · 보유 ${freeStatus.balance}개`)
 
   const handleConfirm = () => {
     gtagEvent('style_selected', { style: selected })
@@ -240,7 +260,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
           <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
             auto_awesome
           </span>
-          {isEn ? '1 credit · 1 result image' : '1크레딧 = 결과 1장 생성'}
+          {costLine}
         </p>
         <button onClick={handleConfirm} className={btnPrimary} style={btnPrimaryStyle}>
           {isEn ? 'Try this style' : '이 스타일로 생성하기'}
