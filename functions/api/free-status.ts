@@ -27,10 +27,10 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
 
   const out: Record<FreePool, { used: number; limit: number; left: number }> = {
     makeup: { used: 0, limit: FREE_LIMITS.makeup, left: 0 },
-    dna: { used: 0, limit: FREE_LIMITS.dna, left: 0 },
+    tool: { used: 0, limit: FREE_LIMITS.tool, left: 0 },
   }
   for (const pool of Object.keys(out) as FreePool[]) {
-    const used = Math.min(await getFreeUsed(env.MAKEUP_USAGE, pool, user), FREE_LIMITS[pool])
+    const used = Math.min(await getFreeUsed(env, pool, user), FREE_LIMITS[pool])
     out[pool] = { used, limit: FREE_LIMITS[pool], left: FREE_LIMITS[pool] - used }
   }
   return json(out)

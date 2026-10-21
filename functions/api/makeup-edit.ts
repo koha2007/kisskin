@@ -21,7 +21,7 @@
 // 설정: gpt-image-2, medium quality. (input_fidelity 미지원 모델이라 전송 안 함.)
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits, getBalance } from './_credits'
-import { FREE_LIMITS, getFreeUsed, resolveTier, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, claimFreePass, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -94,7 +94,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // 셀룰러 IP 로테이션·웹뷰 저장소 초기화로 무료를 리셋하는 우회가 불가능하다.
   // 탈퇴 후 같은 이메일 재가입도 소진 상태 유지(이메일 해시 키 병행).
   const userId = user.id
-  const used = await getFreeUsed(env.MAKEUP_USAGE, 'makeup', user)
+  const used = await getFreeUsed(env, 'makeup', user)
 
   // ── 결제 경로 판정: 사용자가 고른 pay 그대로(_freeUsage.resolveTier) ──
   // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
@@ -108,6 +108,18 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   }
   const tier: 'free' | 'credit' = picked
   let creditBalance = 0
+
+  // 무료권: 생성 "전"에 장부에서 원자적으로 잡는다(동시 두 번 눌러도 한 장). 실패하면 아래에서 풀어 준다.
+  let claim: FreeClaim | null = null
+  if (tier === 'free') {
+    claim = await claimFreePass(env, 'makeup', user, 'makeup', (body.jobId || '').slice(0, 100) || `${user.id}:free:${crypto.randomUUID()}`)
+    if (!claim.ok) {
+      return claim.reason === 'used'
+        ? json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+        : json({ error: 'free_pass_error', message: '무료권 확인 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.' }, 503)
+    }
+  }
+  const releaseFree = async (r: Response) => { if (claim?.ok) await claim.release(); return r }
 
   if (tier === 'credit') {
     // 크레딧 시스템 미설정 → fail-safe(무료로 내주지 않음)
@@ -169,20 +181,20 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   try {
     res = await fetch(url, { method: 'POST', headers, body: fd })
   } catch (e) {
-    return json({ error: 'upstream_fetch', message: e instanceof Error ? e.message : String(e), retryable: true }, 502)
+    return releaseFree(json({ error: 'upstream_fetch', message: e instanceof Error ? e.message : String(e), retryable: true }, 502))
   }
   const text = await res.text()
-  if (!res.ok) return json({ error: 'openai', status: res.status, detail: text.slice(0, 300), retryable: true }, 502)
+  if (!res.ok) return releaseFree(json({ error: 'openai', status: res.status, detail: text.slice(0, 300), retryable: true }, 502))
 
   let b64: string | undefined
-  try { b64 = JSON.parse(text)?.data?.[0]?.b64_json } catch { return json({ error: 'bad_openai_json', retryable: true }, 502) }
-  if (!b64) return json({ error: 'no_image', retryable: true }, 502)
+  try { b64 = JSON.parse(text)?.data?.[0]?.b64_json } catch { return releaseFree(json({ error: 'bad_openai_json', retryable: true }, 502)) }
+  if (!b64) return releaseFree(json({ error: 'no_image', retryable: true }, 502))
 
   const image_out = `data:image/png;base64,${b64}`
 
   if (tier === 'free') {
     // 무료: 성공 시에만 사용량 증가(실패 호출은 무료 소진 안 시킴).
-    await setFreeUsed(env.MAKEUP_USAGE, 'makeup', user, used + 1)
+    if (claim?.ok) await claim.commit()
     return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT, freeLeft: Math.max(0, FREE_LIMIT - used - 1) })
   }
 

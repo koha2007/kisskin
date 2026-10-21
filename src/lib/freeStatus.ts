@@ -9,7 +9,8 @@ export type PayChoice = 'free' | 'credit'
 export interface FreePoolStatus { used: number; limit: number; left: number }
 export interface FreeStatus {
   makeup: FreePoolStatus
-  dna: FreePoolStatus
+  /** 무료 도구 1장 — 뷰티 DNA 모델 또는 정밀 사주 풀이 중 택1 */
+  tool: FreePoolStatus
   balance: number
 }
 
@@ -24,8 +25,8 @@ export async function getFreeStatus(): Promise<FreeStatus | null> {
     ])
     if (!res.ok) return null
     const d = (await res.json()) as Partial<FreeStatus>
-    if (!d.makeup || !d.dna) return null
-    return { makeup: d.makeup, dna: d.dna, balance }
+    if (!d.makeup || !d.tool) return null
+    return { makeup: d.makeup, tool: d.tool, balance }
   } catch {
     return null
   }

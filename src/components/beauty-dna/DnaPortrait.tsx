@@ -64,7 +64,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
   useEffect(() => {
     if (!user?.id) return
     let cancelled = false
-    getFreeStatus().then((st) => { if (!cancelled) setCounts(st ? { free: st.dna.left, credits: st.balance } : null) })
+    getFreeStatus().then((st) => { if (!cancelled) setCounts(st ? { free: st.tool.left, credits: st.balance } : null) })
     return () => { cancelled = true }
   }, [user?.id, tier, refresh])
 

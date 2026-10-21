@@ -12,7 +12,7 @@
 // 설정: gpt-image-2, medium, size 1024x1536 (베이스가 3:4 세로).
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits, getBalance } from './_credits'
-import { FREE_LIMITS, getFreeUsed, resolveTier, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, claimFreePass, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -25,7 +25,7 @@ interface Env {
 }
 
 // 가입 무료권 2장 중 무료 도구 1장(_freeUsage.ts)
-const FREE_LIMIT = FREE_LIMITS.dna
+const FREE_LIMIT = FREE_LIMITS.tool
 const SHAPES = ['oval', 'round', 'square', 'oblong', 'heart']
 
 const json = (obj: unknown, status = 200) =>
@@ -61,7 +61,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
 
   // 셀카 메이크업(mu:user:)과 **별도** 무료 풀
   const userId = user.id
-  const used = await getFreeUsed(env.MAKEUP_USAGE, 'dna', user)
+  const used = await getFreeUsed(env, 'tool', user)
   // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
   const picked = await resolveTier(body.pay, used, FREE_LIMIT, async () =>
     creditsConfigured(env) && (await getBalance(env, user.id).catch(() => 0)) > 0)
@@ -73,6 +73,18 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   }
   const tier: 'free' | 'credit' = picked
   let creditBalance = 0
+
+  // 무료권: 생성 "전"에 장부에서 원자적으로 잡는다(동시 두 번 눌러도 한 장). 실패하면 아래에서 풀어 준다.
+  let claim: FreeClaim | null = null
+  if (tier === 'free') {
+    claim = await claimFreePass(env, 'tool', user, 'dna', (body.jobId || '').slice(0, 100) || `${user.id}:dna:${crypto.randomUUID()}`)
+    if (!claim.ok) {
+      return claim.reason === 'used'
+        ? json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+        : json({ error: 'free_pass_error', message: '무료권 확인 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.' }, 503)
+    }
+  }
+  const releaseFree = async (r: Response) => { if (claim?.ok) await claim.release(); return r }
 
   if (tier === 'credit') {
     if (!creditsConfigured(env)) return json({ error: 'credits_unconfigured', message: '크레딧 서비스가 아직 준비 중이에요.' }, 503)
@@ -93,10 +105,10 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   try {
     const baseUrl = new URL(`/dna/base-${baseShape}.webp`, request.url).toString()
     const baseRes = env.ASSETS ? await env.ASSETS.fetch(baseUrl) : await fetch(baseUrl)
-    if (!baseRes.ok) return json({ error: 'base_unavailable', message: '베이스 이미지를 준비 중이에요.' }, 503)
+    if (!baseRes.ok) return releaseFree(json({ error: 'base_unavailable', message: '베이스 이미지를 준비 중이에요.' }, 503))
     baseBlob = await baseRes.blob()
   } catch {
-    return json({ error: 'base_unavailable', message: '베이스 이미지를 불러오지 못했어요.', retryable: true }, 503)
+    return releaseFree(json({ error: 'base_unavailable', message: '베이스 이미지를 불러오지 못했어요.', retryable: true }, 503))
   }
 
   // ── gpt-image-2 images/edits ──
@@ -126,19 +138,19 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   try {
     res = await fetch(url, { method: 'POST', headers, body: fd })
   } catch (e) {
-    return json({ error: 'upstream_fetch', message: e instanceof Error ? e.message : String(e), retryable: true }, 502)
+    return releaseFree(json({ error: 'upstream_fetch', message: e instanceof Error ? e.message : String(e), retryable: true }, 502))
   }
   const text = await res.text()
-  if (!res.ok) return json({ error: 'openai', status: res.status, detail: text.slice(0, 300), retryable: true }, 502)
+  if (!res.ok) return releaseFree(json({ error: 'openai', status: res.status, detail: text.slice(0, 300), retryable: true }, 502))
 
   let b64: string | undefined
-  try { b64 = JSON.parse(text)?.data?.[0]?.b64_json } catch { return json({ error: 'bad_openai_json', retryable: true }, 502) }
-  if (!b64) return json({ error: 'no_image', retryable: true }, 502)
+  try { b64 = JSON.parse(text)?.data?.[0]?.b64_json } catch { return releaseFree(json({ error: 'bad_openai_json', retryable: true }, 502)) }
+  if (!b64) return releaseFree(json({ error: 'no_image', retryable: true }, 502))
 
   const image_out = `data:image/png;base64,${b64}`
 
   if (tier === 'free') {
-    await setFreeUsed(env.MAKEUP_USAGE, 'dna', user, used + 1)
+    if (claim?.ok) await claim.commit()
     return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT, freeLeft: Math.max(0, FREE_LIMIT - used - 1) })
   }
   return json({ image: image_out, tier: 'credit', balance: creditBalance, freeLeft: Math.max(0, FREE_LIMIT - used) })
