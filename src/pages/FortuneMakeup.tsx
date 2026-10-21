@@ -19,6 +19,7 @@ import { renderResultCard, renderPhotocardFront, renderPhotocardBack, OBANG, typ
 import { generateFortuneMakeup, newJobId, keepPendingLook, takePendingLook, type GenError } from '../lib/fortune/generate'
 import { getFreeStatus, type FreeStatus, type PayChoice } from '../lib/freeStatus'
 import { dailyFortune } from '../lib/fortune/daily'
+import { loadReading, requestReading, type PreciseReading, type ReadingError } from '../lib/fortune/readingApi'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { supabase } from '../lib/supabase'
 
@@ -461,6 +462,11 @@ export default function FortuneMakeup() {
               </div>
             )}
 
+            {/* 정밀 풀이 — 무료 도구 무료권 또는 1크레딧 */}
+            <PreciseBox r={result} isEn={isEn} loggedIn={loggedIn} free={free}
+              onLogin={() => { saveLast(result); window.location.href = '/auth?next=' + encodeURIComponent(base + '?resume=1') }}
+              onPaid={() => getFreeStatus().then(setFree)} />
+
             {/* 도감 */}
             <DexBox isEn={isEn} dex={dex} secret={secret} onShare={shareLink} />
 
@@ -474,6 +480,87 @@ export default function FortuneMakeup() {
 }
 
 // ── 작은 부품들 ──
+function PreciseBox({ r, isEn, loggedIn, free, onLogin, onPaid }: {
+  r: FortuneResult; isEn: boolean; loggedIn: boolean | null; free: FreeStatus | null; onLogin: () => void; onPaid: () => void
+}) {
+  const lang = isEn ? 'en' : 'ko'
+  const [reading, setReading] = useState<PreciseReading | null>(() => (typeof window === 'undefined' ? null : loadReading(r, lang)))
+  const [st, setSt] = useState<{ k: 'idle' } | { k: 'busy' } | { k: 'error'; e: ReadingError }>({ k: 'idle' })
+  const job = useRef('')
+  const ask = async (pay?: PayChoice) => {
+    if (!loggedIn) { onLogin(); return }
+    if (!job.current) job.current = newJobId()
+    setSt({ k: 'busy' }); trackEvent('fortune_reading_request', { pay: pay ?? 'auto' })
+    const res = await requestReading(r, lang, job.current, pay)
+    if (res.ok) { job.current = ''; setReading(res.reading); setSt({ k: 'idle' }); onPaid(); trackEvent('fortune_reading_done', { tier: res.tier }) }
+    else { if (res.error !== 'retry') job.current = ''; setSt({ k: 'error', e: res.error }) }
+  }
+  const toolLeft = free?.tool.left ?? 0, credits = free?.balance ?? 0
+  const E: Record<ReadingError, string> = isEn
+    ? { login: 'Please log in.', topup: 'Not enough credits — top up to continue.', free_used: 'Your free tool pass is used. You can use a credit.', choose: 'Choose a free pass or a credit.', unavailable: 'Please try again shortly.', retry: 'Something went wrong. Tap again — no extra charge.' }
+    : { login: '로그인이 필요해요.', topup: '크레딧이 부족해요. 충전하면 바로 볼 수 있어요.', free_used: '무료 도구 무료권을 이미 썼어요. 크레딧으로 볼 수 있어요.', choose: '무료권과 크레딧 중 골라 주세요.', unavailable: '잠시 후 다시 시도해 주세요.', retry: '문제가 생겼어요. 다시 누르면 추가 차감 없이 다시 만들어요.' }
+  const btn = 'w-full rounded-2xl py-3.5 text-[15px] font-black'
+  return (
+    <div className="mt-8 rounded-3xl border-[3px] border-[#1b1b1f] bg-white p-5">
+      <p className="text-[11px] font-black tracking-[0.2em] text-[#d6402f]">{isEn ? 'FULL READING' : '정밀 풀이'}</p>
+      <h2 className="text-2xl font-black">{isEn ? 'My full face & saju reading' : '나의 관상·사주 정밀 풀이'}</h2>
+      {reading ? (
+        <div className="mt-4 space-y-5 text-[14px] leading-relaxed">
+          {reading.summary && <p className="rounded-2xl bg-[#fff7df] p-4 font-medium">{reading.summary}</p>}
+          {!!reading.face?.length && (
+            <div><p className="font-black">👁 {isEn ? 'Face palaces' : '관상 6궁'}</p>
+              <ul className="mt-2 space-y-2">{reading.face.map((f) => <li key={f.palace}><b>{f.palace}</b> <span className="text-[12px] text-[#1b1b1f]/60">{f.area}</span><br />{f.reading}</li>)}</ul></div>
+          )}
+          {reading.elements && <div><p className="font-black">☯ {isEn ? 'Five elements' : '오행'}</p><p className="mt-1">{reading.elements}</p></div>}
+          {!!reading.fortunes?.length && (
+            <div><p className="font-black">✨ {isEn ? 'Your fortunes' : '나의 운'}</p>
+              <ul className="mt-2 space-y-2">{reading.fortunes.map((f) => { const l = FORTUNE_LOOKS.find((x) => x.id === f.id); return (
+                <li key={f.id} className="rounded-xl border-2 border-[#1b1b1f]/15 p-3"><b>{l ? `${l.emoji} ${isEn ? l.fortuneEn : l.fortuneKo}` : f.id}</b><br />{f.reading}<br /><span className="text-[13px] text-[#d6402f]">💄 {f.makeup}</span></li>) })}</ul></div>
+          )}
+          {!!reading.year2027?.length && (
+            <div><p className="font-black">🎍 {isEn ? '2027 month by month' : '2027 정미년 월별 흐름'}</p>
+              <ol className="mt-2 grid grid-cols-2 gap-1.5 text-[12.5px]">{reading.year2027.map((m) => <li key={m.month} className="rounded-lg bg-[#f6eedc] px-2.5 py-1.5"><b>{m.month}{isEn ? '' : '월'}</b> {m.theme}</li>)}</ol></div>
+          )}
+          {reading.makeupPlan && (
+            <div><p className="font-black">💄 {isEn ? 'My makeup prescription' : '나만의 메이크업 처방'}</p>
+              <ul className="mt-1 space-y-1 text-[13.5px]">{(['base', 'eyes', 'cheeks', 'lips', 'accent'] as const).filter((k) => reading.makeupPlan![k]).map((k) => (
+                <li key={k}><b>{isEn ? { base: 'Base', eyes: 'Eyes', cheeks: 'Cheeks', lips: 'Lips', accent: 'Accent' }[k] : { base: '베이스', eyes: '눈', cheeks: '볼', lips: '입술', accent: '포인트' }[k]}</b> · {reading.makeupPlan![k]}</li>))}</ul></div>
+          )}
+          {!!reading.products?.length && <div><p className="font-black">🛍 {isEn ? 'What to look for' : '추천 제품 종류'}</p><p className="mt-1 text-[13px]">{reading.products.join(' · ')}</p></div>}
+          <p className="text-[11px] text-[#1b1b1f]/55">{isEn ? 'Written by AI from your results, for fun.' : 'AI가 내 결과를 바탕으로 쓴 재미용 풀이예요.'}</p>
+        </div>
+      ) : (
+        <>
+          <ul className="mt-3 space-y-1 text-[13.5px]">
+            {(isEn ? ['Six face palaces read one by one', 'Your five elements & how to balance them', 'Top fortunes + the one to boost', '2027 month-by-month flow', 'Your own makeup prescription & what to buy']
+              : ['관상 6궁 하나하나 풀이', '오행 성향과 부족한 기운 채우는 법', 'TOP 운 + 보완할 운 풀이', '2027 정미년 12달 흐름', '내 얼굴·사주 맞춤 메이크업 처방과 추천 제품']).map((t) => <li key={t}>✓ {t}</li>)}
+          </ul>
+          <div className="relative mt-3 overflow-hidden rounded-2xl bg-[#fff7df] p-4 text-[13px] leading-relaxed">
+            <p className="select-none blur-[3px]">{isEn ? 'Your forehead shows a calm, open energy and your career palace is bright — light at its centre makes…' : '이마가 시원해 관록궁이 밝게 열려 있어요. 이마 중앙에 은은한 광을 더하면 올해 인정받는 기운이…'}</p>
+            <p className="mt-1 select-none blur-[3px]">{isEn ? 'In March your Resource stars rise, a good month to…' : '3월에는 인성이 들어와 배우고 준비하기 좋은 달이에요. 이때는…'}</p>
+            <span className="absolute inset-0 flex items-center justify-center text-sm font-black">🔒 {isEn ? 'Unlock the full reading' : '전체 풀이 열기'}</span>
+          </div>
+          <div className="mt-3 space-y-2">
+            {st.k === 'error' && <p className="rounded-xl bg-[#d6402f]/10 px-3 py-2 text-[13px] font-bold text-[#d6402f]">{E[st.e]}</p>}
+            {st.k === 'busy' ? <p className="py-3 text-center text-sm font-bold">⏳ {isEn ? 'Writing your reading… (~15s)' : '풀이를 쓰는 중… (15초 안팎)'}</p>
+              : loggedIn === false ? <button type="button" onClick={onLogin} className={`${btn} bg-[#1b1b1f] text-[#f6eedc]`}>{isEn ? 'Log in to unlock — 1st tool pass is free' : '로그인하고 열기 — 무료 도구 무료권으로 가능'}</button>
+              : st.k === 'error' && st.e === 'topup' ? <a href="/analysis/?topup=1" className={`${btn} block bg-[#f2b632] text-center`}>{isEn ? 'Top up credits' : '크레딧 충전하기'}</a>
+              : free && toolLeft > 0 && credits > 0 ? (
+                <div className="grid grid-cols-2 gap-2">
+                  <button type="button" onClick={() => ask('free')} className={`${btn} bg-[#d6402f] text-white`}>{isEn ? 'Use free pass' : '무료권으로'}</button>
+                  <button type="button" onClick={() => ask('credit')} className={`${btn} bg-[#f2b632]`}>{isEn ? 'Use 1 credit' : '크레딧 1개로'}</button>
+                </div>
+              ) : <button type="button" onClick={() => ask(free ? (toolLeft > 0 ? 'free' : 'credit') : undefined)} className={`${btn} bg-[#1b1b1f] text-[#f6eedc]`}>
+                  {free && toolLeft > 0 ? (isEn ? 'Unlock with free tool pass' : '무료 도구 무료권으로 열기') : (isEn ? 'Unlock with 1 credit' : '크레딧 1개로 열기')}
+                </button>}
+            {free && <p className="text-center text-[11px] text-[#1b1b1f]/55">{isEn ? `Free tool pass ${toolLeft} · Credits ${credits}` : `무료 도구 무료권 ${toolLeft}장 · 크레딧 ${credits}개`} · {isEn ? 'The tool pass is shared with Beauty DNA' : '무료 도구 무료권은 뷰티 DNA와 같이 써요'}</p>}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 function DailyCard({ r, isEn, onOpen, onTry }: { r: FortuneResult; isEn: boolean; onOpen?: () => void; onTry: (id: FortuneLookId) => void }) {
   const d = dailyFortune(r)
   const l = fortuneLookById(d.look)
