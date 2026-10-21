@@ -20,6 +20,8 @@ import { generateFortuneMakeup, newJobId, keepPendingLook, takePendingLook, type
 import { getFreeStatus, type FreeStatus, type PayChoice } from '../lib/freeStatus'
 import { dailyFortune } from '../lib/fortune/daily'
 import { loadReading, requestReading, type PreciseReading, type ReadingError } from '../lib/fortune/readingApi'
+import { compatOf, bumpCompatCount, COMPAT_TEXT, type Compat } from '../lib/fortune/compat'
+import { unlockSecret } from '../lib/fortune/state'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { supabase } from '../lib/supabase'
 
@@ -467,6 +469,11 @@ export default function FortuneMakeup() {
               onLogin={() => { saveLast(result); window.location.href = '/auth?next=' + encodeURIComponent(base + '?resume=1') }}
               onPaid={() => getFreeStatus().then(setFree)} />
 
+            {/* 궁합 — 무료 점수·유형 / 커플 관상 메이크업 2장 = 2크레딧 */}
+            <CompatBox me={result} myPhoto={photo} isEn={isEn} loggedIn={loggedIn} free={free}
+              onLogin={() => { saveLast(result); window.location.href = '/auth?next=' + encodeURIComponent(base + '?resume=1') }}
+              onDone={() => { getFreeStatus().then(setFree); if (bumpCompatCount() >= 3 && unlockSecret('compat')) { setSecret(true); flash(T.secretGot) } }} />
+
             {/* 도감 */}
             <DexBox isEn={isEn} dex={dex} secret={secret} onShare={shareLink} />
 
@@ -480,6 +487,118 @@ export default function FortuneMakeup() {
 }
 
 // ── 작은 부품들 ──
+function CompatBox({ me, myPhoto, isEn, loggedIn, free, onLogin, onDone }: {
+  me: FortuneResult; myPhoto: string | null; isEn: boolean; loggedIn: boolean | null; free: FreeStatus | null; onLogin: () => void; onDone: () => void
+}) {
+  const [open, setOpen] = useState(false)
+  const [pPhoto, setPPhoto] = useState<string | null>(null)
+  const [pb, setPb] = useState({ y: '', m: '', d: '' })
+  const [partner, setPartner] = useState<FortuneResult | null>(null)
+  const [c, setC] = useState<Compat | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [msg, setMsg] = useState<string | null>(null)
+  const [out, setOut] = useState<{ me?: string; them?: string }>({})
+  const jobs = useRef<{ me: string; them: string }>({ me: '', them: '' })
+  const pick = async (mode: 'camera' | 'gallery') => {
+    const file = await pickImage(mode); if (!file) return
+    const url = URL.createObjectURL(file)
+    // 상대 사진은 이 컴포넌트 안에서만(세션 저장 X) — 내 셀카 보관 슬롯을 덮지 않게 직접 축소
+    const img = new Image(); img.src = url
+    try { await img.decode() } catch { URL.revokeObjectURL(url); setMsg(isEn ? 'That file couldn’t be opened.' : '사진을 열 수 없어요.'); return }
+    const sc = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight))
+    const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * sc); cv.height = Math.round(img.naturalHeight * sc)
+    cv.getContext('2d')!.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url)
+    setPPhoto(cv.toDataURL('image/jpeg', 0.85)); setMsg(null)
+  }
+  const read = async () => {
+    const b: BirthInput | null = pb.y && pb.m && pb.d ? { year: +pb.y, month: +pb.m, day: +pb.d } : null
+    if (b && !isValidBirth(b)) { setMsg(isEn ? 'Please check the birth date.' : '생년월일을 확인해 주세요.'); return }
+    if (!pPhoto && !b) { setMsg(isEn ? 'Add their selfie or birth date.' : '상대의 셀카나 생년월일을 넣어 주세요.'); return }
+    setBusy(true); setMsg(null)
+    let scan: FaceScan | null = null
+    if (pPhoto) { const img = new Image(); img.src = pPhoto; try { await img.decode() } catch { /* noop */ } const r = await scanFortuneFace(img); if (typeof r !== 'string') scan = r }
+    const pr = analyze(scan, b); setPartner(pr); setC(compatOf(me, pr)); setBusy(false)
+    trackEvent('fortune_compat', { type: compatOf(me, pr).type })
+  }
+  const makeCouple = async () => {
+    if (!loggedIn) { onLogin(); return }
+    if (!myPhoto || !pPhoto || !c) return
+    setBusy(true); setMsg(null)
+    const res = { ...out }
+    for (const who of ['me', 'them'] as const) {
+      if (res[who]) continue
+      if (!jobs.current[who]) jobs.current[who] = newJobId()
+      const r = await generateFortuneMakeup({ photo: who === 'me' ? myPhoto : pPhoto, lookId: c.look, lacking: who === 'me' ? me.lacking : partner?.lacking, jobId: jobs.current[who], pay: 'credit' })
+      if (r.ok) { res[who] = r.image; jobs.current[who] = '' }
+      else { setOut(res); setBusy(false); setMsg(r.error === 'topup' ? (isEn ? 'Not enough credits (2 needed).' : '크레딧이 부족해요(2개 필요).') : r.error === 'login' ? (isEn ? 'Please log in.' : '로그인이 필요해요.') : (isEn ? 'One image failed — tap again, no extra charge.' : '한 장이 실패했어요 — 다시 누르면 추가 차감 없이 이어서 만들어요.')); return }
+    }
+    setOut(res); setBusy(false); onDone(); trackEvent('fortune_compat_makeup', { look: c.look })
+  }
+  const credits = free?.balance ?? 0
+  const sel = 'w-full rounded-xl border-2 border-[#1b1b1f] bg-white px-2 py-2 text-sm font-bold'
+  if (!open) return (
+    <button type="button" onClick={() => { setOpen(true); trackEvent('fortune_compat_open', {}) }} className="mt-8 w-full rounded-3xl border-[3px] border-[#1b1b1f] bg-[#ffe3ea] p-5 text-left shadow-[6px_6px_0_#1b1b1f]">
+      <p className="text-[11px] font-black tracking-[0.2em] text-[#d6402f]">{isEn ? 'COMPATIBILITY' : '궁합'}</p>
+      <p className="mt-1 text-xl font-black">💞 {isEn ? 'Check our face & saju match' : '친구·연인과 관상·사주 궁합 보기'}</p>
+      <p className="mt-1 text-[13px]">{isEn ? 'Free score · couple face-reading makeup for 2 credits' : '궁합 점수 무료 · 커플 관상 메이크업 2장은 크레딧 2개'}</p>
+    </button>
+  )
+  return (
+    <div className="mt-8 rounded-3xl border-[3px] border-[#1b1b1f] bg-[#fff5f7] p-5">
+      <p className="text-[11px] font-black tracking-[0.2em] text-[#d6402f]">{isEn ? 'COMPATIBILITY' : '궁합'}</p>
+      {!c ? (
+        <>
+          <p className="mt-1 text-lg font-black">{isEn ? 'Their selfie or birth date' : '상대의 셀카 또는 생년월일'}</p>
+          <div className="mt-3 flex items-center gap-2">
+            {pPhoto ? <img src={pPhoto} alt="" className="h-16 w-16 rounded-xl border-2 border-[#1b1b1f] object-cover" /> : null}
+            <button type="button" onClick={() => pick('gallery')} className="rounded-xl border-2 border-[#1b1b1f] bg-white px-4 py-2 text-sm font-black">🖼️ {pPhoto ? (isEn ? 'Change' : '바꾸기') : (isEn ? 'Their photo' : '상대 사진')}</button>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <select value={pb.y} onChange={(e) => setPb({ ...pb, y: e.target.value })} className={sel}><option value="">{isEn ? 'Year' : '년'}</option>{Array.from({ length: 76 }, (_, i) => String(2015 - i)).map((v) => <option key={v}>{v}</option>)}</select>
+            <select value={pb.m} onChange={(e) => setPb({ ...pb, m: e.target.value })} className={sel}><option value="">{isEn ? 'Month' : '월'}</option>{Array.from({ length: 12 }, (_, i) => String(i + 1)).map((v) => <option key={v}>{v}</option>)}</select>
+            <select value={pb.d} onChange={(e) => setPb({ ...pb, d: e.target.value })} className={sel}><option value="">{isEn ? 'Day' : '일'}</option>{Array.from({ length: 31 }, (_, i) => String(i + 1)).map((v) => <option key={v}>{v}</option>)}</select>
+          </div>
+          <p className="mt-2 text-[11px] text-[#1b1b1f]/60">🔒 {isEn ? 'Use only photos you have permission to use. Their photo and birth date stay on this device.' : '상대의 동의를 받은 사진만 써 주세요. 상대의 사진·생년월일도 이 기기 밖으로 나가지 않아요.'}</p>
+          {msg && <p className="mt-2 text-sm font-bold text-[#d6402f]">{msg}</p>}
+          <button type="button" disabled={busy} onClick={read} className="mt-4 w-full rounded-2xl bg-[#1b1b1f] py-3.5 font-black text-[#f6eedc]">{busy ? '…' : (isEn ? 'See our match →' : '궁합 보기 →')}</button>
+        </>
+      ) : (
+        <>
+          <div className="mt-3 flex items-center justify-center gap-3">
+            <img src={badgeSrc(me.animals?.[0]?.id ?? 'fox')} alt="" className={`h-20 w-20 ${me.animals?.[0] ? '' : 'opacity-40 grayscale'}`} />
+            <span className="text-3xl">💞</span>
+            <img src={badgeSrc(partner?.animals?.[0]?.id ?? 'cat')} alt="" className={`h-20 w-20 ${partner?.animals?.[0] ? '' : 'opacity-40 grayscale'}`} />
+          </div>
+          <p className="mt-2 text-center text-5xl font-black text-[#d6402f]">{c.score}</p>
+          <p className="text-center text-lg font-black">{COMPAT_TEXT[c.type].emoji} {isEn ? COMPAT_TEXT[c.type].en : COMPAT_TEXT[c.type].ko}</p>
+          <p className="mt-1 text-center text-[13.5px]">{isEn ? COMPAT_TEXT[c.type].descEn : COMPAT_TEXT[c.type].descKo}</p>
+          <ul className="mt-3 space-y-1 text-[13px]">{(isEn ? c.reasonsEn : c.reasonsKo).map((t) => <li key={t}>• {t}</li>)}</ul>
+          <div className="mt-4 rounded-2xl bg-[#1b1b1f] p-4 text-[#f6eedc]">
+            <p className="text-[11px] font-black tracking-[0.2em] text-[#f2b632]">{isEn ? 'COUPLE FACE-READING MAKEUP' : '커플 관상 메이크업'}</p>
+            <p className="mt-1 font-black">{fortuneLookById(c.look).emoji} {isEn ? `${fortuneLookById(c.look).fortuneEn} makeup for both of you` : `둘이 함께 ${fortuneLookById(c.look).nameKo}`}</p>
+            {out.me && out.them ? (
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {[out.me, out.them].map((src, i) => <button key={i} type="button" onClick={() => saveOrShare(src, `kissinskin-couple-${i + 1}.jpg`, isEn)}><img src={src} alt="" className="aspect-[3/4] w-full rounded-xl object-cover" /></button>)}
+                <p className="col-span-2 text-center text-[11px] text-[#f6eedc]/60">{isEn ? 'Tap a photo to save' : '사진을 누르면 저장돼요'}</p>
+              </div>
+            ) : !myPhoto || !pPhoto ? (
+              <p className="mt-2 text-[12.5px] text-[#f6eedc]/75">{isEn ? 'Both selfies are needed — add your selfie at the top and their photo above.' : '두 사람의 셀카가 모두 필요해요 — 위에서 내 셀카와 상대 사진을 넣어 주세요.'}</p>
+            ) : loggedIn === false ? (
+              <button type="button" onClick={onLogin} className="mt-3 w-full rounded-2xl bg-[#d6402f] py-3 font-black text-white">{isEn ? 'Log in to make it' : '로그인하고 만들기'}</button>
+            ) : credits < 2 && free ? (
+              <a href="/analysis/?topup=1" className="mt-3 block w-full rounded-2xl bg-[#f2b632] py-3 text-center font-black text-[#1b1b1f]">{isEn ? `Top up — 2 credits needed (you have ${credits})` : `크레딧 충전 — 2개 필요(보유 ${credits}개)`}</a>
+            ) : (
+              <button type="button" disabled={busy} onClick={makeCouple} className="mt-3 w-full rounded-2xl bg-[#d6402f] py-3 font-black text-white">{busy ? (isEn ? 'Making 2 images… (~1–2 min)' : '2장 만드는 중… (1~2분)') : (isEn ? 'Make both — 2 credits' : '두 사람 다 입혀 보기 — 크레딧 2개')}</button>
+            )}
+            {msg && <p className="mt-2 text-[12.5px] font-bold text-[#f2b632]">{msg}</p>}
+          </div>
+          <button type="button" onClick={() => { setC(null); setPartner(null); setOut({}) }} className="mt-3 w-full text-[12.5px] font-bold underline underline-offset-2">{isEn ? 'Try someone else' : '다른 사람과 보기'}</button>
+        </>
+      )}
+    </div>
+  )
+}
+
 function PreciseBox({ r, isEn, loggedIn, free, onLogin, onPaid }: {
   r: FortuneResult; isEn: boolean; loggedIn: boolean | null; free: FreeStatus | null; onLogin: () => void; onPaid: () => void
 }) {

@@ -61,6 +61,12 @@ export function addToDex(id: AnimalId, from: DexEntry['from']): { dex: DexEntry[
   return { dex: next, added, secretUnlocked }
 }
 export const hasSecret = () => !!read<{ at: number }>(KEY_SECRET)
+/** 시크릿 배지 열기(9종 모으기 외 경로: 궁합 3회 · 신년 이벤트). 처음 열렸으면 true */
+export function unlockSecret(via: 'compat' | 'newyear'): boolean {
+  if (hasSecret()) return false
+  write(KEY_SECRET, { at: Date.now(), via })
+  return true
+}
 
 // ── 공유 코드: 동물(0~8)·TOP3 운(0~8)·점수·부족 오행(0~4, 없으면 5)·일간(0~9, 없으면 a) ──
 const LOOK_ORDER: FortuneLookId[] = ['wealth', 'love', 'marriage', 'reunion', 'career', 'exam', 'health', 'popularity', 'travel']
