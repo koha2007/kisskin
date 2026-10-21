@@ -6,6 +6,7 @@
 //   처리 → 웹훅 재시도에도 한 번만 충전. 기존 orders 기록·구독 로직은 그대로 둔다.
 import { creditsForProduct } from './_packs'
 import { chargeCredits } from './_credits'
+import { REFERRAL_BONUS, REFERRAL_CAP } from './referral'
 
 interface Env {
   POLAR_WEBHOOK_SECRET: string
@@ -306,6 +307,17 @@ async function handleOrderEvent(
             userId, credits, order.id,
           )
           console.log(`[polar-webhook] Charged ${credits} credits → ${userId} (order ${order.id}), balance=${balance}`)
+          // 친구 초대 보상 — 초대받은 친구의 첫 크레딧 결제면 양쪽 +2(0009). 묶인 적 없거나 이미 받았으면 아무 일 없음.
+          // 충전 ref 가 'referral:<주문id>:…' 라 웹훅 재시도에도 한 번만. 0009 실행 전이면 404 → 건너뜀.
+          const rr = await supabaseRequest(supabaseUrl, serviceKey, 'rpc/reward_referral', 'POST', {
+            p_referee: userId, p_order: order.id, p_bonus: REFERRAL_BONUS, p_cap: REFERRAL_CAP,
+          })
+          if (rr.ok) {
+            const out = (await rr.json().catch(() => null)) as { rewarded?: boolean; inviter?: number } | null
+            if (out?.rewarded) console.log(`[polar-webhook] Referral reward for order ${order.id} (inviter +${out.inviter ?? 0})`)
+          } else {
+            console.error(`[polar-webhook] reward_referral failed: ${rr.status} ${(await rr.text()).slice(0, 200)}`)
+          }
         } catch (e) {
           console.error(`[polar-webhook] chargeCredits failed for order ${order.id}: ${e instanceof Error ? e.message : String(e)}`)
         }

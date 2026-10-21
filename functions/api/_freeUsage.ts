@@ -77,7 +77,7 @@ async function sha256Hex(s: string): Promise<string> {
 }
 
 /** 장부의 신원 해시 — 이메일은 원문 대신 해시로만(개인정보 평문 X) */
-async function ledgerHashes(user: AuthUser): Promise<string[]> {
+export async function ledgerHashes(user: AuthUser): Promise<string[]> {
   const out: string[] = []
   if (user.email) out.push('e:' + (await sha256Hex(user.email)))
   for (const pid of user.providerIds) out.push('p:' + (await sha256Hex(pid)))

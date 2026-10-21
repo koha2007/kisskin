@@ -7,6 +7,7 @@ import { clearDna } from '../lib/beauty-dna/types'
 import { clearCollection } from '../lib/makeup/collectionStore'
 import { getCreditBalance } from '../lib/credits'
 import { getFreeStatus, type FreeStatus } from '../lib/freeStatus'
+import { getMyReferral, inviteUrl, type ReferralInfo } from '../lib/referral'
 import { isNativeApp, nativeOpenExternal } from '../lib/nativePicker'
 import { BeautyRecord } from '../components/beauty-dna/BeautyRecord'
 import { SavedLooks } from '../components/looks/SavedLooks'
@@ -162,6 +163,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   const [ordersLoading, setOrdersLoading] = useState(false)
   const [credits, setCredits] = useState<number | null>(null)
   const [freeStatus, setFreeStatus] = useState<FreeStatus | null>(null)
+  const [referral, setReferral] = useState<ReferralInfo | null>(null)
+  const [refCopied, setRefCopied] = useState(false)
 
   const isOAuth = user?.app_metadata?.provider && user.app_metadata.provider !== 'email'
   const isKo = locale === 'ko'
@@ -204,6 +207,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       .then((n) => { if (!cancelled) setCredits(n) })
       .catch(() => { if (!cancelled) setCredits(0) })
     getFreeStatus().then((st) => { if (!cancelled) setFreeStatus(st) })
+    getMyReferral().then((r) => { if (!cancelled) setReferral(r) })
     return () => { cancelled = true }
   }, [user?.id])
 
@@ -434,6 +438,60 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           </p>
         )}
       </div>
+
+      {/* 친구 초대 — 친구가 첫 결제하면 양쪽 +2 크레딧(최대 10명). 0009 실행 전이면 referral=null → 숨김 */}
+      {referral && (() => {
+        const link = inviteUrl(referral.code, !isKo)
+        const share = async () => {
+          const text = isKo
+            ? '셀카 한 장으로 관상 메이크업·AI 메이크업 해 봐! 내 링크로 가입하고 첫 충전하면 크레딧 2개 더 줘.'
+            : 'Try face-reading & AI makeup from one selfie! Join with my link — first top-up gets you 2 bonus credits.'
+          try {
+            if (navigator.share) { await navigator.share({ title: 'kissinskin', text, url: link }); return }
+          } catch { return }
+          try { await navigator.clipboard.writeText(link); setRefCopied(true); window.setTimeout(() => setRefCopied(false), 1800) } catch { /* noop */ }
+        }
+        return (
+          <div style={cardStyle}>
+            <h2 style={sectionTitleStyle}>
+              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>group_add</span>
+              {isKo ? '친구 초대' : 'Invite friends'}
+            </h2>
+            <p style={{ fontSize: '13px', color: C.navy, margin: '0 0 12px', lineHeight: 1.6 }}>
+              {isKo
+                ? <>내 링크로 가입한 친구가 <strong>처음 크레딧을 충전하면</strong> 친구와 나 <strong>모두 +{referral.bonus} 크레딧</strong>. 나는 최대 {referral.cap}명까지 받아요.</>
+                : <>When a friend who joined with your link <strong>makes their first top-up</strong>, you <strong>both get +{referral.bonus} credits</strong>. Up to {referral.cap} friends.</>}
+            </p>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch', flexWrap: 'wrap' }}>
+              <code style={{
+                flex: '1 1 200px', minWidth: 0, padding: '10px 12px', borderRadius: RAD, border: `1px solid ${C.line}`,
+                background: C.cream, fontSize: '12px', color: C.navy, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              }}>{link}</code>
+              <button
+                onClick={share}
+                style={{
+                  padding: '10px 18px', borderRadius: RAD, border: 'none', background: C.navy,
+                  color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{refCopied ? 'check' : 'share'}</span>
+                {refCopied ? (isKo ? '복사됨' : 'Copied') : (isKo ? '링크 보내기' : 'Share link')}
+              </button>
+            </div>
+            <p style={{ fontSize: '12px', color: C.muted, margin: '10px 0 0', lineHeight: 1.5 }}>
+              {isKo
+                ? `가입한 친구 ${referral.joined}명 · 충전한 친구 ${referral.paid}명 · 받은 보상 ${referral.rewarded}/${referral.cap}명 (+${referral.rewarded * referral.bonus} 크레딧)`
+                : `Joined ${referral.joined} · Topped up ${referral.paid} · Rewards ${referral.rewarded}/${referral.cap} (+${referral.rewarded * referral.bonus} credits)`}
+            </p>
+            <p style={{ fontSize: '11px', color: C.muted, margin: '4px 0 0', lineHeight: 1.5 }}>
+              {isKo
+                ? '도구 결과를 공유할 때도 내 초대 코드가 자동으로 붙어요. 이미 충전한 적 있는 계정·본인 계정은 초대로 묶이지 않아요.'
+                : 'Your invite code is added automatically when you share tool results. Accounts that already topped up, or your own, can’t be linked.'}
+            </p>
+          </div>
+        )
+      })()}
 
       {/* 구독 관리 */}
       <div style={cardStyle}>

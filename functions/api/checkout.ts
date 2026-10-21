@@ -36,12 +36,12 @@ async function verifyUserId(env: Env, token: string): Promise<string | null> {
   }
 }
 
-/** 계정에 크레딧 충전 이력이 없으면 true(첫 결제 특가 자격). 조회 실패 = false(특가를 함부로 열지 않음) */
+/** 계정에 크레딧 충전 이력이 없으면 true(첫 결제 특가 자격). 친구 초대 보상(ref 'referral:…')은 결제가 아니라 세지 않는다. 조회 실패 = false(특가를 함부로 열지 않음) */
 export async function isFirstPurchase(env: { VITE_SUPABASE_URL?: string; SUPABASE_SERVICE_ROLE_KEY?: string }, userId: string): Promise<boolean> {
   if (!env.VITE_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return false
   try {
     const res = await fetch(
-      `${env.VITE_SUPABASE_URL}/rest/v1/credit_transactions?user_id=eq.${encodeURIComponent(userId)}&type=eq.charge&select=id&limit=1`,
+      `${env.VITE_SUPABASE_URL}/rest/v1/credit_transactions?user_id=eq.${encodeURIComponent(userId)}&type=eq.charge&or=(ref.is.null,ref.not.like.referral:*)&select=id&limit=1`,
       { headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}` } },
     )
     if (!res.ok) return false

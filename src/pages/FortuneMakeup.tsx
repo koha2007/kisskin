@@ -24,6 +24,7 @@ import { compatOf, bumpCompatCount, COMPAT_TEXT, type Compat } from '../lib/fort
 import { unlockSecret } from '../lib/fortune/state'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { supabase } from '../lib/supabase'
+import { withRef } from '../lib/referral'
 
 type Phase = 'intro' | 'busy' | 'result' | 'shared'
 const ELEM_KO: Record<Element, string> = { wood: '목(木)', fire: '화(火)', earth: '토(土)', metal: '금(金)', water: '수(水)' }
@@ -224,7 +225,7 @@ export default function FortuneMakeup() {
 
   const shareLink = async () => {
     if (!result) return
-    const url = `${window.location.origin}${base}?c=${encodeShare(result)}`
+    const url = withRef(`${window.location.origin}${base}?c=${encodeShare(result)}`)  // 로그인 회원이면 초대 코드도
     const text = isEn ? 'My face-reading fortune card — what animal face are you?' : '내 관상 카드 — 너는 무슨 상이야?'
     try {
       if (navigator.share) { await navigator.share({ title: 'kissinskin', text, url }); trackEvent('fortune_share', { via: 'native' }); return }

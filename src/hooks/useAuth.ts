@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { syncUserLocale } from '../lib/userLocale'
 import { trackSignUp, trackLogin } from '../lib/analytics'
 import { startDnaSync } from '../lib/beauty-dna/sync'
+import { claimStoredRef, ensureMyCode, forgetMyCode } from '../lib/referral'
 
 // 가입/로그인 완료를 **여기 한 곳에서만** 집계한다. AuthPage 에서 잡으면 구글
 // 로그인(리다이렉트로 나갔다 돌아옴)이 통째로 빠진다.
@@ -40,7 +41,12 @@ export function useAuth() {
       stopDnaSync?.()
       stopDnaSync = undefined
       syncedUserId = u?.id ?? null
-      if (u) stopDnaSync = startDnaSync(u)
+      if (u) {
+        stopDnaSync = startDnaSync(u)
+        // 친구 초대 — 링크로 들어왔으면 묶고, 내 공유 링크에 붙일 코드를 받아 둔다
+        void claimStoredRef()
+        void ensureMyCode(u.id)
+      }
     }
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!mounted) return
@@ -77,6 +83,7 @@ export function useAuth() {
     try {
       await supabase.auth.signOut({ scope: 'local' })
     } finally {
+      forgetMyCode()
       setUser(null)
     }
   }

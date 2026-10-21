@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useI18n } from '../i18n/I18nContext'
+import { withRef } from '../lib/referral'
 
 declare global {
   interface Window {
@@ -52,9 +53,10 @@ export default function ShareBar({
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') setHasNativeShare(true)
   }, [])
 
+  // 친구 초대 — 로그인 회원이면 링크에 내 초대 코드(?ref=)를 붙인다(클릭 때만 계산 → 미리 렌더한 HTML 과 어긋나지 않음)
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(withRef(url))
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1800)
     } catch {
@@ -65,7 +67,7 @@ export default function ShareBar({
   const nativeShare = async () => {
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
-        await navigator.share({ title: shareTitle, text: shareText, url })
+        await navigator.share({ title: shareTitle, text: shareText, url: withRef(url) })
       } catch {
         /* user cancelled */
       }
@@ -73,6 +75,7 @@ export default function ShareBar({
   }
 
   const kakaoShare = async () => {
+    const link = withRef(url)
     if (ensureKakaoReady()) {
       try {
         window.Kakao!.Share.sendDefault({
@@ -81,10 +84,10 @@ export default function ShareBar({
             title: shareTitle,
             description: shareText,
             imageUrl: 'https://kissinskin.net/og-image.png',
-            link: { mobileWebUrl: url, webUrl: url },
+            link: { mobileWebUrl: link, webUrl: link },
           },
           buttons: [
-            { title: '결과 보기', link: { mobileWebUrl: url, webUrl: url } },
+            { title: '결과 보기', link: { mobileWebUrl: link, webUrl: link } },
             { title: '나도 테스트', link: { mobileWebUrl: 'https://kissinskin.net/tools/', webUrl: 'https://kissinskin.net/tools/' } },
           ],
         })
@@ -94,7 +97,7 @@ export default function ShareBar({
       }
     }
     try {
-      await navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(link)
       alert('링크가 복사되었습니다.\n카카오톡에 붙여넣기 해주세요!')
     } catch {
       alert('링크 복사에 실패했습니다.')

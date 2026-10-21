@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { usePageContext } from 'vike-react/usePageContext'
 import { I18nProvider } from '../src/i18n/context'
 import CookieConsent from '../src/components/CookieConsent'
 import InstallPrompt from '../src/components/InstallPrompt'
+import { captureRef } from '../src/lib/referral'
 import '../src/index.css'
 import '../src/App.css'
 
@@ -18,6 +20,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   // 경계를 URL 한 곳에서 정하므로 페이지마다 클래스를 흩뿌릴 필요가 없다.
   // display:contents 라 박스를 만들지 않아 레이아웃에 영향이 없고,
   // 커스텀 프로퍼티 상속은 그대로 통과한다.
+  // 친구 초대 링크(?ref=) — 어느 페이지로 들어와도 기억해 두고, 로그인되면 useAuth 가 서버에 묶는다.
+  useEffect(() => { captureRef() }, [path])
   const isContentArea = /^(\/en)?\/(tools|guides|news|reviews|products|looks)(\/|$)/.test(path)
   return (
     <I18nProvider initialLocale={initialLocale}>
