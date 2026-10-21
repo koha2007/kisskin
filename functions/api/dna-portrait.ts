@@ -11,7 +11,7 @@
 // 비용 가드(fail-closed): MAKEUP_USAGE(KV) 없으면 503, 크레딧 미설정 시 유료요청 503.
 // 설정: gpt-image-2, medium, size 1024x1536 (베이스가 3:4 세로).
 // ════════════════════════════════════════════════════════════════════
-import { creditsConfigured, deductCredits } from './_credits'
+import { creditsConfigured, deductCredits, getBalance } from './_credits'
 import { FREE_LIMITS, getFreeUsed, resolveTier, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
@@ -63,9 +63,13 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   const userId = user.id
   const used = await getFreeUsed(env.MAKEUP_USAGE, 'dna', user)
   // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
-  const picked = resolveTier(body.pay, used, FREE_LIMIT)
+  const picked = await resolveTier(body.pay, used, FREE_LIMIT, async () =>
+    creditsConfigured(env) && (await getBalance(env, user.id).catch(() => 0)) > 0)
   if (picked === 'free_pass_used') {
     return json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+  }
+  if (picked === 'pay_required') {
+    return json({ error: 'pay_required', message: '새로고침 후 무료권과 크레딧 중 무엇을 쓸지 골라 주세요.' }, 409)
   }
   const tier: 'free' | 'credit' = picked
   let creditBalance = 0

@@ -12,7 +12,7 @@ function newJobId(dna: BeautyDna): string {
 }
 
 type Phase = 'idle' | 'loading' | 'done' | 'error'
-type ErrKind = 'login' | 'topup' | 'unconfigured' | 'retry' | 'free_used'
+type ErrKind = 'login' | 'topup' | 'unconfigured' | 'retry' | 'free_used' | 'choose'
 
 // 서버는 PNG(1024×1536, 수 MB)를 돌려준다. localStorage 에 그대로 넣으면 쿼터 위험 →
 // 캔버스로 폭 768 · webp 0.85 로 줄여 저장/표시한다(실패 시 원본 유지).
@@ -87,6 +87,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
         errRetry: 'Generation failed. Please try again.',
         tierFree: '1 free pass used', tierCredit: '1 credit used',
         errFreeUsed: 'Your free pass is already used. You can make it with a credit.',
+        errChoose: 'Choose whether to use your free pass or a credit.',
       }
     : {
         title: '모델로 보기',
@@ -104,6 +105,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
         errRetry: '생성에 실패했어요. 다시 시도해 주세요.',
         tierFree: '무료권 1장 사용', tierCredit: '크레딧 1개 사용',
         errFreeUsed: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.',
+        errChoose: '무료권과 크레딧 중 무엇을 쓸지 골라 주세요.',
       }
 
   const run = async (retry = false, pay?: PayChoice) => {
@@ -190,7 +192,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
             ) : phase === 'error' ? (
               <div className="mt-5">
                 <p className="text-sm text-slate-600">
-                  {err === 'login' ? L.errLogin : err === 'topup' ? L.errTopup : err === 'unconfigured' ? L.errUnconfigured : err === 'free_used' ? L.errFreeUsed : L.errRetry}
+                  {err === 'login' ? L.errLogin : err === 'topup' ? L.errTopup : err === 'unconfigured' ? L.errUnconfigured : err === 'free_used' ? L.errFreeUsed : err === 'choose' ? L.errChoose : L.errRetry}
                 </p>
                 {err === 'login' ? (
                   <a href={loginHref} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
@@ -204,7 +206,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
                   <button type="button" onClick={() => run(true)} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
                     {isEn ? 'Try again' : '다시 시도'}
                   </button>
-                ) : err === 'free_used' ? (
+                ) : err === 'free_used' || err === 'choose' ? (
                   <button type="button" onClick={() => { setPhase('idle'); setErr(null); setRefresh((n) => n + 1) }} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
                     {isEn ? 'Choose again' : '다시 고르기'}
                   </button>

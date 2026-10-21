@@ -153,6 +153,9 @@ export default function MakeupFlow() {
         } else if (res.status === 409 && code === 'free_pass_used') {
           setErrMsg(isEn ? 'Your free pass is already used. You can make it with a credit.' : '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.')
           setErrAction('choose')
+        } else if (res.status === 409 && code === 'pay_required') {
+          setErrMsg(isEn ? 'Choose whether to use your free pass or a credit.' : '무료권과 크레딧 중 무엇을 쓸지 골라 주세요.')
+          setErrAction('choose')
         } else if (res.status === 402 && code === 'insufficient_credits') {
           setErrMsg(isEn ? 'Not enough credits. Top up to continue.' : '크레딧이 부족해요. 충전하면 이어서 만들 수 있어요.')
           setErrAction('topup')

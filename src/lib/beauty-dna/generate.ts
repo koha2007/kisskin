@@ -2,7 +2,7 @@ import { supabase } from '../supabase'
 import type { BeautyDna } from './types'
 import { buildPortraitPrompt } from './portraitPrompt'
 
-export type DnaGenErrorKind = 'login' | 'topup' | 'unconfigured' | 'retry' | 'free_used'
+export type DnaGenErrorKind = 'login' | 'topup' | 'unconfigured' | 'retry' | 'free_used' | 'choose'
 
 export interface DnaGenOk {
   ok: true
@@ -52,6 +52,7 @@ export async function generateDnaPortrait(dna: BeautyDna, jobId: string, pay?: '
     const c = data.error
     if (res.status === 401 || c === 'login_required') return { ok: false, kind: 'login' }
     if (res.status === 409 && c === 'free_pass_used') return { ok: false, kind: 'free_used' }
+    if (res.status === 409 && c === 'pay_required') return { ok: false, kind: 'choose' }
     if (res.status === 402) return { ok: false, kind: 'topup', balance: data.balance }
     if (res.status === 503) return { ok: false, kind: 'unconfigured', detail: c }
     return { ok: false, kind: 'retry', detail: c }
