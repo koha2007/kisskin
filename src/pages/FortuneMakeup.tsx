@@ -18,6 +18,7 @@ import { saveLast, loadLast, loadDex, addToDex, hasSecret, encodeShare, decodeSh
 import { renderResultCard, renderPhotocardFront, renderPhotocardBack, OBANG, type CardData } from '../lib/fortune/card'
 import { generateFortuneMakeup, newJobId, keepPendingLook, takePendingLook, type GenError } from '../lib/fortune/generate'
 import { getFreeStatus, type FreeStatus, type PayChoice } from '../lib/freeStatus'
+import { dailyFortune } from '../lib/fortune/daily'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { supabase } from '../lib/supabase'
 
@@ -72,6 +73,8 @@ export default function FortuneMakeup() {
   const [dex, setDex] = useState<AnimalId[]>(() => (typeof window === 'undefined' ? [] : loadDex().map((e) => e.id)))
   const [secret, setSecret] = useState(() => typeof window !== 'undefined' && hasSecret())
   const [toast, setToast] = useState<string | null>(null)
+  // 다시 온 사람 — 저장된 결과로 '오늘의 관상 메이크업 운'을 맨 위에 보여 준다
+  const [saved, setSaved] = useState<FortuneResult | null>(null)
   const jobRef = useRef('')
   const ctaRef = useRef<HTMLDivElement>(null)
 
@@ -85,6 +88,8 @@ export default function FortuneMakeup() {
     const q = new URLSearchParams(window.location.search)
     const sc = decodeShare(q.get('c'))
     if (sc) { setShared(sc); setPhase('shared'); trackEvent('fortune_shared_view', { animal: sc.animal ?? 'none' }); return }
+    const last0 = loadLast()
+    if (last0 && q.get('resume') !== '1') { setSaved(last0); trackEvent('fortune_daily_view', { from: 'intro' }) }
     if (q.get('resume') === '1') {
       const last = loadLast()
       const ph = takePendingSelfie()
@@ -235,6 +240,7 @@ export default function FortuneMakeup() {
 
         {phase === 'intro' && (
           <section className="pt-8">
+            {saved && <DailyCard r={saved} isEn={isEn} onOpen={() => { setResult(saved); setLook(saved.scores[0].id); setPhase('result'); window.scrollTo({ top: 0 }) }} onTry={(id) => { setResult(saved); setLook(id); setPhase('result'); setTimeout(() => ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300) }} />}
             <p className="text-[11px] font-black tracking-[0.25em] text-[#d6402f]">{T.kicker}</p>
             <h1 className="mt-2 text-[40px] leading-[1.05] font-black tracking-tight">{T.title1}<br /><span className="text-[#d6402f]">{T.title2}</span></h1>
             <p className="mt-3 text-[15px] leading-relaxed text-[#1b1b1f]/80">{T.lead}</p>
@@ -318,6 +324,8 @@ export default function FortuneMakeup() {
               <button type="button" onClick={shareLink} className="rounded-2xl border-2 border-[#1b1b1f] bg-white py-3 text-sm font-black">🔗 {T.shareLink}</button>
             </div>
             <p className="mt-3 text-center text-[11px] text-[#1b1b1f]/55">{T.fun}</p>
+
+            <div className="mt-6"><DailyCard r={result} isEn={isEn} onTry={(id) => { setLook(id); setGen({ k: 'idle' }); jobRef.current = ''; ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }} /></div>
 
             {/* 처방 → 메이크업 생성 */}
             <div ref={ctaRef} className="mt-7 rounded-3xl border-[3px] border-[#1b1b1f] bg-[#1b1b1f] p-5 text-[#f6eedc]">
@@ -466,6 +474,31 @@ export default function FortuneMakeup() {
 }
 
 // ── 작은 부품들 ──
+function DailyCard({ r, isEn, onOpen, onTry }: { r: FortuneResult; isEn: boolean; onOpen?: () => void; onTry: (id: FortuneLookId) => void }) {
+  const d = dailyFortune(r)
+  const l = fortuneLookById(d.look)
+  return (
+    <div className="mb-6 rounded-3xl border-[3px] border-[#1b1b1f] bg-[#fff7df] p-5 shadow-[6px_6px_0_#1b1b1f]">
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] font-black tracking-[0.2em] text-[#d6402f]">{isEn ? `TODAY · ${d.dateKey}` : `오늘의 관상 메이크업 운 · ${d.dateKey}`}</p>
+        <span className="text-xl" style={{ fontFamily: "'Song Myung', serif" }}>{d.dayPillarHanja}日</span>
+      </div>
+      <p className="mt-2 text-xl font-black">{isEn ? d.themeEn : d.themeKo} <span className="text-[#f2b632]">{'★'.repeat(d.stars)}<span className="text-[#1b1b1f]/15">{'★'.repeat(5 - d.stars)}</span></span></p>
+      <p className="mt-1.5 text-[13.5px] leading-relaxed">{isEn ? d.tipEn : d.tipKo}</p>
+      <div className="mt-3 flex items-center gap-3">
+        <img src={`/fortune/looks/${l.id}-after.webp`} alt="" className="h-20 w-14 shrink-0 rounded-lg border-2 border-[#1b1b1f] object-cover object-[50%_22%]" />
+        <div className="min-w-0 text-[12.5px]">
+          <p className="font-black">{isEn ? `Today's look: ${l.fortuneEn} makeup` : `오늘의 룩: ${l.nameKo}`}</p>
+          <p className="mt-0.5 flex items-center gap-1.5 font-bold"><span className="inline-block h-3.5 w-3.5 rounded-full border border-[#1b1b1f]" style={{ background: d.color.hex }} />{isEn ? `Lucky colour: ${d.color.en}` : `행운 색: ${d.color.ko}`}</p>
+          <button type="button" onClick={() => onTry(l.id)} className="mt-1 font-black text-[#d6402f] underline underline-offset-2">{isEn ? 'Try it on my face →' : '내 얼굴에 입혀 보기 →'}</button>
+        </div>
+      </div>
+      {onOpen && <button type="button" onClick={onOpen} className="mt-4 w-full rounded-2xl bg-[#1b1b1f] py-3 text-sm font-black text-[#f6eedc]">{isEn ? 'Open my result & card' : '내 결과·카드 다시 보기'}</button>}
+      <p className="mt-2 text-center text-[11px] text-[#1b1b1f]/55">{isEn ? 'A new reading every day — free.' : '매일 바뀌어요 · 무료'}</p>
+    </div>
+  )
+}
+
 function Select({ label, value, onChange, options, render, emptyLabel }: { label: string; value: string; onChange: (v: string) => void; options: string[]; render?: (v: string) => string; emptyLabel?: string }) {
   return (
     <label className="block">
