@@ -421,8 +421,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         </div>
         <p style={{ fontSize: '12px', color: C.muted, margin: '12px 0 0', lineHeight: 1.5 }}>
           {isKo
-            ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(AI 메이크업 1장 + 뷰티 DNA 모델 1장)은 크레딧보다 먼저 쓰여요.'
-            : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 AI makeup + 1 Beauty DNA model) are used before credits.'}
+            ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(AI 메이크업 1장 + 뷰티 DNA 모델 1장)은 원할 때 골라서 쓰면 돼요.'
+            : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 AI makeup + 1 Beauty DNA model) — use them whenever you like.'}
         </p>
         {freeStatus && (
           <p style={{ fontSize: '12px', color: C.navy, margin: '6px 0 0', lineHeight: 1.5, fontWeight: 600 }}>

@@ -21,7 +21,7 @@
 // 설정: gpt-image-2, medium quality. (input_fidelity 미지원 모델이라 전송 안 함.)
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits } from './_credits'
-import { FREE_LIMITS, getFreeUsed, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, getFreeUsed, resolveTier, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -54,6 +54,7 @@ interface Body {
   styleId?: string
   fingerprint?: string
   jobId?: string   // 차감 멱등 키(생성 작업 id). 같은 작업 재시도 시 이중차감 방지.
+  pay?: 'free' | 'credit'   // 사용자가 고른 결제수단(가입 무료권/크레딧). 미지정=예전 클라이언트 호환
   size?: string    // 'auto'(기본, 원본 비율 유지) | '1024x1024' | '1536x1024' | '1024x1536'
   // ── 선택 오버라이드(미지정 시 기존 기본값 유지 → 프로덕션 동작 불변) ──
   inputFidelity?: string // 'high'(기본) | 'low'. low = 마스크영역 더 자유롭게 재생성(메이크업 강하게)
@@ -95,8 +96,13 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   const userId = user.id
   const used = await getFreeUsed(env.MAKEUP_USAGE, 'makeup', user)
 
-  // ── 결제 경로 판정: 무료 남으면 free, 소진되면 credit(차감) ──
-  const tier: 'free' | 'credit' = used >= FREE_LIMIT || body.collection ? 'credit' : 'free'
+  // ── 결제 경로 판정: 사용자가 고른 pay 그대로(_freeUsage.resolveTier) ──
+  // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
+  const picked = body.collection ? 'credit' : resolveTier(body.pay, used, FREE_LIMIT)
+  if (picked === 'free_pass_used') {
+    return json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+  }
+  const tier: 'free' | 'credit' = picked
   let creditBalance = 0
 
   if (tier === 'credit') {
@@ -173,9 +179,9 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (tier === 'free') {
     // 무료: 성공 시에만 사용량 증가(실패 호출은 무료 소진 안 시킴).
     await setFreeUsed(env.MAKEUP_USAGE, 'makeup', user, used + 1)
-    return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT })
+    return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT, freeLeft: Math.max(0, FREE_LIMIT - used - 1) })
   }
 
   // 크레딧: 이미 차감 완료(KV 무관). 남은 잔액 반환(UI 표시용).
-  return json({ image: image_out, tier: 'credit', balance: creditBalance })
+  return json({ image: image_out, tier: 'credit', balance: creditBalance, freeLeft: Math.max(0, FREE_LIMIT - used) })
 }

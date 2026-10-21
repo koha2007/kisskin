@@ -12,7 +12,7 @@
 // 설정: gpt-image-2, medium, size 1024x1536 (베이스가 3:4 세로).
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits } from './_credits'
-import { FREE_LIMITS, getFreeUsed, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, getFreeUsed, resolveTier, setFreeUsed, verifyUser, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -35,6 +35,8 @@ interface Body {
   prompt?: string
   baseShape?: string
   jobId?: string
+  /** 사용자가 고른 결제수단 — 'free'(가입 무료권) | 'credit'. 미지정=예전 클라이언트 호환 */
+  pay?: 'free' | 'credit'
 }
 
 export async function onRequestPost({ request, env }: { request: Request; env: Env }) {
@@ -60,7 +62,12 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // 셀카 메이크업(mu:user:)과 **별도** 무료 풀
   const userId = user.id
   const used = await getFreeUsed(env.MAKEUP_USAGE, 'dna', user)
-  const tier: 'free' | 'credit' = used >= FREE_LIMIT ? 'credit' : 'free'
+  // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
+  const picked = resolveTier(body.pay, used, FREE_LIMIT)
+  if (picked === 'free_pass_used') {
+    return json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+  }
+  const tier: 'free' | 'credit' = picked
   let creditBalance = 0
 
   if (tier === 'credit') {
@@ -128,7 +135,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
 
   if (tier === 'free') {
     await setFreeUsed(env.MAKEUP_USAGE, 'dna', user, used + 1)
-    return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT })
+    return json({ image: image_out, tier: 'free', used: used + 1, free: FREE_LIMIT, freeLeft: Math.max(0, FREE_LIMIT - used - 1) })
   }
-  return json({ image: image_out, tier: 'credit', balance: creditBalance })
+  return json({ image: image_out, tier: 'credit', balance: creditBalance, freeLeft: Math.max(0, FREE_LIMIT - used) })
 }

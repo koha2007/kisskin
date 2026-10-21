@@ -12,7 +12,7 @@
 // 1개 선택 = 1크레딧 = 결과 1장.
 
 import { useEffect, useState } from 'react'
-import { getFreeStatus, type FreeStatus } from '../../lib/freeStatus'
+import { getFreeStatus, type FreeStatus, type PayChoice } from '../../lib/freeStatus'
 import { MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { lookImage } from '../../lib/makeup/lookImages'
 import {
@@ -26,8 +26,8 @@ function gtagEvent(name: string, params?: Record<string, unknown>) {
 }
 
 interface Props {
-  /** "이 스타일로 생성하기" → 선택된 스타일 id 전달 (다음 단계 = 셀카 업로드/생성) */
-  onConfirm: (styleId: MakeupStyleId) => void
+  /** "생성하기" → 선택된 스타일 id + 사용자가 고른 결제수단(무료권/크레딧, 모르면 undefined) */
+  onConfirm: (styleId: MakeupStyleId, pay?: PayChoice) => void
   onBack: () => void
   isEn?: boolean
   /** 진입 시 미리 선택해 둘 스타일 (없으면 첫 스타일) */
@@ -47,8 +47,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
 
   const pick = (id: MakeupStyleId) => { setSelected(id); setShowBefore(false) }
 
-  // 이번 생성이 가입 무료권인지 크레딧인지 생성 "전"에 알려 준다(2026-10-21).
-  // 무료권이 남아 있으면 크레딧보다 먼저 쓰인다 — 크레딧 보유자가 놀라지 않게.
+  // 무료권·크레딧은 사용자가 고른다 — 우선순위 없음(운영자 2026-10-21). 우리는 남은 수만 보여 준다.
   const [freeStatus, setFreeStatus] = useState<FreeStatus | null>(null)
   useEffect(() => {
     if (loginHref) return
@@ -56,19 +55,17 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
     getFreeStatus().then((st) => { if (!cancelled) setFreeStatus(st) })
     return () => { cancelled = true }
   }, [loginHref])
-  const costLine = !freeStatus
+  const freeLeft = freeStatus?.makeup.left ?? 0
+  const credits = freeStatus?.balance ?? 0
+  const countLine = !freeStatus
     ? (isEn ? '1 credit · 1 result image' : '1크레딧 = 결과 1장 생성')
-    : freeStatus.makeup.left > 0
-      ? (isEn
-        ? `This one uses your free sign-up pass (credits stay ${freeStatus.balance})`
-        : `이번 생성은 가입 무료권 사용 · 크레딧 ${freeStatus.balance}개 그대로`)
-      : (isEn
-        ? `Uses 1 credit · you have ${freeStatus.balance}`
-        : `크레딧 1개 사용 · 보유 ${freeStatus.balance}개`)
+    : (isEn
+      ? `Free pass ${freeLeft} · Credits ${credits} left`
+      : `남은 무료권 ${freeLeft}장 · 크레딧 ${credits}개`)
 
-  const handleConfirm = () => {
-    gtagEvent('style_selected', { style: selected })
-    onConfirm(selected)
+  const handleConfirm = (pay?: PayChoice) => {
+    gtagEvent('style_selected', { style: selected, pay: pay ?? 'unknown' })
+    onConfirm(selected, pay)
   }
 
   const Card = ({ id }: { id: MakeupStyleId }) => {
@@ -260,11 +257,31 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
           <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
             auto_awesome
           </span>
-          {costLine}
+          {countLine}
         </p>
-        <button onClick={handleConfirm} className={btnPrimary} style={btnPrimaryStyle}>
-          {isEn ? 'Try this style' : '이 스타일로 생성하기'}
-        </button>
+        {freeStatus && freeLeft > 0 && credits > 0 ? (
+          // 둘 다 있으면 사용자가 고른다(우선순위 없음)
+          <div className="grid grid-cols-2 gap-2">
+            <button onClick={() => handleConfirm('free')} className={btnPrimary} style={btnPrimaryStyle}>
+              {isEn ? 'Use free pass' : '무료권으로 생성'}
+            </button>
+            <button onClick={() => handleConfirm('credit')} className={btnPrimary} style={btnPrimaryStyle}>
+              {isEn ? 'Use 1 credit' : '크레딧 1개로 생성'}
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => handleConfirm(freeStatus ? (freeLeft > 0 ? 'free' : 'credit') : undefined)}
+            className={btnPrimary}
+            style={btnPrimaryStyle}
+          >
+            {freeStatus && freeLeft > 0
+              ? (isEn ? 'Create with free pass' : '무료권으로 생성하기')
+              : freeStatus
+                ? (isEn ? 'Create with 1 credit' : '크레딧 1개로 생성하기')
+                : (isEn ? 'Try this style' : '이 스타일로 생성하기')}
+          </button>
+        )}
         {onCollection && (
           <button
             onClick={() => { gtagEvent('collection_entry', { from: 'style_select' }); onCollection() }}

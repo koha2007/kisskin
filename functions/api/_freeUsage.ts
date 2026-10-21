@@ -4,7 +4,7 @@
 // 정책: 가입 회원 1인당 무료권 2장, 풀이 따로 1장씩.
 //   • makeup — AI 메이크업 9룩 중 1룩 생성 1장  (makeup-edit.ts, 9룩 컬렉션은 해당 없음)
 //   • dna    — 무료 도구(뷰티 DNA) 모델 생성 1장 (dna-portrait.ts)
-// 무료권이 남아 있으면 크레딧보다 먼저 쓴다(보유 크레딧과 무관). 소진되면 크레딧 차감.
+// 무료권·크레딧 사이 우선순위 없음 — 사용자가 생성할 때 고른다(body.pay). 우리는 쓴 수·남은 수만 센다.
 //
 // 기억 방식: KV(MAKEUP_USAGE)에 user_id 키 + 이메일 해시 키 둘 다 기록.
 //   • 로그아웃·재로그인 → user_id 가 같으니 그대로 소진 상태.
@@ -68,4 +68,18 @@ export async function getFreeUsed(store: UsageStore, pool: FreePool, user: AuthU
 export async function setFreeUsed(store: UsageStore, pool: FreePool, user: AuthUser, used: number): Promise<void> {
   const keys = await keysFor(pool, user)
   await Promise.all(keys.map((k) => store.put(k, String(used)).catch(() => { /* 기록 실패해도 결과는 반환 */ })))
+}
+
+export type PayChoice = 'free' | 'credit'
+
+/**
+ * 사용자가 고른 결제수단(pay) → 이번 생성의 tier. 우선순위 없음(운영자 2026-10-21).
+ *   • 'credit' → 크레딧 차감
+ *   • 'free'   → 무료권. 이미 다 썼으면 'free_pass_used' (크레딧으로 몰래 바꾸지 않는다)
+ *   • 미지정   → 예전 클라이언트(앱·캐시된 페이지) 호환: 무료권 남았으면 무료, 아니면 크레딧
+ */
+export function resolveTier(pay: unknown, used: number, limit: number): PayChoice | 'free_pass_used' {
+  if (pay === 'credit') return 'credit'
+  if (pay === 'free') return used < limit ? 'free' : 'free_pass_used'
+  return used < limit ? 'free' : 'credit'
 }

@@ -93,6 +93,8 @@ export interface MakeupUsage {
   free?: number
   /** credit tier: 차감 후 잔액(서버 권위값) */
   balance?: number
+  /** 이번 생성 후 남은 메이크업 무료권 수(서버) */
+  freeLeft?: number
 }
 
 interface Props {
@@ -481,7 +483,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
             {usage && (
               <span className="font-bold text-white/90">
                 {usage.tier === 'free'
-                  ? (isEn ? 'Free trial used' : '무료 체험 1회 사용')
+                  ? (isEn ? '1 free pass used' : '무료권 1장 사용')
                   : (isEn ? '1 credit used' : '크레딧 1개 사용')}
               </span>
             )}
@@ -489,6 +491,11 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
               <span className="text-white/70">
                 {usage ? '· ' : ''}
                 {isEn ? `${balanceNow} credit${balanceNow === 1 ? '' : 's'} left` : `크레딧 ${balanceNow}개 남음`}
+              </span>
+            )}
+            {typeof usage?.freeLeft === 'number' && (
+              <span className="text-white/70">
+                · {isEn ? `${usage.freeLeft} free pass left` : `무료권 ${usage.freeLeft}장 남음`}
               </span>
             )}
             {onTopup ? (

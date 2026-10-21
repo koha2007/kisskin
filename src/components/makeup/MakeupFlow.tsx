@@ -21,6 +21,7 @@ import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPe
 import { supabase } from '../../lib/supabase'
 import { trackCheckoutReturn } from '../../lib/purchaseTracking'
 import { getCreditBalance } from '../../lib/credits'
+import { getFreeStatus, type PayChoice } from '../../lib/freeStatus'
 import { screenBg, btnPrimary, btnPrimaryStyle } from './theme'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
@@ -47,7 +48,7 @@ function loginHref(style?: MakeupStyleId): string {
 }
 
 // 에러 후 행동: 같은 작업 재생성 / 처음부터 / 로그인 필요 / 크레딧 충전
-type ErrAction = 'regenerate' | 'restart' | 'login' | 'topup'
+type ErrAction = 'regenerate' | 'restart' | 'login' | 'topup' | 'choose'
 
 type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup' | 'collection'
 interface Selfie { photo: string }
@@ -86,6 +87,8 @@ export default function MakeupFlow() {
   const [paidNotice, setPaidNotice] = useState<PaidNotice | null>(null)
   const runIdRef = useRef(0)
   const jobIdRef = useRef('')   // 현재 생성 작업의 차감 멱등 키(재시도 시 유지)
+  // 이번 생성의 결제수단 — 사용자가 고른다(무료권/크레딧 우선순위 없음, 2026-10-21).
+  const payRef = useRef<PayChoice | undefined>(undefined)
 
   // ── 생성: 마스크 → OpenAI 인페인팅 → 마스크밖 원본합성 → glow (processing 진입 시) ──
   const runGenerate = useCallback(async (photo: string, id: MakeupStyleId) => {
@@ -120,6 +123,14 @@ export default function MakeupFlow() {
       // whole-face 편집(옛 9룩 방식): 마스크 없이 사진 전체를 프롬프트로 재생성.
       // (서버: 무료 가드 → 소진 시 로그인+크레딧 차감 → gpt-image-2 whole-face 편집)
       setStatus(isEn ? 'Creating your makeup… (up to ~1 min)' : '메이크업 생성 중… (최대 1분)')
+      // 스타일 선택을 건너뛰고 들어온 경우(홈 카드 ?style= · 로그인 복귀) 결제수단을 아직 안 골랐다.
+      // 무료권·크레딧 둘 다 있으면 고르는 화면으로, 하나뿐이면 그걸로 — 몰래 정하지 않는다.
+      if (!payRef.current) {
+        const st = await getFreeStatus()
+        if (!alive()) return
+        if (st && st.makeup.left > 0 && st.balance > 0) { setStep('style'); return }
+        if (st) payRef.current = st.makeup.left > 0 ? 'free' : 'credit'
+      }
       if (!jobIdRef.current) jobIdRef.current = makeJobId()   // 재시도면 기존 키 유지(이중차감 방지)
       const res = await fetch('/api/makeup-edit', {
         method: 'POST',
@@ -127,10 +138,10 @@ export default function MakeupFlow() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ image: baseUrl, prompt: promptWholeFace(style), styleId: id, jobId: jobIdRef.current, size }),
+        body: JSON.stringify({ image: baseUrl, prompt: promptWholeFace(style), styleId: id, jobId: jobIdRef.current, size, pay: payRef.current }),
       })
       if (!alive()) return
-      const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; free?: number; tier?: 'free' | 'credit'; error?: string; balance?: number }
+      const data = (await res.json().catch(() => ({}))) as { image?: string; used?: number; free?: number; tier?: 'free' | 'credit'; error?: string; balance?: number; freeLeft?: number }
       if (!res.ok) {
         const code = data.error
         if (code === 'login_required') {
@@ -139,6 +150,9 @@ export default function MakeupFlow() {
         } else if (res.status === 401) {
           setErrMsg(isEn ? 'Your session expired. Please log in again.' : '로그인이 만료됐어요. 다시 로그인해 주세요.')
           setErrAction('login')
+        } else if (res.status === 409 && code === 'free_pass_used') {
+          setErrMsg(isEn ? 'Your free pass is already used. You can make it with a credit.' : '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.')
+          setErrAction('choose')
         } else if (res.status === 402 && code === 'insufficient_credits') {
           setErrMsg(isEn ? 'Not enough credits. Top up to continue.' : '크레딧이 부족해요. 충전하면 이어서 만들 수 있어요.')
           setErrAction('topup')
@@ -162,13 +176,14 @@ export default function MakeupFlow() {
       // 결과화면에 "무료 체험 1회 사용" / "크레딧 1개 사용 · N개 남음" 을 표시하기 위해
       // 서버가 판정한 과금 결과를 그대로 전달한다.
       if (data.tier === 'free' || data.tier === 'credit') {
-        setUsage({ tier: data.tier, used: data.used, free: data.free, balance: data.balance })
+        setUsage({ tier: data.tier, used: data.used, free: data.free, balance: data.balance, freeLeft: data.freeLeft })
       }
 
       gtagEvent('makeup_generated', { style: id })
       if (data.tier === 'free' && data.used === 1) gtagEvent('free_trial_used', { style: id })
       if (data.tier === 'credit') gtagEvent('credit_used', { style: id })
       jobIdRef.current = ''   // 성공 → 다음 생성은 새 작업(새 차감)
+      payRef.current = undefined   // 다음 생성은 다시 고른다
       clearPendingSelfie()    // 왕복 보존용 셀카 정리(다음 방문에 옛 사진 부활 방지)
       setStep('result')
     } catch (e) {
@@ -262,7 +277,7 @@ export default function MakeupFlow() {
     setStep('topup')
   }
 
-  const reset = () => { runIdRef.current++; jobIdRef.current = ''; setAfterSrc(null); setBaseSrc(null); setUsage(null); setCollectionMode(false); clearPendingSelfie(); setStep('upload') }
+  const reset = () => { runIdRef.current++; jobIdRef.current = ''; payRef.current = undefined; setAfterSrc(null); setBaseSrc(null); setUsage(null); setCollectionMode(false); clearPendingSelfie(); setStep('upload') }
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
 
@@ -320,7 +335,7 @@ export default function MakeupFlow() {
         initialStyle={styleId}
         loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => setStep('upload')}
-        onConfirm={(id) => { jobIdRef.current = ''; setStyleId(id); setPaidNotice(null); setStep('processing') }}
+        onConfirm={(id, pay) => { jobIdRef.current = ''; payRef.current = pay; setStyleId(id); setPaidNotice(null); setStep('processing') }}
         onCollection={() => { setCollectionMode(true); setStep('collection') }}
       />
       </>
@@ -365,6 +380,10 @@ export default function MakeupFlow() {
               {isEn ? 'Already topped up? Try again' : '이미 충전했다면 다시 시도'}
             </button>
           </div>
+        ) : errAction === 'choose' ? (
+          <button onClick={() => { payRef.current = undefined; jobIdRef.current = ''; setStep('style') }} className={btn} style={btnPrimaryStyle}>
+            {isEn ? 'Choose again' : '다시 고르기'}
+          </button>
         ) : (
           <button
             onClick={errAction === 'regenerate' ? regenerate : reset}

@@ -4,10 +4,15 @@ import { useAuth } from '../../hooks/useAuth'
 import type { BeautyDna } from '../../lib/beauty-dna/types'
 import { writeDnaPortrait, encodeDnaCode } from '../../lib/beauty-dna/types'
 import { generateDnaPortrait } from '../../lib/beauty-dna/generate'
-import { getFreeStatus } from '../../lib/freeStatus'
+import { getFreeStatus, type PayChoice } from '../../lib/freeStatus'
+
+// 새 생성 작업의 차감 멱등 키
+function newJobId(dna: BeautyDna): string {
+  return `dna:${encodeDnaCode(dna) ?? 'x'}:${Date.now().toString(36)}`
+}
 
 type Phase = 'idle' | 'loading' | 'done' | 'error'
-type ErrKind = 'login' | 'topup' | 'unconfigured' | 'retry'
+type ErrKind = 'login' | 'topup' | 'unconfigured' | 'retry' | 'free_used'
 
 // 서버는 PNG(1024×1536, 수 MB)를 돌려준다. localStorage 에 그대로 넣으면 쿼터 위험 →
 // 캔버스로 폭 768 · webp 0.85 로 줄여 저장/표시한다(실패 시 원본 유지).
@@ -52,14 +57,16 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
   const [tier, setTier] = useState<'free' | 'credit' | null>(null)
   // 새 생성마다 새 jobId(차감), 에러 재시도는 같은 jobId(멱등) — makeup-edit 패턴
   const jobIdRef = useRef<string | null>(null)
-  // 가입 무료권(무료 도구 1장) 남았는지 — 이미 쓴 사람에게 "첫 1회 무료"를 띄우지 않는다.
-  const [dnaFreeLeft, setDnaFreeLeft] = useState<number | null>(null)
+  const payRef = useRef<PayChoice | undefined>(undefined)   // 재시도는 같은 결제수단
+  // 무료권(무료 도구 1장)·크레딧 남은 수 — 둘 중 무엇을 쓸지는 사용자가 고른다(우선순위 없음).
+  const [counts, setCounts] = useState<{ free: number; credits: number } | null>(null)
+  const [refresh, setRefresh] = useState(0)
   useEffect(() => {
     if (!user?.id) return
     let cancelled = false
-    getFreeStatus().then((st) => { if (!cancelled) setDnaFreeLeft(st ? st.dna.left : null) })
+    getFreeStatus().then((st) => { if (!cancelled) setCounts(st ? { free: st.dna.left, credits: st.balance } : null) })
     return () => { cancelled = true }
-  }, [user?.id, tier])
+  }, [user?.id, tier, refresh])
 
   if (readOnly && phase !== 'done') return null
 
@@ -69,7 +76,6 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
         desc: 'We put your combination on a model face — an illustration, not a real person.',
         needLogin: 'Generating the model needs a login (the 4 quizzes don’t). First one is free, no card.',
         cta: 'Make my makeup model',
-        free: 'First one free',
         loginCta: 'Log in to make it',
         loading: 'Creating your model… (up to ~1 min)',
         again: 'Make another',
@@ -79,14 +85,14 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
         errTopup: 'Not enough credits. Top up to make another.',
         errUnconfigured: 'This feature is not live yet. Please check back soon.',
         errRetry: 'Generation failed. Please try again.',
-        tierFree: 'Free trial used', tierCredit: '1 credit used',
+        tierFree: '1 free pass used', tierCredit: '1 credit used',
+        errFreeUsed: 'Your free pass is already used. You can make it with a credit.',
       }
     : {
         title: '모델로 보기',
         desc: '내 조합을 모델 얼굴에 입혀봤어요. 실제 인물이 아닌 일러스트예요.',
         needLogin: '모델 생성에는 로그인이 필요해요(진단 4가지는 로그인 없이). 첫 1회 무료, 카드 필요 없어요.',
         cta: '내 메이크업 모델 만들기',
-        free: '첫 1회 무료',
         loginCta: '로그인하고 만들기',
         loading: '모델 생성 중… (최대 1분)',
         again: '다시 만들기',
@@ -96,15 +102,17 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
         errTopup: '크레딧이 부족해요. 충전하면 다시 만들 수 있어요.',
         errUnconfigured: '아직 준비 중인 기능이에요. 곧 열릴 예정이에요.',
         errRetry: '생성에 실패했어요. 다시 시도해 주세요.',
-        tierFree: '무료 체험 사용', tierCredit: '크레딧 1회 사용',
+        tierFree: '무료권 1장 사용', tierCredit: '크레딧 1개 사용',
+        errFreeUsed: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.',
       }
 
-  const run = async (retry = false) => {
+  const run = async (retry = false, pay?: PayChoice) => {
     if (!retry || !jobIdRef.current) {
-      jobIdRef.current = `dna:${encodeDnaCode(dna) ?? 'x'}:${Date.now().toString(36)}`
+      jobIdRef.current = newJobId(dna)
+      payRef.current = pay
     }
     setPhase('loading'); setErr(null)
-    const r = await generateDnaPortrait(dna, jobIdRef.current)
+    const r = await generateDnaPortrait(dna, jobIdRef.current, payRef.current)
     if (r.ok) {
       const small = await shrinkToWebp(r.image)
       setImg(small)
@@ -115,6 +123,31 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
       setErr(r.kind)
       setPhase('error')
     }
+  }
+
+  // 생성 버튼 — 무료권·크레딧 둘 다 있으면 두 개(사용자 선택), 하나뿐이면 그것으로.
+  const countLine = counts && (
+    <p className="mt-2 text-[11px] font-semibold text-primary-dark">
+      {isEn ? `Free pass ${counts.free} · Credits ${counts.credits} left` : `남은 무료권 ${counts.free}장 · 크레딧 ${counts.credits}개`}
+    </p>
+  )
+  const genButtons = (cls: string, label: string, icon: string) => {
+    const one = (pay: PayChoice | undefined, text: string) => (
+      <button key={pay ?? 'x'} type="button" onClick={() => run(false, pay)} className={cls}>
+        {text}
+        <span className="material-symbols-outlined text-base">{icon}</span>
+      </button>
+    )
+    if (counts && counts.free > 0 && counts.credits > 0) {
+      return (
+        <div className="flex flex-wrap justify-center gap-2">
+          {one('free', isEn ? 'Use free pass' : '무료권으로')}
+          {one('credit', isEn ? 'Use 1 credit' : '크레딧 1개로')}
+        </div>
+      )
+    }
+    if (!counts) return one(undefined, label)
+    return one(counts.free > 0 ? 'free' : 'credit', counts.free > 0 ? (isEn ? `${label} · free pass` : `${label} · 무료권`) : (isEn ? `${label} · 1 credit` : `${label} · 크레딧 1개`))
   }
 
   const nextParam = typeof window !== 'undefined' ? encodeURIComponent(window.location.pathname) : ''
@@ -139,17 +172,8 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
             )}
             {!readOnly && (
               <div className="mt-4">
-                <button
-                  type="button"
-                  onClick={() => run(false)}
-                  className="inline-flex items-center gap-1.5 border border-navy/25 hover:border-navy text-navy px-6 py-2.5 text-sm font-bold transition-colors"
-                >
-                  <span className="material-symbols-outlined text-base">refresh</span>
-                  {L.again}
-                </button>
-                <p className="mt-1.5 text-[11px] text-slate-400">
-                  {dnaFreeLeft ? L.free : (isEn ? 'Uses 1 credit' : '크레딧 1회 사용')}
-                </p>
+                {genButtons('inline-flex items-center gap-1.5 border border-navy/25 hover:border-navy text-navy px-6 py-2.5 text-sm font-bold transition-colors', L.again, 'refresh')}
+                {countLine}
               </div>
             )}
           </figure>
@@ -166,7 +190,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
             ) : phase === 'error' ? (
               <div className="mt-5">
                 <p className="text-sm text-slate-600">
-                  {err === 'login' ? L.errLogin : err === 'topup' ? L.errTopup : err === 'unconfigured' ? L.errUnconfigured : L.errRetry}
+                  {err === 'login' ? L.errLogin : err === 'topup' ? L.errTopup : err === 'unconfigured' ? L.errUnconfigured : err === 'free_used' ? L.errFreeUsed : L.errRetry}
                 </p>
                 {err === 'login' ? (
                   <a href={loginHref} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
@@ -180,6 +204,10 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
                   <button type="button" onClick={() => run(true)} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
                     {isEn ? 'Try again' : '다시 시도'}
                   </button>
+                ) : err === 'free_used' ? (
+                  <button type="button" onClick={() => { setPhase('idle'); setErr(null); setRefresh((n) => n + 1) }} className="mt-3 inline-flex items-center gap-2 bg-navy text-white px-6 py-3 text-sm font-bold hover:bg-navy-mid transition-colors">
+                    {isEn ? 'Choose again' : '다시 고르기'}
+                  </button>
                 ) : null}
               </div>
             ) : authLoading ? (
@@ -189,19 +217,10 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
               </p>
             ) : user ? (
               <>
-                <button
-                  type="button"
-                  onClick={() => run(false)}
-                  className="mt-5 inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 text-sm font-bold hover:bg-navy-mid transition-colors"
-                >
-                  {L.cta}
-                  <span className="material-symbols-outlined text-base">auto_awesome</span>
-                </button>
-                {phase === 'idle' && dnaFreeLeft !== null && (
-                  <p className="mt-2 text-[11px] font-semibold text-primary-dark">
-                    {dnaFreeLeft > 0 ? L.free : (isEn ? 'Uses 1 credit' : '크레딧 1회 사용')}
-                  </p>
-                )}
+                <div className="mt-5">
+                  {genButtons('inline-flex items-center gap-2 bg-navy text-white px-7 py-3.5 text-sm font-bold hover:bg-navy-mid transition-colors', L.cta, 'auto_awesome')}
+                </div>
+                {countLine}
               </>
             ) : (
               <>

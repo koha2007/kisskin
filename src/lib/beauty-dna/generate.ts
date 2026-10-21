@@ -2,7 +2,7 @@ import { supabase } from '../supabase'
 import type { BeautyDna } from './types'
 import { buildPortraitPrompt } from './portraitPrompt'
 
-export type DnaGenErrorKind = 'login' | 'topup' | 'unconfigured' | 'retry'
+export type DnaGenErrorKind = 'login' | 'topup' | 'unconfigured' | 'retry' | 'free_used'
 
 export interface DnaGenOk {
   ok: true
@@ -11,6 +11,7 @@ export interface DnaGenOk {
   used?: number
   free?: number
   balance?: number
+  freeLeft?: number
 }
 export interface DnaGenErr {
   ok: false
@@ -24,7 +25,7 @@ export interface DnaGenErr {
  *   - 새 생성/다시 만들기 → 새 jobId (크레딧 차감)
  *   - 에러 후 재시도 → 같은 jobId (멱등, 재청구 없음)
  */
-export async function generateDnaPortrait(dna: BeautyDna, jobId: string): Promise<DnaGenOk | DnaGenErr> {
+export async function generateDnaPortrait(dna: BeautyDna, jobId: string, pay?: 'free' | 'credit'): Promise<DnaGenOk | DnaGenErr> {
   const built = buildPortraitPrompt(dna)
   if (!built) return { ok: false, kind: 'retry', detail: 'incomplete' }
 
@@ -37,23 +38,24 @@ export async function generateDnaPortrait(dna: BeautyDna, jobId: string): Promis
     res = await fetch('/api/dna-portrait', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ prompt: built.prompt, baseShape: built.baseShape, jobId }),
+      body: JSON.stringify({ prompt: built.prompt, baseShape: built.baseShape, jobId, pay }),
     })
   } catch {
     return { ok: false, kind: 'retry', detail: 'network' }
   }
 
   const data = (await res.json().catch(() => ({}))) as {
-    image?: string; tier?: 'free' | 'credit'; used?: number; free?: number; balance?: number; error?: string
+    image?: string; tier?: 'free' | 'credit'; used?: number; free?: number; balance?: number; error?: string; freeLeft?: number
   }
 
   if (!res.ok) {
     const c = data.error
     if (res.status === 401 || c === 'login_required') return { ok: false, kind: 'login' }
+    if (res.status === 409 && c === 'free_pass_used') return { ok: false, kind: 'free_used' }
     if (res.status === 402) return { ok: false, kind: 'topup', balance: data.balance }
     if (res.status === 503) return { ok: false, kind: 'unconfigured', detail: c }
     return { ok: false, kind: 'retry', detail: c }
   }
   if (!data.image) return { ok: false, kind: 'retry', detail: 'no_image' }
-  return { ok: true, image: data.image, tier: data.tier ?? 'free', used: data.used, free: data.free, balance: data.balance }
+  return { ok: true, image: data.image, tier: data.tier ?? 'free', used: data.used, free: data.free, balance: data.balance, freeLeft: data.freeLeft }
 }
