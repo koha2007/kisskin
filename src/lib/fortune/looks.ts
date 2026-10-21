@@ -46,6 +46,7 @@ export interface FortuneLook {
   prompt: string
 }
 
+// 2026-10-21 1차 생성에서 민낯과 구분이 안 됐다 → 대표 특징을 '한눈에' 보이게 강화. (재회·승진·합격·건강·해외)
 export const FORTUNE_LOOKS: FortuneLook[] = [
   {
     id: 'wealth',
@@ -106,11 +107,13 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     descKo: '첫 만남 같은 맑은 피부 · 일자 눈썹 · 체리 틴트',
     descEn: 'First-meeting clear skin · soft straight brows · cherry tint',
     accent: '#d1495b',
-    hair: 'a soft natural black-brown with a clean healthy shine.',
+    hair: 'a soft cocoa brown with a gentle rosy undertone and a clean healthy shine.',
     prompt:
-      'create a "first love" look: very clear, translucent fresh skin, soft natural straight brows, almost bare ' +
-      'eyes with just a light peach wash and lightly curled lashes, a sheer peach flush high on the cheeks, and ' +
-      'a sheer cherry-red lip tint blotted from the centre (gradient lip). Innocent, fresh, nostalgic.',
+      'the signature of this look is a fresh FIRST-LOVE glow, clearly visible at a glance: very clear, ' +
+      'translucent dewy skin, soft natural straight brows, a pretty sheer peach-coral flush high on the ' +
+      'cheeks and across the nose, lightly curled lashes with a soft peach wash on the lids, and a ' +
+      'clearly visible juicy cherry-red gradient lip tint, deeper in the centre and blurred outward. ' +
+      'Innocent, fresh, nostalgic — unmistakably made-up, never identical to the bare face.',
   },
   {
     id: 'career',
@@ -120,12 +123,14 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     descKo: '이마 중앙 광 · 반듯한 눈썹 · 신뢰감 있는 립',
     descEn: 'Lit mid-forehead · structured brows · confident lip',
     accent: '#3d5a80',
-    hair: 'a deep espresso brown, glossy and polished.',
+    hair: 'a polished dark chocolate brown with subtle mahogany depth.',
     prompt:
-      'give the centre of the forehead a clear, bright, smooth glow (the career palace in Korean face reading). ' +
-      'Define structured, well-groomed brows with a clean tail, a crisp thin dark-brown eyeliner, matte taupe ' +
-      'eyeshadow, subtle soft contour under the cheekbones, and a confident matte rose-brown MLBB lip. ' +
-      'Composed, capable, trustworthy.',
+      'the signature of this look is a sharp, polished OFFICE-POWER face, clearly visible at a glance: ' +
+      'a clean bright glow on the centre of the forehead (the career palace in Korean face reading), ' +
+      'noticeably defined, structured brows with a crisp angled tail, a clearly visible thin dark-brown ' +
+      'winged eyeliner, matte warm-taupe eyeshadow in the crease, visible soft contour under the ' +
+      'cheekbones, and a confident matte rose-brown lip with crisp edges. Composed, capable, ' +
+      'trustworthy — unmistakably made-up, never identical to the bare face.',
   },
   {
     id: 'exam',
@@ -135,12 +140,14 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     descKo: '깨끗한 미간 · 또렷한 눈빛 · 단정한 혈색',
     descEn: 'Clean brow-space · bright eyes · neat healthy colour',
     accent: '#2a9d8f',
-    hair: 'a neat natural dark brown with a healthy gloss.',
+    hair: 'a soft natural medium brown, lighter and warmer than black, neat and glossy.',
     prompt:
-      'keep the space between the brows (the life palace in Korean face reading) clean and bright with a ' +
-      'very subtle highlight, and groom the inner brows neatly. Make the eyes look awake and bright: a fine ' +
-      'brown tightline, curled lashes, a soft brightening of the inner corners. Add a healthy rosy-beige ' +
-      'colour to the cheeks and a soft coral lip. Natural, neat, trustworthy — interview-ready.',
+      'the signature of this look is BRIGHT, AWAKE, CLEAR eyes and a clean brow-space, clearly visible ' +
+      'at a glance: a clean bright highlight between the brows (the life palace in Korean face reading) ' +
+      'with neatly groomed brows, a fine brown tightline and curled, defined lashes, a visible ' +
+      'brightening shimmer on the inner eye corners, a fresh rosy-beige blush on the cheeks, and a ' +
+      'clearly visible soft coral lip. Natural, neat and trustworthy, interview-ready — unmistakably ' +
+      'made-up, never identical to the bare face.',
   },
   {
     id: 'health',
@@ -152,11 +159,12 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     accent: '#52b788',
     hair: 'a healthy glossy auburn brown with warm red undertones.',
     prompt:
-      'create radiant, healthy "inner glow" skin with a smooth, even and luminous complexion, brighten and even ' +
-      'out the under-eye area and the root of the nose between the eyes (the health palace in Korean face ' +
-      'reading), add a fresh rosy flush across the cheeks and lightly over the nose bridge as if just back from a ' +
-      'walk, keep the eyes clear and fresh with minimal liner, and hydrated natural pink lips. Vital, fresh, ' +
-      'full of energy.',
+      'the signature of this look is a HEALTHY ROSY FLUSH, clearly visible at a glance: radiant ' +
+      'inner-glow skin with a luminous sheen on the high points, a visible fresh rosy-pink flush across ' +
+      'both cheeks AND lightly over the nose bridge as if just back from a brisk walk, a brightened ' +
+      'under-eye area and a bright, clean nose root (the health palace in Korean face reading), fresh ' +
+      'clear eyes with minimal liner, and hydrated, noticeably pink natural lips. Vital, fresh and full ' +
+      'of energy — unmistakably made-up, never identical to the bare face.',
   },
   {
     id: 'popularity',
@@ -184,9 +192,12 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     accent: '#0077b6',
     hair: 'a warm caramel brown with sun-lightened honey tones toward the ends.',
     prompt:
-      'add a luminous highlight on the upper outer forehead and temples (the travel palace in Korean face ' +
-      'reading), a sun-kissed warm bronze flush across the cheeks and nose, a confident pop of vivid cobalt-blue ' +
-      'eyeliner flick on the upper lash line, and a glossy terracotta-nude lip. Adventurous, bright, free.',
+      'the signature of this look is a BOLD COBALT-BLUE WINGED EYELINER — it must be clearly visible at ' +
+      'a glance, thick and saturated vivid cobalt blue along the upper lash line with a sharp wing. ' +
+      'Also add a luminous highlight on the upper outer forehead and temples (the travel palace in ' +
+      'Korean face reading), a sun-kissed warm bronze flush across the cheeks and nose, and a glossy ' +
+      'terracotta-nude lip. Adventurous, bright, free — unmistakably made-up, never identical to the ' +
+      'bare face.',
   },
 ]
 
