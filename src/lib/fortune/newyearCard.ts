@@ -33,7 +33,8 @@ function footer(ctx: CanvasRenderingContext2D, W: number, H: number, isEn: boole
 // 신년 부적 카드(무료) — 1080×1920
 // ════════════════════════════════════════════════════════════════════
 export async function renderNewYearCard(c: NewYearCard, isEn: boolean): Promise<HTMLCanvasElement> {
-  await fonts()
+  const ch0 = ONE_CHAR[c.tenGod]
+  await fonts([ch0.hanja, ch0.ko, ch0.en, ch0.lineKo, ch0.lineEn, zodiacLine(c.zodiac, isEn), YEAR_TYPES[c.group].ko, YEAR_TYPES[c.group].en, LUCKY[c.lucky].ko, LUCKY[c.lucky].makeupKo, LUCKY[c.lucky].makeupEn, '올해의한글자오복순위재물연애직업건강인복행운색좋은달쉬어가는월얼굴에운을그리다신년부적붉은양의해丁未年人壽官緣財'].join(''))
   const W = 1080, H = 1920
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H
   const ctx = cv.getContext('2d')!
@@ -69,18 +70,18 @@ export async function renderNewYearCard(c: NewYearCard, isEn: boolean): Promise<
   ctx.fillText(isEn ? 'MY WORD FOR 2027' : '올해의 한 글자', W / 2 - 60, py + 120); ctx.restore()
   // 한 글자 — 붓글씨, 살짝 번진 그림자
   ctx.save()
-  ctx.font = `400 470px ${BRUSH}`; ctx.textBaseline = 'middle'
-  ctx.fillStyle = 'rgba(168,35,27,.25)'; ctx.fillText(ch.hanja, W / 2 + 10, py + 440 + 10)
-  ctx.fillStyle = RED; ctx.fillText(ch.hanja, W / 2, py + 440)
+  ctx.font = `400 430px ${BRUSH}`; ctx.textBaseline = 'middle'
+  ctx.fillStyle = 'rgba(168,35,27,.25)'; ctx.fillText(ch.hanja, W / 2 + 10, py + 420 + 10)
+  ctx.fillStyle = RED; ctx.fillText(ch.hanja, W / 2, py + 420)
   ctx.restore()
   ctx.textBaseline = 'alphabetic'; ctx.fillStyle = INK
-  ctx.font = `400 64px ${BRUSH}`; ctx.fillText(isEn ? ch.en : ch.ko, W / 2, py + 720)
+  ctx.font = `400 64px ${BRUSH}`; ctx.fillText(isEn ? ch.en : ch.ko, W / 2, py + 700)
   ctx.font = `700 50px ${HAND}`
   fitText(ctx, isEn ? ch.lineEn : ch.lineKo, pw - 160, (n) => `700 ${n}px ${HAND}`, 50, 30)
-  ctx.fillText(isEn ? ch.lineEn : ch.lineKo, W / 2, py + 790)
+  ctx.fillText(isEn ? ch.lineEn : ch.lineKo, W / 2, py + 768)
   ctx.font = `700 28px ${SANS}`; ctx.globalAlpha = 0.7
   fitText(ctx, zodiacLine(c.zodiac, isEn), pw - 160, (n) => `700 ${n}px ${SANS}`, 28, 20)
-  ctx.fillText(zodiacLine(c.zodiac, isEn), W / 2, py + 845); ctx.globalAlpha = 1
+  ctx.fillText(zodiacLine(c.zodiac, isEn), W / 2, py + 818); ctx.globalAlpha = 1
 
   // 붉은 양 배지(종이 오른쪽 위 모서리에 걸침 — 부적 글자는 가리지 않는다)
   if (goat) {
@@ -161,7 +162,8 @@ function coverDraw(ctx: CanvasRenderingContext2D, im: HTMLImageElement, x: numbe
 }
 
 export async function renderBlessingsBoard(c: NewYearCard, images: Partial<Record<FortuneLookId, string>>, isEn: boolean): Promise<HTMLCanvasElement> {
-  await fonts()
+  const ch0 = ONE_CHAR[c.tenGod]
+  await fonts([ch0.hanja, ch0.ko, ch0.en, YEAR_TYPES[c.group].ko, YEAR_TYPES[c.group].en, LUCKY[c.lucky].ko, MONTH_THEME[c.group].en, '나의오복메이크업아직붉은양의해丁未年人壽官緣財재물연애직업건강인복'].join(''))
   const W = 1080, H = 1620
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H
   const ctx = cv.getContext('2d')!

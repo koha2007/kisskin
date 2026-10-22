@@ -37,11 +37,13 @@ export interface CardData {
   applied?: boolean
 }
 
-export async function fonts() {
+// text: 카드에 실제 그릴 글자. 구글 웹폰트는 글자 범위별 조각(unicode-range)이라
+// 넘기지 않으면 일부 한글 조각이 늦게 와 대체 폰트로 찍힌다(10/22 '사람이' 깨짐).
+export async function fonts(text?: string) {
   if (typeof document === 'undefined' || !document.fonts) return
   await Promise.all([
-    document.fonts.load(`900 80px ${SANS}`), document.fonts.load(`700 40px ${SANS}`),
-    document.fonts.load(`400 80px ${BRUSH}`), document.fonts.load(`700 40px ${HAND}`),
+    document.fonts.load(`900 80px ${SANS}`, text), document.fonts.load(`700 40px ${SANS}`, text),
+    document.fonts.load(`400 80px ${BRUSH}`, text), document.fonts.load(`700 40px ${HAND}`, text),
   ]).catch(() => {})
   await document.fonts.ready.catch(() => {})
 }

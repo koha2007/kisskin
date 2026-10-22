@@ -138,9 +138,12 @@ export default function NewYear2027() {
         {phase === 'intro' && (
           <section className="pt-8">
             <div className="relative overflow-hidden rounded-3xl border-[3px] border-[#1b1b1f] p-6 text-[#f6eedc] shadow-[6px_6px_0_#1b1b1f]" style={{ background: RED }}>
-              <img src={GOAT_BADGE} alt={isEn ? 'Red Goat badge for 2027' : '2027 붉은 양 배지'} className="absolute -right-6 -top-4 h-36 w-36 rotate-12" />
-              <p className="text-[11px] font-black tracking-[0.25em] text-[#f2b632]">{T.kicker}</p>
-              <h1 className="mt-2 max-w-[78%] text-[38px] leading-[1.05] font-black tracking-tight">{T.title1}<br /><span className="text-[#f2b632]">{T.title2}</span></h1>
+              {/* 배지는 머리줄 안(흐름)에 — 절대배치였을 때 390px 폭에서 제목을 가렸다(10/22) */}
+              <div className="flex items-start justify-between gap-3">
+                <p className="pt-2 text-[11px] font-black tracking-[0.25em] text-[#f2b632]">{T.kicker}</p>
+                <img src={GOAT_BADGE} alt={isEn ? 'Red Goat badge for 2027' : '2027 붉은 양 배지'} className="-mr-2 -mt-2 h-24 w-24 shrink-0 rotate-12" />
+              </div>
+              <h1 className="-mt-3 text-[clamp(28px,8.4vw,40px)] leading-[1.08] font-black tracking-tight">{T.title1}<br /><span className="text-[#f2b632]">{T.title2}</span></h1>
               <p className="mt-3 text-[14.5px] leading-relaxed text-[#f6eedc]/90">{T.lead}</p>
             </div>
 
