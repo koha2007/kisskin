@@ -583,5 +583,100 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "under-eye-concealer",
+    "publishedAt": "2026-10-22",
+    "introKo": "눈 밑 피부는 얼굴에서 가장 얇고 움직임이 많아 조금만 두꺼워도 바로 갈라지고 주름에 끼여요. 피치빛으로 푸른 기를 먼저 잡고, 얇게 얹어 손가락 체온으로 밀착시키는 것이 핵심이에요.",
+    "introEn": "The skin under the eyes is the thinnest and most active area on the face, so thick concealer creases instantly. The key is neutralizing blue tones with a peach tint, applying paper-thin layers, and using finger warmth to melt it in.",
+    "minutes": 10,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "피치 색상 보정으로 어두운 톤 잡기",
+        "titleEn": "Correct dark tones with a peach shade",
+        "bodyKo": "푸른빛이나 검붉은 다크서클 위에 바로 밝은 컨실러를 올리면 탁한 잿빛이 돼요. 먼저 붉은 기가 도는 피치 톤 컨실러를 눈 밑 어두운 그늘 부위에만 살짝 찍어 색을 먼저 보정해요.",
+        "bodyEn": "Applying a bright concealer directly over bluish dark circles creates an ashy gray look. Start with a peach-toned corrector applied only to the darkest shadowed groove under the eye to neutralize the darkness.",
+        "toolsKo": "피치 톤 리퀴드 컨실러",
+        "toolsEn": "Peach-toned liquid concealer",
+        "swatches": [
+          "#e29d82",
+          "#f0b197"
+        ],
+        "searchKeywords": "피치 리퀴드 다크서클 컨실러",
+        "shopEn": "peach corrector concealer",
+        "shortKo": "피치 톤으로 잿빛 방지",
+        "shortEn": "Peach tint stops ashiness"
+      },
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "얇게 도포하고 사선으로 끌어올리기",
+        "titleEn": "Apply thinly and stroke diagonally upward",
+        "bodyKo": "눈동자 바로 아래 피부는 주름이 깊으므로 컨실러를 직접 얹지 않아요. 눈 밑 꺼진 선을 따라 아주 소량만 찍고, 눈꼬리 쪽 위를 향해 사선 방향으로 가볍게 펼쳐 바르면 리프팅된 듯 깔끔해 보여요.",
+        "bodyEn": "Avoid putting concealer right under the center of the lash line where wrinkles are deepest. Place a tiny dot along the hollow contour and sweep diagonally upward toward the outer corner for a lifted look.",
+        "toolsKo": "컨실러 브러시 또는 손가락",
+        "toolsEn": "Concealer brush or finger",
+        "swatches": [
+          "#eac2a7"
+        ],
+        "searchKeywords": "밀착 리퀴드 팁 컨실러",
+        "shopEn": "lightweight liquid concealer",
+        "shortKo": "눈꼬리 쪽 위로 사선 펴바르기"
+      },
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "손가락 체온으로 두드려 밀착",
+        "titleEn": "Tap with finger warmth to set",
+        "bodyKo": "약지 끝의 체온을 이용해 톡톡 가볍게 두드려요. 손가락의 온기가 제형을 부드럽게 녹여 피부 경계선 없이 밀착되고 주름 사이에 제형이 끼이지 않도록 도와줘요.",
+        "bodyEn": "Use the pad of your ring finger to gently tap the area. The natural warmth softens the formula, melting it into the skin without harsh edges or settling into fine lines.",
+        "toolsKo": "손가락(약지)",
+        "toolsEn": "Ring finger",
+        "swatches": [
+          "#edd0b8"
+        ],
+        "searchKeywords": "촉촉한 밀착 컨실러",
+        "shopEn": "hydrating fluid concealer",
+        "shortKo": "체온으로 가볍게 두드리기",
+        "shortEn": "Tap softly with finger warmth"
+      },
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "아주 얇은 파우더로 크리즈 방지",
+        "titleEn": "Set with micro-fine powder",
+        "bodyKo": "유분으로 인한 주름 끼임을 막기 위해 아주 고운 투명 파우더를 소량 사용해요. 브러시에 파우더를 묻힌 뒤 털어내고, 눈 밑을 살짝 두드려 유분기만 눌러주면 번짐 없이 고정돼요.",
+        "bodyEn": "To prevent creasing caused by oils, use a tiny amount of micro-fine translucent powder. Dust off excess from a brush and softly press onto the under-eye area to lock the concealer in place.",
+        "toolsKo": "투명 파우더 · 작은 브러시",
+        "toolsEn": "Translucent powder · small detail brush",
+        "swatches": [
+          "#f9f5f0"
+        ],
+        "searchKeywords": "초미세 투명 파우더",
+        "shopEn": "translucent setting powder",
+        "shortKo": "파우더 소량으로 유분 제거",
+        "shortEn": "Dust minimal powder to fix"
+      }
+    ],
+    "tipsKo": [
+      "눈 밑이 유독 건조하다면 메이크업 전 스킨케어 단계에서 아이크림을 충분히 흡수시킨 뒤 컨실러를 올리세요.",
+      "컨실러 양은 쌀알 반 톨만큼만 사용하는 것이 끼임 없는 베이스의 핵심입니다."
+    ],
+    "tipsEn": [
+      "If your under-eye area is dry, let a light eye cream fully absorb before applying concealer.",
+      "Using a tiny amount—half a grain of rice—is the key to preventing creases."
+    ],
+    "mistakeKo": "속눈썹 바로 밑 깊은 주름 부위에 컨실러를 듬뿍 얹으면 시간이 지나면 바로 갈라지고 주름에 뭉쳐요.",
+    "mistakeEn": "Piling thick concealer right beneath the lower lash line causes instant creasing and heavy buildup.",
+    "chartPrompt": "close-up under-eye detail on a female face chart: a peach tint dots the dark under-eye shadow curve, blended out smoothly toward the outer corner in an upward diagonal direction with a seamless natural finish",
+    "videoTitleKo": "다크서클 컨실러",
+    "videoTitleEn": "Under-Eye Concealer",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
