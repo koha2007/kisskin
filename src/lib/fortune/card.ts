@@ -14,10 +14,10 @@ export const OBANG: Record<Element, string> = {
 }
 const HANJA: Record<Element, string> = { wood: '木', fire: '火', earth: '土', metal: '金', water: '水' }
 const STEM_ELEM_HANJA = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水']
-const INK = '#1b1b1f', CREAM = '#f6eedc', RED = '#d6402f', YELLOW = '#f2b632'
-const SANS = "'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif"
-const BRUSH = "'Song Myung', 'Nanum Myeongjo', serif"
-const HAND = "'Gaegu', 'Nanum Pen Script', cursive"
+export const INK = '#1b1b1f', CREAM = '#f6eedc', RED = '#d6402f', YELLOW = '#f2b632'
+export const SANS = "'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif"
+export const BRUSH = "'Song Myung', 'Nanum Myeongjo', serif"
+export const HAND = "'Gaegu', 'Nanum Pen Script', cursive"
 
 export interface CardData {
   isEn: boolean
@@ -37,7 +37,7 @@ export interface CardData {
   applied?: boolean
 }
 
-async function fonts() {
+export async function fonts() {
   if (typeof document === 'undefined' || !document.fonts) return
   await Promise.all([
     document.fonts.load(`900 80px ${SANS}`), document.fonts.load(`700 40px ${SANS}`),
@@ -46,7 +46,7 @@ async function fonts() {
   await document.fonts.ready.catch(() => {})
 }
 
-function loadImg(src: string): Promise<HTMLImageElement | null> {
+export function loadImg(src: string): Promise<HTMLImageElement | null> {
   return new Promise((res) => {
     const im = new Image()
     im.crossOrigin = 'anonymous'
@@ -56,7 +56,7 @@ function loadImg(src: string): Promise<HTMLImageElement | null> {
   })
 }
 
-function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number | number[]) {
+export function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number | number[]) {
   ctx.beginPath()
   ctx.roundRect(x, y, w, h, r)
 }
@@ -70,7 +70,7 @@ function cover(ctx: CanvasRenderingContext2D, im: HTMLImageElement, x: number, y
   ctx.drawImage(im, sx, sy, sw, sh, x, y, w, h)
 }
 
-function sticker(ctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, rot: number, bg = '#fff') {
+export function sticker(ctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, rot: number, bg = '#fff') {
   ctx.save()
   ctx.translate(cx, cy); ctx.rotate(rot)
   ctx.font = `700 38px ${HAND}`
@@ -84,7 +84,7 @@ function sticker(ctx: CanvasRenderingContext2D, text: string, cx: number, cy: nu
   return w
 }
 
-function fitText(ctx: CanvasRenderingContext2D, text: string, maxW: number, font: (px: number) => string, start: number, min = 20) {
+export function fitText(ctx: CanvasRenderingContext2D, text: string, maxW: number, font: (px: number) => string, start: number, min = 20) {
   let px = start
   ctx.font = font(px)
   while (ctx.measureText(text).width > maxW && px > min) { px -= 2; ctx.font = font(px) }

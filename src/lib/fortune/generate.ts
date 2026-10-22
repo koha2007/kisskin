@@ -20,14 +20,15 @@ export function newJobId(): string {
   return 'job-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10)
 }
 
-export function fortunePrompt(lookId: FortuneLookId, lacking?: Element): string {
+/** extra = 덧붙일 포인트 지시문(2027 신년 오복은 newYearAccentPrompt — 부족 오행 포인트를 대신한다) */
+export function fortunePrompt(lookId: FortuneLookId, lacking?: Element, extra?: string): string {
   const look = fortuneLookById(lookId)
-  const accent = lacking ? ' ' + ELEMENT_ACCENT[lacking].prompt : ''
+  const accent = extra ? ' ' + extra : lacking ? ' ' + ELEMENT_ACCENT[lacking].prompt : ''
   return promptWholeFace({ subEn: look.subEn, hair: look.hair, prompt: look.prompt + accent })
 }
 
 export async function generateFortuneMakeup(opts: {
-  photo: string; lookId: FortuneLookId; lacking?: Element; jobId: string; pay?: PayChoice
+  photo: string; lookId: FortuneLookId; lacking?: Element; extra?: string; styleTag?: string; jobId: string; pay?: PayChoice
 }): Promise<GenResult> {
   const { data: { session } } = await supabase.auth.getSession()
   const token = session?.access_token
@@ -47,8 +48,8 @@ export async function generateFortuneMakeup(opts: {
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         image: canvas.toDataURL('image/png'),
-        prompt: fortunePrompt(opts.lookId, opts.lacking),
-        styleId: `fortune:${opts.lookId}`,
+        prompt: fortunePrompt(opts.lookId, opts.lacking, opts.extra),
+        styleId: `${opts.styleTag ?? 'fortune'}:${opts.lookId}`,
         jobId: opts.jobId, size, pay: opts.pay,
       }),
     })

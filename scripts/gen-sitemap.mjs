@@ -257,6 +257,7 @@ const PATH_SOURCES = [
   { test: (p) => p === '/analysis/',           files: ['pages/analysis', 'src/components/makeup'] },
   { test: (p) => p === '/tools/',              files: ['pages/tools/+Page.tsx', 'src/pages/ToolsHub.tsx'] },
   { test: (p) => p === '/tools/fortune-makeup/', files: ['pages/tools/fortune-makeup', 'src/pages/FortuneMakeup.tsx', 'src/lib/fortune', 'public/fortune'] },
+  { test: (p) => p === '/tools/2027-fortune/', files: ['pages/tools/2027-fortune', 'src/pages/NewYear2027.tsx', 'src/lib/fortune/newyear.ts', 'src/lib/fortune/newyearCard.ts', 'src/lib/fortune/NewYearHead.tsx'] },
   { test: (p) => p === '/tools/beauty-dna/',   files: ['pages/tools/beauty-dna', 'src/pages/BeautyDna.tsx', 'src/lib/beauty-dna', 'src/components/beauty-dna'] },
   { test: (p) => p === '/looks/',              files: ['pages/looks/+Page.tsx', 'src/pages/LooksHub.tsx', 'src/lib/looks', 'public/looks/charts'] },
   { test: (p) => /^\/looks\/[a-z-]+\/$/.test(p),   files: ['pages/looks/@id', 'src/pages/LookHowTo.tsx', 'src/lib/looks', 'public/looks/charts'] },
