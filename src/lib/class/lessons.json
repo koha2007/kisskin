@@ -678,5 +678,84 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "cover-blemishes",
+    "publishedAt": "2026-10-24",
+    "introKo": "잡티나 트러블 자국은 무작정 두껍게 덮으면 금방 들떠요. 정확한 색 선택과 가장자리만 다듬는 테크닉으로 자연스럽게 커버하는 방법을 배워볼게요.",
+    "introEn": "Piling on concealer makes spot coverage look heavy and cakey. With the right color neutralizing and targeted edge-blending, your base will look smooth and seamlessly even.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "skin",
+        "crop": "cheekBlend",
+        "titleKo": "붉은기에는 그린 베이지 코렉팅",
+        "titleEn": "Neutralize redness with green or beige",
+        "bodyKo": "붉은 자국이 넓은 곳은 파운데이션 전 그린이나 옐로 베이지 톤 코렉터로 색을 먼저 눌러줘요. 붉은기가 감춰져 전체 톤이 고르게 보여요.",
+        "bodyEn": "For wider red areas, apply a thin wash of green or yellow-beige corrector before foundation. Canceling out the red tone first makes the skin look evenly balanced.",
+        "toolsKo": "컬러 코렉터 · 손가락 또는 브러시",
+        "toolsEn": "Color corrector · finger or brush",
+        "swatches": [
+          "#a8c3a0",
+          "#e8ccb3"
+        ],
+        "searchKeywords": "컬러 코렉터 그린 베이지",
+        "shopEn": "green color corrector",
+        "shortKo": "붉은기엔 그린 베이지 얇게",
+        "shortEn": "Thin green layer for redness"
+      },
+      {
+        "area": "skin",
+        "crop": "jaw",
+        "titleKo": "점 찍듯 얹고 가장자리만 풀기",
+        "titleEn": "Dab the spot and blend edges only",
+        "bodyKo": "작은 잡티는 내 피부보다 반 톤 어두운 팟 타입 컨실러를 작은 브러시로 콕 찍어 얹어요. 자국 중앙은 건드리지 않고 가장자리 경계만 살살 풀어줘야 깨끗하게 가려져요.",
+        "bodyEn": "For tiny marks, pick a pot concealer half a shade deeper than your base. Dab directly onto the spot, then softly feather out only the outer edges so the center stays covered.",
+        "toolsKo": "팟 컨실러 · 세밀한 컨실러 브러시",
+        "toolsEn": "Pot concealer · detail brush",
+        "swatches": [
+          "#dcb596",
+          "#cba485"
+        ],
+        "searchKeywords": "고커버 팟 컨실러 베이지",
+        "shopEn": "pot concealer detail brush",
+        "shortKo": "경계만 풀어 커버력 유지",
+        "shortEn": "Blur edges, leave the center"
+      },
+      {
+        "area": "skin",
+        "titleKo": "각질 위는 양을 줄여 살살 누르기",
+        "titleEn": "Press lightly over flaky texture",
+        "bodyKo": "하얗게 일어난 각질 위는 제품을 많이 올릴수록 부각돼 보여요. 퍼프나 스펀지에 남은 양으로 톡톡 누르듯 스치면 한결 정돈되어 보여요.",
+        "bodyEn": "Adding thick concealer over dry, flaky skin only emphasizes texture. Use whatever residue remains on your sponge and press very lightly so it looks smoother.",
+        "toolsKo": "스펀지 또는 퍼프",
+        "toolsEn": "Makeup sponge or puff",
+        "swatches": [
+          "#e5c3aa"
+        ],
+        "searchKeywords": "밀착 스펀지 퍼프",
+        "shopEn": "makeup sponge puff",
+        "shortKo": "각질 위는 양 줄여 톡톡",
+        "shortEn": "Press lightly over flaky skin"
+      }
+    ],
+    "tipsKo": [
+      "자국을 가릴 때 내 피부보다 너무 밝은 컨실러를 쓰면 도리어 잡티가 부각되어 보여요.",
+      "컨실러를 올린 뒤 5~10초 정도 살짝 마르길 기다렸다 경계를 풀면 밀착력이 더 좋아져요."
+    ],
+    "tipsEn": [
+      "Using a concealer that is too light will highlight blemishes instead of disguising them.",
+      "Let the concealer set for 5 to 10 seconds before blurring the edges for better adhesion."
+    ],
+    "mistakeKo": "컨실러를 바르고 자국 중앙까지 문지르면 커버한 내용물이 전부 벗겨져요.",
+    "mistakeEn": "Rubbing right over the middle of the spot wipes away the concealer you just applied.",
+    "chartPrompt": "a smooth neutral skin base on a face chart with subtle green corrector blended on the cheek area, small beige concealer dots lightly blurred along jawline and cheek blemishes",
+    "videoTitleKo": "잡티 트러블 가리기",
+    "videoTitleEn": "Blemish Concealing",
+    "video": {
+      "seconds": 16
+    }
   }
 ]
