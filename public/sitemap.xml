@@ -214,22 +214,184 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/looks/kpop-idol/" />
   </url>
   <url>
-    <loc>https://kissinskin.net/tools/fortune-makeup/</loc>
+    <loc>https://kissinskin.net/lucky-makeup/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/fortune-makeup/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/fortune-makeup/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/fortune-makeup/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/" />
   </url>
   <url>
-    <loc>https://kissinskin.net/en/tools/fortune-makeup/</loc>
+    <loc>https://kissinskin.net/en/lucky-makeup/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/fortune-makeup/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/fortune-makeup/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/fortune-makeup/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/wealth/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/wealth/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/wealth/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/wealth/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/wealth/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/wealth/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/wealth/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/wealth/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/love/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/love/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/love/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/love/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/love/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/love/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/love/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/love/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/marriage/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/marriage/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/marriage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/marriage/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/marriage/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/marriage/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/marriage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/marriage/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/reunion/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/reunion/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/reunion/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/reunion/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/reunion/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/reunion/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/reunion/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/reunion/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/career/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/career/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/career/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/career/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/career/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/career/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/career/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/career/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/exam/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/exam/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/exam/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/exam/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/exam/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/exam/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/exam/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/exam/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/health/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/health/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/health/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/health/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/health/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/health/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/health/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/health/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/popularity/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/popularity/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/popularity/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/popularity/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/popularity/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/popularity/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/popularity/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/popularity/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/lucky-makeup/travel/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/travel/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/travel/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/travel/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/lucky-makeup/travel/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/travel/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/lucky-makeup/travel/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/lucky-makeup/travel/" />
   </url>
   <url>
     <loc>https://kissinskin.net/tools/beauty-dna/</loc>
@@ -513,8 +675,8 @@
   <url><loc>https://kissinskin.net/en/news/</loc><lastmod>2026-10-13</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/" /></url>
   <url><loc>https://kissinskin.net/products/</loc><lastmod>2026-10-13</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://kissinskin.net/en/products/</loc><lastmod>2026-10-13</lastmod><changefreq>daily</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/" /></url>
-  <url><loc>https://kissinskin.net/class/</loc><lastmod>2026-10-22</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://kissinskin.net/en/class/</loc><lastmod>2026-10-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/" /></url>
+  <url><loc>https://kissinskin.net/class/</loc><lastmod>2026-10-23</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://kissinskin.net/en/class/</loc><lastmod>2026-10-23</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/" /></url>
   <url><loc>https://kissinskin.net/news/marshique-ulta-beauty-entry/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/marshique-ulta-beauty-entry/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/marshique-ulta-beauty-entry/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/marshique-ulta-beauty-entry/" /></url>
   <url><loc>https://kissinskin.net/en/news/marshique-ulta-beauty-entry/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/marshique-ulta-beauty-entry/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/marshique-ulta-beauty-entry/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/marshique-ulta-beauty-entry/" /></url>
   <url><loc>https://kissinskin.net/news/k-beauty-pop-up-hudson-yards-nyc/</loc><lastmod>2026-10-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/k-beauty-pop-up-hudson-yards-nyc/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/k-beauty-pop-up-hudson-yards-nyc/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/k-beauty-pop-up-hudson-yards-nyc/" /></url>

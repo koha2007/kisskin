@@ -5,6 +5,8 @@ import { useAuth } from '../hooks/useAuth'
 import { authErrorMessage } from '../lib/authErrors'
 import { clearDna } from '../lib/beauty-dna/types'
 import { clearCollection } from '../lib/makeup/collectionStore'
+import { clearFortuneData } from '../lib/fortune/state'
+import { clearLucky } from '../lib/fortune/luckyStore'
 import { getCreditBalance } from '../lib/credits'
 import { getFreeStatus, type FreeStatus } from '../lib/freeStatus'
 import { getMyReferral, inviteUrl, type ReferralInfo } from '../lib/referral'
@@ -264,6 +266,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       // 다음 사람이 그대로 보게 된다. 계정이 사라진 이상 로컬도 함께 지운다.
       clearDna()
       await clearCollection().catch(() => { /* 기기 저장소 없음 */ })   // 9룩 컬렉션 셀카·결과(IndexedDB)
+      clearFortuneData()                                                // 관상 결과·도감(localStorage — 생년월일 포함)
+      await clearLucky().catch(() => { /* 기기 저장소 없음 */ })        // 럭키 메이크업 9장: 셀카·완성본(IndexedDB)
       await supabase.auth.signOut({ scope: 'local' })
       await onLogout()
       window.location.href = '/'

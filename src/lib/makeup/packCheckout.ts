@@ -20,7 +20,8 @@ export interface CheckoutPack { id: 'starter' | 'plus' | 'collection'; credits: 
  */
 export type CheckoutOutcome = 'redirect' | 'external' | 'login' | 'error'
 
-export async function startPackCheckout(pack: CheckoutPack): Promise<CheckoutOutcome> {
+/** back = 결제 후 돌아올 페이지(서버가 허용한 경로만 — functions/api/checkout.ts LUCKY_BACKS) */
+export async function startPackCheckout(pack: CheckoutPack, back?: string): Promise<CheckoutOutcome> {
   try {
     const { data: { session } } = await supabase.auth.getSession()
     const token = session?.access_token
@@ -31,7 +32,7 @@ export async function startPackCheckout(pack: CheckoutPack): Promise<CheckoutOut
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ pack: pack.id, redirect: true, email: session?.user?.email }),
+      body: JSON.stringify({ pack: pack.id, redirect: true, email: session?.user?.email, back }),
     })
     if (res.status === 401) { window.location.href = '/auth'; return 'login' }
     const d = (await res.json().catch(() => ({}))) as { url?: string; error?: string }

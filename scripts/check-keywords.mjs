@@ -9,6 +9,7 @@ const FILES = [
   'src/lib/recommendations/makeup-mbti.ts',
   'src/lib/recommendations/perfume-type.ts',
   'src/lib/looks/howto.ts',
+  'src/lib/fortune/howto.ts', // 럭키 메이크업 9종 방법
   'src/lib/class/lessons.json', // 메이크업 클래스(주간 자동 발행분 포함)
 ]
 

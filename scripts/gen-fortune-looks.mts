@@ -8,7 +8,7 @@
 //
 // 사용(유료 — 샘플 먼저: feedback_paid_bulk_generation_preflight):
 //   npx tsx scripts/gen-fortune-looks.mts --dry               # 프롬프트만(과금 0)
-//   npx tsx scripts/gen-fortune-looks.mts --only=wealth       # 샘플 1장
+//   npx tsx scripts/gen-fortune-looks.mts --only=wealth       # 샘플 1장 (쉼표로 여러 개: --only=career,love)
 //   npx tsx scripts/gen-fortune-looks.mts                     # 없는 것만 생성
 //   npx tsx scripts/gen-fortune-looks.mts --force             # 전부 다시
 // 비용: gpt-image-2 medium 1장 ≈ $0.05~0.07 → 9장 ≈ $0.6
@@ -22,11 +22,18 @@ import { promptWholeFace } from '../src/lib/makeup/styles'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const BEFORE = resolve(ROOT, 'public/styles/looks/natural-glow-before.webp')
+// 2026-10-24 운영자: 9룩과 겉모습이 같아 보인다 → 같은 얼굴(JJ)의 헤어 6종을 운 분위기에 맞춰 섞는다.
+// 없는 운(재물·재회·인복)은 위 BEFORE(긴 생머리) 그대로. 지시문이 헤어 "형태"는 고정·염색만 하므로 머리 모양이 유지된다.
+const JJ = (h: string) => resolve(ROOT, `scripts/assets/jj-hair-${h}.webp`)
+const BEFORE_BY_ID: Record<string, string> = {
+  career: JJ('bun'), exam: JJ('tucked'), love: JJ('halfup'),
+  marriage: JJ('braid'), health: JJ('ponytail'), travel: JJ('headband'),
+}
 const OUT = resolve(ROOT, 'public/fortune/looks')
 const args = process.argv.slice(2)
 const DRY = args.includes('--dry')
 const FORCE = args.includes('--force')
-const ONLY = args.find((a) => a.startsWith('--only='))?.slice(7)
+const ONLY = args.find((a) => a.startsWith('--only='))?.slice(7).split(',')
 
 const env: Record<string, string> = Object.fromEntries(
   readFileSync(resolve(ROOT, '.env'), 'utf8').split('\n')
@@ -35,15 +42,16 @@ const env: Record<string, string> = Object.fromEntries(
 )
 
 mkdirSync(OUT, { recursive: true })
-const beforePng = await sharp(BEFORE).png().toBuffer()
-const { width = 1024, height = 1536 } = await sharp(BEFORE).metadata()
 
 for (const look of FORTUNE_LOOKS) {
-  if (ONLY && look.id !== ONLY) continue
+  if (ONLY && !ONLY.includes(look.id)) continue
+  const before = BEFORE_BY_ID[look.id] ?? BEFORE
   const out = resolve(OUT, `${look.id}-after.webp`)
   if (existsSync(out) && !FORCE) { console.log('skip (exists)', look.id); continue }
   const prompt = promptWholeFace(look)
-  if (DRY) { console.log(`\n── ${look.id}\n${prompt}`); continue }
+  if (DRY) { console.log(`\n── ${look.id} (${before})\n${prompt}`); continue }
+  const beforePng = await sharp(before).png().toBuffer()
+  const { width = 1024, height = 1536 } = await sharp(before).metadata()
 
   const fd = new FormData()
   fd.append('model', 'gpt-image-2')

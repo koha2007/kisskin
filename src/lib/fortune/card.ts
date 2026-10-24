@@ -14,10 +14,10 @@ export const OBANG: Record<Element, string> = {
 }
 const HANJA: Record<Element, string> = { wood: '木', fire: '火', earth: '土', metal: '金', water: '水' }
 const STEM_ELEM_HANJA = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水']
-const INK = '#1b1b1f', CREAM = '#f6eedc', RED = '#d6402f', YELLOW = '#f2b632'
-const SANS = "'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif"
-const BRUSH = "'Song Myung', 'Nanum Myeongjo', serif"
-const HAND = "'Gaegu', 'Nanum Pen Script', cursive"
+export const INK = '#1b1b1f', CREAM = '#f6eedc', RED = '#d6402f', YELLOW = '#f2b632'
+export const SANS = "'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif"
+export const BRUSH = "'Song Myung', 'Nanum Myeongjo', serif"
+export const HAND = "'Gaegu', 'Nanum Pen Script', cursive"
 
 export interface CardData {
   isEn: boolean
@@ -37,16 +37,18 @@ export interface CardData {
   applied?: boolean
 }
 
-async function fonts() {
+// text: 카드에 실제 그릴 글자. 구글 웹폰트는 글자 범위별 조각(unicode-range)이라
+// 넘기지 않으면 일부 한글 조각이 늦게 와 대체 폰트로 찍힌다(10/22 '사람이' 깨짐).
+export async function fonts(text?: string) {
   if (typeof document === 'undefined' || !document.fonts) return
   await Promise.all([
-    document.fonts.load(`900 80px ${SANS}`), document.fonts.load(`700 40px ${SANS}`),
-    document.fonts.load(`400 80px ${BRUSH}`), document.fonts.load(`700 40px ${HAND}`),
+    document.fonts.load(`900 80px ${SANS}`, text), document.fonts.load(`700 40px ${SANS}`, text),
+    document.fonts.load(`400 80px ${BRUSH}`, text), document.fonts.load(`700 40px ${HAND}`, text),
   ]).catch(() => {})
   await document.fonts.ready.catch(() => {})
 }
 
-function loadImg(src: string): Promise<HTMLImageElement | null> {
+export function loadImg(src: string): Promise<HTMLImageElement | null> {
   return new Promise((res) => {
     const im = new Image()
     im.crossOrigin = 'anonymous'
@@ -56,7 +58,7 @@ function loadImg(src: string): Promise<HTMLImageElement | null> {
   })
 }
 
-function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number | number[]) {
+export function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number | number[]) {
   ctx.beginPath()
   ctx.roundRect(x, y, w, h, r)
 }
@@ -70,7 +72,7 @@ function cover(ctx: CanvasRenderingContext2D, im: HTMLImageElement, x: number, y
   ctx.drawImage(im, sx, sy, sw, sh, x, y, w, h)
 }
 
-function sticker(ctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, rot: number, bg = '#fff') {
+export function sticker(ctx: CanvasRenderingContext2D, text: string, cx: number, cy: number, rot: number, bg = '#fff') {
   ctx.save()
   ctx.translate(cx, cy); ctx.rotate(rot)
   ctx.font = `700 38px ${HAND}`
@@ -84,7 +86,7 @@ function sticker(ctx: CanvasRenderingContext2D, text: string, cx: number, cy: nu
   return w
 }
 
-function fitText(ctx: CanvasRenderingContext2D, text: string, maxW: number, font: (px: number) => string, start: number, min = 20) {
+export function fitText(ctx: CanvasRenderingContext2D, text: string, maxW: number, font: (px: number) => string, start: number, min = 20) {
   let px = start
   ctx.font = font(px)
   while (ctx.measureText(text).width > maxW && px > min) { px -= 2; ctx.font = font(px) }
@@ -224,11 +226,11 @@ export async function renderResultCard(d: CardData): Promise<HTMLCanvasElement> 
   ctx.textAlign = 'left'; ctx.fillStyle = YELLOW
   ctx.save(); ctx.letterSpacing = '6px'
   ctx.font = `900 30px ${SANS}`
-  ctx.fillText(d.applied ? (d.isEn ? 'APPLIED · FACE-READING' : '적용 완료 · 관상 메이크업') : (d.isEn ? 'MY PRESCRIPTION' : '나의 처방 · 관상 메이크업'), bx + 52, by + 70)
+  ctx.fillText(d.applied ? (d.isEn ? 'APPLIED · LUCKY MAKEUP' : '적용 완료 · 럭키 메이크업') : (d.isEn ? 'MY LUCKY MAKEUP' : '나의 처방 · 럭키 메이크업'), bx + 52, by + 70)
   ctx.restore()
   ctx.fillStyle = CREAM
-  fitText(ctx, d.isEn ? `${look.fortuneEn} makeup` : look.nameKo.replace(' 관상 메이크업', ' 메이크업'), bw2 - 104, (px) => `900 ${px}px ${SANS}`, 66, 40)
-  ctx.fillText(d.isEn ? `${look.fortuneEn} makeup` : look.nameKo.replace(' 관상 메이크업', ' 메이크업'), bx + 52, by + 140)
+  fitText(ctx, d.isEn ? look.nameEn : look.nameKo, bw2 - 104, (px) => `900 ${px}px ${SANS}`, 66, 40)
+  ctx.fillText(d.isEn ? look.nameEn : look.nameKo, bx + 52, by + 140)
   ctx.globalAlpha = 0.9
   fitText(ctx, d.isEn ? look.descEn : look.descKo, bw2 - 104, (px) => `500 ${px}px ${SANS}`, 34, 22)
   ctx.fillText(d.isEn ? look.descEn : look.descKo, bx + 52, by + 196)
