@@ -304,7 +304,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           · $4.99 9룩 컬렉션은 바로 아래 시연 영상 섹션이 맡는다(가격은 첫 화면에서 뺀다).
           · 셀카가 부담스러운 사람용 무료 진단은 버튼이 아니라 글자 링크 한 줄로.
           · 룩 고르기 = 인스타 스토리식 동그라미 9개(얼굴 확대 썸네일, 192px 경량본).
-          GA4: select_promotion creative_slot = home_hero_primary / home_hero_quiz / home_hero_look. */}
+          GA4: select_promotion creative_slot = home_hero_primary / home_hero_quiz / home_hero_look / home_hero_fortune. */}
       <section className="relative overflow-hidden bg-cream" aria-labelledby="hero-title">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -350,6 +350,16 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               className="animate-fade-in-up-delay2 mt-4 md:mt-6 inline-flex items-center gap-1 text-[13px] md:text-sm font-bold text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy"
             >
               {isEn ? 'No selfie? Start with 4 free 1-minute quizzes' : '셀카가 부담되면 — 1분 무료 진단 4가지부터'}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+            {/* 2026-10-24 운영자: 첫 화면에서도 오늘의 운세가 보이게 — 글자 링크 한 줄(바로 아래 남색 카드와 같은 목적지) */}
+            <a
+              href={isEn ? '/en/tools/today-fortune/' : '/tools/today-fortune/'}
+              onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_fortune' })}
+              className="animate-fade-in-up-delay2 mt-2 inline-flex items-center gap-1 text-[13px] md:text-sm font-bold text-primary-dark underline decoration-primary/30 underline-offset-4 hover:decoration-primary-dark"
+            >
+              <span className="material-symbols-outlined text-base">wb_sunny</span>
+              {isEn ? 'Today’s fortune — just your birth date' : '오늘의 운세 보기 — 생년월일만 넣으면 끝'}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
             </a>
           </div>

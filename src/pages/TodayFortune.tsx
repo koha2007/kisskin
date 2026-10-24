@@ -5,7 +5,8 @@
 // ────────────────────────────────────────────────────────────────────
 // 흐름: 생년월일(+태어난 시, 몰라도 됨) → 사주 계산(기기 안, 서버 X) → 오늘의 운세 · 오늘의 색 · 강한 운 3
 //      → 맨 아래 한 줄로 오늘의 럭키 메이크업(/lucky-makeup/?look=)
-// 같은 날·같은 생년월일이면 항상 같은 결과(daily.ts). 로그인·결제 없음. 생년월일은 이 기기에만(state.saveLast).
+// 같은 날·같은 생년월일이면 항상 같은 결과(daily.ts). 로그인·결제 없음. 생년월일은 이 기기에만(state.saveLast —
+// 럭키 메이크업의 오행 포인트 색용). 페이지를 다시 열면 늘 빈 입력 화면(10/24 운영자 '자동 리셋').
 // 동물상 카드·포카·도감·공유 링크·사주 명식·정밀 풀이·궁합 코드는 git(360a30c)에 — 다시 켤 때 거기서 꺼낸다.
 import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n/I18nContext'
@@ -14,7 +15,7 @@ import { trackEvent, trackToolComplete } from '../lib/analytics'
 import { computeSaju, isValidBirth, BRANCHES_KO, STEMS_KO, STEMS_HANJA, stemElement, type BirthInput, type Element } from '../lib/fortune/saju'
 import { readFortunes } from '../lib/fortune/reading'
 import { fortuneLookById } from '../lib/fortune/looks'
-import { saveLast, loadLast, serialOf, type FortuneResult } from '../lib/fortune/state'
+import { saveLast, serialOf, type FortuneResult } from '../lib/fortune/state'
 import { dailyFortune } from '../lib/fortune/daily'
 
 type Phase = 'intro' | 'result'
@@ -51,18 +52,16 @@ export default function TodayFortune() {
   const [result, setResult] = useState<FortuneResult | null>(null)
   const T = isEn ? EN : KO
 
-  // 진입 — 홈 카드에서 ?b=YYYY-M-D(&h=) 로 오면 바로 결과, 아니면 지난번 생년월일을 채워 둔다
-  // (미리 렌더한 HTML 과 어긋나지 않게 마운트 뒤에)
+  // 진입 — 홈 카드에서 ?b=YYYY-M-D(&h=) 로 오면 바로 결과. 그 외엔 늘 빈 입력 화면부터
+  // (운영자 10/24: "다시 들어오면 자동 리셋 — 페이지 새로 열면 항상 오늘의 운세로." → 지난번 생년월일을 채우지 않는다)
   useEffect(() => {
     const q = new URLSearchParams(window.location.search)
     const [y, m, d] = (q.get('b') ?? '').split('-')
-    if (y && m && d) {
-      const f: BirthForm = { y, m, d, h: q.get('h') ?? '' }
-      setBirth(f); run(f, 'home')
-      return
-    }
-    const b = loadLast()?.birth
-    if (b) setBirth({ y: String(b.year), m: String(b.month), d: String(b.day), h: b.hour == null ? '' : String(b.hour) })
+    if (!y || !m || !d) return
+    const f: BirthForm = { y, m, d, h: q.get('h') ?? '' }
+    setBirth(f); run(f, 'home')
+    // 주소창에서 생년월일을 지워 둔다 — 새로고침·다시 열기 = 빈 입력 화면(리셋)
+    window.history.replaceState(null, '', window.location.pathname)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
