@@ -25,6 +25,7 @@ import { startPackCheckout } from '../lib/makeup/packCheckout'
 import { loadLucky, saveLucky, type LuckyState } from '../lib/fortune/luckyStore'
 import { LUCKY_PRICE } from '../lib/fortune/pricing'
 import { saveOrShare } from '../lib/fortune/share'
+import ResultSaveEmail from '../components/makeup/ResultSaveEmail'
 
 const lookImg = luckyLookImg
 type Gen = { k: 'idle' } | { k: 'busy' } | { k: 'done'; image: string; tier: 'free' | 'credit'; balance?: number; freeLeft?: number } | { k: 'error'; e: GenError }
@@ -195,6 +196,16 @@ export default function FortuneMakeup() {
               })}
             </div>
             <p className="mt-3 text-[11px] text-slate-400">{T.gridNote}</p>
+            {/* 메이크업 방법 무료 안내 — 운영자 10/24 "메이크업 방법도 무료로 소개해 드립니다" */}
+            <a href="#howto" onClick={() => trackEvent('lucky_howto_banner', {})}
+              className="mt-4 flex items-center gap-3 border border-primary/40 bg-blush px-4 py-3 hover:border-primary transition-colors">
+              <span className="material-symbols-outlined text-primary-dark">menu_book</span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm md:text-base font-extrabold">{T.howtoFree}</span>
+                <span className="block text-xs text-slate-600">{T.howtoFreeSub}</span>
+              </span>
+              <span className="material-symbols-outlined text-base">arrow_downward</span>
+            </a>
           </div>
 
           {/* 2) 고른 운 → 사진 찍거나 넣으면 바로 생성. 결과도 여기(무료/유료로 나누지 않는다) */}
@@ -226,7 +237,9 @@ export default function FortuneMakeup() {
                 <a href="/analysis/?topup=1" onClick={() => keepPendingLook(look)} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.topup}</a>
               ) : gen.k === 'done' ? (
                 <>
-                  <button type="button" onClick={() => { saveOrShare(gen.image, `kissinskin-lucky-${look}.jpg`, isEn); trackEvent('lucky_photo_save', { look }) }} className={`${btn} bg-primary-dark text-white hover:bg-primary`}><span className="material-symbols-outlined text-base">download</span>{T.savePhoto}</button>
+                  {/* 이미지 저장 · 메일로 받기 — 9종 결과(MakeupResult)와 같은 합성 이미지·같은 경로 */}
+                  <ResultSaveEmail image={gen.image} name={isEn ? `${cur.nameEn} makeup` : cur.nameKo} desc={isEn ? cur.hookEn : cur.hookKo}
+                    fileName={`kissinskin-lucky-${look}.jpg`} tag={`lucky:${look}`} isEn={isEn} />
                   <a href={`${base}${look}/`} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.howAndShop}<span className="material-symbols-outlined text-base">arrow_forward</span></a>
                   <a href="#looks" className="block pt-1 text-center text-xs font-bold text-white/80 underline underline-offset-4">{T.another}</a>
                 </>
@@ -341,8 +354,8 @@ function PriceTable({ isEn }: { isEn: boolean }) {
       </div>
       <p className="mt-3 text-xs leading-relaxed text-slate-500">
         {isEn
-          ? 'Today’s fortune (with your animal-face card) is free. One-time payments only — no subscription, no auto-renewal. Need more? 15 looks for $6.99 on the top-up screen.'
-          : '오늘의 운세(동물상 카드 포함)는 무료예요. 한 번 결제로 끝 — 구독·자동 결제 없어요. 더 필요하면 충전 화면에 15장 $6.99도 있어요.'}
+          ? 'Today’s fortune is free. One-time payments only — no subscription, no auto-renewal. Need more? 15 looks for $6.99 on the top-up screen.'
+          : '오늘의 운세는 무료예요. 한 번 결제로 끝 — 구독·자동 결제 없어요. 더 필요하면 충전 화면에 15장 $6.99도 있어요.'}
       </p>
     </div>
   )
@@ -513,16 +526,16 @@ function IntroSeo({ isEn, base, fortuneHref }: { isEn: boolean; base: string; fo
         <>
           <p><strong className="text-navy">Makeup for the luck you want.</strong> Korean face reading (gwansang) links each part of the face to a kind of luck: the nose to wealth, the under-eye to love, the mid-forehead to career. Each of the 9 lucky looks brightens the matching spot.</p>
           <p><strong className="text-navy">Pick one, add a selfie — done.</strong> Choose a luck, take or upload a selfie and AI applies that look to your photo. Every look also has a free step-by-step how-to on a face chart, with product links for each step.</p>
-          <p><strong className="text-navy">Not sure which luck you need today?</strong> Check <a href={fortuneHref} className="font-bold text-navy underline underline-offset-4">today’s fortune</a> — free, from a selfie or your birth date — and it suggests today’s look.</p>
+          <p><strong className="text-navy">Not sure which luck you need today?</strong> Check <a href={fortuneHref} className="font-bold text-navy underline underline-offset-4">today’s fortune</a> — free, from your birth date — and it suggests today’s look.</p>
         </>
       ) : (
         <>
           <p><strong className="text-navy">원하는 운에 맞춘 메이크업이에요.</strong> 관상에서는 얼굴 자리마다 보는 운이 있어요. 코는 재물, 눈 밑 애교살은 연애, 이마 가운데는 직업. 럭키 메이크업 9가지는 그 자리를 살려 그려요.</p>
           <p><strong className="text-navy">고르고, 셀카 넣으면 끝.</strong> 원하는 운을 고르고 셀카를 찍거나 넣으면 AI가 내 사진에 그 메이크업을 입혀요. 9가지 모두 페이스 차트로 보는 따라 하기 방법과 단계별 제품 링크가 무료로 열려 있어요.</p>
-          <p><strong className="text-navy">오늘 어떤 운이 필요한지 모르겠다면</strong> 무료 <a href={fortuneHref} className="font-bold text-navy underline underline-offset-4">오늘의 운세</a>를 먼저 보세요. 셀카나 생년월일 하나로 오늘 어울리는 럭키 메이크업을 알려 드려요.</p>
+          <p><strong className="text-navy">오늘 어떤 운이 필요한지 모르겠다면</strong> 무료 <a href={fortuneHref} className="font-bold text-navy underline underline-offset-4">오늘의 운세</a>를 먼저 보세요. 생년월일로 오늘 어울리는 럭키 메이크업을 알려 드려요.</p>
         </>
       )}
-      <h3 className="pt-2 text-base font-extrabold text-navy">{isEn ? 'How to do each look' : '9가지 따라 하는 방법'}</h3>
+      <h3 id="howto" className="scroll-mt-20 pt-2 text-base font-extrabold text-navy">{isEn ? 'How to do each look — free' : '9가지 따라 하는 방법 — 무료'}</h3>
       <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm sm:grid-cols-3">
         {FORTUNE_LOOKS.map((l) => (
           <li key={l.id}><a href={`${base}${l.id}/`} className="font-semibold text-navy underline-offset-4 hover:underline">{isEn ? `${l.nameEn} makeup` : l.nameKo}</a></li>
@@ -542,6 +555,7 @@ const KO = {
   ctaStart: '운 고르기', ctaPrice: '가격 보기',
   gridTitle: '원하는 운을 고르세요', gridHint: '하나를 누르면 아래에서 바로 만들어요',
   gridNote: '같은 모델에 AI로 입힌 예시예요. 내 셀카로 하면 내 얼굴로 나와요.',
+  howtoFree: '메이크업 방법도 무료로 소개해 드립니다', howtoFreeSub: '9가지 모두 페이스 차트로 보는 단계별 방법 + 단계별 제품 링크',
   makeKicker: '셀카 넣고 생성하기',
   howLink: '따라 하는 방법 · 제품 보기 →',
   camera: '셀카 찍기', gallery: '사진 고르기', change: '다른 사진으로', photoReady: '셀카 준비됐어요',
@@ -558,9 +572,9 @@ const KO = {
     choose: '무료권과 보유 장수 중 무엇을 쓸지 골라 주세요.', unavailable: '잠시 후 다시 시도해 주세요.', retry: '생성에 실패했어요. 다시 누르면 추가 차감 없이 다시 만들어요.',
   } as Record<GenError, string>,
   before: '비포', after: '애프터', usedFree: '무료권 1장 사용', usedCredit: '1장 사용',
-  savePhoto: '사진 저장', howAndShop: '이 메이크업 따라 하기 · 제품 보기', another: '다른 운도 만들어 보기',
+  howAndShop: '이 메이크업 따라 하기 · 제품 보기', another: '다른 운도 만들어 보기',
   aiNote: 'AI가 내 사진에 입혀 보는 시뮬레이션이에요. 실제 화장 결과와 다를 수 있어요.',
-  fortuneKicker: '무료 · 오늘의 운세', fortuneTitle: '오늘은 어떤 운이 필요할까?', fortuneDesc: '셀카나 생년월일 하나로 오늘의 운세와 어울리는 럭키 메이크업을 알려 드려요.',
+  fortuneKicker: '무료 · 오늘의 운세', fortuneTitle: '오늘은 어떤 운이 필요할까?', fortuneDesc: '생년월일과 태어난 시로 오늘의 운세·오늘의 색·강한 운을 무료로 봐요.',
 }
 const EN: typeof KO = {
   kicker: 'Lucky makeup · K-face reading',
@@ -571,6 +585,7 @@ const EN: typeof KO = {
   ctaStart: 'Pick a luck', ctaPrice: 'See pricing',
   gridTitle: 'Pick the luck you want', gridHint: 'Tap one — make it right below',
   gridNote: 'Examples applied with AI on one model. With your selfie, it’s your face.',
+  howtoFree: 'We also show you how to do each look — free', howtoFreeSub: 'Step-by-step face-chart how-tos for all 9, with product links for every step',
   makeKicker: 'Add a selfie & create',
   howLink: 'How-to & products →',
   camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Use another photo', photoReady: 'Selfie ready',
@@ -587,7 +602,7 @@ const EN: typeof KO = {
     choose: 'Choose your free pass or your looks.', unavailable: 'Please try again in a moment.', retry: 'That didn’t work. Tap again — you won’t be charged twice.',
   },
   before: 'Before', after: 'After', usedFree: '1 free pass used', usedCredit: '1 look used',
-  savePhoto: 'Save photo', howAndShop: 'How to do this look · products', another: 'Try another luck',
+  howAndShop: 'How to do this look · products', another: 'Try another luck',
   aiNote: 'An AI simulation on your photo — real makeup may look different.',
-  fortuneKicker: 'Free · Today’s fortune', fortuneTitle: 'Which luck do you need today?', fortuneDesc: 'From a selfie or your birth date — today’s fortune and the lucky look that suits it.',
+  fortuneKicker: 'Free · Today’s fortune', fortuneTitle: 'Which luck do you need today?', fortuneDesc: 'From your birth date and hour — today’s fortune, colour and strongest lucks, free.',
 }

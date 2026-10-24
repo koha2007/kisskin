@@ -103,22 +103,22 @@ export function LuckyLookHead({ id, isEn }: { id: FortuneLookId; isEn: boolean }
   )
 }
 
-/** /tools/today-fortune/ <head> — 자동완성 실수요: "오늘의 운세"·"관상 테스트"·"동물상 테스트"·"사주 무료" / "daily horoscope", "what animal face do i have" */
+/** /tools/today-fortune/ <head> — 자동완성 실수요: "오늘의 운세"·"오늘의 운세 무료"·"사주 무료" / "daily fortune", "saju" (10/24 셀카·동물상 뺌) */
 export function TodayFortuneHead({ isEn }: { isEn: boolean }) {
   const url = isEn ? `${ORIGIN}/en/tools/today-fortune/` : `${ORIGIN}/tools/today-fortune/`
   const title = isEn
-    ? 'Today’s Fortune — Free Korean Face Reading & Saju from a Selfie or Birth Date'
-    : '오늘의 운세 무료 — 셀카 관상 · 생년월일 사주로 보는 오늘의 운 | 키스인스킨'
+    ? 'Today’s Fortune — Free Korean Saju Reading from Your Birth Date & Hour'
+    : '오늘의 운세 무료 — 생년월일·태어난 시로 보는 사주 오늘의 운 | 키스인스킨'
   const desc = isEn
-    ? 'Free, no log-in: a selfie or your birth date is enough. Today’s luck, a one-line tip, your lucky colour, your animal face and the lucky makeup that suits today.'
-    : '무료 · 로그인 없이, 셀카나 생년월일 하나면 돼요. 오늘의 운과 한 줄 조언, 행운 색, 나의 동물상, 오늘 어울리는 럭키 메이크업까지.'
+    ? 'Free, no log-in. From your birth date and birth hour, like a saju reading: today’s fortune with a one-line tip, today’s colour and your three strongest lucks.'
+    : '무료 · 로그인 없이. 생년월일과 태어난 시로 사주 보듯이 — 오늘의 운세와 한 줄 조언, 오늘의 색, 나의 강한 운 3가지.'
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={desc} />
       <meta name="keywords" content={isEn
-        ? 'today fortune, daily fortune, korean face reading, face reading app, animal face test, what animal face do i have, saju, five elements, lucky colour today'
-        : '오늘의 운세, 오늘의 운세 무료, 무료 운세, 관상 테스트, 관상 테스트 무료, 동물상 테스트, 여우상, 고양이상, 사주 무료, 오늘의 행운 색, 키스인스킨'} />
+        ? 'today fortune, daily fortune, free fortune, saju, korean saju, four pillars, five elements, lucky colour today'
+        : '오늘의 운세, 오늘의 운세 무료, 무료 운세, 사주 무료, 무료 사주, 생년월일 운세, 오늘의 행운 색, 일진, 키스인스킨'} />
       <link rel="canonical" href={url} />
       <link rel="alternate" hrefLang="ko" href={`${ORIGIN}/tools/today-fortune/`} />
       <link rel="alternate" hrefLang="en" href={`${ORIGIN}/en/tools/today-fortune/`} />
