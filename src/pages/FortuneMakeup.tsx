@@ -34,7 +34,8 @@ import { loadLucky, saveLucky, type LuckyState } from '../lib/fortune/luckyStore
 import { LUCKY_PRICE } from '../lib/fortune/pricing'
 
 type Phase = 'intro' | 'busy' | 'result' | 'shared'
-// 운세 앱 영역(매일 운세·사주 명식·정밀 풀이·궁합) — 2026-10-24 화면에서 뺌. 4주 데이터 보고 다시 판단.
+// 운세 앱 영역(사주 명식·정밀 풀이·궁합) — 2026-10-24 화면에서 뺌. 4주 데이터 보고 다시 판단.
+// (매일 운세는 10/25 운영자 승인으로 다시 켬 — 재방문 장치)
 const SHOW_FORTUNE_EXTRAS = false
 // 2027 신년운 페이지(/tools/2027-fortune/)가 열리면 true — 그때부터 12~1월에 입구 배너가 뜬다
 const NEW_YEAR_OPEN = false
@@ -313,11 +314,13 @@ export default function FortuneMakeup() {
               </div>
             </div>
 
+            {/* 다시 온 사람 — 오늘의 운빨 메이크업(매일 바뀜)이 재방문 장치 */}
             {saved && (
-              <button type="button" onClick={() => { setResult(saved); setLook(saved.scores[0].id); setPhase('result'); window.scrollTo({ top: 0 }) }}
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold underline-offset-4 hover:underline">
-                <span className="material-symbols-outlined text-base">history</span>{T.reopen}
-              </button>
+              <div className="mt-8 max-w-xl">
+                <DailyCard r={saved} isEn={isEn}
+                  onOpen={() => { setResult(saved); setLook(saved.scores[0].id); setPhase('result'); window.scrollTo({ top: 0 }) }}
+                  onTry={(id) => { setResult(saved); setLook(id); setPhase('result'); setTimeout(() => ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300) }} />
+              </div>
             )}
 
             {/* 9종 — 3×3 크게, 한 화면에(Lensa·Epik: "나오는 결과"를 먼저). 누르면 방법 페이지.
@@ -474,6 +477,9 @@ export default function FortuneMakeup() {
               </div>
             )}
 
+            {/* 오늘의 운빨 메이크업 — 매일 바뀌는 무료 한 장(재방문 장치) */}
+            <div className="mt-10"><DailyCard r={result} isEn={isEn} onTry={(id) => { setLook(id); setGen({ k: 'idle' }); jobRef.current = ''; ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }} /></div>
+
             {/* 4) 공유용 무료 카드 — 동물상 카드 · 포카(바이럴 입구) */}
             <div className="mt-12 border-t border-slate-200 pt-10">
               <p className={eyebrow}>{T.shareKicker}</p>
@@ -501,7 +507,6 @@ export default function FortuneMakeup() {
             {/* 운세 앱 영역 — 2026-10-24 화면에서 뺌(코드는 유지, 4주 데이터 보고 다시 판단) */}
             {SHOW_FORTUNE_EXTRAS && (
               <>
-                <div className="mt-6"><DailyCard r={result} isEn={isEn} onTry={(id) => { setLook(id); setGen({ k: 'idle' }); jobRef.current = ''; ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }) }} /></div>
                 {result.birth && <SajuBox birth={result.birth} counts={result.counts} lacking={result.lacking} isEn={isEn} T={T} />}
                 <PreciseBox r={result} isEn={isEn} loggedIn={loggedIn} free={free}
                   onLogin={() => { saveLast(result); window.location.href = '/auth?next=' + encodeURIComponent(base + '?resume=1') }}
@@ -948,27 +953,36 @@ function PreciseBox({ r, isEn, loggedIn, free, onLogin, onPaid }: {
   )
 }
 
+// 오늘의 운빨 메이크업 — 2026-10-25 다시 켬. 숨긴 운세 영역 중 이것만은 "다시 오게 만드는 장치"라서
+// (Co-Star 의 매일 운세 = 재방문 엔진, 우리 4주 재방문 1.2% → 2단계 기준 10%) 메이크업으로 이어지게 남긴다.
+// 결과를 한 번 본 사람에게만(기기 저장본) — 입구 맨 위 · 결과 화면.
 function DailyCard({ r, isEn, onOpen, onTry }: { r: FortuneResult; isEn: boolean; onOpen?: () => void; onTry: (id: FortuneLookId) => void }) {
   const d = dailyFortune(r)
   const l = fortuneLookById(d.look)
   return (
-    <div className="mb-6 rounded-3xl border-[3px] border-[#1b1b1f] bg-[#fff7df] p-5 shadow-[6px_6px_0_#1b1b1f]">
-      <div className="flex items-center justify-between">
-        <p className="text-[11px] font-black tracking-[0.2em] text-[#d6402f]">{isEn ? `TODAY'S LUCK · ${d.dateKey}` : `오늘의 운빨 메이크업 · ${d.dateKey}`}</p>
-        <span className="text-xl" style={{ fontFamily: "'Song Myung', serif" }}>{d.dayPillarHanja}日</span>
+    <div className="border border-slate-200 bg-white p-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{isEn ? `Today's lucky makeup · ${d.dateKey}` : `오늘의 운빨 메이크업 · ${d.dateKey}`}</p>
+        <span className="text-lg text-slate-400" style={{ fontFamily: "'Song Myung', serif" }} aria-hidden="true">{d.dayPillarHanja}日</span>
       </div>
-      <p className="mt-2 text-xl font-black">{isEn ? d.themeEn : d.themeKo} <span className="text-[#f2b632]">{'★'.repeat(d.stars)}<span className="text-[#1b1b1f]/15">{'★'.repeat(5 - d.stars)}</span></span></p>
-      <p className="mt-1.5 text-[13.5px] leading-relaxed">{isEn ? d.tipEn : d.tipKo}</p>
-      <div className="mt-3 flex items-center gap-3">
-        <img src={luckyLookImg(l.id)} alt="" className="h-20 w-14 shrink-0 rounded-lg border-2 border-[#1b1b1f] object-cover object-[50%_22%]" />
-        <div className="min-w-0 text-[12.5px]">
-          <p className="font-black">{isEn ? `Today's look: ${l.nameEn}` : `오늘의 룩: ${l.nameKo}`}</p>
-          <p className="mt-0.5 flex items-center gap-1.5 font-bold"><span className="inline-block h-3.5 w-3.5 rounded-full border border-[#1b1b1f]" style={{ background: d.color.hex }} />{isEn ? `Lucky colour: ${d.color.en}` : `행운 색: ${d.color.ko}`}</p>
-          <button type="button" onClick={() => onTry(l.id)} className="mt-1 font-black text-[#d6402f] underline underline-offset-2">{isEn ? 'Try it on my face →' : '내 얼굴에 입혀 보기 →'}</button>
+      <p className="mt-2 text-xl font-extrabold leading-snug">
+        {isEn ? d.themeEn : d.themeKo}{' '}
+        <span className="whitespace-nowrap text-primary" aria-label={isEn ? `${d.stars} of 5` : `5점 중 ${d.stars}점`}>{'★'.repeat(d.stars)}<span className="text-slate-200">{'★'.repeat(5 - d.stars)}</span></span>
+      </p>
+      <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{isEn ? d.tipEn : d.tipKo}</p>
+      <div className="mt-4 flex items-center gap-3">
+        <img src={luckyLookImg(l.id)} alt="" className="h-20 w-14 shrink-0 object-cover object-[50%_22%]" />
+        <div className="min-w-0 text-[13px]">
+          <p className="font-extrabold">{isEn ? `Today's look: ${l.nameEn}` : `오늘의 룩: ${l.nameKo}`}</p>
+          <p className="mt-0.5 flex items-center gap-1.5 text-slate-600"><span className="inline-block h-3.5 w-3.5 rounded-full ring-1 ring-black/10" style={{ background: d.color.hex }} />{isEn ? `Lucky colour: ${d.color.en}` : `행운 색: ${d.color.ko}`}</p>
         </div>
       </div>
-      {onOpen && <button type="button" onClick={onOpen} className="mt-4 w-full rounded-2xl bg-[#1b1b1f] py-3 text-sm font-black text-[#f6eedc]">{isEn ? 'Open my result & card' : '내 결과·카드 다시 보기'}</button>}
-      <p className="mt-2 text-center text-[11px] text-[#1b1b1f]/55">{isEn ? 'A new reading every day — free.' : '매일 바뀌어요 · 무료'}</p>
+      <div className={`mt-4 grid gap-2 ${onOpen ? 'grid-cols-2' : ''}`}>
+        <button type="button" onClick={() => { trackEvent('lucky_daily_try', { look: l.id, at: onOpen ? 'intro' : 'result' }); onTry(l.id) }}
+          className="flex items-center justify-center gap-1 bg-navy py-3 text-sm font-bold text-white hover:bg-navy-mid transition-colors">{isEn ? 'Try today’s look' : '오늘의 룩 입혀 보기'}</button>
+        {onOpen && <button type="button" onClick={onOpen} className="border border-slate-300 py-3 text-sm font-bold hover:border-navy transition-colors">{isEn ? 'My last result' : '지난 결과 보기'}</button>}
+      </div>
+      <p className="mt-2 text-center text-[11px] text-slate-400">{isEn ? 'A new reading every day · free' : '매일 바뀌어요 · 무료'}</p>
     </div>
   )
 }
@@ -1111,7 +1125,6 @@ const KO = {
   priceStrip: [['1장', '무료'], ['5장', '$2.99'], ['9가지 운 전부', '$4.99']] as [string, string][],
   noSub: '한 번 결제 · 구독 없음',
   ctaStart: '내 셀카로 시작', ctaPrice: '가격 보기',
-  reopen: '지난 결과 다시 보기',
   newYear: '2027 정미년 신년운 메이크업이 열렸어요',
   gridTitle: '럭키 메이크업 9가지', gridHint: '누르면 따라 하는 방법과 제품 →',
   gridNote: '같은 모델에 AI로 입힌 예시예요. 내 셀카로 하면 내 얼굴로 나와요.',
@@ -1170,7 +1183,6 @@ const EN: typeof KO = {
   priceStrip: [['1 look', 'Free'], ['5 looks', '$2.99'], ['All 9 lucks', '$4.99']],
   noSub: 'One-time payment · no subscription',
   ctaStart: 'Start with my selfie', ctaPrice: 'See pricing',
-  reopen: 'Open my last result',
   newYear: 'The 2027 New Year lucky makeup is here',
   gridTitle: '9 lucky makeup looks', gridHint: 'Tap for the how-to and products →',
   gridNote: 'Examples applied with AI on one model. With your selfie, it’s your face.',
