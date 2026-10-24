@@ -142,6 +142,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </a>
           {/* Unified site nav — must match ToolsNav in src/components/ToolsLayout.tsx */}
           <div className="hidden md:flex items-center gap-5">
+            <a href={isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Lucky Makeup' : '럭키 메이크업'}</a>
             <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
             <a href={isEn ? '/en/looks/' : '/looks/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'How-To' : '메이크업 방법'}</a>
             <a href={isEn ? '/en/class/' : '/class/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Class' : '메이크업 클래스'}</a>
@@ -226,6 +227,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               </div>
               <ul className="flex-1 overflow-y-auto py-2">
                 {[
+                  { href: isEn ? '/en/lucky-makeup/' : '/lucky-makeup/', label: isEn ? 'Lucky Makeup' : '럭키 메이크업' },
                   { href: toolHref('/tools/'), label: t('common.freeTools') },
                   { href: isEn ? '/en/looks/' : '/looks/', label: isEn ? 'Makeup How-To' : '메이크업 방법' },
                   { href: isEn ? '/en/class/' : '/class/', label: isEn ? 'Makeup Class' : '메이크업 클래스' },

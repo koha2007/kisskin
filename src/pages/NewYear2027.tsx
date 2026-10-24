@@ -13,7 +13,7 @@ import { isValidBirth, type BirthInput } from '../lib/fortune/saju'
 import { newYearCard, newYearAccentPrompt, encodeNy, decodeNy, groupOfTenGod, ONE_CHAR, YEAR_TYPES, BLESSING_TEXT, LUCKY, MONTH_THEME, zodiacLine, type NewYearCard } from '../lib/fortune/newyear'
 import { renderNewYearCard, renderBlessingsBoard, GOAT_BADGE } from '../lib/fortune/newyearCard'
 import { loadNy, saveNy, type NyState } from '../lib/fortune/newyearStore'
-import { fortuneLookById, type FortuneLookId } from '../lib/fortune/looks'
+import { fortuneLookById, type FortuneLookId, luckyLookImg } from '../lib/fortune/looks'
 import { loadLast, unlockSecret, hasSecret } from '../lib/fortune/state'
 import { badgeSrc, SECRET_BADGE } from '../lib/fortune/animals'
 import { generateFortuneMakeup, newJobId, type GenError } from '../lib/fortune/generate'
@@ -23,7 +23,7 @@ import { supabase } from '../lib/supabase'
 import { withRef } from '../lib/referral'
 
 type Phase = 'intro' | 'result' | 'shared'
-const lookImg = (id: FortuneLookId) => `/fortune/looks/${id}-after.webp`
+const lookImg = luckyLookImg
 const RED = '#d6402f', INK = '#1b1b1f', CREAM = '#f6eedc'
 
 async function saveOrShare(dataUrl: string, name: string, isEn: boolean) {
@@ -41,7 +41,7 @@ export default function NewYear2027() {
   const { locale } = useI18n()
   const isEn = locale === 'en'
   const base = isEn ? '/en/tools/2027-fortune/' : '/tools/2027-fortune/'
-  const fortuneBase = isEn ? '/en/tools/fortune-makeup/' : '/tools/fortune-makeup/'
+  const fortuneBase = isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'
   const T = isEn ? EN : KO
   const [phase, setPhase] = useState<Phase>('intro')
   const [birth, setBirth] = useState({ y: '', m: '', d: '' })

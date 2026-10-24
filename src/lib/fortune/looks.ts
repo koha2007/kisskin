@@ -34,8 +34,12 @@ export interface FortuneLook {
   /** 관상 12궁 근거 */
   palaceKo: string
   palaceEn: string
-  /** 룩 이름(카드 제목) */
+  /** 룩 이름(카드·그리드 제목) — 2026-10-24 운영자: MZ 이름(돈복·썸 시작…) 대신 익숙한 운 이름으로 원복 */
   nameKo: string
+  nameEn: string
+  /** 한 줄 관상 근거(그리드 카드·방법 페이지 첫 줄) — 운세는 포장(Fresh×Susan Miller 방식), 본문은 메이크업 */
+  hookKo: string
+  hookEn: string
   /** promptWholeFace 가 "${subEn} makeup look" 으로 쓴다 */
   subEn: string
   /** 처방 한 줄 */
@@ -52,7 +56,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'wealth',
     fortuneKo: '재물운', fortuneEn: 'Wealth', emoji: '💰',
     palaceKo: '재백궁 · 코끝과 콧방울', palaceEn: 'Wealth palace · nose tip',
-    nameKo: '재물운 관상 메이크업', subEn: 'WEALTH FACE-READING',
+    nameKo: '재물운 메이크업', nameEn: 'Wealth Luck',
+    hookKo: '코는 재물을 담는 자리, 코끝에 금빛 광', hookEn: 'The nose holds wealth — a golden glow on the tip', subEn: 'WEALTH FACE-READING',
     descKo: '코끝 윤광 · 맑은 이마 · 올라가 보이는 입꼬리',
     descEn: 'Lit nose tip · clear forehead · lifted-looking lip corners',
     accent: '#c9a227',
@@ -72,7 +77,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'love',
     fortuneKo: '연애운', fortuneEn: 'Love', emoji: '💕',
     palaceKo: '남녀궁 · 눈 밑 애교살', palaceEn: 'Love palace · under-eye',
-    nameKo: '연애운 관상 메이크업', subEn: 'LOVE FACE-READING',
+    nameKo: '연애운 메이크업', nameEn: 'Love Luck',
+    hookKo: '눈 밑 애교살은 연애 자리, 도톰하고 밝게', hookEn: 'The under-eye is the love spot — plump and bright', subEn: 'LOVE FACE-READING',
     descKo: '도톰한 애교살 · 볼 중앙 생기 · 촉촉한 입술',
     descEn: 'Plump aegyo-sal · flushed cheeks · glossy lips',
     accent: '#e8708a',
@@ -88,7 +94,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'marriage',
     fortuneKo: '결혼·인연운', fortuneEn: 'Marriage & Fate', emoji: '💍',
     palaceKo: '처첩궁 · 눈꼬리 옆', palaceEn: 'Spouse palace · outer eye corners',
-    nameKo: '인연운 관상 메이크업', subEn: 'DESTINY FACE-READING',
+    nameKo: '결혼·인연운 메이크업', nameEn: 'Marriage Luck',
+    hookKo: '눈꼬리 옆은 인연 자리, 은은한 광으로', hookEn: 'Beside the eyes is the partner spot — a soft glow', subEn: 'DESTINY FACE-READING',
     descKo: '눈꼬리 옆 은은한 광 · 길게 빼는 브라운 라인 · 로즈 립',
     descEn: 'Glow beside the eye corners · elongated soft liner · rose lip',
     accent: '#b5838d',
@@ -103,7 +110,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'reunion',
     fortuneKo: '재회운', fortuneEn: 'Reunion', emoji: '🔁',
     palaceKo: '남녀궁 · 처첩궁', palaceEn: 'Love & spouse palaces',
-    nameKo: '재회운 관상 메이크업', subEn: 'FIRST-LOVE FACE-READING',
+    nameKo: '재회운 메이크업', nameEn: 'Reunion Luck',
+    hookKo: '첫 만남 같은 맑은 피부와 체리 틴트', hookEn: 'First-meeting clear skin and a cherry tint', subEn: 'FIRST-LOVE FACE-READING',
     descKo: '첫 만남 같은 맑은 피부 · 일자 눈썹 · 체리 틴트',
     descEn: 'First-meeting clear skin · soft straight brows · cherry tint',
     accent: '#d1495b',
@@ -119,7 +127,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'career',
     fortuneKo: '직업·승진운', fortuneEn: 'Career', emoji: '💼',
     palaceKo: '관록궁 · 이마 중앙', palaceEn: 'Career palace · mid-forehead',
-    nameKo: '승진운 관상 메이크업', subEn: 'CAREER FACE-READING',
+    nameKo: '직업·승진운 메이크업', nameEn: 'Career Luck',
+    hookKo: '이마 가운데는 직업 자리, 맑게 밝히기', hookEn: 'The mid-forehead is the career spot — keep it lit', subEn: 'CAREER FACE-READING',
     descKo: '이마 중앙 광 · 반듯한 눈썹 · 신뢰감 있는 립',
     descEn: 'Lit mid-forehead · structured brows · confident lip',
     accent: '#3d5a80',
@@ -136,7 +145,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'exam',
     fortuneKo: '합격·면접운', fortuneEn: 'Exams & Interviews', emoji: '🎓',
     palaceKo: '명궁 · 미간', palaceEn: 'Life palace · between the brows',
-    nameKo: '합격운 관상 메이크업', subEn: 'SUCCESS FACE-READING',
+    nameKo: '합격·면접운 메이크업', nameEn: 'Exam Luck',
+    hookKo: '미간은 명궁, 깨끗한 미간과 또렷한 눈빛', hookEn: 'Between the brows is the life spot — clean and clear-eyed', subEn: 'SUCCESS FACE-READING',
     descKo: '깨끗한 미간 · 또렷한 눈빛 · 단정한 혈색',
     descEn: 'Clean brow-space · bright eyes · neat healthy colour',
     accent: '#2a9d8f',
@@ -153,7 +163,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'health',
     fortuneKo: '건강운', fortuneEn: 'Vitality', emoji: '🌿',
     palaceKo: '질액궁 · 콧대 시작점', palaceEn: 'Health palace · nose root',
-    nameKo: '건강운 관상 메이크업', subEn: 'VITALITY FACE-READING',
+    nameKo: '건강운 메이크업', nameEn: 'Health Luck',
+    hookKo: '콧대 시작점과 볼에 건강한 혈색', hookEn: 'A healthy flush on the nose root and cheeks', subEn: 'VITALITY FACE-READING',
     descKo: '속광 피부 · 혈색 치크 · 맑은 눈',
     descEn: 'Inner-glow skin · healthy flush · clear eyes',
     accent: '#52b788',
@@ -170,7 +181,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'popularity',
     fortuneKo: '인복·인기운', fortuneEn: 'Popularity', emoji: '🤝',
     palaceKo: '노복궁 · 턱과 입', palaceEn: 'Friendship palace · chin & mouth',
-    nameKo: '인기운 관상 메이크업', subEn: 'CHARM FACE-READING',
+    nameKo: '인복·인기운 메이크업', nameEn: 'People Luck',
+    hookKo: '입꼬리와 턱은 사람 복 자리, 웃는 인상으로', hookEn: 'Lips and chin are the people spot — a smiling look', subEn: 'CHARM FACE-READING',
     descKo: '웃어 보이는 입꼬리 · 둥근 볼 블러셔 · 부드러운 턱선',
     descEn: 'Smiling-looking lips · round cheek blush · soft jawline',
     accent: '#f4a261',
@@ -186,7 +198,8 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
     id: 'travel',
     fortuneKo: '해외·이동운', fortuneEn: 'Travel & Abroad', emoji: '✈️',
     palaceKo: '천이궁 · 이마 양옆', palaceEn: 'Travel palace · forehead sides',
-    nameKo: '해외운 관상 메이크업', subEn: 'WANDERLUST FACE-READING',
+    nameKo: '해외·이동운 메이크업', nameEn: 'Travel Luck',
+    hookKo: '이마 양옆은 이동 자리, 코발트 라인 포인트', hookEn: 'The temples are the travel spot — a cobalt wing', subEn: 'WANDERLUST FACE-READING',
     descKo: '이마 양옆 하이라이트 · 컬러 아이라인 포인트 · 선키스 볼',
     descEn: 'Lit temples · a pop of colour liner · sun-kissed cheeks',
     accent: '#0077b6',
@@ -200,6 +213,11 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
       'bare face.',
   },
 ]
+
+// 예시 사진 — 2026-10-24 JJ 헤어 6종으로 6장 재생성(직업·합격·연애·인연·건강·해외). 파일명이 고정이라
+// 이미지를 바꿀 때마다 V 를 올릴 것(브라우저 캐시 4시간 — src/lib/makeup/lookImages.ts 와 같은 이유).
+const LOOK_IMG_V = '20261024'
+export const luckyLookImg = (id: FortuneLookId) => `/fortune/looks/${id}-after.webp?v=${LOOK_IMG_V}`
 
 export const fortuneLookById = (id: FortuneLookId): FortuneLook =>
   FORTUNE_LOOKS.find((l) => l.id === id) ?? FORTUNE_LOOKS[0]

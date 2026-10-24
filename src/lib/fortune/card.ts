@@ -226,11 +226,11 @@ export async function renderResultCard(d: CardData): Promise<HTMLCanvasElement> 
   ctx.textAlign = 'left'; ctx.fillStyle = YELLOW
   ctx.save(); ctx.letterSpacing = '6px'
   ctx.font = `900 30px ${SANS}`
-  ctx.fillText(d.applied ? (d.isEn ? 'APPLIED · FACE-READING' : '적용 완료 · 관상 메이크업') : (d.isEn ? 'MY PRESCRIPTION' : '나의 처방 · 관상 메이크업'), bx + 52, by + 70)
+  ctx.fillText(d.applied ? (d.isEn ? 'APPLIED · LUCKY MAKEUP' : '적용 완료 · 럭키 메이크업') : (d.isEn ? 'MY LUCKY MAKEUP' : '나의 처방 · 럭키 메이크업'), bx + 52, by + 70)
   ctx.restore()
   ctx.fillStyle = CREAM
-  fitText(ctx, d.isEn ? `${look.fortuneEn} makeup` : look.nameKo.replace(' 관상 메이크업', ' 메이크업'), bw2 - 104, (px) => `900 ${px}px ${SANS}`, 66, 40)
-  ctx.fillText(d.isEn ? `${look.fortuneEn} makeup` : look.nameKo.replace(' 관상 메이크업', ' 메이크업'), bx + 52, by + 140)
+  fitText(ctx, d.isEn ? look.nameEn : look.nameKo, bw2 - 104, (px) => `900 ${px}px ${SANS}`, 66, 40)
+  ctx.fillText(d.isEn ? look.nameEn : look.nameKo, bx + 52, by + 140)
   ctx.globalAlpha = 0.9
   fitText(ctx, d.isEn ? look.descEn : look.descKo, bw2 - 104, (px) => `500 ${px}px ${SANS}`, 34, 22)
   ctx.fillText(d.isEn ? look.descEn : look.descKo, bx + 52, by + 196)

@@ -55,7 +55,7 @@ const EN_MIRRORED_TOOL_PREFIXES = [
   '/tools/personal-color/',
   '/tools/makeup-mbti/',
   '/tools/perfume-type/',
-  '/tools/fortune-makeup/',
+  '/lucky-makeup/', // 럭키 메이크업(옛 /tools/fortune-makeup/ · 2026-10-22 이동) + 9종 방법 페이지
   '/tools/2027-fortune/',
 ]
 

@@ -4,6 +4,8 @@
 // Checkout API — supports per-analysis (default), subscription, and credit-pack checkout
 import { CREDIT_PACKS, isPackId } from './_packs'
 
+const LUCKY_BACKS = new Set(['/lucky-makeup/', '/en/lucky-makeup/'])
+
 interface Env {
   POLAR_ACCESS_TOKEN: string
   POLAR_PRODUCT_ID?: string       // Subscription product ID (set in Cloudflare env)
@@ -62,7 +64,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   }
 
   try {
-    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string; type?: string; pack?: string }
+    const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string; type?: string; pack?: string; back?: string }
     const useRedirect = !!body.redirect
     const origin = request.headers.get('Origin') || 'https://kissinskin.net'
 
@@ -124,6 +126,12 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       // 컬렉션은 복귀하자마자 저장해 둔 셀카로 9룩 생성을 이어가야 해서 collection=1 을 붙인다.
       const extra = body.pack === 'collection' ? 'collection=1&' : ''
       checkoutBody.success_url = `${origin}/analysis/?${extra}checkout_id={CHECKOUT_ID}`
+      // 럭키 메이크업 9장(2026-10-22): 같은 컬렉션 팩이지만 복귀는 럭키 페이지로 — 거기서 기기에 둔 셀카로
+      // 9가지 운을 이어 만든다(purchase 추적 trackCheckoutReturn 은 경로와 무관하게 checkout_id 만 본다).
+      // 열린 리다이렉트가 되지 않게 정해진 경로만 받는다.
+      if (body.pack === 'collection' && body.back && LUCKY_BACKS.has(body.back)) {
+        checkoutBody.success_url = `${origin}${body.back}?nine=1&checkout_id={CHECKOUT_ID}`
+      }
     } else {
       checkoutBody.embed_origin = origin
     }

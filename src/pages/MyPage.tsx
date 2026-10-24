@@ -7,6 +7,7 @@ import { clearDna } from '../lib/beauty-dna/types'
 import { clearCollection } from '../lib/makeup/collectionStore'
 import { clearFortuneData } from '../lib/fortune/state'
 import { clearNy } from '../lib/fortune/newyearStore'
+import { clearLucky } from '../lib/fortune/luckyStore'
 import { getCreditBalance } from '../lib/credits'
 import { getFreeStatus, type FreeStatus } from '../lib/freeStatus'
 import { getMyReferral, inviteUrl, type ReferralInfo } from '../lib/referral'
@@ -268,6 +269,7 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
       await clearCollection().catch(() => { /* 기기 저장소 없음 */ })   // 9룩 컬렉션 셀카·결과(IndexedDB)
       clearFortuneData()                                                // 관상 결과·도감(localStorage — 생년월일 포함)
       await clearNy().catch(() => { /* 기기 저장소 없음 */ })           // 2027 신년: 생년월일·셀카·오복 5장(IndexedDB)
+      await clearLucky().catch(() => { /* 기기 저장소 없음 */ })        // 럭키 메이크업 9장: 셀카·완성본(IndexedDB)
       await supabase.auth.signOut({ scope: 'local' })
       await onLogout()
       window.location.href = '/'

@@ -15,6 +15,14 @@ https://kisskin.pages.dev/* https://kissinskin.net/:splat 301!
 /reviews          /reviews/           301
 /terms            /terms/             301
 /tools            /tools/             301
+
+# 2026-10-22 관상·사주 메이크업 → 럭키 메이크업(독립 페이지). 공유 링크(?c=)는 쿼리째 넘어간다.
+/tools/fortune-makeup        /lucky-makeup/      301
+/tools/fortune-makeup/       /lucky-makeup/      301
+/en/tools/fortune-makeup     /en/lucky-makeup/   301
+/en/tools/fortune-makeup/    /en/lucky-makeup/   301
+/lucky-makeup                /lucky-makeup/      301
+/en/lucky-makeup             /en/lucky-makeup/   301
 /tools/face-shape       /tools/face-shape/        301
 /tools/personal-color   /tools/personal-color/    301
 /tools/makeup-mbti      /tools/makeup-mbti/       301
