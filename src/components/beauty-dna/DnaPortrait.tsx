@@ -58,7 +58,7 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
   // 새 생성마다 새 jobId(차감), 에러 재시도는 같은 jobId(멱등) — makeup-edit 패턴
   const jobIdRef = useRef<string | null>(null)
   const payRef = useRef<PayChoice | undefined>(undefined)   // 재시도는 같은 결제수단
-  // 무료권(무료 도구 1장)·크레딧 남은 수 — 둘 중 무엇을 쓸지는 사용자가 고른다(우선순위 없음).
+  // 무료권(tool 풀 — 2026-10-24부터 0장, 가입 무료권은 메이크업·럭키로)·크레딧 남은 수 — 둘 중 무엇을 쓸지는 사용자가 고른다(우선순위 없음).
   const [counts, setCounts] = useState<{ free: number; credits: number } | null>(null)
   const [refresh, setRefresh] = useState(0)
   useEffect(() => {
@@ -74,14 +74,14 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
     ? {
         title: 'See it on a model',
         desc: 'We put your combination on a model face — an illustration, not a real person.',
-        needLogin: 'Generating the model needs a login (the 4 quizzes don’t). First one is free, no card.',
+        needLogin: 'Generating the model needs a login and 1 credit (the 4 quizzes stay free, no login).',
         cta: 'Make my makeup model',
         loginCta: 'Log in to make it',
         loading: 'Creating your model… (up to ~1 min)',
         again: 'Make another',
         label: 'Illustration · not a real person · example of the type combination',
         save: 'Press and hold the image to save',
-        errLogin: 'Log in to make your model — the first one is free, no card needed.',
+        errLogin: 'Log in to make your model with 1 credit.',
         errTopup: 'Not enough credits. Top up to make another.',
         errUnconfigured: 'This feature is not live yet. Please check back soon.',
         errRetry: 'Generation failed. Please try again.',
@@ -92,14 +92,14 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
     : {
         title: '모델로 보기',
         desc: '내 조합을 모델 얼굴에 입혀봤어요. 실제 인물이 아닌 일러스트예요.',
-        needLogin: '모델 생성에는 로그인이 필요해요(진단 4가지는 로그인 없이). 첫 1회 무료, 카드 필요 없어요.',
+        needLogin: '모델 생성에는 로그인과 크레딧 1개가 필요해요(진단 4가지는 로그인 없이 무료).',
         cta: '내 메이크업 모델 만들기',
         loginCta: '로그인하고 만들기',
         loading: '모델 생성 중… (최대 1분)',
         again: '다시 만들기',
         label: '일러스트 · 실제 인물 아님 · 유형 조합 예시',
         save: '이미지를 길게 눌러 저장하세요',
-        errLogin: '로그인하면 첫 1회 무료로 만들 수 있어요. 카드는 필요 없어요.',
+        errLogin: '로그인하면 크레딧 1개로 만들 수 있어요.',
         errTopup: '크레딧이 부족해요. 충전하면 다시 만들 수 있어요.',
         errUnconfigured: '아직 준비 중인 기능이에요. 곧 열릴 예정이에요.',
         errRetry: '생성에 실패했어요. 다시 시도해 주세요.',
@@ -130,7 +130,9 @@ export default function DnaPortrait({ dna, cached, readOnly = false }: Props) {
   // 생성 버튼 — 무료권·크레딧 둘 다 있으면 두 개(사용자 선택), 하나뿐이면 그것으로.
   const countLine = counts && (
     <p className="mt-2 text-[11px] font-semibold text-primary-dark">
-      {isEn ? `Free pass ${counts.free} · Credits ${counts.credits} left` : `남은 무료권 ${counts.free}장 · 크레딧 ${counts.credits}개`}
+      {counts.free > 0
+        ? (isEn ? `Free pass ${counts.free} · Credits ${counts.credits} left` : `남은 무료권 ${counts.free}장 · 크레딧 ${counts.credits}개`)
+        : (isEn ? `Credits ${counts.credits} left` : `남은 크레딧 ${counts.credits}개`)}
     </p>
   )
   const genButtons = (cls: string, label: string, icon: string) => {

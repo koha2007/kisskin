@@ -33,8 +33,8 @@ interface Env {
   VITE_SUPABASE_URL?: string
 }
 
-// 계정당 무료 장수 — 가입 무료권 2장 중 메이크업 1장(_freeUsage.ts). 9룩 컬렉션은 항상 크레딧.
-const FREE_LIMIT = FREE_LIMITS.makeup
+// 계정당 무료 장수 — 가입 무료권 2장 = 2026 메이크업 1장 + 럭키 메이크업 1장(_freeUsage.ts, 풀이 따로).
+// 9룩 컬렉션·럭키 9장 묶음은 항상 크레딧.
 
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } })
@@ -61,6 +61,8 @@ interface Body {
   quality?: string       // 'medium'(기본) | 'low' | 'high'
   /** 9룩 컬렉션 생성 — 무료 1회를 건드리지 않고 항상 크레딧 차감(_packs.ts collection 참고) */
   collection?: boolean
+  /** 무료권 풀 — 'lucky' = 럭키 메이크업(따로 1장). 미지정 = 2026 메이크업(makeup 풀) */
+  pool?: 'makeup' | 'lucky'
 }
 
 export async function onRequestPost({ request, env }: { request: Request; env: Env }) {
@@ -94,7 +96,9 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // 셀룰러 IP 로테이션·웹뷰 저장소 초기화로 무료를 리셋하는 우회가 불가능하다.
   // 탈퇴 후 같은 이메일 재가입도 소진 상태 유지(이메일 해시 키 병행).
   const userId = user.id
-  const used = await getFreeUsed(env, 'makeup', user)
+  const pool = body.pool === 'lucky' ? 'lucky' : 'makeup'
+  const FREE_LIMIT = FREE_LIMITS[pool]
+  const used = await getFreeUsed(env, pool, user)
 
   // ── 결제 경로 판정: 사용자가 고른 pay 그대로(_freeUsage.resolveTier) ──
   // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
@@ -112,7 +116,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // 무료권: 생성 "전"에 장부에서 원자적으로 잡는다(동시 두 번 눌러도 한 장). 실패하면 아래에서 풀어 준다.
   let claim: FreeClaim | null = null
   if (tier === 'free') {
-    claim = await claimFreePass(env, 'makeup', user, 'makeup', (body.jobId || '').slice(0, 100) || `${user.id}:free:${crypto.randomUUID()}`)
+    claim = await claimFreePass(env, pool, user, pool, (body.jobId || '').slice(0, 100) || `${user.id}:free:${crypto.randomUUID()}`)
     if (!claim.ok) {
       return claim.reason === 'used'
         ? json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)

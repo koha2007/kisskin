@@ -431,14 +431,14 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         </div>
         <p style={{ fontSize: '12px', color: C.muted, margin: '12px 0 0', lineHeight: 1.5 }}>
           {isKo
-            ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(AI 메이크업 1장 + 뷰티 DNA 모델 1장)은 원할 때 골라서 쓰면 돼요.'
-            : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 AI makeup + 1 Beauty DNA model) — use them whenever you like.'}
+            ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(2026 메이크업 9룩 중 1장 + 럭키 메이크업 9가지 운 중 1장)은 원할 때 골라서 쓰면 돼요.'
+            : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 of the 9 2026 makeup looks + 1 of the 9 lucky makeup looks) — use them whenever you like.'}
         </p>
         {freeStatus && (
           <p style={{ fontSize: '12px', color: C.navy, margin: '6px 0 0', lineHeight: 1.5, fontWeight: 600 }}>
             {isKo
-              ? `무료권 남음 ${freeStatus.makeup.left + freeStatus.tool.left}/2 · AI 메이크업 ${freeStatus.makeup.left > 0 ? '남음' : '사용함'} · 무료 도구(뷰티 DNA·정밀 사주 풀이) ${freeStatus.tool.left > 0 ? '남음' : '사용함'}`
-              : `Free passes left ${freeStatus.makeup.left + freeStatus.tool.left}/2 · AI makeup ${freeStatus.makeup.left > 0 ? 'available' : 'used'} · Free tool (Beauty DNA or full reading) ${freeStatus.tool.left > 0 ? 'available' : 'used'}`}
+              ? `무료권 남음 ${freeStatus.makeup.left + freeStatus.lucky.left}/2 · 2026 메이크업 ${freeStatus.makeup.left > 0 ? '남음' : '사용함'} · 럭키 메이크업 ${freeStatus.lucky.left > 0 ? '남음' : '사용함'}`
+              : `Free passes left ${freeStatus.makeup.left + freeStatus.lucky.left}/2 · 2026 makeup ${freeStatus.makeup.left > 0 ? 'available' : 'used'} · Lucky makeup ${freeStatus.lucky.left > 0 ? 'available' : 'used'}`}
           </p>
         )}
       </div>

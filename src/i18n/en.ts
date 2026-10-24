@@ -101,7 +101,7 @@ export default {
   'home.dna.homeCta': 'See my personalized result',
   'home.dna.featLabel': '4 quizzes → one result',
   'home.dna.featDesc': 'Finish the 4 quizzes and get a routine and product list built just for you.',
-  'home.dna.featNote': 'The result and product picks are free. Generating the model face needs a login — first one free, then credits.',
+  'home.dna.featNote': 'The result and product picks are free. Generating the model face needs a login and 1 credit.',
 
   // Styles Section
   'home.styles.badge': '2026 K-Beauty Trends',
@@ -145,10 +145,10 @@ export default {
   'home.how.freeStep2': 'Do the other three',
   'home.how.freeStep2Desc': 'Each result page links straight to the next quiz',
   'home.how.freeStep3': 'Get your makeup routine',
-  'home.how.freeStep3Desc': 'See your routine and product list right away, no login. Log in and your own model-face image generates free (first one).',
+  'home.how.freeStep3Desc': 'See your routine and product list right away, no login. Log in to generate your own model-face image with a credit.',
   'home.how.freeCta': 'Start for free',
   'home.how.giftTitle': 'Sign up for 2 free generations',
-  'home.how.giftDesc': 'Complete all 4 free quizzes for one free model-face generation, plus your first selfie-based AI makeup generation free — two free tries from a single sign-up.',
+  'home.how.giftDesc': 'One look of your choice from the 9 2026 makeup looks, plus one of the 9 lucky makeup looks — both free on your own selfie from a single sign-up.',
   'home.how.payBadge': 'First look free · all 9 for $4.99',
   'home.how.payTitle': 'Try it on your own face with AI',
   'home.how.payStep1': 'Upload Photo',

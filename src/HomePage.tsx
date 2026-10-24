@@ -536,7 +536,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </span>
           </a>
           <p className="mt-3 text-center text-xs text-slate-500 break-keep">
-            <span className="font-bold text-navy">{t('home.how.giftTitle')}</span> — {t('home.dna.featNote')}
+            <span className="font-bold text-navy">{t('home.how.giftTitle')}</span> — {t('home.how.giftDesc')}
           </p>
 
           {/* 2026-10-18: AI 메이크업 슬림 카드 제거 — 새 히어로의 주 버튼과 같은 일을 했다. */}

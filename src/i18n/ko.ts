@@ -105,7 +105,7 @@ export default {
   'home.dna.homeCta': '내 맞춤 결과 보기',
   'home.dna.featLabel': '4가지 진단 → 하나의 결과',
   'home.dna.featDesc': '4가지 진단을 마치면 나에게 맞는 메이크업 루틴과 추천 제품 리스트를 보여드려요.',
-  'home.dna.featNote': '결과·제품 추천은 무료. 모델 얼굴 생성은 로그인 후 첫 1회 무료, 이후 크레딧 결제.',
+  'home.dna.featNote': '결과·제품 추천은 무료. 모델 얼굴 생성은 로그인 후 크레딧 1개.',
 
   // Styles Section
   'home.styles.badge': '2026 K-뷰티 트렌드',
@@ -151,10 +151,10 @@ export default {
   'home.how.freeStep2': '나머지 3개 이어하기',
   'home.how.freeStep2Desc': '결과 페이지에서 다음 진단으로 바로 연결돼요',
   'home.how.freeStep3': '내 메이크업 루틴 받기',
-  'home.how.freeStep3Desc': '4가지를 종합한 루틴과 제품 리스트는 로그인 없이 바로 확인. 내 얼굴 모델 이미지는 로그인하면 첫 1회 무료로 생성돼요.',
+  'home.how.freeStep3Desc': '4가지를 종합한 루틴과 제품 리스트는 로그인 없이 바로 확인. 내 얼굴 모델 이미지는 로그인 후 크레딧으로 만들 수 있어요.',
   'home.how.freeCta': '무료로 시작하기',
   'home.how.giftTitle': '회원가입하면 무료 생성 2번',
-  'home.how.giftDesc': '무료 진단 4가지를 완성하면 내 모델 무료 생성 1회, 여기에 셀카 기반 AI 메이크업 첫 1회 무료까지 — 가입 한 번으로 두 가지를 모두 무료로 체험할 수 있어요.',
+  'home.how.giftDesc': '2026 메이크업 9룩 중 원하는 1룩 1장, 그리고 럭키 메이크업 9가지 운 중 원하는 1개 1장 — 가입 한 번으로 두 가지를 모두 내 셀카로 무료 체험할 수 있어요.',
   'home.how.payBadge': '첫 1룩 무료 · 9룩 전부 $4.99',
   'home.how.payTitle': 'AI로 내 얼굴에 직접 입혀보기',
   'home.how.payStep1': '사진 업로드',

@@ -23,6 +23,8 @@ https://kisskin.pages.dev/* https://kissinskin.net/:splat 301!
 /en/tools/fortune-makeup/    /en/lucky-makeup/   301
 /lucky-makeup                /lucky-makeup/      301
 /en/lucky-makeup             /en/lucky-makeup/   301
+/tools/today-fortune         /tools/today-fortune/      301
+/en/tools/today-fortune      /en/tools/today-fortune/   301
 /tools/face-shape       /tools/face-shape/        301
 /tools/personal-color   /tools/personal-color/    301
 /tools/makeup-mbti      /tools/makeup-mbti/       301

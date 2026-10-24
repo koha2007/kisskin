@@ -2,8 +2,10 @@
 // 가입 무료권 — 서버 공용 헬퍼 (2026-10-21)
 // ────────────────────────────────────────────────────────────────────
 // 정책: 가입 회원 1인당 무료권 2장, 풀이 따로 1장씩.
-//   • makeup — AI 메이크업 1룩 생성 1장  (makeup-edit.ts, 9룩 컬렉션은 해당 없음)
-//   • tool   — 무료 도구 1장: 뷰티 DNA 모델(dna-portrait.ts) 또는 정밀 사주 풀이 중 택1
+//   • makeup — 2026 AI 메이크업 9룩 중 1룩 1장  (makeup-edit.ts, 9룩 컬렉션은 해당 없음)
+//   • lucky  — 럭키 메이크업 9가지 운 중 1개 1장 (makeup-edit.ts body.pool='lucky', 9장 묶음은 해당 없음)
+//   • tool   — 옛 무료 도구 풀(뷰티 DNA·정밀 사주 풀이). 2026-10-24 운영자: "무료는 메이크업 1 + 럭키 1, 총 2장"
+//              → 0장(크레딧만). 장부·KV 옛 기록 호환을 위해 풀 이름은 남겨 둔다.
 // 무료권·크레딧 사이 우선순위 없음 — 사용자가 생성할 때 고른다(body.pay). 우리는 쓴 수·남은 수만 센다.
 //
 // 저장소(2026-10-21 장부 이전):
@@ -20,13 +22,13 @@ export interface UsageStore {
   put(key: string, value: string): Promise<void>
 }
 
-export type FreePool = 'makeup' | 'tool'
+export type FreePool = 'makeup' | 'lucky' | 'tool'
 
-/** 풀별 무료 장수. 합계 2장(가입 무료권 2개). */
-export const FREE_LIMITS: Record<FreePool, number> = { makeup: 1, tool: 1 }
+/** 풀별 무료 장수. 합계 2장(가입 무료권 2개 = 메이크업 1 + 럭키 1). */
+export const FREE_LIMITS: Record<FreePool, number> = { makeup: 1, lucky: 1, tool: 0 }
 
-/** KV 옛 키 접두사 — tool 풀의 옛 기록은 뷰티 DNA 시절의 mu:dna: */
-const KV_PREFIX: Record<FreePool, string> = { makeup: 'mu:', tool: 'mu:dna:' }
+/** KV 옛 키 접두사 — tool 풀의 옛 기록은 뷰티 DNA 시절의 mu:dna:, lucky 는 0010 실행 전 후퇴용 */
+const KV_PREFIX: Record<FreePool, string> = { makeup: 'mu:', lucky: 'mu:lucky:', tool: 'mu:dna:' }
 
 export interface FreeEnv {
   MAKEUP_USAGE?: UsageStore
@@ -114,7 +116,8 @@ async function rpc<T>(env: FreeEnv, fn: string, params: Record<string, unknown>)
       body: JSON.stringify(params),
     })
     const text = await res.text()
-    if (!res.ok) return { ok: false, missing: res.status === 404 || text.includes('PGRST202') }
+    // 23514 = 풀 이름 check 위반 — 0010(lucky 풀) 실행 전이면 KV 로 후퇴
+    if (!res.ok) return { ok: false, missing: res.status === 404 || text.includes('PGRST202') || text.includes('23514') }
     return { ok: true, data: (text ? JSON.parse(text) : null) as T }
   } catch {
     return { ok: false, missing: false }

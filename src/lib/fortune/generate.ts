@@ -1,7 +1,7 @@
 // 관상 메이크업 생성 — /api/makeup-edit 호출 (2026-10-21)
 // ────────────────────────────────────────────────────────────────────
-// 9룩(MakeupFlow)과 같은 서버·같은 무료권(makeup 풀)·같은 크레딧. 다른 점은 지시문뿐:
-//   promptWholeFace(관상 룩 + 부족 오행 포인트 색).
+// 9룩(MakeupFlow)과 같은 서버·같은 크레딧. 무료권은 따로 — lucky 풀 1장(2026-10-24, 2026 메이크업 1장과 별개).
+// 지시문: promptWholeFace(관상 룩 + 부족 오행 포인트 색).
 // 규칙(기존과 동일): 무료권/크레딧은 사용자가 고른다(pay) · 같은 작업 재시도는 같은 jobId(이중 차감 X).
 import { supabase } from '../supabase'
 import { promptWholeFace } from '../makeup/styles'
@@ -50,7 +50,7 @@ export async function generateFortuneMakeup(opts: {
         image: canvas.toDataURL('image/png'),
         prompt: fortunePrompt(opts.lookId, opts.lacking, opts.extra),
         styleId: `${opts.styleTag ?? 'fortune'}:${opts.lookId}`,
-        jobId: opts.jobId, size, pay: opts.pay,
+        jobId: opts.jobId, size, pay: opts.pay, pool: 'lucky',
       }),
     })
   } catch { return { ok: false, error: 'retry' } }

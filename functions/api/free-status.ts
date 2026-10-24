@@ -29,6 +29,7 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
 
   const out: Record<FreePool, { used: number; limit: number; left: number }> = {
     makeup: { used: 0, limit: FREE_LIMITS.makeup, left: 0 },
+    lucky: { used: 0, limit: FREE_LIMITS.lucky, left: 0 },
     tool: { used: 0, limit: FREE_LIMITS.tool, left: 0 },
   }
   for (const pool of Object.keys(out) as FreePool[]) {

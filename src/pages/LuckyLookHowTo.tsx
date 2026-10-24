@@ -24,7 +24,7 @@ export default function LuckyLookHowTo({ id }: { id: FortuneLookId }) {
   const hub = isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'
   const l = fortuneLookById(id)
   const h = LUCKY_HOWTO[id]
-  const tryHref = `${hub}?look=${id}#start`
+  const tryHref = `${hub}?look=${id}#make`
   const name = isEn ? `${l.nameEn} makeup` : l.nameKo
   const hasChart = LUCKY_CHARTS.includes(id)
 
