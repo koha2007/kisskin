@@ -757,5 +757,100 @@
     "video": {
       "seconds": 16
     }
+  },
+  {
+    "slug": "set-makeup-powder",
+    "publishedAt": "2026-10-27",
+    "introKo": "파우더는 얼굴 전체에 두껍게 덮는 것이 아니라 유분이 많은 곳만 골라서 눌러주는 것이 핵심이에요. T존과 눈 밑을 중심으로 가볍게 고정하면 하루 종일 매끈해 보여요.",
+    "introEn": "Powder isn't meant to cover your whole face thickly. The secret is targeting only oil-prone zones so your base stays smooth all day.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "skin",
+        "titleKo": "브러시로 T존 가볍게 쓸기",
+        "titleEn": "Sweep T-Zone with a Brush",
+        "bodyKo": "유분이 잘 올라오는 이마와 코 주변, 턱 끝에 브러시로 가루를 살살 털어내듯 쓸어줘요. 번들거림을 잡아주고 베이스를 가볍게 고정해 줘요.",
+        "bodyEn": "Lightly sweep loose powder over the forehead, nose, and chin with a fluffy brush. This controls shine and sets your foundation without feeling heavy.",
+        "toolsKo": "파우더 브러시 · 투명 루스 파우더",
+        "toolsEn": "Powder brush · translucent loose powder",
+        "swatches": [
+          "#faf8f5",
+          "#f1ece5"
+        ],
+        "searchKeywords": "투명 루스 파우더 모공",
+        "shopEn": "translucent loose powder",
+        "shortKo": "T존만 브러시로 살살",
+        "shortEn": "Sweep T-zone lightly with brush"
+      },
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "퍼프로 눈 밑 눌러 고정하기",
+        "titleEn": "Press Under-Eyes with a Puff",
+        "bodyKo": "컨실러를 바른 눈 밑은 퍼프에 파우더를 묻혀 살짝 털어낸 뒤 지그시 눌러줘요. 크리즈 현상을 막고 주름 사이에 끼지 않게 도와줘요.",
+        "bodyEn": "After applying concealer, press powder under the eyes with a velvet puff to lock it in place. Tap off excess powder first to prevent creasing.",
+        "toolsKo": "벨벳 퍼프 · 파우더",
+        "toolsEn": "Velvet puff · powder",
+        "swatches": [
+          "#f5f0eb"
+        ],
+        "searchKeywords": "벨벳 파우더 퍼프 소형",
+        "shopEn": "velvet powder puff",
+        "shortKo": "눈 밑은 퍼프로 지그시",
+        "shortEn": "Press under-eyes with puff"
+      },
+      {
+        "area": "skin",
+        "crop": "cheekBlend",
+        "titleKo": "지성 피부를 위한 베이킹",
+        "titleEn": "Baking for Oily Skin",
+        "bodyKo": "유분이 유독 많은 지성 피부라면 루스 파우더를 T존이나 볼 안쪽에 넉넉히 올려두고 1~2분 뒤 털어내세요. 메이크업 고정력이 올라가요.",
+        "bodyEn": "If you have very oily skin, apply a generous layer of loose powder on key areas, wait 1–2 minutes, then sweep away the excess.",
+        "toolsKo": "대형 파우더 브러시 · 투명 파우더",
+        "toolsEn": "Large powder brush · translucent powder",
+        "swatches": [
+          "#ffffff",
+          "#f8f4f0"
+        ],
+        "searchKeywords": "대형 파우더 브러시",
+        "shopEn": "large powder brush",
+        "shortKo": "지성은 베이킹 후 털어내기",
+        "shortEn": "Bake and sweep off excess"
+      },
+      {
+        "area": "skin",
+        "titleKo": "미스트로 수분감 더하며 마무리",
+        "titleEn": "Finish with a Hydrating Mist",
+        "bodyKo": "파우더 사용 후 텁텁해 보일 수 있는 피부에 미스트를 20cm 거리에서 가볍게 뿌려줘요. 가루 날림이 정돈되고 겉은 보송하면서 속은 촉촉해 보여요.",
+        "bodyEn": "Hold a mist 20cm away and spritz lightly over the face to melt away any powdery finish. It keeps your skin looking fresh and seamless.",
+        "toolsKo": "픽싱 미스트",
+        "toolsEn": "Fixing mist",
+        "swatches": [
+          "#eaf4f4"
+        ],
+        "searchKeywords": "메이크업 픽서 미스트 수분",
+        "shopEn": "setting spray mist",
+        "shortKo": "미스트로 가루 느낌 정돈",
+        "shortEn": "Mist to melt powdery finish"
+      }
+    ],
+    "tipsKo": [
+      "퍼프에 파우더를 묻힌 뒤 손등에 두세 번 털어내고 얼굴에 올려야 뭉치지 않아요.",
+      "건성 피부는 T존과 눈 밑만 가볍게 누르고 볼 부분은 파우더를 생략해도 돼요."
+    ],
+    "tipsEn": [
+      "Tap excess powder off on the back of your hand before pressing it onto your skin to prevent caking.",
+      "If you have dry skin, powder only the under-eye area and T-zone, leaving the cheeks untouched."
+    ],
+    "mistakeKo": "파우더 양 조절 없이 얼굴 전체를 세게 비비면 파운데이션이 긁히고 베이스가 하얗게 뭉쳐요.",
+    "mistakeEn": "Rubbing powder hard all over the face without dusting off excess scratches the foundation underneath and makes it look cakey.",
+    "chartPrompt": "a detailed pencil face chart showing targeted powder setting: matte velvety soft-focus texture on the forehead, nose bridge, chin, and under-eye area, while maintaining a soft natural finish on the cheeks and outer face",
+    "videoTitleKo": "파우더 고정법",
+    "videoTitleEn": "Setting Powder Tips",
+    "video": {
+      "seconds": 19
+    }
   }
 ]

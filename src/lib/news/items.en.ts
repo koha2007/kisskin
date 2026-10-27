@@ -5,6 +5,26 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'eu-greenwashing-ban-pfhxa-k-beauty-impact',
+    category: 'global',
+    title: 'EU Announces Immediate Ban on Unverified Green Claims for Cosmetics Containing PFHxA',
+    summary:
+      'Starting October 10, the EU has immediately banned unverified marketing claims such as \'eco-friendly,\' \'eco,\' and \'carbon neutral\' for cosmetics containing PFHxA. This regulation also applies to K-beauty brands, requiring caution from exporters to Europe.',
+    body: [
+      '> TLDR: EU immediately bans unverified green claims on PFHxA products | Effective from October 10 | Caution required for K-beauty exporters to Europe',
+      'The EU has banned unverified marketing claims such as \'eco-friendly,\' \'eco,\' and \'carbon neutral\' for cosmetics containing PFHxA starting October 10, 2026. Limited exceptions are granted only to existing stock.',
+      '> DATA: The EU states that green claims on non-compliant PFHxA products are immediately illegal, with stock exceptions applying only to \'products launched before the transition.\'',
+      'This regulation means K-beauty brands must exercise greater caution regarding claims that could be considered \'greenwashing\' when promoting products in the European market. Distribution partners must also review product labels and campaign copy.',
+      'For consumers, it has become essential to verify certifications and supporting evidence, even for products emphasizing eco-friendliness. As K-beauty increasingly highlights sustainability, trust-based marketing is expected to become even more critical.',
+    ],
+    date: '2026-10-27',
+    readMinutes: 3,
+    tags: ['Regulatory Changes', 'EU', 'Eco-Friendly Marketing'],
+    seoTitle: 'EU Bans Unverified Green Claims on PFHxA Cosmetics',
+    seoDescription:
+      'The EU bans unverified eco-friendly claims on cosmetics with PFHxA, urging K-beauty exporters to review labels and marketing.',
+  },
+  {
     slug: 'marshique-ulta-beauty-entry',
     category: 'global',
     title: 'MARSHIQUE Announces Official Launch at Ulta Beauty, North America\'s Largest Beauty Retailer',

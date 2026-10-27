@@ -2,6 +2,26 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'eu-greenwashing-ban-pfhxa-k-beauty-impact',
+    category: 'global',
+    title: 'EU, PFHxA 포함 화장품 친환경 무검증 주장 즉시 금지 발표',
+    summary:
+      'EU가 10월 10일부터 PFHxA 함유 화장품의 \'친환경·에코·탄소중립\' 무검증 마케팅을 즉시 금지했다. 이 규제는 K‑뷰티 브랜드에도 적용되어 유럽 수출사의 주의가 요구된다.',
+    body: [
+      '> TLDR: EU, PFHxA 무검증 친환경 주장 즉시 금지 | 10월 10일부터 시행 | K‑뷰티 유럽 수출사 주의 필요',
+      'EU가 2026년 10월 10일부터 PFHxA(PFHxA) 성분이 포함된 화장품에 대해 ‘친환경·에코·탄소중립’ 등의 무검증 마케팅을 즉시 금지했습니다. 이는 기존 재고에만 제한적으로 예외가 인정됩니다.',
+      '> DATA: EU는 PFHxA 비준수 제품의 친환경 주장이 즉시 불법이며, 재고 예외는 “전환 전 출시 제품”에만 적용됩니다.',
+      '이 규정은 K‑뷰티 브랜드가 유럽 시장에서 제품을 홍보할 때 ‘그린워싱(greenwashing)’으로 간주될 수 있는 주장에 대해 더욱 신중을 기해야 함을 의미합니다. 유통 파트너들도 제품 라벨과 캠페인 문구를 점검해야 합니다.',
+      '소비자 입장에서는 환경 친화성을 강조하는 제품이라도 인증 여부와 근거를 확인하는 것이 중요해졌습니다. K‑뷰티가 지속가능성을 앞세울수록, 신뢰 기반의 마케팅이 더욱 중요해질 전망입니다.',
+    ],
+    date: '2026-10-27',
+    readMinutes: 3,
+    tags: ['규제 변화', 'EU', '친환경 마케팅'],
+    seoTitle: 'EU, PFHxA 무검증 친환경 주장 규제 발표',
+    seoDescription:
+      'EU가 PFHxA 함유 화장품의 무검증 친환경 주장에 대해 즉시 제재를 발표한 규제로, K‑뷰티 브랜드의 유럽 수출 전략에 영향을 미칠',
+  },
+  {
     slug: 'marshique-ulta-beauty-entry',
     category: 'global',
     title: 'MARSHIQUE, 북미 최대 뷰티 리테일러 울타(Ulta Beauty)에 공식 입점 발표',

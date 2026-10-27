@@ -2,6 +2,14 @@
   "products": {
     "ko": [
       {
+        "slug": "phlur-peach-skin-body-mist",
+        "brand": "플러 (PHLUR)",
+        "name": "피치 스킨 바디 미스트",
+        "category": "fragrance",
+        "image": null,
+        "date": "2026-10-27"
+      },
+      {
         "slug": "unove-deep-damage-treatment",
         "brand": "유노브",
         "name": "딥 데미지 트리트먼트",
@@ -24,17 +32,17 @@
         "category": "skincare",
         "image": "/products/centellian24-madeca-cream-time-reverse.webp",
         "date": "2026-10-06"
-      },
-      {
-        "slug": "flower-knows-strawberry-cupid-palette",
-        "brand": "플라워노즈",
-        "name": "스트로베리 큐피드 메이크업 팔레트",
-        "category": "trend",
-        "image": "/products/flower-knows-strawberry-cupid-palette.webp",
-        "date": "2026-09-29"
       }
     ],
     "en": [
+      {
+        "slug": "phlur-peach-skin-body-mist",
+        "brand": "PHLUR",
+        "name": "Peach Skin Body Mist",
+        "category": "fragrance",
+        "image": null,
+        "date": "2026-10-27"
+      },
       {
         "slug": "unove-deep-damage-treatment",
         "brand": "UNOVE",
@@ -58,19 +66,18 @@
         "category": "skincare",
         "image": "/products/centellian24-madeca-cream-time-reverse.webp",
         "date": "2026-10-06"
-      },
-      {
-        "slug": "flower-knows-strawberry-cupid-palette",
-        "brand": "Flower Knows",
-        "name": "Strawberry Cupid Makeup Palette",
-        "category": "trend",
-        "image": "/products/flower-knows-strawberry-cupid-palette.webp",
-        "date": "2026-09-29"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "eu-greenwashing-ban-pfhxa-k-beauty-impact",
+        "title": "EU, PFHxA 포함 화장품 친환경 무검증 주장 즉시 금지 발표",
+        "category": "global",
+        "image": null,
+        "date": "2026-10-27"
+      },
       {
         "slug": "marshique-ulta-beauty-entry",
         "title": "MARSHIQUE, 북미 최대 뷰티 리테일러 울타(Ulta Beauty)에 공식 입점 발표",
@@ -91,16 +98,16 @@
         "category": "global",
         "image": "/news/k-beauty-exports-august-growth-ecosystem-expansion.webp",
         "date": "2026-10-06"
-      },
-      {
-        "slug": "cosrx-becomes-first-k-beauty-patron-british-beauty-council",
-        "title": "COSRX, K‑뷰티 최초로 British Beauty Council 후원사 선정",
-        "category": "skincare",
-        "image": "/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp",
-        "date": "2026-09-18"
       }
     ],
     "en": [
+      {
+        "slug": "eu-greenwashing-ban-pfhxa-k-beauty-impact",
+        "title": "EU Announces Immediate Ban on Unverified Green Claims for Cosmetics Containing PFHxA",
+        "category": "global",
+        "image": null,
+        "date": "2026-10-27"
+      },
       {
         "slug": "marshique-ulta-beauty-entry",
         "title": "MARSHIQUE Announces Official Launch at Ulta Beauty, North America's Largest Beauty Retailer",
@@ -121,13 +128,6 @@
         "category": "global",
         "image": "/news/k-beauty-exports-august-growth-ecosystem-expansion.webp",
         "date": "2026-10-06"
-      },
-      {
-        "slug": "cosrx-becomes-first-k-beauty-patron-british-beauty-council",
-        "title": "COSRX Becomes First K-Beauty Patron of the British Beauty Council",
-        "category": "skincare",
-        "image": "/news/cosrx-becomes-first-k-beauty-patron-british-beauty-council.webp",
-        "date": "2026-09-18"
       }
     ]
   }

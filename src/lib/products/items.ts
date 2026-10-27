@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'phlur-peach-skin-body-mist',
+    category: 'fragrance',
+    brand: '플러 (PHLUR)',
+    name: '피치 스킨 바디 미스트',
+    title: '플러 피치 스킨 바디 미스트 — 여름을 닮은 감각적인 복숭아 머금은 향',
+    summary:
+      '피치 스킨 바디 미스트는 복숭아·자스민·샌달우드 기반의 과즙감 있는 향과 크리미한 여운이 조화를 이루며 지금 글로벌에서 입소문을 타고 있는 인기 제품입니다.',
+    highlights: ['복숭아 머금은 과즙감', '크리미한 잔향', '여름 맞춤 가벼운 미스트'],
+    details: [
+      '탑 노트의 벨리니 복숭아와 플럼의 상큼함이 처음 향을 열어주며 생기 있는 인상을 줍니다.',
+      '중간에 화사한 자스민·프리지아가 감도는 플로럴함이 향에 깊이를 더합니다.',
+      '베이스의 밀키 샌달우드와 코코넛 카라멜이 부드럽고 따뜻한 여운을 남깁니다.',
+    ],
+    whoFor:
+      '가볍고 달콤한 향을 선호하는 여름용 향수로, 청량한 과즙향과 부드러운 우디 잔향을 좋아하는 여름·가을 웜 톤에게 적합합니다.',
+    howTo: [
+      '목과 손목뿐 아니라 머리카락이나 옷에도 가볍게 분사하면 향이 은은하게 퍼집니다.',
+      '에디피움 향수나 미스트와 겹쳐 레이어링하면 지속력과 개성이 더 살아납니다.',
+    ],
+    pros: [
+      '생기 있는 복숭아 과즙감과 크리미한 여운이 균형감 있게 어우러짐',
+      '가벼운 미스트 포뮬러로 여름철 데일리 사용에 이상적',
+    ],
+    cons: [
+      '지속력은 향수에 비해 약할 수 있어 자주 덧뿌려야 함',
+    ],
+    coupangQuery: '플러 피치 스킨 바디 미스트',
+    globalQuery: 'PHLUR Peach Skin body mist',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-10-27',
+    tags: ['피치향', '플러', '바디미스트'],
+    seoTitle: '피치 스킨 바디 미스트 리뷰',
+    seoDescription:
+      '한여름의 복숭아처럼 달콤하고 크리미한 플러 피치 스킨 바디 미스트의 매력을 간결하게 전합니다.',
+  },
+  {
     slug: 'unove-deep-damage-treatment',
     category: 'hair',
     brand: '유노브',

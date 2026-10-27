@@ -5,6 +5,43 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'phlur-peach-skin-body-mist',
+    category: 'fragrance',
+    brand: 'PHLUR',
+    name: 'Peach Skin Body Mist',
+    title: 'PHLUR Peach Skin Body Mist — A Sensual Peach-Infused Scent Made for Summer',
+    summary:
+      'The Peach Skin Body Mist blends juicy notes of peach, jasmine, and sandalwood with a creamy finish, making it a viral favorite across the globe.',
+    highlights: ['Juicy peach scent', 'Creamy lingering linger', 'Lightweight mist perfect for summer'],
+    details: [
+      'Top notes of Bellini peach and plum open the fragrance with a fresh, vibrant impression.',
+      'Heart notes of radiant jasmine and freesia add a floral depth to the scent.',
+      'Base notes of milky sandalwood and coconut caramel leave a soft, warm lingering trace.',
+    ],
+    whoFor:
+      'Ideal for those who prefer light, sweet summer scents, especially Spring Warm and Autumn Warm skin tones who love fresh juicy notes paired with soft woody undertones.',
+    howTo: [
+      'Lightly spray on neck, wrists, hair, or clothing for a subtle, beautiful fragrance cloud.',
+      'Layer with an eau de parfum or mist to enhance longevity and create a custom scent.',
+    ],
+    pros: [
+      'Well-balanced scent pairing vibrant juicy peach with a creamy finish',
+      'Lightweight mist formula ideal for daily summer wear',
+    ],
+    cons: [
+      'May have shorter longevity compared to perfumes, requiring reapplication',
+    ],
+    coupangQuery: '플러 피치 스킨 바디 미스트',
+    globalQuery: 'PHLUR Peach Skin body mist',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-10-27',
+    tags: ['PeachScent', 'PHLUR', 'BodyMist'],
+    seoTitle: 'PHLUR Peach Skin Body Mist Review & Fragrance Notes',
+    seoDescription:
+      'Discover PHLUR Peach Skin Body Mist featuring notes of Bellini peach, jasmine, and milky sandalwood for a refreshing summer scent.',
+  },
+  {
     slug: 'unove-deep-damage-treatment',
     category: 'hair',
     brand: 'UNOVE',
