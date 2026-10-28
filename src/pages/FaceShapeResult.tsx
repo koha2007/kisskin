@@ -90,7 +90,7 @@ export default function FaceShapeResult({ code }: Props) {
         // 무료 1회도 **로그인을 지난다**(MakeupFlow 게이트). 없다고 해놓고 벽을
         // 세우면 그 자리에서 튕긴다(2026-07-31 정정).
         heroCta: `Try ${lookName} on my face`,
-        heroCtaSub: `Picked for ${t.enName} faces. One selfie, first try free (quick sign-in).`,
+        heroCtaSub: `Picked for ${t.enName} faces. One selfie, first look free with sign-up.`,
         forehead: 'Forehead', cheekbone: 'Cheekbones', jawline: 'Jawline', highlighter: 'Highlight',
         brow: 'Brow', lip: 'Lip', blush: 'Blush', hair: 'Hair', glasses: 'Glasses',
       }
@@ -101,7 +101,7 @@ export default function FaceShapeResult({ code }: Props) {
         bannerTitle: '이 룩, 내 얼굴에 직접', bannerDesc: 'AI로 어울리는 메이크업을 내 셀카에 입혀보세요. 얼굴은 그대로예요.',
         bannerCta: 'AI 메이크업 체험',
         heroCta: `'${lookName}' 내 얼굴로 보기`,
-        heroCtaSub: `${t.koName}에 어울리는 룩 · 셀카 한 장 · 첫 1회 무료 (간편 로그인)`,
+        heroCtaSub: `${t.koName}에 어울리는 룩 · 셀카 한 장 · 회원가입하면 첫 1룩 무료`,
         forehead: '이마', cheekbone: '광대', jawline: '턱 라인', highlighter: '하이라이터',
         brow: '눈썹', lip: '립', blush: '블러쉬', hair: '헤어', glasses: '안경',
       }

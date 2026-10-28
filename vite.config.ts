@@ -76,6 +76,8 @@ function devFunctions(): PluginOption {
 
 // https://vite.dev/config/
 export default defineConfig({
+  // 푸터 "최종 업데이트" — 빌드 시점 날짜(YYYY-MM-DD). 손으로 적던 "2026년 6월 기준"이 방치돼 보여서(2026-10-28).
+  define: { __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)) },
   plugins: [
     devFunctions(),
     react(),

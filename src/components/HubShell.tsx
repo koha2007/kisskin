@@ -292,7 +292,7 @@ export default function HubShell({
             <p className="text-slate-600 text-sm md:text-base mb-6 max-w-xl mx-auto">
               {isEn
                 ? 'Pick from 9 K-beauty looks and see it on your own face. First one is free.'
-                : '9가지 K-뷰티 룩 중에 골라 내 얼굴에 적용된 결과를 확인하세요. 첫 1회는 무료입니다.'}
+                : '9가지 K-뷰티 룩 중에 골라 내 얼굴에 적용된 결과를 확인하세요. 회원가입하면 첫 1룩은 무료예요.'}
             </p>
             <a
               href={isEn ? '/en/' : '/analysis/'}

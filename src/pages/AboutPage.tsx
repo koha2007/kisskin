@@ -87,7 +87,7 @@ function AboutKo() {
           <strong>인프라:</strong> Cloudflare Pages + Workers (서버리스)에서 실행됩니다.
         </li>
         <li>
-          <strong>AI:</strong> OpenAI API (gpt-image-1.5, gpt-4.1) — 학습 비활용 옵션 사용.
+          <strong>AI:</strong> OpenAI API (gpt-image-2, gpt-4.1)·Google Gemini API(분석 리포트) — 학습 비활용 옵션 사용.
         </li>
         <li>
           <strong>결제:</strong> Polar (Merchant of Record) 가 처리하며, 카드
@@ -188,7 +188,7 @@ function AboutEn() {
           <strong>Infrastructure:</strong> Cloudflare Pages + Workers (serverless).
         </li>
         <li>
-          <strong>AI:</strong> OpenAI API (gpt-image-1.5, gpt-4.1) with the
+          <strong>AI:</strong> OpenAI API (gpt-image-2, gpt-4.1) and Google Gemini API (analysis reports) with the
           no-training option enabled.
         </li>
         <li>

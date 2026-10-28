@@ -145,7 +145,7 @@ export default function MakeupFlow() {
       if (!res.ok) {
         const code = data.error
         if (code === 'login_required') {
-          setErrMsg(isEn ? 'Log in to try AI makeup — your 1st try is free, no card needed.' : '로그인하면 AI 메이크업을 무료 1회 체험할 수 있어요. 카드 필요 없어요.')
+          setErrMsg(isEn ? 'Sign up and get your first look free · No card needed.' : '회원가입하면 첫 1룩 무료 · 카드 등록 없음.')
           setErrAction('login')
         } else if (res.status === 401) {
           setErrMsg(isEn ? 'Your session expired. Please log in again.' : '로그인이 만료됐어요. 다시 로그인해 주세요.')

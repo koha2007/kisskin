@@ -157,7 +157,7 @@ export default function AboutMakeupAiBodyEn() {
           <p className="mb-4"><strong>Step 3 · Face-locked generation.</strong> Your features, expression, and facial structure stay fixed while only the makeup layer is blended in — the safeguard against a "looks like a different person" result.</p>
           <p className="mb-4">Generation happens on our servers, not your device, and one image usually takes up to about a minute. All nine looks (for women and men) change both makeup and hair color together, and the finished result can be saved, downloaded, or shared from the result page.</p>
           <p className="mb-0 rounded-lg bg-cream border border-primary/15 px-5 py-4 text-[15px]">
-            <strong className="text-navy">Free vs. paid</strong> — log in and your first look is free, no card required. Want more? Credits start at $2.99.
+            <strong className="text-navy">Free vs. paid</strong> — sign up and get your first look free, no card needed. After that, 1 look = 1 credit · credits from $2.99 (5 credits) · all 9 looks $4.99.
           </p>
         </section>
 

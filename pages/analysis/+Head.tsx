@@ -2,7 +2,7 @@ export default function Head() {
   return (
     <>
       <title>AI 메이크업 사이트 — 가상 메이크업 무료 체험 | 키스인스킨</title>
-      <meta name="description" content="셀카 한 장으로 AI 가상 메이크업 체험. 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀드려요. 얼굴은 그대로, 비포/애프터로 비교. 로그인하면 무료 1회 · 카드 불필요." />
+      <meta name="description" content="셀카 한 장으로 AI 가상 메이크업 체험. 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀드려요. 얼굴은 그대로, 비포/애프터로 비교. 회원가입하면 첫 1룩 무료 · 카드 등록 없음." />
       <meta name="keywords" content="AI 메이크업, AI 메이크업 사이트, 가상 메이크업, 가상 메이크업 사이트, AI 가상 메이크업, 메이크업 체험, AI 메이크업 앱, 셀카 메이크업, K-뷰티 메이크업, 키스인스킨" />
       <link rel="canonical" href="https://kissinskin.net/analysis/" />
       <link rel="alternate" hrefLang="ko" href="https://kissinskin.net/analysis/" />
@@ -12,7 +12,7 @@ export default function Head() {
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://kissinskin.net/analysis/" />
       <meta property="og:title" content="AI 메이크업 사이트 — 가상 메이크업 무료 체험 | 키스인스킨" />
-      <meta property="og:description" content="셀카 한 장으로 AI 가상 메이크업 체험. 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀드려요. 얼굴은 그대로, 비포/애프터로 비교. 로그인하면 무료 1회 · 카드 불필요." />
+      <meta property="og:description" content="셀카 한 장으로 AI 가상 메이크업 체험. 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀드려요. 얼굴은 그대로, 비포/애프터로 비교. 회원가입하면 첫 1룩 무료 · 카드 등록 없음." />
       <meta property="og:image" content="https://kissinskin.net/og-image.png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
@@ -22,7 +22,7 @@ export default function Head() {
       <meta property="og:locale:alternate" content="en_US" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="AI 메이크업 사이트 — 가상 메이크업 무료 체험 | 키스인스킨" />
-      <meta name="twitter:description" content="셀카 한 장으로 AI 가상 메이크업 체험. 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀드려요. 얼굴은 그대로, 비포/애프터로 비교. 로그인하면 무료 1회 · 카드 불필요." />
+      <meta name="twitter:description" content="셀카 한 장으로 AI 가상 메이크업 체험. 9가지 K-뷰티 메이크업과 룩에 맞는 헤어 컬러를 입혀드려요. 얼굴은 그대로, 비포/애프터로 비교. 회원가입하면 첫 1룩 무료 · 카드 등록 없음." />
       <meta name="twitter:image" content="https://kissinskin.net/og-image.png" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org", "@type": "BreadcrumbList",

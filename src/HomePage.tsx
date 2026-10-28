@@ -17,6 +17,7 @@ import { trackEvent } from './lib/analytics'
 import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
 import { useBeautyDna } from './hooks/useBeautyDna'
 import { DNA_FIELDS, type DnaField } from './lib/beauty-dna/types'
+import { BUILD_DATE, BUILD_MONTH_KO, BUILD_MONTH_EN } from './lib/buildDate'
 
 // 룩 이름 — 버튼 문구·동그라미 라벨용. subEn 은 대문자 표기라 여기선 사람이 읽는 꼴로.
 const LOOK_NAME_KO = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.nameKo])) as Record<MakeupStyleId, string>
@@ -78,17 +79,17 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // structured data always matches the visible text in the active language.
   const homeFaq = isEn
     ? [
-        { q: 'What happens to my selfie after I upload it?', a: 'Your uploaded photo is used only for the AI makeup synthesis, then processed and deleted. It is never reused as training data, and unless you tap save or share yourself, the result image is never made public.' },
-        { q: 'How close is the result to real makeup?', a: 'For a front-facing selfie in natural light, the visual match is roughly 85–95%. Color can vary with your monitor or phone display calibration, so for a look you love we recommend confirming the shade in-store once before buying.' },
-        { q: 'Can I use it for free?', a: 'Yes. The Makeup MBTI, Personal Color, Face Shape, and Perfume tools are all free and unlimited with no sign-up. AI makeup gives you 1 free generation — that one does ask you to log in first (it keeps people from farming unlimited free generations), but no card is needed. If you want more generations after that, credits start at $2.99.' },
+        { q: 'What happens to my selfie after I upload it?', a: 'Your photo is sent securely for AI processing and deleted as soon as it’s done. It’s never used for training, and unless you tap save or share yourself, the result image is never made public.' },
+        { q: 'How close is the result to real makeup?', a: 'You’ll get the most natural result from a front-facing selfie in natural light. Lighting, angle, and anything covering your face (glasses, masks) can make it look different from real makeup. Swatch in store before you buy.' },
+        { q: 'Can I use it for free?', a: 'Yes. The Makeup MBTI, Personal Color, Face Shape, and Perfume tools are all free and unlimited with no sign-up. AI makeup: sign up and get your first look free, no card needed (sign-in keeps people from farming unlimited free generations). After that, 1 look = 1 credit · credits from $2.99 (5 credits) · all 9 looks $4.99.' },
         { q: 'Where can I buy the recommended cosmetics?', a: 'We give recommendations by category (lipstick, eyeshadow, blush, and so on). For specific products, search and compare on the channels you already use — Olive Young, Sephora, Coupang, Amazon, and others. We never lock you into a single store.' },
         { q: 'Can men use it too?', a: 'Yes. Men get a grooming-focused set — a natural healthy base, clean skin tone-up, and tinted-balm looks — with no lipstick or eye makeup forced on.' },
         { q: 'Is the result really me, not a different face?', a: 'Yes. The makeup is applied as a precise overlay that locks your facial structure, features, and expression. We add only lip, cheek, and skin retouching inside a tight mask — your identity stays exactly the same.' },
       ]
     : [
-        { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '업로드된 사진은 AI 메이크업 합성에 한해 일시 사용된 뒤 처리·삭제됩니다. 학습 데이터로 재사용되지 않으며, 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
-        { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면 자연광 셀카 기준 약 85~95%의 시각적 일치도를 보입니다. 다만 색감은 모니터·휴대폰 디스플레이 캘리브레이션에 따라 차이가 있을 수 있어, 마음에 드는 룩은 매장에서 한 번 더 발색을 확인한 뒤 구매하는 것을 권장합니다.' },
-        { q: '무료로 사용할 수 있나요?', a: '네. 메이크업 MBTI · 퍼스널 컬러 · 얼굴형 · 향수 진단 도구는 가입 없이 모두 무료·무제한입니다. AI 메이크업은 무료 1회를 드리는데, 이 기능만 로그인이 필요해요(무제한 무료 생성 악용을 막기 위한 것이고 카드는 필요 없습니다). 더 만들고 싶다면 크레딧을 $2.99부터 충전할 수 있습니다.' },
+        { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '사진은 AI 처리를 위해 안전하게 전송되고, 처리가 끝나면 바로 삭제돼요. 학습 데이터로 쓰이지 않아요. 또한 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
+        { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면을 향한 자연광 셀카에서 가장 자연스러운 결과가 나와요. 조명, 각도, 안경이나 마스크 같은 가림에 따라 실제 메이크업과 다르게 보일 수 있어요. 구매 전에는 매장에서 한 번 더 발색을 확인해 보세요.' },
+        { q: '무료로 사용할 수 있나요?', a: '네. 메이크업 MBTI · 퍼스널 컬러 · 얼굴형 · 향수 진단 도구는 가입 없이 모두 무료·무제한입니다. AI 메이크업은 회원가입하면 첫 1룩 무료이고 카드 등록은 필요 없어요(이 기능만 로그인이 필요한 건 무제한 무료 생성 악용을 막기 위해서예요). 그다음은 1룩 = 크레딧 1개 · 크레딧 5개 $2.99부터 · 9룩 전부 $4.99예요.' },
         { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.' },
         { q: '남성도 사용할 수 있나요?', a: '네. 남성은 그루밍 중심으로 자연스러운 혈색 베이스·깨끗한 피부 톤업·틴티드 밤 룩을 제공하며, 립스틱이나 아이 메이크업을 억지로 입히지 않습니다.' },
         { q: '결과가 정말 제 얼굴인가요, 다른 얼굴이 되진 않나요?', a: '네. 메이크업은 얼굴 구조·이목구비·표정을 고정한 채 정밀한 오버레이로만 입혀집니다. 좁은 마스크 안쪽의 립·볼·피부 보정만 더하므로 정체성은 그대로 유지됩니다.' },
@@ -328,8 +329,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </h1>
             <p className="animate-fade-in-up-delay mt-4 md:mt-7 text-[15px] md:text-lg text-slate-600 max-w-md leading-relaxed break-keep">
               {isEn
-                ? 'See K-beauty looks on your own face before you buy. Nine looks from one selfie — still you. Your first look is free.'
-                : '사기 전에 내 얼굴에 먼저 발라 보세요. 셀카 한 장으로 K-뷰티 9룩 — 다른 사람이 아니라 나. 첫 1회는 무료예요.'}
+                ? 'See K-beauty looks on your own face before you buy. Nine looks from one selfie — still you. Sign up and your first look is free.'
+                : '사기 전에 내 얼굴에 먼저 발라 보세요. 셀카 한 장으로 K-뷰티 9룩 — 다른 사람이 아니라 나. 회원가입하면 첫 1룩은 무료예요.'}
             </p>
             <a
               href={baPicked ? `/analysis/?style=${baLook}` : '/analysis/'}
@@ -342,7 +343,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 : (isEn ? 'Try it on my face — free' : '내 얼굴로 무료 체험')}
             </a>
             <p className="animate-fade-in-up-delay2 mt-3 text-xs font-medium text-slate-500">
-              {isEn ? '1st look free · No card · Photo deleted right away' : '첫 1회 무료 · 카드 불필요 · 사진 바로 삭제'}
+              {isEn ? 'First look free with sign-up · No card needed · Photo deleted right after processing' : '회원가입하면 첫 1룩 무료 · 카드 등록 없음 · 사진은 처리 후 바로 삭제'}
             </p>
             <a
               href={toolHref('/tools/beauty-dna/')}
@@ -447,8 +448,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           <div className="max-w-sm md:pb-3">
             <p className="text-[15px] md:text-base text-slate-600 leading-relaxed break-keep">
               {isEn
-                ? 'Every look drawn on a makeup artist’s face chart — where each step goes, which shade, and with what. Four steps each.'
-                : '9룩 모두 메이크업 아티스트의 페이스 차트로 그렸어요. 어디에, 어떤 색을, 무엇으로 — 룩마다 4단계.'}
+                ? 'Every look laid out on a face chart — where each step goes, which shade, and with what. Four steps each.'
+                : '9룩 모두 페이스 차트로 정리했어요. 어디에, 어떤 색을, 무엇으로 — 룩마다 4단계.'}
             </p>
             <a href={isEn ? '/en/looks/' : '/looks/'} className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
               {isEn ? 'All 9 how-tos' : '9룩 방법 전체 보기'}
@@ -897,7 +898,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           </div>
           <div className="pt-8 border-t border-navy-mid flex flex-col md:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
             <p>&copy; 2026 kissinskin{isEn ? '' : '(키스인스킨)'} · Operated by <a href={isEn ? '/en/about/' : '/about/'} className="hover:text-primary">koha</a></p>
-            <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime="2026-06-29">{isEn ? 'As of June 2026' : '2026년 6월 기준'}</time></p>
+            <p>Contact: <a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a> · <time dateTime={BUILD_DATE}>{isEn ? `Last updated: ${BUILD_MONTH_EN}` : `최종 업데이트: ${BUILD_MONTH_KO}`}</time></p>
             {/* 언어 전환 — 상단 토글은 <button onClick> 이라 크롤러가 못 따라간다. 검색엔진이
                 반대편 언어를 발견하고 링크 가중치를 넘기려면 진짜 <a> 가 하나는 있어야 한다.
                 ⚠ ToolsLayout 푸터는 이걸 갖고 있는데(그 주석에 "홈을 제외한 전 페이지"라고

@@ -246,9 +246,9 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
               lock
             </span>
             {isEn ? (
-              <span><span className="font-extrabold">Login required</span> to generate · 1st try free</span>
+              <span><span className="font-extrabold">Login required</span> to generate · first look free</span>
             ) : (
-              <span>생성하려면 <span className="font-extrabold">로그인 필수</span> · 무료 1회</span>
+              <span>생성하려면 <span className="font-extrabold">로그인 필수</span> · 첫 1룩 무료</span>
             )}
             <span className="underline underline-offset-2 opacity-80">{isEn ? 'Log in' : '로그인'}</span>
           </a>

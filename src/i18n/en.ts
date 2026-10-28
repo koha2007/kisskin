@@ -53,7 +53,7 @@ export default {
   'home.hero.userCount': 'K-Beauty Makeup · Personal Color · AI Skin Analysis',
   'home.hero.previewLabel': 'Your Photo',
   'home.hero.previewResultLabel': '9 Looks',
-  'home.hero.trust1': '60s done',
+  'home.hero.trust1': '9 looks in ~2–3 min',
   'home.hero.trust2': 'No card needed',
   'home.hero.trust3': 'Deleted instantly',
   'home.hero.viewQuizzes': '4 Free Quizzes',
@@ -65,8 +65,8 @@ export default {
   'home.hero.safe3': 'Photos deleted after analysis',
 
   // Value Props
-  'home.value.title1': 'K-Beauty in 60 Seconds',
-  'home.value.desc1': 'AI analyzes your face and delivers 9 K-beauty makeup looks + Korean cosmetics recommendations in 60 seconds.',
+  'home.value.title1': 'K-Beauty in about 2–3 Minutes',
+  'home.value.desc1': 'AI analyzes your face and delivers 9 K-beauty makeup looks + Korean cosmetics recommendations in about 2–3 minutes.',
   'home.value.title2': 'K-Beauty Product Picks',
   'home.value.desc2': 'AI recommends Korean beauty products that match your skin type and tone, with direct purchase links.',
   'home.value.title3': 'Any Device',
@@ -78,7 +78,7 @@ export default {
   'home.toolsShowcase.subtitle': 'We synthesize your four free quiz results into your own makeup and product list — no selfie needed.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
-  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up for your first try free.',
+  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up and get your first look free · No card needed.',
   'home.toolsShowcase.mainCta': 'Try now',
   'home.toolsShowcase.cardCta': 'Start',
   'home.toolsShowcase.seeAllTools': 'See all tools',

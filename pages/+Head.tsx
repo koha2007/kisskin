@@ -47,7 +47,7 @@ export default function Head() {
       <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192-v2.png" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       <meta name="format-detection" content="telephone=no" />
-      <meta name="author" content="kissinskin" />
+      <meta name="author" content="koha" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="NaverBot" content="All" />
       <meta name="Yeti" content="All" />
