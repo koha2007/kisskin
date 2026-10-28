@@ -50,11 +50,11 @@ export default function AnalysisContent() {
         },
         {
           q: '얼굴이 제 얼굴로 남나요?',
-          a: '가장 어려운 부분이고, 솔직하게 말씀드립니다. 이미지-투-이미지 방식으로 **메이크업과 헤어 컬러만 다시 칠하도록** 제약을 걸어 골격·눈매·피부결이 유지되도록 합니다. 완벽하지는 않습니다 — 원본 사진에 강한 필터가 걸려 있거나, 그림자가 짙거나, 각도가 극단적이면 얼굴이 달라 보일 확률이 올라갑니다.',
+          a: '가장 어려운 부분이고, 솔직하게 말씀드립니다. 이미지-투-이미지 방식으로 메이크업과 헤어 컬러만 다시 칠하도록 제약을 걸어 골격·눈매·피부결이 유지되도록 합니다. 완벽하지는 않습니다 — 원본 사진에 강한 필터가 걸려 있거나, 그림자가 짙거나, 각도가 극단적이면 얼굴이 달라 보일 확률이 올라갑니다.',
         },
         {
           q: '어떤 사진이 잘 나오나요?',
-          a: '정면, 고르고 평평한 조명, 민낯이나 옅은 화장, 카메라를 보는 눈, 강한 필터 없음. 어떤 룩을 고르느냐보다 **어떤 사진을 올리느냐가 결과를 더 크게 좌우합니다.**',
+          a: '정면, 고르고 평평한 조명, 민낯이나 옅은 화장, 카메라를 보는 눈, 강한 필터 없음. 어떤 룩을 고르느냐보다 어떤 사진을 올리느냐가 결과를 더 크게 좌우합니다.',
         },
         {
           q: '헤어 컬러도 바뀌나요?',
@@ -128,7 +128,7 @@ export default function AnalysisContent() {
           <p className="text-slate-600 leading-relaxed">
             {isEn
               ? 'What it is good for is the decision before the purchase: does a deep berry lip suit my face at all, would warm copper hair work on me, is a bold eye worth trying. That question is cheap to answer here and expensive to answer at a store.'
-              : '대신 잘하는 건 **구매 직전의 결정**입니다. 진한 베리 립이 내 얼굴에 어울리기는 하는가, 웜 코퍼 헤어가 나한테 받는가, 화려한 아이 메이크업을 시도해볼 만한가. 이 질문은 여기서 답하면 싸고, 매장에서 답하면 비쌉니다.'}
+              : '대신 잘하는 건 구매 직전의 결정입니다. 진한 베리 립이 내 얼굴에 어울리기는 하는가, 웜 코퍼 헤어가 나한테 받는가, 화려한 아이 메이크업을 시도해볼 만한가. 이 질문은 여기서 답하면 싸고, 매장에서 답하면 비쌉니다.'}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">

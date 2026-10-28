@@ -20,7 +20,7 @@ import { isNativeApp, nativeSaveImage, nativeShareImage } from '../../lib/native
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import type { ProductRec } from '../../lib/recommendations/types'
-import { NAVY, PRIMARY, screenBg, surfaceStyle, BORDER } from './theme'
+import { NAVY, PRIMARY, screenBg, surfaceStyle, BORDER, btnPrimary, btnPrimaryStyle } from './theme'
 
 const TOOL_URL = 'https://kissinskin.net/analysis/'
 
@@ -512,7 +512,41 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
 
         {/* 9룩 컬렉션 — 2026-10-12. 결과를 본 직후가 "다른 룩은?"이 가장 궁금한 순간(RevenueCat:
             가치를 본 순간의 결제 제안). 컬렉션은 같은 셀카로 9장을 새로 만든다 — 이 결과는 섞지 않는다. */}
-        {!pending && onCollection && (
+        {/* 2026-10-28 결제 동선 개편 — 잔액 0(무료 1룩 직후가 대부분)이면 작은 카드 대신 "1/9 완성" 패널.
+            결과를 본 지금이 다음 룩이 가장 궁금한 순간이라 결과 바로 아래, 크게. 결제 화면(onTopup)이 9룩·크레딧을 고르게 한다. */}
+        {!pending && onTopup && loggedIn && balanceNow === 0 ? (
+          <section className="mt-5 overflow-hidden" style={{ ...surfaceStyle, borderColor: PRIMARY }}>
+            <div className="px-4 pt-4 flex items-baseline justify-between">
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.16em]" style={{ color: PRIMARY }}>
+                {isEn ? '1 of 9 done' : '9룩 중 1룩 완성'}
+              </p>
+              <p className="text-[11px] text-white/55">{isEn ? 'from $0.47 / look' : '1룩 $0.47부터'}</p>
+            </div>
+            <h2 className="px-4 pt-1.5 text-[21px] font-extrabold leading-tight tracking-[-0.02em] break-keep">
+              {isEn ? 'Now see the other 8 on your face.' : '나머지 8룩도 내 얼굴로 볼까요?'}
+            </h2>
+            <div className="mt-3 flex gap-1 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
+              {MAKEUP_STYLES.filter((s) => s.id !== styleId).map((s) => (
+                <span key={s.id} className="relative block h-[76px] w-[60px] shrink-0 overflow-hidden rounded-md">
+                  <img src={lookImage(s.id)?.after} alt="" decoding="async" className="h-full w-full object-cover" />
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                  <span className="absolute inset-x-1 bottom-1 text-[9px] font-extrabold leading-tight">{isEn ? s.subEn : s.nameKo}</span>
+                </span>
+              ))}
+            </div>
+            <div className="p-4 pt-3">
+              <button
+                type="button"
+                onClick={() => { gtagEvent('result_next_look', { style: styleId }); onTopup() }}
+                className={btnPrimary}
+                style={btnPrimaryStyle}
+              >
+                {isEn ? 'See my other looks' : '내 얼굴로 다른 룩 보기'}
+              </button>
+              <p className="mt-2 text-center text-[11px] text-white/55">{isEn ? 'One-time payment · not a subscription' : '1회 결제 · 구독 아님'}</p>
+            </div>
+          </section>
+        ) : !pending && onCollection && (
           <button
             type="button"
             onClick={() => { gtagEvent('collection_entry', { from: 'result', style: styleId }); onCollection() }}
