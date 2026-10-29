@@ -13,6 +13,7 @@ import MobileBottomNav from './components/home/MobileBottomNav'
 import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
 import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
 import { LOOK_HERO, lookThumb } from './lib/makeup/lookImages'
+import { luckyLookImg } from './lib/fortune/looks'
 import { trackEvent } from './lib/analytics'
 import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
 import { useBeautyDna } from './hooks/useBeautyDna'
@@ -305,7 +306,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           · $4.99 9룩 컬렉션은 바로 아래 시연 영상 섹션이 맡는다(가격은 첫 화면에서 뺀다).
           · 셀카가 부담스러운 사람용 무료 진단은 버튼이 아니라 글자 링크 한 줄로.
           · 룩 고르기 = 인스타 스토리식 동그라미 9개(얼굴 확대 썸네일, 192px 경량본).
-          GA4: select_promotion creative_slot = home_hero_primary / home_hero_quiz / home_hero_look / home_hero_fortune. */}
+          · 2026-10-29 운영자 "럭키 메이크업도 메인으로": 주 버튼 하나 → **같은 크기의 두 문**(AI 메이크업 9룩 · 럭키 메이크업 9운).
+            어느 쪽을 더 누르는지 GA4 로 비교한다(home_hero_primary vs home_hero_lucky).
+          GA4: select_promotion creative_slot = home_hero_primary / home_hero_lucky / home_hero_quiz / home_hero_look / home_hero_fortune. */}
       <section className="relative overflow-hidden bg-cream" aria-labelledby="hero-title">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -329,21 +332,40 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             </h1>
             <p className="animate-fade-in-up-delay mt-4 md:mt-7 text-[15px] md:text-lg text-slate-600 max-w-md leading-relaxed break-keep">
               {isEn
-                ? 'See K-beauty looks on your own face before you buy. Nine looks from one selfie — still you. Sign up and your first look is free.'
-                : '사기 전에 내 얼굴에 먼저 발라 보세요. 셀카 한 장으로 K-뷰티 9룩 — 다른 사람이 아니라 나. 회원가입하면 첫 1룩은 무료예요.'}
+                ? 'See K-beauty looks on your own face before you buy — or wear the luck you want. Nine looks from one selfie, still you.'
+                : '사기 전에 내 얼굴에 먼저 발라 보세요. 셀카 한 장으로 K-뷰티 9룩, 또는 원하는 운을 담은 럭키 메이크업 9가지 — 다른 사람이 아니라 나.'}
             </p>
-            <a
-              href={baPicked ? `/analysis/?style=${baLook}` : '/analysis/'}
-              onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_primary', promotion_id: baPicked ? baLook : 'none' })}
-              className="animate-fade-in-up-delay2 mt-6 md:mt-9 inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-primary-dark hover:bg-navy text-white h-14 md:h-16 px-9 md:px-11 text-base md:text-lg font-extrabold shadow-lg shadow-primary/25 transition-colors"
-            >
-              <span aria-hidden="true" className="material-symbols-outlined text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>face_retouching_natural</span>
-              {baPicked
-                ? (isEn ? 'Try this look on my face' : '이 룩, 내 얼굴로 체험')
-                : (isEn ? 'Try it on my face — free' : '내 얼굴로 무료 체험')}
-            </a>
+            {/* 두 문 — 같은 크기·같은 무게. 왼쪽 = AI 메이크업(고른 룩이 있으면 그 룩으로), 오른쪽 = 럭키 메이크업 */}
+            <div className="animate-fade-in-up-delay2 mt-6 md:mt-9 grid w-full max-w-xl grid-cols-2 gap-2.5 md:gap-3">
+              <a
+                href={baPicked ? `/analysis/?style=${baLook}` : '/analysis/'}
+                onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_primary', promotion_id: baPicked ? baLook : 'none' })}
+                className="group flex min-h-[76px] md:min-h-[88px] items-center gap-2.5 md:gap-3 rounded-2xl bg-primary-dark hover:bg-navy p-2.5 md:p-3.5 pr-3 text-left text-white shadow-lg shadow-primary/25 transition-colors"
+              >
+                <img src={lookThumb(baLook)} alt="" width={48} height={48} decoding="async" className="h-11 w-11 md:h-14 md:w-14 shrink-0 rounded-full border-2 border-white/70 object-cover" />
+                <span className="min-w-0">
+                  <span className="block text-[15px] md:text-lg font-extrabold leading-tight">{isEn ? 'AI Makeup' : 'AI 메이크업'}</span>
+                  <span className="mt-0.5 block text-[11.5px] md:text-[13px] font-semibold leading-snug text-white/85 break-keep">
+                    {baPicked ? (isEn ? 'This look on my face' : '이 룩, 내 얼굴로') : (isEn ? '9 K-beauty looks' : 'K-뷰티 9룩 체험')}
+                  </span>
+                </span>
+              </a>
+              <a
+                href={isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'}
+                onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_lucky' })}
+                className="group flex min-h-[76px] md:min-h-[88px] items-center gap-2.5 md:gap-3 rounded-2xl bg-navy hover:bg-navy-mid p-2.5 md:p-3.5 pr-3 text-left text-white shadow-lg shadow-navy/25 transition-colors"
+              >
+                <img src={luckyLookImg('wealth')} alt="" width={48} height={48} decoding="async" className="h-11 w-11 md:h-14 md:w-14 shrink-0 rounded-full border-2 border-white/70 object-cover object-[50%_22%]" />
+                <span className="min-w-0">
+                  <span className="block text-[15px] md:text-lg font-extrabold leading-tight">{isEn ? 'Lucky Makeup' : '럭키 메이크업'}</span>
+                  <span className="mt-0.5 block text-[11.5px] md:text-[13px] font-semibold leading-snug text-white/85 break-keep">
+                    {isEn ? 'Wear the luck you want' : '원하는 운을 내 얼굴에'}
+                  </span>
+                </span>
+              </a>
+            </div>
             <p className="animate-fade-in-up-delay2 mt-3 text-xs font-medium text-slate-500">
-              {isEn ? 'First look free with sign-up · No card needed · Photo deleted right after processing' : '회원가입하면 첫 1룩 무료 · 카드 등록 없음 · 사진은 처리 후 바로 삭제'}
+              {isEn ? 'Sign up: 1 makeup look + 1 lucky look free · No card · Photo deleted after processing' : '가입하면 AI 메이크업 1장 + 럭키 1장 무료 · 카드 등록 없음 · 사진은 처리 후 바로 삭제'}
             </p>
             <a
               href={toolHref('/tools/beauty-dna/')}
