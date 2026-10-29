@@ -20,12 +20,17 @@ export interface CheckoutPack { id: 'starter' | 'plus' | 'collection'; credits: 
  */
 export type CheckoutOutcome = 'redirect' | 'external' | 'login' | 'error'
 
+/** 로그인 후 지금 보던 결제 화면으로 돌아오게 ?next= 를 싣는다(AuthPage safeNext 가 같은 사이트 경로만 허용). */
+function goLogin(): void {
+  window.location.href = '/auth?next=' + encodeURIComponent(window.location.pathname + window.location.search)
+}
+
 /** back = 결제 후 돌아올 페이지(서버가 허용한 경로만 — functions/api/checkout.ts LUCKY_BACKS) */
 export async function startPackCheckout(pack: CheckoutPack, back?: string): Promise<CheckoutOutcome> {
   try {
     const { data: { session } } = await supabase.auth.getSession()
     const token = session?.access_token
-    if (!token) { window.location.href = '/auth'; return 'login' }
+    if (!token) { goLogin(); return 'login' }
 
     gtagEvent('begin_checkout', { checkout_type: 'credit', pack: pack.id, value: pack.value, currency: 'USD' })
 
@@ -34,7 +39,7 @@ export async function startPackCheckout(pack: CheckoutPack, back?: string): Prom
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({ pack: pack.id, redirect: true, email: session?.user?.email, back }),
     })
-    if (res.status === 401) { window.location.href = '/auth'; return 'login' }
+    if (res.status === 401) { goLogin(); return 'login' }
     const d = (await res.json().catch(() => ({}))) as { url?: string; error?: string }
     if (!res.ok || !d.url) return 'error'
 
