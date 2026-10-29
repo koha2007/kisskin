@@ -15,8 +15,10 @@ function gradient(color: string) {
   return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #070953))`
 }
 function fmt(iso: string) {
+  // 'YYYY-MM-DD' 는 UTC 자정으로 읽힌다 — 로컬 게터면 미국 시간대에서 하루 앞당겨지고
+  // 사전 렌더(UTC)와 글자가 달라 React #418 이 난다(2026-10-29). UTC 로 읽어 적힌 날짜 그대로.
   const d = new Date(iso)
-  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
+  return `${d.getUTCFullYear()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${String(d.getUTCDate()).padStart(2, '0')}`
 }
 
 const SEE_ALL_BTN =

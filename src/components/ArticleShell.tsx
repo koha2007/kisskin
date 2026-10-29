@@ -33,11 +33,13 @@ type Props = {
 }
 
 function formatDate(iso: string, isEn: boolean) {
+  // 'YYYY-MM-DD' 는 UTC 자정으로 읽힌다 — 로컬 게터면 미국 시간대에서 하루 앞당겨지고
+  // 사전 렌더(UTC)와 글자가 달라 React #418 이 난다(2026-10-29). UTC 로 읽어 적힌 날짜 그대로.
   const d = new Date(iso)
   if (isEn) {
-    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
   }
-  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`
+  return `${d.getUTCFullYear()}년 ${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`
 }
 
 export default function ArticleShell({
