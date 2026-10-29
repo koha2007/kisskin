@@ -36,9 +36,11 @@ interface Props {
   loginHref?: string
   /** 9룩 전부 한 번에(컬렉션) — 고르기 어려운 사람에게 "다 해보기"를 같이 보여준다 */
   onCollection?: () => void
+  /** 무료권·크레딧이 모두 0일 때 — 생성 대신 결제 화면으로(402 에러를 거치지 않게) */
+  onTopup?: (styleId: MakeupStyleId) => void
 }
 
-export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle, loginHref, onCollection }: Props) {
+export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, initialStyle, loginHref, onCollection, onTopup }: Props) {
   const [selected, setSelected] = useState<MakeupStyleId>(initialStyle ?? MAKEUP_STYLES[0].id)
   // 큰 프리뷰에서 비포/애프터를 직접 비교한다. 룩을 바꾸면 애프터로 되돌린다.
   const [showBefore, setShowBefore] = useState(false)
@@ -57,7 +59,10 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
   }, [loginHref])
   const freeLeft = freeStatus?.makeup.left ?? 0
   const credits = freeStatus?.balance ?? 0
-  const countLine = !freeStatus
+  const empty = !!freeStatus && freeLeft === 0 && credits === 0 && !!onTopup
+  const countLine = empty
+    ? (isEn ? 'Free look used · from $0.47 per look' : '무료 1룩 사용 완료 · 1룩 $0.47부터')
+    : !freeStatus
     ? (isEn ? '1 credit · 1 result image' : '1크레딧 = 결과 1장 생성')
     : (isEn
       ? `Free pass ${freeLeft} · Credits ${credits} left`
@@ -259,7 +264,15 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
           </span>
           {countLine}
         </p>
-        {freeStatus && freeLeft > 0 && credits > 0 ? (
+        {empty ? (
+          <button
+            onClick={() => { gtagEvent('style_selected', { style: selected, pay: 'paywall' }); onTopup!(selected) }}
+            className={btnPrimary}
+            style={btnPrimaryStyle}
+          >
+            {isEn ? 'Make this look on my face' : '이 룩, 내 얼굴로 만들기'}
+          </button>
+        ) : freeStatus && freeLeft > 0 && credits > 0 ? (
           // 둘 다 있으면 사용자가 고른다(우선순위 없음)
           <div className="grid grid-cols-2 gap-2">
             <button onClick={() => handleConfirm('free')} className={btnPrimary} style={btnPrimaryStyle}>
@@ -282,7 +295,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
                 : (isEn ? 'Try this style' : '이 스타일로 생성하기')}
           </button>
         )}
-        {onCollection && (
+        {onCollection && !empty && (
           <button
             onClick={() => { gtagEvent('collection_entry', { from: 'style_select' }); onCollection() }}
             className="mt-2.5 w-full py-3 text-[13px] font-bold text-white transition-colors hover:bg-white/5"

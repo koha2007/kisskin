@@ -74,6 +74,10 @@ export default function MakeupFlow() {
   const [errAction, setErrAction] = useState<ErrAction>('restart')
   const [baseSrc, setBaseSrc] = useState<string | null>(null)   // 지원사이즈로 맞춘 원본(슬라이더 BEFORE)
   const [afterSrc, setAfterSrc] = useState<string | null>(null) // 합성+glow 최종 결과(AFTER)
+  // afterSrc 가 어떤 룩인지 — 결과 뒤 룩 선택에서 다른 룩을 고르면 styleId 가 먼저 바뀐다(결제 화면 9칸용)
+  const [afterStyle, setAfterStyle] = useState<MakeupStyleId | null>(null)
+  // 결제 화면에 어디서 왔는지(GA4 paywall_view.from)
+  const [topupFrom, setTopupFrom] = useState('direct')
   const [usage, setUsage] = useState<MakeupUsage | null>(null)  // 이번 생성의 과금 결과(무료/크레딧)
   // 미로그인 여부를 업로드 화면에서 미리 알려준다(사진 올린 뒤 게이트에 걸리는 헛수고 방지).
   const [loggedOut, setLoggedOut] = useState(false)
@@ -157,8 +161,9 @@ export default function MakeupFlow() {
           setErrMsg(isEn ? 'Choose whether to use your free pass or a credit.' : '무료권과 크레딧 중 무엇을 쓸지 골라 주세요.')
           setErrAction('choose')
         } else if (res.status === 402 && code === 'insufficient_credits') {
-          setErrMsg(isEn ? 'Not enough credits. Top up to continue.' : '크레딧이 부족해요. 충전하면 이어서 만들 수 있어요.')
-          setErrAction('topup')
+          // 2026-10-28: 슬픈 얼굴 에러 화면 대신 곧장 결제 화면으로 — "실패"가 아니라 "다음 룩 제안"이다.
+          try { sessionStorage.setItem(RESUME_STYLE_KEY, id) } catch { /* 없으면 첫 룩 */ }
+          setTopupFrom('insufficient'); setStep('topup'); return
         } else if (res.status === 503) {
           setErrMsg(isEn ? 'Service is not ready yet. Please try again shortly.' : '서비스가 아직 준비 중이에요. 잠시 후 다시 시도해 주세요.')
           setErrAction('regenerate')
@@ -176,6 +181,7 @@ export default function MakeupFlow() {
       await new Promise<void>((r, j) => { editedImg.onload = () => r(); editedImg.onerror = () => j(new Error('result load failed')); editedImg.src = data.image! })
       if (!alive()) return
       setAfterSrc(data.image!)
+      setAfterStyle(id)
       // 결과화면에 "무료 체험 1회 사용" / "크레딧 1개 사용 · N개 남음" 을 표시하기 위해
       // 서버가 판정한 과금 결과를 그대로 전달한다.
       if (data.tier === 'free' || data.tier === 'credit') {
@@ -274,7 +280,8 @@ export default function MakeupFlow() {
   }, [])
 
   // 충전 화면으로 — Polar 왕복(페이지 이동)에도 지금 셀카·룩을 이어 쓰도록 맡겨 둔다.
-  const goTopup = () => {
+  const goTopup = (from = 'result') => {
+    setTopupFrom(from)
     if (selfie) void savePendingSelfieFromSrc(selfie.photo)
     try { sessionStorage.setItem(RESUME_STYLE_KEY, styleId) } catch { /* 없으면 첫 룩 */ }
     setStep('topup')
@@ -340,6 +347,7 @@ export default function MakeupFlow() {
         onBack={() => setStep('upload')}
         onConfirm={(id, pay) => { jobIdRef.current = ''; payRef.current = pay; setStyleId(id); setPaidNotice(null); setStep('processing') }}
         onCollection={() => { setCollectionMode(true); setStep('collection') }}
+        onTopup={(id) => { setStyleId(id); goTopup('style_select') }}
       />
       </>
     )
@@ -376,7 +384,7 @@ export default function MakeupFlow() {
           </div>
         ) : errAction === 'topup' ? (
           <div className="flex w-full max-w-[260px] flex-col items-center gap-3">
-            <button onClick={goTopup} className={btn} style={btnPrimaryStyle}>
+            <button onClick={() => goTopup('error')} className={btn} style={btnPrimaryStyle}>
               {isEn ? 'Top up credits' : '크레딧 충전'}
             </button>
             <button onClick={regenerate} className="text-xs text-white/60 underline underline-offset-2">
@@ -403,7 +411,17 @@ export default function MakeupFlow() {
   if (step === 'topup') {
     // 충전 성공 → Polar 가 /analysis/ 로 복귀(페이지 리로드). 잔액이 생긴 상태로 재시작.
     // onBack → 에러 화면으로 복귀(같은 작업 재시도 가능).
-    return <MakeupTopUp isEn={isEn} onBack={() => setStep(errMsg ? 'error' : 'upload')} />
+    return (
+      <MakeupTopUp
+        isEn={isEn}
+        from={topupFrom}
+        resultSrc={afterSrc ?? undefined}
+        doneStyle={afterSrc && afterStyle ? afterStyle : undefined}
+        photo={selfie?.photo}
+        onCollection={selfie ? () => { setCollectionMode(true); setStep('collection') } : undefined}
+        onBack={() => setStep(afterSrc ? 'result' : errMsg ? 'error' : selfie ? 'style' : 'upload')}
+      />
+    )
   }
 
   if (step === 'collection') {
@@ -436,7 +454,7 @@ export default function MakeupFlow() {
       onBack={() => setStep('style')}
       onRetake={reset}
       onCollection={() => { setCollectionMode(true); setStep('collection') }}
-      onTopup={goTopup}
+      onTopup={() => goTopup('result')}
     />
   )
 }
