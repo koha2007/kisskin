@@ -11,10 +11,10 @@
 // 인터페이스는 _geminiImage.mjs 와 맞춰 뒀다(IMAGE_MODEL, generateImageB64) —
 // 호출부(gen-products.mjs 의 genImage)가 import 한 줄만 바꾸면 되도록.
 
-export const IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1'
+export const IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2' // gpt-image-1 은 2026-12-01 종료(10/29 전환)
 const IMAGE_QUALITY = process.env.OPENAI_IMAGE_QUALITY || 'medium' // low|medium|high|auto
 
-// gpt-image-1 은 임의 비율을 못 받는다 — 고정 3종 중에서 고르고, 나머지는 sharp 가 크롭한다.
+// gpt-image 계열은 임의 비율을 못 받는다 — 고정 3종 중에서 고르고, 나머지는 sharp 가 크롭한다.
 function sizeFor(aspectRatio) {
   const [w, h] = String(aspectRatio).split(':').map(Number)
   if (!w || !h || w === h) return '1024x1024'
