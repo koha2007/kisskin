@@ -852,5 +852,102 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "glass-skin-makeup",
+    "publishedAt": "2026-10-29",
+    "introKo": "글래스 스킨은 기름진 번들거림이 아니라, 속부터 수분이 꽉 찬 투명한 맑은 광을 말해요. 보습 레이어링부터 파우더 최소화까지 맑은 피부 표현법을 배워볼게요.",
+    "introEn": "Glass skin isn't greasy shine—it's a clear, translucent glow that looks like moisture coming from within. Here is how to layer hydration, apply a sheer base, and keep powder to a minimum.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "skin",
+        "titleKo": "보습을 레이어로 밀착시키기",
+        "titleEn": "Layer moisture step by step",
+        "bodyKo": "2편에서 배운 피부 준비를 기억하나요? 수분 세럼과 보습 크림을 적은 양으로 두 번 나누어 바르고 충분히 두드려 흡수시켜요. 피부 표면에 겉도는 크림이 없어야 베이스가 밀리지 않아요.",
+        "bodyEn": "Remember the prep from lesson 2? Apply a light hydrating serum and moisturizer in two small layers, patting thoroughly. Make sure no excess cream sits on top so the base won't slide.",
+        "toolsKo": "수분 세럼 · 가벼운 보습 크림",
+        "toolsEn": "Hydrating serum · lightweight moisturizer",
+        "swatches": [
+          "#fbf8f5",
+          "#f3ede6"
+        ],
+        "searchKeywords": "수분 세럼 에센스 촉촉",
+        "shopEn": "hydrating serum",
+        "shortKo": "보습제 나누어 얇게 두드리기",
+        "shortEn": "Layer moisture in small amounts"
+      },
+      {
+        "area": "skin",
+        "crop": "cheekTemple",
+        "titleKo": "얇고 촉촉한 베이스 깔기",
+        "titleEn": "Apply a sheer hydrating base",
+        "bodyKo": "5편처럼 파운데이션 양을 적게 잡고, 촉촉한 글로우 베이스나 파운데이션을 얼굴 안쪽에서 바깥쪽으로 얇게 펴 발라요. 젖은 스펀지로 두드리면 광이 살아나며 밀착돼요.",
+        "bodyEn": "Keep the foundation sheer as shown in lesson 5. Spread a glowing base from the center of the face outward, then tap with a damp sponge to press in the moisture and enhance radiance.",
+        "toolsKo": "글로우 파운데이션 · 물 먹인 스펀지",
+        "toolsEn": "Glow foundation · damp sponge",
+        "swatches": [
+          "#f0dabf",
+          "#e8ceb1"
+        ],
+        "searchKeywords": "촉촉 글로우 파운데이션 21호",
+        "shopEn": "glow foundation",
+        "shortKo": "물 먹인 스펀지로 얇게 밀착",
+        "shortEn": "Tap sheer layer with damp sponge"
+      },
+      {
+        "area": "skin",
+        "crop": "cheekTemple",
+        "titleKo": "하이라이터 밀착 포인트 3곳",
+        "titleEn": "Highlight the 3 key glowing points",
+        "bodyKo": "리퀴드나 밤 제형의 하이라이터를 손가락 끝에 아주 적게 묻혀요. 광대 윗선, 콧등 중간, 턱끝 3곳에만 살짝 얹듯 두드려 자연스러운 수분광을 더해요.",
+        "bodyEn": "Take a tiny amount of liquid or balm highlighter on your fingertip. Lightly tap onto three key areas: the upper cheekbones, the bridge of the nose, and the tip of the chin.",
+        "toolsKo": "리퀴드 하이라이터 또는 밤 하이라이터",
+        "toolsEn": "Liquid highlighter or balm stick",
+        "swatches": [
+          "#fceee6",
+          "#f8e2d4"
+        ],
+        "searchKeywords": "스틱 밤 하이라이터 은은",
+        "shopEn": "glow balm stick",
+        "shortKo": "광대·콧등·턱끝에 포인트 광",
+        "shortEn": "Highlight cheekbones, nose, chin"
+      },
+      {
+        "area": "skin",
+        "crop": "underEye",
+        "titleKo": "번들거리는 외곽만 파우더 처리",
+        "titleEn": "Powder only areas prone to shine",
+        "bodyKo": "9편의 파우더 기술을 살려 작은 브러시로 눈가, 콧볼 옆, 눈썹뼈, 얼굴 외곽만 살짝 터치해요. 광대와 콧등의 예쁜 광은 그대로 남겨두는 것이 핵심이에요.",
+        "bodyEn": "Using the powder technique from lesson 9, sweep a small brush lightly over only the under-eyes, sides of the nose, brow bone, and jawline. Leave the cheekbones and nose bridge luminous.",
+        "toolsKo": "투명 파우더 · 작은 브러시",
+        "toolsEn": "Translucent powder · small brush",
+        "swatches": [
+          "#faf6f0"
+        ],
+        "searchKeywords": "투명 세범 파우더 팩트",
+        "shopEn": "translucent powder",
+        "shortKo": "광 빼고 필요한 곳만 파우더",
+        "shortEn": "Powder only oily zones"
+      }
+    ],
+    "tipsKo": [
+      "번들거림은 유분이 넓게 번진 것이고, 글래스 스킨은 좁은 포인트에 수분광이 빛나는 차이예요.",
+      "펄 입자가 큰 가루 하이라이터보다 크림이나 밤 제형이 속에서 채워진 광처럼 보여요."
+    ],
+    "tipsEn": [
+      "Greasiness is broad oil spreading over the face, whereas glass skin is targeted moisture reflection.",
+      "Cream or balm highlighters look much more natural and dewy than coarse powder shimmers."
+    ],
+    "mistakeKo": "커버력이 높은 파운데이션을 두껍게 바르면 유분과 섞여 답답해 보이고 결이 뭉쳐요.",
+    "mistakeEn": "Applying a heavy full-coverage foundation hides natural translucency and can look cakey when mixed with oils.",
+    "chartPrompt": "a clear glass skin base look with high dewiness on the upper cheekbones, bridge of the nose, and tip of the chin, with soft matte finish only under the eyes and around the nose",
+    "videoTitleKo": "글래스 스킨 베이스",
+    "videoTitleEn": "Glass Skin Base",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
