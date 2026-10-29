@@ -59,6 +59,7 @@ export default function NewsArticle({ slug }: Props) {
 
   return (
     <ArticleShell
+      byline
       hubLabel={isEn ? 'News home' : '뉴스 홈'}
       hubPath={hubPath}
       categoryLabel={categoryLabel}
@@ -94,7 +95,7 @@ export default function NewsArticle({ slug }: Props) {
             // 대표 이미지"라는 의미라 넣어도 무방하다 — 실제 사건/제품 사진이라고
             // 주장하는 Product.image 와는 다르다(ProductShowcase.tsx 참고).
             ...(item.image ? { image: `https://kissinskin.net${item.image}` } : {}),
-            author: { '@type': 'Organization', name: 'kissinskin' },
+            author: { '@type': 'Person', name: 'koha', url: isEn ? 'https://kissinskin.net/en/about/' : 'https://kissinskin.net/about/' },
             publisher: {
               '@type': 'Organization',
               name: 'kissinskin',

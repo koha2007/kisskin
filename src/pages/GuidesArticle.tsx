@@ -58,6 +58,7 @@ export default function GuidesArticle({ slug }: Props) {
 
   return (
     <ArticleShell
+      byline
       hubLabel={isEn ? 'Guides home' : '가이드 홈'}
       hubPath={hubPath}
       categoryLabel={categoryLabel}
@@ -101,7 +102,7 @@ export default function GuidesArticle({ slug }: Props) {
             datePublished: post.date,
             dateModified: post.date,
             totalTime: `PT${post.readMinutes}M`,
-            author: { '@type': 'Organization', name: 'kissinskin' },
+            author: { '@type': 'Person', name: 'koha', url: isEn ? 'https://kissinskin.net/en/about/' : 'https://kissinskin.net/about/' },
             publisher: {
               '@type': 'Organization',
               name: 'kissinskin',

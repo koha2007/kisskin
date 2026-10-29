@@ -21,6 +21,8 @@ type Props = {
   title: string
   summary: string
   metaExtra?: ReactNode
+  /** 글쓴이 표기("글 koha" → /about/). 뉴스·가이드 JSON-LD author(Person)와 화면 표기를 맞춘다. */
+  byline?: boolean
   children: ReactNode
   /** Optional hero mood image — AI illustration, not a photo of the actual event. */
   image?: string
@@ -52,6 +54,7 @@ export default function ArticleShell({
   title,
   summary,
   metaExtra,
+  byline,
   children,
   image,
   tags,
@@ -103,6 +106,14 @@ export default function ArticleShell({
                 <span className="font-semibold text-slate-700 hover:text-navy">{categoryLabel}</span>
               </a>
               <span className="text-slate-300">·</span>
+              {byline && (
+                <>
+                  <a href={isEn ? '/en/about/' : '/about/'} rel="author" className="font-semibold text-slate-700 hover:text-navy">
+                    {isEn ? 'By koha' : '글 koha'}
+                  </a>
+                  <span className="text-slate-300">·</span>
+                </>
+              )}
               <span>{formatDate(date, isEn)}</span>
               <span className="text-slate-300">·</span>
               <span>{isEn ? `${readMinutes} min read` : `${readMinutes}분 읽기`}</span>
