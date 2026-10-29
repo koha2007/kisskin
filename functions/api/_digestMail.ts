@@ -150,7 +150,7 @@ const COPY = {
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-const ADDRESS = '코하(koha) · 대표 김용헌 · 사업자등록번호 108-16-82025 · 경기도 남양주시 해밀예당1로'
+export const ADDRESS = '코하(koha) · 대표 김용헌 · 사업자등록번호 108-16-82025 · 경기도 남양주시 해밀예당1로'
 
 /** 제품은 "브랜드 제품명", 뉴스는 brand 가 비어 있어 제목만 쓴다. */
 const headline = (it: DigestItem) => `${it.brand} ${it.name}`.trim()

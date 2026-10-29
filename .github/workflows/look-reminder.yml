@@ -1,0 +1,42 @@
+name: Look reminder email
+
+# "나머지 8룩 알림" — 결과 화면에서 따로 동의한 회원에게 다음 날 한 통(2026-10-29).
+# 매시간 /api/look-reminder 를 불러 때가 된 신청을 보내거나 건너뛴다(그사이 구매·수신거부).
+# 규칙·표: supabase/migrations/0011_look_reminder.sql · 발송기: functions/api/look-reminder.ts
+#
+# 필요 시크릿: ANNOUNCE_TOKEN (주간 다이제스트와 공용 — 새로 넣을 것 없음)
+# 수동: Actions 탭 → 이 워크플로 → Run workflow → dry_run=1 로 대상 수만 확인.
+
+on:
+  schedule:
+    - cron: '17 * * * *'   # 매시 17분
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '1 = 발송 없이 대상 수만 확인'
+        required: false
+        default: ''
+
+concurrency:
+  group: look-reminder
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 때가 된 알림 보내기
+        env:
+          ANNOUNCE_TOKEN: ${{ secrets.ANNOUNCE_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run == '1' && 'true' || 'false' }}
+        run: |
+          RESP=$(curl -sS -w $'\n%{http_code}' -X POST https://kissinskin.net/api/look-reminder \
+            -H "Authorization: Bearer $ANNOUNCE_TOKEN" -H 'Content-Type: application/json' \
+            -d "{\"send\":true,\"dryRun\":$DRY_RUN}")
+          CODE=$(echo "$RESP" | tail -n1)
+          echo "$RESP" | head -n -1
+          [ "$CODE" = "200" ] || { echo "::error::look-reminder HTTP $CODE"; exit 1; }

@@ -19,6 +19,7 @@ import { recordLook } from '../../lib/makeup/looks'
 import { isNativeApp, nativeSaveImage, nativeShareImage } from '../../lib/nativePicker'
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
+import { LOOK_REMINDER_CONSENT } from '../../lib/makeup/lookReminder'
 import type { ProductRec } from '../../lib/recommendations/types'
 import { NAVY, PRIMARY, screenBg, surfaceStyle, BORDER, btnPrimary, btnPrimaryStyle } from './theme'
 
@@ -140,6 +141,9 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
   // 남은 크레딧 — 로그인 유저만. 생성 직후(afterSrc 변경) 최신 잔액 반영.
   const [loggedIn, setLoggedIn] = useState(false)
   const [creditsLeft, setCreditsLeft] = useState<number | null>(null)
+  // "나머지 8룩 알림 받기" — 결제 안내 메일 별도 동의(2026-10-29). 서버가 계정 이메일로 다음 날 한 통.
+  const [remind, setRemind] = useState(false)
+  const [remindBusy, setRemindBusy] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -384,6 +388,25 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
     }
   }
 
+  const toggleRemind = async (on: boolean) => {
+    setRemind(on); setRemindBusy(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch('/api/look-reminder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token ?? ''}` },
+        body: JSON.stringify({ on, locale: isEn ? 'en' : 'ko', style: styleId }),
+      })
+      if (!res.ok) throw new Error(String(res.status))
+      gtagEvent('look_reminder', { on, style: styleId })
+    } catch {
+      setRemind(!on)
+      showToast(isEn ? 'Could not save. Please try again.' : '저장하지 못했어요. 다시 눌러 주세요.')
+    } finally {
+      setRemindBusy(false)
+    }
+  }
+
   const copyShareLink = async () => {
     if (!shareId) return
     try {
@@ -544,6 +567,17 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
                 {isEn ? 'See my other looks' : '내 얼굴로 다른 룩 보기'}
               </button>
               <p className="mt-2 text-center text-[11px] text-white/55">{isEn ? 'One-time payment · not a subscription' : '1회 결제 · 구독 아님'}</p>
+              <label className="mt-3 flex items-start gap-2 text-left text-[12px] leading-snug text-white/75 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={remind}
+                  disabled={remindBusy}
+                  onChange={(e) => void toggleRemind(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 shrink-0"
+                  style={{ accentColor: PRIMARY }}
+                />
+                <span className="break-keep">{LOOK_REMINDER_CONSENT[isEn ? 'en' : 'ko']}</span>
+              </label>
             </div>
           </section>
         ) : !pending && onCollection && (
