@@ -20,11 +20,11 @@ export default function AnalysisContent() {
     ? [
         {
           q: 'Is the virtual makeup try-on really free?',
-          a: 'Yes — your first try is free and needs no card. After that a small credit top-up covers the AI compute, which is the honest reason nothing here is unlimited: someone pays for the GPU either way.',
+          a: 'Yes — sign up and get your first look free, no card needed. After that, 1 look = 1 credit · credits from $2.99 (5 credits) · all 9 looks $4.99. Credits cover the AI compute, which is the honest reason nothing here is unlimited: someone pays for the GPU either way.',
         },
         {
           q: 'What happens to my selfie?',
-          a: 'It is sent to the AI model to generate your looks and is not sold, published, or used to train anyone else\'s model. You can delete your results at any time from your account page.',
+          a: 'Your photo is sent securely for AI processing and deleted as soon as it\'s done. It\'s never used for training, sold, or published. If you saved or shared a result image, email its link to support@kissinskin.net and we\'ll delete it.',
         },
         {
           q: 'Will it still look like me?',
@@ -42,11 +42,11 @@ export default function AnalysisContent() {
     : [
         {
           q: 'AI 메이크업, 정말 무료인가요?',
-          a: '첫 1회는 카드 등록 없이 무료입니다. 그다음부터는 소액 크레딧을 충전해야 하는데, AI 연산 비용이 실제로 들기 때문입니다. "무제한 무료"라고 하지 않는 이유가 그것입니다 — GPU 비용은 누군가 냅니다.',
+          a: '회원가입하면 첫 1룩 무료이고 카드 등록은 필요 없어요. 그다음부터는 크레딧을 써요 — 1룩 = 크레딧 1개 · 크레딧 5개 $2.99부터 · 9룩 전부 $4.99. AI 연산 비용이 실제로 들기 때문입니다. "무제한 무료"라고 하지 않는 이유가 그것입니다 — GPU 비용은 누군가 냅니다.',
         },
         {
           q: '올린 셀카는 어떻게 되나요?',
-          a: '룩을 생성하기 위해 AI 모델로 전송되며, 판매하거나 공개하거나 다른 곳의 학습에 쓰지 않습니다. 결과물은 마이페이지에서 언제든 삭제할 수 있습니다.',
+          a: '사진은 AI 처리를 위해 안전하게 전송되고, 처리가 끝나면 바로 삭제돼요. 학습 데이터로 쓰이지 않고, 판매하거나 공개하지 않아요. 저장·공유한 결과 이미지는 링크를 support@kissinskin.net으로 보내 주시면 삭제해 드려요.',
         },
         {
           q: '얼굴이 제 얼굴로 남나요?',

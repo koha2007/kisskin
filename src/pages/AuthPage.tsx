@@ -224,7 +224,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
         {makeupLook !== null && mode !== 'forgot' && (
           <div style={{ marginBottom: '20px', textAlign: 'center' }}>
             <p className="t-eyebrow" style={{ color: C.primaryDark, margin: '0 0 6px' }}>
-              {locale === 'ko' ? 'AI 메이크업 · 첫 1회 무료' : 'AI makeup · first try free'}
+              {locale === 'ko' ? 'AI 메이크업 · 가입하면 첫 1룩 무료' : 'AI makeup · first look free with sign-up'}
             </p>
             <p style={{ color: C.navy, fontSize: '17px', fontWeight: 700, margin: '0 0 6px', lineHeight: 1.4, wordBreak: 'keep-all' }}>
               {locale === 'ko'

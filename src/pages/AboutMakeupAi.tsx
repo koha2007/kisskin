@@ -128,7 +128,7 @@ function AboutMakeupAiBodyKo({ t }: { t: (key: string) => string }) {
             <p className="mb-4"><strong>3단계 · 얼굴 보존 생성</strong>: 이목구비·표정·얼굴 구조는 그대로 고정한 채 메이크업 레이어만 자연스럽게 합성합니다. "전혀 다른 사람처럼 보이는" 결과를 막는 핵심 장치입니다.</p>
             <p className="mb-4">이미지 생성은 기기가 아니라 서버에서 이뤄지며, 한 장을 만드는 데 보통 최대 1분 정도 걸립니다. 9가지 룩(여성·남성 각각) 모두 메이크업과 헤어 컬러가 함께 바뀌며, 완성된 결과는 결과 페이지에서 저장·다운로드·공유할 수 있습니다.</p>
             <p className="mb-0 rounded-lg bg-cream border border-primary/15 px-5 py-4 text-[15px]">
-              <strong className="text-navy">무료·유료 안내</strong> — 로그인 후 첫 1회는 무료이며 카드가 필요 없습니다. 더 만들고 싶다면 크레딧을 $2.99부터 충전하면 됩니다.
+              <strong className="text-navy">무료·유료 안내</strong> — 회원가입하면 첫 1룩 무료이고 카드 등록은 필요 없어요. 그다음은 1룩 = 크레딧 1개 · 크레딧 5개 $2.99부터 · 9룩 전부 $4.99예요.
             </p>
           </section>
 

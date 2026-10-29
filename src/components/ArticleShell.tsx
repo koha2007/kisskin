@@ -66,7 +66,7 @@ export default function ArticleShell({
   const analysisPath = isEn ? '/en/' : '/analysis/'
   const resolvedCtaTitle = ctaTitle ?? (isEn ? 'Try your perfect look with AI' : '내게 어울리는 룩, AI로 직접 시뮬레이션')
   const resolvedCtaSubtitle =
-    ctaSubtitle ?? (isEn ? 'One selfie, 9 K-beauty looks. Your first one is free.' : '셀카 한 장으로 9가지 K-뷰티 룩. 첫 1회는 무료입니다.')
+    ctaSubtitle ?? (isEn ? 'One selfie, 9 K-beauty looks. Sign up and your first look is free.' : '셀카 한 장으로 9가지 K-뷰티 룩. 회원가입하면 첫 1룩은 무료예요.')
 
   return (
     <div className="font-display bg-white min-h-screen">

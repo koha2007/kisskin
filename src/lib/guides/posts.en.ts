@@ -93,7 +93,7 @@ export const GUIDE_POSTS_EN: GuidePost[] = [
       '**Skip the beauty filter.** Photos that arrive pre-smoothed have already lost the pores and texture the model needs. Filtered input reliably produces plastic output.',
       '**Face the camera, eyes to lens.** Extreme angles and profile shots leave the model guessing at half your face — and guessing is exactly when it drifts.',
       '> TIP: Take three photos, not one. Slight differences in lighting and angle change the result more than most people expect, and it costs you thirty seconds.',
-      '> TOOL: Try 9 K-beauty looks on your own selfie | /analysis/ | AI makeup · 9 looks with matching hair colour · before/after side by side · first try free, no card',
+      '> TOOL: Try 9 K-beauty looks on your own selfie | /analysis/ | AI makeup · 9 looks with matching hair colour · before/after side by side · first look free with sign-up, no card',
       '## What "free" actually means',
       'Every one of these tools costs real money to run — image generation burns GPU time per image, and someone is paying for it. So "free" is always free *of something*, and it is worth knowing what.',
       'Usually it is one of: a **watermark** on the output, a **limited number** of free generations, a **sign-up** so they can email you later, or **ads**. AR try-ons from beauty brands are the exception — those really are free, because the tool *is* the advertisement; its job is to put a product in your cart.',

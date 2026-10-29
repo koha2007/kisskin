@@ -230,7 +230,7 @@ export default function ToolsHub() {
                 </div>
                 <div className="flex-1 p-6 md:p-10 flex flex-col justify-center">
                   <p className="t-eyebrow text-primary-on-dark mb-3">
-                    {isEn ? 'Signature · Free once' : '시그니처 · 무료 1회'}
+                    {isEn ? 'Signature · First look free' : '시그니처 · 첫 1룩 무료'}
                   </p>
                   <h2 className="t-h1 mb-3">
                     {isEn ? 'AI Makeup Try-On' : 'AI 메이크업 시뮬레이터'}

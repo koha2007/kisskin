@@ -201,8 +201,8 @@ export default function PersonalColorResult({ code }: Props) {
                 </a>
                 <p className="mt-3 text-xs text-slate-500 leading-relaxed">
                   {isEn
-                    ? `Picked for ${t.enName}. One selfie, first try free (quick sign-in).`
-                    : `${t.koName}에 어울리는 룩 · 셀카 한 장 · 첫 1회 무료 (간편 로그인)`}
+                    ? `Picked for ${t.enName}. One selfie, first look free with sign-up.`
+                    : `${t.koName}에 어울리는 룩 · 셀카 한 장 · 회원가입하면 첫 1룩 무료`}
                 </p>
               </div>
             </div>

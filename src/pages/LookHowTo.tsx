@@ -323,7 +323,7 @@ function MemberPerks({ id }: { id: MakeupStyleId }) {
             <span className="material-symbols-outlined text-2xl text-primary-on-dark">photo_camera</span>
             <h3 className="mt-3 font-bold text-base">{isEn ? 'See it on my selfie' : '내 셀카에 입혀보기'}</h3>
             <p className="mt-1.5 text-sm text-white/65 leading-relaxed flex-1">
-              {isEn ? 'Upload one selfie and get this exact look in about a minute. First one free.' : '셀카 한 장이면 1분 안에 이 룩이 내 얼굴에. 첫 1회 무료.'}
+              {isEn ? 'Upload one selfie and get this exact look in about a minute. First look free with sign-up.' : '셀카 한 장이면 약 1분 만에 이 룩이 내 얼굴에. 회원가입하면 첫 1룩 무료.'}
             </p>
             <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold">
               {isEn ? 'Try it' : '해보기'}

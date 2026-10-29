@@ -94,12 +94,12 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
               {isEn ? (
                 <>
                   <span className="font-extrabold">Login required</span> to generate AI makeup.
-                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">1st try free · no card needed</span>
+                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">First look free · No card needed</span>
                 </>
               ) : (
                 <>
                   AI 메이크업 생성은 <span className="font-extrabold">로그인 필수</span>예요.
-                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">로그인하면 무료 1회 · 카드 필요 없어요</span>
+                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">회원가입하면 첫 1룩 무료 · 카드 등록 없음</span>
                 </>
               )}
             </span>
