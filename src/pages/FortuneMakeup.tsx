@@ -24,8 +24,10 @@ import { trackCheckoutReturn } from '../lib/purchaseTracking'
 import { startPackCheckout } from '../lib/makeup/packCheckout'
 import { loadLucky, saveLucky, type LuckyState } from '../lib/fortune/luckyStore'
 import { LUCKY_PRICE } from '../lib/fortune/pricing'
-import { saveOrShare } from '../lib/fortune/share'
+import { buildMakeupComposite } from '../lib/makeup/composite'
+import { dataUrlToFile, saveAllImages, saveOneImage, mailImages } from '../lib/makeup/collectionSave'
 import ResultSaveEmail from '../components/makeup/ResultSaveEmail'
+import LongPressSaveViewer from '../components/makeup/LongPressSaveViewer'
 
 const lookImg = luckyLookImg
 type Gen = { k: 'idle' } | { k: 'busy' } | { k: 'done'; image: string; tier: 'free' | 'credit'; balance?: number; freeLeft?: number } | { k: 'error'; e: GenError }
@@ -374,6 +376,12 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
   const [msg, setMsg] = useState<string | null>(null)
   const [paying, setPaying] = useState(false)
   const [board, setBoard] = useState<string | null>(null)
+  // 저장·메일 = 모아보기 1 + 낱장 9(9룩 컬렉션과 같은 10장 · 낱장은 단일 결과 저장과 같은 합성 디자인)
+  const [singles, setSingles] = useState<string[] | null>(null)
+  const [files, setFiles] = useState<File[] | null>(null)
+  const [viewer, setViewer] = useState(false)
+  const [mail, setMail] = useState<'idle' | 'sending' | 'sent' | 'error' | 'limit'>('idle')
+  const [mailTo, setMailTo] = useState('')
   const autoRef = useRef(false)
   const credits = free?.balance ?? 0
 
@@ -436,14 +444,48 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resume, st, loggedIn, free, done])
 
-  // 다 모이면 3×3 모아보기 한 장으로
+  // 다 모이면 3×3 모아보기 한 장 + 저장·메일용 낱장 9장을 미리 만들어 둔다(공유는 탭 직후 바로 불러야 함)
   useEffect(() => {
     if (!done || !selfie) return
     let off = false
-    renderNineBoard(order.map((id) => images[id] ?? lookImg(id)), order, isEn).then((u) => { if (!off) setBoard(u) }).catch(() => { /* 그리드는 화면에 그대로 */ })
+    setBoard(null); setSingles(null); setFiles(null); setMail('idle')
+    ;(async () => {
+      const u = await renderNineBoard(order.map((id) => images[id] ?? lookImg(id)), order, isEn)
+      if (off) return
+      setBoard(u)
+      const branded: string[] = []
+      for (const id of order) {
+        const l = fortuneLookById(id)
+        const c = await buildMakeupComposite({ afterSrc: images[id]!, styleName: isEn ? `${l.nameEn} makeup` : l.nameKo, styleDesc: isEn ? l.hookEn : l.hookKo })
+        branded.push(c.toDataURL('image/jpeg', 0.92))
+      }
+      if (off) return
+      setSingles(branded)
+      setFiles([dataUrlToFile(u, 'kissinskin-my-9-lucky-looks.jpg'), ...order.map((id, i) => dataUrlToFile(branded[i], `kissinskin-lucky-${i + 1}-${id}.jpg`))])
+    })().catch(() => setMsg(isEn ? 'Could not build the save images. Refresh and try again.' : '저장 이미지를 만들지 못했어요. 새로고침 후 다시 시도해 주세요.'))
     return () => { off = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, selfie, isEn, st])
+
+  const saveAll = async () => {
+    if (!files || !board || !singles) return
+    const method = await saveAllImages(files, [board, ...singles], isEn ? 'My 9 lucky looks' : '나의 럭키 메이크업 9')
+    if (method === 'cancel') return
+    if (method === 'viewer') setViewer(true)
+    trackEvent('lucky9_save', { method: method === 'viewer' ? 'longpress' : method })
+  }
+  const sendMail = async () => {
+    if (!board || !singles) return
+    setMail('sending')
+    const r = await mailImages([
+      { name: 'kissinskin-my-9-lucky-looks.jpg', dataUrl: board },
+      ...order.map((id, i) => ({ name: `kissinskin-lucky-${i + 1}-${id}.jpg`, dataUrl: singles[i] })),
+    ], isEn ? 'en' : 'ko', 'lucky')
+    if (r.k === 'login') { setMail('idle'); onLogin(); return }
+    if (r.k !== 'sent') { setMail(r.k); return }
+    setMailTo(r.to); setMail('sent')
+    trackEvent('lucky9_save', { method: 'email' })
+  }
 
   const btn = 'w-full py-3.5 text-[15px] font-bold transition-colors'
   const waiting = resume && !!st && !done && !autoRef.current
@@ -459,21 +501,42 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
       <div className="mt-4 grid grid-cols-3 gap-1.5">
         {order.map((id) => {
           const l = fortuneLookById(id)
-          return (
-            <figure key={id} className="relative overflow-hidden bg-cream">
+          const k = order.indexOf(id)
+          const tile = (
+            <>
               <img src={images[id] ?? lookImg(id)} alt="" className={`aspect-[3/4] w-full object-cover object-[50%_28%] ${images[id] ? '' : 'opacity-50'}`} />
               {busy === id && <span className="absolute inset-0 flex items-center justify-center bg-navy/50"><span className="h-6 w-6 animate-spin rounded-full border-2 border-white/40 border-t-white" /></span>}
-              {images[id] && <span className="material-symbols-outlined absolute right-1 top-1 rounded-full bg-primary text-[14px] text-white">check</span>}
-              <figcaption className="absolute inset-x-0 bottom-0 bg-navy/70 px-1 py-0.5 text-center text-[10.5px] font-bold text-white">{isEn ? l.nameEn : l.fortuneKo}</figcaption>
-            </figure>
+              {images[id] && <span className="material-symbols-outlined absolute right-1 top-1 rounded-full bg-primary text-[14px] text-white">{files ? 'download' : 'check'}</span>}
+              <span className="absolute inset-x-0 bottom-0 bg-navy/70 px-1 py-0.5 text-center text-[10.5px] font-bold text-white">{isEn ? l.nameEn : l.fortuneKo}</span>
+            </>
           )
+          // 다 만들면 낱장을 눌러 한 장씩 저장(9룩 컬렉션과 같다)
+          return files ? (
+            <button key={id} type="button" onClick={() => { saveOneImage(files[k + 1]); trackEvent('lucky9_save', { method: 'one', look: id }) }}
+              aria-label={(isEn ? 'Save ' : '저장 ') + (isEn ? l.nameEn : l.fortuneKo)} className="relative block overflow-hidden bg-cream">{tile}</button>
+          ) : <figure key={id} className="relative overflow-hidden bg-cream">{tile}</figure>
         })}
       </div>
       <div className="mt-4 space-y-2">
         {msg && <p className="bg-primary/10 px-3 py-2 text-[13px] font-bold text-primary-dark">{msg}</p>}
         {busy ? <p className="py-3 text-center text-sm font-bold">{isEn ? `Making ${order.length - left.length + 1} / 9… (about 30s each — keep this page open)` : `${order.length - left.length + 1} / 9장 만드는 중… (장당 30초 안팎 · 이 화면을 열어 두세요)`}</p>
           : done ? (
-            board ? <button type="button" onClick={() => { saveOrShare(board, 'kissinskin-lucky-9.jpg', isEn); trackEvent('lucky9_board_save', {}) }} className={`${btn} bg-navy text-white hover:bg-navy-mid`}>{isEn ? 'Save my 3×3 board' : '3×3 모아보기 저장'}</button> : null
+            <>
+              {board && <img src={board} alt={isEn ? 'My 9 lucky looks in one image' : '나의 럭키 메이크업 9 모아보기'} className="w-full border border-slate-200" />}
+              <button type="button" onClick={() => void saveAll()} disabled={!files} className={`${btn} bg-navy text-white hover:bg-navy-mid disabled:opacity-60`}>
+                {files ? (isEn ? 'Save all 10 images' : '10장 모두 저장') : (isEn ? 'Preparing images…' : '저장 이미지 준비 중…')}
+              </button>
+              <button type="button" onClick={() => void sendMail()} disabled={!singles || mail === 'sending' || mail === 'sent'}
+                className={`${btn} flex items-center justify-center gap-1.5 border border-slate-300 bg-white hover:border-navy disabled:opacity-60`}>
+                <span className="material-symbols-outlined text-base">mail</span>
+                {mail === 'sending' ? (isEn ? 'Sending…' : '보내는 중…')
+                  : mail === 'sent' ? (isEn ? `Sent to ${mailTo}` : `${mailTo} 로 보냈어요`)
+                  : (isEn ? 'Email all 10 to me' : '내 메일로 10장 받기')}
+              </button>
+              {mail === 'error' && <p className="text-center text-xs font-bold text-primary-dark">{isEn ? 'Could not send. Please try again.' : '보내지 못했어요. 다시 시도해 주세요.'}</p>}
+              {mail === 'limit' && <p className="text-center text-xs font-bold text-primary-dark">{isEn ? 'You can email this up to 3 times a day.' : '메일 받기는 하루 3번까지예요.'}</p>}
+              <p className="text-center text-[11px] text-slate-500">{isEn ? '3×3 board + each look · sent only to your account email (check spam). Tap a look above to save just that one.' : '모아보기 + 낱장 9장 · 로그인한 계정 메일로만 보내요(안 보이면 스팸함). 위 사진을 누르면 한 장씩 저장돼요.'}</p>
+            </>
           )
           : !selfie ? <button type="button" onClick={onPhoto} className={`${btn} bg-navy text-white hover:bg-navy-mid`}>{isEn ? 'Add a selfie to make all 9' : '셀카 올리고 9장 만들기'}</button>
           : loggedIn === false ? <button type="button" onClick={onLogin} className={`${btn} bg-navy text-white hover:bg-navy-mid`}>{isEn ? `Log in to make all 9 — $${LUCKY_PRICE.nine.usd}` : `로그인하고 9장 만들기 — $${LUCKY_PRICE.nine.usd}`}</button>
@@ -486,6 +549,7 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
           {free ? (isEn ? `You have ${credits} looks` : `보유 ${credits}장`) : (isEn ? `$${(LUCKY_PRICE.nine.usd / 9).toFixed(2)} per look` : `장당 $${(LUCKY_PRICE.nine.usd / 9).toFixed(2)}`)}
         </p>
       </div>
+      {viewer && board && <LongPressSaveViewer images={[board, ...(singles ?? [])]} isEn={isEn} onClose={() => setViewer(false)} />}
     </div>
   )
 }

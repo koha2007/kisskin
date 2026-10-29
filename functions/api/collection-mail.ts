@@ -1,4 +1,5 @@
 // 9룩 컬렉션 10장을 **본인 메일로** 보내기 (2026-10-12)
+// 10/29: 럭키 메이크업 9장도 같은 경로(kind: 'lucky' → 제목·본문·링크만 럭키용)
 // ────────────────────────────────────────────────────────────────────
 // 왜: 안드로이드 크롬 공유 창엔 "기기에 저장"이 없는 폰이 많고, 인스타·카톡 인앱 브라우저는
 // 다운로드를 무시하기도 한다. 돈 내고 받은 10장을 못 챙기면 곧 환불 요청이다 → 어떤 환경에서든
@@ -46,7 +47,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   const user = await verifyUser(env, auth.slice(7))
   if (!user) return json({ error: 'invalid_token' }, 401)
 
-  let body: { images?: { name?: string; dataUrl?: string }[]; lang?: string }
+  let body: { images?: { name?: string; dataUrl?: string }[]; lang?: string; kind?: string }
   try { body = await request.json() } catch { return json({ error: 'bad_json' }, 400) }
   const images = Array.isArray(body.images) ? body.images.slice(0, MAX_IMAGES) : []
   if (!images.length) return json({ error: 'no_images' }, 400)
@@ -69,17 +70,20 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   }
 
   const isEn = body.lang === 'en'
-  const subject = isEn ? '💄 Your 9 looks — kissinskin' : '💄 나의 9룩 컬렉션 — kissinskin'
+  const lucky = body.kind === 'lucky'
+  const title = lucky ? (isEn ? 'Your 9 lucky looks' : '나의 럭키 메이크업 9') : (isEn ? 'Your 9-look collection' : '나의 9룩 컬렉션')
+  const subject = lucky ? `🍀 ${title} — kissinskin` : (isEn ? '💄 Your 9 looks — kissinskin' : '💄 나의 9룩 컬렉션 — kissinskin')
+  const howtoPath = lucky ? 'lucky-makeup' : 'looks'
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f5efe3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5efe3;"><tr><td align="center" style="padding:32px 16px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:12px;"><tr><td style="padding:32px 28px;text-align:center;">
-<h1 style="margin:0;font-size:22px;color:#070953;">${isEn ? 'Your 9-look collection' : '나의 9룩 컬렉션'}</h1>
+<h1 style="margin:0;font-size:22px;color:#070953;">${title}</h1>
 <p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#475569;">${isEn
     ? `${attachments.length} images are attached — the grid image plus each look. Save them from this email any time.`
     : `첨부파일 ${attachments.length}장 — 모아보기와 룩별 낱장이에요. 언제든 이 메일에서 저장하세요.`}</p>
 <p style="margin:20px 0 0;font-size:13px;color:#94a3b8;">${isEn ? 'AI-generated makeup on your own selfie.' : '내 셀카로 만든 AI 메이크업이에요.'}</p>
-<p style="margin:24px 0 0;"><a href="https://kissinskin.net${isEn ? '/en' : ''}/looks/?utm_source=email&utm_medium=collection" style="color:#c9304a;font-weight:700;font-size:14px;">${isEn ? 'How to do each look yourself →' : '룩별 직접 하는 법 보기 →'}</a></p>
+<p style="margin:24px 0 0;"><a href="https://kissinskin.net${isEn ? '/en' : ''}/${howtoPath}/?utm_source=email&utm_medium=${lucky ? 'lucky9' : 'collection'}" style="color:#c9304a;font-weight:700;font-size:14px;">${isEn ? 'How to do each look yourself →' : '룩별 직접 하는 법 보기 →'}</a></p>
 </td></tr></table>
 <p style="font-size:12px;color:#94a3b8;margin:16px 0 0;">&copy; 2026 kissinskin · <a href="https://kissinskin.net" style="color:#232a52;">kissinskin.net</a></p>
 </td></tr></table></body></html>`
@@ -93,7 +97,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
       subject,
       html,
       attachments,
-      tags: [{ name: 'kind', value: 'collection' }],
+      tags: [{ name: 'kind', value: lucky ? 'lucky9' : 'collection' }],
     }),
   })
   if (!res.ok) return json({ error: 'send_failed', detail: (await res.text()).slice(0, 200) }, 502)
