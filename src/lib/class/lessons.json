@@ -949,5 +949,113 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "eyebrow-shape-face-shape",
+    "publishedAt": "2026-10-31",
+    "introKo": "눈썹은 얼굴의 전체적인 균형을 결정해요. 콧방울을 기준으로 시작점, 산, 꼬리 세 점을 먼저 찾고, 얼굴형에 맞춰 산의 높이와 길이를 조절해 보세요.",
+    "introEn": "Brows frame the entire face. Find your three guide points using your nostril as an anchor, then adjust the arch height and tail length for your face shape.",
+    "minutes": 10,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "brows",
+        "crop": "eyeLid",
+        "titleKo": "기본 세 점 찾기",
+        "titleEn": "Locate the 3 guide points",
+        "bodyKo": "콧방울에서 위로 올린 수직선이 시작점, 콧방울과 눈동자 중앙을 연결한 선이 산, 콧방울과 눈꼬리를 연결한 선이 꼬리예요. 이 세 점을 잡으면 비율이 안정되어 보여요.",
+        "bodyEn": "A vertical line up from the nostril marks the head, a line from the nostril through the center of the pupil marks the arch, and a line through the outer corner of the eye marks the tail. These three points ensure balanced proportions.",
+        "toolsKo": "아이브로우 펜슬",
+        "toolsEn": "Brow pencil",
+        "swatches": [
+          "#6b5344"
+        ],
+        "searchKeywords": "하드 아이브로우 펜슬 내추럴",
+        "shopEn": "brow pencil",
+        "shortKo": "콧방울 기준으로 세 점 찾기",
+        "shortEn": "Find 3 points from nostril"
+      },
+      {
+        "area": "brows",
+        "titleKo": "둥근 얼굴: 약간 높은 산",
+        "titleEn": "Round face: Moderate arch",
+        "bodyKo": "얼굴이 동그란 편이라면 산 위치를 살짝 높여 시선을 위로 끌어올려요. 꼬리는 너무 길지 않게 마무리해야 얼굴이 옆으로 넓어 보이지 않아요.",
+        "bodyEn": "For a round face, create a slightly higher arch to draw focus upward. Keep the tail moderately short so the face does not look wider.",
+        "toolsKo": "아이브로우 펜슬 · 스풀리",
+        "toolsEn": "Brow pencil · spoolie",
+        "swatches": [
+          "#5c4638"
+        ],
+        "searchKeywords": "소프트 아이브로우 펜슬 브라운",
+        "shopEn": "soft brow pencil",
+        "shortKo": "둥근 얼굴은 산을 약간 높게",
+        "shortEn": "Moderate arch for round face"
+      },
+      {
+        "area": "brows",
+        "titleKo": "긴 얼굴: 낮은 산과 살짝 긴 꼬리",
+        "titleEn": "Long face: Low arch & longer tail",
+        "bodyKo": "세로 길이가 긴 얼굴은 산을 낮추고 평평하게 연결해요. 꼬리를 옆으로 살짝 길게 빼면 긴 세로 비율이 한결 완화돼 보여요.",
+        "bodyEn": "For a longer face, keep the arch low and soft. Extending the tail slightly outward helps balance vertical length visually.",
+        "toolsKo": "아이브로우 파우더",
+        "toolsEn": "Brow powder",
+        "swatches": [
+          "#735d4d"
+        ],
+        "searchKeywords": "듀오 아이브로우 파우더",
+        "shopEn": "brow powder duo",
+        "shortKo": "긴 얼굴은 낮은 산과 긴 꼬리",
+        "shortEn": "Low arch long tail for long face"
+      },
+      {
+        "area": "brows",
+        "titleKo": "각진 얼굴 · 하트형: 부드러운 곡선",
+        "titleEn": "Angular & heart: Soft curve",
+        "bodyKo": "각진 턱이나 하트형 얼굴은 산을 둥글고 부드럽게 넘겨요. 꺾이는 각을 없애고 곡선으로 이어주면 인상이 편안해 보여요.",
+        "bodyEn": "For angular jaws or heart-shaped faces, curve the arch gently. Softening sharp angles creates a gentler visual impression.",
+        "toolsKo": "아이브로우 펜슬",
+        "toolsEn": "Brow pencil",
+        "swatches": [
+          "#614c3e"
+        ],
+        "searchKeywords": "슬림 아이브로우 펜슬",
+        "shopEn": "slim brow pencil",
+        "shortKo": "각진 얼굴은 부드러운 곡선",
+        "shortEn": "Soft curved arch for angular face"
+      },
+      {
+        "area": "brows",
+        "titleKo": "계란형: 본래 결을 살린 완만한 선",
+        "titleEn": "Oval face: Natural curve",
+        "bodyKo": "계란형 얼굴은 기본 세 점을 기준 삼아 본래 눈썹 결을 따라 완만하게 이어줘요. 산을 과하게 높이지 않는 것이 가장 자연스러워 보여요.",
+        "bodyEn": "An oval face suits a soft, smooth line that follows natural hair growth. Stick close to the three guide points without over-raising the arch.",
+        "toolsKo": "아이브로우 카라",
+        "toolsEn": "Brow mascara",
+        "swatches": [
+          "#6b5445"
+        ],
+        "searchKeywords": "투명 아이브로우 카라",
+        "shopEn": "clear brow gel",
+        "shortKo": "계란형은 원래 결대로 완만하게",
+        "shortEn": "Natural curve for oval face"
+      }
+    ],
+    "tipsKo": [
+      "펜슬 몸통을 얼굴에 대고 콧방울을 기준점으로 기울여보면 세 점 위치를 쉽게 찾을 수 있어요.",
+      "실제 빈 곳을 채워 그리는 방법은 12편에서 자세히 다뤄요."
+    ],
+    "tipsEn": [
+      "Hold a pencil against your face, pivoting from the edge of your nostril, to easily locate the three guide points.",
+      "Detailed techniques for filling in brows will be covered in Lesson 12."
+    ],
+    "mistakeKo": "얼굴형과 상관없이 산을 강하게 꺾어 그리면 인상이 차가워 보일 수 있어요.",
+    "mistakeEn": "Drawing a sharp arch regardless of face shape can create a harsh, unnatural look.",
+    "chartPrompt": "a face chart showing softly mapped eyebrow guide dots at the head, arch, and tail, with a neat brown eyebrow shape tailored with a gentle natural curve",
+    "videoTitleKo": "얼굴형별 눈썹",
+    "videoTitleEn": "Brows by Face Shape",
+    "video": {
+      "seconds": 22
+    }
   }
 ]
