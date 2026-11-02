@@ -216,7 +216,16 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
 
 // 예시 사진 — 2026-10-24 JJ 헤어 6종으로 6장 재생성(직업·합격·연애·인연·건강·해외). 파일명이 고정이라
 // 이미지를 바꿀 때마다 V 를 올릴 것(브라우저 캐시 4시간 — src/lib/makeup/lookImages.ts 와 같은 이유).
-const LOOK_IMG_V = '20261102'
+// 2026-11-02 새 모델 생성에서 민낯과 차이가 가장 작았던 5종(측정값 기준) — 작은 카드에서도 보이게 강도를 올린다.
+// 예시 사진과 실제 사용자 결과가 같은 지시문을 쓴다(§8).
+const STRONGER_LOOKS: FortuneLookId[] = ['reunion', 'love', 'marriage', 'exam', 'career']
+for (const look of FORTUNE_LOOKS) {
+  if (STRONGER_LOOKS.includes(look.id)) {
+    look.prompt += ' Make the eye, cheek and lip colours clearly visible at a glance even in a small thumbnail: visibly more saturated and defined than an everyday natural look, unmistakably made-up, never identical to the bare face — while keeping the exact original lip shape and face.'
+  }
+}
+
+const LOOK_IMG_V = '20261102b'
 export const luckyLookImg = (id: FortuneLookId) => `/fortune/looks/${id}-after.webp?v=${LOOK_IMG_V}`
 
 export const fortuneLookById = (id: FortuneLookId): FortuneLook =>

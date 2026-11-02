@@ -357,10 +357,11 @@ export const ALL_MAKEUP_STYLES: MakeupStyle[] = [
     glow: 0.24,
     hair: 'a deep espresso brown with a subtle cool plum sheen — rich and dark, never grey.',
     prompt:
-      'the signature of this look is FROSTED, ICY EYES — clearly visible at a glance: a luminous icy silver-lilac ' +
-        'pearl eyeshadow across the eyelids with a bright frosted shimmer at the inner corners, and softly defined ' +
-        'lashes. Skin: clear and luminous with a cool frosted highlight on the tops of the cheekbones. Cheeks: a light ' +
-        'cool rosy pink. Lips: a satin plum-rose colour that keeps the exact original lip shape and outline. Overall: ' +
+      'the signature of this look is FROSTED, ICY EYES — clearly visible at a glance even in a small thumbnail: a ' +
+        'saturated, luminous icy silver-lilac pearl eyeshadow packed across the whole eyelid and visibly extended to ' +
+        'the outer corners, a bright frosted shimmer at the inner corners and along the lower lash line, and clearly ' +
+        'defined lashes. Skin: clear and luminous with a cool frosted highlight on the tops of the cheekbones. Cheeks: a light ' +
+        'cool rosy pink. Lips: a saturated satin plum-rose colour that keeps the exact original lip shape and outline. Overall: ' +
         'cool, crisp and wintry — unmistakably made-up, never identical to the bare face, and the skin must keep ' +
         'its own healthy warmth, never grey or lifeless.',
   },
