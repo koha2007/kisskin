@@ -55,8 +55,8 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
     <>
       <section className="text-navy" style={{ background: PINK }}>
         <div className="mx-auto flex min-h-[60px] max-w-[1120px] items-center px-5 py-1.5 md:min-h-[96px] md:px-4">
-          <h1 className="whitespace-nowrap text-[30px] font-light leading-tight tracking-[-0.03em] md:text-[56px]">
-            {isEn ? 'One selfie. Nine of you.' : '셀카 한 장, 아홉 명의 나.'}
+          <h1 className="whitespace-nowrap text-[clamp(24px,8.2vw,30px)] font-light leading-tight tracking-[-0.03em] md:text-[56px]">
+            {isEn ? 'See it on your face first.' : '바르기 전에, 내 얼굴로 먼저.'}
           </h1>
         </div>
       </section>
