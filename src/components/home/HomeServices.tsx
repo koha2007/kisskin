@@ -37,14 +37,14 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
   const prefix = isEn ? '/en' : ''
 
   const doors = [
-    { name: isEn ? '9 Makeup Looks' : '9가지 메이크업', desc: isEn ? 'K-beauty looks on your face' : '내 얼굴에 K-뷰티 룩', img: LOOK_HERO['autumn-berry'].after, href: '/analysis/', slot: 'home_hero_primary', alt: isEn ? 'Autumn Berry Mocha look on an AI-generated model' : '가을 베리 모카 룩, AI 생성 모델' },
+    { name: isEn ? '9 Makeup Looks' : '9가지 메이크업', desc: isEn ? 'K-beauty looks on your face' : '내 얼굴에 K-뷰티 룩', img: LOOK_HERO['autumn-berry'].after, href: `${prefix}/makeup/`, slot: 'home_hero_primary', alt: isEn ? 'Autumn Berry Mocha look on an AI-generated model' : '가을 베리 모카 룩, AI 생성 모델' },
     { name: isEn ? 'Lucky Makeup' : '럭키 메이크업', desc: isEn ? '9 looks for the luck you want' : '원하는 운을 담은 9가지', img: luckyLookImg('wealth'), href: `${prefix}/lucky-makeup/`, slot: 'home_hero_lucky', alt: isEn ? 'Wealth Luck look on an AI-generated model' : '재물운 룩, AI 생성 모델' },
   ]
   const plans = [
     { id: 'free', icon: '1+1', small: true, bg: NAVY, fg: '#ffffff', name: isEn ? '2 free looks when you sign up' : '가입하면 2장 무료', desc: isEn ? '1 makeup look + 1 lucky look · no card' : '9가지 메이크업 1장 + 럭키 1장 · 카드 없음', price: isEn ? 'Free' : '무료', href: '/auth/?next=%2Fanalysis%2F' },
-    { id: 'starter', icon: '5', bg: NAVY, fg: '#ffffff', name: isEn ? '5 credits' : '크레딧 5개', desc: isEn ? '5 looks · about $0.60 each' : '5장 · 장당 약 $0.60', price: '$2.99', href: '/analysis/?topup=1' },
+    { id: 'starter', icon: '5', bg: NAVY, fg: '#ffffff', name: isEn ? '5 credits' : '크레딧 5개', desc: isEn ? '5 looks · about $0.60 each' : '5장 · 장당 약 $0.60', price: '$2.99', href: `${prefix}/makeup/#price` },
     { id: 'collection', icon: '9', bg: PINK, fg: NAVY, name: isEn ? '9 credits · All 9 at once' : '크레딧 9개 · 9룩 한 번에', desc: isEn ? '9 looks from one selfie + 1 grid image' : '같은 셀카로 9장 + 모아보기 1장', price: '$4.99', href: '/analysis/?collection=new' },
-    { id: 'plus', icon: '15', bg: NAVY, fg: '#ffffff', name: isEn ? '15 credits' : '크레딧 15개', desc: isEn ? '15 looks · about $0.47 each' : '15장 · 장당 약 $0.47', price: '$6.99', href: '/analysis/?topup=1' },
+    { id: 'plus', icon: '15', bg: NAVY, fg: '#ffffff', name: isEn ? '15 credits' : '크레딧 15개', desc: isEn ? '15 looks · about $0.47 each' : '15장 · 장당 약 $0.47', price: '$6.99', href: `${prefix}/makeup/#price` },
   ]
   const groups = [
     { title: isEn ? 'Get to know yourself' : '나를 알아보기', items: KNOW },

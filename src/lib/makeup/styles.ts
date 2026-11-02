@@ -410,13 +410,15 @@ export function promptWholeFace(style: Pick<MakeupStyle, 'subEn' | 'prompt' | 'h
     'letterbox or change the composition; the output must have the same proportions as the input.\n\n' +
     `First, ${BASE_RETOUCH}. Then apply the makeup: ${style.prompt}\n\n` +
     // 헤어 컬러도 룩의 일부 — 염색만 하고 헤어 "형태"는 손대지 않는다(헤어라인이 움직이면 동일인이 아니게 됨).
-    `Then dye the hair: ${style.hair}${HAIR_RULE} Recolour ONLY — keep the exact same hairstyle, cut, length, volume, ` +
+    // hair 가 비면(럭키 메이크업) 염색 없이 메이크업만 — 머리색은 원본 그대로.
+    (style.hair ? `Then dye the hair: ${style.hair}${HAIR_RULE} Recolour ONLY — keep the exact same hairstyle, cut, length, volume, ` +
     'parting, strand-by-strand flow and hairline as the original photo. The dye must look like real salon-dyed ' +
     'hair with natural shine, depth and darker roots — not a flat colour overlay, not a wig. Keep the eyebrows ' +
-    'their natural colour unless the look says otherwise.\n\n' +
+    'their natural colour unless the look says otherwise.\n\n'
+    : 'Do not change the hair at all: keep the exact same hair colour and hairstyle as the original photo.\n\n') +
     'By default give the lips a naturally glossy, hydrated sheen with a soft healthy shine (unless this ' +
     'specific look calls for a matte finish). ' +
-    'Again: keep the original face pixels unchanged — only the makeup and the hair colour change. ' +
+    'Again: keep the original face pixels unchanged — only the makeup (and the hair colour, if specified above) changes. ' +
     'Photorealistic and natural.'
   )
 }

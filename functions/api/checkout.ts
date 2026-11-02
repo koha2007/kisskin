@@ -5,6 +5,8 @@
 import { CREDIT_PACKS, isPackId } from './_packs'
 
 const LUCKY_BACKS = new Set(['/lucky-makeup/', '/en/lucky-makeup/'])
+// 5장·15장 결제 후 돌아올 페이지 — 고르던 룩과 셀카로 이어 만든다(2026-11-02). 열린 리다이렉트 방지용 허용 목록.
+const PACK_BACKS = new Set(['/makeup/', '/en/makeup/', ...LUCKY_BACKS])
 
 interface Env {
   POLAR_ACCESS_TOKEN: string
@@ -131,6 +133,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       // 열린 리다이렉트가 되지 않게 정해진 경로만 받는다.
       if (body.pack === 'collection' && body.back && LUCKY_BACKS.has(body.back)) {
         checkoutBody.success_url = `${origin}${body.back}?nine=1&checkout_id={CHECKOUT_ID}`
+      }
+      if ((body.pack === 'starter' || body.pack === 'plus') && body.back && PACK_BACKS.has(body.back)) {
+        checkoutBody.success_url = `${origin}${body.back}?paid=1&checkout_id={CHECKOUT_ID}`
       }
     } else {
       checkoutBody.embed_origin = origin

@@ -113,7 +113,7 @@ export function ToolsNav() {
           )}
           {/* Desktop AI CTA */}
           <a
-            href={isEn ? '/en/' : '/analysis/'}
+            href={isEn ? '/en/makeup/' : '/makeup/'}
             className="hidden sm:flex bg-primary-dark hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
@@ -121,7 +121,7 @@ export function ToolsNav() {
 
           {/* Mobile-only AI button + hamburger */}
           <a
-            href={isEn ? '/en/' : '/analysis/'}
+            href={isEn ? '/en/makeup/' : '/makeup/'}
             className="sm:hidden bg-primary-dark text-white px-3 py-1.5 rounded-md text-xs font-bold inline-flex items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
@@ -199,7 +199,7 @@ export function ToolsNav() {
                 </a>
               )}
               <a
-                href={isEn ? '/en/' : '/analysis/'}
+                href={isEn ? '/en/makeup/' : '/makeup/'}
                 onClick={() => setOpen(false)}
                 className="w-full bg-primary-dark hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
               >
@@ -230,7 +230,7 @@ export function ToolsFooter() {
           <div className="flex flex-col gap-3">
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('tools.footer.toolsTitle')}</h3>
             <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-              <li><a href={isEn ? '/en/' : '/analysis/'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
+              <li><a href={isEn ? '/en/makeup/' : '/makeup/'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
               <li><a href={isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'} className="hover:text-primary">{isEn ? 'Lucky Makeup' : '럭키 메이크업'}</a></li>
               <li><a href={localePath('/tools/today-fortune/', isEn)} className="hover:text-primary">{isEn ? 'Today’s Fortune' : '오늘의 운세'}</a></li>
               <li><a href={localePath('/tools/makeup-mbti/', isEn)} className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
