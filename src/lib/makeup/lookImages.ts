@@ -30,7 +30,7 @@ const DIR = '/styles/looks'
 // `cache-control: public, max-age=14400`(4시간) 동안 옛 사진을 계속 쓴다. 실제로 9룩을
 // 전부 갈아끼운 날 "반영이 안 된다"는 보고가 나왔다(서버는 새 파일, 브라우저가 옛 파일).
 // **이미지를 재생성할 때마다 이 날짜를 올릴 것.** 그래야 기존 방문자도 즉시 새 사진을 본다.
-const V = '20261017'
+const V = '20261102'
 const src = (name: string) => `${DIR}/${name}.webp?v=${V}`
 
 export const LOOK_IMAGES: Record<MakeupStyleId, LookImage> = {
@@ -43,6 +43,10 @@ export const LOOK_IMAGES: Record<MakeupStyleId, LookImage> = {
   'blush-draping': { before: src('blush-draping-before'), after: src('blush-draping-after') },
   grunge: { before: src('grunge-before'), after: src('grunge-after') },
   'kpop-idol': { before: src('kpop-idol-before'), after: src('kpop-idol-after') },
+  'spring-blush': { before: src('spring-blush-before'), after: src('spring-blush-after') },
+  'summer-glow': { before: src('summer-glow-before'), after: src('summer-glow-after') },
+  'autumn-berry': { before: src('autumn-berry-before'), after: src('autumn-berry-after') },
+  'winter-frost': { before: src('winter-frost-before'), after: src('winter-frost-after') },
 }
 
 export const lookImage = (id: MakeupStyleId): LookImage | undefined => LOOK_IMAGES[id]

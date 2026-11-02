@@ -216,7 +216,7 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
 
 // 예시 사진 — 2026-10-24 JJ 헤어 6종으로 6장 재생성(직업·합격·연애·인연·건강·해외). 파일명이 고정이라
 // 이미지를 바꿀 때마다 V 를 올릴 것(브라우저 캐시 4시간 — src/lib/makeup/lookImages.ts 와 같은 이유).
-const LOOK_IMG_V = '20261024'
+const LOOK_IMG_V = '20261102'
 export const luckyLookImg = (id: FortuneLookId) => `/fortune/looks/${id}-after.webp?v=${LOOK_IMG_V}`
 
 export const fortuneLookById = (id: FortuneLookId): FortuneLook =>

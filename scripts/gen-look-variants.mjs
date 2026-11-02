@@ -21,8 +21,8 @@ for (const id of MAKEUP_IDS) {
   for (const kind of ['before', 'after']) {
     await sharp(`${DIR}/${id}-${kind}.webp`).resize(600, 900).webp({ quality: 80 }).toFile(`${DIR}/hero/${id}-${kind}.webp`)
   }
-  // 원본 1024×1536 에서 얼굴은 대략 x 230~790, y 200~800(눈~입) — 정사각으로 잘라 줄인다.
-  await sharp(`${DIR}/${id}-after.webp`).extract({ left: 212, top: 230, width: 600, height: 600 }).resize(192, 192).webp({ quality: 78 }).toFile(`${DIR}/thumb/${id}.webp`)
-  await sharp(`${DIR}/${id}-before.webp`).extract({ left: 212, top: 230, width: 600, height: 600 }).resize(192, 192).webp({ quality: 78 }).toFile(`${DIR}/thumb/${id}-before.webp`)
+  // 2026-11-02 새 모델 원본: 눈 y≈655·입 y≈950 — 럭키 버튼 사진(object-position 22%)과 같은 범위로 잘라 얼굴 크기를 맞춘다(현재 9룩만, 보관 룩은 옛 파일 유지).
+  await sharp(`${DIR}/${id}-after.webp`).extract({ left: 0, top: 113, width: 1024, height: 1024 }).resize(192, 192).webp({ quality: 78 }).toFile(`${DIR}/thumb/${id}.webp`)
+  await sharp(`${DIR}/${id}-before.webp`).extract({ left: 0, top: 113, width: 1024, height: 1024 }).resize(192, 192).webp({ quality: 78 }).toFile(`${DIR}/thumb/${id}-before.webp`)
   console.log('✓', id)
 }

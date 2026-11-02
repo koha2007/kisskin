@@ -15,7 +15,7 @@ import MakeupStyleSelect from './MakeupStyleSelect'
 import MakeupResult, { type MakeupUsage } from './MakeupResult'
 import MakeupTopUp from './MakeupTopUp'
 import MakeupCollection from './MakeupCollection'
-import { styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
+import { ARCHIVED_SUCCESSOR, styleById, promptWholeFace, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
@@ -234,7 +234,9 @@ export default function MakeupFlow() {
     if (col === '1') { setCollectionResume(true); setStep('collection'); return }
     if (col === 'new') setCollectionMode(true)
     // 홈 캐러셀 카드 선택 → ?style=<id> 로 룩 프리셀렉트(유효한 id 만 반영).
-    const s = params.get('style')
+    const rawStyle = params.get('style')
+    // 라인업에서 빠진 룩의 옛 링크는 같은 계열의 계절 룩으로 잇는다(2026-11-02).
+    const s = (rawStyle && ARCHIVED_SUCCESSOR[rawStyle as MakeupStyleId]) || rawStyle
     const hasStyle = !!s && MAKEUP_STYLES.some((st) => st.id === s)
     if (hasStyle) {
       setStyleId(s as MakeupStyleId)

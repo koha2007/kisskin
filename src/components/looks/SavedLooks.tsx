@@ -2,7 +2,7 @@
 // 저장해 놓고 다시 찾을 곳이 없으면 저장 버튼이 거짓말이 된다 → 마이페이지에 목록.
 // 비어 있으면 숨기지 않고 "9룩 방법 보기"로 보낸다(채우고 싶게 — BeautyRecord 와 같은 원칙).
 import { useI18n } from '../../i18n/I18nContext'
-import { MAKEUP_STYLES } from '../../lib/makeup/styles'
+import { ALL_MAKEUP_STYLES } from '../../lib/makeup/styles'
 import { LOOK_HOWTO } from '../../lib/looks/howto'
 import { useSavedLooks } from '../../lib/looks/savedLooks'
 
@@ -11,7 +11,7 @@ export function SavedLooks() {
   const isEn = locale === 'en'
   const prefix = isEn ? '/en' : ''
   const { saved, toggle, busy } = useSavedLooks()
-  const items = MAKEUP_STYLES.filter((s) => saved.includes(s.id))
+  const items = ALL_MAKEUP_STYLES.filter((s) => saved.includes(s.id))
 
   if (items.length === 0) {
     return (

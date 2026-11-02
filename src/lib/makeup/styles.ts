@@ -34,6 +34,11 @@ export type MakeupStyleId =
   | 'blush-draping'
   | 'grunge'
   | 'kpop-idol'
+  // 2026-11-02 계절 룩 — 현재 라인업
+  | 'spring-blush'
+  | 'summer-glow'
+  | 'autumn-berry'
+  | 'winter-frost'
 
 /** 마스크/편집 대상 얼굴 부위 (P1-2 maskBuilder 가 소비)
  * - 'skin'      : 얼굴 전체 윤곽 마스크(드리프트 위험 → 사용 금지, 디버그/레거시용)
@@ -113,7 +118,7 @@ const HAIR_RULE =
   'rose or brown) with softly darker roots rather than desaturated grey.'
 
 // 옛 여성 9룩(그리드 좌→우, 위→아래) 순서 그대로 복원.
-export const MAKEUP_STYLES: MakeupStyle[] = [
+export const ALL_MAKEUP_STYLES: MakeupStyle[] = [
   {
     id: 'natural-glow',
     nameKo: '내추럴 글로우',
@@ -283,10 +288,100 @@ export const MAKEUP_STYLES: MakeupStyle[] = [
         'lip (deeper in the center fading out), a light pink flush on the apples of the cheeks, and a subtle ' +
         'shimmer highlight on the high points for a fresh, youthful idol finish.',
   },
+  // ── 2026-11-02 운영자: 9룩 중 4개를 계절 룩으로 교체(메탈릭 아이·볼드 립·블러쉬 드레이핑·그런지 → 보관). ──
+  {
+    id: 'spring-blush',
+    nameKo: '봄 파스텔 블러쉬',
+    subEn: 'SPRING PASTEL BLUSH',
+    descKo: '피치 핑크 블러셔, 파스텔 눈가, 촉촉한 핑크 립. 화사한 봄',
+    descEn: 'Peachy-pink blush, pastel lids and a glossy pink lip — fresh spring',
+    mood: 'linear-gradient(150deg, #fff0ea 0%, #ffc9d6 100%)',
+    accent: '#f49ab4',
+    maskAreas: ['skinInner', 'eyes', 'cheeks', 'lips'],
+    glow: 0.2,
+    hair: 'a soft honey-beige light brown with warm golden glints, fresh and airy.',
+    prompt:
+      'the signature of this look is a fresh PASTEL BLUSH — clearly visible at a glance: a sheer peachy-pink blush ' +
+        'on the apples of the cheeks swept softly up toward the cheekbones, fully blended with no hard edge. Eyes: ' +
+        'a light pastel pink-lilac shimmer across the eyelids with softly defined lashes. Lips: a glossy, juicy pink ' +
+        'tint that keeps the exact original lip shape and outline. Skin: fresh and luminous. Overall: bright, airy ' +
+        'and spring-like — unmistakably made-up, never identical to the bare face, never sunburnt or feverish.',
+  },
+  {
+    id: 'summer-glow',
+    nameKo: '여름 비치 글로우',
+    subEn: 'SUMMER BEACH GLOW',
+    descKo: '햇볕에 물든 듯한 피부, 골드 눈가, 코랄 글로스. 건강한 여름',
+    descEn: 'Sun-kissed skin, golden lids and coral gloss — healthy summer',
+    mood: 'linear-gradient(150deg, #ffe2b8 0%, #f59a6e 100%)',
+    accent: '#ef8f5f',
+    maskAreas: ['skinInner', 'eyes', 'cheeks', 'lips'],
+    glow: 0.28,
+    hair: 'a sun-lit caramel brown with warm golden highlights.',
+    prompt:
+      'the signature of this look is SUN-KISSED BEACH SKIN — clearly visible at a glance: a warm bronzed glow across ' +
+        'the cheekbones and the bridge of the nose, with a soft peach flush and a dewy highlight on the high points ' +
+        'of the face. Eyes: a warm golden-peach shimmer across the eyelids with bronze-brown lashes. Lips: a glossy ' +
+        'coral colour that keeps the exact original lip shape and outline. Do not add freckles. Overall: warm, ' +
+        'healthy and summery — unmistakably made-up, never identical to the bare face, never sunburnt or orange.',
+  },
+  {
+    id: 'autumn-berry',
+    nameKo: '가을 베리 모카',
+    subEn: 'AUTUMN BERRY MOCHA',
+    descKo: '베리 립, 모카 스모키 눈가, 벨벳 피부. 깊은 가을',
+    descEn: 'A berry lip, smoky mocha eyes and velvety skin — deep autumn',
+    mood: 'linear-gradient(150deg, #e8c4b0 0%, #7a2f49 100%)',
+    accent: '#8e3a57',
+    maskAreas: ['skinInner', 'eyes', 'cheeks', 'lips'],
+    glow: 0.12,
+    hair: 'a rich warm mocha brown with soft chocolate depth and subtle caramel glints.',
+    prompt:
+      'the signature of this look is a BERRY LIP with SMOKY MOCHA EYES — both clearly visible at a glance. Eyes: a ' +
+        'saturated smoky mocha-brown eyeshadow visibly blended across the whole eyelid, into the crease and along ' +
+        'the lower lash line, with a fine dark-brown liner and defined lashes. Lips: colour only — a saturated ' +
+        'berry-plum tint with a soft velvety finish that follows the exact original lip shape and outline; do not ' +
+        'draw a sharper cupid\'s bow, do not enlarge or reshape the lips. Cheeks: a soft muted rose-brown blush. Skin: ' +
+        'a velvety soft-focus finish. Brows groomed and natural. Overall: warm, moody and autumnal — unmistakably ' +
+        'made-up, never identical to the bare face.',
+  },
+  {
+    id: 'winter-frost',
+    nameKo: '겨울 프로스티 글램',
+    subEn: 'WINTER FROSTY GLAM',
+    descKo: '차가운 펄 눈가, 맑은 윤광, 플럼 로즈 립. 반짝이는 겨울',
+    descEn: 'Icy pearl lids, clear luminous skin and a plum-rose lip — sparkling winter',
+    mood: 'linear-gradient(150deg, #eef2ff 0%, #a9b4e6 100%)',
+    accent: '#8c98d6',
+    maskAreas: ['skinInner', 'eyes', 'cheeks', 'lips'],
+    glow: 0.24,
+    hair: 'a deep espresso brown with a subtle cool plum sheen — rich and dark, never grey.',
+    prompt:
+      'the signature of this look is FROSTED, ICY EYES — clearly visible at a glance: a luminous icy silver-lilac ' +
+        'pearl eyeshadow across the eyelids with a bright frosted shimmer at the inner corners, and softly defined ' +
+        'lashes. Skin: clear and luminous with a cool frosted highlight on the tops of the cheekbones. Cheeks: a light ' +
+        'cool rosy pink. Lips: a satin plum-rose colour that keeps the exact original lip shape and outline. Overall: ' +
+        'cool, crisp and wintry — unmistakably made-up, never identical to the bare face, and the skin must keep ' +
+        'its own healthy warmth, never grey or lifeless.',
+  },
 ]
 
+/** 현재 라인업 9종(순서 = 화면 순서). 빠진 4종(메탈릭 아이·볼드 립·블러쉬 드레이핑·그런지)은 ALL_MAKEUP_STYLES 에
+ *  남아 있다 — /looks/{id}/ 색인과 옛 링크(?style=)를 지키기 위해서다. */
+const CURRENT_IDS: MakeupStyleId[] = ['natural-glow', 'spring-blush', 'summer-glow', 'autumn-berry', 'winter-frost', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'kpop-idol']
+export const MAKEUP_STYLES: MakeupStyle[] = CURRENT_IDS.map((id) => ALL_MAKEUP_STYLES.find((s) => s.id === id)!)
+export const ARCHIVED_STYLES: MakeupStyle[] = ALL_MAKEUP_STYLES.filter((s) => !CURRENT_IDS.includes(s.id))
+
+/** 보관 룩의 옛 링크(?style=)는 같은 계열의 계절 룩으로 보낸다. */
+export const ARCHIVED_SUCCESSOR: Partial<Record<MakeupStyleId, MakeupStyleId>> = {
+  'blush-draping': 'spring-blush',
+  'bold-lip': 'summer-glow',
+  grunge: 'autumn-berry',
+  'metallic-eye': 'winter-frost',
+}
+
 export const styleById = (id: MakeupStyleId): MakeupStyle =>
-  MAKEUP_STYLES.find((s) => s.id === id) ?? MAKEUP_STYLES[0]
+  ALL_MAKEUP_STYLES.find((s) => s.id === id) ?? MAKEUP_STYLES[0]
 
 // ── 얼굴 보존(face-lock) 프리앰블 — whole-face 편집용(옛 9룩 방식 복원). ──
 // 마스크가 없으므로 얼굴 동일성은 전적으로 프롬프트에 위임한다(얼굴 변형 리스크 감수).

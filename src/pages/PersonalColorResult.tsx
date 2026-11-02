@@ -28,12 +28,12 @@ import { trackToolPromotion } from '../lib/analytics'
 import { styleById, type MakeupStyleId } from '../lib/makeup/styles'
 
 // 시즌 → 결과 화면에서 바로 입혀 볼 추천 룩(2026-10-17, 얼굴형과 같은 방식).
-//   봄 웜=피치 블러셔·누드 립 · 여름 쿨=그라데이션 핑크 립 · 가을 웜=골드 메탈릭 · 겨울 쿨=버건디/레드 립.
+//   2026-11-02: 계절 룩 도입 — 진단 계절과 같은 계절 룩으로 바로 잇는다. (옛 주석) 겨울 쿨=버건디/레드 립.
 const SEASON_LOOK: Record<SeasonCode, MakeupStyleId> = {
-  spring: 'natural-glow',
-  summer: 'kpop-idol',
-  autumn: 'metallic-eye',
-  winter: 'blood-lip',
+  spring: 'spring-blush',
+  summer: 'summer-glow',
+  autumn: 'autumn-berry',
+  winter: 'winter-frost',
 }
 
 interface Props { code: SeasonCode }

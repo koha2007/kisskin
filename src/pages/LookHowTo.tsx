@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useBeautyDna } from '../hooks/useBeautyDna'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import BeforeAfterSlider from '../components/makeup/BeforeAfterSlider'
-import { MAKEUP_STYLES, type MakeupStyleId } from '../lib/makeup/styles'
+import { ALL_MAKEUP_STYLES, MAKEUP_STYLES, type MakeupStyleId, ARCHIVED_SUCCESSOR, styleById } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
 import { LOOK_HOWTO, STEP_CROP, CHART_CROP, type CropKey, AREA_LABEL, SEASON_SHADES, CHART_LOOKS, CHART_ZONE, COMMON_SAFETY_KO, COMMON_SAFETY_EN, type HowToArea, type HowToStep } from '../lib/looks/howto'
 import { PERSONAL_COLOR_TYPES } from '../lib/personal-color/types'
@@ -161,7 +161,8 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
   const { locale } = useI18n()
   const isEn = locale === 'en'
   const prefix = isEn ? '/en' : ''
-  const style = MAKEUP_STYLES.find((s) => s.id === id)!
+  const style = ALL_MAKEUP_STYLES.find((s) => s.id === id)!
+  const successor = ARCHIVED_SUCCESSOR[id]
   const how = LOOK_HOWTO[id]
   const img = LOOK_IMAGES[id]
   const name = isEn ? style.subEn : style.nameKo
@@ -188,6 +189,12 @@ export default function LookHowTo({ id }: { id: MakeupStyleId }) {
           <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl leading-relaxed">
             {isEn ? how.introEn : how.introKo}
           </p>
+          {successor && (
+            <p className="mt-4 text-sm text-slate-600 break-keep">
+              {isEn ? 'This look is no longer in the AI makeup lineup, but the how-to stays here. Try the current look: ' : '이 룩은 AI 메이크업 라인업에서는 빠졌지만 방법은 그대로 볼 수 있어요. 지금 해 볼 수 있는 룩: '}
+              <a href={`${prefix}/looks/${successor}/`} className="font-bold text-navy underline underline-offset-2">{isEn ? styleById(successor).subEn : styleById(successor).nameKo}</a>
+            </p>
+          )}
           <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
             <span className="rounded-full bg-white border border-slate-200 px-3 py-1.5 text-slate-700">
               ⏱ {how.minutes}{isEn ? ' min' : '분'}

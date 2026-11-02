@@ -127,9 +127,9 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
             한 줄로 같이 보여 준다. 사진을 고르면 자리를 비켜 준다. */}
         {!photo && (
           <div className="mt-4 flex items-center gap-3 px-3 py-2.5" style={surfaceStyle}>
-            <img src={lookThumb('bold-lip', 'before')} alt={isEn ? 'Example selfie' : '예시 셀카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover" />
+            <img src={lookThumb('autumn-berry', 'before')} alt={isEn ? 'Example selfie' : '예시 셀카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover" />
             <span className="material-symbols-outlined text-white/50 text-lg shrink-0" aria-hidden="true">arrow_forward</span>
-            <img src={lookThumb('bold-lip')} alt={isEn ? 'Example result — Bold Lip' : '예시 결과 — 볼드 립'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover ring-2 ring-[rgba(235,71,99,0.9)]" />
+            <img src={lookThumb('autumn-berry')} alt={isEn ? 'Example result — Autumn Berry Mocha' : '예시 결과 — 가을 베리 모카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover ring-2 ring-[rgba(235,71,99,0.9)]" />
             <span className="min-w-0 text-[12px] leading-snug text-white/75 break-keep">
               <span className="block font-extrabold text-white">{isEn ? 'A selfie like this → this' : '이런 셀카면 → 이렇게'}</span>
               {isEn ? 'Front-facing, bright, no hat. Example model is AI-generated.' : '정면·밝은 곳·모자 없이. 예시 모델은 AI 생성 이미지예요.'}

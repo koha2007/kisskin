@@ -4,9 +4,9 @@
 import { useState } from 'react'
 import { supabase } from '../supabase'
 import { useAuth } from '../../hooks/useAuth'
-import { MAKEUP_STYLES, type MakeupStyleId } from '../makeup/styles'
+import { ALL_MAKEUP_STYLES, type MakeupStyleId } from '../makeup/styles'
 
-const VALID = new Set<string>(MAKEUP_STYLES.map((s) => s.id))
+const VALID = new Set<string>(ALL_MAKEUP_STYLES.map((s) => s.id))
 
 function readSaved(meta: Record<string, unknown> | undefined): MakeupStyleId[] {
   const raw = meta?.saved_looks

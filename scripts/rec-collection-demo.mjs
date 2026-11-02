@@ -17,11 +17,11 @@ const out = process.argv[3]
 const ROOT = '/workspaces/kisskin'
 const BASE = 'http://localhost:4173'
 const REF = 'vrcltmhhbgnsmdeoxlck'
-const SELFIE = path.join(ROOT, 'casting/films/kpop/video/halfup-1.png')
+const SELFIE = process.env.DEMO_SELFIE || path.join(ROOT, 'casting/films/kpop/video/halfup-1.png')
 // 탭 표시(노란 체크)
 const CHECK = 'data:image/png;base64,' + (await sharp(path.join(ROOT, 'casting/체크표시.png')).resize(140, 140, { fit: 'inside' }).png().toBuffer()).toString('base64')
-const IDS = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol']
-const V = '20261017'
+const IDS = ['natural-glow', 'spring-blush', 'summer-glow', 'autumn-berry', 'winter-frost', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'kpop-idol']
+const V = '20261102'
 
 const user = { id: '00000000-0000-4000-8000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'you@gmail.com', app_metadata: { provider: 'google' }, user_metadata: {}, created_at: '2026-10-01T00:00:00Z' }
 const sess = { access_token: 'demo', refresh_token: 'demo', token_type: 'bearer', expires_in: 3600000, expires_at: Math.floor(Date.now() / 1000) + 3600000, user }

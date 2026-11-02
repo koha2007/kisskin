@@ -4,7 +4,7 @@ import { useI18n } from '../i18n/I18nContext'
 import { isNativeApp } from '../lib/nativePicker'
 import { trackAuthView, trackSignUpStart } from '../lib/analytics'
 import { authErrorMessage } from '../lib/authErrors'
-import { MAKEUP_STYLES } from '../lib/makeup/styles'
+import { ALL_MAKEUP_STYLES } from '../lib/makeup/styles'
 
 function isInAppBrowser(): boolean {
   const ua = navigator.userAgent || navigator.vendor || ''
@@ -76,7 +76,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   const fromMakeup = useMemo(() => {
     if (!next || !next.startsWith('/analysis')) return null
     const id = new URLSearchParams(next.split('?')[1] || '').get('style')
-    return { style: MAKEUP_STYLES.find((x) => x.id === id) }
+    return { style: ALL_MAKEUP_STYLES.find((x) => x.id === id) }
   }, [next])
 
   const nav = (page: string) => {
