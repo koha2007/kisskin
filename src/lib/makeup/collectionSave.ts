@@ -65,10 +65,26 @@ export function saveOneImage(file: File) {
   document.body.appendChild(a); a.click(); a.remove()
 }
 
+/** 결과 PNG(장당 수 MB) → JPEG. 메일은 JPEG 만 받고, 기기 보관도 가벼워진다 */
+export function toJpegDataUrl(src: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      const c = document.createElement('canvas')
+      c.width = img.naturalWidth; c.height = img.naturalHeight
+      c.getContext('2d')!.drawImage(img, 0, 0)
+      resolve(c.toDataURL('image/jpeg', 0.92))
+    }
+    img.onerror = () => reject(new Error('image load failed'))
+    img.src = src
+  })
+}
+
 export type MailResult = { k: 'sent'; to: string } | { k: 'login' } | { k: 'limit' } | { k: 'error' }
 
 /** 로그인한 계정 메일로만 보낸다(/api/collection-mail). kind 는 메일 제목·본문·링크만 바꾼다 */
-export async function mailImages(images: { name: string; dataUrl: string }[], lang: 'ko' | 'en', kind: 'collection' | 'lucky' = 'collection'): Promise<MailResult> {
+export async function mailImages(images: { name: string; dataUrl: string }[], lang: 'ko' | 'en', kind: 'collection' | 'lucky' | 'makeup5' | 'lucky5' = 'collection'): Promise<MailResult> {
   try {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return { k: 'login' }

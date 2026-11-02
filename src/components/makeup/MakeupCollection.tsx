@@ -21,7 +21,7 @@ import { buildCollectionGrid } from '../../lib/makeup/collectionGrid'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { loadCollection, saveCollection, type CollectionState } from '../../lib/makeup/collectionStore'
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
-import { dataUrlToFile, saveAllImages, saveOneImage, mailImages } from '../../lib/makeup/collectionSave'
+import { dataUrlToFile, saveAllImages, saveOneImage, mailImages, toJpegDataUrl } from '../../lib/makeup/collectionSave'
 import LongPressSaveViewer from './LongPressSaveViewer'
 import { screenBg, surfaceStyle, btnPrimary, btnPrimaryStyle, btnGhost, btnGhostStyle, eyebrow } from './theme'
 
@@ -48,15 +48,6 @@ function loadImg(src: string): Promise<HTMLImageElement> {
     img.onerror = () => reject(new Error('image load failed'))
     img.src = src
   })
-}
-
-/** 결과 PNG(장당 수 MB) → JPEG 로 줄여 보관·저장한다. 9장을 기기에 담아야 해서. */
-async function toJpeg(src: string): Promise<string> {
-  const img = await loadImg(src)
-  const c = document.createElement('canvas')
-  c.width = img.naturalWidth; c.height = img.naturalHeight
-  c.getContext('2d')!.drawImage(img, 0, 0)
-  return c.toDataURL('image/jpeg', 0.92)
 }
 
 const doneCount = (s: CollectionState | null) => (s ? IDS.filter((id) => s.items[id]?.image).length : 0)
@@ -183,7 +174,7 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
             commit({ ...cur, items: { ...cur.items, [id]: { ...cur.items[id]!, charged: true } } })
           }
           if (!res.ok || !data.image) throw new Error(data.error || String(res.status))
-          const image = await toJpeg(data.image)
+          const image = await toJpegDataUrl(data.image)
           const cur = stateRef.current!
           commit({ ...cur, items: { ...cur.items, [id]: { ...cur.items[id]!, image } } })
           if (typeof data.balance === 'number') setBalance(data.balance)

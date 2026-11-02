@@ -70,16 +70,22 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   }
 
   const isEn = body.lang === 'en'
-  const lucky = body.kind === 'lucky'
-  const title = lucky ? (isEn ? 'Your 9 lucky looks' : '나의 럭키 메이크업 9') : (isEn ? 'Your 9-look collection' : '나의 9룩 컬렉션')
-  const subject = lucky ? `🍀 ${title} — kissinskin` : (isEn ? '💄 Your 9 looks — kissinskin' : '💄 나의 9룩 컬렉션 — kissinskin')
+  // 5가지 골라 만들기(2026-11-02): 모아보기 없이 낱장 5장 — 제목·본문이 '9룩'이면 안 된다
+  const five = body.kind === 'makeup5' || body.kind === 'lucky5'
+  const lucky = body.kind === 'lucky' || body.kind === 'lucky5'
+  const title = five
+    ? (lucky ? (isEn ? 'Your 5 lucky looks' : '나의 럭키 메이크업 5가지') : (isEn ? 'Your 5 looks' : '나의 메이크업 5가지'))
+    : lucky ? (isEn ? 'Your 9 lucky looks' : '나의 럭키 메이크업 9') : (isEn ? 'Your 9-look collection' : '나의 9룩 컬렉션')
+  const subject = lucky ? `🍀 ${title} — kissinskin` : five ? `💄 ${title} — kissinskin` : (isEn ? '💄 Your 9 looks — kissinskin' : '💄 나의 9룩 컬렉션 — kissinskin')
   const howtoPath = lucky ? 'lucky-makeup' : 'looks'
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f5efe3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5efe3;"><tr><td align="center" style="padding:32px 16px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:12px;"><tr><td style="padding:32px 28px;text-align:center;">
 <h1 style="margin:0;font-size:22px;color:#070953;">${title}</h1>
-<p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#475569;">${isEn
+<p style="margin:12px 0 0;font-size:15px;line-height:1.6;color:#475569;">${five
+    ? (isEn ? `${attachments.length} images are attached, one for each look. Save them from this email any time.` : `첨부파일 ${attachments.length}장 — 룩별 낱장이에요. 언제든 이 메일에서 저장하세요.`)
+    : isEn
     ? `${attachments.length} images are attached — the grid image plus each look. Save them from this email any time.`
     : `첨부파일 ${attachments.length}장 — 모아보기와 룩별 낱장이에요. 언제든 이 메일에서 저장하세요.`}</p>
 <p style="margin:20px 0 0;font-size:13px;color:#94a3b8;">${isEn ? 'AI-generated makeup on your own selfie.' : '내 셀카로 만든 AI 메이크업이에요.'}</p>
@@ -97,7 +103,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
       subject,
       html,
       attachments,
-      tags: [{ name: 'kind', value: lucky ? 'lucky9' : 'collection' }],
+      tags: [{ name: 'kind', value: five ? String(body.kind) : lucky ? 'lucky9' : 'collection' }],
     }),
   })
   if (!res.ok) return json({ error: 'send_failed', detail: (await res.text()).slice(0, 200) }, 502)
