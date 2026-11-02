@@ -187,7 +187,7 @@ export default function FortuneMakeup() {
                       <img src={lookImg(l.id)} alt={isEn ? `${l.nameEn} makeup` : l.nameKo} loading="lazy"
                         className="h-full w-full origin-[50%_30%] scale-[1.12] object-cover object-[50%_22%] transition-transform duration-500 group-hover:scale-[1.18]" />
                       <span className="absolute left-1.5 top-1.5 md:left-3 md:top-3 h-2.5 w-2.5 md:h-3 md:w-3 rounded-full ring-2 ring-white" style={{ background: l.accent }} aria-hidden="true" />
-                      {on && <span className="material-symbols-outlined absolute right-1.5 top-1.5 md:right-3 md:top-3 rounded-full bg-primary p-0.5 text-[16px] md:text-[20px] text-white" aria-hidden="true">check</span>}
+                      {on && <span className="material-symbols-outlined absolute right-1.5 top-1.5 md:right-3 md:top-3 rounded-full bg-primary-dark p-0.5 text-[16px] md:text-[20px] text-white" aria-hidden="true">check</span>}
                     </span>
                     <span className="block p-2 md:p-4">
                       <span className={`block text-[13px] md:text-lg font-extrabold leading-tight ${on ? 'text-primary-dark' : ''}`}>{isEn ? l.nameEn : l.fortuneKo}</span>
@@ -344,7 +344,7 @@ function PriceTable({ isEn }: { isEn: boolean }) {
       <div className="mt-5 grid gap-3 md:grid-cols-3 md:gap-5">
         {rows.map((r) => (
           <div key={r.n} className={`relative flex flex-col p-5 md:p-6 ${r.best ? 'bg-navy text-white' : 'border border-slate-200 bg-white'}`}>
-            {r.best && <span className="absolute right-4 top-4 bg-primary px-2 py-0.5 text-[10px] font-bold text-white">{isEn ? 'BEST VALUE' : '추천'}</span>}
+            {r.best && <span className="absolute right-4 top-4 bg-primary-dark px-2 py-0.5 text-[10px] font-bold text-white">{isEn ? 'BEST VALUE' : '추천'}</span>}
             <p className={`text-sm font-extrabold ${r.best ? 'text-primary-on-dark' : 'text-primary-dark'}`}>{r.n}</p>
             <p className="mt-2 text-4xl font-extrabold leading-none tabular-nums">{r.price}</p>
             <p className={`mt-2 text-xs font-semibold ${r.best ? 'text-white/70' : 'text-slate-500'}`}>{r.sub}</p>
@@ -506,7 +506,7 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
             <>
               <img src={images[id] ?? lookImg(id)} alt="" className={`aspect-[3/4] w-full object-cover object-[50%_28%] ${images[id] ? '' : 'opacity-50'}`} />
               {busy === id && <span className="absolute inset-0 flex items-center justify-center bg-navy/50"><span className="h-6 w-6 animate-spin rounded-full border-2 border-white/40 border-t-white" /></span>}
-              {images[id] && <span className="material-symbols-outlined absolute right-1 top-1 rounded-full bg-primary text-[14px] text-white">{files ? 'download' : 'check'}</span>}
+              {images[id] && <span className="material-symbols-outlined absolute right-1 top-1 rounded-full bg-primary-dark text-[14px] text-white">{files ? 'download' : 'check'}</span>}
               <span className="absolute inset-x-0 bottom-0 bg-navy/70 px-1 py-0.5 text-center text-[10.5px] font-bold text-white">{isEn ? l.nameEn : l.fortuneKo}</span>
             </>
           )

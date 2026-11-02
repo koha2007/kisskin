@@ -138,7 +138,7 @@ export function IconCard({
   icon,
   label,
   text,
-  accent = '#d8503c',
+  accent = '#ef4da0',
   tint,
 }: {
   icon: string
@@ -199,7 +199,7 @@ export function ImageCard({
 export function AxisCard({
   title,
   axes,
-  accent = '#d8503c',
+  accent = '#ef4da0',
   tint,
 }: {
   title: string
@@ -228,7 +228,7 @@ export function AxisCard({
 }
 
 /** Single tip with a bulb glyph. */
-export function TipCard({ tip, accent = '#d8503c', tint }: { tip: string; accent?: string; tint?: string }) {
+export function TipCard({ tip, accent = '#ef4da0', tint }: { tip: string; accent?: string; tint?: string }) {
   return (
     <GridCard className="p-4" accent={accent} tint={tint}>
       <span className="material-symbols-outlined text-lg mb-2 block" style={{ color: accent }}>
@@ -283,7 +283,7 @@ export function ChipsCard({
 export function AccordionCard({
   title,
   paragraphs,
-  accent = '#d8503c',
+  accent = '#ef4da0',
 }: {
   title: string
   paragraphs: string[]

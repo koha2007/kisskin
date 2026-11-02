@@ -40,7 +40,7 @@ export default function LooksHub() {
                     loading="lazy" decoding="async"
                     className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
                   {saved.includes(s.id) && (
-                    <span className="absolute right-2 top-2 inline-flex items-center gap-1 bg-primary px-2 py-1 text-[10px] font-bold text-white">
+                    <span className="absolute right-2 top-2 inline-flex items-center gap-1 bg-primary-dark px-2 py-1 text-[10px] font-bold text-white">
                       <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>bookmark</span>
                       {isEn ? 'Saved' : '저장됨'}
                     </span>

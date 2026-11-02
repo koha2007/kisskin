@@ -48,7 +48,7 @@ export default function ProductShowcase({ slug }: Props) {
 
   const meta = getCategoryMeta(item.category)
   const categoryLabel = isEn ? meta.enLabel : meta.koLabel
-  const gradient = `linear-gradient(150deg, ${meta.color}, color-mix(in srgb, ${meta.color} 55%, #232a52))`
+  const gradient = `linear-gradient(150deg, ${meta.color}, color-mix(in srgb, ${meta.color} 55%, #070953))`
   // 같은 카테고리 앞 4개만 뽑으면 그 4개만 계속 링크를 받는다(뉴스·가이드와 같은 문제).
   // 현재 글 위치에서 한 칸씩 밀어 원형으로 뽑아 모든 제품 글이 인바운드를 갖게 한다.
   const related = pickRelated(items, item, 4)
@@ -315,7 +315,7 @@ export default function ProductShowcase({ slug }: Props) {
                   >
                     <div
                       className="relative aspect-[4/5] flex items-center justify-center"
-                      style={{ background: `linear-gradient(150deg, ${rMeta.color}, color-mix(in srgb, ${rMeta.color} 55%, #232a52))` }}
+                      style={{ background: `linear-gradient(150deg, ${rMeta.color}, color-mix(in srgb, ${rMeta.color} 55%, #070953))` }}
                     >
                       {r.image ? (
                         <img src={r.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />

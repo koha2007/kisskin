@@ -74,7 +74,7 @@ function slugAspect(slug: string, hasImage = false) {
 
 // Category-color gradient header (color → toward navy) — the single accent point.
 function headerGradient(color: string) {
-  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #232a52))`
+  return `linear-gradient(150deg, ${color}, color-mix(in srgb, ${color} 55%, #070953))`
 }
 
 export default function HubShell({

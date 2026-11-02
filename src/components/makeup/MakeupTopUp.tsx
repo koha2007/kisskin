@@ -172,7 +172,7 @@ export default function MakeupTopUp({ isEn, onBack, resultSrc, doneStyle, photo,
                 aria-checked={on}
                 onClick={() => setPlan(id)}
                 className="relative flex items-center gap-3 px-4 py-4 text-left transition-colors"
-                style={{ background: on ? 'rgba(235,71,99,0.12)' : surfaceStyle.background, border: `${on ? 2 : 1}px solid ${on ? PRIMARY : BORDER}` }}
+                style={{ background: on ? 'rgba(239, 77, 160,0.12)' : surfaceStyle.background, border: `${on ? 2 : 1}px solid ${on ? PRIMARY : BORDER}` }}
               >
                 {id === 'collection' && (
                   <span className="absolute -top-2.5 left-4 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-[0.12em]" style={{ background: PRIMARY }}>

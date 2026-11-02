@@ -199,7 +199,7 @@ export default function AboutMakeupAiBodyEn() {
             </p>
             <a
               href="/analysis/"
-              className="bg-primary hover:bg-primary-dark transition-colors text-white px-10 py-4 text-lg font-bold inline-flex items-center gap-2"
+              className="bg-primary-dark hover:bg-primary-dark transition-colors text-white px-10 py-4 text-lg font-bold inline-flex items-center gap-2"
             >
               {t('tools.common.aiMakeupStart')}
               <span className="material-symbols-outlined">arrow_forward</span>

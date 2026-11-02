@@ -55,27 +55,9 @@ export default function Head() {
       <meta name="classification" content={isEn ? 'Beauty, Makeup, AI, Personal Color, K-Beauty' : '뷰티, 메이크업, AI, 퍼스널컬러, 키스인스킨, K-뷰티'} />
       <meta name="copyright" content="kissinskin" />
       <meta httpEquiv="Content-Language" content={isEn ? 'en' : 'ko'} />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
-      {/*
-        Pretendard Variable — 폰트 스택엔 예전부터 이름이 있었지만 실제로 로드된 적이 없어
-        한글이 시스템 폴백(Windows=맑은 고딕)으로 렌더됐다. "레이아웃이 옛스럽다"의 큰 축.
-        동적 서브셋이라 페이지에 실제 등장하는 글자 범위의 woff2 청크만 내려받는다.
-      */}
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-      />
-      {/*
-        Cormorant Garamond — 영문 제목 전용 세리프. 한글 글리프가 없어 한글은 글리프 폴백으로
-        Pretendard(산세리프)가 받는다 → 영문=세리프 / 한글=산세리프가 토큰 하나로 성립.
-        display=optional 은 CLS 방어용: 늦게 도착하면 폴백을 유지하고 바꿔치지 않는다.
-      */}
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=optional"
-      />
+      {/* Paperlogy 본문 굵기 미리 받기 — @font-face 는 src/index.css */}
+      <link rel="preload" href="/fonts/Paperlogy-500.woff2" as="font" type="font/woff2" crossOrigin="" />
       <script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
         crossOrigin="anonymous"

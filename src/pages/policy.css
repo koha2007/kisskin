@@ -48,8 +48,8 @@
 }
 
 .legal-lang:hover {
-  border-color: #eb4763;
-  color: #eb4763;
+  border-color: #ef4da0;
+  color: #ef4da0;
 }
 
 .legal-content {
@@ -97,7 +97,7 @@
 }
 
 .legal-content a {
-  color: #c9304a;
+  color: #c4177c;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -132,7 +132,7 @@
 }
 
 .legal-link {
-  color: #c9304a;
+  color: #c4177c;
   text-decoration: underline;
   cursor: pointer;
 }

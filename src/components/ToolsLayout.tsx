@@ -114,7 +114,7 @@ export function ToolsNav() {
           {/* Desktop AI CTA */}
           <a
             href={isEn ? '/en/' : '/analysis/'}
-            className="hidden sm:flex bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
+            className="hidden sm:flex bg-primary-dark hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
           >
             {t('tools.nav.aiMakeup')}
           </a>
@@ -201,7 +201,7 @@ export function ToolsNav() {
               <a
                 href={isEn ? '/en/' : '/analysis/'}
                 onClick={() => setOpen(false)}
-                className="w-full bg-primary hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                className="w-full bg-primary-dark hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
               >
                 {t('tools.nav.aiMakeup')}
               </a>

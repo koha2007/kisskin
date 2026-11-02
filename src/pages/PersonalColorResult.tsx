@@ -193,7 +193,7 @@ export default function PersonalColorResult({ code }: Props) {
                 <a
                   href={makeupHref}
                   onClick={() => { keepLocale(); trackToolPromotion('personal_color', t.code, 'hero_primary') }}
-                  className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 break-keep bg-primary hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
+                  className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 break-keep bg-primary-dark hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
                 >
                   <span className="material-symbols-outlined text-xl">auto_awesome</span>
                   {isEn ? `Try ${lookName} on my face` : `'${lookName}' 내 얼굴로 보기`}

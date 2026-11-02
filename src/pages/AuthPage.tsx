@@ -36,8 +36,8 @@ const C = {
   navy: '#070953',
   muted: '#6b6f8c',
   line: 'rgba(7, 9, 83, 0.16)',
-  primary: '#eb4763',
-  primaryDark: '#c9304a',
+  primary: '#ef4da0',
+  primaryDark: '#c4177c',
   mustard: '#c79340',
   sage: '#7e9b6a',
 } as const
@@ -501,7 +501,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
               padding: '12px',
               borderRadius: R.sm,
               border: 'none',
-              // ⚠ 흰 글자가 얹히는 면이라 원색(#eb4763)을 쓰면 안 된다 — 15px bold 기준
+              // ⚠ 흰 글자가 얹히는 면이라 원색(#ef4da0)을 쓰면 안 된다 — 15px bold 기준
               // 3.74:1 로 AA(4.5:1) 미달이었다(2026-09-23 실측). 글자가 끼는 자리는
               // primary-dark 가 규칙이다(src/index.css 팔레트 주석).
               background: loading ? C.muted : C.primaryDark,

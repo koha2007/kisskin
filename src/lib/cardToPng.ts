@@ -120,7 +120,7 @@ function fitFontSize(
 //    브랜드 비전 "미술 × 메이크업" — 결과 카드가 한 장의 작은 판화처럼 보이게.
 //    유형색(card.gradient[1])은 아치 바탕·큰 도형에만 써서 31종이 한 체계 안에서 갈린다.
 const PAPER = '#F3EADC'
-const INK = '#232a52'
+const INK = '#070953'
 const TERRACOTTA = '#B5523B'
 const MUSTARD = '#D9A441'
 const BLUSH = '#E8A598'

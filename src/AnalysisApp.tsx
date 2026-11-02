@@ -445,14 +445,14 @@ export default function AnalysisApp() {
       ctx.save(); roundRect(rPad, gridH + Math.round(rPad * 0.5), gridW - rPad * 2, reportH - rPad, [radius * 2, radius * 2, radius * 2, radius * 2])
       ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.06)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2; ctx.fill(); ctx.restore()
       const cardX = rPad + Math.round(rPad * 0.6); const cardContentW = rContentW - Math.round(rPad * 1.2)
-      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+      ctx.fillStyle = '#ef4da0'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
       ctx.fillText('✨ AI Tone Analysis', cardX, y); y += Math.round(rFontTitle * 1.8)
       const badges = [a.gender, a.tone].filter(Boolean); let bx = cardX
       for (const badge of badges) {
         ctx.font = `600 ${Math.round(rFontBody * 0.9)}px Pretendard, system-ui, sans-serif`; const bw = ctx.measureText(badge).width + 20
         ctx.save(); roundRect(bx, y, bw, Math.round(rFontBody * 1.8), [10, 10, 10, 10])
-        ctx.fillStyle = 'rgba(235,71,99,0.08)'; ctx.fill(); ctx.restore()
-        ctx.fillStyle = '#eb4763'; ctx.textBaseline = 'middle'; ctx.fillText(badge, bx + 10, y + Math.round(rFontBody * 0.9))
+        ctx.fillStyle = 'rgba(239, 77, 160,0.08)'; ctx.fill(); ctx.restore()
+        ctx.fillStyle = '#ef4da0'; ctx.textBaseline = 'middle'; ctx.fillText(badge, bx + 10, y + Math.round(rFontBody * 0.9))
         bx += bw + 8
       }
       y += Math.round(rFontBody * 3)
@@ -470,7 +470,7 @@ export default function AnalysisApp() {
     }
     if (products.length > 0) {
       let py = gridH + reportH + rPad
-      ctx.fillStyle = '#eb4763'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+      ctx.fillStyle = '#ef4da0'; ctx.font = `800 ${rFontTitle}px Pretendard, system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'
       ctx.fillText(locale === 'ko' ? '🛍️ 맞춤 화장품 추천' : '🛍️ Product Recommendations', rPad, py)
       py += Math.round(rFontTitle * 2)
       const prodCardH = Math.round(rFontBody * 7); const prodGap = Math.round(rFontBody * 0.8)
@@ -487,7 +487,7 @@ export default function AnalysisApp() {
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillText(p.category.slice(0, 3).toUpperCase(), cx + badgeSize / 2, py + prodCardH / 2)
         const tx = cx + badgeSize + Math.round(rPad * 0.5); ctx.textAlign = 'left'
-        ctx.fillStyle = '#eb4763'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Pretendard, system-ui, sans-serif`; ctx.textBaseline = 'top'
+        ctx.fillStyle = '#ef4da0'; ctx.font = `700 ${Math.round(rFontBody * 0.7)}px Pretendard, system-ui, sans-serif`; ctx.textBaseline = 'top'
         let ty = py + Math.round(rFontBody * 0.6); ctx.fillText(p.category.toUpperCase(), tx, ty); ty += Math.round(rFontBody * 1.2)
         ctx.fillStyle = '#070953'; ctx.font = `700 ${rFontBody}px Pretendard, system-ui, sans-serif`
         ctx.fillText(p.name.length > 35 ? p.name.slice(0, 35) + '…' : p.name, tx, ty); ty += Math.round(rFontBody * 1.4)
@@ -512,13 +512,13 @@ export default function AnalysisApp() {
         const textX = logoX + logoSize + Math.round(gridW * 0.02)
         ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Pretendard, system-ui, sans-serif`
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', textX, brandY + brandH * 0.4)
-        ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
+        ctx.fillStyle = '#ef4da0'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
         ctx.fillText('kissinskin.net', textX, brandY + brandH * 0.65)
       }
     } catch {
       ctx.fillStyle = '#070953'; ctx.font = `800 ${Math.max(14, Math.round(gridW * 0.035))}px Pretendard, system-ui, sans-serif`
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('kissinskin', gridW / 2, brandY + brandH * 0.4)
-      ctx.fillStyle = '#eb4763'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
+      ctx.fillStyle = '#ef4da0'; ctx.font = `600 ${Math.max(11, Math.round(gridW * 0.025))}px Pretendard, system-ui, sans-serif`
       ctx.fillText('kissinskin.net', gridW / 2, brandY + brandH * 0.65)
     }
     return canvas

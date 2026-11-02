@@ -18,7 +18,7 @@ interface Props {
 // which suits the daily auto-generated news feed. Region toggle switches CTAs
 // between Korea (Coupang + Clio) and global (Amazon + YesStyle), same as guides.
 // Localized: KO copy on /news/*, EN copy on /en/news/*.
-export default function NewsProductBox({ category, slug, accentColor = '#d8503c' }: Props) {
+export default function NewsProductBox({ category, slug, accentColor = '#ef4da0' }: Props) {
   const { locale } = useI18n()
   // 카테고리 풀에서 slug 로 정해진 조합을 뽑는다 — 예전엔 카테고리별 전체를 그대로
   // 렌더해서, 같은 카테고리 글이면 박스가 100% 동일했다(글로벌 22편이 그랬다).

@@ -19,7 +19,7 @@ interface Props {
 
 export default function RecommendedProducts({
   items,
-  accentColor = '#d8503c',
+  accentColor = '#ef4da0',
   headingEmoji = '🛍️',
   subtitle,
   pageType,

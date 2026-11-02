@@ -60,7 +60,7 @@ export function BentoTile({
   className?: string
   rowSpan?: 2
 }) {
-  const a = accent ?? '#d8503c'
+  const a = accent ?? '#ef4da0'
   const style =
     surface === 'card'
       ? { background: '#fff', borderColor: `${a}26` }
@@ -171,7 +171,7 @@ export function BentoFacts({
   accent?: string
   span?: BentoSpan
 }) {
-  const a = accent ?? '#d8503c'
+  const a = accent ?? '#ef4da0'
   return (
     <BentoTile span={span} surface="card" accent={accent} className="p-4 md:p-5">
       {title && <h3 className={TILE_TITLE}>{title}</h3>}
@@ -208,7 +208,7 @@ export function BentoNote({
   span?: BentoSpan
   tone?: BentoSurface
 }) {
-  const a = accent ?? '#d8503c'
+  const a = accent ?? '#ef4da0'
   // 라벨이 얹히는 실제 바탕 — tint 표면은 액센트 8%(=`${a}14`) 를 섹션 배경 위에 깐 색이다.
   // 섹션 배경은 도구 결과 화면의 background-light(힐다 #f5efe3). 흰색으로 어림하면
   // 계산이 헐거워져 실제로는 4.4:1 밖에 안 나온다(2026-09-22 실측).
@@ -299,7 +299,7 @@ export function BentoAxes({
   accent?: string
   span?: BentoSpan
 }) {
-  const a = accent ?? '#d8503c'
+  const a = accent ?? '#ef4da0'
   return (
     <BentoPanel title={title} span={span} accent={accent}>
       <div className="space-y-3">

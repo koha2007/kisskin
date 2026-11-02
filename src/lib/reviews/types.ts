@@ -17,14 +17,14 @@ export interface ReviewCategoryMeta {
 }
 
 export const REVIEW_CATEGORIES: ReviewCategoryMeta[] = [
-  { code: 'lip', koLabel: '립 제품', enLabel: 'Lip', emoji: '💋', color: '#d8503c' },
+  { code: 'lip', koLabel: '립 제품', enLabel: 'Lip', emoji: '💋', color: '#ef4da0' },
   { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#c79340' },
   { code: 'eye', koLabel: '아이 제품', enLabel: 'Eye', emoji: '👁️', color: '#8e6e9e' },
   { code: 'skincare', koLabel: '스킨케어', enLabel: 'Skincare', emoji: '💧', color: '#4e9fa6' },
   { code: 'tools', koLabel: '도구', enLabel: 'Tools', emoji: '🖌️', color: '#4a5488' },
   { code: 'vegan', koLabel: '비건', enLabel: 'Vegan', emoji: '🌱', color: '#7e9b6a' },
   { code: 'budget', koLabel: '가성비', enLabel: 'Budget', emoji: '💰', color: '#4a5488' },
-  { code: 'mens', koLabel: '남성', enLabel: "Men's", emoji: '🧔', color: '#232a52' },
+  { code: 'mens', koLabel: '남성', enLabel: "Men's", emoji: '🧔', color: '#070953' },
 ]
 
 export interface ReviewProduct {

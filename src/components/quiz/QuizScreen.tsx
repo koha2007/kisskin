@@ -11,7 +11,7 @@
 //
 // IMPORTANT: this is shell-only — question content, option counts and scoring stay in each page.
 
-const PRIMARY = '#d8503c'
+const PRIMARY = '#ef4da0'
 
 export interface QuizOptionView {
   key: string | number

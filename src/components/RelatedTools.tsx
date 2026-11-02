@@ -24,7 +24,7 @@ const TOOLS: Tool[] = [
     titleEn: 'AI Makeup Simulator',
     descKo: '셀카 한 장으로 9가지 K-뷰티 룩, 가입하면 첫 1룩 무료',
     descEn: '9 K-beauty looks on your selfie — 1st free',
-    accent: '#d8503c', // --color-tool-ai
+    accent: '#ef4da0', // --color-tool-ai
   },
   {
     key: 'perfume-type',

@@ -7,7 +7,7 @@ const MakeupFlow = lazy(() => import('../../src/components/makeup/MakeupFlow'))
 
 const Loading = () => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100dvh' }}>
-    <div style={{ width: 40, height: 40, border: '3px solid #e9e4dd', borderTop: '3px solid #d8503c', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+    <div style={{ width: 40, height: 40, border: '3px solid #e9e4dd', borderTop: '3px solid #ef4da0', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
     <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
   </div>
 )
