@@ -7,14 +7,15 @@
 //     결과 화면에서 무료/유료를 나누지 않는다(가입 무료권 = 럭키 1장, 따로 lucky 풀 · 그다음 5장 $2.99 · 9장 $4.99).
 //   → 10/24(3차) 운영자 "9종이랑 똑같이": 사진을 넣어도 바로 만들지 않고 [생성하기] 버튼을 누를 때 만든다.
 //     무료권·보유 장수가 둘 다 있으면 버튼 두 개 — MakeupStyleSelect 와 같은 규칙.
+// 11/2 운영자 "5가지는 어떻게 선택해?" → 1가지·5가지·9장 탭. 5가지 = FiveLooksBox(여러 개 골라 한 번에), 9장 = NineBox.
 // 사진은 생성 때만 생성 API 로(기존 AI 메이크업과 동일). 옛 공유 링크(?c=)는 오늘의 운세로 넘긴다.
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { pickImage } from '../lib/nativePicker'
 import { trackEvent } from '../lib/analytics'
 import type { Element } from '../lib/fortune/saju'
-import { FORTUNE_LOOKS, fortuneLookById, ELEMENT_ACCENT, type FortuneLookId, luckyLookImg } from '../lib/fortune/looks'
+import { FORTUNE_LOOKS, fortuneLookById, ELEMENT_ACCENT, type FortuneLookId, luckyLookImg, LUCKY_BEFORE_IMG } from '../lib/fortune/looks'
 import { loadLast } from '../lib/fortune/state'
 import { generateFortuneMakeup, newJobId, keepPendingLook, takePendingLook, type GenError } from '../lib/fortune/generate'
 import { getFreeStatus, type FreeStatus, type PayChoice } from '../lib/freeStatus'
@@ -28,6 +29,9 @@ import { buildMakeupComposite } from '../lib/makeup/composite'
 import { dataUrlToFile, saveAllImages, saveOneImage, mailImages } from '../lib/makeup/collectionSave'
 import ResultSaveEmail from '../components/makeup/ResultSaveEmail'
 import LongPressSaveViewer from '../components/makeup/LongPressSaveViewer'
+import FiveLooksBox, { FIVE_COUNT, LookModeTabs, type LookMode } from '../components/makeup/FiveLooksBox'
+import { disarmFive } from '../lib/makeup/fiveStore'
+import LookCompare from '../components/makeup/LookCompare'
 
 const lookImg = luckyLookImg
 type Gen = { k: 'idle' } | { k: 'busy' } | { k: 'done'; image: string; tier: 'free' | 'credit'; balance?: number; freeLeft?: number } | { k: 'error'; e: GenError }
@@ -38,6 +42,11 @@ export default function FortuneMakeup() {
   const base = isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'
   const fortuneHref = isEn ? '/en/tools/today-fortune/' : '/tools/today-fortune/'
   const [look, setLook] = useState<FortuneLookId>('wealth')
+  const [mode, setMode] = useState<LookMode>('one')
+  const [picked, setPicked] = useState<FortuneLookId[]>([])
+  const [fiveLocked, setFiveLocked] = useState(false)
+  const [note, setNote] = useState<string | null>(null)
+  const [preview, setPreview] = useState<FortuneLookId>('wealth')
   const [photo, setPhoto] = useState<string | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [gen, setGen] = useState<Gen>({ k: 'idle' })
@@ -64,10 +73,13 @@ export default function FortuneMakeup() {
     const pl = q.get('look')
     const valid = !!pl && FORTUNE_LOOKS.some((l) => l.id === pl)
     if (valid) setLook(pl as FortuneLookId)
+    const qm = q.get('mode')
+    if (qm === '5') setMode('five')
+    if (qm === '9') setMode('nine')
     const scrollToMake = () => setTimeout(() => makeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400)
     if (q.get('nine') === '1') {
       // 9장 결제 복귀 — 셀카·진행분은 NineBox 가 IndexedDB 에서 읽는다
-      trackCheckoutReturn(); setNineResume(true)
+      trackCheckoutReturn(); setNineResume(true); setMode('nine')
       setTimeout(() => document.getElementById('lucky-nine')?.scrollIntoView({ behavior: 'smooth' }), 500)
       return
     }
@@ -112,12 +124,14 @@ export default function FortuneMakeup() {
   const buyFive = async () => {
     keepPendingLook(look); if (photo) keepPendingSelfie(photo)
     setPaying(true); setErr(null)
+    await disarmFive('lucky')
     trackEvent('paywall_cta', { plan: 'starter', from: 'lucky_page' })
     const out = await startPackCheckout({ id: 'starter', credits: LUCKY_PRICE.starter.credits, value: LUCKY_PRICE.starter.usd }, base)
     if (out === 'error') setErr(isEn ? 'Couldn’t open checkout. Please try again.' : '결제창을 열지 못했어요. 다시 눌러 주세요.')
     if (out !== 'redirect') setPaying(false)
   }
 
+  const refreshFree = useCallback(() => { void getFreeStatus().then((s) => { if (s) setFree(s) }) }, [])
   const freeLeft = free?.lucky.left ?? 0
   const credits = free?.balance ?? 0
   // ── 생성 — [생성하기]를 누를 때(9종과 같음). pay = 누른 버튼(무료권/보유 장수). 같은 작업 재시도는 같은 jobId(이중 차감 X) ──
@@ -160,7 +174,24 @@ export default function FortuneMakeup() {
     trackEvent('fortune_photo', { mode })
   }
 
+  const changeMode = (m: LookMode, scrollId?: string) => {
+    if (mode === 'one') setPreview(look)
+    setMode(m); setNote(null)
+    trackEvent('look_mode', { mode: m, store: 'lucky' })
+    if (scrollId) setTimeout(() => document.getElementById(scrollId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+  }
   const pick = (id: FortuneLookId) => {
+    if (mode === 'nine') { document.getElementById('lucky-nine')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
+    if (mode === 'five') {
+      if (fiveLocked) return
+      if (picked.includes(id)) { setPicked(picked.filter((x) => x !== id)); setNote(null); return }
+      if (picked.length >= FIVE_COUNT) { setNote(T.fiveFull); return }
+      const next = [...picked, id]
+      setPicked(next); setNote(null); setPreview(id)
+      trackEvent('lucky_pick', { look: id, mode: 'five' })
+      if (next.length === FIVE_COUNT) setTimeout(() => document.getElementById('five')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+      return
+    }
     if (gen.k === 'busy') return
     setLook(id); setGen({ k: 'idle' })
     trackEvent('lucky_pick', { look: id })
@@ -186,10 +217,12 @@ export default function FortuneMakeup() {
             </div>
             <div className="min-w-0 md:justify-self-end md:w-full md:max-w-sm">
               <ul className="grid grid-cols-3 border border-slate-200 bg-white text-center divide-x divide-slate-200">
-                {T.priceStrip.map(([n, p]) => (
-                  <li key={n} className="px-2 py-3">
-                    <span className="block text-[11px] font-semibold text-slate-500">{n}</span>
-                    <span className="block text-lg font-extrabold tabular-nums">{p}</span>
+                {T.priceStrip.map(([n, p], i) => (
+                  <li key={n}>
+                    <button type="button" onClick={() => changeMode((['one', 'five', 'nine'] as const)[i], 'looks')} className="block w-full px-2 py-3 hover:bg-cream">
+                      <span className="block text-[11px] font-semibold text-slate-500">{n}</span>
+                      <span className="block text-lg font-extrabold tabular-nums">{p}</span>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -205,19 +238,26 @@ export default function FortuneMakeup() {
           <div id="looks" className="mt-12 scroll-mt-20">
             <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-1">
               <h2 className="text-xl md:text-3xl font-extrabold"><span className="mr-2 text-primary tabular-nums">1</span>{T.gridTitle}</h2>
-              <p className="text-xs font-semibold text-slate-500">{T.gridHint}</p>
             </div>
-            <div className="mt-5 grid grid-cols-3 gap-2 md:gap-4" role="radiogroup" aria-label={T.gridTitle}>
+            <LookModeTabs mode={mode} isEn={isEn} onChange={(m) => changeMode(m)} nineLabel={{ ko: '9가지 전부', en: 'All 9' }} />
+            <LookCompare isEn={isEn} active={mode === 'one' ? look : preview}
+              looks={FORTUNE_LOOKS.map((l) => ({ id: l.id, name: isEn ? l.nameEn : l.fortuneKo, thumb: lookImg(l.id), before: LUCKY_BEFORE_IMG, after: lookImg(l.id) }))}
+              onSelect={(id) => { setPreview(id as FortuneLookId); if (mode === 'one' && !busy) { setLook(id as FortuneLookId); setGen({ k: 'idle' }) } trackEvent('look_compare', { store: 'lucky', look: id }) }} />
+            <p className="mt-3 text-sm font-bold text-primary-dark" aria-live="polite">{note ?? (mode === 'one' ? T.gridHint : mode === 'five' ? T.gridHintFive(picked.length) : T.gridHintNine)}</p>
+            <div className="mt-3 grid grid-cols-3 gap-2 md:gap-4" role={mode === 'one' ? 'radiogroup' : 'group'} aria-label={T.gridTitle}>
               {FORTUNE_LOOKS.map((l) => {
-                const on = l.id === look
+                const order = picked.indexOf(l.id)
+                const on = mode === 'nine' || (mode === 'five' ? order >= 0 : l.id === look)
                 return (
-                  <button key={l.id} type="button" role="radio" aria-checked={on} onClick={() => pick(l.id)}
+                  <button key={l.id} type="button" role={mode === 'one' ? 'radio' : 'checkbox'} aria-checked={on} onClick={() => pick(l.id)}
                     className={`group block text-left bg-white border-2 transition-colors ${on ? 'border-primary' : 'border-transparent ring-1 ring-slate-200 hover:ring-navy'}`}>
                     <span className="relative block aspect-[4/5] md:aspect-square overflow-hidden bg-cream">
                       <img src={lookImg(l.id)} alt={isEn ? `${l.nameEn} makeup` : l.nameKo} loading="lazy"
                         className="h-full w-full origin-[50%_30%] scale-[1.12] object-cover object-[50%_22%] transition-transform duration-500 group-hover:scale-[1.18]" />
                       <span className="absolute left-1.5 top-1.5 md:left-3 md:top-3 h-2.5 w-2.5 md:h-3 md:w-3 rounded-full ring-2 ring-white" style={{ background: l.accent }} aria-hidden="true" />
-                      {on && <span className="material-symbols-outlined absolute right-1.5 top-1.5 md:right-3 md:top-3 rounded-full bg-primary-dark p-0.5 text-[16px] md:text-[20px] text-white" aria-hidden="true">check</span>}
+                      {mode === 'five' && order >= 0 ? <span className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-primary-dark text-[13px] font-extrabold text-white md:right-3 md:top-3">{order + 1}</span>
+                        : mode === 'five' ? <span className="absolute right-1.5 top-1.5 h-6 w-6 rounded-full border-2 border-white bg-navy/25 md:right-3 md:top-3" />
+                        : on && <span className="material-symbols-outlined absolute right-1.5 top-1.5 md:right-3 md:top-3 rounded-full bg-primary-dark p-0.5 text-[16px] md:text-[20px] text-white" aria-hidden="true">check</span>}
                     </span>
                     <span className="block p-2 md:p-4">
                       <span className={`block text-[13px] md:text-lg font-extrabold leading-tight ${on ? 'text-primary-dark' : ''}`}>{isEn ? l.nameEn : l.fortuneKo}</span>
@@ -241,7 +281,7 @@ export default function FortuneMakeup() {
           </div>
 
           {/* 2) 고른 운 → 사진 찍거나 넣으면 바로 생성. 결과도 여기(무료/유료로 나누지 않는다) */}
-          <div ref={makeRef} id="make" className="mx-auto mt-10 max-w-xl scroll-mt-20 bg-navy p-5 md:p-7 text-white">
+          <div ref={makeRef} id="make" className={`mx-auto mt-10 max-w-xl scroll-mt-20 bg-navy p-5 md:p-7 text-white ${mode === 'one' ? '' : 'hidden'}`}>
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-on-dark"><span className="mr-1.5 tabular-nums">2</span>{T.makeKicker}</p>
             {paidBack && <p role="status" className="mt-3 bg-white/10 px-3 py-2 text-[13px] font-bold">{paidBack === 'ok' ? (isEn ? `Payment complete. You have ${credits} looks to use.` : `결제가 완료됐어요. 보유 ${credits}장으로 이어서 만들 수 있어요.`) : paidBack === 'wait' ? (isEn ? 'Checking your payment…' : '결제를 확인하는 중이에요…') : (isEn ? 'Your looks are taking longer than usual. Refresh in a minute, or email support@kissinskin.net.' : '충전 반영이 늦어지고 있어요. 1분 뒤 새로고침해 주세요. 계속 안 되면 support@kissinskin.net 으로 알려 주세요.')}</p>}
             {gen.k === 'done' ? (
@@ -323,15 +363,25 @@ export default function FortuneMakeup() {
             <p className="mt-4 text-[11px] text-white/50">{T.aiNote}</p>
           </div>
 
+          {/* 만드는 중에 탭을 바꿔도 끊기지 않게 항상 올려 두고 숨기기만 한다 */}
+          <div className={mode === 'five' ? '' : 'hidden'}>
+            <FiveLooksBox storeKey="lucky" isEn={isEn} base={base} photo={photo} picked={picked} loggedIn={loggedIn} free={free}
+              looks={FORTUNE_LOOKS.map((l) => ({ id: l.id, name: isEn ? l.nameEn : l.fortuneKo, desc: isEn ? l.hookEn : l.hookKo, img: lookImg(l.id), howHref: `${base}${l.id}/` }))}
+              generate={async (id, selfie, jobId) => { const r = await generateFortuneMakeup({ photo: selfie, lookId: id as FortuneLookId, lacking, styleTag: 'lucky5', jobId, pay: 'credit' }); return r.ok ? { ok: true, image: r.image, balance: r.balance } : r }}
+              onPhoto={(m) => void choosePhoto(m)} onClearPhoto={() => { setPhoto(null); clearPendingSelfie() }}
+              onRestore={(ids, selfie, open) => { setPicked(ids as FortuneLookId[]); if (open) { setPhoto(selfie); setMode('five') } }}
+              onLocked={setFiveLocked} onReset={() => setPicked([])} onFree={refreshFree} onLoggedOut={() => setLoggedIn(false)} />
+          </div>
+
           {/* 3) 9장 전부 — $4.99 */}
-          <div className="mx-auto max-w-xl">
+          <div className={`mx-auto max-w-xl ${mode === 'nine' ? '' : 'hidden'}`}>
             <NineBox isEn={isEn} base={base} photo={photo} lacking={lacking} order={FORTUNE_LOOKS.map((l) => l.id)}
               loggedIn={loggedIn} free={free} resume={nineResume} onPhoto={() => void choosePhoto('gallery')}
-              onLogin={() => { if (photo) keepPendingSelfie(photo); window.location.assign('/auth?next=' + encodeURIComponent(base + '?resume=1')) }}
+              onLogin={() => { if (photo) keepPendingSelfie(photo); window.location.assign('/auth?next=' + encodeURIComponent(base + '?resume=1&mode=9')) }}
               onFree={() => getFreeStatus().then(setFree)} />
           </div>
 
-          <PriceTable isEn={isEn} onBuyFive={() => void buyFive()} paying={paying} />
+          <PriceTable isEn={isEn} onMode={(m) => changeMode(m, m === 'nine' ? 'lucky-nine' : 'looks')} />
 
           {/* 오늘의 운세 — 따로 있는 무료 결과(운세). 어떤 운이 필요할지 모르겠는 사람의 입구 */}
           <a href={fortuneHref} onClick={() => trackEvent('lucky_to_fortune', {})}
@@ -355,18 +405,18 @@ export default function FortuneMakeup() {
 
 // ── 가격표 — 2026-10-24: 크레딧 말 없이 장수로만(운영자가 "$2.99 = 1장?"으로 읽음) ──
 // 벤치마크: Lensa(50/100/200장 — 장수와 가격을 한 줄로), Nebula 구독 함정 소송 → "구독·자동 결제 없음"을 같이.
-function PriceTable({ isEn, onBuyFive, paying }: { isEn: boolean; onBuyFive: () => void; paying: boolean }) {
+function PriceTable({ isEn, onMode }: { isEn: boolean; onMode: (m: LookMode) => void }) {
   const per = (usd: number, n: number) => (usd / n).toFixed(2)
   const rows = isEn
     ? [
-        { n: '1 look', price: 'Free', sub: 'Sign-up free pass — 1 lucky look', items: ['Any one of the 9 lucks', 'On your own selfie', 'Before / after'], best: false },
-        { n: `${LUCKY_PRICE.starter.credits} looks`, price: `$${LUCKY_PRICE.starter.usd}`, sub: `$${per(LUCKY_PRICE.starter.usd, LUCKY_PRICE.starter.credits)} per look`, items: ['Pick any lucks you like', 'Also works for the 2026 makeup looks', 'Use them any time'], best: false },
-        { n: 'All 9 lucks', price: `$${LUCKY_PRICE.nine.usd}`, sub: `9 looks · $${per(LUCKY_PRICE.nine.usd, 9)} per look`, items: ['One selfie → all 9 at once', '3×3 board to save & post', 'Every how-to + product links'], best: true },
+        { mode: 'one' as const, cta: 'Pick 1 look', n: '1 look', price: 'Free', sub: 'Sign-up free pass — 1 lucky look', items: ['Any one of the 9 lucks', 'On your own selfie', 'Before / after'], best: false },
+        { mode: 'five' as const, cta: 'Pick 5 looks · $2.99', n: `${LUCKY_PRICE.starter.credits} looks`, price: `$${LUCKY_PRICE.starter.usd}`, sub: `$${per(LUCKY_PRICE.starter.usd, LUCKY_PRICE.starter.credits)} per look`, items: ['Pick any lucks you like', 'Also works for the 2026 makeup looks', 'Use them any time'], best: false },
+        { mode: 'nine' as const, cta: 'Make all 9 · $4.99', n: 'All 9 lucks', price: `$${LUCKY_PRICE.nine.usd}`, sub: `9 looks · $${per(LUCKY_PRICE.nine.usd, 9)} per look`, items: ['One selfie → all 9 at once', '3×3 board to save & post', 'Every how-to + product links'], best: true },
       ]
     : [
-        { n: '1장', price: '무료', sub: '가입 무료권 — 럭키 메이크업 1장', items: ['9가지 운 중 원하는 하나', '내 셀카에 바로', '비포 · 애프터'], best: false },
-        { n: `${LUCKY_PRICE.starter.credits}장`, price: `$${LUCKY_PRICE.starter.usd}`, sub: `장당 $${per(LUCKY_PRICE.starter.usd, LUCKY_PRICE.starter.credits)}`, items: ['원하는 운을 골라서', '2026 메이크업 9룩에도 사용', '쓰고 싶을 때 언제든'], best: false },
-        { n: '9가지 운 전부', price: `$${LUCKY_PRICE.nine.usd}`, sub: `9장 · 장당 $${per(LUCKY_PRICE.nine.usd, 9)}`, items: ['셀카 한 장 → 9장 한 번에', '3×3 모아보기 저장·공유', '9가지 방법 + 제품 링크'], best: true },
+        { mode: 'one' as const, cta: '1가지 고르기', n: '1장', price: '무료', sub: '가입 무료권 — 럭키 메이크업 1장', items: ['9가지 운 중 원하는 하나', '내 셀카에 바로', '비포 · 애프터'], best: false },
+        { mode: 'five' as const, cta: '5가지 고르기 · $2.99', n: `${LUCKY_PRICE.starter.credits}장`, price: `$${LUCKY_PRICE.starter.usd}`, sub: `장당 $${per(LUCKY_PRICE.starter.usd, LUCKY_PRICE.starter.credits)}`, items: ['원하는 운을 골라서', '2026 메이크업 9룩에도 사용', '쓰고 싶을 때 언제든'], best: false },
+        { mode: 'nine' as const, cta: '9가지 전부 만들기 · $4.99', n: '9가지 운 전부', price: `$${LUCKY_PRICE.nine.usd}`, sub: `9장 · 장당 $${per(LUCKY_PRICE.nine.usd, 9)}`, items: ['셀카 한 장 → 9장 한 번에', '3×3 모아보기 저장·공유', '9가지 방법 + 제품 링크'], best: true },
       ]
   return (
     <div id="price" className="mt-14 scroll-mt-20">
@@ -379,10 +429,10 @@ function PriceTable({ isEn, onBuyFive, paying }: { isEn: boolean; onBuyFive: () 
             <p className={`text-sm font-extrabold ${r.best ? 'text-primary-on-dark' : 'text-primary-dark'}`}>{r.n}</p>
             <p className="mt-2 text-4xl font-extrabold leading-none tabular-nums">{r.price}</p>
             <p className={`mt-2 text-xs font-semibold ${r.best ? 'text-white/70' : 'text-slate-500'}`}>{r.sub}</p>
-            <ul className={`mt-4 space-y-1.5 text-sm ${r.best ? 'text-white/90' : 'text-slate-700'}`}>
+            <ul className={`mb-4 mt-4 space-y-1.5 text-sm ${r.best ? 'text-white/90' : 'text-slate-700'}`}>
               {r.items.map((t) => <li key={t} className="flex gap-1.5"><span className={`material-symbols-outlined text-base ${r.best ? 'text-primary-on-dark' : 'text-primary'}`}>check</span>{t}</li>)}
             </ul>
-            {r.n.includes('5') && <button type="button" disabled={paying} onClick={onBuyFive} className="mt-4 w-full bg-primary py-3 text-sm font-bold text-navy disabled:opacity-60">{isEn ? 'Buy 5 looks · $2.99' : '5장 구매 · $2.99'}</button>}
+            <button type="button" onClick={() => onMode(r.mode)} className={`mt-auto w-full py-3 text-sm font-bold ${r.mode === 'one' ? 'border border-navy' : 'bg-primary text-navy'}`}>{r.cta}</button>
           </div>
         ))}
       </div>
@@ -426,6 +476,9 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
   for (const id of order) { const im = items[id]?.image; if (im) images[id] = im }
   const left = order.filter((id) => !images[id])
   const done = left.length === 0
+  // jobId 가 남은 장은 이미 차감됐거나 같은 키로 다시 부르면 추가 차감이 없다 → 새로 낼 장수에서 뺀다.
+  // (예전: 8장 성공·1장 실패·잔액 0 이면 '$4.99로 9장 전부'를 다시 결제하게 했다)
+  const needed = left.filter((id) => !items[id]?.jobId).length
 
   const E: Record<GenError, string> = isEn ? EN.genErr : KO.genErr
   const make = async () => {
@@ -443,7 +496,7 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
       const r = await generateFortuneMakeup({ photo: selfie, lookId: id, lacking: cur.lacking, styleTag: 'lucky9', jobId, pay: 'credit' })
       if (!r.ok) {
         setBusy(null); setMsg(E[r.error])
-        if (r.error !== 'retry') { cur = { ...cur, items: { ...cur.items, [id]: undefined } }; setSt(cur); await saveLucky(cur) }
+        if (r.error !== 'retry' && r.error !== 'unavailable') { cur = { ...cur, items: { ...cur.items, [id]: undefined } }; setSt(cur); await saveLucky(cur) }
         onFree(); return
       }
       cur = { ...cur, items: { ...cur.items, [id]: { jobId, image: r.image } } }
@@ -470,7 +523,7 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
   // 결제 복귀 — 웹훅 충전이 몇 초 늦을 수 있어 잔액이 들어올 때까지 3초마다 다시 읽고, 들어오면 자동 시작
   useEffect(() => {
     if (!resume || autoRef.current || !st || !loggedIn || done) return
-    if (free && credits >= left.length) { autoRef.current = true; void make(); return }
+    if (free && credits >= needed) { autoRef.current = true; void make(); return }
     const t = setTimeout(onFree, 3000)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -572,7 +625,9 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
           )
           : !selfie ? <button type="button" onClick={onPhoto} className={`${btn} bg-navy text-white hover:bg-navy-mid`}>{isEn ? 'Add a selfie to make all 9' : '셀카 올리고 9장 만들기'}</button>
           : loggedIn === false ? <button type="button" onClick={onLogin} className={`${btn} bg-navy text-white hover:bg-navy-mid`}>{isEn ? `Log in to make all 9 — $${LUCKY_PRICE.nine.usd}` : `로그인하고 9장 만들기 — $${LUCKY_PRICE.nine.usd}`}</button>
-          : free && credits >= left.length ? <button type="button" onClick={() => void make()} className={`${btn} bg-primary-dark text-white hover:bg-primary`}>{isEn ? `Make ${left.length === 9 ? 'all 9' : `the last ${left.length}`} — uses ${left.length} of your looks` : `보유 ${left.length}장으로 ${left.length === 9 ? '9장 전부' : `남은 ${left.length}장`} 만들기`}</button>
+          : free && credits >= needed ? <button type="button" onClick={() => void make()} className={`${btn} bg-primary-dark text-white hover:bg-primary`}>{needed === 0
+              ? (isEn ? `Finish the last ${left.length} — no extra charge` : `남은 ${left.length}장 이어서 만들기 (추가 차감 없음)`)
+              : (isEn ? `Make ${left.length === 9 ? 'all 9' : `the last ${left.length}`} — uses ${needed} of your looks` : `보유 ${needed}장으로 ${left.length === 9 ? '9장 전부' : `남은 ${left.length}장`} 만들기`)}</button>
           : <button type="button" disabled={paying || waiting} onClick={() => void pay()} className={`${btn} bg-primary-dark text-white hover:bg-primary disabled:opacity-60`}>
               {waiting ? (isEn ? 'Checking your payment…' : '결제 확인 중…') : paying ? '…' : (isEn ? `Make all 9 — $${LUCKY_PRICE.nine.usd}` : `$${LUCKY_PRICE.nine.usd}로 9장 전부 만들기`)}
             </button>}
@@ -649,7 +704,8 @@ const KO = {
   priceStrip: [['1장', '가입 무료'], ['5장', '$2.99'], ['9가지 운 전부', '$4.99']] as [string, string][],
   noSub: '한 번 결제 · 구독 없음',
   ctaStart: '운 고르기', ctaPrice: '가격 보기',
-  gridTitle: '원하는 운을 고르세요', gridHint: '하나를 누르면 아래에서 바로 만들어요',
+  gridTitle: '몇 가지 만들까요?', gridHint: '하나를 누르면 아래에서 바로 만들어요',
+  gridHintFive: (n: number) => `5가지를 눌러 고르세요 · ${n}/5`, gridHintNine: '9가지 운을 전부 만들어요', fiveFull: '5가지를 모두 골랐어요. 바꾸려면 고른 운을 다시 눌러 빼 주세요.',
   gridNote: '같은 모델에 AI로 입힌 예시예요. 내 셀카로 하면 내 얼굴로 나와요.',
   howtoFree: '메이크업 방법도 무료로 소개해 드립니다', howtoFreeSub: '9가지 모두 페이스 차트로 보는 단계별 방법 + 단계별 제품 링크',
   makeKicker: '셀카 넣고 생성하기',
@@ -679,7 +735,8 @@ const EN: typeof KO = {
   priceStrip: [['1 look', 'Free'], ['5 looks', '$2.99'], ['All 9 lucks', '$4.99']],
   noSub: 'One-time payment · no subscription',
   ctaStart: 'Pick a luck', ctaPrice: 'See pricing',
-  gridTitle: 'Pick the luck you want', gridHint: 'Tap one — make it right below',
+  gridTitle: 'How many looks?', gridHint: 'Tap one — make it right below',
+  gridHintFive: (n: number) => `Tap 5 lucks · ${n}/5`, gridHintNine: 'We’ll make all 9 lucks', fiveFull: 'You’ve picked 5. Tap a picked luck to remove it first.',
   gridNote: 'Examples applied with AI on one model. With your selfie, it’s your face.',
   howtoFree: 'We also show you how to do each look — free', howtoFreeSub: 'Step-by-step face-chart how-tos for all 9, with product links for every step',
   makeKicker: 'Add a selfie & create',

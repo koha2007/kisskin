@@ -236,6 +236,8 @@ for (const look of FORTUNE_LOOKS) {
 
 const LOOK_IMG_V = '20261102d'
 export const luckyLookImg = (id: FortuneLookId) => `/fortune/looks/${id}-after.webp?v=${LOOK_IMG_V}`
+/** 9장 모두 이 모델 원본(scripts/assets/model-lucky-base.webp)에 입힌 결과 — 비교 슬라이더의 비포 */
+export const LUCKY_BEFORE_IMG = `/fortune/looks/before.webp?v=${LOOK_IMG_V}`
 
 export const fortuneLookById = (id: FortuneLookId): FortuneLook =>
   FORTUNE_LOOKS.find((l) => l.id === id) ?? FORTUNE_LOOKS[0]
