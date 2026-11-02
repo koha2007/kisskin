@@ -46,6 +46,9 @@ export default function FortuneMakeup() {
   // 오늘의 운세에서 생년월일을 넣었던 사람이면 부족한 오행을 포인트 색으로(없으면 룩 그대로)
   const [lacking, setLacking] = useState<Element | undefined>(undefined)
   const [nineResume, setNineResume] = useState(false)
+  // 5장·15장 결제 복귀(2026-11-02) — 이 페이지로 돌아와 고르던 운·셀카로 이어 만든다
+  const [paidBack, setPaidBack] = useState<'wait' | 'ok' | 'late' | null>(null)
+  const [paying, setPaying] = useState(false)
   const jobRef = useRef('')
   const makeRef = useRef<HTMLDivElement>(null)
   const T = isEn ? EN : KO
@@ -68,7 +71,8 @@ export default function FortuneMakeup() {
       setTimeout(() => document.getElementById('lucky-nine')?.scrollIntoView({ behavior: 'smooth' }), 500)
       return
     }
-    if (q.get('resume') === '1' || valid) {
+    if (q.get('paid') === '1') { trackCheckoutReturn(); setPaidBack('wait') }
+    if (q.get('resume') === '1' || q.get('paid') === '1' || valid) {
       // 로그인 왕복 · 오늘의 운세에서 셀카를 넣고 온 사람 — 고른 운과 셀카를 이어서
       const ph = takePendingSelfie()
       const lk = takePendingLook()
@@ -88,6 +92,31 @@ export default function FortuneMakeup() {
     }).catch(() => setLoggedIn(false))
     return () => { off = true }
   }, [gen.k])
+
+  useEffect(() => {
+    if (paidBack !== 'wait') return
+    let off = false
+    ;(async () => {
+      for (let i = 0; i < 12 && !off; i++) {
+        const s = await getFreeStatus()
+        if (off) return
+        if (s) setFree(s)
+        if (s && s.balance > 0) { setPaidBack('ok'); return }
+        await new Promise((r) => setTimeout(r, 2500))
+      }
+      if (!off) setPaidBack('late')
+    })()
+    return () => { off = true }
+  }, [paidBack])
+
+  const buyFive = async () => {
+    keepPendingLook(look); if (photo) keepPendingSelfie(photo)
+    setPaying(true); setErr(null)
+    trackEvent('paywall_cta', { plan: 'starter', from: 'lucky_page' })
+    const out = await startPackCheckout({ id: 'starter', credits: LUCKY_PRICE.starter.credits, value: LUCKY_PRICE.starter.usd }, base)
+    if (out === 'error') setErr(isEn ? 'Couldn’t open checkout. Please try again.' : '결제창을 열지 못했어요. 다시 눌러 주세요.')
+    if (out !== 'redirect') setPaying(false)
+  }
 
   const freeLeft = free?.lucky.left ?? 0
   const credits = free?.balance ?? 0
@@ -110,7 +139,8 @@ export default function FortuneMakeup() {
       setGen({ k: 'done', image: r.image, tier: r.tier, balance: r.balance, freeLeft: r.freeLeft })
       trackEvent('fortune_generated', { look, tier: r.tier })
     } else {
-      if (r.error !== 'retry') jobRef.current = ''
+      // retry·unavailable 은 이미 차감됐을 수 있어 jobId 를 유지한다(같은 키 = 추가 차감 없음)
+      if (r.error !== 'retry' && r.error !== 'unavailable') jobRef.current = ''
       setGen({ k: 'error', e: r.error })
       if (r.error === 'login') setLoggedIn(false)
     }
@@ -126,13 +156,13 @@ export default function FortuneMakeup() {
     URL.revokeObjectURL(url)
     if (!small) { setErr(T.badFile); return }
     keepPendingSelfie(small)
-    setPhoto(small); setErr(null); setGen({ k: 'idle' }); jobRef.current = ''
+    setPhoto(small); setErr(null); setGen({ k: 'idle' })
     trackEvent('fortune_photo', { mode })
   }
 
   const pick = (id: FortuneLookId) => {
     if (gen.k === 'busy') return
-    setLook(id); setGen({ k: 'idle' }); jobRef.current = ''
+    setLook(id); setGen({ k: 'idle' })
     trackEvent('lucky_pick', { look: id })
     setTimeout(() => makeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
   }
@@ -213,6 +243,7 @@ export default function FortuneMakeup() {
           {/* 2) 고른 운 → 사진 찍거나 넣으면 바로 생성. 결과도 여기(무료/유료로 나누지 않는다) */}
           <div ref={makeRef} id="make" className="mx-auto mt-10 max-w-xl scroll-mt-20 bg-navy p-5 md:p-7 text-white">
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-on-dark"><span className="mr-1.5 tabular-nums">2</span>{T.makeKicker}</p>
+            {paidBack && <p role="status" className="mt-3 bg-white/10 px-3 py-2 text-[13px] font-bold">{paidBack === 'ok' ? (isEn ? `Payment complete. You have ${credits} looks to use.` : `결제가 완료됐어요. 보유 ${credits}장으로 이어서 만들 수 있어요.`) : paidBack === 'wait' ? (isEn ? 'Checking your payment…' : '결제를 확인하는 중이에요…') : (isEn ? 'Your looks are taking longer than usual. Refresh in a minute, or email support@kissinskin.net.' : '충전 반영이 늦어지고 있어요. 1분 뒤 새로고침해 주세요. 계속 안 되면 support@kissinskin.net 으로 알려 주세요.')}</p>}
             {gen.k === 'done' ? (
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <figure><img src={photo ?? ''} alt="" className="aspect-[3/4] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold text-white/70">{T.before}</figcaption></figure>
@@ -236,7 +267,7 @@ export default function FortuneMakeup() {
               {busy ? (
                 <p className="bg-white/10 py-4 text-center text-sm font-bold">{T.generating}</p>
               ) : gen.k === 'error' && gen.e === 'topup' ? (
-                <a href="/analysis/?topup=1" onClick={() => keepPendingLook(look)} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.topup}</a>
+                <button type="button" disabled={paying} onClick={() => void buyFive()} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.topup}</button>
               ) : gen.k === 'done' ? (
                 <>
                   {/* 이미지 저장 · 메일로 받기 — 9종 결과(MakeupResult)와 같은 합성 이미지·같은 경로 */}
@@ -267,7 +298,7 @@ export default function FortuneMakeup() {
                       <p className="text-center text-[11px] text-white/70">{T.loginNote}</p>
                     </>
                   ) : none ? (
-                    <a href="/analysis/?topup=1" onClick={() => keepPendingLook(look)} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.topup}</a>
+                    <button type="button" disabled={paying} onClick={() => void buyFive()} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.topup}</button>
                   ) : free && freeLeft > 0 && credits > 0 ? (
                     <div className="grid grid-cols-2 gap-2">
                       <button type="button" disabled={!photo} onClick={() => void generate('free')} className={`${btn} bg-primary-dark text-white hover:bg-primary`}>{T.useFree}</button>
@@ -300,7 +331,7 @@ export default function FortuneMakeup() {
               onFree={() => getFreeStatus().then(setFree)} />
           </div>
 
-          <PriceTable isEn={isEn} />
+          <PriceTable isEn={isEn} onBuyFive={() => void buyFive()} paying={paying} />
 
           {/* 오늘의 운세 — 따로 있는 무료 결과(운세). 어떤 운이 필요할지 모르겠는 사람의 입구 */}
           <a href={fortuneHref} onClick={() => trackEvent('lucky_to_fortune', {})}
@@ -324,7 +355,7 @@ export default function FortuneMakeup() {
 
 // ── 가격표 — 2026-10-24: 크레딧 말 없이 장수로만(운영자가 "$2.99 = 1장?"으로 읽음) ──
 // 벤치마크: Lensa(50/100/200장 — 장수와 가격을 한 줄로), Nebula 구독 함정 소송 → "구독·자동 결제 없음"을 같이.
-function PriceTable({ isEn }: { isEn: boolean }) {
+function PriceTable({ isEn, onBuyFive, paying }: { isEn: boolean; onBuyFive: () => void; paying: boolean }) {
   const per = (usd: number, n: number) => (usd / n).toFixed(2)
   const rows = isEn
     ? [
@@ -351,6 +382,7 @@ function PriceTable({ isEn }: { isEn: boolean }) {
             <ul className={`mt-4 space-y-1.5 text-sm ${r.best ? 'text-white/90' : 'text-slate-700'}`}>
               {r.items.map((t) => <li key={t} className="flex gap-1.5"><span className={`material-symbols-outlined text-base ${r.best ? 'text-primary-on-dark' : 'text-primary'}`}>check</span>{t}</li>)}
             </ul>
+            {r.n.includes('5') && <button type="button" disabled={paying} onClick={onBuyFive} className="mt-4 w-full bg-primary py-3 text-sm font-bold text-navy disabled:opacity-60">{isEn ? 'Buy 5 looks · $2.99' : '5장 구매 · $2.99'}</button>}
           </div>
         ))}
       </div>

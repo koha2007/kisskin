@@ -10,7 +10,7 @@ import { BUILD_DATE, BUILD_MONTH_KO, BUILD_MONTH_EN } from './lib/buildDate'
 // 않게 고른다. 썸네일은 각 룩의 실제 결과(after)를 쓴다.
 
 const PAGE_PATHS: Record<string, string> = {
-  home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/',
+  home: '/', analysis: '/makeup/', terms: '/terms/', privacy: '/privacy/',
   refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/',
 }
 
@@ -23,7 +23,8 @@ interface HomePageProps {
 function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps) {
   const onNavigate = (page: string) => {
     if (onNavigateProp) { onNavigateProp(page); return }
-    const path = PAGE_PATHS[page] || '/'
+    let path = PAGE_PATHS[page] || '/'
+    if (page === 'analysis' && window.location.pathname.startsWith('/en')) path = '/en/makeup/'
     // location.assign(): href= 대입과 동작 동일하지만 메서드 호출이라
     // eslint react-hooks/immutability(전역 객체 속성 대입 금지)에 걸리지 않는다.
     window.location.assign(path)
@@ -116,7 +117,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
           {/* Unified site nav — must match ToolsNav in src/components/ToolsLayout.tsx */}
           <div className="hidden md:flex items-center gap-5">
             <a href={isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Lucky Makeup' : '럭키 메이크업'}</a>
-            <a href="#tools-showcase" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
+            <a href="#free" className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('common.freeTools')}</a>
             <a href={isEn ? '/en/looks/' : '/looks/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'How-To' : '메이크업 방법'}</a>
             <a href={isEn ? '/en/class/' : '/class/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{isEn ? 'Class' : '메이크업 클래스'}</a>
             <a href={isEn ? '/en/news/' : '/news/'} className="text-sm font-medium text-slate-200 hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a>
@@ -543,8 +544,8 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
             <div className="flex flex-col gap-3">
               <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">{t('home.footer.service')}</h3>
               <ul className="flex flex-col gap-2 text-slate-300 text-sm">
-                <li><a href="/analysis/" className="hover:text-primary transition-colors cursor-pointer">{t('tools.nav.aiMakeup')}</a></li>
-                <li><a href="#how-to" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
+                <li><a href={isEn ? '/en/makeup/' : '/makeup/'} className="hover:text-primary transition-colors cursor-pointer">{t('tools.nav.aiMakeup')}</a></li>
+                <li><a href={isEn ? '/en/looks/' : '/looks/'} className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.styles')}</a></li>
                 <li><a href="#demo" className="hover:text-primary transition-colors cursor-pointer">{t('home.footer.howTo')}</a></li>
                 <li><a href={toolHref('/tools/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Free Tools' : '무료 도구 모음'}</a></li>
                 <li><a href={toolHref('/tools/makeup-mbti/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup MBTI' : '메이크업 MBTI'}</a></li>

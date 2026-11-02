@@ -1149,4 +1149,22 @@
   <url><loc>https://kissinskin.net/en/class/glass-skin-makeup/</loc><lastmod>2026-10-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/glass-skin-makeup/" /></url>
   <url><loc>https://kissinskin.net/class/eyebrow-shape-face-shape/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
   <url><loc>https://kissinskin.net/en/class/eyebrow-shape-face-shape/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
+  <url>
+    <loc>https://kissinskin.net/makeup/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/makeup/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/makeup/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/makeup/" />
+  </url>
+  <url>
+    <loc>https://kissinskin.net/en/makeup/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/makeup/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/makeup/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/makeup/" />
+  </url>
 </urlset>

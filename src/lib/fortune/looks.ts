@@ -216,16 +216,25 @@ export const FORTUNE_LOOKS: FortuneLook[] = [
 
 // 예시 사진 — 2026-10-24 JJ 헤어 6종으로 6장 재생성(직업·합격·연애·인연·건강·해외). 파일명이 고정이라
 // 이미지를 바꿀 때마다 V 를 올릴 것(브라우저 캐시 4시간 — src/lib/makeup/lookImages.ts 와 같은 이유).
-// 2026-11-02 새 모델 생성에서 민낯과 차이가 가장 작았던 5종(측정값 기준) — 작은 카드에서도 보이게 강도를 올린다.
-// 예시 사진과 실제 사용자 결과가 같은 지시문을 쓴다(§8).
-const STRONGER_LOOKS: FortuneLookId[] = ['reunion', 'love', 'marriage', 'exam', 'career']
+// 2026-11-02 운영자: "올림머리 한 명으로 확 차이 나게, 머리색도 같이 변경". 룩마다 다른 색 계열·부위를
+// 주인공으로 잡고 머리색은 룩별 hair 를 그대로 쓴다. 예시 사진과 실제 사용자 결과가 같은 지시문을 쓴다(§8).
+const BOLD = ' Apply this at full editorial intensity with saturated, opaque colour so it is unmistakable even in a small thumbnail and completely different from a bare face — while keeping the exact original eye, nose and lip shapes, face shape and expression.'
+const DISTINCT: Record<FortuneLookId, string> = {
+  wealth: 'the signature colour is LIQUID GOLD: metallic gold foil eyeshadow packed across the whole eyelid to the crease, a bright gold highlighter stripe down the nose bridge with a glowing gold point on the nose tip (the "wealth palace"), a gold sheen on the centre of the forehead and tops of the cheekbones, warm bronze blush, and a shiny coral-gold lip.',
+  love: 'the signature colour is ROSE PINK: a large, deep rose-pink blush across the centre of both cheeks, pink shimmer eyeshadow on the lids, a bright pearly highlight along the under-eye "aegyo-sal" (the love palace) with a soft shadow line beneath it, fluttery black lashes, and very glossy hot-pink jelly lips.',
+  marriage: 'the signature colour is LILAC MAUVE: lilac-mauve eyeshadow across the lids blended outward past the eye corners toward the temples (the spouse palace) with a long soft elongated liner, a pearly glow beside the outer eye corners, mauve blush swept up to the temples, and a satin mauve-rose lip.',
+  reunion: 'the signature is a CHERRY-RED GRADIENT LIP: a deep cherry-red stain concentrated in the centre of the lips and blurred outward, matching cherry-peach blush high on the cheeks and lightly across the nose, a soft peach wash on the lids, and translucent dewy skin.',
+  career: 'the signature is a SHARP POWER FACE: a thick black winged eyeliner with a crisp long wing, strong dark angled brows, matte charcoal-taupe eyeshadow in the crease, clear contour under the cheekbones and along the jaw, a clean bright glow on the centre of the forehead (the career palace), and a matte deep brick-red lip with crisp edges.',
+  exam: 'the signature is BRIGHT PEARL EYES: a luminous white-pearl eyeshadow across the lids and very bright pearl on the inner eye corners, a fine black tightline with long curled lashes, strong neat brows, a clean bright highlight between the brows (the life palace), a fresh apricot blush and a clean bright coral lip.',
+  health: 'the signature colour is STRAWBERRY RED: a vivid strawberry-red flush across both cheeks and over the nose bridge as if just back from a run, a matching strawberry stain on the lids, radiant wet-looking glow on the high points of the face, a brightened nose root (the health palace), and a juicy strawberry-red lip.',
+  popularity: 'the signature colour is SUNNY TANGERINE: a big round tangerine-orange blush on the apples of the cheeks, sparkling peach-orange glitter shimmer on the lids, soft shading along the jaw (the friendship palace), and a glossy bright orange lip with liner at the outer corners so the lips look softly upturned without changing the mouth shape.',
+  travel: 'the signature colour is COBALT BLUE: a thick saturated vivid cobalt-blue winged eyeliner with a long sharp wing and matching cobalt under the outer lower lashes, a luminous highlight on the upper outer forehead and temples (the travel palace), a sun-kissed bronze flush across the cheeks and nose, and a glossy terracotta-nude lip.',
+}
 for (const look of FORTUNE_LOOKS) {
-  if (STRONGER_LOOKS.includes(look.id)) {
-    look.prompt += ' Make the eye, cheek and lip colours clearly visible at a glance even in a small thumbnail: visibly more saturated and defined than an everyday natural look, unmistakably made-up, never identical to the bare face — while keeping the exact original lip shape and face.'
-  }
+  look.prompt = DISTINCT[look.id] + BOLD
 }
 
-const LOOK_IMG_V = '20261102b'
+const LOOK_IMG_V = '20261102d'
 export const luckyLookImg = (id: FortuneLookId) => `/fortune/looks/${id}-after.webp?v=${LOOK_IMG_V}`
 
 export const fortuneLookById = (id: FortuneLookId): FortuneLook =>

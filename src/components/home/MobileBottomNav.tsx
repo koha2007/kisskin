@@ -12,7 +12,7 @@ export default function MobileBottomNav() {
 
   const items = [
     { key: 'home', icon: 'home', label: t('nav.home'), href: isEn ? '/en/' : '/', active: path === '/' || path === '/en/' },
-    { key: 'diagnose', icon: 'auto_awesome', label: t('nav.diagnose'), href: '/analysis/', active: path.startsWith('/analysis') },
+    { key: 'diagnose', icon: 'auto_awesome', label: t('nav.diagnose'), href: isEn ? '/en/makeup/' : '/makeup/', active: path.startsWith('/analysis') || path.includes('/makeup/') },
     { key: 'results', icon: 'grid_view', label: t('nav.results'), href: '/mypage/', active: path.startsWith('/mypage') },
     { key: 'my', icon: 'person', label: t('nav.my'), href: user ? '/mypage/' : '/auth/', active: path.startsWith('/auth') },
   ]
