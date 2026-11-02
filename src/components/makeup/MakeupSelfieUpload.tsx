@@ -103,7 +103,7 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
                 </>
               )}
             </span>
-            <span className="shrink-0 px-3 py-1.5 text-[12px] font-extrabold" style={{ background: 'rgba(235,71,99,1)' }}>
+            <span className="shrink-0 px-3 py-1.5 text-[12px] font-extrabold" style={{ background: 'rgba(239, 77, 160,1)' }}>
               {isEn ? 'Log in' : '로그인'}
             </span>
           </a>
@@ -129,7 +129,7 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
           <div className="mt-4 flex items-center gap-3 px-3 py-2.5" style={surfaceStyle}>
             <img src={lookThumb('autumn-berry', 'before')} alt={isEn ? 'Example selfie' : '예시 셀카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover" />
             <span className="material-symbols-outlined text-white/50 text-lg shrink-0" aria-hidden="true">arrow_forward</span>
-            <img src={lookThumb('autumn-berry')} alt={isEn ? 'Example result — Autumn Berry Mocha' : '예시 결과 — 가을 베리 모카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover ring-2 ring-[rgba(235,71,99,0.9)]" />
+            <img src={lookThumb('autumn-berry')} alt={isEn ? 'Example result — Autumn Berry Mocha' : '예시 결과 — 가을 베리 모카'} width={52} height={52} className="h-[52px] w-[52px] shrink-0 rounded-full object-cover ring-2 ring-[rgba(239, 77, 160,0.9)]" />
             <span className="min-w-0 text-[12px] leading-snug text-white/75 break-keep">
               <span className="block font-extrabold text-white">{isEn ? 'A selfie like this → this' : '이런 셀카면 → 이렇게'}</span>
               {isEn ? 'Front-facing, bright, no hat. Example model is AI-generated.' : '정면·밝은 곳·모자 없이. 예시 모델은 AI 생성 이미지예요.'}

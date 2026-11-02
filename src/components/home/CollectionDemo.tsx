@@ -9,7 +9,6 @@
 //
 // 화면에 들어올 때만 받아서 재생(preload=none) — 홈 첫 로딩에 330KB 를 얹지 않는다.
 import { useEffect, useRef } from 'react'
-import SectionHeader from './SectionHeader'
 import { MAKEUP_OFFER } from '../../lib/makeup/offer'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
@@ -49,54 +48,36 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
   }, [lang])
 
   const steps = isEn ? STEPS_EN : STEPS_KO
+  // 2026-11-02 개편: 작은 영상(왼쪽) + 3단계(오른쪽). 모바일은 단계 제목만, 설명은 PC 에서만.
   return (
-    <section id="demo" className="py-16 md:py-24 bg-white scroll-mt-16" aria-labelledby="demo-title">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          titleId="demo-title"
-          eyebrow={isEn ? MAKEUP_OFFER.timeEn : MAKEUP_OFFER.timeKo}
-          title={isEn ? 'Which look suits you? Try all 9 and see.' : '어울리는 룩, 다 해 보면 보여요'}
-        />
-        {/* 모바일: 영상 → 단계·버튼 / PC: 왼쪽 단계 · 오른쪽 영상 */}
-        <div className="max-w-4xl mx-auto grid md:grid-cols-[1fr_auto] gap-x-16 gap-y-10 items-center">
-          <div className="order-2 md:order-1">
-            <ol className="space-y-5">
-              {steps.map((s, i) => (
-                <li key={s.t} className="flex gap-4">
-                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-extrabold text-white">{i + 1}</span>
-                  <span>
-                    <span className="block text-base md:text-lg font-extrabold text-navy">{s.t}</span>
-                    <span className="mt-1 block text-sm text-slate-600 leading-relaxed break-keep">{s.d}</span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-8 flex flex-col sm:flex-row gap-2">
-              <a href="/analysis/?collection=new" onClick={() => gtagEvent('collection_entry', { from: 'home_demo' })}
-                className="inline-flex items-center justify-center gap-1.5 bg-navy px-6 py-3.5 text-sm font-bold text-white hover:bg-navy-mid transition-colors">
-                {isEn ? 'Get my 9 looks · $4.99' : '9룩 전부 받기 · $4.99'}
-                <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </a>
-              <a href="/analysis/" className="inline-flex items-center justify-center border border-navy px-6 py-3.5 text-sm font-bold text-navy hover:bg-navy/5 transition-colors">
-                {isEn ? 'One look — first one free' : '한 룩만 · 첫 1룩 무료'}
-              </a>
-            </div>
-            <p className="mt-3 text-[12px] text-slate-500 break-keep">{isEn ? MAKEUP_OFFER.priceEn : MAKEUP_OFFER.priceKo}</p>
-            <p className="mt-1 text-[12px] text-slate-500 break-keep">{isEn ? MAKEUP_OFFER.freeEn : MAKEUP_OFFER.freeKo}</p>
+    <section id="demo" className="bg-cream scroll-mt-16 text-navy" aria-labelledby="demo-title">
+      <div className="mx-auto flex max-w-[1120px] items-center gap-3.5 px-5 py-6 md:gap-16 md:px-4 md:py-11">
+        <figure className="w-[132px] shrink-0 md:w-[250px]">
+          <div className="rounded-[28px] bg-navy p-1.5">
+            <video ref={ref} poster={`/demo/collection-${lang}.webp?v=20261102`} muted loop playsInline controls preload="none" width={390} height={844}
+              aria-label={isEn ? 'Screen recording: creating a 9-look collection from one selfie' : '화면 녹화: 셀카 한 장으로 9룩 컬렉션 만들기'}
+              className="block aspect-[390/844] w-full rounded-[22px] bg-navy object-cover" />
           </div>
-
-          <figure className="order-1 md:order-2 mx-auto w-[240px] md:w-[280px]">
-            <div className="rounded-[2rem] bg-navy p-2 shadow-2xl shadow-navy/25">
-              <video ref={ref} poster={`/demo/collection-${lang}.webp?v=20261102`} muted loop playsInline preload="none" width={390} height={844}
-                aria-label={isEn ? 'Screen recording: creating a 9-look collection from one selfie' : '화면 녹화: 셀카 한 장으로 9룩 컬렉션 만들기'}
-                className="block w-full aspect-[390/844] rounded-[1.6rem] bg-navy object-cover" />
-            </div>
-            <figcaption className="mt-3 text-center text-[11px] leading-relaxed text-slate-400 break-keep">
-              {isEn
-                ? 'Real site screens. The model is AI-generated; results are the tool’s actual output on that photo.'
-                : '실제 사이트 화면이에요. 모델은 AI 생성 이미지, 결과는 그 사진에 도구를 실제로 돌린 출력이에요.'}
-            </figcaption>
-          </figure>
+          <figcaption className="mt-2 text-center text-[11.5px] leading-snug break-keep">
+            {isEn ? 'Real site screens. The model is AI-generated.' : '실제 사이트 화면이에요. 모델은 AI 생성 이미지예요.'}
+          </figcaption>
+        </figure>
+        <div className="flex min-w-0 flex-1 flex-col gap-3 md:gap-5">
+          <div className="flex flex-col items-start gap-1.5">
+            <h2 id="demo-title" className="rounded-full bg-primary px-3 py-0.5 text-xs font-extrabold md:text-[13px]">{isEn ? 'How it works' : '사용법'}</h2>
+            <p className="text-xl font-extrabold leading-tight tracking-[-0.03em] md:text-[34px] break-keep">{isEn ? MAKEUP_OFFER.timeEn : MAKEUP_OFFER.timeKo}</p>
+          </div>
+          <ol className="flex flex-col gap-2.5 md:gap-3.5">
+            {steps.map((s, i) => (
+              <li key={s.t} className="flex gap-2 md:gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy text-xs font-extrabold text-white md:h-[30px] md:w-[30px] md:text-sm">{i + 1}</span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-extrabold leading-snug md:text-base break-keep">{s.t}</span>
+                  <span className="mt-0.5 hidden text-[13px] leading-normal md:block break-keep">{s.d}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

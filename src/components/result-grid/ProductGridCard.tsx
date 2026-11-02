@@ -27,7 +27,7 @@ const btn = 'flex items-center justify-center gap-1.5 w-full text-[12px] font-bo
 
 export function ProductGridCard({
   item,
-  accent = '#d8503c',
+  accent = '#ef4da0',
   pageType,
   pageSlug,
   span,

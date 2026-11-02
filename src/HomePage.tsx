@@ -1,35 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useI18n } from './i18n/I18nContext'
 import { useAuth } from './hooks/useAuth'
-import ToolCard from './components/ToolCard'
-import SectionHeader from './components/home/SectionHeader'
-import CollectionDemo from './components/home/CollectionDemo'
-import RealPersonSection from './components/home/RealPersonSection'
-import HomeFortune from './components/home/HomeFortune'
-import DnaProgress from './components/beauty-dna/DnaProgress'
-import HomeContentSections from './components/HomeContentSections'
 import { EmailSubscribe } from './components/EmailSubscribe'
 import MobileBottomNav from './components/home/MobileBottomNav'
-import BeforeAfterSlider from './components/makeup/BeforeAfterSlider'
-import { MAKEUP_STYLES, type MakeupStyleId } from './lib/makeup/styles'
-import { LOOK_HERO, lookThumb } from './lib/makeup/lookImages'
-import { luckyLookImg } from './lib/fortune/looks'
-import { trackEvent } from './lib/analytics'
-import { TOOL_CARD_IMAGES } from './lib/toolCardImages'
-import { useBeautyDna } from './hooks/useBeautyDna'
-import { DNA_FIELDS, type DnaField } from './lib/beauty-dna/types'
+import HomeServices from './components/home/HomeServices'
 import { BUILD_DATE, BUILD_MONTH_KO, BUILD_MONTH_EN } from './lib/buildDate'
-
-// 룩 이름 — 버튼 문구·동그라미 라벨용. subEn 은 대문자 표기라 여기선 사람이 읽는 꼴로.
-const LOOK_NAME_KO = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.nameKo])) as Record<MakeupStyleId, string>
-const LOOK_NAME_EN = Object.fromEntries(MAKEUP_STYLES.map((s) => [s.id, s.subEn.toLowerCase().replace(/(^|[\s-])\S/g, (c) => c.toUpperCase()).replace('K-pop', 'K-Pop')])) as Record<MakeupStyleId, string>
-
-const DNA_PREVIEW: Record<DnaField, string> = {
-  personalColor: TOOL_CARD_IMAGES.personalColor,
-  faceShape: TOOL_CARD_IMAGES.faceShape,
-  perfume: TOOL_CARD_IMAGES.perfume,
-  mbti: TOOL_CARD_IMAGES.mbti,
-}
 
 // 히어로에서 "완성 예시" 로 먼저 보여줄 룩 4종 — 톤(내추럴/블러쉬/눈/아이돌)이 서로 겹치지
 // 않게 고른다. 썸네일은 각 룩의 실제 결과(after)를 쓴다.
@@ -55,7 +30,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   }
 
   const { user: authUser } = useAuth()
-  const { dna } = useBeautyDna()
   const user = userProp ?? authUser
 
   const { t, locale, setLocale } = useI18n()
@@ -72,10 +46,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
   // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
-  // ── 히어로 데모 ── 기본은 가을 베리 모카(2026-11-02 운영자 선택). 사용자가 직접 고르면(baPicked)
-  // 주 버튼이 그 룩으로 바로 가는 링크·문구로 바뀐다.
-  const [baLook, setBaLook] = useState<MakeupStyleId>('autumn-berry')
-  const [baPicked, setBaPicked] = useState(false)
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
   // structured data always matches the visible text in the active language.
   const homeFaq = isEn
@@ -127,7 +97,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         .animate-fade-in-up-delay { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
         .animate-fade-in-up-delay2 { animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
         .shimmer-text {
-          background: linear-gradient(90deg, #eb4763, #e0a63c, #eb4763);
+          background: linear-gradient(90deg, #ef4da0, #e0a63c, #ef4da0);
           background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -185,7 +155,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
               {isEn ? 'Credits' : '충전하기'}
             </a>
             <button
-              className="hidden sm:flex bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
+              className="hidden sm:flex bg-primary-dark hover:bg-primary-dark text-white px-5 py-2 rounded-md text-sm font-bold transition-colors items-center gap-1.5"
               onClick={() => onNavigate('analysis')}
             >
               {t('tools.nav.aiMakeup')}
@@ -287,7 +257,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                     onNavigate('analysis')
                     setMobileMenuOpen(false)
                   }}
-                  className="w-full bg-primary hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                  className="w-full bg-primary-dark hover:bg-primary-dark transition-colors text-white py-3 rounded-md text-sm font-bold inline-flex items-center justify-center gap-1.5"
                 >
                   {t('tools.nav.aiMakeup')}
                 </button>
@@ -298,327 +268,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       </nav>
 
       <main>
-      {/* ── 히어로 ── 2026-10-18 대개편 (docs/REDESIGN_BENCHMARK_2026-10.md)
-          이전: 버튼 5개(무료 진단·예시 보기·셀카 링크·$4.99·첫 1회 무료) + 작은 슬라이더 + 9칸 그리드.
-          홈 진입자의 90%가 첫 화면만 본다(Clarity: 45% 지점 도달 PC 9%·모바일 10%)는 데서 출발해
-          Remini·Lensa 구조로 바꿨다 — 큰 제목 → 버튼 하나 → 직접 만져 보는 데모.
-          · 주 버튼 = "내 얼굴로 해 보기" 하나. 고른 룩이 있으면 그 룩으로 바로 간다.
-          · $4.99 9룩 컬렉션은 바로 아래 시연 영상 섹션이 맡는다(가격은 첫 화면에서 뺀다).
-          · 셀카가 부담스러운 사람용 무료 진단은 버튼이 아니라 글자 링크 한 줄로.
-          · 룩 고르기 = 인스타 스토리식 동그라미 9개(얼굴 확대 썸네일, 192px 경량본).
-          · 2026-10-29 운영자 "럭키 메이크업도 메인으로": 주 버튼 하나 → **같은 크기의 두 문**(AI 메이크업 9룩 · 럭키 메이크업 9운).
-            어느 쪽을 더 누르는지 GA4 로 비교한다(home_hero_primary vs home_hero_lucky).
-          GA4: select_promotion creative_slot = home_hero_primary / home_hero_lucky / home_hero_quiz / home_hero_look / home_hero_fortune. */}
-      <section className="relative overflow-hidden bg-cream" aria-labelledby="hero-title">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(at 85% 0%, rgba(235, 71, 99, 0.10) 0px, transparent 50%), radial-gradient(at 0% 100%, rgba(7, 9, 83, 0.05) 0px, transparent 45%)' }}
-        />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 md:py-20 grid md:grid-cols-[1.15fr_0.85fr] gap-8 md:gap-12 lg:gap-16 items-center">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <p className="animate-fade-in-up text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">
-              {t('home.hero.badge')}
-            </p>
-            {/* 2026-10-18 운영자: 헤드라인을 글로벌 사례처럼 — "사보기 전에, 내 얼굴에 발라본다"(기능 설명) →
-                "셀카 한 장, 아홉 명의 나."(결과·정체성). 실측: Rhode "Edited, efficacious, intentional." ·
-                Lensa "Create a feed worth following." · Photoroom "Sell at first sight" — 3~6단어, 결과를 말한다.
-                예전 문구의 뜻("사기 전에 발라 본다")은 부제로 옮겼다. */}
-            <h1
-              id="hero-title"
-              className="animate-fade-in-up mt-4 md:mt-6 text-[2.9rem] sm:text-[3.4rem] md:text-[4.4rem] lg:text-[5.6rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-navy break-keep"
-            >
-              {t('home.hero.title1')}<br />
-              <span className="text-primary">{t('home.hero.title2')}</span>
-            </h1>
-            <p className="animate-fade-in-up-delay mt-4 md:mt-7 text-[15px] md:text-lg text-slate-600 max-w-md leading-relaxed break-keep">
-              {isEn
-                ? 'See K-beauty looks on your own face before you buy — or wear the luck you want. Nine looks from one selfie, still you.'
-                : '사기 전에 내 얼굴에 먼저 발라 보세요. 셀카 한 장으로 K-뷰티 9룩, 또는 원하는 운을 담은 럭키 메이크업 9가지 — 다른 사람이 아니라 나.'}
-            </p>
-            {/* 두 문 — 같은 크기·같은 무게. 왼쪽 = AI 메이크업(고른 룩이 있으면 그 룩으로), 오른쪽 = 럭키 메이크업 */}
-            <div className="animate-fade-in-up-delay2 mt-6 md:mt-9 grid w-full max-w-xl grid-cols-2 gap-2.5 md:gap-3">
-              <a
-                href={baPicked ? `/analysis/?style=${baLook}` : '/analysis/'}
-                onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_primary', promotion_id: baPicked ? baLook : 'none' })}
-                className="group flex min-h-[76px] md:min-h-[88px] items-center gap-2.5 md:gap-3 rounded-2xl bg-primary-dark hover:bg-navy p-2.5 md:p-3.5 pr-3 text-left text-white shadow-lg shadow-primary/25 transition-colors"
-              >
-                <img src={lookThumb(baLook)} alt="" width={48} height={48} decoding="async" className="h-11 w-11 md:h-14 md:w-14 shrink-0 rounded-full border-2 border-white/70 object-cover" />
-                <span className="min-w-0">
-                  <span className="block text-[15px] md:text-lg font-extrabold leading-tight">{isEn ? 'AI Makeup' : 'AI 메이크업'}</span>
-                  <span className="mt-0.5 block text-[11.5px] md:text-[13px] font-semibold leading-snug text-white/85 break-keep">
-                    {baPicked ? (isEn ? 'This look on my face' : '이 룩, 내 얼굴로') : (isEn ? '9 K-beauty looks' : 'K-뷰티 9룩 체험')}
-                  </span>
-                </span>
-              </a>
-              <a
-                href={isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'}
-                onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_lucky' })}
-                className="group flex min-h-[76px] md:min-h-[88px] items-center gap-2.5 md:gap-3 rounded-2xl bg-navy hover:bg-navy-mid p-2.5 md:p-3.5 pr-3 text-left text-white shadow-lg shadow-navy/25 transition-colors"
-              >
-                <img src={luckyLookImg('wealth')} alt="" width={48} height={48} decoding="async" className="h-11 w-11 md:h-14 md:w-14 shrink-0 rounded-full border-2 border-white/70 object-cover object-[50%_22%]" />
-                <span className="min-w-0">
-                  <span className="block text-[15px] md:text-lg font-extrabold leading-tight">{isEn ? 'Lucky Makeup' : '럭키 메이크업'}</span>
-                  <span className="mt-0.5 block text-[11.5px] md:text-[13px] font-semibold leading-snug text-white/85 break-keep">
-                    {isEn ? 'Wear the luck you want' : '원하는 운을 내 얼굴에'}
-                  </span>
-                </span>
-              </a>
-            </div>
-            <p className="animate-fade-in-up-delay2 mt-3 text-xs font-medium text-slate-500">
-              {isEn ? 'Sign up: 1 makeup look + 1 lucky look free · No card · Photo deleted after processing' : '가입하면 AI 메이크업 1장 + 럭키 1장 무료 · 카드 등록 없음 · 사진은 처리 후 바로 삭제'}
-            </p>
-            <a
-              href={toolHref('/tools/beauty-dna/')}
-              onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_quiz' })}
-              className="animate-fade-in-up-delay2 mt-4 md:mt-6 inline-flex items-center gap-1 text-[13px] md:text-sm font-bold text-navy underline decoration-navy/25 underline-offset-4 hover:decoration-navy"
-            >
-              {isEn ? 'No selfie? Start with 4 free 1-minute quizzes' : '셀카가 부담되면 — 1분 무료 진단 4가지부터'}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-            {/* 2026-10-24 운영자: 첫 화면에서도 오늘의 운세가 보이게 — 글자 링크 한 줄(바로 아래 남색 카드와 같은 목적지) */}
-            <a
-              href={isEn ? '/en/tools/today-fortune/' : '/tools/today-fortune/'}
-              onClick={() => trackEvent('select_promotion', { creative_slot: 'home_hero_fortune' })}
-              className="animate-fade-in-up-delay2 mt-2 inline-flex items-center gap-1 text-[13px] md:text-sm font-bold text-primary-dark underline decoration-primary/30 underline-offset-4 hover:decoration-primary-dark"
-            >
-              <span className="material-symbols-outlined text-base">wb_sunny</span>
-              {isEn ? 'Today’s fortune — just your birth date' : '오늘의 운세 보기 — 생년월일만 넣으면 끝'}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-          </div>
+      {/* 2026-11-02 개편 — 두 문 → 사용법 영상 → 유료 → 무료 (HomeServices) */}
+      <HomeServices isEn={isEn} />
 
-          {/* 데모 — 슬라이더 + 룩 동그라미. 고르면 제자리에서 바뀌고 위 버튼 문구도 그 룩으로 바뀐다. */}
-          <div className="animate-fade-in-up-delay w-full max-w-[300px] sm:max-w-[360px] md:max-w-[400px] lg:max-w-[440px] mx-auto">
-            <div className="relative">
-              <BeforeAfterSlider key={baLook} beforeSrc={LOOK_HERO[baLook].before} afterSrc={LOOK_HERO[baLook].after} isEn={isEn} />
-              <span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-navy shadow-sm">
-                {isEn ? LOOK_NAME_EN[baLook] : LOOK_NAME_KO[baLook]}
-              </span>
-            </div>
-            <div className="mt-4 -mx-4 px-4 md:mx-0 md:px-0 flex md:grid md:grid-cols-9 gap-2.5 md:gap-1 overflow-x-auto md:overflow-visible snap-x pb-1 [scrollbar-width:none]" role="group" aria-label={isEn ? 'Choose a look' : '룩 선택'}>
-              {MAKEUP_STYLES.map((s) => {
-                const on = baLook === s.id
-                return (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => { setBaLook(s.id); setBaPicked(true); trackEvent('select_promotion', { creative_slot: 'home_hero_look', promotion_id: s.id }) }}
-                    aria-pressed={on}
-                    className="snap-start shrink-0 flex w-[60px] md:w-auto flex-col items-center gap-1"
-                  >
-                    <span className={`block h-[52px] w-[52px] md:h-11 md:w-11 lg:h-12 lg:w-12 rounded-full p-[2px] transition-all ${on ? 'bg-gradient-to-tr from-primary to-navy' : 'bg-slate-200'}`}>
-                      <img
-                        src={lookThumb(s.id)}
-                        alt={isEn ? `${s.subEn} makeup look — AI-generated model` : `${s.nameKo} 메이크업 룩 — AI 생성 모델`}
-                        width={48}
-                        height={48}
-                        decoding="async"
-                        className="h-full w-full rounded-full border-2 border-cream object-cover"
-                      />
-                    </span>
-                    <span className={`w-full truncate text-center text-[10px] leading-tight ${on ? 'font-extrabold text-navy' : 'font-semibold text-slate-500'}`}>
-                      {isEn ? LOOK_NAME_EN[s.id] : s.nameKo}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            {/* AI 생성 고지 — EU AI Act Art.50(2026-08-02 시행) */}
-            <p className="mt-2 text-center text-[11px] leading-relaxed text-slate-400 break-keep">
-              {isEn ? 'Drag to compare. ' : '손잡이를 밀어 비교해 보세요. '}{t('home.slider.aiDisclosure')}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 2026-10-12 운영자: 큰 9룩 사진 섹션(#styles) 제거 — 같은 9장이 히어로 썸네일에 이미 있어 겹쳤다.
-          그 자리에 "이렇게 받아요" 시연 영상(사용법 + 결과물), 그 아래 페이스 차트(방법).
-          AI 생성 인물 고지는 히어로 슬라이더 아래와 영상 캡션에 있다. */}
-      {/* 오늘의 운세 입구 — 2026-10-24 남색 카드(B안). 히어로 바로 아래: 홈 방문자 90%가 첫 화면만 본다(Clarity) */}
-      <HomeFortune isEn={isEn} />
-
-      {/* 실제 사람 결과(운영자 본인) — 히어로의 AI 모델 데모 바로 다음에 "진짜 사람도 되나?"에 답한다 */}
-      <RealPersonSection isEn={isEn} />
-
-      <CollectionDemo isEn={isEn} />
-
-      {/* ── 주간 레터 구독 ──
-          2026-10-12: 페이지 80% 지점에 있어 홈 방문자의 3~6%만 봤다(Clarity 열 지도 30일, PC 3%·모바일 6%).
-          구독 1,000 이 1단계 목표라 시연 영상 바로 아래(약 40% 이상이 보는 자리)로 올렸다.
-          가입·크레딧이 필요 없는 가장 값싼 전환이라, 결과물을 본 직후 "매주 메일로"를 붙인다. */}
-      <section className="bg-white pb-16 md:pb-24">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 메일 구독 — 1단계 목표(구독 1,000) */}
+      <section className="bg-cream py-8 md:py-12">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <EmailSubscribe source="home" />
-        </div>
-      </section>
-
-
-      {/* ── 메이크업도 아트다 — 페이스 차트 9룩 (2026-10-18 대개편) ──
-          이전: 3×3 페이스 차트 그리드(PC 약 1,900px). 브랜드 비전(미술 × 메이크업)이 가장 직접 보이는
-          자리라 Rhode 식 아주 큰 한 문장 + 갤러리처럼 옆으로 넘기는 차트 띠로 바꿨다(높이 절반 이하).
-          차트는 /looks/{id}/ 단계 페이지로 간다. */}
-      <section id="how-to" className="relative py-16 md:py-28 bg-white scroll-mt-16 overflow-hidden" aria-labelledby="howto-title">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-end">
-          <div>
-            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">
-              {isEn ? 'Face charts · step by step' : '페이스 차트 · 단계별 따라 하기'}
-            </p>
-            <h2 id="howto-title" className="mt-4 font-serif text-[3.4rem] sm:text-[4.5rem] md:text-[6.5rem] lg:text-[8rem] font-semibold leading-[0.92] tracking-[-0.04em] text-navy break-keep">
-              {isEn ? <>Makeup<br /><em className="text-primary-dark">is art.</em></> : <>메이크업도<br /><span className="text-primary-dark">아트다.</span></>}
-            </h2>
-          </div>
-          <div className="max-w-sm md:pb-3">
-            <p className="text-[15px] md:text-base text-slate-600 leading-relaxed break-keep">
-              {isEn
-                ? 'Every look laid out on a face chart — where each step goes, which shade, and with what. Four steps each.'
-                : '9룩 모두 페이스 차트로 정리했어요. 어디에, 어떤 색을, 무엇으로 — 룩마다 4단계.'}
-            </p>
-            <a href={isEn ? '/en/looks/' : '/looks/'} className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-bold text-navy border-b-2 border-navy pb-0.5 hover:text-primary-dark hover:border-primary-dark transition-colors">
-              {isEn ? 'All 9 how-tos' : '9룩 방법 전체 보기'}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-        <div className="mt-10 md:mt-14 max-w-6xl mx-auto">
-          <ul className="flex gap-3 md:gap-5 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 scroll-px-4 sm:scroll-px-6 lg:scroll-px-8 pb-3 [scrollbar-width:thin]">
-            {MAKEUP_STYLES.map((s, i) => (
-              <li key={s.id} className="snap-start shrink-0 w-[46vw] max-w-[220px] md:w-[230px] md:max-w-none">
-                <a href={`${isEn ? '/en' : ''}/looks/${s.id}/`} className="group block">
-                  <span className="relative block aspect-[3/4] overflow-hidden bg-cream ring-1 ring-slate-200 group-hover:ring-navy transition-colors">
-                    <img
-                      src={`/looks/charts/${s.id}.webp`}
-                      alt={isEn ? `${s.subEn} face chart` : `${s.nameKo} 페이스 차트`}
-                      loading="lazy"
-                      decoding="async"
-                      className="absolute left-1/2 top-[-28%] w-[150%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                    <span className="absolute left-3 top-3 font-serif text-2xl md:text-3xl font-semibold italic text-navy/80 lining-nums">{String(i + 1).padStart(2, '0')}</span>
-                  </span>
-                  <span className="mt-2.5 block text-sm md:text-base font-bold text-navy leading-snug break-keep">{isEn ? LOOK_NAME_EN[s.id] : s.nameKo}</span>
-                  <span className="block text-xs text-slate-500">{isEn ? '4 steps' : '4단계'} →</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 px-4 sm:px-6 lg:px-8 text-[11px] text-slate-400">{isEn ? 'Face-chart illustrations are AI-generated.' : '페이스 차트 일러스트는 AI로 생성했어요.'}</p>
-        </div>
-      </section>
-
-      {/* ── 무료 진단 4가지 — 2026-10-18 대개편으로 한 덩어리로 압축 ──
-          이전: 회원가입 혜택 띠 + 네이비 대형 카드(beauty-dna) + 하위 제목 + 카드 4장 + 슬림 카드 (PC 약 1,500px).
-          진단 → 룩 → 제품을 한 줄로 잇는 게 목적이라(퀴즈 퍼널 10~20%대, Fenty "Find your shade")
-          제목 하나 + 카드 4장 + "4가지 모이면 맞춤 결과" 띠 한 줄로 줄였다. */}
-      <section id="tools-showcase" className="py-16 md:py-24 scroll-mt-16 bg-white border-t border-slate-200/70" aria-labelledby="tools-title">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            titleId="tools-title"
-            eyebrow={t('home.toolsShowcase.quizzesBadge')}
-            title={t('home.toolsShowcase.quizzesTitle')}
-            subtitle={t('home.toolsShowcase.quizzesDesc')}
-          />
-
-          {/* 4 Tool Cards — ⚠ 도구 링크는 반드시 toolHref()(영문 카드가 한국어 페이지로 떨어지던 2026-07-14 버그) */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
-            {[
-              { href: toolHref('/tools/personal-color/'), icon: 'palette', accent: 'var(--color-tool-pc)', image: TOOL_CARD_IMAGES.personalColor,
-                title: t('home.toolsShowcase.t2Title'), desc: t('home.toolsShowcase.t2Desc'), meta: t('home.toolsShowcase.t2Tag') },
-              { href: toolHref('/tools/face-shape/'), icon: 'face', accent: 'var(--color-tool-face)', image: TOOL_CARD_IMAGES.faceShape,
-                title: t('home.toolsShowcase.t3Title'), desc: t('home.toolsShowcase.t3Desc'), meta: t('home.toolsShowcase.t3Tag') },
-              { href: toolHref('/tools/makeup-mbti/'), icon: 'quiz', accent: 'var(--color-tool-mbti)', image: TOOL_CARD_IMAGES.mbti,
-                title: t('home.toolsShowcase.t1Title'), desc: t('home.toolsShowcase.t1Desc'), meta: t('home.toolsShowcase.t1Tag') },
-              { href: toolHref('/tools/perfume-type/'), icon: 'local_florist', accent: 'var(--color-tool-perfume)', image: TOOL_CARD_IMAGES.perfume,
-                title: t('home.toolsShowcase.t4Title'), desc: t('home.toolsShowcase.t4Desc'), meta: t('home.toolsShowcase.t4Tag') },
-            ].map(tool => (
-              <ToolCard
-                key={tool.title}
-                href={tool.href}
-                icon={tool.icon}
-                accent={tool.accent}
-                image={tool.image}
-                title={tool.title}
-                desc={tool.desc}
-                meta={tool.meta}
-                tag={isEn ? 'FREE' : '무료'}
-                cta={t('home.toolsShowcase.cardCta')}
-                compact
-              />
-            ))}
-          </div>
-
-          {/* 4가지가 모이면 — 하나의 맞춤 결과(beauty-dna). 진행 상태가 보이게 체크 4칸 + 진행 막대. */}
-          <a
-            href={toolHref('/tools/beauty-dna/')}
-            className="group mt-5 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 bg-navy text-white px-5 py-5 md:px-8 md:py-6 hover:bg-navy-mid transition-colors"
-          >
-            <ul className="flex gap-2 shrink-0" aria-hidden="true">
-              {DNA_FIELDS.map((f) => (
-                <li key={f} className="relative h-12 w-12 overflow-hidden bg-white/10">
-                  <img src={DNA_PREVIEW[f]} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                  {dna[f] && (
-                    <span className="absolute inset-0 flex items-center justify-center bg-navy/55">
-                      <span className="material-symbols-outlined text-[20px] text-white" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <div className="min-w-0 flex-1">
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-on-dark">{t('home.dna.featLabel')}</p>
-              <p className="mt-1 text-sm md:text-base text-white/85 leading-relaxed break-keep">{t('home.dna.featDesc')}</p>
-              <DnaProgress compact dark className="mt-2" />
-            </div>
-            <span className="inline-flex w-fit shrink-0 items-center gap-2 bg-white text-navy px-5 py-3 text-sm font-bold group-hover:gap-3 transition-all">
-              {t('home.dna.homeCta')}
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </span>
-          </a>
-          <p className="mt-3 text-center text-xs text-slate-500 break-keep">
-            <span className="font-bold text-navy">{t('home.how.giftTitle')}</span> — {t('home.how.giftDesc')}
-          </p>
-
-          {/* 2026-10-18: AI 메이크업 슬림 카드 제거 — 새 히어로의 주 버튼과 같은 일을 했다. */}
-
-          <div className="text-center mt-10 md:mt-12">
-            <a
-              href={toolHref('/tools/')}
-              className="inline-flex items-center gap-2 border border-navy/25 hover:border-navy text-navy px-8 py-3.5 font-bold text-sm md:text-base transition-colors"
-            >
-              {t('home.toolsShowcase.seeAllTools')}
-              <span className="material-symbols-outlined">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 최신 콘텐츠 (메이크업 제품 + 뉴스) — 주 1회 자동 발행 피드 노출 ── */}
-      <HomeContentSections />
-
-      {/* ── 하단 CTA (핑크) ── */}
-      {/* 2026-07-22 개편: 핑크 3색 그라디언트 + blur blob + 떠 있는 알약 버튼을 전부 뺐다.
-          벤치마킹한 3사(Rhode·MERIT·Glossier)는 배경에 색을 칠하지 않고 사진과 조판으로만
-          마무리한다. 여기서는 결과물 한 장을 배경으로 깔고 그 위에 조판을 올렸다. */}
-      <section className="relative overflow-hidden bg-navy text-white">
-        <img
-          src="/home-ba-after.webp"
-          alt=""
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-25"
-        />
-        <div className="relative max-w-3xl mx-auto px-4 py-24 md:py-32 text-center">
-          <h2 className="font-serif text-[2.25rem] md:text-[3.25rem] font-semibold tracking-tight mb-5 leading-[1.08]">
-            {t('home.cta.title1')}<br />{t('home.cta.title2')}
-          </h2>
-          <p className="text-base text-white/80 mb-9 max-w-md mx-auto leading-relaxed">
-            {t('home.cta.subtitle')}
-          </p>
-          <button
-            className="bg-white text-navy px-12 py-5 text-lg font-bold transition-colors hover:bg-slate-100 inline-flex items-center gap-3"
-            onClick={() => onNavigate('analysis')}
-          >
-            {t('home.cta.button')}
-            <span className="material-symbols-outlined text-2xl">arrow_forward</span>
-          </button>
         </div>
       </section>
 
@@ -728,10 +384,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <article>
                   <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">How kissinskin differs from a regular filter</h3>
                   <p>
-                    TikTok and Instagram makeup filters are layered uniformly over the screen, so the same color lands on everyone regardless of face shape or skin tone. kissinskin is different: an AI trained on K-beauty makeup artists’ know-how <strong> analyzes your skin tone, face shape, and feature proportions and decides how to adapt each style for you</strong>. The same “Bold Lip” becomes a blue-toned red on a cool-toned user and a coral-based red on a warm-toned one, so it brings your features to life.
+                    TikTok and Instagram makeup filters are layered uniformly over the screen, so the same color lands on everyone regardless of face shape or skin tone. kissinskin is different: the AI <strong>applies each look directly to your own photo</strong>, so the result follows your real face and lighting instead of a flat overlay.
                   </p>
                   <p>
-                    Just as importantly, your face stays your face. The makeup is applied inside a tight mask while your identity, facial structure, and expression are locked — so the result is something you can actually recreate at your own vanity, not a different person.
+                    Just as importantly, the AI is instructed to keep your identity, facial structure, and expression as they are and change only the makeup and hair color — so the result stays close to you. AI output can vary slightly, so if a result looks off, try another photo.
                   </p>
                 </article>
 
@@ -781,15 +437,10 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   <h3 className="text-xl md:text-2xl font-extrabold text-navy mb-3 tracking-tight">kissinskin이 일반 필터와 다른 점</h3>
                   <p>
                     틱톡·인스타그램의 메이크업 필터는 화면 위에 일률적으로 입혀지기 때문에 얼굴형이나 피부톤과 무관하게
-                    같은 색이 적용됩니다. 반면 kissinskin은 K-뷰티 메이크업 아티스트의 노하우를 학습한 AI가
-                    <strong> 사용자의 피부 톤·얼굴형·이목구비 비율을 분석해 각 스타일을 어떻게 변형할지 자동으로 결정</strong>합니다.
-                    예를 들어 같은 "Bold Lip" 스타일이라도 쿨톤 사용자에게는 푸른빛이 도는 레드를,
-                    웜톤 사용자에게는 코랄 베이스의 레드를 적용해 인상이 더 살아나도록 합니다.
+                    같은 색이 적용됩니다. 반면 kissinskin은 AI가 <strong>내 사진 위에 각 룩을 직접 입혀</strong> 내 얼굴과 조명을 따라 결과를 만듭니다.
                   </p>
                   <p>
-                    무엇보다 내 얼굴은 그대로 유지됩니다. 메이크업은 좁은 마스크 안쪽에만 입혀지고
-                    정체성·얼굴 구조·표정은 고정되므로, 결과물은 다른 사람이 아니라
-                    실제 화장대 앞에서 따라 할 수 있는 "내 모습"이라는 점이 가장 큰 차별점입니다.
+                    또한 AI에 정체성·얼굴 구조·표정은 그대로 두고 메이크업과 머리색만 바꾸도록 지시합니다. AI 결과는 조금씩 달라질 수 있으니, 어색하면 다른 사진으로 다시 시도해 보세요.
                   </p>
                 </article>
 

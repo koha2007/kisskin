@@ -18,7 +18,7 @@ export default function RealPersonSection({ isEn }: { isEn: boolean }) {
     <section className="relative overflow-hidden bg-navy text-white" aria-labelledby="real-title">
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(at 15% 20%, rgba(235, 71, 99, 0.18) 0px, transparent 45%)' }}
+        style={{ background: 'radial-gradient(at 15% 20%, rgba(239, 77, 160, 0.18) 0px, transparent 45%)' }}
       />
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-24 md:pb-16 grid md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-center">
         <figure className="mx-auto w-full max-w-[280px] md:max-w-[340px]">

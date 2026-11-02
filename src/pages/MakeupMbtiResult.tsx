@@ -451,7 +451,7 @@ function ConfettiBurst() {
   const [bits, setBits] = useState<ConfettiBit[]>([])
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
-      const colors = ['#d8503c', '#c79340', '#4e9fa6', '#8e6e9e', '#7e9b6a']
+      const colors = ['#ef4da0', '#c79340', '#4e9fa6', '#8e6e9e', '#7e9b6a']
       setBits(Array.from({ length: 24 }, (_, i) => ({
         left: Math.random() * 100,
         delay: Math.random() * 0.3,

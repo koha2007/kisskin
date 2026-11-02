@@ -22,16 +22,16 @@ export interface GuideCategoryMeta {
 }
 
 export const GUIDE_CATEGORIES: GuideCategoryMeta[] = [
-  { code: 'basics', koLabel: '기초', enLabel: 'Basics', emoji: '✨', color: '#d8503c' },
+  { code: 'basics', koLabel: '기초', enLabel: 'Basics', emoji: '✨', color: '#ef4da0' },
   // 아래 3개는 검색 수요(자동완성 상위) 기준으로 연 축 — 각 무료 도구로 보내는 유입 글이 쌓인다.
   { code: 'color', koLabel: '퍼스널컬러', enLabel: 'Personal Color', emoji: '🎨', color: '#8e6e9e' },
   { code: 'shape', koLabel: '얼굴형', enLabel: 'Face Shape', emoji: '🪞', color: '#4e9fa6' },
   { code: 'perfume', koLabel: '향수', enLabel: 'Perfume', emoji: '🌷', color: '#8e6e9e' },
   { code: 'style', koLabel: '추구미·스타일', enLabel: 'Style', emoji: '🪄', color: '#c79340' },
-  { code: 'lip', koLabel: '립', enLabel: 'Lip', emoji: '💋', color: '#d8503c' },
+  { code: 'lip', koLabel: '립', enLabel: 'Lip', emoji: '💋', color: '#ef4da0' },
   { code: 'eye', koLabel: '아이', enLabel: 'Eye', emoji: '👁️', color: '#8e6e9e' },
   { code: 'base', koLabel: '베이스', enLabel: 'Base', emoji: '✨', color: '#c79340' },
-  { code: 'cheek', koLabel: '치크', enLabel: 'Cheek', emoji: '🌸', color: '#b03e2d' },
+  { code: 'cheek', koLabel: '치크', enLabel: 'Cheek', emoji: '🌸', color: '#c4177c' },
   { code: 'tpo', koLabel: 'TPO', enLabel: 'TPO', emoji: '🎯', color: '#4e9fa6' },
   { code: 'glasses', koLabel: '안경 메이크업', enLabel: 'Glasses', emoji: '👓', color: '#7e9b6a' },
   { code: 'longevity', koLabel: '지속력', enLabel: 'Longevity', emoji: '⏱️', color: '#4a5488' },

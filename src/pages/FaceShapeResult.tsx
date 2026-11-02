@@ -219,7 +219,7 @@ export default function FaceShapeResult({ code }: Props) {
               <a
                 href={makeupHref}
                 onClick={() => { keepLocale(); trackToolPromotion('face_shape', t.code, 'hero_primary') }}
-                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 break-keep bg-primary hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2.5 break-keep bg-primary-dark hover:bg-primary-dark text-white px-8 py-4 font-bold text-base md:text-lg tracking-tight transition-colors shadow-lg shadow-primary/25"
               >
                 <span className="material-symbols-outlined text-xl">auto_awesome</span>
                 {L.heroCta}
@@ -288,7 +288,7 @@ export default function FaceShapeResult({ code }: Props) {
               <a
                 href={makeupHref}
                 onClick={() => { keepLocale(); trackToolPromotion('face_shape', t.code, 'look_preview') }}
-                className="mt-7 inline-flex items-center justify-center gap-2 break-keep bg-primary hover:bg-primary-dark text-white px-7 py-3.5 font-bold transition-colors"
+                className="mt-7 inline-flex items-center justify-center gap-2 break-keep bg-primary-dark hover:bg-primary-dark text-white px-7 py-3.5 font-bold transition-colors"
               >
                 <span className="material-symbols-outlined text-lg">auto_awesome</span>
                 {isEn ? 'Try it on my selfie' : '내 셀카로 해보기'}

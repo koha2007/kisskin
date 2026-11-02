@@ -17,11 +17,11 @@
 //     썸네일 rounded-lg, 히어로 슬라이더 rounded-2xl).
 
 export const NAVY = '#070953'
-export const PRIMARY = '#eb4763'
+export const PRIMARY = '#ef4da0'
 
 /** 화면 배경 — 네이비 단색 + 우상단 옅은 핑크 워시 한 겹 */
 export const screenBg = {
-  background: `radial-gradient(95% 48% at 92% -6%, rgba(235,71,99,0.13) 0%, transparent 62%), ${NAVY}`,
+  background: `radial-gradient(95% 48% at 92% -6%, rgba(239, 77, 160,0.13) 0%, transparent 62%), ${NAVY}`,
 }
 
 /** 카드/서피스 — 반투명 유리가 아니라 네이비 한 단계 위의 솔리드 면 */
@@ -37,7 +37,7 @@ export const footerScrim = { background: `linear-gradient(to top, ${NAVY} 62%, r
 
 // ── 버튼 ── 홈 CTA 와 같은 각진 사각. active:scale 같은 통통 튀는 모션은 쓰지 않는다.
 export const btnPrimary =
-  'w-full py-4 text-[15px] font-extrabold text-white transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40'
+  'w-full py-4 text-[15px] font-extrabold text-navy transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40'
 export const btnPrimaryStyle = { background: PRIMARY }
 export const btnGhost =
   'inline-flex items-center justify-center gap-1.5 px-4 py-3 text-[13px] font-bold text-white border transition-colors hover:bg-white/5'

@@ -23,7 +23,7 @@ const FOCUS_Y = 0.3
 const FONT = '"Pretendard Variable", Pretendard, system-ui, sans-serif'
 const INK = '#070953'
 const MUTED = '#475569'
-const PINK = '#c9304a' // primary-dark — 흰 바탕 위 글자는 원색 대신 진한 쪽(대비 규칙)
+const PINK = '#c4177c' // primary-dark — 흰 바탕 위 글자는 원색 대신 진한 쪽(대비 규칙)
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
