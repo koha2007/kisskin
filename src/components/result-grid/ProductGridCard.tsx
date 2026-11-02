@@ -50,7 +50,7 @@ export function ProductGridCard({
 
   const category = isEn && item.categoryEn ? item.categoryEn : item.category
   const title = isEn && item.titleEn ? item.titleEn : item.title
-  const globalQuery = item.categoryEn || item.titleEn || item.title
+  const globalQuery = item.searchKeywordsEn || item.categoryEn || item.titleEn || item.title
 
   const coupangLink = item.affiliateUrl || buildSearchLink(item.searchKeywords)
   const showClio =

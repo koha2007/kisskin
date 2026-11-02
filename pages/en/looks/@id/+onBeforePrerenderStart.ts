@@ -1,5 +1,5 @@
-import { MAKEUP_STYLES } from '../../../../src/lib/makeup/styles'
+import { ALL_MAKEUP_STYLES } from '../../../../src/lib/makeup/styles'
 
 export default async function onBeforePrerenderStart(): Promise<string[]> {
-  return MAKEUP_STYLES.map((s) => `/en/looks/${s.id}/`)
+  return ALL_MAKEUP_STYLES.map((s) => `/en/looks/${s.id}/`)
 }

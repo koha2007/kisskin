@@ -6,7 +6,7 @@ import { CropImg, FaceChartMap, ShopLinks, ShopDisclosure, Swatches } from './Lo
 import { CHART_CROP, AREA_LABEL, COMMON_SAFETY_KO, COMMON_SAFETY_EN } from '../lib/looks/howto'
 import { CLASS_LESSONS, lessonBySlug, chartSrc, videoSrc, videoPoster } from '../lib/class/lessons'
 import { CLASS_PARTS, CURRICULUM } from '../lib/class/curriculum'
-import { MAKEUP_STYLES } from '../lib/makeup/styles'
+import { ALL_MAKEUP_STYLES } from '../lib/makeup/styles'
 import { LOOK_IMAGES } from '../lib/makeup/lookImages'
 import { AFFILIATE_ENABLED } from '../lib/recommendations/types'
 import { trackEvent } from '../lib/analytics'
@@ -32,7 +32,7 @@ export default function ClassLesson({ slug }: { slug: string }) {
   const prev = CLASS_LESSONS[idx - 1]
   const next = CLASS_LESSONS[idx + 1]
   const upcoming = !next ? CURRICULUM.find((c) => c.n === l.n + 1) : undefined
-  const looks = MAKEUP_STYLES.filter((s) => l.looks?.includes(s.id))
+  const looks = ALL_MAKEUP_STYLES.filter((s) => l.looks?.includes(s.id))
 
   return (
     <div className="font-display bg-background-light min-h-screen">

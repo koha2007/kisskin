@@ -39,7 +39,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
     let started = false
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) {
-        if (!v.src) v.src = `/demo/collection-${lang}.mp4?v=20261017`
+        if (!v.src) v.src = `/demo/collection-${lang}.mp4?v=20261102`
         v.play().catch(() => {})
         if (!started) { started = true; gtagEvent('home_demo_view', { lang }) }
       } else v.pause()
@@ -87,7 +87,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
 
           <figure className="order-1 md:order-2 mx-auto w-[240px] md:w-[280px]">
             <div className="rounded-[2rem] bg-navy p-2 shadow-2xl shadow-navy/25">
-              <video ref={ref} poster={`/demo/collection-${lang}.webp?v=20261017`} muted loop playsInline preload="none" width={390} height={844}
+              <video ref={ref} poster={`/demo/collection-${lang}.webp?v=20261102`} muted loop playsInline preload="none" width={390} height={844}
                 aria-label={isEn ? 'Screen recording: creating a 9-look collection from one selfie' : '화면 녹화: 셀카 한 장으로 9룩 컬렉션 만들기'}
                 className="block w-full aspect-[390/844] rounded-[1.6rem] bg-navy object-cover" />
             </div>

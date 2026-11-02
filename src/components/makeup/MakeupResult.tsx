@@ -8,11 +8,13 @@
 
 import { useState, useEffect, useRef } from 'react'
 import MarketingConsent from '../MarketingConsent'
+import AffiliateDisclosure from '../AffiliateDisclosure'
 import ResultGrid from '../result-grid/ResultGrid'
 import { ProductGridCard } from '../result-grid/ProductGridCard'
 import BeforeAfterSlider from './BeforeAfterSlider'
 import { styleById, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { lookImage } from '../../lib/makeup/lookImages'
+import { lookProducts } from '../../lib/makeup/lookProducts'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { saveSharedResult } from '../../lib/shareResult'
 import { recordLook } from '../../lib/makeup/looks'
@@ -20,7 +22,6 @@ import { isNativeApp, nativeSaveImage, nativeShareImage } from '../../lib/native
 import { supabase } from '../../lib/supabase'
 import { getCreditBalance } from '../../lib/credits'
 import { LOOK_REMINDER_CONSENT } from '../../lib/makeup/lookReminder'
-import type { ProductRec } from '../../lib/recommendations/types'
 import { NAVY, PRIMARY, screenBg, surfaceStyle, BORDER, btnPrimary, btnPrimaryStyle } from './theme'
 
 const TOOL_URL = 'https://kissinskin.net/analysis/'
@@ -53,38 +54,6 @@ function ActionBtn({ icon, label, onClick, disabled }: { icon: string; label: st
     </button>
   )
 }
-
-// 플레이스홀더 추천 (실제 도구 추천 데이터 연결 전). searchKeywords 는
-// check:keywords 규칙(≤5단어·제품속성만) 준수 → 실제 affiliate 검색 동작.
-const PLACEHOLDER_PRODUCTS: ProductRec[] = [
-  {
-    category: '베이스', categoryEn: 'Base',
-    title: '루미너스 실크 파운데이션', titleEn: 'Luminous silk foundation',
-    features: ['은은한 광채', '얇은 밀착', '자연 커버'],
-    brandExamples: ['에스쁘아', '헤라'],
-    whyForType: '속광 베이스로 글래스 스킨의 핵심인 촉촉한 광을 만들어줘요.',
-    searchKeywords: '루미너스 실크 파운데이션 광채',
-    icon: 'water_drop',
-  },
-  {
-    category: '스킨케어', categoryEn: 'Care',
-    title: '하이드레이팅 세럼', titleEn: 'Hydrating serum',
-    features: ['수분 충전', '결 정돈', '광 부스터'],
-    brandExamples: ['토리든', '아누아'],
-    whyForType: '메이크업 전 수분 베이스를 잡아 광채가 더 오래 갑니다.',
-    searchKeywords: '하이드레이팅 수분 세럼',
-    icon: 'spa',
-  },
-  {
-    category: '립', categoryEn: 'Lip',
-    title: '모브 글로우 틴트', titleEn: 'Mauve glow tint',
-    features: ['촉촉 글로우', '자연 발색', 'MLBB'],
-    brandExamples: ['롬앤', '페리페라'],
-    whyForType: '은은한 모브 톤으로 속광 룩과 자연스럽게 어울려요.',
-    searchKeywords: 'MLBB 모브 글로우 틴트',
-    icon: 'favorite',
-  },
-]
 
 /** 이번 생성이 무료 체험이었는지 크레딧 차감이었는지 — /api/makeup-edit 응답 그대로. */
 export interface MakeupUsage {
@@ -691,21 +660,20 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
           <p className="mt-2.5 text-[15px] leading-relaxed text-white/80">{styleDesc}</p>
         </section>
 
-        {/* 추천 제품 — 실제 ProductGridCard 구조 (플레이스홀더 데이터) */}
+        {/* 이 룩 따라 하기 — 룩별 단계 검색어(LOOK_HOWTO) */}
         <section className="mt-8">
           <h3 className="text-[11px] font-bold tracking-[0.18em] text-white/55 uppercase mb-3">
-            {isEn ? 'Recommended products' : '추천 제품'}
+            {isEn ? 'Get this look' : '이 룩 따라 하기'}
           </h3>
           <ResultGrid>
-            {PLACEHOLDER_PRODUCTS.map((p) => (
-              <ProductGridCard key={p.title} item={p} accent={PRIMARY} pageType="makeup" pageSlug={`makeup-${styleId}`} />
+            {lookProducts(styleId).map((p, i) => (
+              <ProductGridCard key={p.searchKeywords} item={p} accent={PRIMARY} pageType="makeup" pageSlug={`makeup-${styleId}`} slot={i + 1} />
             ))}
           </ResultGrid>
-          <p className="mt-3 text-center text-[11px] text-white/45">
-            {isEn
-              ? 'Affiliate links — we may earn a commission. Products shown are placeholders.'
-              : '제휴 링크 — 구매 시 수수료를 받을 수 있어요. 표시된 제품은 플레이스홀더입니다.'}
+          <p className="mt-3 text-center text-[11px] text-white/55">
+            {isEn ? 'These links search by product type — not specific products we endorse.' : '제품 종류로 검색하는 링크예요. 특정 제품을 추천하는 건 아니에요.'}
           </p>
+          <AffiliateDisclosure className="mt-1 text-center" />
         </section>
       </main>
 

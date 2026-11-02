@@ -163,7 +163,7 @@ const TOOLS: Tool[] = [
 ]
 
 // 피처 카드에 깔 결과물 4장 — 피부톤·룩이 서로 다른 조합.
-const FEATURE_LOOKS = ['natural-glow', 'bold-lip', 'blush-draping', 'metallic-eye'] as const
+const FEATURE_LOOKS = ['spring-blush', 'summer-glow', 'autumn-berry', 'winter-frost'] as const
 
 const BADGE_LABEL: Record<NonNullable<Tool['badge']>, { ko: string; en: string }> = {
   CORE: { ko: '시그니처', en: 'Signature' },

@@ -1,5 +1,5 @@
 // /looks/ · /looks/{id}/ 의 <head> — KO/EN 4개 라우트가 공유.
-import { MAKEUP_STYLES, type MakeupStyleId } from '../makeup/styles'
+import { ALL_MAKEUP_STYLES, MAKEUP_STYLES, type MakeupStyleId } from '../makeup/styles'
 import { LOOK_HOWTO } from './howto'
 
 const SITE = 'https://kissinskin.net'
@@ -7,8 +7,8 @@ const SITE = 'https://kissinskin.net'
 export function LooksHubHead({ isEn }: { isEn: boolean }) {
   const title = isEn ? '9 K-Beauty Makeup Looks, Step by Step — How-To Guides | kissinskin' : 'K-뷰티 9룩 메이크업 방법 — 단계별 따라 하기 | 키스인스킨'
   const desc = isEn
-    ? 'Step-by-step K-beauty makeup: K-pop idol, blood lip, blush draping, cloud skin, grunge and more — skin, eyes, cheeks and lips with shades and tools.'
-    : 'K-pop 아이돌·블러드 립·블러쉬 드레이핑·클라우드 스킨·그런지까지. 피부·눈·볼·입술 단계별 방법과 색·도구 정리.'
+    ? 'Step-by-step K-beauty makeup: seasonal spring, summer, autumn and winter looks, K-pop idol, blood lip, cloud skin and more — skin, eyes, cheeks and lips with shades and tools.'
+    : '봄·여름·가을·겨울 계절 룩부터 K-pop 아이돌·블러드 립·클라우드 스킨까지. 피부·눈·볼·입술 단계별 방법과 색·도구 정리.'
   const ko = `${SITE}/looks/`
   const en = `${SITE}/en/looks/`
   const url = isEn ? en : ko
@@ -41,7 +41,7 @@ export function LooksHubHead({ isEn }: { isEn: boolean }) {
 }
 
 export function LookHead({ id, isEn }: { id: MakeupStyleId; isEn: boolean }) {
-  const s = MAKEUP_STYLES.find((x) => x.id === id)
+  const s = ALL_MAKEUP_STYLES.find((x) => x.id === id)
   if (!s) return null
   const how = LOOK_HOWTO[id]
   const short = isEn ? s.subEn.replace(/ MAKEUP$/i, '') : s.nameKo.replace(/ 메이크업$/, '')

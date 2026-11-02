@@ -36,10 +36,10 @@ interface Props { code: FaceShapeCode }
 //   각을 풀기 · 긴형=가로 블러셔 중심 아이돌 룩 · 하트형=시선을 아래로 내리는 볼드 립.
 const FACE_SHAPE_LOOK: Record<FaceShapeCode, MakeupStyleId> = {
   oval: 'natural-glow',
-  round: 'blush-draping',
+  round: 'spring-blush',
   square: 'cloud-skin',
   oblong: 'kpop-idol',
-  heart: 'bold-lip',
+  heart: 'autumn-berry',
 }
 
 export default function FaceShapeResult({ code }: Props) {

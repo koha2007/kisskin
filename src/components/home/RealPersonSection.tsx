@@ -9,7 +9,7 @@
 // ⚠ 다른 사람 사진을 여기 올릴 땐 반드시 본인 동의 + 18세 이상 + 축소본만(10/17 성장 점검 안전 조건).
 import BeforeAfterSlider from '../makeup/BeforeAfterSlider'
 import { trackEvent } from '../../lib/analytics'
-import { MAKEUP_STYLES } from '../../lib/makeup/styles'
+import { ALL_MAKEUP_STYLES } from '../../lib/makeup/styles'
 
 const REAL_LOOKS = ['natural-glow', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'metallic-eye', 'bold-lip', 'blush-draping', 'grunge', 'kpop-idol'] as const
 
@@ -73,7 +73,7 @@ export default function RealPersonSection({ isEn }: { isEn: boolean }) {
         </p>
         <ul className="mt-4 flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 scroll-px-4 sm:scroll-px-6 lg:scroll-px-8 pb-2 [scrollbar-width:thin]">
           {REAL_LOOKS.map((id) => {
-            const st = MAKEUP_STYLES.find((x) => x.id === id)
+            const st = ALL_MAKEUP_STYLES.find((x) => x.id === id)
             const name = isEn ? st?.subEn : st?.nameKo
             return (
               <li key={id} className="snap-start shrink-0 w-[38vw] max-w-[170px] md:w-[150px]">

@@ -72,9 +72,9 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
   // 이제는 업로드 화면(/analysis/)으로 보내 거기서 '카메라로 촬영 / 앨범에서 선택'을
   // 사용자가 직접 고르게 한다 — 아래 네이비 CTA 와 목적지가 같아졌다.
 
-  // ── 히어로 데모 ── 기본은 볼드 립(변화가 가장 눈에 띈다). 사용자가 직접 고르면(baPicked)
+  // ── 히어로 데모 ── 기본은 가을 베리 모카(2026-11-02 운영자 선택). 사용자가 직접 고르면(baPicked)
   // 주 버튼이 그 룩으로 바로 가는 링크·문구로 바뀐다.
-  const [baLook, setBaLook] = useState<MakeupStyleId>('bold-lip')
+  const [baLook, setBaLook] = useState<MakeupStyleId>('autumn-berry')
   const [baPicked, setBaPicked] = useState(false)
   // Bottom-of-home guide FAQ — shared by the accordion and the FAQPage JSON-LD so
   // structured data always matches the visible text in the active language.
