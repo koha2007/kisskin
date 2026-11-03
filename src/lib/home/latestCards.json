@@ -2,6 +2,14 @@
   "products": {
     "ko": [
       {
+        "slug": "espoir-lip-tint-glaze",
+        "brand": "에스쁘아",
+        "name": "꾸뛰르 립틴트 글레이즈",
+        "category": "lip",
+        "image": "/products/espoir-lip-tint-glaze.webp",
+        "date": "2026-11-03"
+      },
+      {
         "slug": "phlur-peach-skin-body-mist",
         "brand": "플러 (PHLUR)",
         "name": "피치 스킨 바디 미스트",
@@ -24,17 +32,17 @@
         "category": "cheek",
         "image": "/products/fwee-lip-cheek-blurry-pudding-pot.webp",
         "date": "2026-10-13"
-      },
-      {
-        "slug": "centellian24-madeca-cream-time-reverse",
-        "brand": "센텔리안24",
-        "name": "마데카 크림 타임 리버스",
-        "category": "skincare",
-        "image": "/products/centellian24-madeca-cream-time-reverse.webp",
-        "date": "2026-10-06"
       }
     ],
     "en": [
+      {
+        "slug": "espoir-lip-tint-glaze",
+        "brand": "espoir",
+        "name": "Couture Lip Tint Glaze",
+        "category": "lip",
+        "image": "/products/espoir-lip-tint-glaze.webp",
+        "date": "2026-11-03"
+      },
       {
         "slug": "phlur-peach-skin-body-mist",
         "brand": "PHLUR",
@@ -58,19 +66,18 @@
         "category": "cheek",
         "image": "/products/fwee-lip-cheek-blurry-pudding-pot.webp",
         "date": "2026-10-13"
-      },
-      {
-        "slug": "centellian24-madeca-cream-time-reverse",
-        "brand": "Centellian24",
-        "name": "Madeca Cream Time Reverse",
-        "category": "skincare",
-        "image": "/products/centellian24-madeca-cream-time-reverse.webp",
-        "date": "2026-10-06"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "moo100-amazon-us-haircare-launch",
+        "title": "MOO100, ‘자몽 워터 샴푸’로 미국 아마존 진출—100만 병 이상 국내 판매 기록",
+        "category": "hair",
+        "image": "/news/moo100-amazon-us-haircare-launch.webp",
+        "date": "2026-11-03"
+      },
       {
         "slug": "eu-greenwashing-ban-pfhxa-k-beauty-impact",
         "title": "EU, PFHxA 포함 화장품 친환경 무검증 주장 즉시 금지 발표",
@@ -91,16 +98,16 @@
         "category": "global",
         "image": "/news/k-beauty-pop-up-hudson-yards-nyc.webp",
         "date": "2026-10-13"
-      },
-      {
-        "slug": "k-beauty-exports-august-growth-ecosystem-expansion",
-        "title": "8월 K‑뷰티 수출 52.1% 급증, ODM·포장사 수출도 동반 성장",
-        "category": "global",
-        "image": "/news/k-beauty-exports-august-growth-ecosystem-expansion.webp",
-        "date": "2026-10-06"
       }
     ],
     "en": [
+      {
+        "slug": "moo100-amazon-us-haircare-launch",
+        "title": "MOO100 Enters US Amazon with 'Grapefruit Water Shampoo'—Over 1 Million Bottles Sold Domestically",
+        "category": "hair",
+        "image": "/news/moo100-amazon-us-haircare-launch.webp",
+        "date": "2026-11-03"
+      },
       {
         "slug": "eu-greenwashing-ban-pfhxa-k-beauty-impact",
         "title": "EU Announces Immediate Ban on Unverified Green Claims for Cosmetics Containing PFHxA",
@@ -121,13 +128,6 @@
         "category": "global",
         "image": "/news/k-beauty-pop-up-hudson-yards-nyc.webp",
         "date": "2026-10-13"
-      },
-      {
-        "slug": "k-beauty-exports-august-growth-ecosystem-expansion",
-        "title": "K-Beauty Exports Surge 52.1% in August; ODM and Packaging Firms Also See Growth",
-        "category": "global",
-        "image": "/news/k-beauty-exports-august-growth-ecosystem-expansion.webp",
-        "date": "2026-10-06"
       }
     ]
   }

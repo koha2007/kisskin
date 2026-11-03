@@ -2,6 +2,7 @@
 // Auto-maintained by scripts/gen-products.mjs (kept in sync with PRODUCT_ITEMS_EN
 // in items.en.ts). Tiny standalone module so nav/i18n can import it cheaply.
 export const EN_PRODUCT_SLUGS = [
+  'espoir-lip-tint-glaze',
   'phlur-peach-skin-body-mist',
   'unove-deep-damage-treatment',
   'laura-geller-cream-full-face-basics-palette',

@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'espoir-lip-tint-glaze',
+    category: 'lip',
+    brand: 'espoir',
+    name: 'Couture Lip Tint Glaze',
+    title: 'espoir Couture Lip Tint Glaze – Sophisticated Gloss with a Clean Beauty Tint',
+    summary:
+      'espoir\'s clean beauty lip tint, \'Couture Lip Tint Glaze,\' is a vegan and cruelty-free certified product. Its smooth glaze texture imparts a clear, glossy color to the lips, making it one of the most trending lip products today.',
+    highlights: ['Clean beauty certified tint', 'Glowy glaze texture', 'Clear and sheer color payoff'],
+    details: [
+      'A clean beauty lip tint that meets vegan and cruelty-free standards to minimize skin irritation.',
+      'The glaze texture adds a clear, natural gloss to the lip surface, creating a hydrated lip look.',
+      'The sheer, clear color payoff makes it ideal for daily MLBB makeup and complements various personal color tones.',
+    ],
+    whoFor:
+      'Ideal for those with sensitive lips prone to irritation, and 20s–30s daily makeup users who want to enhance their natural lip color with a soft gloss.',
+    howTo: [
+      'Using the tip or a lip brush, gently apply from the center of the lips moving outward.',
+      'For extra glow, apply a thin layer over the entire lips or reapply to the center to add dimension.',
+    ],
+    pros: [
+      'Clean beauty certified, making it safe for sensitive lips',
+      'Excellent for achieving hydrated lips with a clear, luminous gloss',
+    ],
+    cons: [
+      'The high-shine finish may not appeal to users who dislike a glossy feel',
+    ],
+    colorFit:
+      'Spring Warm / Autumn Warm – Clear, warm glow shades brighten and revitalize Warm Tone complexions.',
+    image: '/products/espoir-lip-tint-glaze.webp',
+    coupangQuery: '에스쁘아 꾸뛰르 립틴트 글레이즈',
+    globalQuery: 'espoir couture lip tint glaze',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-11-03',
+    tags: ['CleanBeauty', 'GlowTint', 'VeganLipTint'],
+    seoTitle: 'espoir Couture Lip Tint Glaze Review & Guide',
+    seoDescription:
+      'Discover espoir Couture Lip Tint Glaze, a vegan clean beauty tint offering clear, glossy color and hydration for a sophisticated daily lip look.',
+  },
+  {
     slug: 'phlur-peach-skin-body-mist',
     category: 'fragrance',
     brand: 'PHLUR',

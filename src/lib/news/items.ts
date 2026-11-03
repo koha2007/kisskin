@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'moo100-amazon-us-haircare-launch',
+    category: 'hair',
+    title: 'MOO100, ‘자몽 워터 샴푸’로 미국 아마존 진출—100만 병 이상 국내 판매 기록',
+    summary:
+      '한국 헤어케어 브랜드 MOO100이 ‘자몽 워터 샴푸’로 미국 아마존 시장에 공식 진입했습니다. 이미 한국에서 100만 병 이상 판매된 베스트셀러가 글로벌 시장에서도 주목받고 있습니다.',
+    body: [
+      '> TLDR: MOO100 미국 아마존 런칭 | 자몽 워터 샴푸 출시 | 국내 100만 병 이상 판매',
+      'MOO100(무백), 한국 스타힐스 코스메틱의 전문 헤어케어 브랜드가 미국 아마존 시장에 진출했습니다. 10월 중 판매가 시작되었습니다.',
+      '> DATA: MOO100 자몽 워터 샴푸, 한국에서 100만 병 이상 판매된 베스트셀러 제품으로 확인됨',
+      '이번 미국 런칭은 MOO100 브랜드의 글로벌 확장 전략으로, 특히 이미 한국 시장에서 큰 인기를 얻은 제품을 기반으로 했다는 점에서 의미가 있습니다. 미국 소비자들에게도 입소문이 기대됩니다.',
+      '소비자 입장에서는 국내 인기 헤어케어가 온라인으로 쉽게 접근 가능해졌다는 점에서 실용적인 선택지가 확대된 셈입니다.',
+    ],
+    date: '2026-11-03',
+    readMinutes: 3,
+    tags: ['헤어케어', '글로벌진출', '신규출시'],
+    image: '/news/moo100-amazon-us-haircare-launch.webp',
+    seoTitle: 'MOO100 자몽 워터 샴푸, 미국 아마존 출시',
+    seoDescription:
+      '한국의 헤어케어 브랜드 MOO100이 자몽 워터 샴푸로 미국 아마존에 진출하며 국내 100만 병 이상 판매된 인기 제품이 글로벌 시장으로',
+  },
+  {
     slug: 'eu-greenwashing-ban-pfhxa-k-beauty-impact',
     category: 'global',
     title: 'EU, PFHxA 포함 화장품 친환경 무검증 주장 즉시 금지 발표',

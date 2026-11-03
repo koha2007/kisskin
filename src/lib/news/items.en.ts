@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'moo100-amazon-us-haircare-launch',
+    category: 'hair',
+    title: 'MOO100 Enters US Amazon with \'Grapefruit Water Shampoo\'—Over 1 Million Bottles Sold Domestically',
+    summary:
+      'Korean haircare brand MOO100 has officially entered the US Amazon market with its flagship \'Grapefruit Water Shampoo.\' Having already sold over 1 million bottles in Korea, this bestseller is now gaining attention in the global market.',
+    body: [
+      '> TLDR: MOO100 launches on US Amazon | Grapefruit Water Shampoo released | Over 1M bottles sold domestically',
+      'MOO100, a professional haircare brand by Korea\'s Starhills Cosmetic, has entered the US Amazon market, with sales officially commencing in October.',
+      '> DATA: MOO100 Grapefruit Water Shampoo confirmed as a bestseller with over 1 million bottles sold in Korea',
+      'This US launch serves as MOO100\'s global expansion strategy and holds significance as it leverages a product that has already achieved massive popularity in Korea, raising expectations for strong word-of-mouth among American consumers.',
+      'From a consumer perspective, this expands practical options by making popular Korean haircare easily accessible online.',
+    ],
+    date: '2026-11-03',
+    readMinutes: 3,
+    tags: ['Haircare', 'Global Expansion', 'New Launch'],
+    image: '/news/moo100-amazon-us-haircare-launch.webp',
+    seoTitle: 'MOO100 Launches Grapefruit Water Shampoo on US Amazon',
+    seoDescription:
+      'K-beauty brand MOO100 launches its bestselling Grapefruit Water Shampoo on US Amazon following over 1 million sales in Korea.',
+  },
+  {
     slug: 'eu-greenwashing-ban-pfhxa-k-beauty-impact',
     category: 'global',
     title: 'EU Announces Immediate Ban on Unverified Green Claims for Cosmetics Containing PFHxA',

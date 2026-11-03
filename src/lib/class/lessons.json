@@ -1057,5 +1057,98 @@
     "video": {
       "seconds": 22
     }
+  },
+  {
+    "slug": "natural-eyebrows",
+    "publishedAt": "2026-11-03",
+    "introKo": "눈썹 전체를 틀 모양대로 꽉 채워 칠하면 짱구 눈썹처럼 어색해지기 쉬워요. 빈 곳만 펜슬로 선을 긋고, 앞머리는 파우더로 스머징한 뒤 스풀리와 젤로 정돈하면 자연스러워 보여요.",
+    "introEn": "Filling brows like a solid stencil makes them look blocky and harsh. Draw hair-like strokes only in sparse spots, soften the front with powder, then set with a spoolie and gel for a natural finish.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "brows",
+        "titleKo": "스풀리로 결 정돈과 유분 제거",
+        "titleEn": "Brush through and absorb oil",
+        "bodyKo": "그리기 전에 스풀리 브러시로 눈썹 털을 결대로 빗어 정돈해요. 눈썹에 유분이 남아 있으면 펜슬이 뭉치므로 9편에서 쓴 투명 파우더를 가볍게 쓸어 유분을 잡아줘요.",
+        "bodyEn": "Brush brow hairs up and out with a spoolie before drawing. If oil remains, pencil pigments can clump; sweep a touch of translucent powder from lesson 9 first to absorb excess oil.",
+        "toolsKo": "스풀리 브러시 · 투명 파우더",
+        "toolsEn": "Spoolie brush · translucent powder",
+        "swatches": [
+          "#d2c4b5"
+        ],
+        "searchKeywords": "아이브로우 스크류 브러시",
+        "shopEn": "spoolie brow brush",
+        "shortKo": "그리기 전 파우더로 유분 잡기",
+        "shortEn": "Powder brows before drawing"
+      },
+      {
+        "area": "brows",
+        "titleKo": "빈 곳만 펜슬로 한 올씩 세워 그리기",
+        "titleEn": "Fill sparse gaps with fine pencil strokes",
+        "bodyKo": "슬림 펜슬로 털이 비어 있는 중간과 꼬리 부분만 결 방향대로 1mm씩 얇게 그어요. 테두리를 채우지 말고 털을 한 올씩 심듯이 선으로 얹어줘요.",
+        "bodyEn": "Using a micro-pencil, draw short 1 mm strokes in sparse areas along hair growth. Avoid outlining the entire brow—just sketch delicate, hair-like lines.",
+        "toolsKo": "슬림 아이브로우 펜슬",
+        "toolsEn": "Micro brow pencil",
+        "swatches": [
+          "#4a3b32",
+          "#635045"
+        ],
+        "searchKeywords": "초슬림 아이브로우 펜슬 브라운",
+        "shopEn": "micro eyebrow pencil brown",
+        "shortKo": "빈 곳만 한 올씩 그리기",
+        "shortEn": "Draw strokes only in gaps"
+      },
+      {
+        "area": "brows",
+        "titleKo": "앞머리는 파우더로 소프트하게 음영 주기",
+        "titleEn": "Softly shade the front with powder",
+        "bodyKo": "눈썹 앞머리에 펜슬 선을 또렷이 대면 인상이 세 보여요. 사선 브러시에 섀도 파우더를 묻혀 앞머리에서 중간 방향으로 살살 쓸어 경계를 자연스럽게 풀어요.",
+        "bodyEn": "Sharp pencil lines at the front can make your expression look harsh. Pick up brow powder with an angled brush and sweep gently from the front inward to soften the start.",
+        "toolsKo": "아이브로우 파우더 · 사선 브러시",
+        "toolsEn": "Brow powder · angled brow brush",
+        "swatches": [
+          "#8c7667",
+          "#a38f80"
+        ],
+        "searchKeywords": "아이브로우 케이크 파우더",
+        "shopEn": "eyebrow powder cake",
+        "shortKo": "앞머리는 파우더로 퍼뜨리기",
+        "shortEn": "Softly blur the front with powder"
+      },
+      {
+        "area": "brows",
+        "titleKo": "스풀리로 빗고 브로우 젤로 결 고정",
+        "titleEn": "Blend with spoolie and set with gel",
+        "bodyKo": "스풀리로 앞머리를 빗어 진한 색을 풀어준 뒤, 투명 브로우 젤로 결을 위로 빗어 세워주면 결이 살아있는 자연스러운 눈썹이 완성돼요.",
+        "bodyEn": "Blend out any harsh color by brushing the front with a spoolie. Finish with a clear brow gel, combing hairs upward for a soft, structured, and naturally textured brow.",
+        "toolsKo": "스풀리 브러시 · 투명 브로우 픽서 젤",
+        "toolsEn": "Spoolie brush · clear brow gel",
+        "swatches": [
+          "#5e4d42"
+        ],
+        "searchKeywords": "투명 아이브로우 픽서 젤",
+        "shopEn": "clear brow setting gel",
+        "shortKo": "스풀리로 풀고 젤로 결 고정",
+        "shortEn": "Blend out and set with gel"
+      }
+    ],
+    "tipsKo": [
+      "눈썹 색은 모발 색보다 한 톤 밝은 색을 고르면 인상이 한결 부드러워 보여요.",
+      "앞머리는 연하게, 중간과 꼬리로 갈수록 살짝 진해지는 그라데이션을 만들어 보세요."
+    ],
+    "tipsEn": [
+      "Choosing a brow shade one tone lighter than your hair color softens your overall look.",
+      "Keep the front lightest and build depth toward the arch and tail for a dimensional look."
+    ],
+    "mistakeKo": "눈썹 앞머리부터 펜슬로 네모나게 꽉 채워 그리면 눈썹만 둥둥 떠 보이고 진해 보여요.",
+    "mistakeEn": "Filling the front of the brow in a solid boxy shape makes the brows look blocky and unnatural.",
+    "chartPrompt": "front-facing pencil face chart: softly defined natural eyebrows, filled with delicate hair-like strokes in natural taupe-brown, soft hazy powder shading on the inner front of eyebrows, brushed upward natural hair texture with subtle clear gel shine, clean bare eyes and soft skin",
+    "videoTitleKo": "자연스러운 눈썹",
+    "videoTitleEn": "Natural Eyebrows",
+    "video": {
+      "seconds": 19
+    }
   }
 ]

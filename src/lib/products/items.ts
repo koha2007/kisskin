@@ -5,6 +5,46 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'espoir-lip-tint-glaze',
+    category: 'lip',
+    brand: '에스쁘아',
+    name: '꾸뛰르 립틴트 글레이즈',
+    title: '에스쁘아 꾸뛰르 립틴트 글레이즈 – 클린뷰티 틴트로 입술에 세련된 윤기',
+    summary:
+      '에스쁘아의 클린뷰티 틴트인 ‘꾸뛰르 립틴트 글레이즈’는 비건·크루얼티 프리 인증을 받은 제품으로, 부드러운 글레이즈 제형이 입술에 맑고 윤기 있는 컬러를 선사해 요즘 가장 주목받는 립 제품 중 하나입니다.',
+    highlights: ['클린뷰티 인증 틴트', '글로우 광택 제형', '맑고 투명한 발색'],
+    details: [
+      '비건·크루얼티 프리 조건을 충족한 클린뷰티 립 틴트로 피부 자극을 최소화합니다.',
+      '글레이즈 제형이 입술 표면에 맑고 자연스러운 윤기를 더해 입술을 촉촉하게 연출합니다.',
+      '투명하고 맑은 발색으로 데일리 MLBB 메이크업에 적합하며, 여러 퍼스널 컬러에 두루 어울립니다.',
+    ],
+    whoFor:
+      '피부 자극이 걱정되는 민감한 입술을 가진 분, 그리고 자연스러운 광택과 함께 입술 색을 살리고 싶은 20–30대 데일리 메이크업 유저에게 적합합니다.',
+    howTo: [
+      '립 브러시나 팁을 사용해 입술 중앙부터 바깥쪽으로 부드럽게 펴 발라주세요.',
+      '글로우 연출을 원할 경우 입술 전체에 얇게 레이어링하거나 중앙에만 덧발라 입체감을 더해보세요.',
+    ],
+    pros: [
+      '클린뷰티 인증으로 민감한 입술에도 안심하고 사용 가능',
+      '맑고 윤기 있는 광택으로 촉촉한 입술 표현에 뛰어남',
+    ],
+    cons: [
+      '고광택이라 번들거림을 선호하지 않는 사용자에겐 호불호 있을 수 있음',
+    ],
+    colorFit:
+      '봄 웜/가을 웜 – 투명하고 따뜻한 글로우 컬러가 웜톤 피부를 더욱 생기 있게 연출해 줍니다.',
+    image: '/products/espoir-lip-tint-glaze.webp',
+    coupangQuery: '에스쁘아 꾸뛰르 립틴트 글레이즈',
+    globalQuery: 'espoir couture lip tint glaze',
+    clio: true,
+    clioCategory: 'lip',
+    date: '2026-11-03',
+    tags: ['클린뷰티', '글로우틴트', '비건립틴트'],
+    seoTitle: '에스쁘아 꾸뛰르 립틴트 글레이즈',
+    seoDescription:
+      '비건·크루얼티 프리 클린뷰티 틴트로 맑은 컬러와 촉촉한 윤기를 동시에 선사하는 입술 메이크업 팁.',
+  },
+  {
     slug: 'phlur-peach-skin-body-mist',
     category: 'fragrance',
     brand: '플러 (PHLUR)',
