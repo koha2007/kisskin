@@ -80,7 +80,8 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   }, [next])
 
   const nav = (page: string) => {
-    if (next) { window.location.href = next; return }
+    // replace: 로그인 후 뒤로 가기가 로그인 화면으로 돌아가지 않게 한다.
+    if (next) { window.location.replace(next); return }
     const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth')
     else window.location.href = paths[page] || '/'

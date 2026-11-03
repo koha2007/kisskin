@@ -29,7 +29,9 @@ const RATE_LIMITS: Record<string, { maxRequests: number; windowMs: number }> = {
   '/api/checkout': { maxRequests: 10, windowMs: 60_000 },      // 10 per minute
   '/api/delete-account': { maxRequests: 3, windowMs: 300_000 }, // 3 per 5 minutes
   '/api/refund': { maxRequests: 5, windowMs: 300_000 },        // 5 per 5 minutes
-  '/api/makeup-edit': { maxRequests: 6, windowMs: 60_000 },    // 6 per minute (OpenAI 비용 보호)
+  // 15 per minute. 9룩 결제자는 한 번에 9장을 3개씩 요청한다 — 6이면 결제 후 일부가 429 로 실패했다.
+  // 비용은 로그인·무료권·크레딧과 작업당 재시도 제한(makeup-edit.ts)이 막는다.
+  '/api/makeup-edit': { maxRequests: 15, windowMs: 60_000 },
   '/api/register-push-token': { maxRequests: 10, windowMs: 60_000 }, // 10 per minute (앱 토큰 등록 스팸 방지)
 }
 

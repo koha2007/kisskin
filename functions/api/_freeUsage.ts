@@ -19,7 +19,7 @@
 
 export interface UsageStore {
   get(key: string): Promise<string | null>
-  put(key: string, value: string): Promise<void>
+  put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>
 }
 
 export type FreePool = 'makeup' | 'lucky' | 'tool'

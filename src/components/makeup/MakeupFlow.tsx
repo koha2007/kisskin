@@ -110,7 +110,8 @@ export default function MakeupFlow() {
         // 셀카는 업로드 때 세션에 맡겨 뒀고(savePendingSelfieFromSrc) 룩은 ?style= 로 실려 가서,
         // 로그인 화면이 "이 룩을 바로 만들어 드려요"로 받고 복귀 즉시 생성이 이어진다.
         gtagEvent('makeup_login_gate', { style: id })
-        window.location.href = loginHref(id)
+        // replace: 뒤로 가기가 여기로 돌아와 다시 생성→로그인으로 튕기는 고리를 막는다.
+        window.location.replace(loginHref(id))
         return
       }
 
@@ -209,6 +210,37 @@ export default function MakeupFlow() {
     if (step === 'processing' && selfie) runGenerate(selfie.photo, styleId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step])
+
+  // 휴대폰 뒤로 가기 = 한 단계 뒤로(2026-11-03). 단계가 주소 기록에 없으면 뒤로 한 번에 흐름 전체를
+  // 벗어나 크레딧을 쓴 결과도 사라진다. 'processing' 은 기록하지 않는다 — 생성 중 뒤로 가도 요청은
+  // 취소되지 않고(이미 차감됨) 끝나면 결과 화면이 뜬다. 첫 단계는 그대로 페이지를 떠난다.
+  const historyStepRef = useRef<Step | null>(null)
+  const selfieRef = useRef(selfie)
+  selfieRef.current = selfie
+  const afterSrcRef = useRef(afterSrc)
+  afterSrcRef.current = afterSrc
+  useEffect(() => {
+    if (typeof window === 'undefined' || step === 'processing' || step === 'error') return
+    if (historyStepRef.current === step) return
+    const entry = { ...(window.history.state as object | null), makeupStep: step }
+    if (historyStepRef.current === null) window.history.replaceState(entry, '')
+    else window.history.pushState(entry, '')
+    historyStepRef.current = step
+  }, [step])
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      const entry = (e.state as { makeupStep?: Step } | null)?.makeupStep
+      if (!entry) return
+      // 새로고침·다시 찍기 뒤에 남은 옛 기록이면 사진이나 결과가 없다 — 그 단계로 가면 빈 화면이 된다.
+      const target: Step = (entry === 'style' && !selfieRef.current) || (entry === 'result' && !afterSrcRef.current)
+        ? (selfieRef.current ? 'style' : 'upload')
+        : entry
+      historyStepRef.current = target
+      setStep(target)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
 
   // 로그인 상태 선확인 — 업로드 화면에 "로그인하면 무료 1회" 안내를 띄우기 위함.
   useEffect(() => {

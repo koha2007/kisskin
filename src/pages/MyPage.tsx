@@ -129,7 +129,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
   // Redirect unauthenticated users to /auth/ once session check finishes
   useEffect(() => {
     if (!authLoading && !user && !userProp) {
-      window.location.href = '/auth/'
+      // replace: 뒤로 가기가 이 페이지로 돌아와 다시 로그인으로 튕기는 고리를 막는다.
+      window.location.replace('/auth/')
     }
   }, [authLoading, user, userProp])
 

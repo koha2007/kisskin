@@ -36,6 +36,10 @@ interface Env {
 // 계정당 무료 장수 — 가입 무료권 2장 = 2026 메이크업 1장 + 럭키 메이크업 1장(_freeUsage.ts, 풀이 따로).
 // 9룩 컬렉션·럭키 9장 묶음은 항상 크레딧.
 
+/** 크레딧 1개로 같은 작업을 시도할 수 있는 횟수(첫 시도 포함) */
+const MAX_JOB_ATTEMPTS = 5
+const JOB_ATTEMPT_TTL_SEC = 30 * 24 * 60 * 60
+
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } })
 
@@ -146,6 +150,17 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
       return json({ error: 'credit_error', message: '크레딧 처리 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.' }, 503)
     }
     creditBalance = deduct.balance
+
+    // 같은 jobId 재시도는 추가 차감이 없다 → 횟수를 묶지 않으면 1크레딧으로 무한 생성이 된다.
+    // 일시 실패 재시도에 충분한 만큼만 허용한다. 작업 id 는 사용자별로 따로 센다.
+    if (jobId) {
+      const attemptKey = `job:${userId}:${jobId}`
+      const attempts = parseInt((await env.MAKEUP_USAGE.get(attemptKey)) || '0', 10) || 0
+      if (attempts >= MAX_JOB_ATTEMPTS) {
+        return json({ error: 'job_attempts_exceeded', message: '이 작업은 다시 만들 수 있는 횟수를 넘었어요. 문의하기로 알려 주세요.' }, 429)
+      }
+      await env.MAKEUP_USAGE.put(attemptKey, String(attempts + 1), { expirationTtl: JOB_ATTEMPT_TTL_SEC })
+    }
   }
 
   // ── OpenAI images/edits (AI Gateway 우선) ──
@@ -159,7 +174,8 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   // size='auto' → 출력이 입력 사진의 방향/비율을 따른다(운영자 요구: 원본 비율 유지).
   // 명시적 WxH 도 허용, 그 외/누락은 auto 로 폴백.
   fd.append('size', body.size === 'auto' || (body.size && /^\d+x\d+$/.test(body.size)) ? body.size : 'auto')
-  fd.append('quality', ['low', 'medium', 'high'].includes(body.quality || '') ? body.quality! : 'medium')
+  // 'high' 는 받지 않는다 — 화면은 항상 medium 이고, 요청을 고쳐 보내면 같은 값에 원가만 몇 배가 된다.
+  fd.append('quality', body.quality === 'low' ? 'low' : 'medium')
   // ⚠️ gpt-image-2 는 input_fidelity 파라미터를 지원하지 않는다(보내면 400
   //    invalid_input_fidelity_model → 생성 전부 실패). 그래서 넣지 않는다.
   //    얼굴 보존은 프롬프트 FACE_LOCK 에 의존한다(테스트상 gpt-image-2 는 fidelity
