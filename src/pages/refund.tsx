@@ -48,6 +48,7 @@ function RefundKo() {
 
       <h2>2. 일반 정책</h2>
       <p>AI 분석 결과가 브라우저로 정상 전달된 시점에는 모든 구매가 <strong>최종 확정</strong>됩니다. 결과가 결제 직후 생성·표시되므로 전달된 콘텐츠를 "취소"하거나 "회수"할 수 없습니다.</p>
+      <p><strong>크레딧 환불(2026년 11월 3일 추가):</strong> 크레딧 결제가 환불되면 환불된 몫만큼 남은 크레딧이 회수됩니다. 이미 사용한 크레딧은 회수하지 않습니다.</p>
       <p><strong>중요:</strong> 본 정책은 이용자의 관할지역 법령상 법정 소비자 권리에 영향을 주지 않습니다. 지역별 권리는 제10조 이하를 참고해 주십시오.</p>
 
       <h2>3. 자동 환불 (서비스 실패)</h2>
@@ -186,6 +187,7 @@ function RefundEn() {
 
       <h2>2. General Policy</h2>
       <p>All purchases are <strong>final</strong> once the AI analysis results have been successfully delivered to your browser. Since results are generated and displayed immediately after payment, we cannot "undo" or "take back" the delivered content.</p>
+      <p><strong>Credit refunds (added November 3, 2026):</strong> When a credit purchase is refunded, your remaining credits are reduced by the refunded share. Credits you have already used are not taken back.</p>
       <p><strong>Important:</strong> This policy does not affect your statutory consumer rights under applicable law. See Section 10 for jurisdiction-specific rights.</p>
 
       <h2>3. Automatic Refund (Service Failure)</h2>

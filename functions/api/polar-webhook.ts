@@ -5,7 +5,7 @@
 //   metadata.user_id 로 chargeCredits(ref=order.id) 호출. charge_credits RPC 가 ref 멱등
 //   처리 → 웹훅 재시도에도 한 번만 충전. 기존 orders 기록·구독 로직은 그대로 둔다.
 import { creditsForProduct } from './_packs'
-import { chargeCredits } from './_credits'
+import { chargeCredits, deductCredits, getBalance } from './_credits'
 import { REFERRAL_BONUS, REFERRAL_CAP } from './referral'
 
 interface Env {
@@ -267,6 +267,8 @@ async function handleOrderEvent(
     product?: { id?: string }
     metadata?: Record<string, unknown>
     amount?: number
+    total_amount?: number
+    refunded_amount?: number
     currency?: string
     status?: string
   }
@@ -348,5 +350,41 @@ async function handleOrderEvent(
     } else {
       console.log(`[polar-webhook] Order ${order.id} refunded`)
     }
+    await revokeRefundedCredits({ SUPABASE_SERVICE_ROLE_KEY: serviceKey, VITE_SUPABASE_URL: supabaseUrl }, order)
   }
+}
+
+// ── 환불 시 크레딧 회수 (2026-11-03, 환불 정책 2조) ─────────────────
+// 환불받은 몫만큼 남은 크레딧에서 뺀다. 이미 쓴 크레딧은 되돌릴 수 없으니 잔액까지만 회수한다.
+// ref=refund:주문id 로 멱등 — 웹훅이 다시 와도 한 번만. 실패하면 던져서 Polar 가 재시도하게 한다.
+async function revokeRefundedCredits(
+  env: { SUPABASE_SERVICE_ROLE_KEY: string; VITE_SUPABASE_URL: string },
+  order: {
+    id: string
+    product_id?: string
+    product?: { id?: string }
+    metadata?: Record<string, unknown>
+    amount?: number
+    total_amount?: number
+    refunded_amount?: number
+  },
+) {
+  const credits = creditsForProduct(order.product_id || order.product?.id)
+  if (credits == null) return
+  const userId = typeof order.metadata?.user_id === 'string' ? order.metadata.user_id : ''
+  if (!userId) {
+    console.warn(`[polar-webhook] Refunded credit order ${order.id} missing metadata.user_id — revoke by hand`)
+    return
+  }
+  const total = order.total_amount ?? order.amount ?? 0
+  const share = total > 0 && order.refunded_amount != null ? Math.min(1, order.refunded_amount / total) : 1
+  const target = Math.ceil(credits * share)
+  const amount = Math.min(target, await getBalance(env, userId))
+  if (amount <= 0) {
+    console.log(`[polar-webhook] Order ${order.id} refunded — no credits left to revoke`)
+    return
+  }
+  const r = await deductCredits(env, userId, amount, `refund:${order.id}`)
+  if (!r.success) throw new Error(`revoke failed for order ${order.id}: ${r.reason}`)
+  console.log(`[polar-webhook] Revoked ${amount}/${target} credits for refunded order ${order.id}, balance=${r.balance}`)
 }
