@@ -19,7 +19,18 @@ const latest = (xs, pick) => [...xs].sort((a, b) => (a.date < b.date ? 1 : -1)).
 const prod = (p) => ({ slug: p.slug, brand: p.brand, name: p.name, category: p.category, image: p.image ?? null, date: p.date })
 const news = (n) => ({ slug: n.slug, title: n.title, category: n.category, image: n.image ?? null, date: n.date })
 
+// "이번 주 추천 룩" 칸의 주차 문구 — 빌드 시각(KST) 기준으로 자동 계산한다.
+const kst = new Date(Date.now() + 9 * 60 * 60 * 1000)
+const weekNo = Math.ceil(kst.getUTCDate() / 7)
+const KO_WEEK = ['첫째', '둘째', '셋째', '넷째', '다섯째']
+const EN_WEEK = ['First', 'Second', 'Third', 'Fourth', 'Fifth']
+const EN_MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 const out = {
+  week: {
+    ko: `${kst.getUTCMonth() + 1}월 ${KO_WEEK[weekNo - 1]} 주`,
+    en: `${EN_WEEK[weekNo - 1]} week of ${EN_MONTH[kst.getUTCMonth()]}`,
+  },
   products: {
     ko: latest(loadFeed('src/lib/products/items.ts', 'PRODUCT_ITEMS'), prod),
     en: latest(loadFeed('src/lib/products/items.en.ts', 'PRODUCT_ITEMS_EN'), prod),

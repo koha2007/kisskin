@@ -150,10 +150,22 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
     }
 
     // 5. Process event (only runs if insert succeeded — no duplicate)
-    if (type.startsWith('subscription.')) {
-      await handleSubscriptionEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
-    } else if (type.startsWith('order.')) {
-      await handleOrderEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
+    try {
+      if (type.startsWith('subscription.')) {
+        await handleSubscriptionEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
+      } else if (type.startsWith('order.')) {
+        await handleOrderEvent(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY, type, d)
+      }
+    } catch (e) {
+      // 처리 실패 기록을 지워야 Polar 재시도가 '중복'으로 버려지지 않는다. 충전은 ref=주문 id 로 멱등이라 재시도해도 한 번만 들어간다.
+      console.error(`[polar-webhook] Processing failed for ${webhookId}: ${e instanceof Error ? e.message : String(e)}`)
+      await supabaseRequest(
+        supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY,
+        `webhook_events?event_id=eq.${encodeURIComponent(webhookId)}`, 'DELETE',
+      ).catch(() => {})
+      return new Response(JSON.stringify({ error: 'Processing failed, retry' }), {
+        status: 500, headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     return new Response(JSON.stringify({ received: true }), {
@@ -259,11 +271,9 @@ async function handleOrderEvent(
     status?: string
   }
 
+  // 이메일이 없어도 충전은 해야 한다(충전은 metadata.user_id 로 한다). 주문 기록에만 빈 값이 남는다.
   const email = order.customer?.email || order.customer_email || ''
-  if (!email) {
-    console.warn('[polar-webhook] Order event missing email, skipping')
-    return
-  }
+  if (!email) console.warn(`[polar-webhook] Order ${order.id} missing email`)
 
   if (type === 'order.created') {
     const productId = order.product_id || order.product?.id || null
@@ -301,12 +311,13 @@ async function handleOrderEvent(
         // metadata.user_id 없음 = 비로그인/구버전 checkout. 충전 불가 → 경고만(돈은 받았으니 수동 처리 대상).
         console.warn(`[polar-webhook] Credit order ${order.id} missing metadata.user_id — skipping charge (${email})`)
       } else {
+        // 충전 실패는 위로 던져 웹훅을 500 으로 돌려준다 — 돈을 받고 크레딧이 안 들어간 채 끝나면 안 된다.
+        const balance = await chargeCredits(
+          { SUPABASE_SERVICE_ROLE_KEY: serviceKey, VITE_SUPABASE_URL: supabaseUrl },
+          userId, credits, order.id,
+        )
+        console.log(`[polar-webhook] Charged ${credits} credits → ${userId} (order ${order.id}), balance=${balance}`)
         try {
-          const balance = await chargeCredits(
-            { SUPABASE_SERVICE_ROLE_KEY: serviceKey, VITE_SUPABASE_URL: supabaseUrl },
-            userId, credits, order.id,
-          )
-          console.log(`[polar-webhook] Charged ${credits} credits → ${userId} (order ${order.id}), balance=${balance}`)
           // 친구 초대 보상 — 초대받은 친구의 첫 크레딧 결제면 양쪽 +2(0009). 묶인 적 없거나 이미 받았으면 아무 일 없음.
           // 충전 ref 가 'referral:<주문id>:…' 라 웹훅 재시도에도 한 번만. 0009 실행 전이면 404 → 건너뜀.
           const rr = await supabaseRequest(supabaseUrl, serviceKey, 'rpc/reward_referral', 'POST', {
@@ -319,7 +330,7 @@ async function handleOrderEvent(
             console.error(`[polar-webhook] reward_referral failed: ${rr.status} ${(await rr.text()).slice(0, 200)}`)
           }
         } catch (e) {
-          console.error(`[polar-webhook] chargeCredits failed for order ${order.id}: ${e instanceof Error ? e.message : String(e)}`)
+          console.error(`[polar-webhook] Referral reward failed for order ${order.id}: ${e instanceof Error ? e.message : String(e)}`)
         }
       }
     }
