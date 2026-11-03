@@ -10,6 +10,7 @@ import { luckyLookImg } from '../../lib/fortune/looks'
 import { TOOL_CARD_IMAGES } from '../../lib/toolCardImages'
 import { trackEvent } from '../../lib/analytics'
 import CollectionDemo from './CollectionDemo'
+import HomeWeeklyLook from './HomeWeeklyLook'
 
 const PINK = '#ef4da0'
 const NAVY = '#070953'
@@ -93,6 +94,8 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
           ))}
         </div>
       </section>
+
+      <HomeWeeklyLook isEn={isEn} />
 
       <section id="free" aria-labelledby="home-free" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 py-8 text-navy md:px-4 md:py-12">
         <span className="inline-block rounded-full bg-navy px-3 py-0.5 text-[13px] font-extrabold text-white">{isEn ? 'Free · No payment' : '무료 · 결제 없음'}</span>

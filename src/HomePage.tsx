@@ -54,7 +54,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         { q: 'What happens to my selfie after I upload it?', a: 'Your photo is sent securely for AI processing and deleted as soon as it’s done. It’s never used for training, and unless you tap save or share yourself, the result image is never made public.' },
         { q: 'How close is the result to real makeup?', a: 'You’ll get the most natural result from a front-facing selfie in natural light. Lighting, angle, and anything covering your face (glasses, masks) can make it look different from real makeup. Swatch in store before you buy.' },
         { q: 'Can I use it for free?', a: 'Yes. The Makeup MBTI, Personal Color, Face Shape, and Perfume tools are all free and unlimited with no sign-up. AI makeup: sign up and get your first look free, no card needed (sign-in keeps people from farming unlimited free generations). After that, 1 look = 1 credit · credits from $2.99 (5 credits) · all 9 looks $4.99.' },
-        { q: 'Where can I buy the recommended cosmetics?', a: 'We give recommendations by category (lipstick, eyeshadow, blush, and so on). For specific products, search and compare on the channels you already use — Olive Young, Sephora, Coupang, Amazon, and others. We never lock you into a single store.' },
+        { q: 'Where can I buy the recommended cosmetics?', a: 'Your results recommend by category (lipstick, eyeshadow, blush, and so on), and This week’s look on the home page links to specific product pages. We don’t sell products ourselves — you buy from outside stores such as Olive Young, Sephora, Coupang or Amazon. We never lock you into a single store.' },
         { q: 'Can men use it too?', a: 'Yes. Men get a grooming-focused set — a natural healthy base, clean skin tone-up, and tinted-balm looks — with no lipstick or eye makeup forced on.' },
         { q: 'Is the result really me, not a different face?', a: 'Yes. The makeup is applied as a precise overlay that locks your facial structure, features, and expression. We add only lip, cheek, and skin retouching inside a tight mask — your identity stays exactly the same.' },
       ]
@@ -62,7 +62,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
         { q: '셀카 업로드 후 사진은 어떻게 처리되나요?', a: '사진은 AI 처리를 위해 안전하게 전송되고, 처리가 끝나면 바로 삭제돼요. 학습 데이터로 쓰이지 않아요. 또한 본인이 직접 저장·공유 버튼을 누르지 않으면 결과 이미지도 외부에 공개되지 않습니다.' },
         { q: '결과가 실제 메이크업과 얼마나 비슷한가요?', a: '정면을 향한 자연광 셀카에서 가장 자연스러운 결과가 나와요. 조명, 각도, 안경이나 마스크 같은 가림에 따라 실제 메이크업과 다르게 보일 수 있어요. 구매 전에는 매장에서 한 번 더 발색을 확인해 보세요.' },
         { q: '무료로 사용할 수 있나요?', a: '네. 메이크업 MBTI · 퍼스널 컬러 · 얼굴형 · 향수 진단 도구는 가입 없이 모두 무료·무제한입니다. AI 메이크업은 회원가입하면 첫 1룩 무료이고 카드 등록은 필요 없어요(이 기능만 로그인이 필요한 건 무제한 무료 생성 악용을 막기 위해서예요). 그다음은 1룩 = 크레딧 1개 · 크레딧 5개 $2.99부터 · 9룩 전부 $4.99예요.' },
-        { q: '추천된 화장품은 어디서 살 수 있나요?', a: '카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을 제공하며, 구체적인 제품은 올리브영·세포라·쿠팡·아마존 등 사용자가 평소 이용하는 채널에서 검색해 비교 구매하면 됩니다. 우리는 구매 채널을 강제하지 않습니다.' },
+        { q: '추천된 화장품은 어디서 살 수 있나요?', a: '결과에서는 카테고리별 추천(립스틱·아이섀도우·블러쉬 등)을, 홈의 ‘이번 주 추천 룩’에서는 제품 페이지를 안내해요. 키스인스킨이 직접 판매하지는 않고, 구매는 올리브영·세포라·쿠팡·아마존 등 외부 판매처에서 합니다. 우리는 구매 채널을 강제하지 않습니다.' },
         { q: '남성도 사용할 수 있나요?', a: '네. 남성은 그루밍 중심으로 자연스러운 혈색 베이스·깨끗한 피부 톤업·틴티드 밤 룩을 제공하며, 립스틱이나 아이 메이크업을 억지로 입히지 않습니다.' },
         { q: '결과가 정말 제 얼굴인가요, 다른 얼굴이 되진 않나요?', a: '네. 메이크업은 얼굴 구조·이목구비·표정을 고정한 채 정밀한 오버레이로만 입혀집니다. 좁은 마스크 안쪽의 립·볼·피부 보정만 더하므로 정체성은 그대로 유지됩니다.' },
       ]
