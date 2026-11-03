@@ -1,12 +1,15 @@
 // 홈 "이번 주 추천 룩" — 페이스 차트 번호와 제품을 잇고, 신제품·뉴스를 한 칸에 묶는다.
-// 내용은 src/lib/home/weeklyLook.ts 에서 바꾼다.
+// 룩·제품 3개 = src/lib/home/weeklyLook.ts / 주차·새 소식 = 자동 발행 뒤 빌드가 만드는 latestCards.json.
 // GA4 select_promotion creative_slot: home_weekly_look
 //   promotion_id = try | product:{slug} | new_product:{slug} | news:{slug} | all_products | all_news
 import { WEEKLY_LOOK as W } from '../../lib/home/weeklyLook'
+import CARDS from '../../lib/home/latestCards.json'
 import { LOOK_HERO } from '../../lib/makeup/lookImages'
 import { trackEvent } from '../../lib/analytics'
 
 const PINK = '#ef4da0'
+/** 새 소식의 신제품은 메이크업 제품을 먼저 고른다. 최근 글에 없으면 가장 최신 글. */
+const MAKEUP_CATEGORIES = ['lip', 'eye', 'cheek', 'base']
 
 /** 차트 위 번호 위치(%) — 번호 중심과 선의 양 끝. 차트는 눈·볼·입술 자리가 고정이라 룩이 바뀌어도 같다. */
 const PINS = [
@@ -24,10 +27,13 @@ function Num({ n }: { n: number }) {
 export default function HomeWeeklyLook({ isEn }: { isEn: boolean }) {
   const prefix = isEn ? '/en' : ''
   const t = (x: { ko: string; en: string }) => (isEn ? x.en : x.ko)
-  const label = `${isEn ? 'This week’s look' : '이번 주 추천 룩'} · ${t(W.week)}`
+  const label = `${isEn ? 'This week’s look' : '이번 주 추천 룩'} · ${t(CARDS.week)}`
+  const lang = isEn ? 'en' : 'ko'
+  const latestNews = CARDS.news[lang][0]
+  const latestProduct = CARDS.products[lang].find((p) => MAKEUP_CATEGORIES.includes(p.category)) ?? CARDS.products[lang][0]
   const news = [
-    { id: `new_product:${W.newProduct.slug}`, href: `${prefix}/products/${W.newProduct.slug}/`, tag: isEn ? 'New' : '신제품', dark: false, text: t(W.newProduct.name), go: isEn ? 'View →' : '보기 →' },
-    { id: `news:${W.news.slug}`, href: `${prefix}/news/${W.news.slug}/`, tag: isEn ? 'News' : '뉴스', dark: true, text: t(W.news.title), go: isEn ? 'Read →' : '읽기 →' },
+    { id: `new_product:${latestProduct.slug}`, href: `${prefix}/products/${latestProduct.slug}/`, tag: isEn ? 'New' : '신제품', dark: false, text: `${latestProduct.brand} ${latestProduct.name}`, go: isEn ? 'View →' : '보기 →' },
+    { id: `news:${latestNews.slug}`, href: `${prefix}/news/${latestNews.slug}/`, tag: isEn ? 'News' : '뉴스', dark: true, text: latestNews.title, go: isEn ? 'Read →' : '읽기 →' },
   ]
 
   return (

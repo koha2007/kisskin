@@ -1,4 +1,5 @@
-// 홈 "이번 주 추천 룩" — 매주 이 파일만 고치면 칸 전체가 바뀐다.
+// 홈 "이번 주 추천 룩" — 룩과 제품 3개는 여기서 고른다.
+// 주차 문구와 "이번 주 새 소식"은 자동이다: 주간 자동 발행 → 빌드(gen-home-cards) → latestCards.json.
 // ─────────────────────────────────────────────────────────────────
 // 운영 규칙(2026-11-03 합의): 새 룩을 매주 만들지 않는다. 기존 룩(계절 1 + 상시 5) 중
 // 하나를 골라 제품·소식만 교체한다. 판매 데이터가 없으니 "랭킹·베스트"라고 쓰지 않는다.
@@ -9,19 +10,15 @@ type Text = { ko: string; en: string }
 
 export interface WeeklyLook {
   styleId: MakeupStyleId
-  week: Text
   name: Text
   desc: Text
   chart: { src: string; alt: Text }
   /** 차트의 번호 순서와 같다. swatch 는 룩의 색이며 제품의 실제 색이 아니다. */
   products: { slug: string; swatch: string; name: Text; note: Text }[]
-  newProduct: { slug: string; name: Text }
-  news: { slug: string; title: Text }
 }
 
 export const WEEKLY_LOOK: WeeklyLook = {
   styleId: 'winter-frost',
-  week: { ko: '11월 첫째 주', en: 'First week of November' },
   name: { ko: '겨울 프로스티 글램', en: 'Winter Frosty Glam' },
   desc: { ko: '차가운 펄 눈가, 맑은 윤광, 플럼 로즈 립.', en: 'Icy pearl lids, clear luminous skin and a plum-rose lip.' },
   chart: {
@@ -48,12 +45,4 @@ export const WEEKLY_LOOK: WeeklyLook = {
       note: { ko: '입술 · 쿨 베리 계열로 고르기', en: 'Lips · choose a cool berry shade' },
     },
   ],
-  newProduct: {
-    slug: 'espoir-lip-tint-glaze',
-    name: { ko: '에스쁘아 꾸뛰르 립틴트 글레이즈', en: 'espoir Couture Lip Tint Glaze' },
-  },
-  news: {
-    slug: 'moo100-amazon-us-haircare-launch',
-    title: { ko: 'MOO100 자몽 워터 샴푸, 미국 아마존 진출', en: 'MOO100 Grapefruit Water Shampoo enters US Amazon' },
-  },
 }
