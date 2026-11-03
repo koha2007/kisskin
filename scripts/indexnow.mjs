@@ -6,7 +6,7 @@
 //     HTTP 한 번으로 알리는 공개 프로토콜이다(계정 로그인 불필요).
 //
 // ⚠ 구글은 IndexNow 를 지원하지 않는다 → 구글은 Search Console 에서 사람이 직접
-//   "색인 생성 요청"을 눌러야 한다. 이 스크립트는 네이버·Bing 만 처리한다.
+//   "색인 생성 요청"을 눌러야 한다. 이 스크립트는 네이버·Bing 에 제출하고, 구글은 링크만 만든다.
 //   (Clarity 실측상 우리 외부 유입의 70%가 네이버라 실익이 크다.)
 //
 // 사전 조건: public/<KEY>.txt 가 배포돼 있어야 한다(소유 증명). 배포 전에 실행하면
@@ -19,6 +19,9 @@
 //   node scripts/indexnow.mjs --wait <url> …         # 그 URL이 배포될 때까지 기다렸다 제출
 //   node scripts/indexnow.mjs --dry                  # 전송 없이 목록만 출력
 // ════════════════════════════════════════════════════════════════════
+import { appendFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+
 const KEY = '7a2764f44db55c311d1d17dfbc7e8389'
 const HOST = 'kissinskin.net'
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`
@@ -97,7 +100,7 @@ async function main() {
   }
   console.log(`✅ 키 파일 확인: ${KEY_LOCATION}`)
 
-  const urlList = EXPLICIT.length ? EXPLICIT : ONLY_CHANGED ? CHANGED : await urlsFromSitemap()
+  const urlList = EXPLICIT.length ? dropUnchanged(EXPLICIT) : ONLY_CHANGED ? CHANGED : await urlsFromSitemap()
   if (!urlList.length) { console.log('제출할 URL 없음 — 종료'); return }
   console.log(`제출 대상: ${urlList.length}개 URL`)
 
@@ -122,6 +125,39 @@ async function main() {
     } catch (e) {
       console.error(`✖ ${ep.name}: ${e.message}`)
     }
+  }
+  googleLinks(urlList)
+}
+
+/**
+ * 주간 발행은 사이트맵 diff 의 + 줄을 새 URL 로 넘기는데, lastmod 만 바뀐 URL 도 줄이 다시 쓰여 함께 온다
+ * (2026-11-03 회차: 실제 새 글 6개인데 252개). 같은 커밋에서 - 줄에도 있는 URL 은 새 글이 아니므로 뺀다.
+ * Actions 안에서만 동작한다 — 손으로 URL 을 지정해 실행할 때는 그대로 보낸다.
+ */
+function dropUnchanged(urls) {
+  if (!process.env.GITHUB_ACTIONS) return urls
+  try {
+    const diff = execFileSync('git', ['show', '--format=', 'HEAD', '--', 'public/sitemap.xml'], { encoding: 'utf8', maxBuffer: 1 << 26 })
+    const removed = new Set([...diff.matchAll(/^-\s*<loc>([^<]+)<\/loc>/gm)].map((m) => m[1]))
+    return urls.filter((u) => !removed.has(u))
+  } catch {
+    return urls
+  }
+}
+
+/**
+ * 구글은 자동 요청 수단이 없다 → 서치콘솔 URL 검사 링크를 만들어 둔다.
+ * 눌러서 "색인 생성 요청"만 하면 된다. GitHub Actions 실행 요약(Summary)에도 남긴다.
+ * 하루에 요청할 수 있는 수가 적어(약 10건) 앞에서부터 10개만 만든다.
+ */
+function googleLinks(urlList) {
+  const RESOURCE = encodeURIComponent(`https://${HOST}/`)
+  const links = urlList.slice(0, 10).map((u) => [u, `https://search.google.com/search-console/inspect?resource_id=${RESOURCE}&id=${encodeURIComponent(u)}`])
+  console.log('\n구글 색인 요청 링크(눌러서 "색인 생성 요청"):')
+  links.forEach(([, link]) => console.log('  ' + link))
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const md = ['## 구글 색인 요청 링크', '', '링크를 열고 **색인 생성 요청**을 누르세요. 하루 약 10건까지 됩니다.', '', ...links.map(([u, link]) => `- [${u.replace(`https://${HOST}`, '')}](${link})`), ''].join('\n')
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, md)
   }
 }
 
