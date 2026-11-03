@@ -138,7 +138,7 @@ function dropUnchanged(urls) {
   if (!process.env.GITHUB_ACTIONS) return urls
   try {
     const diff = execFileSync('git', ['show', '--format=', 'HEAD', '--', 'public/sitemap.xml'], { encoding: 'utf8', maxBuffer: 1 << 26 })
-    const removed = new Set([...diff.matchAll(/^-\s*<loc>([^<]+)<\/loc>/gm)].map((m) => m[1]))
+    const removed = new Set([...diff.matchAll(/^-.*?<loc>([^<]+)<\/loc>/gm)].map((m) => m[1]))
     return urls.filter((u) => !removed.has(u))
   } catch {
     return urls
