@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kissinskin.net/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/" />
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/analysis/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/analysis/" />
@@ -518,7 +518,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/refund/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -541,7 +541,7 @@
   <!-- English (/en/*) URLs — pages with bilingual content -->
   <url>
     <loc>https://kissinskin.net/en/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/" />
@@ -586,7 +586,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/refund/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-11-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/refund/" />
@@ -783,8 +783,8 @@
   <url><loc>https://kissinskin.net/en/news/</loc><lastmod>2026-10-13</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/" /></url>
   <url><loc>https://kissinskin.net/products/</loc><lastmod>2026-10-13</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://kissinskin.net/en/products/</loc><lastmod>2026-10-13</lastmod><changefreq>daily</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/" /></url>
-  <url><loc>https://kissinskin.net/class/</loc><lastmod>2026-10-31</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://kissinskin.net/en/class/</loc><lastmod>2026-10-31</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/" /></url>
+  <url><loc>https://kissinskin.net/class/</loc><lastmod>2026-11-03</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://kissinskin.net/en/class/</loc><lastmod>2026-11-03</lastmod><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/" /></url>
   <url><loc>https://kissinskin.net/news/moo100-amazon-us-haircare-launch/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/moo100-amazon-us-haircare-launch/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/moo100-amazon-us-haircare-launch/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/moo100-amazon-us-haircare-launch/" /></url>
   <url><loc>https://kissinskin.net/en/news/moo100-amazon-us-haircare-launch/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/moo100-amazon-us-haircare-launch/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/moo100-amazon-us-haircare-launch/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/moo100-amazon-us-haircare-launch/" /></url>
   <url><loc>https://kissinskin.net/news/eu-greenwashing-ban-pfhxa-k-beauty-impact/</loc><lastmod>2026-10-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/news/eu-greenwashing-ban-pfhxa-k-beauty-impact/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/news/eu-greenwashing-ban-pfhxa-k-beauty-impact/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/news/eu-greenwashing-ban-pfhxa-k-beauty-impact/" /></url>
