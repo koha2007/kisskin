@@ -14,6 +14,8 @@ import HomeWeeklyLook from './HomeWeeklyLook'
 
 const PINK = '#ef4da0'
 const NAVY = '#070953'
+// 흰 바탕 위 작은 글자용 핑크. 로고 핑크(#ef4da0)는 흰 바탕에서 3.37:1 이라 13px 글자에 미달 → 4.75:1 로 진하게.
+const PINK_TEXT = '#d6247f'
 
 interface Tile { ko: string; en: string; koDesc: string; enDesc: string; img: string; path: string; pos?: string; shared?: boolean }
 
@@ -38,8 +40,8 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
   const prefix = isEn ? '/en' : ''
 
   const doors = [
-    { name: isEn ? '9 Makeup Looks' : '9가지 메이크업', desc: isEn ? 'K-beauty looks on your face' : '내 얼굴에 K-뷰티 룩', img: LOOK_HERO['autumn-berry'].after, href: `${prefix}/makeup/`, slot: 'home_hero_primary', alt: isEn ? 'Autumn Berry Mocha look on an AI-generated model' : '가을 베리 모카 룩, AI 생성 모델' },
-    { name: isEn ? 'Lucky Makeup' : '럭키 메이크업', desc: isEn ? '9 looks for the luck you want' : '원하는 운을 담은 9가지', img: luckyLookImg('wealth'), href: `${prefix}/lucky-makeup/`, slot: 'home_hero_lucky', alt: isEn ? 'Wealth Luck look on an AI-generated model' : '재물운 룩, AI 생성 모델' },
+    { name: isEn ? '9 Makeup Looks' : '9가지 메이크업', desc: isEn ? 'One selfie, nine of you' : '셀카 한 장, 아홉 명의 나', img: LOOK_HERO['autumn-berry'].after, href: `${prefix}/makeup/`, slot: 'home_hero_primary', alt: isEn ? 'Autumn Berry Mocha look on an AI-generated model' : '가을 베리 모카 룩, AI 생성 모델' },
+    { name: isEn ? 'Lucky Makeup' : '럭키 메이크업', desc: isEn ? 'Makeup to call in every kind of luck' : '모든 운을 부르는 메이크업', img: luckyLookImg('wealth'), href: `${prefix}/lucky-makeup/`, slot: 'home_hero_lucky', alt: isEn ? 'Wealth Luck look on an AI-generated model' : '재물운 룩, AI 생성 모델' },
   ]
   const plans = [
     { id: 'free', icon: '1+1', small: true, bg: NAVY, fg: '#ffffff', name: isEn ? '2 free looks when you sign up' : '가입하면 2장 무료', desc: isEn ? '1 makeup look + 1 lucky look · no card' : '9가지 메이크업 1장 + 럭키 1장 · 카드 없음', price: isEn ? 'Free' : '무료', href: '/auth/?next=%2Fanalysis%2F' },
@@ -68,7 +70,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
             <img src={d.img} alt={d.alt} width={400} height={400} decoding="async" className="aspect-square w-full shrink-0 rounded-[34px] object-cover object-[50%_22%] md:w-[230px] md:rounded-[46px]" />
             <span className="flex min-w-0 flex-col gap-1.5">
               <span className="text-[19px] font-extrabold leading-tight tracking-[-0.04em] md:text-[32px]">{d.name}</span>
-              <span className="text-[13px] leading-normal md:text-[15px]">{d.desc}</span>
+              <span className="text-[13px] font-semibold leading-normal md:text-[15px]" style={{ color: PINK_TEXT }}>{d.desc}</span>
               <span className="mt-0.5 flex min-h-[44px] w-fit items-center rounded-full border border-navy px-4 text-[13px] font-extrabold">{isEn ? 'Start →' : '시작하기 →'}</span>
             </span>
           </a>
