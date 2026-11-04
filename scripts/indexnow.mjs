@@ -6,7 +6,7 @@
 //     HTTP 한 번으로 알리는 공개 프로토콜이다(계정 로그인 불필요).
 //
 // ⚠ 구글은 IndexNow 를 지원하지 않는다 → 구글은 Search Console 에서 사람이 직접
-//   "색인 생성 요청"을 눌러야 한다. 이 스크립트는 네이버·Bing 에 제출하고, 구글은 링크만 만든다.
+//   "색인 생성 요청"을 눌러야 한다. 이 스크립트는 네이버·Bing 에 제출하고, 구글은 주소 목록만 뽑는다.
 //   (Clarity 실측상 우리 외부 유입의 70%가 네이버라 실익이 크다.)
 //
 // 사전 조건: public/<KEY>.txt 가 배포돼 있어야 한다(소유 증명). 배포 전에 실행하면
@@ -146,17 +146,16 @@ function dropUnchanged(urls) {
 }
 
 /**
- * 구글은 자동 요청 수단이 없다 → 서치콘솔 URL 검사 링크를 만들어 둔다.
- * 눌러서 "색인 생성 요청"만 하면 된다. GitHub Actions 실행 요약(Summary)에도 남긴다.
- * 하루에 요청할 수 있는 수가 적어(약 10건) 앞에서부터 10개만 만든다.
+ * 구글은 자동 요청 수단이 없다 → 색인 요청할 페이지 주소를 뽑아 둔다(운영자가 쓰는 형식: 주소 그대로, 한 줄에 하나).
+ * 서치콘솔 위쪽 검색창에 붙여 넣고 "색인 생성 요청"을 누른다. GitHub Actions 실행 요약(Summary)에도 남긴다.
+ * 하루에 요청할 수 있는 수가 적어(약 10건) 앞에서부터 10개만 뽑는다.
  */
 function googleLinks(urlList) {
-  const RESOURCE = encodeURIComponent(`https://${HOST}/`)
-  const links = urlList.slice(0, 10).map((u) => [u, `https://search.google.com/search-console/inspect?resource_id=${RESOURCE}&id=${encodeURIComponent(u)}`])
-  console.log('\n구글 색인 요청 링크(눌러서 "색인 생성 요청"):')
-  links.forEach(([, link]) => console.log('  ' + link))
+  const urls = urlList.slice(0, 10)
+  console.log('\n구글 색인 요청 주소:')
+  urls.forEach((u) => console.log('  ' + u))
   if (process.env.GITHUB_STEP_SUMMARY) {
-    const md = ['## 구글 색인 요청 링크', '', '링크를 열고 **색인 생성 요청**을 누르세요. 하루 약 10건까지 됩니다.', '', ...links.map(([u, link]) => `- [${u.replace(`https://${HOST}`, '')}](${link})`), ''].join('\n')
+    const md = ['## 구글 색인 요청 주소', '', '서치콘솔 검색창에 넣고 **색인 생성 요청**을 누르세요. 하루 약 10건까지 됩니다.', '', '```', ...urls, '```', ''].join('\n')
     appendFileSync(process.env.GITHUB_STEP_SUMMARY, md)
   }
 }
