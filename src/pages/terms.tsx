@@ -41,7 +41,7 @@ export default function Terms({ onNavigate }: TermsProps) {
 function TermsKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일</p>
+      <p className="legal-date">시행일: 2026년 11월 11일 (게시일: 2026년 11월 4일)</p>
 
       <h2>1. 약관 동의</h2>
       <p>kissinskin(<a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>, 이하 "서비스")에 접속하거나 이를 이용함으로써 본 이용약관(이하 "약관")에 동의한 것으로 간주됩니다. 동의하지 않는 경우 서비스를 이용하지 마십시오. 본 약관은 이용자와 kissinskin 사이에 법적 구속력을 가지는 계약입니다.</p>
@@ -84,7 +84,7 @@ function TermsKo() {
       <h2>6. 환불 정책</h2>
       <p>상세 내용은 별도 <a className="legal-link" href="/refund/">환불 정책</a> 페이지를 참고해 주십시오. 요약:</p>
       <ul>
-        <li>AI가 결과(이미지 또는 리포트)를 생성하지 못한 경우, 이용자의 별도 조치 없이 <strong>자동으로 전액 환불</strong>됩니다.</li>
+        <li>AI가 결과(이미지 또는 리포트)를 만들지 못한 경우, 차감된 크레딧으로 <strong>추가 비용 없이 다시 만들 수 있습니다</strong>(작업당 최대 5회). 그래도 결과를 받지 못하면 문의해 주십시오. 확인 후 크레딧을 복구하거나 해당 금액을 환불해 드립니다.</li>
         <li>결과가 정상적으로 전달된 이후에는 디지털 콘텐츠의 특성상 <strong>원칙적으로 환불이 불가능</strong>합니다.</li>
         <li>이용자가 잘못 입력한 이메일 주소로 리포트가 전송된 경우 환불되지 않습니다.</li>
         <li>환불은 Polar를 통해 처리됩니다.</li>
@@ -210,7 +210,7 @@ function TermsKo() {
 function TermsEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026</p>
+      <p className="legal-date">Effective Date: November 11, 2026 (posted November 4, 2026)</p>
 
       <h2>1. Agreement to Terms</h2>
       <p>By accessing or using kissinskin (<a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service. These Terms constitute a legally binding agreement between you and kissinskin.</p>
@@ -253,7 +253,7 @@ function TermsEn() {
       <h2>6. Refund Policy</h2>
       <p>Please see our dedicated <a className="legal-link" href="/refund/">Refund Policy</a> page for full details. In summary:</p>
       <ul>
-        <li>If the AI fails to generate results (images or report), a <strong>full refund is automatically processed</strong> without any action required from you.</li>
+        <li>If the AI fails to generate results (images or report), you can <strong>try again at no extra cost</strong> with the credit already deducted (up to 5 attempts per job). If you still don't receive a result, please contact us. Once confirmed, we will restore the credit or refund the corresponding amount.</li>
         <li>Since results are delivered instantly as digital content, <strong>all sales are generally final</strong> once results are successfully delivered.</li>
         <li>Refunds are <strong>not</strong> issued for reports sent to an incorrect email address provided by you at checkout.</li>
         <li>Refund requests are processed through Polar.</li>
