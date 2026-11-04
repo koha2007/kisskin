@@ -41,7 +41,7 @@ export default function Refund({ onNavigate }: RefundProps) {
 function RefundKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일</p>
+      <p className="legal-date">시행일: 2026년 11월 11일 (게시일: 2026년 11월 4일)</p>
 
       <h2>1. 개요</h2>
       <p>kissinskin은 결제 후 <strong>즉시</strong> 전달되는 AI 생성 메이크업 분석 결과를 제공합니다. 당사 제품은 전달 즉시 소비되는 디지털 콘텐츠이므로, 본 환불 정책은 이러한 특성을 반영하면서도 이용자의 법정 소비자 권리를 존중합니다.</p>
@@ -51,17 +51,17 @@ function RefundKo() {
       <p><strong>크레딧 환불(2026년 11월 3일 추가):</strong> 크레딧 결제가 환불되면 환불된 몫만큼 남은 크레딧이 회수됩니다. 이미 사용한 크레딧은 회수하지 않습니다.</p>
       <p><strong>중요:</strong> 본 정책은 이용자의 관할지역 법령상 법정 소비자 권리에 영향을 주지 않습니다. 지역별 권리는 제10조 이하를 참고해 주십시오.</p>
 
-      <h2>3. 자동 환불 (서비스 실패)</h2>
-      <p>AI가 결과(메이크업 이미지 또는 분석 리포트) 생성에 실패한 경우, 이용자의 별도 조치 없이 <strong>자동으로 전액 환불</strong>됩니다. 해당 상황은 다음을 포함합니다.</p>
+      <h2>3. 생성 실패 시</h2>
+      <p>AI가 결과(메이크업 이미지 또는 분석 리포트)를 만들지 못한 경우, 차감된 크레딧으로 <strong>추가 비용 없이 다시 만들 수 있습니다</strong>(작업당 최대 5회). 해당 상황은 다음을 포함합니다.</p>
       <ul>
         <li><strong>이미지 생성 실패:</strong> AI가 메이크업 시뮬레이션 이미지를 생성하지 못한 경우</li>
         <li><strong>리포트 생성 실패:</strong> AI가 피부 분석 리포트를 생성하지 못한 경우</li>
         <li><strong>서버/API 오류:</strong> 결과 전달을 방해하는 당사 측 기술 오류</li>
       </ul>
-      <p>자동 환불은 Polar를 통해 즉시 처리됩니다. 환불이 개시되면 Polar로부터 확인 메일을 받게 됩니다.</p>
+      <p>그래도 결과를 받지 못하면 문의해 주십시오. 확인 후 크레딧을 복구하거나 해당 금액을 환불해 드립니다. 이 경우 법정 소비자 권리는 그대로 보호됩니다.</p>
 
       <h2>4. 수동 환불 대상</h2>
-      <p>자동 환불 외에도 다음 경우에는 요청에 따라 <strong>전액 환불</strong>됩니다.</p>
+      <p>다음 경우에는 요청에 따라 <strong>전액 환불</strong>됩니다.</p>
       <ul>
         <li><strong>중복 과금:</strong> 동일한 분석에 대해 실수로 여러 번 과금된 경우</li>
         <li><strong>처리 오류:</strong> AI가 완전히 공백, 손상되거나 관련 없는 결과를 반환한 경우 (단순히 스타일 취향에 맞지 않는 경우는 제외)</li>
@@ -180,7 +180,7 @@ function RefundKo() {
 function RefundEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026</p>
+      <p className="legal-date">Effective Date: November 11, 2026 (posted November 4, 2026)</p>
 
       <h2>1. Overview</h2>
       <p>kissinskin provides AI-generated makeup analysis results that are delivered <strong>instantly</strong> after payment. Because our product is digital content consumed immediately upon delivery, our refund policy reflects this nature while respecting your statutory consumer rights.</p>
@@ -190,17 +190,17 @@ function RefundEn() {
       <p><strong>Credit refunds (added November 3, 2026):</strong> When a credit purchase is refunded, your remaining credits are reduced by the refunded share. Credits you have already used are not taken back.</p>
       <p><strong>Important:</strong> This policy does not affect your statutory consumer rights under applicable law. See Section 10 for jurisdiction-specific rights.</p>
 
-      <h2>3. Automatic Refund (Service Failure)</h2>
-      <p>If our AI fails to generate results (makeup images or analysis report), a <strong>full refund is automatically processed</strong> without any action required on your part. This includes:</p>
+      <h2>3. If Generation Fails</h2>
+      <p>If our AI fails to generate results (makeup images or analysis report), you can <strong>try again at no extra cost</strong> with the credit already deducted (up to 5 attempts per job). This includes:</p>
       <ul>
         <li><strong>Image generation failure:</strong> The AI failed to generate makeup simulation images.</li>
         <li><strong>Report generation failure:</strong> The AI failed to generate the skin analysis report.</li>
         <li><strong>Server/API error:</strong> Any technical error on our end that prevents results from being delivered.</li>
       </ul>
-      <p>Automatic refunds are processed instantly through Polar. You will receive a confirmation from Polar once the refund is initiated.</p>
+      <p>If you still don't receive a result, please contact us. Once confirmed, we will restore the credit or refund the corresponding amount. Your statutory consumer rights remain protected in this case.</p>
 
       <h2>4. When You ARE Eligible for a Manual Refund</h2>
-      <p>In addition to automatic refunds, we will issue a <strong>full refund</strong> upon request in the following cases:</p>
+      <p>We will issue a <strong>full refund</strong> upon request in the following cases:</p>
       <ul>
         <li><strong>Duplicate charge:</strong> You were accidentally charged more than once for the same analysis.</li>
         <li><strong>Processing error:</strong> The AI returned a completely blank, corrupted, or unrelated result (not merely an unsatisfactory style preference).</li>
