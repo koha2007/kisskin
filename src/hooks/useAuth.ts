@@ -12,19 +12,49 @@ import { claimStoredRef, ensureMyCode, forgetMyCode } from '../lib/referral'
 // 신규 가입 / 재로그인 구분: Supabase 가 둘 다 SIGNED_IN 으로 주므로
 // created_at 이 방금이면 가입으로 센다.
 const NEW_USER_WINDOW_MS = 2 * 60 * 1000
+const SIGNUP_COUNTED_KEY = 'kisskin_signup_counted'
 const counted = new Set<string>()
 
 function methodOf(u: { app_metadata?: { provider?: string } }): string {
   return u.app_metadata?.provider === 'google' ? 'google' : 'email'
 }
 
+function isNewUser(user: { created_at?: string }): boolean {
+  const created = user.created_at ? Date.parse(user.created_at) : NaN
+  return Number.isFinite(created) && Date.now() - created < NEW_USER_WINDOW_MS
+}
+
+// 2분 안에 페이지를 옮겨도 가입을 두 번 세지 않게 기기에 적어 둔다.
+function countSignUp(user: { id: string; app_metadata?: { provider?: string } }): void {
+  try {
+    if (localStorage.getItem(SIGNUP_COUNTED_KEY) === user.id) return
+    localStorage.setItem(SIGNUP_COUNTED_KEY, user.id)
+  } catch { /* 저장소를 못 쓰면 이 페이지 안에서만 중복을 막는다 */ }
+  trackSignUp(methodOf(user))
+}
+
 function countAuth(user: { id: string; created_at?: string; app_metadata?: { provider?: string } } | null): void {
   if (!user || counted.has(user.id)) return
   counted.add(user.id)
-  const created = user.created_at ? Date.parse(user.created_at) : NaN
-  const isNew = Number.isFinite(created) && Date.now() - created < NEW_USER_WINDOW_MS
-  if (isNew) trackSignUp(methodOf(user))
+  if (isNewUser(user)) countSignUp(user)
   else trackLogin(methodOf(user))
+}
+
+let authTrackingStarted = false
+
+/**
+ * 전 페이지 공통 레이아웃에서 한 번 켠다.
+ * ⚠ 2026-11-05: useAuth 안에서 세던 때는 useAuth 가 없는 /analysis/ 로 돌아오는 가입이 빠졌다.
+ * 메이크업을 만들려고 가입하는 주 경로가 여기다. 리스너가 늦게 붙으면 SIGNED_IN 대신
+ * INITIAL_SESSION 만 오므로, 방금 만든 계정이면 그때도 가입으로 센다(재로그인은 세지 않는다).
+ */
+export function startAuthTracking(): void {
+  if (authTrackingStarted) return
+  authTrackingStarted = true
+  supabase.auth.onAuthStateChange((event, session) => {
+    const user = session?.user ?? null
+    if (event === 'SIGNED_IN' || (event === 'INITIAL_SESSION' && user && isNewUser(user))) countAuth(user)
+  })
 }
 
 export function useAuth() {
@@ -57,13 +87,11 @@ export function useAuth() {
       // 한/영을 가른다. 값이 없던 기존 회원은 여기서 백필된다(lib/userLocale.ts).
       void syncUserLocale(session?.user ?? null)
     })
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return
       setUser(session?.user ?? null)
       syncDna(session?.user ?? null)
       void syncUserLocale(session?.user ?? null)
-      // INITIAL_SESSION(새로고침으로 세션 복원)은 로그인이 아니다 — 세지 않는다.
-      if (event === 'SIGNED_IN') countAuth(session?.user ?? null)
     })
     return () => {
       mounted = false
