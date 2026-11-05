@@ -580,7 +580,11 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                   /en/ 로 가는 크롤 경로가 0이었다 — 영어권 유입의 입구가 막혀 있던 셈. */}
             <p>
               {isEn ? '한국어로 보기: ' : 'Read in English: '}
-              <a href={isEn ? '/' : '/en/'} className="hover:text-primary underline underline-offset-2">
+              <a
+                href={isEn ? '/' : '/en/'}
+                onClick={(e) => { e.preventDefault(); setLocale(isEn ? 'ko' : 'en') }}
+                className="hover:text-primary underline underline-offset-2"
+              >
                 {isEn ? '한국어' : 'English'}
               </a>
             </p>

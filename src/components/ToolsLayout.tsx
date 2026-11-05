@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { useAuth } from '../hooks/useAuth'
+import { usePageContext } from 'vike-react/usePageContext'
+import { alternateUrl } from '../i18n/alternateUrl'
 
 type NavLink = { href: string; label: string }
 
@@ -214,8 +216,9 @@ export function ToolsNav() {
 }
 
 export function ToolsFooter() {
-  const { t, locale } = useI18n()
+  const { t, locale, setLocale } = useI18n()
   const isEn = locale === 'en'
+  const pathname = usePageContext().urlPathname ?? '/'
   return (
     <footer className="palette-brand bg-navy text-white pt-14 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -263,10 +266,16 @@ export function ToolsFooter() {
           </p>
           <p>{isEn ? 'Contact: ' : '문의: '}<a href="mailto:support@kissinskin.net" className="hover:text-primary">support@kissinskin.net</a></p>
           {/* 언어 전환은 상단 토글이 하지만 그건 JS 라 크롤러가 못 따라간다. 검색엔진이 반대편
-              언어를 발견하고 링크 가중치를 넘기려면 진짜 <a> 가 하나는 있어야 한다. */}
+              언어를 발견하고 링크 가중치를 넘기려면 진짜 <a> 가 하나는 있어야 한다.
+              href 는 크롤러용으로 이 페이지의 짝을 가리키고, 사람의 클릭은 상단 토글과 같은 길로
+              보낸다 — 그냥 이동하면 저장된 언어가 안 바뀌어 'en' 선호가 도로 영문으로 되돌린다. */}
           <p>
             {isEn ? '한국어로 보기: ' : 'Read in English: '}
-            <a href={isEn ? '/' : '/en/'} className="hover:text-primary underline underline-offset-2">
+            <a
+              href={alternateUrl(pathname, isEn ? 'ko' : 'en')}
+              onClick={(e) => { e.preventDefault(); setLocale(isEn ? 'ko' : 'en') }}
+              className="hover:text-primary underline underline-offset-2"
+            >
               {isEn ? '한국어' : 'English'}
             </a>
           </p>
