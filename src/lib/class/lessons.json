@@ -1150,5 +1150,81 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "korean-straight-brows",
+    "publishedAt": "2026-11-05",
+    "introKo": "일자 눈썹은 눈썹 산을 다듬어 내지 않고 아래쪽 빈 곳을 채워 수평으로 연결하는 모양이에요. 두께를 일정하게 유지하고 꼬리를 살짝 내리면 인상이 한층 부드러워 보여요.",
+    "introEn": "Korean straight brows don't require shaving down your natural arch. Simply fill the empty space underneath to create a straight line, keep the thickness even, and drop the tail slightly for a softer look.",
+    "minutes": 7,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "brows",
+        "titleKo": "눈썹 아래 수평 라인 잡기",
+        "titleEn": "Set the bottom straight line",
+        "bodyKo": "눈썹 앞머리 아래부터 중앙까지 수평으로 일직선을 그려요. 산을 다듬는 대신 아래쪽 굴곡을 메워 일자로 만드는 것이 핵심이에요.",
+        "bodyEn": "Draw a straight horizontal line along the bottom edge from the front to the middle. Fill the dip underneath rather than trimming down the arch.",
+        "toolsKo": "아이브로우 펜슬",
+        "toolsEn": "Brow pencil",
+        "swatches": [
+          "#735645"
+        ],
+        "searchKeywords": "하드 아이브로우 펜슬 브라운",
+        "shopEn": "hard brow pencil brown",
+        "shortKo": "눈썹 아래쪽을 일자로 채우기",
+        "shortEn": "Draw a straight line beneath"
+      },
+      {
+        "area": "brows",
+        "titleKo": "위쪽 선과 두께 채우기",
+        "titleEn": "Fill top edge and match thickness",
+        "bodyKo": "위쪽 산을 억지로 다듬지 말고, 아래 라인과 평행이 되도록 눈썹 앞쪽부터 중앙까지 일정한 두께로 결을 따라 가볍게 채워줘요.",
+        "bodyEn": "Without shaving the arch, fill in light strokes from front to middle so the top edge runs parallel to the bottom line with an even thickness.",
+        "toolsKo": "아이브로우 파우더 또는 펜슬",
+        "toolsEn": "Brow powder or pencil",
+        "swatches": [
+          "#8a6a56",
+          "#604637"
+        ],
+        "searchKeywords": "아이브로우 듀오 파우더",
+        "shopEn": "brow powder palette",
+        "shortKo": "앞부터 중앙까지 균일한 두께",
+        "shortEn": "Keep thickness even"
+      },
+      {
+        "area": "brows",
+        "titleKo": "눈썹 꼬리 부드럽게 내리기",
+        "titleEn": "Softly drop the brow tail",
+        "bodyKo": "꼬리를 너무 길거나 뾰족하게 빼지 않고, 눈꼬리 방향으로 자연스럽게 살짝 내려서 마무리해요. 부드럽고 순한 인상을 완성해 줘요.",
+        "bodyEn": "Extend the tail gently downward toward the outer corner of the eye. Avoid sharp points or extra length to maintain a soft expression.",
+        "toolsKo": "슬림 아이브로우 펜슬 · 스풀리",
+        "toolsEn": "Slim brow pencil · spoolie",
+        "swatches": [
+          "#5e4535"
+        ],
+        "searchKeywords": "슬림 아이브로우 펜슬 얇은",
+        "shopEn": "slim brow pencil",
+        "shortKo": "꼬리는 살짝 아래로 자연스럽게",
+        "shortEn": "Drop the tail slightly"
+      }
+    ],
+    "tipsKo": [
+      "앞머리부터 꼬리까지 너무 짙게 그리면 답답해 보여요. 앞머리는 스풀리로 넓게 풀어주어 그라데이션을 연출하세요.",
+      "눈썹 산을 과하게 지우려 하기보다 아래쪽 빈 곳을 메우는 데 집중하면 훨씬 자연스러워요."
+    ],
+    "tipsEn": [
+      "Filling the front too dark makes brows look heavy. Soften the front edge with a spoolie for a seamless gradient.",
+      "Focus on filling the lower arch gap rather than forcing the natural top arch completely flat."
+    ],
+    "mistakeKo": "위쪽 눈썹 산을 일자로 다 밀어버리면 얼굴 표정이 어색해지고 눈썹 위 피부가 하얗게 도드라질 수 있어요.",
+    "mistakeEn": "Shaving off the entire top arch can make expressions look unnatural and leave pale bare skin above the brow line.",
+    "chartPrompt": "front-facing woman face chart showing soft straight Korean brows. The brows have a straight horizontal bottom line, even thickness from front to mid-arch, and a softly tapered tail dropping slightly downwards. Painted in warm medium brown.",
+    "videoTitleKo": "일자 눈썹",
+    "videoTitleEn": "Korean Straight Brows",
+    "video": {
+      "seconds": 16
+    }
   }
 ]

@@ -506,7 +506,7 @@
   <!-- Legal -->
   <url>
     <loc>https://kissinskin.net/terms/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -518,7 +518,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/refund/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -577,7 +577,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/terms/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/terms/" />
@@ -586,7 +586,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/refund/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/refund/" />
@@ -1173,4 +1173,6 @@
   <url><loc>https://kissinskin.net/en/class/eyebrow-shape-face-shape/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
   <url><loc>https://kissinskin.net/class/natural-eyebrows/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/natural-eyebrows/" /></url>
   <url><loc>https://kissinskin.net/en/class/natural-eyebrows/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/natural-eyebrows/" /></url>
+  <url><loc>https://kissinskin.net/class/korean-straight-brows/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/korean-straight-brows/" /></url>
+  <url><loc>https://kissinskin.net/en/class/korean-straight-brows/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/korean-straight-brows/" /></url>
 </urlset>
