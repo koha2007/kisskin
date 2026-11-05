@@ -4,10 +4,7 @@ import ko from './ko'
 import en from './en'
 import { I18nContext } from './I18nContext'
 import { readLocale, localeFromPath, normalize, isAppRoute } from './readLocale'
-import { EN_GUIDE_SLUG_SET } from '../lib/guides/enSlugs'
-import { EN_ONLY_GUIDE_SLUG_SET } from '../lib/guides/enOnlySlugs'
-import { EN_REVIEW_SLUG_SET } from '../lib/reviews/enSlugs'
-import { EN_NEWS_SLUG_SET } from '../lib/news/enSlugs'
+import { alternateUrl, hasEnglishVersion } from './alternateUrl'
 
 const dictionaries: Record<Locale, Record<string, string>> = { ko, en }
 const LOCALE_EVENT = 'kisskin:locale-change'
@@ -22,93 +19,6 @@ function subscribe(cb: () => void): () => void {
     window.removeEventListener(LOCALE_EVENT, cb)
     window.removeEventListener('popstate', cb)
   }
-}
-
-// Standalone pages that have a real prerendered English version under /en/...
-// (non-tool pages — home, legal, about). Tool pages are matched by prefix below.
-const EN_AVAILABLE_PATHS = new Set<string>([
-  '/',
-  '/about/',
-  '/about-makeup-ai/',
-  '/contact/',
-  '/privacy/',
-  '/terms/',
-  '/refund/',
-  '/guides/',
-  '/reviews/',
-  '/news/',
-  '/tools/',
-  // /en/products/ 는 진작 프리렌더되고 있었는데 여기 빠져 있어서, /products/ 에서
-  // 언어를 바꾸면 영문 제품 페이지가 아니라 영문 홈으로 튕겼다.
-  '/products/',
-])
-
-// Tool families that have a complete English mirror under /en/tools/<tool>/...
-// — the intro page plus every result/type sub-page. Because the EN side
-// prerenders the exact same slug set as KO, any sub-path the user can actually
-// be on (e.g. /tools/face-shape/oval/) has a matching English page. So we can
-// map these by prefix instead of enumerating every slug, which keeps the
-// toggle landing on the *same* page in the other language rather than the
-// English home — and stays correct automatically as new type pages are added.
-const EN_MIRRORED_TOOL_PREFIXES = [
-  '/tools/face-shape/',
-  '/tools/personal-color/',
-  '/tools/makeup-mbti/',
-  '/tools/perfume-type/',
-  '/tools/today-fortune/', // 오늘의 운세(2026-10-24 럭키 메이크업에서 분리)
-  '/lucky-makeup/', // 럭키 메이크업(옛 /tools/fortune-makeup/ · 2026-10-22 이동) + 9종 방법 페이지
-]
-
-// Individual guide/review/news articles with a hand-written English version.
-// The hubs are in EN_AVAILABLE_PATHS; only the translated slugs map one-to-one
-// (others fall back to the matching English hub — see alternateUrl below).
-function isTranslatedArticlePath(normalizedPath: string): boolean {
-  const guide = normalizedPath.match(/^\/guides\/([^/]+)\/$/)
-  if (guide) return EN_GUIDE_SLUG_SET.has(guide[1])
-  const review = normalizedPath.match(/^\/reviews\/([^/]+)\/$/)
-  if (review) return EN_REVIEW_SLUG_SET.has(review[1])
-  const news = normalizedPath.match(/^\/news\/([^/]+)\/$/)
-  if (news) return EN_NEWS_SLUG_SET.has(news[1])
-  return false
-}
-
-function hasEnglishVersion(normalizedPath: string): boolean {
-  if (EN_AVAILABLE_PATHS.has(normalizedPath)) return true
-  if (isTranslatedArticlePath(normalizedPath)) return true
-  return EN_MIRRORED_TOOL_PREFIXES.some(prefix => normalizedPath.startsWith(prefix))
-}
-
-// An untranslated article still has a relevant English landing — its hub.
-function sectionHubFallback(normalizedPath: string): string | null {
-  if (normalizedPath.startsWith('/guides/')) return '/en/guides/'
-  if (normalizedPath.startsWith('/reviews/')) return '/en/reviews/'
-  if (normalizedPath.startsWith('/news/')) return '/en/news/'
-  return null
-}
-
-function alternateUrl(currentPath: string, target: Locale): string {
-  if (target === 'en') {
-    if (currentPath === '/' || currentPath === '') return '/en/'
-    if (currentPath.startsWith('/en/') || currentPath === '/en') return currentPath
-    const normalized = normalize(currentPath)
-    if (hasEnglishVersion(normalized)) {
-      return `/en${normalized}`
-    }
-    const hub = sectionHubFallback(normalized)
-    if (hub) return hub
-    // No translated version yet — send the user to the English home.
-    return '/en/'
-  }
-  // target === 'ko'
-  if (currentPath === '/en' || currentPath === '/en/') return '/'
-  if (currentPath.startsWith('/en/')) {
-    // English originals have no Korean twin — stripping /en would land on a 404.
-    // Send the reader to the Korean guides hub instead.
-    const enGuide = normalize(currentPath).match(/^\/en\/guides\/([^/]+)\/$/)
-    if (enGuide && EN_ONLY_GUIDE_SLUG_SET.has(enGuide[1])) return '/guides/'
-    return currentPath.replace(/^\/en/, '') || '/'
-  }
-  return currentPath
 }
 
 export function I18nProvider({ children, initialLocale = 'ko' }: { children: ReactNode; initialLocale?: Locale }) {
@@ -127,7 +37,11 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
       // so they stay where they were instead of snapping to the top. Drop any
       // #hash too, so the browser doesn't re-jump to an anchor (e.g. the tools
       // section) and fight the restore below.
-      try { sessionStorage.setItem(SCROLL_RESTORE_KEY, String(window.scrollY)) } catch { /* unavailable */ }
+      // 번역이 없어 허브로 가는 경우는 다른 페이지라 위치를 잇지 않는다.
+      const samePage = normalize(target).replace(/^\/en\//, '/') === normalize(window.location.pathname).replace(/^\/en\//, '/')
+      if (samePage) {
+        try { sessionStorage.setItem(SCROLL_RESTORE_KEY, String(window.scrollY)) } catch { /* unavailable */ }
+      }
       window.location.href = target + window.location.search
       return
     }
@@ -156,7 +70,8 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
     const normalized = normalize(path)
     if (!hasEnglishVersion(normalized)) return
     const target = alternateUrl(path, 'en')
-    if (target !== path) window.location.replace(target + window.location.search)
+    // hash 도 넘긴다 — 소셜 로그인 복귀의 #access_token 이 잘리면 로그인이 풀린다.
+    if (target !== path) window.location.replace(target + window.location.search + window.location.hash)
   }, [])
 
   // After a locale toggle reloads the other-language URL, restore the scroll
@@ -168,7 +83,8 @@ export function I18nProvider({ children, initialLocale = 'ko' }: { children: Rea
     try { sessionStorage.removeItem(SCROLL_RESTORE_KEY) } catch { /* ignore */ }
     const y = Number.parseInt(saved, 10)
     if (Number.isNaN(y)) return
-    const restore = () => window.scrollTo(0, y)
+    // 전역 scroll-behavior: smooth 를 타지 않게 한다 — 새 페이지가 열리며 스르륵 내려가는 모습이 보이지 않도록.
+    const restore = () => window.scrollTo({ top: y, behavior: 'instant' })
     // Take over from the browser's own restore, then re-apply across a couple of
     // frames so late layout shifts (images/fonts) don't leave us short.
     try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual' } catch { /* ignore */ }
