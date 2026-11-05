@@ -11,6 +11,7 @@ import { TOOL_CARD_IMAGES } from '../../lib/toolCardImages'
 import { trackEvent } from '../../lib/analytics'
 import CollectionDemo from './CollectionDemo'
 import HomeWeeklyLook from './HomeWeeklyLook'
+import HomeFreePass from './HomeFreePass'
 
 const PINK = '#ef4da0'
 const NAVY = '#070953'
@@ -63,6 +64,8 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
           </h1>
         </div>
       </section>
+
+      <HomeFreePass isEn={isEn} />
 
       <section aria-label={isEn ? 'Start makeup' : '메이크업 시작하기'} className="mx-auto grid max-w-[1120px] grid-cols-2 gap-3.5 px-5 py-6 md:gap-10 md:px-4 md:py-11">
         {doors.map((d) => (
