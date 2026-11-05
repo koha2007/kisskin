@@ -15,6 +15,9 @@ import BeforeAfterSlider from './BeforeAfterSlider'
 import { styleById, MAKEUP_STYLES, type MakeupStyleId } from '../../lib/makeup/styles'
 import { lookImage } from '../../lib/makeup/lookImages'
 import { lookProducts } from '../../lib/makeup/lookProducts'
+import { savePendingSelfieFromSrc } from '../../lib/makeup/pendingSelfie'
+import { luckyLookImg } from '../../lib/fortune/looks'
+import { getFreeStatus } from '../../lib/freeStatus'
 import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { saveSharedResult } from '../../lib/shareResult'
 import { recordLook } from '../../lib/makeup/looks'
@@ -113,6 +116,9 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
   // "나머지 8룩 알림 받기" — 결제 안내 메일 별도 동의(2026-10-29). 서버가 계정 이메일로 다음 날 한 통.
   const [remind, setRemind] = useState(false)
   const [remindBusy, setRemindBusy] = useState(false)
+  // 가입 무료권은 메이크업 1 + 럭키 1인데, 메이크업 1장을 만든 뒤 럭키가 남았다는 안내가 없어 거의 쓰이지 않았다.
+  const [luckyLeft, setLuckyLeft] = useState(0)
+  const [goingLucky, setGoingLucky] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -123,6 +129,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
       if (data.session?.user) {
         setLoggedIn(true)
         getCreditBalance().then((n) => { if (!cancelled) setCreditsLeft(n) }).catch(() => {})
+        getFreeStatus().then((f) => { if (!cancelled) setLuckyLeft(f?.lucky.left ?? 0) }).catch(() => {})
       }
     }).catch(() => { /* 세션 없음 — 익명 입력 */ })
     return () => { cancelled = true }
@@ -376,6 +383,14 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
     }
   }
 
+  // 같은 셀카를 맡겨 두고 간다 — 럭키 페이지가 ?resume=1 로 받아 사진을 다시 고르지 않아도 된다.
+  const goLucky = async () => {
+    setGoingLucky(true)
+    gtagEvent('result_lucky_free', { style: styleId })
+    if (beforeSrc) await savePendingSelfieFromSrc(beforeSrc)
+    window.location.assign(`${isEn ? '/en' : ''}/lucky-makeup/?resume=1`)
+  }
+
   const copyShareLink = async () => {
     if (!shareId) return
     try {
@@ -487,7 +502,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
             )}
             {typeof usage?.freeLeft === 'number' && (
               <span className="text-white/70">
-                · {isEn ? `${usage.freeLeft} free pass left` : `무료권 ${usage.freeLeft}장 남음`}
+                · {isEn ? `${usage.freeLeft} makeup free pass left` : `메이크업 무료권 ${usage.freeLeft}장 남음`}
               </span>
             )}
             {onTopup ? (
@@ -500,6 +515,27 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
               </a>
             )}
           </div>
+        )}
+
+        {/* 남은 럭키 무료권 — 결제 제안보다 먼저. 카드 없이 한 장 더 만들어 보는 것이 첫 룩 다음 단계다. */}
+        {!pending && loggedIn && luckyLeft > 0 && (
+          <section className="mt-5 flex items-center gap-3 p-4" style={{ ...surfaceStyle, borderColor: PRIMARY }}>
+            <img src={luckyLookImg('wealth')} alt="" decoding="async" className="h-[92px] w-[72px] shrink-0 rounded-md object-cover object-[50%_20%]" />
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.16em]" style={{ color: PRIMARY }}>
+                {isEn ? '1 free pass left' : '무료권 1장 남음'}
+              </p>
+              <h2 className="mt-1 text-[17px] font-extrabold leading-tight tracking-[-0.02em] break-keep">
+                {isEn ? 'Try Lucky Makeup for free' : '럭키 메이크업도 무료로 만들어 보세요'}
+              </h2>
+              <p className="mt-1 text-[12px] text-white/70 break-keep">
+                {isEn ? 'Same selfie · no payment' : '같은 셀카로 바로 · 결제 없음'}
+              </p>
+              <button type="button" onClick={() => void goLucky()} disabled={goingLucky} className={`mt-2.5 ${btnPrimary}`} style={btnPrimaryStyle}>
+                {isEn ? 'Make my free Lucky look' : '럭키 메이크업 무료로 만들기'}
+              </button>
+            </div>
+          </section>
         )}
 
         {/* 9룩 컬렉션 — 2026-10-12. 결과를 본 직후가 "다른 룩은?"이 가장 궁금한 순간(RevenueCat:
