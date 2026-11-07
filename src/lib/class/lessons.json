@@ -1226,5 +1226,104 @@
     "video": {
       "seconds": 16
     }
+  },
+  {
+    "slug": "eyeshadow-for-beginners",
+    "publishedAt": "2026-11-07",
+    "introKo": "음영 메이크업은 눈매에 자연스러운 깊이감을 더해주는 기본 테크닉이에요. 브러시 두 개와 섀도 세 가지 색상만 있으면 부어 보이지 않고 또렷한 눈매를 완성할 수 있어요.",
+    "introEn": "Basic eyeshadow contouring adds depth so your eyes look defined, not puffy. With just two brushes and three shades, you can master a clean, dimension-rich everyday look.",
+    "minutes": 10,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "베이스 컬러로 유분 잡기",
+        "titleEn": "Sweep a base shade across the lid",
+        "bodyKo": "피부 톤과 비슷한 밝은 베이지 섀도를 넓은 베이스 브러시에 묻혀요. 눈꺼풀 전체에 가볍게 쓸어주어 눈가의 유분기를 정리해야 다음 섀도가 뭉치지 않고 고르게 발려요.",
+        "bodyEn": "Dip a fluffy base brush into a light beige shade that matches your skin tone. Sweep it across your entire lid to absorb oil, creating a smooth canvas so the following shades blend evenly without patchiness.",
+        "toolsKo": "넓은 베이스 브러시 · 베이지 섀도",
+        "toolsEn": "Fluffy base brush · nude beige eyeshadow",
+        "swatches": [
+          "#e2cfbe",
+          "#d8c0ad"
+        ],
+        "searchKeywords": "음영 베이지 아이섀도 음영",
+        "shopEn": "nude beige eyeshadow",
+        "shortKo": "베이스로 유분 잡기",
+        "shortEn": "Sweep base to cut oil"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "미드톤을 쌍꺼풀 라인 위까지 바르기",
+        "titleEn": "Apply mid-tone slightly above the crease",
+        "bodyKo": "중간 톤의 브라운 섀도를 브러시에 묻힌 뒤 손등에서 가볍게 털어내요. 속눈썹 라인부터 시작해 쌍꺼풀 라인보다 2~3mm 위까지 넓게 펴 발라 자연스러운 그라데이션을 만들어 줍니다.",
+        "bodyEn": "Pick up a medium brown shade and tap off the excess on the back of your hand. Work from the lash line upward, stopping 2–3 mm above your natural crease for a soft, seamless transition.",
+        "toolsKo": "넓은 베이스 브러시 · 중간 브라운 섀도",
+        "toolsEn": "Fluffy blending brush · medium brown eyeshadow",
+        "swatches": [
+          "#b58a6d",
+          "#a3775b"
+        ],
+        "searchKeywords": "미드톤 음영 브라운 아이섀도",
+        "shopEn": "medium brown eyeshadow",
+        "shortKo": "쌍꺼풀 위까지 미드톤 넓게",
+        "shortEn": "Blend mid-tone above crease"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "진한 색으로 눈꼬리 1/3 음영 넣기",
+        "titleEn": "Add deep shade to the outer third",
+        "bodyKo": "작은 포인트 브러시로 가장 진한 밤색 섀도를 묻혀요. 눈꼬리 끝부터 눈동자 중앙 방향으로, 눈꼬리 1/3 지점까지 삼각존을 채우듯 얹어 깊은 음영감을 더해줍니다.",
+        "bodyEn": "Switch to a smaller detail brush with the darkest brown shadow. Focus on the outer third of the eye, pressing color into the outer corner and softly pulling inward toward the pupil for added depth.",
+        "toolsKo": "작은 포인트 브러시 · 딥 브라운 섀도",
+        "toolsEn": "Detail shadow brush · dark brown eyeshadow",
+        "swatches": [
+          "#6b4836",
+          "#523525"
+        ],
+        "searchKeywords": "딥 브라운 포인트 아이섀도",
+        "shopEn": "dark brown eyeshadow",
+        "shortKo": "눈꼬리 1/3 지점 깊은 음영",
+        "shortEn": "Deep shade on outer third"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "깨끗한 브러시로 경계 블렌딩하기",
+        "titleEn": "Blend out edges with a clean brush",
+        "bodyKo": "섀도가 묻지 않은 깨끗한 브러시를 사용해 베이스, 미드톤, 딥 컬러 사이의 경계선을 좌우로 가볍게 털어주듯 블렌딩해 자연스럽게 이어줍니다.",
+        "bodyEn": "Take a clean, pigment-free brush and softly sweep back and forth over the borders between shades. Blending dissolves hard lines for a smooth, natural finish.",
+        "toolsKo": "깨끗한 블렌딩 브러시",
+        "toolsEn": "Clean blending brush",
+        "swatches": [
+          "#b58a6d",
+          "#e2cfbe"
+        ],
+        "searchKeywords": "아이섀도 블렌딩 브러시",
+        "shopEn": "blending eyeshadow brush",
+        "shortKo": "깨끗한 브러시로 경계 풀기",
+        "shortEn": "Softly blend color edges"
+      }
+    ],
+    "tipsKo": [
+      "섀도를 묻힌 뒤 브러시를 손등이나 휴지에 가볍게 털어내야 양 조절이 쉽고 가루 날림이 줄어듭니다.",
+      "홑꺼풀 눈은 19편, 돌출형/덮인 눈은 18편에서 눈매별 응용법을 확인해 보세요."
+    ],
+    "tipsEn": [
+      "Always tap excess powder onto the back of your hand or a tissue before touching your eye to control color intensity and reduce fallout.",
+      "For monolids, check lesson 19; for hooded eyes, check lesson 18 for tailored variations."
+    ],
+    "mistakeKo": "섀도를 묻힌 브러시를 곧바로 눈에 대면 첫 터치 지점에 양이 뭉쳐 경계를 풀어주기 어려워집니다.",
+    "mistakeEn": "Pressing a heavily loaded brush straight onto the lid leaves a dark, harsh patch that is difficult to blend out.",
+    "chartPrompt": "pencil face chart showing soft matte neutral brown eyeshadow contouring on eyes: a smooth pale nude base across the entire eyelid, a warm soft tan shade swept slightly above the crease line, and a subtle deep mahogany brown softly smudged into the outer third corner of the eye, perfectly blended at the edges with no harsh lines",
+    "videoTitleKo": "기본 음영 섀도",
+    "videoTitleEn": "Basic Eye Shadow",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
