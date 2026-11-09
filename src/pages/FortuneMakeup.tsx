@@ -119,6 +119,17 @@ export default function FortuneMakeup() {
     if (out !== 'redirect') setPaying(false)
   }
 
+  // 15장 $6.99 — 가격표 아래 문구에서 바로 산다(11/9: 문구만 있고 살 곳이 없었다). 결제 후 이 페이지로 복귀(?paid=1)
+  const buyFifteen = async () => {
+    keepPendingLook(look); if (photo) keepPendingSelfie(photo)
+    setPaying(true); setErr(null)
+    await disarmFive('lucky')
+    trackEvent('paywall_cta', { plan: 'plus', from: 'lucky_page' })
+    const out = await startPackCheckout({ id: 'plus', credits: 15, value: 6.99 }, base)
+    if (out === 'error') setErr(isEn ? 'Couldn’t open checkout. Please try again.' : '결제창을 열지 못했어요. 다시 눌러 주세요.')
+    if (out !== 'redirect') setPaying(false)
+  }
+
   const refreshFree = useCallback(() => { void getFreeStatus().then((s) => { if (s) setFree(s) }) }, [])
   // 결제 복귀 — 장부에서 방금 들어온 충전을 찾아 "+N개 · 지금 M개 · 내역 보기"(5가지·9장 탭에서도 보이게 화면 위에)
   const [charge, closeCharge] = useChargeReceipt(paidBack, refreshFree)
@@ -371,7 +382,7 @@ export default function FortuneMakeup() {
               onFree={() => getFreeStatus().then(setFree)} />
           </div>
 
-          <PriceTable isEn={isEn} onMode={(m) => changeMode(m, m === 'nine' ? 'lucky-nine' : 'looks')} />
+          <PriceTable isEn={isEn} onMode={(m) => changeMode(m, m === 'nine' ? 'lucky-nine' : 'looks')} onFifteen={() => void buyFifteen()} paying={paying} />
 
           {/* 오늘의 운세 — 따로 있는 무료 결과(운세). 어떤 운이 필요할지 모르겠는 사람의 입구 */}
           <a href={fortuneHref} onClick={() => trackEvent('lucky_to_fortune', {})}
@@ -395,7 +406,7 @@ export default function FortuneMakeup() {
 
 // ── 가격표 — 2026-10-24: 크레딧 말 없이 장수로만(운영자가 "$2.99 = 1장?"으로 읽음) ──
 // 벤치마크: Lensa(50/100/200장 — 장수와 가격을 한 줄로), Nebula 구독 함정 소송 → "구독·자동 결제 없음"을 같이.
-function PriceTable({ isEn, onMode }: { isEn: boolean; onMode: (m: LookMode) => void }) {
+function PriceTable({ isEn, onMode, onFifteen, paying }: { isEn: boolean; onMode: (m: LookMode) => void; onFifteen: () => void; paying: boolean }) {
   const per = (usd: number, n: number) => (usd / n).toFixed(2)
   const rows = isEn
     ? [
@@ -428,8 +439,12 @@ function PriceTable({ isEn, onMode }: { isEn: boolean; onMode: (m: LookMode) => 
       </div>
       <p className="mt-3 text-xs leading-relaxed text-slate-500">
         {isEn
-          ? 'Today’s fortune is free. One-time payments only — no subscription, no auto-renewal. Need more? 15 looks for $6.99 on the top-up screen.'
-          : '오늘의 운세는 무료예요. 한 번 결제로 끝 — 구독·자동 결제 없어요. 더 필요하면 충전 화면에 15장 $6.99도 있어요.'}
+          ? 'Today’s fortune is free. One-time payments only — no subscription, no auto-renewal. Need more?'
+          : '오늘의 운세는 무료예요. 한 번 결제로 끝 — 구독·자동 결제 없어요. 더 필요하면'}{' '}
+        <button type="button" disabled={paying} onClick={onFifteen} className="font-bold text-navy underline underline-offset-2">
+          {isEn ? '15 looks $6.99' : '15장 $6.99'}
+        </button>
+        {isEn ? '' : '도 있어요.'}
       </p>
     </div>
   )

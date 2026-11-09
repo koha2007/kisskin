@@ -38,7 +38,8 @@ export default function CreditsPage() {
   const { user, loading } = useAuth()
   const [balance, setBalance] = useState<number | null>(null)
   const [rows, setRows] = useState<CreditTransaction[] | null>(null)
-  const [free, setFree] = useState<FreeStatus | null>(null)
+  // undefined = 불러오는 중 · null = 실패(틀린 개수 대신 안내)
+  const [free, setFree] = useState<FreeStatus | null | undefined>(undefined)
 
   useEffect(() => {
     if (!loading && !user) window.location.replace('/auth?next=' + encodeURIComponent('/mypage/credits/'))
@@ -77,13 +78,34 @@ export default function CreditsPage() {
         <p style={{ fontSize: '13px', color: C.muted, margin: '0 0 4px', lineHeight: 1.5 }}>
           {isKo ? '크레딧 1개 = AI 메이크업 1장(2026 메이크업·럭키 메이크업 공통)' : '1 credit = 1 AI makeup look (2026 looks & lucky makeup)'}
         </p>
-        {free && freeLeft > 0 && (
-          <p style={{ fontSize: '13px', color: C.navy, fontWeight: 600, margin: '0 0 4px', lineHeight: 1.5 }}>
-            {isKo
-              ? `+ 가입 무료권 ${freeLeft}장 남음 (2026 메이크업 ${free.makeup.left} · 럭키 ${free.lucky.left}) — 크레딧과 따로예요`
-              : `+ ${freeLeft} free sign-up pass${freeLeft === 1 ? '' : 'es'} left (2026 looks ${free.makeup.left} · lucky ${free.lucky.left}) — separate from credits`}
+        {/* 가입 무료권 — 크레딧과 별개. 풀마다 몇 장 중 몇 장 썼는지(서버 장부 기준, 재가입해도 이어짐) */}
+        <div style={{ marginTop: '12px', border: `1px solid ${C.line}`, borderRadius: RAD }}>
+          <p style={{ margin: 0, padding: '10px 12px', fontSize: '13px', fontWeight: 700, color: C.navy, borderBottom: `1px solid ${C.line}` }}>
+            {isKo ? '가입 무료권' : 'Free sign-up passes'}
+            {free && <span style={{ fontWeight: 600, color: C.muted }}>{isKo ? ` · ${freeLeft}장 남음 / ${free.makeup.limit + free.lucky.limit}장` : ` · ${freeLeft} of ${free.makeup.limit + free.lucky.limit} left`}</span>}
           </p>
-        )}
+          {free ? (
+            ([
+              { k: isKo ? '2026 메이크업' : '2026 makeup looks', p: free.makeup },
+              { k: isKo ? '럭키 메이크업' : 'Lucky makeup', p: free.lucky },
+            ]).map((x) => (
+              <div key={x.k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', fontSize: '13px', color: C.navy }}>
+                <span>{x.k}</span>
+                <span style={{ fontWeight: 700, color: x.p.left > 0 ? C.sage : C.muted }}>
+                  {isKo
+                    ? `${x.p.left > 0 ? '남음' : '사용함'} · ${x.p.used}/${x.p.limit}장 사용`
+                    : `${x.p.left > 0 ? 'Available' : 'Used'} · ${x.p.used}/${x.p.limit} used`}
+                </span>
+              </div>
+            ))
+          ) : free === undefined ? (
+            <p style={{ margin: 0, padding: '9px 12px', fontSize: '12px', color: C.muted }}>…</p>
+          ) : (
+            <p style={{ margin: 0, padding: '9px 12px', fontSize: '12px', color: C.muted }}>
+              {isKo ? '무료권 정보를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.' : 'Couldn’t load your free passes. Please refresh in a moment.'}
+            </p>
+          )}
+        </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '16px' }}>
           <a href="/makeup/" style={btn(true)}>
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>auto_awesome</span>

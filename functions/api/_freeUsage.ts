@@ -124,12 +124,19 @@ async function rpc<T>(env: FreeEnv, fn: string, params: Record<string, unknown>)
   }
 }
 
-/** 지금까지 쓴 무료 장수 = 장부 사용 수와 옛 KV 기록 중 큰 값. */
-export async function getFreeUsed(env: FreeEnv, pool: FreePool, user: AuthUser): Promise<number> {
+/**
+ * 지금까지 쓴 무료 장수 = 장부 사용 수와 옛 KV 기록 중 큰 값.
+ * strict = 화면 표시용(free-status) — 장부 조회가 실패하면 옛 기록만으로 "남음"을 잘못 보여 주지 않게 null.
+ * (생성 경로는 strict 아님 — 어차피 claimFreePass 가 장부에서 원자적으로 다시 판정한다.)
+ */
+export async function getFreeUsed(env: FreeEnv, pool: FreePool, user: AuthUser): Promise<number>
+export async function getFreeUsed(env: FreeEnv, pool: FreePool, user: AuthUser, strict: true): Promise<number | null>
+export async function getFreeUsed(env: FreeEnv, pool: FreePool, user: AuthUser, strict = false): Promise<number | null> {
   const [legacy, ledger] = await Promise.all([
     kvUsed(env, pool, user),
     rpc<number>(env, 'free_pass_used', { p_user_id: user.id, p_hashes: await ledgerHashes(user), p_pool: pool }),
   ])
+  if (strict && !ledger.ok && !ledger.missing) return null
   return Math.max(legacy, ledger.ok && typeof ledger.data === 'number' ? ledger.data : 0)
 }
 
