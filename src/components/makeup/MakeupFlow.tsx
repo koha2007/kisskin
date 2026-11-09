@@ -20,7 +20,8 @@ import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { takePendingSelfie, keepPendingSelfie, savePendingSelfieFromSrc, clearPendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { supabase } from '../../lib/supabase'
 import { trackCheckoutReturn } from '../../lib/purchaseTracking'
-import { getCreditBalance } from '../../lib/credits'
+import ChargeReceiptToast from '../credits/ChargeReceiptToast'
+import { useChargeReceipt } from '../../hooks/useChargeReceipt'
 import { getFreeStatus, type PayChoice } from '../../lib/freeStatus'
 import { screenBg, btnPrimary, btnPrimaryStyle } from './theme'
 
@@ -57,7 +58,6 @@ interface Selfie { photo: string }
 const RESUME_STYLE_KEY = 'kisskin_resume_style'
 
 // 충전 복귀 안내: 확인 중 → 잔액 확인됨 / 웹훅 반영이 늦음
-type PaidNotice = { state: 'checking' } | { state: 'ok'; balance: number } | { state: 'late' }
 
 export default function MakeupFlow() {
   const { locale } = useI18n()
@@ -88,7 +88,6 @@ export default function MakeupFlow() {
   // 안내 없이 '사진 올리기' 첫 화면이 떠서 결제가 된 건지조차 알 수 없었다 → 복귀 안내 + 셀카·룩 복원.
   // checkout_id 는 trackCheckoutReturn 이 주소에서 걷어내므로 첫 렌더에 미리 잡아 둔다.
   const paidReturnRef = useRef(typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('checkout_id'))
-  const [paidNotice, setPaidNotice] = useState<PaidNotice | null>(null)
   const runIdRef = useRef(0)
   const jobIdRef = useRef('')   // 현재 생성 작업의 차감 멱등 키(재시도 시 유지)
   // 이번 생성의 결제수단 — 사용자가 고른다(무료권/크레딧 우선순위 없음, 2026-10-21).
@@ -296,22 +295,8 @@ export default function MakeupFlow() {
     }
   }, [])
 
-  // 충전 복귀 → 잔액이 들어올 때까지(웹훅) 잠깐 기다렸다가 "결제 완료 · 크레딧 N개"를 보여 준다.
-  useEffect(() => {
-    if (!paidReturnRef.current) return
-    let cancelled = false
-    setPaidNotice({ state: 'checking' })
-    ;(async () => {
-      for (let i = 0; i < 10 && !cancelled; i++) {
-        const b = await getCreditBalance().catch(() => 0)
-        if (cancelled) return
-        if (b > 0) { setPaidNotice({ state: 'ok', balance: b }); return }
-        await new Promise((r) => setTimeout(r, 2000))
-      }
-      if (!cancelled) setPaidNotice({ state: 'late' })
-    })()
-    return () => { cancelled = true }
-  }, [])
+  // 충전 복귀 → 장부에서 방금 들어온 충전을 찾아 "+N개 · 지금 M개 · 내역 보기"를 띄운다(ChargeReceiptToast).
+  const [charge, closeCharge] = useChargeReceipt(paidReturnRef.current)
 
   // 충전 화면으로 — Polar 왕복(페이지 이동)에도 지금 셀카·룩을 이어 쓰도록 맡겨 둔다.
   const goTopup = (from = 'result') => {
@@ -325,29 +310,8 @@ export default function MakeupFlow() {
   // 같은 작업 재생성(차감 멱등 키 유지 → 일시 실패는 무료 재호출, 부족/로그인은 조치 후 재시도)
   const regenerate = () => { setErrMsg(null); setStep('processing') }
 
-  // 충전 복귀 안내 — 사진 올리기·룩 고르기 화면 위에 띄운다. 생성을 시작하면 닫는다.
-  const notice = paidNotice && (step === 'upload' || step === 'style') ? (
-    <div role="status" className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-[max(12px,env(safe-area-inset-top))] font-display">
-      <button
-        onClick={() => setPaidNotice(null)}
-        className="flex w-full max-w-md items-start gap-2 rounded-2xl px-4 py-3 text-left text-[13px] leading-snug text-white shadow-lg break-keep"
-        style={{ background: paidNotice.state === 'late' ? '#7a4b12' : '#1f5e3a' }}
-      >
-        <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-          {paidNotice.state === 'ok' ? 'check_circle' : paidNotice.state === 'late' ? 'schedule' : 'hourglass_top'}
-        </span>
-        <span className="flex-1">
-          {paidNotice.state === 'checking' && (isEn ? 'Confirming your payment…' : '결제를 확인하고 있어요…')}
-          {paidNotice.state === 'ok' && (isEn
-            ? `Payment complete — you have ${paidNotice.balance} credit${paidNotice.balance === 1 ? '' : 's'}. ${selfie ? 'Pick a look to continue.' : 'Upload a selfie to start.'} Each look uses 1.`
-            : `결제 완료 — 크레딧 ${paidNotice.balance}개가 들어왔어요. ${selfie ? '룩을 고르면 이어서 만들어요.' : '셀카를 올리면 바로 시작해요.'} 룩 하나에 1개씩 쓰여요.`)}
-          {paidNotice.state === 'late' && (isEn
-            ? 'Payment received, but your credits are taking longer to appear. Refresh in a minute — if they still don\'t show, contact us from the Contact page.'
-            : '결제는 접수됐는데 크레딧 반영이 늦어지고 있어요. 1분 뒤 새로고침해 주세요. 그래도 안 보이면 문의하기로 알려 주세요.')}
-        </span>
-      </button>
-    </div>
-  ) : null
+  // 충전 복귀 안내 — 모든 단계(9룩 컬렉션 자동 생성 포함) 위에 띄운다. 닫기 전까지 유지.
+  const notice = <ChargeReceiptToast st={charge} onClose={closeCharge} isEn={isEn} />
 
   // ── 렌더 ──
   if (step === 'upload') {
@@ -379,7 +343,7 @@ export default function MakeupFlow() {
         initialStyle={styleId}
         loginHref={loggedOut ? loginHref() : undefined}
         onBack={() => setStep('upload')}
-        onConfirm={(id, pay) => { jobIdRef.current = ''; payRef.current = pay; setStyleId(id); setPaidNotice(null); setStep('processing') }}
+        onConfirm={(id, pay) => { jobIdRef.current = ''; payRef.current = pay; setStyleId(id); setStep('processing') }}
         onCollection={() => { setCollectionMode(true); setStep('collection') }}
         onTopup={(id) => { setStyleId(id); goTopup('style_select') }}
       />
@@ -460,6 +424,7 @@ export default function MakeupFlow() {
 
   if (step === 'collection') {
     return (
+      <>{notice}
       <MakeupCollection
         isEn={isEn}
         photo={collectionResume ? undefined : selfie?.photo}
@@ -474,11 +439,13 @@ export default function MakeupFlow() {
           setCollectionResume(false); setCollectionMode(true); setStep('upload')
         }}
       />
+      </>
     )
   }
 
   // result
   return (
+    <>{notice}
     <MakeupResult
       isEn={isEn}
       styleId={styleId}
@@ -490,5 +457,6 @@ export default function MakeupFlow() {
       onCollection={() => { setCollectionMode(true); setStep('collection') }}
       onTopup={() => goTopup('result')}
     />
+    </>
   )
 }

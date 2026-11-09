@@ -23,6 +23,8 @@ import { generateMakeupLook, newJobId, keepPendingStyle, takePendingStyle, type 
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { startPackCheckout, type CheckoutPack } from '../lib/makeup/packCheckout'
 import { trackCheckoutReturn } from '../lib/purchaseTracking'
+import ChargeReceiptToast from '../components/credits/ChargeReceiptToast'
+import { useChargeReceipt } from '../hooks/useChargeReceipt'
 import FiveLooksBox, { FIVE_COUNT, LookModeTabs, type LookMode } from '../components/makeup/FiveLooksBox'
 import { disarmFive } from '../lib/makeup/fiveStore'
 import LookCompare from '../components/makeup/LookCompare'
@@ -42,7 +44,6 @@ const KO = {
   make: '이 메이크업으로 생성하기', makeFree: '무료권으로 생성하기', makeCredit: '보유 1장으로 생성하기', useFree: '무료권으로 생성', useCredit: '보유 1장으로 생성', loginMake: '로그인하고 생성하기', loginNote: '가입하면 9가지 메이크업 1장 + 럭키 메이크업 1장 무료 · 카드 등록 없음',
   counts: (f: number, c: number) => `남은 무료권 ${f}장 · 보유 ${c}장`, generating: '메이크업을 만드는 중이에요… (최대 1분)', another: '다른 룩도 같은 셀카로 만들기', usedFree: '무료권 1장 사용', usedCredit: '보유 1장 사용', left: (n: number) => `보유 ${n}장 남음`,
   buy5: '5장 구매 · $2.99', pick5: '5가지 고르기 · $2.99', buy15: '15장 $6.99', nineTitle: '9룩을 한 번에', nineDesc: '같은 셀카로 9장 + 모아보기 1장. 다음 화면에서 셀카를 확인하고 결제해요. 2~3분이면 완성돼요.', nineBtn: '9룩 전부 받기 · $4.99',
-  paidOk: (n: number) => `결제가 완료됐어요. 보유 ${n}장으로 이어서 만들 수 있어요.`, paidWait: '결제를 확인하는 중이에요…', paidLate: '충전 반영이 늦어지고 있어요. 1분 뒤 새로고침해 주세요. 계속 안 되면 support@kissinskin.net 으로 알려 주세요.',
   checkoutErr: '결제창을 열지 못했어요. 다시 눌러 주세요.', priceTitle: '가격', priceSub: '1장 = 내 셀카에 그 메이크업을 입힌 사진 한 장이에요.', tax: '결제창에서 세금이 더해질 수 있어요. 구독·자동 결제는 없어요.',
   plans: [
     { n: '1장', p: '무료', s: '가입 무료권 — 9가지 메이크업 1장', i: ['9가지 중 원하는 하나', '럭키 메이크업 무료 1장과 별개', '카드 등록 없음'] },
@@ -62,7 +63,6 @@ const EN: typeof KO = {
   make: 'Create this look', makeFree: 'Create with free pass', makeCredit: 'Create with 1 look', useFree: 'Use free pass', useCredit: 'Use 1 look', loginMake: 'Log in to create', loginNote: 'Sign up: 1 makeup look + 1 lucky look free · no card',
   counts: (f: number, c: number) => `Free pass ${f} · ${c} looks left`, generating: 'Creating your makeup… (up to 1 min)', another: 'Make another look with this selfie', usedFree: 'Used your free pass', usedCredit: 'Used 1 look', left: (n: number) => `${n} looks left`,
   buy5: 'Buy 5 looks · $2.99', pick5: 'Pick 5 looks · $2.99', buy15: '15 looks $6.99', nineTitle: 'All 9 at once', nineDesc: '9 looks from one selfie + 1 grid image. Confirm your selfie and pay on the next screen. Ready in 2–3 minutes.', nineBtn: 'Get all 9 · $4.99',
-  paidOk: (n: number) => `Payment complete. You have ${n} looks to use.`, paidWait: 'Checking your payment…', paidLate: 'Your credits are taking longer than usual. Refresh in a minute, or email support@kissinskin.net.',
   checkoutErr: 'Couldn’t open checkout. Please try again.', priceTitle: 'Pricing', priceSub: 'One look = one photo of you in that makeup.', tax: 'Tax may be added at checkout. No subscription or auto-renewal.',
   plans: [
     { n: '1 look', p: 'Free', s: 'Sign-up free pass — 1 makeup look', i: ['Any one of the 9', 'Separate from your free lucky look', 'No card needed'] },
@@ -89,7 +89,8 @@ export default function AiMakeupPage() {
   const [gen, setGen] = useState<Gen>({ k: 'idle' })
   const [free, setFree] = useState<FreeStatus | null>(null)
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null)
-  const [paid, setPaid] = useState<'wait' | 'ok' | 'late' | null>(null)
+  // 결제 복귀(?paid=1) — 주소는 브라우저에서만 읽는다(미리 렌더한 페이지)
+  const [paidBack, setPaidBack] = useState(false)
   const [paying, setPaying] = useState(false)
   const jobRef = useRef('')
   const makeRef = useRef<HTMLDivElement>(null)
@@ -111,7 +112,7 @@ export default function AiMakeupPage() {
       if (lk) setLook(lk)
       setTimeout(() => makeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400)
     }
-    if (q.get('paid') === '1') { trackCheckoutReturn(); setPaid('wait') }
+    if (q.get('paid') === '1') { trackCheckoutReturn(); setPaidBack(true) }
   }, [])
 
   useEffect(() => {
@@ -124,24 +125,9 @@ export default function AiMakeupPage() {
     return () => { off = true }
   }, [gen.k])
 
-  // 결제 복귀 — 웹훅 충전이 몇 초 늦을 수 있어 잔액이 들어올 때까지 다시 읽는다
-  useEffect(() => {
-    if (paid !== 'wait') return
-    let off = false
-    ;(async () => {
-      for (let i = 0; i < 12 && !off; i++) {
-        const s = await getFreeStatus()
-        if (off) return
-        if (s) setFree(s)
-        if (s && s.balance > 0) { setPaid('ok'); return }
-        await new Promise((r) => setTimeout(r, 2500))
-      }
-      if (!off) setPaid('late')
-    })()
-    return () => { off = true }
-  }, [paid])
-
   const refreshFree = useCallback(() => { void getFreeStatus().then((s) => { if (s) setFree(s) }) }, [])
+  // 결제 복귀 — 장부에서 방금 들어온 충전을 찾아 "+N개 · 지금 M개 · 내역 보기"(웹훅이 몇 초 늦을 수 있다)
+  const [charge, closeCharge] = useChargeReceipt(paidBack, refreshFree)
   const freeLeft = free?.makeup.left ?? 0
   const credits = free?.balance ?? 0
   const busy = gen.k === 'busy'
@@ -227,6 +213,7 @@ export default function AiMakeupPage() {
   const eyebrow = 'text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark'
   return (
     <div className="font-display bg-background-light min-h-screen text-navy">
+      <ChargeReceiptToast st={charge} onClose={closeCharge} isEn={isEn} />
       <ToolsNav />
       <main className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <section className="pt-10 md:pt-14">
@@ -284,7 +271,6 @@ export default function AiMakeupPage() {
 
           <div ref={makeRef} id="make" className={`mx-auto mt-10 max-w-xl scroll-mt-20 bg-navy p-5 text-white md:p-7 ${mode === 'one' ? '' : 'hidden'}`}>
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-on-dark"><span className="mr-1.5 tabular-nums">2</span>{T.makeKicker}</p>
-            {paid && <p role="status" className="mt-3 bg-white/10 px-3 py-2 text-[13px] font-bold">{paid === 'ok' ? T.paidOk(credits) : paid === 'wait' ? T.paidWait : T.paidLate}</p>}
             {gen.k === 'done' && (
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <figure><img src={photo ?? ''} alt="" className="aspect-[3/4] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold text-white/70">{T.before}</figcaption></figure>
