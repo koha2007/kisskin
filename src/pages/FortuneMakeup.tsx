@@ -22,6 +22,8 @@ import { getFreeStatus, type FreeStatus, type PayChoice } from '../lib/freeStatu
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { supabase } from '../lib/supabase'
 import { trackCheckoutReturn } from '../lib/purchaseTracking'
+import ChargeReceiptToast from '../components/credits/ChargeReceiptToast'
+import { useChargeReceipt } from '../hooks/useChargeReceipt'
 import { startPackCheckout } from '../lib/makeup/packCheckout'
 import { loadLucky, saveLucky, type LuckyState } from '../lib/fortune/luckyStore'
 import { LUCKY_PRICE } from '../lib/fortune/pricing'
@@ -56,7 +58,8 @@ export default function FortuneMakeup() {
   const [lacking, setLacking] = useState<Element | undefined>(undefined)
   const [nineResume, setNineResume] = useState(false)
   // 5장·15장 결제 복귀(2026-11-02) — 이 페이지로 돌아와 고르던 운·셀카로 이어 만든다
-  const [paidBack, setPaidBack] = useState<'wait' | 'ok' | 'late' | null>(null)
+  // 결제 복귀(?paid=1 · ?nine=1) — 주소는 브라우저에서만 읽는다(미리 렌더한 페이지)
+  const [paidBack, setPaidBack] = useState(false)
   const [paying, setPaying] = useState(false)
   const jobRef = useRef('')
   const makeRef = useRef<HTMLDivElement>(null)
@@ -79,11 +82,11 @@ export default function FortuneMakeup() {
     const scrollToMake = () => setTimeout(() => makeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400)
     if (q.get('nine') === '1') {
       // 9장 결제 복귀 — 셀카·진행분은 NineBox 가 IndexedDB 에서 읽는다
-      trackCheckoutReturn(); setNineResume(true); setMode('nine')
+      trackCheckoutReturn(); setPaidBack(true); setNineResume(true); setMode('nine')
       setTimeout(() => document.getElementById('lucky-nine')?.scrollIntoView({ behavior: 'smooth' }), 500)
       return
     }
-    if (q.get('paid') === '1') { trackCheckoutReturn(); setPaidBack('wait') }
+    if (q.get('paid') === '1') { trackCheckoutReturn(); setPaidBack(true) }
     if (q.get('resume') === '1' || q.get('paid') === '1' || valid) {
       // 로그인 왕복 · 오늘의 운세에서 셀카를 넣고 온 사람 — 고른 운과 셀카를 이어서
       const ph = takePendingSelfie()
@@ -105,21 +108,6 @@ export default function FortuneMakeup() {
     return () => { off = true }
   }, [gen.k])
 
-  useEffect(() => {
-    if (paidBack !== 'wait') return
-    let off = false
-    ;(async () => {
-      for (let i = 0; i < 12 && !off; i++) {
-        const s = await getFreeStatus()
-        if (off) return
-        if (s) setFree(s)
-        if (s && s.balance > 0) { setPaidBack('ok'); return }
-        await new Promise((r) => setTimeout(r, 2500))
-      }
-      if (!off) setPaidBack('late')
-    })()
-    return () => { off = true }
-  }, [paidBack])
 
   const buyFive = async () => {
     keepPendingLook(look); if (photo) keepPendingSelfie(photo)
@@ -132,6 +120,8 @@ export default function FortuneMakeup() {
   }
 
   const refreshFree = useCallback(() => { void getFreeStatus().then((s) => { if (s) setFree(s) }) }, [])
+  // 결제 복귀 — 장부에서 방금 들어온 충전을 찾아 "+N개 · 지금 M개 · 내역 보기"(5가지·9장 탭에서도 보이게 화면 위에)
+  const [charge, closeCharge] = useChargeReceipt(paidBack, refreshFree)
   const freeLeft = free?.lucky.left ?? 0
   const credits = free?.balance ?? 0
   // ── 생성 — [생성하기]를 누를 때(9종과 같음). pay = 누른 버튼(무료권/보유 장수). 같은 작업 재시도는 같은 jobId(이중 차감 X) ──
@@ -205,6 +195,7 @@ export default function FortuneMakeup() {
   const none = !!free && freeLeft === 0 && credits === 0
   return (
     <div className="font-display bg-background-light min-h-screen text-navy">
+      <ChargeReceiptToast st={charge} onClose={closeCharge} isEn={isEn} />
       <ToolsNav />
       <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
         <section className="pt-10 md:pt-14">
@@ -283,7 +274,6 @@ export default function FortuneMakeup() {
           {/* 2) 고른 운 → 사진 찍거나 넣으면 바로 생성. 결과도 여기(무료/유료로 나누지 않는다) */}
           <div ref={makeRef} id="make" className={`mx-auto mt-10 max-w-xl scroll-mt-20 bg-navy p-5 md:p-7 text-white ${mode === 'one' ? '' : 'hidden'}`}>
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-on-dark"><span className="mr-1.5 tabular-nums">2</span>{T.makeKicker}</p>
-            {paidBack && <p role="status" className="mt-3 bg-white/10 px-3 py-2 text-[13px] font-bold">{paidBack === 'ok' ? (isEn ? `Payment complete. You have ${credits} looks to use.` : `결제가 완료됐어요. 보유 ${credits}장으로 이어서 만들 수 있어요.`) : paidBack === 'wait' ? (isEn ? 'Checking your payment…' : '결제를 확인하는 중이에요…') : (isEn ? 'Your looks are taking longer than usual. Refresh in a minute, or email support@kissinskin.net.' : '충전 반영이 늦어지고 있어요. 1분 뒤 새로고침해 주세요. 계속 안 되면 support@kissinskin.net 으로 알려 주세요.')}</p>}
             {gen.k === 'done' ? (
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <figure><img src={photo ?? ''} alt="" className="aspect-[3/4] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold text-white/70">{T.before}</figcaption></figure>

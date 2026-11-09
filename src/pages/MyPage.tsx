@@ -435,6 +435,13 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
             ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(2026 메이크업 9룩 중 1장 + 럭키 메이크업 9가지 운 중 1장)은 원할 때 골라서 쓰면 돼요.'
             : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 of the 9 2026 makeup looks + 1 of the 9 lucky makeup looks) — use them whenever you like.'}
         </p>
+        <a
+          href="/mypage/credits/"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '10px', fontSize: '13px', fontWeight: 700, color: C.navy, textDecoration: 'underline', textUnderlineOffset: '3px' }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>receipt_long</span>
+          {isKo ? '충전·사용 내역 보기' : 'View top-ups & usage'}
+        </a>
         {freeStatus && (
           <p style={{ fontSize: '12px', color: C.navy, margin: '6px 0 0', lineHeight: 1.5, fontWeight: 600 }}>
             {isKo
