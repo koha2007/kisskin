@@ -2,6 +2,28 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike',
+    category: 'skincare',
+    title: 'Ampoule N, 다이소 전용 앰플 출시·프라임데이 아이크림 판매 급상승',
+    summary:
+      'Ampoule N이 다이소 전용 ‘for Every Concern’ 4종 앰플을 5천원에 선보였고, 360-Shot PDRN 리프팅 아이크림은 미국 아마존 프라임 빅딜데이에서 아이크림 부문 1위에 올랐습니다.',
+    body: [
+      '> TLDR: Ampoule N, 다이소 전용 앰플 출시 | 5,000원 가격 | PDRN 아이크림 아마존 프라임데이 1위',
+      'Ampoule N 브랜드가 다이소 전용 ‘for Every Concern’ 앰플 4종을 5,000원에 출시하며 접근성과 실용성을 강조했습니다.',
+      '> DATA: 앰플 4종 각 5,000원, 아마존 프라임 빅딜데이에서 PDRN 아이크림이 아이크림 카테고리 1위 기록',
+      '이번 출시 제품 중 ‘Cera Booster Shot Ampoule’는 라이스 세라마이드, 라이스 PDRN, 판테놀을 결합해 메이크업 베이스 역할까지 하는 특징이 있습니다.',
+      '미국 아마존 프라임 빅딜데이에서 360‑Shot PDRN 리프팅 아이크림이 아이크림 부문에서 전년 대비 1,104% 판매 증가를 기록하며 1위를 차지한 것은 K‑뷰티의 글로벌 영향력을 보여줍니다.',
+      '이 사례는 소비자에게 K‑뷰티의 가성비·기능성 접근성과 함께 글로벌 시장에서 주목받는 트렌드를 전달합니다.',
+    ],
+    date: '2026-11-10',
+    readMinutes: 3,
+    tags: ['앰플', 'PDRN', 'K-뷰티'],
+    image: '/news/ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike.webp',
+    seoTitle: 'Ampoule N 다이소 출시·PDRN 아이크림',
+    seoDescription:
+      'Ampoule N이 다이소 전용 앰플 4종을 5천원에 출시하고, PDRN 리프팅 아이크림이 아마존 프라임 빅딜데이에서 아이크림 부문 1위를',
+  },
+  {
     slug: 'moo100-amazon-us-haircare-launch',
     category: 'hair',
     title: 'MOO100, ‘자몽 워터 샴푸’로 미국 아마존 진출—100만 병 이상 국내 판매 기록',

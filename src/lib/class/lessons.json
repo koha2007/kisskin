@@ -1325,5 +1325,86 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "eyeliner-basics-tightline",
+    "publishedAt": "2026-11-10",
+    "introKo": "점막 채우기는 눈의 크기를 키우는 게 아니라, 속눈썹 사이 빈 곳을 메워 눈매를 또렷하고 진하게 만드는 기초 테크닉이에요. 거울의 위치와 손끝 각도만 바꾸면 찌르지 않고 안전하게 채울 수 있어요.",
+    "introEn": "Tightlining doesn't make your eyes bigger—it fills the gaps between your lashes to make your lash line look naturally denser and sharper. With the right mirror angle and a light touch, you can do it safely without poking yourself.",
+    "minutes": 10,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "거울 위치와 시선 맞추기",
+        "titleEn": "Position the mirror low",
+        "bodyKo": "탁상 거울을 턱 아래에 두고 시선을 45도 아래로 내려다보세요. 손가락으로 눈꺼풀을 살짝 들면 속눈썹 뿌리 안쪽 점막이 자연스럽게 보여요.",
+        "bodyEn": "Place a mirror below your chin and look down at a 45-degree angle. Gently lift your upper eyelid with a finger to reveal the lash line and upper waterline.",
+        "toolsKo": "탁상 거울",
+        "toolsEn": "Tabletop mirror",
+        "swatches": [
+          "#d8c4b6"
+        ],
+        "searchKeywords": "탁상 거울 각도 조절",
+        "shopEn": "tabletop standing mirror",
+        "shortKo": "거울은 턱 아래 45도",
+        "shortEn": "Mirror down at 45 degrees"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "부드러운 펜슬로 중앙부터 점찍기",
+        "titleEn": "Dot from the center with pencil",
+        "bodyKo": "부드러운 젤 펜슬 아이라이너를 눕혀 잡고 눈동자 위 중앙부터 속눈썹 틈새를 콕콕 찍듯이 채워요. 쓱 긋지 말고 톡톡 채워 넣어야 살이 찍히지 않아요.",
+        "bodyEn": "Hold a soft gel pencil liner at a slight angle and start above the pupil. Gently dot between the roots of your lashes rather than dragging a continuous line.",
+        "toolsKo": "안 부러지는 젤 펜슬 아이라이너 (다크 브라운 또는 블랙)",
+        "toolsEn": "Gel pencil eyeliner (dark brown or black)",
+        "swatches": [
+          "#362822",
+          "#1c1b1a"
+        ],
+        "searchKeywords": "워터프루프 젤 펜슬 아이라이너",
+        "shopEn": "waterproof gel pencil eyeliner",
+        "shortKo": "쓱 긋지 말고 콕콕 찍기",
+        "shortEn": "Dot instead of dragging"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "눈 앞머리와 꼬리 빈 곳 잇기",
+        "titleEn": "Connect to inner and outer corners",
+        "bodyKo": "중앙을 채운 뒤 눈 앞머리와 눈꼬리 쪽 빈 곳까지 가볍게 이어주세요. 꼬리를 밖으로 빼지 않고 속눈썹이 끝나는 지점까지만 채워 마무리해요.",
+        "bodyEn": "After filling the middle, connect the dots toward the inner and outer corners. Stop right where your natural eyelashes end—do not extend an outer wing.",
+        "toolsKo": "젤 펜슬 아이라이너",
+        "toolsEn": "Gel pencil eyeliner",
+        "swatches": [
+          "#362822"
+        ],
+        "searchKeywords": "슬림 젤 아이라이너 브라운",
+        "shopEn": "slim pencil eyeliner",
+        "shortKo": "속눈썹 끝나는 곳까지만",
+        "shortEn": "Stop where lashes end"
+      }
+    ],
+    "tipsKo": [
+      "유분이나 눈물이 있으면 라이너가 번지기 쉬우므로, 채우기 전 면봉으로 점막 물기를 살짝 닦아내세요.",
+      "눈이 쉽게 피로해진다면 펜슬 끝을 손등에 살짝 문질러 뭉툭하게 만든 뒤 사용하면 자극이 적어요."
+    ],
+    "tipsEn": [
+      "Use a cotton swab to gently dab away excess moisture along the waterline before applying eyeliner to prevent smudging.",
+      "If your eyes are sensitive, dull the sharp tip of your pencil slightly on the back of your hand before applying."
+    ],
+    "mistakeKo": "점막을 채우면서 라인을 눈꺼풀 밖으로 두껍게 그리면 눈이 둔해 보이고 금방 번져요.",
+    "mistakeEn": "Drawing thick lines on top of the eyelid instead of strictly between the lash roots makes eyes look heavy and leads to easy smudging.",
+    "chartPrompt": "a pencil face chart showing a close up of one eye with deep brown tightlining explicitly placed only between the upper lash roots, making the base of the lashes look dense without any wing or thick upper eyelid line",
+    "safetyKo": "아이라이너 펜슬 심이 안구 직접 표면에 닿지 않도록 주의하고, 점막 깊은 안쪽이 아닌 속눈썹 모근 사이 틈새만 채워주세요.",
+    "safetyEn": "Keep the pencil tip strictly between the roots of your lashes; do not touch the wet surface of the eyeball or inner rim.",
+    "videoTitleKo": "아이라인 기초",
+    "videoTitleEn": "Tightlining Basics",
+    "video": {
+      "seconds": 16
+    }
   }
 ]

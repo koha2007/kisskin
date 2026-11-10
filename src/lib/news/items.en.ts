@@ -5,6 +5,28 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike',
+    category: 'skincare',
+    title: 'Ampoule N Launches Daiso-Exclusive Ampoules; Prime Day Eye Cream Sales Surge',
+    summary:
+      'Ampoule N introduced four Daiso-exclusive \'for Every Concern\' ampoules at 5,000 KRW, while the 360-Shot PDRN Lifting Eye Cream ranked No.1 in the eye cream category during Amazon Prime Big Deal Days in the US.',
+    body: [
+      '> TLDR: Ampoule N launches Daiso-exclusive ampoules | 5,000 KRW price | PDRN eye cream ranks No.1 on Amazon Prime Day',
+      'Ampoule N has launched four Daiso-exclusive \'for Every Concern\' ampoules at 5,000 KRW each, emphasizing accessibility and practicality.',
+      '> DATA: Four ampoules at 5,000 KRW each, PDRN eye cream ranked No.1 in the eye cream category during Amazon Prime Big Deal Days',
+      'Among the new products, the \'Cera Booster Shot Ampoule\' combines rice ceramide, rice PDRN, and panthenol, and also functions as a makeup base.',
+      'During Amazon Prime Big Deal Days in the US, the 360-Shot PDRN Lifting Eye Cream achieved a 1,104% year-on-year sales increase and took the No.1 spot in the eye cream category, demonstrating K-beauty\'s global influence.',
+      'This case highlights the value-for-money and functional accessibility of K-beauty for consumers, as well as trends gaining attention in the global market.',
+    ],
+    date: '2026-11-10',
+    readMinutes: 3,
+    tags: ['ampoule', 'PDRN', 'K-beauty'],
+    image: '/news/ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike.webp',
+    seoTitle: 'Ampoule N Debuts Daiso Ampoules, PDRN Eye Cream Tops',
+    seoDescription:
+      'Ampoule N launches affordable Daiso ampoules as its PDRN eye cream tops Amazon Prime Day sales, highlighting K-beauty\'s global momentum.',
+  },
+  {
     slug: 'moo100-amazon-us-haircare-launch',
     category: 'hair',
     title: 'MOO100 Enters US Amazon with \'Grapefruit Water Shampoo\'—Over 1 Million Bottles Sold Domestically',

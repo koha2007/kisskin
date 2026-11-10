@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'maybelline-sky-high-tubing-mascara',
+    category: 'eye',
+    brand: '메이블린',
+    name: '스카이 하이 튜빙 마스카라',
+    title: '메이블린 스카이 하이 튜빙 마스카라 — 틱톡·세포라·울타 강타한 뷰티 히트',
+    summary:
+      '틱톡에서 #skyhighmascara 해시태그 1억 회 이상 조회되고, 세포라 베스트셀러에 오른 메이블린 스카이 하이 튜빙 마스카라입니다. 길이, 볼륨, 지속력에 강점을 가진 튜빙 제형을 적용해 하루 종일 번짐 없이 유지됩니다.',
+    highlights: ['튜빙 포뮬러', '극대 길이·볼륨', '틱톡·세포라 인기'],
+    details: [
+      '튜빙 포뮬러가 사용 후 미온수만으로 쉽게 튜브 형태로 벗겨져 번짐 없이 지워집니다.',
+      '유연한 Flex Tower 브러시가 속눈썹 뿌리부터 끝까지 밀착되어 길이와 볼륨을 균일하게 더해줍니다.',
+      '틱톡에서 #skyhighmascara 해시태그 누적 조회수는 1억 회 이상이며, 출시 이후 미국에서 수차례 매진 기록을 보였습니다.',
+      '세포라 베스트셀러 마스카라 리스트에도 오르며, 폭넓은 연령층 고객들에게 사랑받고 있습니다.',
+    ],
+    whoFor:
+      '자연스러운 데일리 메이크업을 선호하면서도 속눈썹 길이와 볼륨을 동시에 챙기고 싶은 사람에게 적합합니다. 특히 민감한 눈을 가진 렌즈 착용자에게도 잘 맞는 제형입니다.',
+    howTo: [
+      'Flex Tower 브러시에 적당량을 묻혀 속눈썹 뿌리부터 끝까지 지그시 끌어올리며 발라줍니다.',
+      '원하는 볼륨감과 길이를 위해 2~3회 겹발라주세요. 이후 미온수로 부드럽게 마사지하듯 문질러 제거하면 깔끔하게 지워집니다.',
+    ],
+    pros: [
+      '번짐 없이 하루 종일 유지되는 튜빙 제형',
+      '틱톡·세포라 모두에서 입증된 인기와 신뢰',
+    ],
+    cons: [
+      '튜빙 특성상 건조한 느낌이 있을 수 있어 유분 많은 눈가엔 주의 필요',
+    ],
+    image: '/products/maybelline-sky-high-tubing-mascara.webp',
+    coupangQuery: '메이블린 스카이 하이 튜빙 마스카라',
+    globalQuery: 'Maybelline Sky High Tubing Mascara',
+    clio: false,
+    clioCategory: 'eye',
+    date: '2026-11-10',
+    tags: ['튜빙마스카라', '틱톡핫템', '세포라베스트셀러'],
+    seoTitle: '메이블린 스카이 하이 튜빙 마스카라 인기템',
+    seoDescription:
+      '틱톡과 세포라에서 판매량 1위, 튜빙 포뮬러로 번짐 없이 쉽게 지워지는 마스카라를 소개합니다.',
+  },
+  {
     slug: 'espoir-lip-tint-glaze',
     category: 'lip',
     brand: '에스쁘아',
