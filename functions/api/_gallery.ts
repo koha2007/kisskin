@@ -4,6 +4,8 @@ export interface GalleryEnv {
   SUPABASE_SERVICE_ROLE_KEY?: string
   /** 승인 권한 메일(쉼표로 구분). 비어 있으면 아무도 승인할 수 없다 */
   GALLERY_ADMIN_EMAILS?: string
+  /** 새 사진 알림 메일 발송(2026-11-11) */
+  RESEND_API_KEY?: string
 }
 export interface GalleryRow {
   id: string; user_id: string; source: 'makeup' | 'lucky'; look_id: string
@@ -73,4 +75,40 @@ export const isUuid = (v: unknown): v is string => typeof v === 'string' && /^[0
 export function isGalleryAdmin(env: GalleryEnv, email: string | undefined): boolean {
   if (!email || !env.GALLERY_ADMIN_EMAILS) return false
   return env.GALLERY_ADMIN_EMAILS.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean).includes(email.toLowerCase())
+}
+
+const SOURCE_KO: Record<string, string> = { makeup: '9가지 메이크업', lucky: '럭키 메이크업', paint: '페이스 페인팅', hair: '헤어 컬러' }
+
+/** 새 사진이 승인 대기에 들어오면 운영자(GALLERY_ADMIN_EMAILS) 메일로 알림 + 사진 첨부 + 승인 화면 링크 (2026-11-11).
+ *  실패해도 올리기는 성공으로 둔다(호출부가 waitUntil 로 부름). */
+export async function notifyAdminsNewPost(env: GalleryEnv, o: { source: string; origin: string; userEmail?: string; imageBase64: string; pendingCount: number }): Promise<void> {
+  const to = (env.GALLERY_ADMIN_EMAILS || '').split(',').map((s) => s.trim()).filter(Boolean)
+  if (!env.RESEND_API_KEY || !to.length) return
+  const label = SOURCE_KO[o.source] || o.source
+  const how = o.origin === 'upload' ? '사진첩에서 직접 올림' : '결과 화면에서 올림'
+  const who = o.userEmail ? o.userEmail.replace(/^(.{3}).*(@.*)$/, '$1***$2') : '회원'
+  const link = 'https://kissinskin.net/gallery/admin/'
+  const html = `<!doctype html><html><body style="margin:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px 16px;">
+<table width="100%" style="max-width:480px;background:#fff;border-radius:16px;" cellpadding="0" cellspacing="0"><tr><td style="padding:28px;">
+<p style="margin:0;font-size:12px;font-weight:700;color:#c9304a;letter-spacing:.08em;">GALLERY · 승인 대기</p>
+<h1 style="margin:8px 0 0;font-size:21px;color:#070953;">새 사진이 올라왔어요</h1>
+<p style="margin:14px 0 0;font-size:15px;line-height:1.7;color:#475569;">기능: <b>${label}</b><br>방법: ${how}<br>올린 사람: ${who}<br>지금 승인 대기: <b>${o.pendingCount}장</b></p>
+<p style="margin:14px 0 0;font-size:13px;color:#94a3b8;">사진은 첨부파일로 붙어 있어요. 원본 셀카·다른 사람 사진이면 거절해 주세요.</p>
+<p style="margin:24px 0 0;"><a href="${link}" style="display:inline-block;background:#c9304a;color:#fff;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;text-decoration:none;">승인하러 가기 →</a></p>
+<p style="margin:14px 0 0;font-size:12px;color:#94a3b8;">${link}</p>
+</td></tr></table></td></tr></table></body></html>`
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: 'kissinskin <report@kissinskin.net>',
+      to,
+      subject: `[갤러리] 새 사진 승인 대기 — ${label} (대기 ${o.pendingCount}장)`,
+      html,
+      attachments: [{ filename: `gallery-${o.source}.jpg`, content: o.imageBase64 }],
+      tags: [{ name: 'kind', value: 'gallery_admin_notify' }],
+    }),
+  })
+  if (!res.ok) console.error('[gallery] notify', res.status, (await res.text()).slice(0, 200))
 }

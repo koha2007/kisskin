@@ -1,6 +1,6 @@
 // 고객 갤러리 — GET 공개 목록(+로그인 시 내 사진·하트) · POST 올리기 · DELETE 내 사진 삭제 (2026-11-02)
 import { verifyUser } from './_freeUsage'
-import { imageUrlOf, isUuid, json, PENDING, publicUrl, removeImage, rest, uploadImage, type GalleryEnv, type GalleryRow } from './_gallery'
+import { imageUrlOf, isUuid, notifyAdminsNewPost, json, PENDING, publicUrl, removeImage, rest, uploadImage, type GalleryEnv, type GalleryRow } from './_gallery'
 
 const LIST_LIMIT = 60
 // 2026-11-11 네 기능 — 9가지·럭키·페이스 페인팅·헤어 컬러
@@ -50,7 +50,7 @@ export async function onRequestGet({ request, env }: { request: Request; env: Ga
   }
 }
 
-export async function onRequestPost({ request, env }: { request: Request; env: GalleryEnv }) {
+export async function onRequestPost({ request, env, waitUntil }: { request: Request; env: GalleryEnv; waitUntil?: (p: Promise<unknown>) => void }) {
   const token = bearer(request)
   if (!token) return json({ error: 'login_required' }, 401)
   const user = await verifyUser(env, token)
@@ -79,6 +79,12 @@ export async function onRequestPost({ request, env }: { request: Request; env: G
         method: 'POST',
         body: JSON.stringify({ user_id: user.id, source: body.source, look_id: body.lookId, image_path: path, locale, consent_text: (body.origin === 'upload' ? CONSENT_UPLOAD : CONSENT)[locale] }),
       })
+      // 운영자 알림 메일 — 실패해도 올리기 결과에는 영향 없음
+      const notify = notifyAdminsNewPost(env, {
+        source: body.source as string, origin: body.origin === 'upload' ? 'upload' : 'result', userEmail: user.email ?? undefined,
+        imageBase64: m[1], pendingCount: own.filter((r) => r.status === 'pending').length + 1,
+      }).catch((e) => console.error('[gallery] notify', e))
+      if (waitUntil) waitUntil(notify); else await notify
       return json({ ok: true, id: row.id })
     } catch (e) {
       await removeImage(env, PENDING, path).catch(() => undefined)
