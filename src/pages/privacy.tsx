@@ -41,7 +41,7 @@ export default function Privacy({ onNavigate }: PrivacyProps) {
 function PrivacyKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 10월 21일</p>
+      <p className="legal-date">시행일: 2026년 3월 8일 · 최종 개정: 2026년 11월 3일</p>
 
       <h2>1. 서문</h2>
       <p>kissinskin("당사")은 <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a> 웹사이트를 운영합니다. 본 개인정보처리방침은 AI 메이크업 분석 서비스("서비스") 이용 시 이용자의 정보를 어떻게 수집, 이용, 보호, 공개하는지 설명합니다.</p>
@@ -88,6 +88,15 @@ function PrivacyKo() {
         <li>결과 화면에서 <strong>저장</strong> 또는 <strong>공유</strong> 버튼을 누르면(모바일에서는 결과 화면을 여는 시점에 미리 준비되기도 합니다), 생성된 결과 이미지가 클라우드 저장소(<strong>Supabase Storage</strong>)에 업로드되어 고유 링크(<code>/result/&#123;id&#125;</code>)로 보관됩니다. 소셜 공유 시 미리보기(Open Graph 카드)를 표시하고, 링크를 통해 결과를 다시 볼 수 있게 하기 위해서입니다.</li>
         <li>이 이미지는 추측 불가능한 무작위 ID를 알아야만 접근할 수 있는 공개 링크로 보관되며, 별도 요청이 없는 한 <strong>자동으로 만료되지 않습니다</strong>.</li>
         <li>삭제를 원하시면 <strong>support@kissinskin.net</strong>으로 결과 링크(URL)를 보내 주십시오. 영업일 기준 3일 이내에 삭제해 드립니다.</li>
+      </ul>
+
+      <h3>3.2.0 고객 갤러리에 직접 올린 이미지 (선택)</h3>
+      <ul>
+        <li>결과 화면에서 <strong>갤러리에 올리기</strong>를 고르고 공개에 동의한 경우에만, 선택한 <strong>AI 결과 이미지 1장</strong>과 룩 이름, 계정 ID, 동의 기록을 저장합니다(<strong>Supabase</strong>). 원본 셀카는 올라가지 않습니다.</li>
+        <li>운영자가 검토·승인하기 전에는 비공개로 보관하며, 승인되면 갤러리와 메인 페이지에 이름·이메일 없이 공개됩니다. 공개된 이미지는 누구나 볼 수 있고 다른 사람이 저장할 수 있습니다.</li>
+        <li>갤러리는 <strong>만 18세 이상 본인 사진</strong>만 올릴 수 있습니다.</li>
+        <li>보관 기간: 이용자가 삭제하거나 계정을 탈퇴할 때까지. 갤러리의 "내 사진"에서 언제든 직접 삭제해 동의를 철회할 수 있으며, 거절된 이미지는 바로 삭제합니다.</li>
+        <li>하트와 신고 기록은 계정 ID와 함께 저장되며, 공개 화면에는 하트 수만 표시됩니다.</li>
       </ul>
 
       <h3>3.2.1 계정에 저장하는 기록 (로그인 회원)</h3>
@@ -343,7 +352,7 @@ function PrivacyKo() {
 function PrivacyEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: October 21, 2026</p>
+      <p className="legal-date">Effective Date: March 8, 2026 · Last updated: November 3, 2026</p>
 
       <h2>1. Introduction</h2>
       <p>kissinskin ("we", "our", "us") operates the website <a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>. This Privacy Policy explains how we collect, use, protect, and disclose your information when you use our AI makeup analysis service ("Service").</p>
@@ -395,6 +404,15 @@ function PrivacyEn() {
         <li>When you subscribe to our newsletter or ask for your quiz result by email, we keep your <strong>email address, the page you signed up from, and your language</strong>. A subscription only starts after you click the button in the confirmation email (double opt-in), and you can unsubscribe at any time via the link at the bottom of every email.</li>
         <li>Creating an account does not sign you up for the weekly (promotional) email. Members are asked separately, on the site, whether they want it <strong>(optional)</strong>; we record your choice and when you made it, and you can change it any time on My Page. Saying no does not limit the service. Service emails such as password resets and delivery of something you bought are sent regardless.</li>
         <li>Emails are sent through <strong>Resend</strong>, which measures whether an email was opened (a 1×1 transparent image in the email) and which links were clicked (redirected via <code>links.kissinskin.net</code>). We use this only to improve delivery and content, and measurement stops once you unsubscribe.</li>
+      </ul>
+
+      <h3>3.1.9 Images You Post to the Customer Gallery (Optional)</h3>
+      <ul>
+        <li>Only if you choose <strong>Post to the gallery</strong> on a result and agree to show it publicly, we store the <strong>one AI result image</strong> you selected, its look name, your account ID and a record of your consent (<strong>Supabase</strong>). Your original selfie is not posted.</li>
+        <li>The image stays private until we review and approve it. Once approved, it appears in the gallery and on the home page without your name or email. Anyone can view public images, and others may save them.</li>
+        <li>Only people aged <strong>18 or older</strong> may post, and only photos of themselves.</li>
+        <li>Retention: until you delete the image or your account. You can delete it and withdraw consent at any time under "My photos" in the gallery. Rejected images are deleted right away.</li>
+        <li>Heart and report records are stored with your account ID. Only the number of hearts is shown publicly.</li>
       </ul>
 
       <h3>3.2 Payment Information</h3>

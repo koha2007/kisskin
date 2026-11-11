@@ -34,6 +34,7 @@ import LongPressSaveViewer from '../components/makeup/LongPressSaveViewer'
 import FiveLooksBox, { FIVE_COUNT, LookModeTabs, type LookMode } from '../components/makeup/FiveLooksBox'
 import { disarmFive } from '../lib/makeup/fiveStore'
 import LookCompare from '../components/makeup/LookCompare'
+import { GalleryShareList } from '../components/gallery/GalleryShare'
 
 const lookImg = luckyLookImg
 type Gen = { k: 'idle' } | { k: 'busy' } | { k: 'done'; image: string; tier: 'free' | 'credit'; balance?: number; freeLeft?: number } | { k: 'error'; e: GenError }
@@ -313,7 +314,7 @@ export default function FortuneMakeup() {
                 <>
                   {/* 이미지 저장 · 메일로 받기 — 9종 결과(MakeupResult)와 같은 합성 이미지·같은 경로 */}
                   <ResultSaveEmail image={gen.image} name={isEn ? `${cur.nameEn} makeup` : cur.nameKo} desc={isEn ? cur.hookEn : cur.hookKo}
-                    fileName={`kissinskin-lucky-${look}.jpg`} tag={`lucky:${look}`} isEn={isEn} />
+                    fileName={`kissinskin-lucky-${look}.jpg`} tag={`lucky:${look}`} isEn={isEn} gallery={{ source: 'lucky', lookId: look }} />
                   <a href={`${base}${look}/`} className={`${btn} bg-white text-navy hover:bg-cream`}>{T.howAndShop}<span className="material-symbols-outlined text-base">arrow_forward</span></a>
                   <a href="#looks" className="block pt-1 text-center text-xs font-bold text-white/80 underline underline-offset-4">{T.another}</a>
                 </>
@@ -626,6 +627,7 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
               {mail === 'error' && <p className="text-center text-xs font-bold text-primary-dark">{isEn ? 'Could not send. Please try again.' : '보내지 못했어요. 다시 시도해 주세요.'}</p>}
               {mail === 'limit' && <p className="text-center text-xs font-bold text-primary-dark">{isEn ? 'You can email this up to 3 times a day.' : '메일 받기는 하루 3번까지예요.'}</p>}
               <p className="text-center text-[11px] text-slate-500">{isEn ? '3×3 board + each look · sent only to your account email (check spam). Tap a look above to save just that one.' : '모아보기 + 낱장 9장 · 로그인한 계정 메일로만 보내요(안 보이면 스팸함). 위 사진을 누르면 한 장씩 저장돼요.'}</p>
+              <GalleryShareList isEn={isEn} source="lucky" items={order.map((id) => ({ id, name: isEn ? fortuneLookById(id).nameEn : fortuneLookById(id).fortuneKo, image: images[id]! }))} />
             </>
           )
           : !selfie ? <button type="button" onClick={onPhoto} className={`${btn} bg-navy text-white hover:bg-navy-mid`}>{isEn ? 'Add a selfie to make all 9' : '셀카 올리고 9장 만들기'}</button>

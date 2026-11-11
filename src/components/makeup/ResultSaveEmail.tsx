@@ -12,12 +12,14 @@ import { buildMakeupComposite } from '../../lib/makeup/composite'
 import { isNativeApp, nativeSaveImage } from '../../lib/nativePicker'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
+import { GalleryShareButton } from '../gallery/GalleryShare'
+import type { GallerySource } from '../../lib/gallery'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 type Composite = { file: File; dataUrl: string }
 
-export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn }: {
+export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn, gallery }: {
   /** 생성 결과 data URL */
   image: string
   /** 룩 이름(합성 이미지·메일 라벨) */
@@ -27,6 +29,8 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
   /** GA4 구분값(예: 'lucky:wealth') */
   tag: string
   isEn: boolean
+  /** 있으면 '갤러리에 올리기' 버튼을 보여 준다 */
+  gallery?: { source: GallerySource; lookId: string }
 }) {
   const [toast, setToast] = useState<string | null>(null)
   const [email, setEmail] = useState('')
@@ -118,6 +122,7 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
   return (
     <div className="space-y-2">
       {toast && <div role="status" className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-full bg-navy px-5 py-2.5 text-sm font-bold text-white shadow-lg">{toast}</div>}
+      {gallery && <GalleryShareButton image={image} name={name} source={gallery.source} lookId={gallery.lookId} isEn={isEn} />}
       <button type="button" onClick={() => void save()} className="flex w-full items-center justify-center gap-1.5 bg-primary-dark py-3.5 text-[15px] font-bold text-white hover:bg-primary transition-colors">
         <span className="material-symbols-outlined text-base">download</span>{isEn ? 'Save image' : '이미지 저장'}
       </button>
