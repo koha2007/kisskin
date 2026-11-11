@@ -8,16 +8,18 @@
 //   · 메일 = /api/send-report (합성 이미지 첨부), 로그인했으면 이메일 자동 채움 + 주간 메일 동의(선택)
 import { useEffect, useRef, useState } from 'react'
 import MarketingConsent from '../MarketingConsent'
-import { buildMakeupComposite } from '../../lib/makeup/composite'
+import { buildMakeupComposite, kindOfTag, type CardRatio } from '../../lib/makeup/composite'
 import { isNativeApp, nativeSaveImage } from '../../lib/nativePicker'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
+import { GalleryShareButton } from '../gallery/GalleryShare'
+import type { GallerySource } from '../../lib/gallery'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 type Composite = { file: File; dataUrl: string }
 
-export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn }: {
+export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn, gallery }: {
   /** 생성 결과 data URL */
   image: string
   /** 룩 이름(합성 이미지·메일 라벨) */
@@ -27,29 +29,32 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
   /** GA4 구분값(예: 'lucky:wealth') */
   tag: string
   isEn: boolean
+  /** 있으면 '갤러리에 올리기' 버튼을 보여 준다 */
+  gallery?: { source: GallerySource; lookId: string }
 }) {
   const [toast, setToast] = useState<string | null>(null)
   const [email, setEmail] = useState('')
   const [emailState, setEmailState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
-  const compositeRef = useRef<Composite | null>(null)
+  // 2026-11-11 — 9:16(스토리·릴스·틱톡)과 4:5(인스타 피드) 둘 다 미리 만든다(iOS 는 탭 직후 동기로 열어야 해서)
+  const compositeRef = useRef<Partial<Record<CardRatio, Composite>>>({})
   const flash = (m: string) => { setToast(m); window.setTimeout(() => setToast((c) => (c === m ? null : c)), 2400) }
 
   const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : ''
   // iPadOS Safari 는 UA 를 Mac 으로 보고하므로 터치 여부로 함께 판별
   const isIOS = /iP(hone|ad|od)/i.test(ua) || (/Mac/.test(ua) && typeof document !== 'undefined' && 'ontouchend' in document)
 
-  const makeComposite = async (): Promise<Composite> => {
-    const canvas = await buildMakeupComposite({ afterSrc: image, styleName: name, styleDesc: desc, isEn })
+  const makeComposite = async (ratio: CardRatio = 'story'): Promise<Composite> => {
+    const canvas = await buildMakeupComposite({ afterSrc: image, styleName: name, styleDesc: desc, isEn, kind: kindOfTag(tag), ratio })
     const blob = await new Promise<Blob>((res, rej) => canvas.toBlob((b) => (b ? res(b) : rej(new Error('toBlob null'))), 'image/jpeg', 0.92))
     return { file: new File([blob], fileName, { type: 'image/jpeg' }), dataUrl: canvas.toDataURL('image/jpeg', 0.9) }
   }
-  const getComposite = async () => (compositeRef.current ??= await makeComposite())
+  const getComposite = async (ratio: CardRatio = 'story') => (compositeRef.current[ratio] ??= await makeComposite(ratio))
 
   // 결과가 나오면 합성을 미리 만든다 + 로그인 이메일 자동 채움
   useEffect(() => {
-    compositeRef.current = null
+    compositeRef.current = {}
     let off = false
-    makeComposite().then((c) => { if (!off) compositeRef.current = c }).catch(() => { /* 탭 때 다시 */ })
+    for (const r of ['story', 'feed'] as const) makeComposite(r).then((c) => { if (!off) compositeRef.current[r] = c }).catch(() => { /* 탭 때 다시 */ })
     supabase.auth.getSession().then(({ data }) => {
       const e = data.session?.user?.email
       if (!off && e) setEmail((cur) => cur || e)
@@ -76,21 +81,21 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
     flash(isEn ? 'Saved to your device' : '이미지를 저장했어요')
   }
 
-  const save = async () => {
+  const save = async (ratio: CardRatio = 'story') => {
     if (isNativeApp()) {
       try {
-        const ok = await nativeSaveImage((await getComposite()).dataUrl)
-        trackEvent('makeup_save', { style: tag, method: 'native' })
+        const ok = await nativeSaveImage((await getComposite(ratio)).dataUrl)
+        trackEvent('makeup_save', { style: tag, method: 'native', ratio })
         flash(ok ? (isEn ? 'Saved to your gallery' : '갤러리에 저장했어요') : (isEn ? 'Save failed — allow photo permission and try again' : '저장에 실패했어요. 사진 권한을 허용하고 다시 시도해 주세요'))
       } catch { flash(isEn ? 'Save failed — try again' : '저장에 실패했어요. 다시 시도해 주세요') }
       return
     }
     const hint = isEn ? 'Press & hold the image → "Save to Photos"' : '이미지를 길게 눌러 "사진에 저장"을 선택하세요'
-    const cached = compositeRef.current
-    if (isIOS && cached && openImageTab(cached.file)) { trackEvent('makeup_save', { style: tag, method: 'newtab' }); flash(hint); return }
+    const cached = compositeRef.current[ratio]
+    if (isIOS && cached && openImageTab(cached.file)) { trackEvent('makeup_save', { style: tag, method: 'newtab', ratio }); flash(hint); return }
     try {
-      const c = cached ?? await getComposite()
-      if (isIOS && openImageTab(c.file)) { trackEvent('makeup_save', { style: tag, method: 'newtab' }); flash(hint); return }
+      const c = cached ?? await getComposite(ratio)
+      if (isIOS && openImageTab(c.file)) { trackEvent('makeup_save', { style: tag, method: 'newtab', ratio }); flash(hint); return }
       download(c.file)
     } catch { flash(isEn ? 'Save failed — try again' : '저장에 실패했어요. 다시 시도해 주세요') }
   }
@@ -100,7 +105,7 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
     if (!EMAIL_RE.test(target)) { setEmailState('error'); flash(isEn ? 'Enter a valid email' : '올바른 이메일을 입력해 주세요'); return }
     setEmailState('sending')
     try {
-      const { dataUrl } = await getComposite()
+      const { dataUrl } = await getComposite('story')
       const res = await fetch('/api/send-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -118,8 +123,12 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
   return (
     <div className="space-y-2">
       {toast && <div role="status" className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-full bg-navy px-5 py-2.5 text-sm font-bold text-white shadow-lg">{toast}</div>}
-      <button type="button" onClick={() => void save()} className="flex w-full items-center justify-center gap-1.5 bg-primary-dark py-3.5 text-[15px] font-bold text-white hover:bg-primary transition-colors">
-        <span className="material-symbols-outlined text-base">download</span>{isEn ? 'Save image' : '이미지 저장'}
+      {gallery && <GalleryShareButton image={image} name={name} source={gallery.source} lookId={gallery.lookId} isEn={isEn} />}
+      <button type="button" onClick={() => void save('story')} className="flex w-full items-center justify-center gap-1.5 bg-primary-dark py-3.5 text-[15px] font-bold text-white hover:bg-primary transition-colors">
+        <span className="material-symbols-outlined text-base">download</span>{isEn ? 'Save · Story 9:16' : '이미지 저장 · 스토리 9:16'}
+      </button>
+      <button type="button" onClick={() => void save('feed')} className="flex w-full items-center justify-center gap-1.5 border border-current py-2.5 text-[13px] font-bold opacity-90">
+        {isEn ? 'Save for feed · 4:5' : '피드용으로 저장 · 4:5'}
       </button>
 
       <MarketingConsent isEn={isEn} variant="prompt" />

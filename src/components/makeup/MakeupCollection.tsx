@@ -23,6 +23,7 @@ import { loadCollection, saveCollection, type CollectionState } from '../../lib/
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
 import { dataUrlToFile, saveAllImages, saveOneImage, mailImages, toJpegDataUrl } from '../../lib/makeup/collectionSave'
 import LongPressSaveViewer from './LongPressSaveViewer'
+import { GalleryShareList } from '../gallery/GalleryShare'
 import { screenBg, surfaceStyle, btnPrimary, btnPrimaryStyle, btnGhost, btnGhostStyle, eyebrow } from './theme'
 
 function gtagEvent(name: string, params?: Record<string, unknown>) {
@@ -354,10 +355,11 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
               </button>
             ))}
           </div>
+          <GalleryShareList dark isEn={isEn} source="makeup" items={MAKEUP_STYLES.map((s) => ({ id: s.id, name: isEn ? s.subEn : s.nameKo, image: state!.items[s.id]!.image! }))} />
           <p className="mt-6 text-center text-[11px] leading-relaxed text-white/45 break-keep">
             {isEn
-              ? 'Images stay on this device only — we do not upload your selfie. AI-generated makeup.'
-              : '이미지는 이 기기에만 보관돼요(셀카를 서버에 올리지 않아요). AI 로 만든 메이크업이에요.'}
+              ? 'Images stay on this device unless you post one to the gallery — we do not upload your selfie. AI-generated makeup.'
+              : '갤러리에 직접 올리지 않으면 이미지는 이 기기에만 보관돼요(셀카를 서버에 올리지 않아요). AI 로 만든 메이크업이에요.'}
           </p>
           <button onClick={onRetake} className={`${btnGhost} mt-4 w-full`} style={btnGhostStyle}>
             {isEn ? 'New collection with another selfie' : '다른 셀카로 새 컬렉션'}

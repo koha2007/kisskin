@@ -220,7 +220,10 @@ export default function FacePaint() {
   }
 
   const fullD = full ? paintById(full) : undefined
-  const names = (fullD ? [fullD] : items.map((i) => paintById(i.id)!)).map((d) => (isEn ? d.en : d.ko)).join(' · ')
+  const picked = fullD ? [fullD] : items.map((i) => paintById(i.id)!)
+  const names = picked.map((d) => (isEn ? d.en : d.ko)).join(' · ')
+  // 카드 설명 — 기능 이름은 카드 배지(FACE PAINT)가 맡으니 무늬 설명만
+  const descs = picked.map((d) => (isEn ? d.descEn : d.descKo)).join(' · ')
   const aiReady = !!photo && status === 'ready' && (!!fullD || items.length > 0)
   const resetKey = useMemo(() => JSON.stringify([photo?.length, full, items, opacity]), [photo, full, items, opacity])
   const build = () => {
@@ -346,7 +349,7 @@ export default function FacePaint() {
                     {items.length > 0 && status === 'ready' && (
                       <div className="mt-4">
                         {saved
-                          ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={`${T.saveTitle} · ${names}`} desc={names} fileName="kissinskin-face-paint.jpg" tag="paint:free" isEn={isEn} /></div>
+                          ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={names} desc={descs} fileName="kissinskin-face-paint.jpg" tag="paint:free" isEn={isEn} gallery={photo ? { source: 'paint', lookId: items[0]?.id ?? 'pearl-corner' } : undefined} /></div>
                           : <button type="button" onClick={saveFree} className="w-full bg-primary py-3 text-sm font-extrabold text-navy">{T.save}</button>}
                       </div>
                     )}
@@ -357,7 +360,7 @@ export default function FacePaint() {
                   <p className="mb-2 text-sm font-extrabold"><span className="mr-1.5 tabular-nums text-primary-dark">3</span>{T.step3}</p>
                   <AiFinish isEn={isEn} base={base} pool="paint" ready={aiReady}
                     blockedHint={!photo ? T.needOwn : (!fullD && items.length === 0) ? T.needPick : undefined}
-                    build={build} before={photo} name={`${T.saveTitle} · ${names}`} desc={names} onStash={stash} resetKey={resetKey} refreshKey={refresh} />
+                    build={build} before={photo} name={names} desc={descs} onStash={stash} resetKey={resetKey} refreshKey={refresh} galleryLook={fullD ? fullD.id : items[0]?.id} />
                 </div>
               </div>
             </div>

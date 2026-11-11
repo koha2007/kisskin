@@ -60,6 +60,27 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       })
     }
 
+    // 갤러리 이미지는 계정 삭제의 cascade 로 지워지지 않는 저장소에 있다 → 먼저 지운다.
+    // 조회·삭제가 실패하면 계정도 지우지 않는다(행이 사라지면 이미지를 찾을 길이 없어 공개 사진이 남는다).
+    const galleryRes = await fetch(`${supabaseUrl}/rest/v1/gallery_post?user_id=eq.${userId}&select=image_bucket,image_path`, {
+      headers: { 'Authorization': `Bearer ${serviceRoleKey}`, 'apikey': serviceRoleKey },
+    })
+    if (galleryRes.ok) {
+      for (const g of (await galleryRes.json()) as { image_bucket: string; image_path: string }[]) {
+        const del = await fetch(`${supabaseUrl}/storage/v1/object/${g.image_bucket}/${g.image_path}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${serviceRoleKey}`, 'apikey': serviceRoleKey },
+        })
+        if (!del.ok && del.status !== 404) {
+          console.error('[delete-account] gallery image', del.status)
+          return new Response(JSON.stringify({ error: 'Failed to delete gallery images' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+        }
+      }
+    } else {
+      console.error('[delete-account] gallery list', galleryRes.status)
+      return new Response(JSON.stringify({ error: 'Failed to delete gallery images' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+    }
+
     // Delete user via Supabase Admin API
     const res = await fetch(`${supabaseUrl}/auth/v1/admin/users/${userId}`, {
       method: 'DELETE',

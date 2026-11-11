@@ -139,6 +139,8 @@ export default function HairColor() {
 
   const cur = hairById(color)!
   const name = isEn ? cur.en : cur.ko
+  // 카드 설명 — 어울리는 계절(기능 이름은 카드 배지 HAIR COLOR 가 맡는다)
+  const cardDesc = (isEn ? 'Suits ' : '') + cur.seasons.map((s) => (isEn ? SEASON_LABEL[s].en : SEASON_LABEL[s].ko)).join(' · ') + (isEn ? '' : ' 추천')
   const list = HAIR_COLORS.filter((c) => season === 'all' || c.seasons.includes(season))
   const eyebrow = 'text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark'
   const ptc = isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'
@@ -219,7 +221,7 @@ export default function HairColor() {
                 {status === 'ready' && (
                   <div className="mt-4">
                     {saved
-                      ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={`${T.saveTitle} · ${name}`} desc={name} fileName={`kissinskin-hair-${color}.jpg`} tag="hair:free" isEn={isEn} /></div>
+                      ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={name} desc={cardDesc} fileName={`kissinskin-hair-${color}.jpg`} tag="hair:free" isEn={isEn} gallery={photo ? { source: 'hair', lookId: color } : undefined} /></div>
                       : <button type="button" onClick={saveFree} className="w-full bg-primary py-3 text-sm font-extrabold text-navy">{T.save}</button>}
                   </div>
                 )}
@@ -229,7 +231,7 @@ export default function HairColor() {
               <AiFinish isEn={isEn} base={base} pool="hair" ready={!!photo && !!img}
                 blockedHint={!photo ? T.needOwn : undefined}
                 build={() => (img ? { source: img, prompt: promptHair(cur), styleId: cur.id } : null)}
-                before={photo} name={`${T.saveTitle} · ${name}`} desc={name} onStash={stash} resetKey={`${photo?.length}:${color}`} refreshKey={refresh} />
+                before={photo} name={name} desc={cardDesc} onStash={stash} resetKey={`${photo?.length}:${color}`} refreshKey={refresh} galleryLook={color} />
               <p className="text-xs text-slate-500 break-keep">{T.privacy}</p>
             </div>
           </div>

@@ -14,6 +14,7 @@ import { dataUrlToFile, mailImages, saveAllImages, saveOneImage, toJpegDataUrl }
 import { clearFive, loadFive, saveFive, type FiveKey, type FiveRun } from '../../lib/makeup/fiveStore'
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
 import LongPressSaveViewer from './LongPressSaveViewer'
+import { GalleryShareList } from '../gallery/GalleryShare'
 
 export const FIVE_COUNT = 5
 export type LookMode = 'one' | 'five' | 'nine'
@@ -231,7 +232,7 @@ export default function FiveLooksBox({ storeKey, isEn, base, photo, picked, look
       const branded: string[] = []
       for (const id of ids) {
         const l = lookOf(id)
-        const c = await buildMakeupComposite({ afterSrc: items[id]!.image!, styleName: l?.name ?? '', styleDesc: l?.desc ?? '' })
+        const c = await buildMakeupComposite({ afterSrc: items[id]!.image!, styleName: l?.name ?? '', styleDesc: l?.desc ?? '', kind: storeKey })
         branded.push(c.toDataURL('image/jpeg', 0.92))
       }
       if (off) return
@@ -309,6 +310,7 @@ export default function FiveLooksBox({ storeKey, isEn, base, photo, picked, look
             <ul className="space-y-1 pt-1 text-xs">
               {ids.map((id) => { const l = lookOf(id); return l ? <li key={id}><a href={l.howHref} className="font-bold underline underline-offset-4">{isEn ? `How to do ${l.name} →` : `${l.name} 따라 하는 방법 →`}</a></li> : null })}
             </ul>
+            <GalleryShareList dark isEn={isEn} source={storeKey} items={ids.map((id) => ({ id, name: lookOf(id)?.name ?? '', image: items[id]!.image! }))} />
             <button type="button" onClick={() => void reset()} className="block w-full pt-2 text-center text-sm font-bold underline underline-offset-4">{isEn ? 'Choose 5 more' : '다른 5가지 고르기'}</button>
           </>
         ) : lack > 0 ? (

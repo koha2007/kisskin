@@ -34,6 +34,8 @@ interface Props {
   resetKey: string
   /** 결제 복귀 등으로 잔액을 다시 읽을 신호 */
   refreshKey?: number
+  /** 갤러리 올리기(룩 id) */
+  galleryLook?: string
 }
 
 const KO = {
@@ -53,7 +55,7 @@ const EN: typeof KO = {
   checkoutErr: 'Couldn’t open checkout. Please try again shortly.',
 }
 
-export default function AiFinish({ isEn, base, pool, ready, blockedHint, build, before, name, desc, onStash, resetKey, refreshKey }: Props) {
+export default function AiFinish({ isEn, base, pool, ready, blockedHint, build, before, name, desc, onStash, resetKey, refreshKey, galleryLook }: Props) {
   const T = isEn ? EN : KO
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null)
   const [balance, setBalance] = useState<number | null>(null)
@@ -126,7 +128,7 @@ export default function AiFinish({ isEn, base, pool, ready, blockedHint, build, 
             <figure><img src={before ?? ''} alt="" className="aspect-[3/4] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold text-white/70">{T.before}</figcaption></figure>
             <figure><img src={gen.image} alt={name} className="aspect-[3/4] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold">{T.after}</figcaption></figure>
           </div>
-          <ResultSaveEmail image={gen.image} name={name} desc={desc} fileName={`kissinskin-${pool}.jpg`} tag={`${pool}:ai`} isEn={isEn} />
+          <ResultSaveEmail image={gen.image} name={name} desc={desc} fileName={`kissinskin-${pool}.jpg`} tag={`${pool}:ai`} isEn={isEn} gallery={galleryLook ? { source: pool, lookId: galleryLook } : undefined} />
         </div>
       )}
       <div className="mt-4 space-y-2">

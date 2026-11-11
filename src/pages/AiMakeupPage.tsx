@@ -292,7 +292,7 @@ export default function AiMakeupPage() {
                 <p className="bg-white/10 py-4 text-center text-sm font-bold">{T.generating}</p>
               ) : gen.k === 'done' ? (
                 <>
-                  <ResultSaveEmail image={gen.image} name={name} desc={isEn ? cur.descEn : cur.descKo} fileName={`kissinskin-makeup-${look}.jpg`} tag={`makeup:${look}`} isEn={isEn} />
+                  <ResultSaveEmail image={gen.image} name={name} desc={isEn ? cur.descEn : cur.descKo} fileName={`kissinskin-makeup-${look}.jpg`} tag={`makeup:${look}`} isEn={isEn} gallery={{ source: 'makeup', lookId: look }} />
                   <a href="#looks" className="block pt-1 text-center text-sm font-bold underline underline-offset-4">{T.another}</a>
                   <p className="text-center text-[11px] text-white/60">{gen.tier === 'free' ? T.usedFree : T.usedCredit}{typeof gen.balance === 'number' && ` · ${T.left(gen.balance)}`}</p>
                 </>

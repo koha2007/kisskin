@@ -12,6 +12,7 @@ import { trackEvent } from '../../lib/analytics'
 import CollectionDemo from './CollectionDemo'
 import HomeWeeklyLook from './HomeWeeklyLook'
 import HomeFreePass from './HomeFreePass'
+import HomeGalleryStrip from './HomeGalleryStrip'
 
 const PINK = '#ef4da0'
 const NAVY = '#070953'
@@ -82,6 +83,9 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
           </a>
         ))}
       </section>
+
+      {/* 11/11 운영자: 네 문 바로 아래 = 고객 결과 갤러리(하트) */}
+      <HomeGalleryStrip isEn={isEn} />
 
       <CollectionDemo isEn={isEn} />
 
