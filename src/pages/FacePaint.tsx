@@ -19,7 +19,7 @@ import { renderPaint, placements, faceFrame, type PlacedPaint } from '../lib/pai
 import { trackCheckoutReturn } from '../lib/purchaseTracking'
 
 // 페인팅 전용 모델(11/11 2차 — 9가지·럭키·헤어와 다른 사람, 머리를 올려 이마·귀가 보임)
-const DEMO = '/paint/model.webp?v=20261111b'
+const DEMO = '/paint/model.webp?v=20261111c'
 const MAX_ITEMS = 6
 const PENDING = 'paint:pending'
 type FL = Awaited<ReturnType<typeof initFaceOnly>>
@@ -266,7 +266,7 @@ export default function FacePaint() {
                     <span className="relative block aspect-square overflow-hidden bg-[#f6dfd3]">
                       {d.sample
                         ? <img src={d.sample} alt={isEn ? `${d.en} face paint on an AI-generated model` : `${d.ko} 페이스 페인팅, AI 생성 모델`} loading="lazy" className="h-full w-full object-cover object-[50%_30%]" />
-                        : <img src={`/paint/thumb/${d.id}.webp?v=20261111b`} alt={isEn ? `${d.en} on an AI-generated model` : `${d.ko}, AI 생성 모델`} loading="lazy" className="h-full w-full object-cover" />}
+                        : <img src={`/paint/thumb/${d.id}.webp?v=20261111c`} alt={isEn ? `${d.en} on an AI-generated model` : `${d.ko}, AI 생성 모델`} loading="lazy" className="h-full w-full object-cover" />}
                       {d.tagKo && <span className="absolute bottom-1.5 left-1.5 bg-white/90 px-1.5 py-0.5 text-[10px] font-extrabold text-primary-dark">{isEn ? d.tagEn : d.tagKo}</span>}
                       {(d.monthKo) && <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? d.monthEn : d.monthKo}</span>}
                       {on && <span className="material-symbols-outlined absolute right-1.5 top-1.5 rounded-full bg-primary p-0.5 text-[16px] text-navy" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>}
