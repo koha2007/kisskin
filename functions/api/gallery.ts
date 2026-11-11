@@ -13,6 +13,11 @@ const CONSENT = {
   ko: 'v1: 이 이미지를 키스인스킨 갤러리(메인 페이지 포함)에 공개하는 데 동의 / 만 18세 이상이고 사진 속 사람은 본인',
   en: 'v1: Agreed to show this image in the kissinskin gallery (including the home page) / 18 or older and the person in the photo is me',
 }
+// 2026-11-11 사진첩에서 직접 올리기 — "키스인스킨에서 만든 결과 이미지" 확인이 하나 더 붙는다
+const CONSENT_UPLOAD = {
+  ko: 'v1-upload: 사진첩에서 직접 올림 / 키스인스킨에서 만든 결과 이미지 / ' + CONSENT.ko.slice(4),
+  en: 'v1-upload: Uploaded from device / an image I made with kissinskin / ' + CONSENT.en.slice(4),
+}
 
 const bearer = (request: Request) => {
   const h = request.headers.get('Authorization') || ''
@@ -51,7 +56,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: G
   const user = await verifyUser(env, token)
   if (!user) return json({ error: 'invalid_token' }, 401)
 
-  let body: { image?: string; source?: string; lookId?: string; consent?: boolean; adultSelf?: boolean; locale?: string }
+  let body: { image?: string; source?: string; lookId?: string; consent?: boolean; adultSelf?: boolean; locale?: string; origin?: string }
   try { body = await request.json() } catch { return json({ error: 'bad_json' }, 400) }
   if (body.consent !== true || body.adultSelf !== true) return json({ error: 'consent_required' }, 400)
   if (!SOURCES.includes(body.source as string)) return json({ error: 'bad_source' }, 400)
@@ -72,7 +77,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: G
     try {
       const [row] = await rest<{ id: string }[]>(env, 'gallery_post', {
         method: 'POST',
-        body: JSON.stringify({ user_id: user.id, source: body.source, look_id: body.lookId, image_path: path, locale, consent_text: CONSENT[locale] }),
+        body: JSON.stringify({ user_id: user.id, source: body.source, look_id: body.lookId, image_path: path, locale, consent_text: (body.origin === 'upload' ? CONSENT_UPLOAD : CONSENT)[locale] }),
       })
       return json({ ok: true, id: row.id })
     } catch (e) {

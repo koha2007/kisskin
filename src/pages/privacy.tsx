@@ -92,7 +92,7 @@ function PrivacyKo() {
 
       <h3>3.2.0 고객 갤러리에 직접 올린 이미지 (선택)</h3>
       <ul>
-        <li>결과 화면에서 <strong>갤러리에 올리기</strong>를 고르고 공개에 동의한 경우에만, 선택한 <strong>AI 결과 이미지 1장</strong>과 룩 이름, 계정 ID, 동의 기록을 저장합니다(<strong>Supabase</strong>). 원본 셀카는 올라가지 않습니다.</li>
+        <li>결과 화면에서 <strong>갤러리에 올리기</strong>를 고르거나, 갤러리 페이지의 <strong>내 사진첩에서 올리기</strong>로 저장해 둔 결과 사진을 직접 골라 공개에 동의한 경우에만, 선택한 <strong>이미지 1장</strong>(긴 변 1024px로 축소)과 룩·기능 이름, 계정 ID, 동의 기록을 저장합니다(<strong>Supabase</strong>). 결과 화면에서 올릴 때 원본 셀카는 올라가지 않으며, 사진첩에서 올린 사진은 키스인스킨 결과 이미지가 아니면 승인하지 않고 삭제합니다.</li>
         <li>운영자가 검토·승인하기 전에는 비공개로 보관하며, 승인되면 갤러리와 메인 페이지에 이름·이메일 없이 공개됩니다. 공개된 이미지는 누구나 볼 수 있고 다른 사람이 저장할 수 있습니다.</li>
         <li>갤러리는 <strong>만 18세 이상 본인 사진</strong>만 올릴 수 있습니다.</li>
         <li>보관 기간: 이용자가 삭제하거나 계정을 탈퇴할 때까지. 갤러리의 "내 사진"에서 언제든 직접 삭제해 동의를 철회할 수 있으며, 거절된 이미지는 바로 삭제합니다.</li>
@@ -408,7 +408,7 @@ function PrivacyEn() {
 
       <h3>3.1.9 Images You Post to the Customer Gallery (Optional)</h3>
       <ul>
-        <li>Only if you choose <strong>Post to the gallery</strong> on a result and agree to show it publicly, we store the <strong>one AI result image</strong> you selected, its look name, your account ID and a record of your consent (<strong>Supabase</strong>). Your original selfie is not posted.</li>
+        <li>Only if you choose <strong>Post to the gallery</strong> on a result, or pick a saved result with <strong>Upload from my photos</strong> on the gallery page, and agree to show it publicly, we store the <strong>one image</strong> you selected (resized to 1024px on the long side), its look or feature name, your account ID and a record of your consent (<strong>Supabase</strong>). Posting from a result never sends your original selfie, and photos uploaded from your device that are not kissinskin results are rejected and deleted.</li>
         <li>The image stays private until we review and approve it. Once approved, it appears in the gallery and on the home page without your name or email. Anyone can view public images, and others may save them.</li>
         <li>Only people aged <strong>18 or older</strong> may post, and only photos of themselves.</li>
         <li>Retention: until you delete the image or your account. You can delete it and withdraw consent at any time under "My photos" in the gallery. Rejected images are deleted right away.</li>

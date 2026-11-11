@@ -56,7 +56,10 @@ function toUploadJpeg(src: string): Promise<string> {
 }
 
 export type SubmitResult = 'ok' | 'login' | 'limit' | 'error'
-export async function submitToGallery(o: { image: string; source: GallerySource; lookId: string; locale: 'ko' | 'en' }): Promise<SubmitResult> {
+/** 사진첩에서 직접 올린 사진의 lookId — 룩을 모르므로 기능만 표시 (2026-11-11) */
+export const UPLOAD_LOOK_ID = 'my-photo'
+
+export async function submitToGallery(o: { image: string; source: GallerySource; lookId: string; locale: 'ko' | 'en'; origin?: 'result' | 'upload' }): Promise<SubmitResult> {
   try {
     const t = await token()
     if (!t) return 'login'
@@ -64,7 +67,7 @@ export async function submitToGallery(o: { image: string; source: GallerySource;
     const res = await fetch('/api/gallery', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
-      body: JSON.stringify({ image, source: o.source, lookId: o.lookId, locale: o.locale, consent: true, adultSelf: true }),
+      body: JSON.stringify({ image, source: o.source, lookId: o.lookId, locale: o.locale, origin: o.origin ?? 'result', consent: true, adultSelf: true }),
     })
     if (res.status === 401) return 'login'
     if (res.status === 429) return 'limit'
@@ -94,6 +97,7 @@ export async function galleryAction(id: string, action: 'heart' | 'report'): Pro
 }
 
 export function lookLabel(source: GallerySource, lookId: string, isEn: boolean): string {
+  if (lookId === UPLOAD_LOOK_ID) return ''
   if (source === 'lucky') {
     const l = FORTUNE_LOOKS.find((x) => x.id === lookId)
     return l ? (isEn ? l.nameEn : l.fortuneKo) : ''
@@ -106,6 +110,7 @@ export function lookLabel(source: GallerySource, lookId: string, isEn: boolean):
 
 export function lookTryHref(source: GallerySource, lookId: string, isEn: boolean): string {
   const p = isEn ? '/en' : ''
+  if (lookId === UPLOAD_LOOK_ID) return `${p}${{ makeup: '/makeup/', lucky: '/lucky-makeup/', paint: '/face-paint/', hair: '/hair-color/' }[source]}`
   if (source === 'paint') return `${p}/face-paint/?d=${encodeURIComponent(lookId)}`
   if (source === 'hair') return `${p}/hair-color/?c=${encodeURIComponent(lookId)}`
   const base = source === 'lucky' ? '/lucky-makeup/' : '/makeup/'

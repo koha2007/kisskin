@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { trackEvent } from '../lib/analytics'
+import { GalleryUploadButton } from '../components/gallery/GalleryShare'
 import { deleteMyPost, fetchGallery, galleryAction, lookLabel, lookTryHref, GALLERY_SOURCES, SOURCE_LABEL, type GalleryList, type GallerySource } from '../lib/gallery'
 
 export default function GalleryPage() {
@@ -63,7 +64,12 @@ export default function GalleryPage() {
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-dark md:text-xs">{isEn ? 'Gallery' : 'Gallery · 갤러리'}</p>
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{isEn ? 'Looks made by our customers' : '고객이 만든 메이크업'}</h1>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 break-keep">{isEn ? 'Real customers’ selfies with AI makeup, shared by choice. Tap the heart on a look you like.' : '고객이 직접 공개한, 본인 셀카로 만든 AI 메이크업이에요. 마음에 드는 룩에 하트를 눌러 주세요.'}</p>
-          <a href={makeHref} className="mt-5 inline-flex bg-navy px-5 py-3 text-sm font-bold text-white">{isEn ? 'Make my look' : '내 메이크업 만들기'}</a>
+          {/* 2026-11-11 두 갈래 — 새로 만들기 / 저장해 둔 결과를 사진첩에서 올리기 */}
+          <div className="mt-5 flex flex-wrap items-start gap-2">
+            <a href={makeHref} className="inline-flex items-center gap-1.5 bg-navy px-5 py-3 text-sm font-bold text-white"><span className="material-symbols-outlined text-base">auto_awesome</span>{isEn ? 'Make my look' : '내 메이크업 만들기'}</a>
+            <GalleryUploadButton isEn={isEn} onDone={() => void load()} />
+          </div>
+          <p className="mt-2.5 max-w-lg text-[12px] leading-relaxed text-slate-500 break-keep">{isEn ? 'Already made a look? Pick the saved result from your photos. It goes public after a quick review.' : '이미 만든 메이크업이 있다면, 저장해 둔 결과 사진을 사진첩에서 골라 올려 주세요. 운영자 확인 후 공개돼요.'}</p>
         </section>
 
         {msg && <p role="status" className="mt-6 bg-white px-3 py-2 text-[13px] font-bold">{msg}</p>}
@@ -102,7 +108,7 @@ export default function GalleryPage() {
           {state === 'ready' && posts.length === 0 && (
             <div className="border border-slate-200 bg-white p-8 text-center">
               <p className="text-lg font-extrabold break-keep">{isEn ? 'Be the first to share your look' : '첫 번째 주인공이 되어 주세요'}</p>
-              <p className="mt-2 text-sm text-slate-600 break-keep">{isEn ? 'Make a look, then tap “Post to the gallery” on your result.' : '메이크업을 만든 뒤 결과 화면에서 “갤러리에 올리기”를 눌러 주세요.'}</p>
+              <p className="mt-2 text-sm text-slate-600 break-keep">{isEn ? 'Tap “Post to the gallery” on your result, or use “Upload from my photos” above.' : '결과 화면에서 “갤러리에 올리기”를 누르거나, 위의 “내 사진첩에서 올리기”로 저장해 둔 사진을 올려 주세요.'}</p>
             </div>
           )}
           {posts.length > 0 && (
