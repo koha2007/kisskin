@@ -44,7 +44,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
     { name: isEn ? '9 Makeup Looks' : '9가지 메이크업', desc: isEn ? 'One selfie, nine of you' : '셀카 한 장, 아홉 명의 나', img: LOOK_HERO['autumn-berry'].after, href: `${prefix}/makeup/`, slot: 'home_hero_primary', alt: isEn ? 'Autumn Berry Mocha look on an AI-generated model' : '가을 베리 모카 룩, AI 생성 모델' },
     { name: isEn ? 'Lucky Makeup' : '럭키 메이크업', desc: isEn ? 'Makeup to call in every kind of luck' : '모든 운을 부르는 메이크업', img: luckyLookImg('wealth'), href: `${prefix}/lucky-makeup/`, slot: 'home_hero_lucky', alt: isEn ? 'Wealth Luck look on an AI-generated model' : '재물운 룩, AI 생성 모델' },
     // 2026-11-11 운영자: 두 문 아래 2개 더(11/19 두 문 비교는 무시) — 네 문 클릭은 11/11 이후로 읽는다
-    { name: isEn ? 'Face Painting' : '페이스 페인팅', desc: isEn ? 'Pearls, gems & masterpiece faces' : '진주 스티커부터 명화 얼굴까지', img: '/paint/samples/cherry-blossom.webp?v=20261111b', href: `${prefix}/face-paint/`, slot: 'home_hero_paint', alt: isEn ? 'Cherry blossom face paint on an AI-generated model' : '벚꽃 페이스 페인팅, AI 생성 모델' },
+    { name: isEn ? 'Face Painting' : '페이스 페인팅', desc: isEn ? 'Pearls, gems & masterpiece faces' : '진주 스티커부터 명화 얼굴까지', img: '/paint/samples/cherry-blossom.webp?v=20261111c', href: `${prefix}/face-paint/`, slot: 'home_hero_paint', alt: isEn ? 'Cherry blossom face paint on an AI-generated model' : '벚꽃 페이스 페인팅, AI 생성 모델' },
     { name: isEn ? 'Hair Color' : '나만의 헤어 컬러', desc: isEn ? 'See 16 shades before you dye' : '염색 전에 16가지 색 미리 보기', img: '/hair/jj/pink-front.webp?v=20261111b', href: `${prefix}/hair-color/`, slot: 'home_hero_hair', alt: isEn ? 'Baby pink hair colour on an AI-generated model' : '베이비 핑크 헤어 컬러, AI 생성 모델' },
   ]
   const plans = [

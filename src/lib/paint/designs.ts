@@ -76,7 +76,7 @@ function freckleDots(seed: number, colors: string[], n: number, rMin: number, rM
   return out.join('')
 }
 
-const V = '20261111b'
+const V = '20261111c'
 const stk = (id: string) => `/paint/stk/${id}.webp?v=${V}`
 const smp = (id: string) => `/paint/samples/${id}.webp?v=${V}`
 
