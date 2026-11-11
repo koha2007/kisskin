@@ -11,42 +11,44 @@ import AiFinish from '../components/edit/AiFinish'
 import ResultSaveEmail from '../components/makeup/ResultSaveEmail'
 import { pickImage } from '../lib/nativePicker'
 import { trackEvent } from '../lib/analytics'
-import { LOOK_HERO } from '../lib/makeup/lookImages'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { initEngine, buildHairMask, recolorHair, type Engine, type HairMask } from '../lib/makeup/looksEngine'
 import { HAIR_COLORS, SEASON_LABEL, hairById, promptHair, type Season } from '../lib/hair/colors'
 import { trackCheckoutReturn } from '../lib/purchaseTracking'
 
-const DEMO = LOOK_HERO['autumn-berry'].before
+// 헤어 전용 모델 JJ(11/11 — 9가지·럭키·페인팅과 다른 사람). 정면 사진으로 무료 미리보기
+const DEMO = '/hair/model/front.webp'
 const PENDING = 'hair:pending'
 
 const KO = {
   kicker: 'HAIR COLOR · 헤어 컬러', title1: '나만의 헤어 컬러', title2: '염색 전에 먼저 보기',
-  lead: '머리카락만 찾아서 색을 바꿔요. 얼굴·옷·배경은 그대로. 16가지 색을 무료로 바로 바꿔 보고, 마음에 드는 색은 AI 가 진짜 염색한 것처럼 만들어 드려요.',
+  lead: '16가지 색을 한 모델이 정면·45도·옆에서 먼저 AI 염색해 봤어요. 마음에 드는 색을 내 사진에 무료로 바로 대 보고, AI 가 진짜 염색한 것처럼 만들어 드려요.',
   strip: [['16가지 색', '무료'], ['계절 추천', '무료'], ['AI 염색', '크레딧 1']],
-  step1: '색 고르기', step2: '내 머리에 바로', all: '전체', seasonQ: '내 계절을 모르면',
+  step1: '색 고르기', step2: '내 사진으로 무료 미리보기',
+  galleryTitle: (n: string) => `${n} · AI 염색 예시`, gallerySub: '같은 모델을 정면·45도·옆에서 AI 로 염색한 실제 결과예요. 색을 누르면 바뀌어요.', original: '원래 머리', angle: { front: '정면', three: '45도', profile: '옆모습' } as Record<'front' | 'three' | 'profile', string>, all: '전체', seasonQ: '내 계절을 모르면',
   seasonLink: '퍼스널컬러 무료 진단 →',
   demo: '예시 모델 사진이에요. 내 사진으로 바꿔 보세요.', camera: '셀카 찍기', gallery: '사진 고르기', change: '사진 바꾸기', backDemo: '예시 모델로 돌아가기',
   loading: '머리카락 찾는 중… (처음 한 번 10초 안팎)', noHair: '머리카락을 찾지 못했어요. 머리가 보이는 사진으로 바꿔 주세요.', hat: '모자·두건을 쓴 사진 같아요. 보이는 머리만 바뀌어요.', engineErr: '인식 도구를 불러오지 못했어요. 새로고침해 주세요.', badFile: '사진을 읽지 못했어요. 다른 사진으로 해 주세요.',
   strength: '진하기', compare: '누르고 있으면 원래 머리', bleach: '밝은 색이라 검은 머리는 실제로 탈색이 필요할 수 있어요. AI 염색으로 더 진짜처럼 볼 수 있어요.',
   save: '이 색으로 저장하기(무료)', saveTitle: '헤어 컬러',
   needOwn: '내 사진을 넣으면 AI 염색을 만들 수 있어요.',
-  aiNote: '예시는 이 도구로 AI 생성 모델에 만든 결과예요.',
+  aiNote: '예시는 이 도구의 AI 염색으로 AI 생성 모델에 만든 결과예요. 무료 미리보기는 색만 대 보는 간단 합성이라 AI 결과보다 덜 자연스러워요.',
   privacy: '머리카락 인식은 이 기기 안에서만 해요. 사진은 AI 염색을 만들 때만 보내고 저장하지 않아요.',
   tip: '팁: 머리 전체가 보이고 밝은 곳에서 찍은 사진일수록 정확해요.',
 }
 const EN: typeof KO = {
   kicker: 'HAIR COLOR', title1: 'Find Your Hair Color', title2: 'see it before you dye',
-  lead: 'We find just your hair and change its colour — face, clothes and background stay the same. Try 16 colours instantly for free, then let AI make your favourite look like a real salon dye.',
+  lead: 'One model tried all 16 colours with AI — front, 45° and profile. Hold your favourite up to your own photo for free, then let AI make it look like a real salon dye.',
   strip: [['16 colours', 'Free'], ['By season', 'Free'], ['AI dye', '1 credit']],
-  step1: 'Pick a colour', step2: 'On your hair, instantly', all: 'All', seasonQ: 'Don’t know your season?',
+  step1: 'Pick a colour', step2: 'Free instant preview on your photo',
+  galleryTitle: (n: string) => `${n} · AI dye examples`, gallerySub: 'Real AI results on the same model from the front, at 45° and in profile. Tap a colour to switch.', original: 'Original', angle: { front: 'Front', three: '45°', profile: 'Profile' }, all: 'All', seasonQ: 'Don’t know your season?',
   seasonLink: 'Free personal colour test →',
   demo: 'This is a sample model photo. Try your own.', camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Change photo', backDemo: 'Back to the sample model',
   loading: 'Finding your hair… (about 10s the first time)', noHair: 'We couldn’t find hair. Try a photo where your hair shows.', hat: 'Looks like a hat or scarf — only visible hair will change.', engineErr: 'The tool failed to load. Please refresh.', badFile: 'Couldn’t read that photo. Please try another.',
   strength: 'Strength', compare: 'Hold to see the original', bleach: 'This is a light shade — dark hair may need bleaching in real life. The AI dye shows it more realistically.',
   save: 'Save this colour (free)', saveTitle: 'Hair Color',
   needOwn: 'Add your own photo to make an AI dye.',
-  aiNote: 'Examples are this tool’s output on an AI-generated model.',
+  aiNote: 'Examples are this tool’s AI dye on an AI-generated model. The free preview is a quick colour overlay, so it looks less natural than the AI result.',
   privacy: 'Hair detection runs on this device. Your photo is sent only to make an AI dye and is not stored.',
   tip: 'Tip: a bright photo that shows all of your hair works best.',
 }
@@ -155,17 +157,24 @@ export default function HairColor() {
               <ul className="grid grid-cols-3 divide-x divide-slate-200 border border-slate-200 bg-white text-center">
                 {T.strip.map(([n, p]) => <li key={n} className="px-2 py-3"><span className="block text-[11px] font-semibold text-slate-500">{n}</span><span className="block text-lg font-extrabold">{p}</span></li>)}
               </ul>
-              <figure className="mt-3 grid grid-cols-2 gap-2">
-                <img src={DEMO} alt={isEn ? 'Original hair, AI-generated model' : '원래 머리, AI 생성 모델'} className="aspect-[3/4] w-full object-cover object-[50%_25%]" />
-                <img src="/hair/samples/pink.webp" alt={isEn ? 'Baby pink AI dye, AI-generated model' : '베이비 핑크 AI 염색, AI 생성 모델'} className="aspect-[3/4] w-full object-cover object-[50%_25%]" />
-                <figcaption className="col-span-2 text-[11px] text-slate-500">{T.aiNote}</figcaption>
-              </figure>
             </div>
           </div>
 
-          <div ref={makeRef} id="make" className="mt-12 grid scroll-mt-20 gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,400px)]">
-            <div className="min-w-0">
-              <h2 className="text-xl font-extrabold md:text-3xl">{T.step2}</h2>
+          <div ref={makeRef} id="make" className="mt-12 grid scroll-mt-20 gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,400px)] md:items-start">
+            {/* AI 염색 예시 — JJ 3각도(정면·45도·옆) × 16색, 실제 AI 생성 결과(11/11 운영자: "모델이 먼저 다 해 보기") */}
+            <div className="order-1 min-w-0 md:col-start-1 md:row-start-1">
+              <h2 className="text-xl font-extrabold md:text-3xl">{T.galleryTitle(name)}</h2>
+              <p className="mt-1 text-[13px] text-slate-600 break-keep">{T.gallerySub}</p>
+              <div className="mt-3 grid grid-cols-4 gap-1.5">
+                <figure className="min-w-0"><img src="/hair/model/front.webp" alt={isEn ? 'Original hair, AI-generated model' : '원래 머리, AI 생성 모델'} className="aspect-[2/3] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold text-slate-500">{T.original}</figcaption></figure>
+                {(['front', 'three', 'profile'] as const).map((a) => (
+                  <figure key={a} className="min-w-0"><img src={`/hair/jj/${color}-${a}.webp?v=20261111b`} alt={isEn ? `${name} AI hair dye, ${T.angle[a]}, AI-generated model` : `${name} AI 염색, ${T.angle[a]}, AI 생성 모델`} className="aspect-[2/3] w-full object-cover" /><figcaption className="mt-1 text-center text-[11px] font-bold">{T.angle[a]}</figcaption></figure>
+                ))}
+              </div>
+              <p className="mt-1.5 text-[11px] text-slate-500">{T.aiNote}</p>
+            </div>
+            <div className="order-3 min-w-0 md:col-start-1 md:row-start-2">
+              <h2 className="text-lg font-extrabold md:text-2xl">{T.step2}</h2>
               <div className="relative mx-auto mt-4 max-w-md overflow-hidden bg-slate-200">
                 <canvas ref={canvasRef} className="block h-auto w-full select-none" />
                 {status === 'loading' && <p className="absolute inset-x-0 bottom-0 bg-navy/80 py-2 text-center text-sm font-bold text-white">{T.loading}</p>}
@@ -187,7 +196,7 @@ export default function HairColor() {
               {err && <p className="mx-auto mt-2 max-w-md bg-primary/20 px-3 py-2 text-[13px] font-bold">{err}</p>}
             </div>
 
-            <div className="min-w-0 space-y-4">
+            <div className="order-2 min-w-0 md:col-start-2 md:row-start-1">
               <div className="border border-slate-200 bg-white p-4">
                 <p className="text-base font-extrabold">{T.step1}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5 text-[12px] font-bold">
@@ -215,6 +224,8 @@ export default function HairColor() {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="order-4 min-w-0 space-y-4 md:col-start-2 md:row-start-2">
               <AiFinish isEn={isEn} base={base} pool="hair" ready={!!photo && !!img}
                 blockedHint={!photo ? T.needOwn : undefined}
                 build={() => (img ? { source: img, prompt: promptHair(cur), styleId: cur.id } : null)}

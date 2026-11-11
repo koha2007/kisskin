@@ -354,8 +354,12 @@ export function buildHairMask(engine: Engine, img: HTMLImageElement): HairMask |
 }
 
 /**
- * 머리카락만 새 색으로. 결 = 원래 밝기 ÷ 평균 밝기(어두운 머리도 밝은 색이 보이게),
- * strength 0~1 = 얼마나 진하게. 원본 픽셀은 머리카락 밖에선 그대로.
+ * 머리카락만 새 색으로 (11/11 2차 — "합성한 것처럼 어색" 개선).
+ * 1차는 목표색 × 밝기비 → 평평한 페인트처럼 보였다. 2차:
+ *   · 색상·채도만 목표색으로, 밝기는 원래 결(가닥 명암)을 목표 밝기 쪽으로 옮긴다(HSL 'color' 블렌드에 가깝게)
+ *   · 그림자일수록 채도를 낮추고, 하이라이트는 원래 빛을 일부 남긴다(윤기)
+ *   · 정수리 쪽 뿌리는 살짝 어둡게(실제 염색의 뿌리 깊이)
+ *   · 마스크 가장자리를 조금 깎아 배경에 색이 번지는 테두리를 줄인다
  */
 export function recolorHair(canvas: HTMLCanvasElement, img: HTMLImageElement, mask: HairMask, color: string, strength: number) {
   const { w, h, alpha, meanLum } = mask
@@ -364,20 +368,46 @@ export function recolorHair(canvas: HTMLCanvasElement, img: HTMLImageElement, ma
   ctx.drawImage(img, 0, 0, w, h)
   const frame = ctx.getImageData(0, 0, w, h); const fd = frame.data
   const [tr, tg, tb] = hex(color)
-  const base = Math.max(0.06, meanLum)
+  const [th, ts, tl] = rgbToHsl(tr, tg, tb)
+  const base = Math.max(0.05, meanLum)
+  // 머리카락 위·아래 끝(뿌리 깊이용)
+  let top = h, bottom = 0
+  for (let y = 0; y < h; y += 4) for (let x = 0; x < w; x += 4) if (alpha[y * w + x] > 160) { if (y < top) top = y; if (y > bottom) bottom = y }
+  const span = Math.max(1, bottom - top)
   for (let i = 0; i < w * h; i++) {
-    const a = alpha[i]; if (a < 4) continue
+    const a0 = alpha[i]; if (a0 < 50) continue
+    const a = Math.min(1, (a0 - 50) / 170)              // 가장자리 살짝 깎기
     const p = i * 4
-    const lum = (0.299 * fd[p] + 0.587 * fd[p + 1] + 0.114 * fd[p + 2]) / 255
-    // 결: 평균보다 밝은 가닥은 밝게, 어두운 가닥은 어둡게(0.35~1.7배)
-    const rel = Math.min(1.7, Math.max(0.35, Math.pow(lum / base, 0.8)))
-    const k = (a / 255) * strength
-    const nr = Math.min(255, tr * rel * 0.88 + fd[p] * 0.12)
-    const ng = Math.min(255, tg * rel * 0.88 + fd[p + 1] * 0.12)
-    const nb = Math.min(255, tb * rel * 0.88 + fd[p + 2] * 0.12)
-    fd[p] = fd[p] + (nr - fd[p]) * k
-    fd[p + 1] = fd[p + 1] + (ng - fd[p + 1]) * k
-    fd[p + 2] = fd[p + 2] + (nb - fd[p + 2]) * k
+    const r = fd[p], g = fd[p + 1], b = fd[p + 2]
+    const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    const rel = Math.pow(lum / base, 0.75)               // 가닥 명암(평균 = 1)
+    // 가는 잔머리(배경이 비쳐 밝게 잡힘)가 하얗게 뜨지 않게 위쪽을 낮게 묶는다
+    let L = tl * Math.min(1.25, Math.max(0.3, rel))
+    const y = (i / w) | 0
+    const depth = Math.max(0, 1 - (y - top) / (span * 0.22)) // 정수리 22% 구간
+    L *= 1 - 0.18 * depth
+    const S = ts * Math.min(1, 0.55 + 0.45 * Math.min(1, rel)) // 그림자일수록 채도 낮게
+    let [nr, ng, nb] = hslToRgb(th, S, Math.min(0.85, L))
+    if (rel > 1.15 && a > 0.9) { const k = Math.min(0.12, (rel - 1.15) * 0.3); nr += (255 - nr) * k; ng += (255 - ng) * k; nb += (255 - nb) * k } // 윤기(원래 갈색을 섞으면 밝은 색이 회색으로 탁해진다 → 흰 빛 쪽으로)
+    const k = a * strength
+    fd[p] = r + (Math.min(255, nr) - r) * k
+    fd[p + 1] = g + (Math.min(255, ng) - g) * k
+    fd[p + 2] = b + (Math.min(255, nb) - b) * k
   }
   ctx.putImageData(frame, 0, 0)
+}
+
+function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+  r /= 255; g /= 255; b /= 255
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2
+  if (mx === mn) return [0, 0, l]
+  const d = mx - mn, s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn)
+  const hh = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4
+  return [hh / 6, s, l]
+}
+function hslToRgb(hh: number, s: number, l: number): [number, number, number] {
+  if (s === 0) return [l * 255, l * 255, l * 255]
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q
+  const f = (t: number) => { if (t < 0) t += 1; if (t > 1) t -= 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p }
+  return [f(hh + 1 / 3) * 255, f(hh) * 255, f(hh - 1 / 3) * 255]
 }

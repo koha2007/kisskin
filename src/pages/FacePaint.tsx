@@ -12,24 +12,24 @@ import AiFinish from '../components/edit/AiFinish'
 import ResultSaveEmail from '../components/makeup/ResultSaveEmail'
 import { pickImage } from '../lib/nativePicker'
 import { trackEvent } from '../lib/analytics'
-import { LOOK_HERO } from '../lib/makeup/lookImages'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
 import { initFaceOnly, detectFace, type LM } from '../lib/makeup/looksEngine'
-import { PAINT_DESIGNS, paintById, isArOnly, svgDoc, promptFull, promptOverlay, type PaintSize } from '../lib/paint/designs'
+import { PAINT_DESIGNS, paintById, isArOnly, promptFull, promptOverlay, type PaintSize } from '../lib/paint/designs'
 import { renderPaint, placements, faceFrame, type PlacedPaint } from '../lib/paint/render'
 import { trackCheckoutReturn } from '../lib/purchaseTracking'
 
-const DEMO = LOOK_HERO['autumn-berry'].before
-const MAX_ITEMS = 5
+// 페인팅 전용 모델(11/11 2차 — 9가지·럭키·헤어와 다른 사람, 머리를 올려 이마·귀가 보임)
+const DEMO = '/paint/model.webp?v=20261111b'
+const MAX_ITEMS = 6
 const PENDING = 'paint:pending'
 type FL = Awaited<ReturnType<typeof initFaceOnly>>
 
 const KO = {
   kicker: 'FACE PAINTING · 페이스 페인팅', title1: '페이스 페인팅', title2: '내 얼굴에 붙여 보기',
-  lead: '볼 하트·큐빅 같은 작은 무늬부터 명화로 덮는 얼굴 전체까지. 무늬는 얼굴을 알아보고 제자리에 붙고, 손가락으로 옮기고 키우고 돌릴 수 있어요. 무료로 저장하고, 원하면 AI 가 진짜 칠한 것처럼 완성해 드려요.',
+  lead: '진주·크롬 별·레이스 같은 작은 스티커부터 명화로 덮는 얼굴 전체, 1년 열두 달 시즌 페인팅까지 46종. 무늬는 얼굴을 알아보고 제자리에 붙고, 손가락으로 옮기고 키우고 돌릴 수 있어요. 무료로 저장하고, 원하면 AI 가 진짜 칠한 것처럼 완성해 드려요.',
   strip: [['작은 무늬', '무료'], ['위치 조정', '무료'], ['AI 완성', '크레딧 1']],
   tabs: { small: '작은 무늬', half: '얼굴 절반', full: '얼굴 전체', season: '시즌' } as Record<PaintSize, string>,
-  tabHint: { small: '여러 개 겹쳐 붙일 수 있어요(최대 5개)', half: '작은 무늬와 함께 붙일 수 있어요', full: '얼굴 전체는 AI 완성본으로 그려요', season: '기념일마다 바뀌는 한정 페인팅' } as Record<PaintSize, string>,
+  tabHint: { small: '여러 개 겹쳐 붙일 수 있어요(최대 6개)', half: '작은 무늬와 함께 붙일 수 있어요', full: '명화의 얼굴 — AI 완성본으로 그려요', season: '1년 열두 달, 기념일마다 바뀌는 페인팅' } as Record<PaintSize, string>,
   step1: '무늬 고르기', step2: '내 얼굴에서 맞추기', step3: 'AI 로 진짜처럼',
   demo: '예시 모델 사진이에요. 내 사진으로 바꿔 보세요.', camera: '셀카 찍기', gallery: '사진 고르기', change: '사진 바꾸기',
   loading: '얼굴 찾는 중…', noFace: '얼굴을 찾지 못했어요. 정면 사진으로 바꿔 주세요.', engineErr: '얼굴 인식을 불러오지 못했어요. 새로고침해 주세요.', badFile: '사진을 읽지 못했어요. 다른 사진으로 해 주세요.',
@@ -46,10 +46,10 @@ const KO = {
 }
 const EN: typeof KO = {
   kicker: 'FACE PAINTING', title1: 'Face Painting', title2: 'try it on your face',
-  lead: 'From tiny cheek hearts and gems to full-face masterpieces. Designs find their place on your face, and you can drag, resize and rotate them. Save for free, or let AI finish it like real paint.',
+  lead: '46 designs, from pearls, chrome stars and lace to full-face masterpieces and a painting for every month. Designs find their place on your face, and you can drag, resize and rotate them. Save for free, or let AI finish it like real paint.',
   strip: [['Small designs', 'Free'], ['Placement', 'Free'], ['AI finish', '1 credit']],
   tabs: { small: 'Small', half: 'Half face', full: 'Full face', season: 'Seasonal' },
-  tabHint: { small: 'Stack up to 5 designs', half: 'Combine with small designs', full: 'Full-face looks are painted by AI', season: 'Limited designs for each holiday' },
+  tabHint: { small: 'Stack up to 6 designs', half: 'Combine with small designs', full: 'Masterpiece faces — painted by AI', season: 'A painting for every month and holiday' },
   step1: 'Pick a design', step2: 'Fit it on your face', step3: 'Make it real with AI',
   demo: 'This is a sample model photo. Try your own.', camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Change photo',
   loading: 'Finding your face…', noFace: 'We couldn’t find a face. Try a front-facing photo.', engineErr: 'Face tracking failed to load. Please refresh.', badFile: 'Couldn’t read that photo. Please try another.',
@@ -69,7 +69,6 @@ const loadImg = (src: string) => new Promise<HTMLImageElement>((res, rej) => {
   const im = new Image(); im.crossOrigin = 'anonymous'
   im.onload = () => res(im); im.onerror = () => rej(new Error('img')); im.src = src
 })
-const svgUrl = (id: string) => { const d = paintById(id); return d ? 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgDoc(d)) : '' }
 
 export default function FacePaint() {
   const { locale } = useI18n()
@@ -77,7 +76,7 @@ export default function FacePaint() {
   const T = isEn ? EN : KO
   const base = isEn ? '/en/face-paint/' : '/face-paint/'
   const [tab, setTab] = useState<PaintSize>('small')
-  const [items, setItems] = useState<PlacedPaint[]>([{ id: 'cheek-hearts', ox: 0, oy: 0, s: 1, r: 0 }])
+  const [items, setItems] = useState<PlacedPaint[]>([{ id: 'pearl-corner', ox: 0, oy: 0, s: 1, r: 0 }])
   const [sel, setSel] = useState(0)
   const [full, setFull] = useState<string | null>(null)
   const [opacity, setOpacity] = useState(0.92)
@@ -267,7 +266,8 @@ export default function FacePaint() {
                     <span className="relative block aspect-square overflow-hidden bg-[#f6dfd3]">
                       {d.sample
                         ? <img src={d.sample} alt={isEn ? `${d.en} face paint on an AI-generated model` : `${d.ko} 페이스 페인팅, AI 생성 모델`} loading="lazy" className="h-full w-full object-cover object-[50%_30%]" />
-                        : <img src={svgUrl(d.id)} alt="" className="absolute inset-[14%] h-[72%] w-[72%] object-contain" />}
+                        : <img src={`/paint/thumb/${d.id}.webp?v=20261111b`} alt={isEn ? `${d.en} on an AI-generated model` : `${d.ko}, AI 생성 모델`} loading="lazy" className="h-full w-full object-cover" />}
+                      {d.tagKo && <span className="absolute bottom-1.5 left-1.5 bg-white/90 px-1.5 py-0.5 text-[10px] font-extrabold text-primary-dark">{isEn ? d.tagEn : d.tagKo}</span>}
                       {(d.monthKo) && <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? d.monthEn : d.monthKo}</span>}
                       {on && <span className="material-symbols-outlined absolute right-1.5 top-1.5 rounded-full bg-primary p-0.5 text-[16px] text-navy" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>}
                     </span>
