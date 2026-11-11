@@ -16,7 +16,26 @@ const HAIR_CATEGORY = 1
 
 // MediaPipe 타입은 CDN 동적 import 라 정적 타입이 없다 → 사용하는 최소 구조만 선언.
 type LM = { x: number; y: number }
-interface CategoryMask { width: number; height: number; getAsUint8Array(): Uint8Array; close(): void }
+interface CategoryMask {
+  width: number; height: number; getAsUint8Array(): Uint8Array; close(): void
+  hasUint8Array?(): boolean; hasFloat32Array?(): boolean; getAsFloat32Array?(): Float32Array
+}
+
+/**
+ * 카테고리 마스크 → 정수 카테고리 배열 (11/11 모바일 버그 수정).
+ * MediaPipe 0.10.18 GPU 경로는 float 텍스처를 `new Uint8Array(f.map(v => 255*v))` 로 바꾸면서 버림(truncate)을 한다.
+ * 모바일 GPU(half-float 정밀도)에선 1/255*255 = 0.99 → 0, 2/255*255 = 1.99 → 1 이 되어
+ * 머리카락(1)은 배경(0)으로, 목·몸 피부(2)는 머리카락(1)으로 한 칸씩 밀렸다 → "머리 대신 목 색이 바뀜".
+ * 세그멘터를 CPU 로 돌리고(정수 그대로), 혹시 float 만 있으면 반올림해서 읽는다.
+ */
+function maskCategories(m: CategoryMask): Uint8Array {
+  if (m.hasUint8Array?.() === false && m.hasFloat32Array?.() && m.getAsFloat32Array) {
+    const f = m.getAsFloat32Array(); const out = new Uint8Array(f.length)
+    for (let i = 0; i < f.length; i++) out[i] = Math.round(f[i] * 255)
+    return out
+  }
+  return m.getAsUint8Array()
+}
 interface FaceLandmarkerLike { detect(img: HTMLImageElement): { faceLandmarks?: LM[][] } }
 interface SegmenterLike { segment(img: HTMLImageElement): { categoryMask: CategoryMask } }
 export interface Engine {
@@ -68,7 +87,8 @@ export async function initEngine(onStatus: (s: string) => void = () => {}): Prom
   })
   onStatus('ImageSegmenter(헤어) 다운로드…')
   const segmenter = await ImageSegmenter.createFromOptions(vision, {
-    baseOptions: { modelAssetPath: SEG_MODEL, delegate: 'GPU' },
+    // CPU: 256×256 작은 모델이라 충분히 빠르고, GPU 의 카테고리 값 밀림(모바일)을 원천 차단 — maskCategories 참고
+    baseOptions: { modelAssetPath: SEG_MODEL, delegate: 'CPU' },
     runningMode: 'IMAGE', outputCategoryMask: true, outputConfidenceMasks: false,
   })
   onStatus('✅ 준비 완료')
@@ -270,7 +290,7 @@ export function renderLook(canvas: HTMLCanvasElement, img: HTMLImageElement, loo
   // 6) 헤어 룩이면 세그멘테이션 리컬러 (모자면 스킵 + 경고)
   if (look.hair) {
     const seg = segmenter.segment(img); const m = seg.categoryMask
-    const md = m.getAsUint8Array() as Uint8Array
+    const md = maskCategories(m)
     const crown = crownHairFraction(md, m.width, m.height, lm)
     report.crownHair = +crown.toFixed(2)
     if (crown < 0.15) {
@@ -322,7 +342,7 @@ export interface HairMask {
 export function buildHairMask(engine: Engine, img: HTMLImageElement): HairMask | null {
   const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height
   const seg = engine.segmenter.segment(img); const m = seg.categoryMask
-  const md = m.getAsUint8Array() as Uint8Array
+  const md = maskCategories(m)
   const lm = engine.faceLandmarker.detect(img).faceLandmarks?.[0]
   const crown = lm ? crownHairFraction(md, m.width, m.height, lm) : 1
   // 256×256 마스크 → 사진 크기로 부드럽게 키우고 살짝 흐린다(계단 가장자리 방지)
