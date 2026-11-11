@@ -6,6 +6,14 @@
   "products": {
     "ko": [
       {
+        "slug": "maybelline-sky-high-tubing-mascara",
+        "brand": "메이블린",
+        "name": "스카이 하이 튜빙 마스카라",
+        "category": "eye",
+        "image": "/products/maybelline-sky-high-tubing-mascara.webp",
+        "date": "2026-11-10"
+      },
+      {
         "slug": "espoir-lip-tint-glaze",
         "brand": "에스쁘아",
         "name": "꾸뛰르 립틴트 글레이즈",
@@ -28,17 +36,17 @@
         "category": "hair",
         "image": "/products/unove-deep-damage-treatment.webp",
         "date": "2026-10-20"
-      },
-      {
-        "slug": "fwee-lip-cheek-blurry-pudding-pot",
-        "brand": "프위 (Fwee)",
-        "name": "립 앤 치크 블러리 푸딩 팟",
-        "category": "cheek",
-        "image": "/products/fwee-lip-cheek-blurry-pudding-pot.webp",
-        "date": "2026-10-13"
       }
     ],
     "en": [
+      {
+        "slug": "maybelline-sky-high-tubing-mascara",
+        "brand": "Maybelline",
+        "name": "Lash Sensational Sky High Tubing Mascara",
+        "category": "eye",
+        "image": "/products/maybelline-sky-high-tubing-mascara.webp",
+        "date": "2026-11-10"
+      },
       {
         "slug": "espoir-lip-tint-glaze",
         "brand": "espoir",
@@ -62,19 +70,18 @@
         "category": "hair",
         "image": "/products/unove-deep-damage-treatment.webp",
         "date": "2026-10-20"
-      },
-      {
-        "slug": "fwee-lip-cheek-blurry-pudding-pot",
-        "brand": "fwee",
-        "name": "Lip & Cheek Blurry Pudding Pot",
-        "category": "cheek",
-        "image": "/products/fwee-lip-cheek-blurry-pudding-pot.webp",
-        "date": "2026-10-13"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike",
+        "title": "Ampoule N, 다이소 전용 앰플 출시·프라임데이 아이크림 판매 급상승",
+        "category": "skincare",
+        "image": "/news/ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike.webp",
+        "date": "2026-11-10"
+      },
       {
         "slug": "moo100-amazon-us-haircare-launch",
         "title": "MOO100, ‘자몽 워터 샴푸’로 미국 아마존 진출—100만 병 이상 국내 판매 기록",
@@ -95,16 +102,16 @@
         "category": "global",
         "image": "/news/marshique-ulta-beauty-entry.webp",
         "date": "2026-10-20"
-      },
-      {
-        "slug": "k-beauty-pop-up-hudson-yards-nyc",
-        "title": "신세계 HYPER GROUND, 뉴욕 허드슨 야드에 K‑뷰티 팝업 30여 브랜드 선보여",
-        "category": "global",
-        "image": "/news/k-beauty-pop-up-hudson-yards-nyc.webp",
-        "date": "2026-10-13"
       }
     ],
     "en": [
+      {
+        "slug": "ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike",
+        "title": "Ampoule N Launches Daiso-Exclusive Ampoules; Prime Day Eye Cream Sales Surge",
+        "category": "skincare",
+        "image": "/news/ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike.webp",
+        "date": "2026-11-10"
+      },
       {
         "slug": "moo100-amazon-us-haircare-launch",
         "title": "MOO100 Enters US Amazon with 'Grapefruit Water Shampoo'—Over 1 Million Bottles Sold Domestically",
@@ -125,13 +132,6 @@
         "category": "global",
         "image": "/news/marshique-ulta-beauty-entry.webp",
         "date": "2026-10-20"
-      },
-      {
-        "slug": "k-beauty-pop-up-hudson-yards-nyc",
-        "title": "Shinsegae HYPER GROUND Showcases 30+ K-Beauty Brands in New York’s Hudson Yards Popup",
-        "category": "global",
-        "image": "/news/k-beauty-pop-up-hudson-yards-nyc.webp",
-        "date": "2026-10-13"
       }
     ]
   }

@@ -5,6 +5,45 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'maybelline-sky-high-tubing-mascara',
+    category: 'eye',
+    brand: 'Maybelline',
+    name: 'Lash Sensational Sky High Tubing Mascara',
+    title: 'Maybelline Lash Sensational Sky High Tubing Mascara — TikTok, Sephora & Ulta Viral Beauty Hit',
+    summary:
+      'Maybelline Sky High Tubing Mascara has racked up over 100 million views under the #skyhighmascara hashtag on TikTok and earned a spot among Sephora\'s bestsellers. Formulated with tubing technology, it delivers extreme length, volume, and smudge-free all-day wear.',
+    highlights: ['Tubing formula', 'Extreme length & volume', 'Viral hit on TikTok & Sephora'],
+    details: [
+      'The tubing formula slips off cleanly in tube shapes using only lukewarm water, ensuring hassle-free removal without smudging.',
+      'The flexible Flex Tower brush hugs lashes from root to tip to evenly add length and volume.',
+      'Accumulated over 100 million views under the #skyhighmascara hashtag on TikTok and sold out multiple times in the US upon launch.',
+      'Earned a spot on Sephora\'s bestseller list, beloved by customers across a wide range of age groups.',
+    ],
+    whoFor:
+      'Ideal for those who want natural daily makeup while boosting both lash length and volume. The gentle formula is also well-suited for contact lens wearers and sensitive eyes.',
+    howTo: [
+      'Coat the Flex Tower brush with product and sweep upward from the roots to the tips of your lashes with gentle pressure.',
+      'Layer 2 to 3 times to achieve your desired length and volume. To remove, gently massage lashes with lukewarm water.',
+    ],
+    pros: [
+      'Smudge-free, all-day tubing formula',
+      'Proven popularity and credibility on both TikTok and Sephora',
+    ],
+    cons: [
+      'The nature of tubing mascara may feel slightly dry; caution is advised for oily eye areas',
+    ],
+    image: '/products/maybelline-sky-high-tubing-mascara.webp',
+    coupangQuery: '메이블린 스카이 하이 튜빙 마스카라',
+    globalQuery: 'Maybelline Sky High Tubing Mascara',
+    clio: false,
+    clioCategory: 'eye',
+    date: '2026-11-10',
+    tags: ['TubingMascara', 'TikTokViral', 'SephoraBestseller'],
+    seoTitle: 'Maybelline Lash Sensational Sky High Tubing Mascara',
+    seoDescription:
+      'Discover the viral Maybelline Sky High Tubing Mascara for extreme lash length, volume, and easy warm-water removal.',
+  },
+  {
     slug: 'espoir-lip-tint-glaze',
     category: 'lip',
     brand: 'espoir',
