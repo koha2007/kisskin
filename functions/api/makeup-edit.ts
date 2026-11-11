@@ -65,8 +65,9 @@ interface Body {
   quality?: string       // 'medium'(기본) | 'low' | 'high'
   /** 9룩 컬렉션 생성 — 무료 1회를 건드리지 않고 항상 크레딧 차감(_packs.ts collection 참고) */
   collection?: boolean
-  /** 무료권 풀 — 'lucky' = 럭키 메이크업(따로 1장). 미지정 = 2026 메이크업(makeup 풀) */
-  pool?: 'makeup' | 'lucky'
+  /** 무료권 풀 — 'lucky' = 럭키 메이크업(따로 1장). 미지정 = 2026 메이크업(makeup 풀).
+   *  'paint'(페이스 페인팅)·'hair'(헤어 컬러) = 2026-11-11 추가, 무료권 없이 항상 크레딧 1개 */
+  pool?: 'makeup' | 'lucky' | 'paint' | 'hair'
 }
 
 export async function onRequestPost({ request, env }: { request: Request; env: Env }) {
@@ -106,7 +107,8 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
 
   // ── 결제 경로 판정: 사용자가 고른 pay 그대로(_freeUsage.resolveTier) ──
   // 무료권/크레딧은 사용자가 고른다(body.pay) — 우선순위 없음. 9룩 컬렉션은 항상 크레딧.
-  const picked = body.collection ? 'credit' : await resolveTier(body.pay, used, FREE_LIMIT, async () =>
+  const creditOnly = !!body.collection || body.pool === 'paint' || body.pool === 'hair'
+  const picked = creditOnly ? 'credit' : await resolveTier(body.pay, used, FREE_LIMIT, async () =>
     creditsConfigured(env) && (await getBalance(env, user.id).catch(() => 0)) > 0)
   if (picked === 'free_pass_used') {
     return json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)

@@ -20,7 +20,7 @@ const git = (...a) => execFileSync('git', a, { encoding: 'utf8' })
 const LOOKS = ['natural-glow', 'spring-blush', 'summer-glow', 'autumn-berry', 'winter-frost', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'kpop-idol']
 const LUCKY = ['wealth', 'love', 'marriage', 'reunion', 'career', 'exam', 'health', 'popularity', 'travel']
 const TOOLS = ['personal-color', 'face-shape', 'makeup-mbti', 'perfume-type', 'beauty-dna', 'today-fortune']
-const CORE = ['/', '/makeup/', '/lucky-makeup/', '/looks/', '/tools/']
+const CORE = ['/', '/makeup/', '/lucky-makeup/', '/face-paint/', '/hair-color/', '/looks/', '/tools/']
 const looks = LOOKS.map((i) => `/looks/${i}/`)
 const lucky = LUCKY.map((i) => `/lucky-makeup/${i}/`)
 
@@ -32,6 +32,8 @@ const RULES = [
   [/^src\/lib\/makeup\/styles|^src\/lib\/makeup\/lookImages|^public\/styles\/looks\//, ['/', '/makeup/', '/looks/', ...looks]],
   [/^src\/pages\/LooksHub|^pages\/(en\/)?looks\/\+/, ['/looks/']],
   [/^src\/pages\/LookHowTo|^src\/lib\/looks\/|^pages\/(en\/)?looks\/@id|^public\/looks\/charts\//, ['/looks/', ...looks]],
+  [/^src\/pages\/FacePaint|^src\/lib\/paint\/|^pages\/(en\/)?face-paint\//, ['/face-paint/']],
+  [/^src\/pages\/HairColor|^src\/lib\/hair\/|^pages\/(en\/)?hair-color\//, ['/hair-color/']],
   [/^src\/pages\/FortuneMakeup|^pages\/(en\/)?lucky-makeup\/\+/, ['/lucky-makeup/']],
   [/^src\/lib\/fortune\/|^public\/fortune\/|^src\/pages\/LuckyLookHowTo|^pages\/(en\/)?lucky-makeup\/@id/, ['/lucky-makeup/', ...lucky]],
   [/^src\/pages\/ToolsHub|^pages\/(en\/)?tools\/\+/, ['/tools/']],

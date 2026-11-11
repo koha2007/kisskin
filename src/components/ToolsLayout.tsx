@@ -235,6 +235,8 @@ export function ToolsFooter() {
             <ul className="flex flex-col gap-2 text-slate-300 text-sm">
               <li><a href={isEn ? '/en/makeup/' : '/makeup/'} className="hover:text-primary">{t('tools.footer.aiMakeup')}</a></li>
               <li><a href={isEn ? '/en/lucky-makeup/' : '/lucky-makeup/'} className="hover:text-primary">{isEn ? 'Lucky Makeup' : '럭키 메이크업'}</a></li>
+              <li><a href={isEn ? '/en/face-paint/' : '/face-paint/'} className="hover:text-primary">{isEn ? 'Face Painting' : '페이스 페인팅'}</a></li>
+              <li><a href={isEn ? '/en/hair-color/' : '/hair-color/'} className="hover:text-primary">{isEn ? 'Hair Color' : '헤어 컬러'}</a></li>
               <li><a href={localePath('/tools/today-fortune/', isEn)} className="hover:text-primary">{isEn ? 'Today’s Fortune' : '오늘의 운세'}</a></li>
               <li><a href={localePath('/tools/makeup-mbti/', isEn)} className="hover:text-primary">{t('tools.footer.mbti')}</a></li>
               <li><a href={localePath('/tools/personal-color/', isEn)} className="hover:text-primary">{t('tools.footer.personalColor')}</a></li>

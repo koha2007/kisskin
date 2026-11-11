@@ -284,3 +284,100 @@ export function renderLook(canvas: HTMLCanvasElement, img: HTMLImageElement, loo
   }
   return report
 }
+
+// ════════════════════════════════════════════════════════════════════
+// 2026-11-11 페이스 페인팅·헤어 컬러용 (/face-paint/ · /hair-color/)
+// ════════════════════════════════════════════════════════════════════
+export type { LM }
+
+/** 얼굴 기준점만(페이스 페인팅) — 머리카락 모델(16MB)은 받지 않는다 */
+export async function initFaceOnly(): Promise<FaceLandmarkerLike> {
+  const { FilesetResolver, FaceLandmarker } = await import(/* @vite-ignore */ VISION)
+  const vision = await FilesetResolver.forVisionTasks(WASM)
+  return FaceLandmarker.createFromOptions(vision, {
+    baseOptions: { modelAssetPath: FACE_MODEL, delegate: 'GPU' },
+    runningMode: 'IMAGE', numFaces: 1, outputFaceBlendshapes: false,
+  })
+}
+
+export function detectFace(fl: FaceLandmarkerLike, img: HTMLImageElement): LM[] | null {
+  const r = fl.detect(img)
+  return r.faceLandmarks?.length ? r.faceLandmarks[0] : null
+}
+
+export interface HairMask {
+  /** 사진 크기의 0~255 알파(가장자리 부드럽게) */
+  alpha: Uint8ClampedArray
+  w: number
+  h: number
+  /** 머리카락 평균 밝기(0~1) */
+  meanLum: number
+  /** 사진에서 머리카락 비율(%) */
+  pct: number
+  /** 이마 위가 머리카락이 아님 = 모자·두건 */
+  hat: boolean
+}
+
+/** 머리카락 영역을 한 번만 구해 둔다(색을 바꿀 때마다 다시 돌리지 않는다) */
+export function buildHairMask(engine: Engine, img: HTMLImageElement): HairMask | null {
+  const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height
+  const seg = engine.segmenter.segment(img); const m = seg.categoryMask
+  const md = m.getAsUint8Array() as Uint8Array
+  const lm = engine.faceLandmarker.detect(img).faceLandmarks?.[0]
+  const crown = lm ? crownHairFraction(md, m.width, m.height, lm) : 1
+  // 256×256 마스크 → 사진 크기로 부드럽게 키우고 살짝 흐린다(계단 가장자리 방지)
+  const small = document.createElement('canvas'); small.width = m.width; small.height = m.height
+  const sctx = small.getContext('2d')!
+  const sd = sctx.createImageData(m.width, m.height)
+  for (let i = 0; i < md.length; i++) { sd.data[i * 4 + 3] = md[i] === HAIR_CATEGORY ? 255 : 0 }
+  sctx.putImageData(sd, 0, 0)
+  m.close()
+  const big = document.createElement('canvas'); big.width = w; big.height = h
+  const bctx = big.getContext('2d', { willReadFrequently: true })!
+  bctx.imageSmoothingEnabled = true
+  bctx.filter = `blur(${Math.max(1, Math.round(Math.max(w, h) / 500))}px)`
+  bctx.drawImage(small, 0, 0, w, h)
+  const bd = bctx.getImageData(0, 0, w, h).data
+  const alpha = new Uint8ClampedArray(w * h)
+  // 원본 밝기 평균(머리카락 안쪽만)
+  const src = document.createElement('canvas'); src.width = w; src.height = h
+  const xctx = src.getContext('2d', { willReadFrequently: true })!
+  xctx.drawImage(img, 0, 0, w, h)
+  const pd = xctx.getImageData(0, 0, w, h).data
+  let sum = 0, n = 0, hair = 0
+  for (let i = 0; i < w * h; i++) {
+    const a = bd[i * 4 + 3]; alpha[i] = a
+    if (a > 200) { const p = i * 4; sum += (0.299 * pd[p] + 0.587 * pd[p + 1] + 0.114 * pd[p + 2]) / 255; n++ }
+    if (a > 127) hair++
+  }
+  return { alpha, w, h, meanLum: n ? sum / n : 0.2, pct: +(100 * hair / (w * h)).toFixed(2), hat: crown < 0.15 }
+}
+
+/**
+ * 머리카락만 새 색으로. 결 = 원래 밝기 ÷ 평균 밝기(어두운 머리도 밝은 색이 보이게),
+ * strength 0~1 = 얼마나 진하게. 원본 픽셀은 머리카락 밖에선 그대로.
+ */
+export function recolorHair(canvas: HTMLCanvasElement, img: HTMLImageElement, mask: HairMask, color: string, strength: number) {
+  const { w, h, alpha, meanLum } = mask
+  canvas.width = w; canvas.height = h
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!
+  ctx.drawImage(img, 0, 0, w, h)
+  const frame = ctx.getImageData(0, 0, w, h); const fd = frame.data
+  const [tr, tg, tb] = hex(color)
+  const base = Math.max(0.06, meanLum)
+  for (let i = 0; i < w * h; i++) {
+    const a = alpha[i]; if (a < 4) continue
+    const p = i * 4
+    const lum = (0.299 * fd[p] + 0.587 * fd[p + 1] + 0.114 * fd[p + 2]) / 255
+    // 결: 평균보다 밝은 가닥은 밝게, 어두운 가닥은 어둡게(0.35~1.7배)
+    const rel = Math.min(1.7, Math.max(0.35, Math.pow(lum / base, 0.8)))
+    const k = (a / 255) * strength
+    const nr = Math.min(255, tr * rel * 0.88 + fd[p] * 0.12)
+    const ng = Math.min(255, tg * rel * 0.88 + fd[p + 1] * 0.12)
+    const nb = Math.min(255, tb * rel * 0.88 + fd[p + 2] * 0.12)
+    fd[p] = fd[p] + (nr - fd[p]) * k
+    fd[p + 1] = fd[p + 1] + (ng - fd[p + 1]) * k
+    fd[p + 2] = fd[p + 2] + (nb - fd[p + 2]) * k
+  }
+  ctx.putImageData(frame, 0, 0)
+}

@@ -3,7 +3,7 @@
 // 운영자: 슬라이드 대신 아이콘, 맨 위 좌우에 두 메이크업, 그 아래 사용법 영상,
 //         유료(무료 2장 → 크레딧 순)와 무료(줄로 묶음)를 섞이지 않게.
 // 색은 로고의 핑크·네이비. 핑크 위 글자는 네이비(흰 글자는 대비 3.37:1 로 미달).
-// GA4 select_promotion creative_slot: home_hero_primary / home_hero_lucky(두 문 비교 유지) ·
+// GA4 select_promotion creative_slot: home_hero_primary / home_hero_lucky / home_hero_paint / home_hero_hair(11/11 네 문) ·
 //   home_plan(promotion_id=free|starter|collection|plus) · home_tile(promotion_id=도구 경로)
 import { LOOK_HERO } from '../../lib/makeup/lookImages'
 import { luckyLookImg } from '../../lib/fortune/looks'
@@ -43,6 +43,9 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
   const doors = [
     { name: isEn ? '9 Makeup Looks' : '9가지 메이크업', desc: isEn ? 'One selfie, nine of you' : '셀카 한 장, 아홉 명의 나', img: LOOK_HERO['autumn-berry'].after, href: `${prefix}/makeup/`, slot: 'home_hero_primary', alt: isEn ? 'Autumn Berry Mocha look on an AI-generated model' : '가을 베리 모카 룩, AI 생성 모델' },
     { name: isEn ? 'Lucky Makeup' : '럭키 메이크업', desc: isEn ? 'Makeup to call in every kind of luck' : '모든 운을 부르는 메이크업', img: luckyLookImg('wealth'), href: `${prefix}/lucky-makeup/`, slot: 'home_hero_lucky', alt: isEn ? 'Wealth Luck look on an AI-generated model' : '재물운 룩, AI 생성 모델' },
+    // 2026-11-11 운영자: 두 문 아래 2개 더(11/19 두 문 비교는 무시) — 네 문 클릭은 11/11 이후로 읽는다
+    { name: isEn ? 'Face Painting' : '페이스 페인팅', desc: isEn ? 'From cheek hearts to full-face art' : '볼 하트부터 얼굴 전체 명화까지', img: '/paint/samples/cherry-blossom.webp', href: `${prefix}/face-paint/`, slot: 'home_hero_paint', alt: isEn ? 'Cherry blossom face paint on an AI-generated model' : '벚꽃 페이스 페인팅, AI 생성 모델' },
+    { name: isEn ? 'Hair Color' : '나만의 헤어 컬러', desc: isEn ? 'See 16 shades before you dye' : '염색 전에 16가지 색 미리 보기', img: '/hair/samples/pink.webp', href: `${prefix}/hair-color/`, slot: 'home_hero_hair', alt: isEn ? 'Baby pink hair colour on an AI-generated model' : '베이비 핑크 헤어 컬러, AI 생성 모델' },
   ]
   const plans = [
     { id: 'free', icon: '1+1', small: true, bg: NAVY, fg: '#ffffff', name: isEn ? '2 free looks when you sign up' : '가입하면 2장 무료', desc: isEn ? '1 makeup look + 1 lucky look · no card' : '9가지 메이크업 1장 + 럭키 1장 · 카드 없음', price: isEn ? 'Free' : '무료', href: '/auth/?next=%2Fanalysis%2F' },
@@ -67,7 +70,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
 
       <HomeFreePass isEn={isEn} />
 
-      <section aria-label={isEn ? 'Start makeup' : '메이크업 시작하기'} className="mx-auto grid max-w-[1120px] grid-cols-2 gap-3.5 px-5 py-6 md:gap-10 md:px-4 md:py-11">
+      <section aria-label={isEn ? 'Start makeup' : '메이크업 시작하기'} className="mx-auto grid max-w-[1120px] grid-cols-2 gap-x-3.5 gap-y-6 px-5 py-6 md:gap-x-10 md:gap-y-10 md:px-4 md:py-11">
         {doors.map((d) => (
           <a key={d.slot} href={d.href} onClick={() => trackEvent('select_promotion', { creative_slot: d.slot })} className="flex min-w-0 flex-col gap-2.5 text-navy md:flex-row md:gap-6">
             <img src={d.img} alt={d.alt} width={400} height={400} decoding="async" className="aspect-square w-full shrink-0 rounded-[34px] object-cover object-[50%_22%] md:w-[230px] md:rounded-[46px]" />
