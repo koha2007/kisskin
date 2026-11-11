@@ -4,7 +4,6 @@ import { useAuth } from './hooks/useAuth'
 import { EmailSubscribe } from './components/EmailSubscribe'
 import MobileBottomNav from './components/home/MobileBottomNav'
 import HomeServices from './components/home/HomeServices'
-import HomeGalleryStrip from './components/home/HomeGalleryStrip'
 import { BUILD_DATE, BUILD_MONTH_KO, BUILD_MONTH_EN } from './lib/buildDate'
 
 // 히어로에서 "완성 예시" 로 먼저 보여줄 룩 4종 — 톤(내추럴/블러쉬/눈/아이돌)이 서로 겹치지
@@ -272,7 +271,6 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       <main>
       {/* 2026-11-02 개편 — 두 문 → 사용법 영상 → 유료 → 무료 (HomeServices) */}
       <HomeServices isEn={isEn} />
-      <HomeGalleryStrip isEn={isEn} />
 
       {/* 메일 구독 — 1단계 목표(구독 1,000) */}
       <section className="bg-cream py-8 md:py-12">

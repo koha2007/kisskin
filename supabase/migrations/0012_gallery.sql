@@ -15,7 +15,7 @@
 create table if not exists public.gallery_post (
   id            uuid primary key default gen_random_uuid(),
   user_id       uuid not null references auth.users(id) on delete cascade,
-  source        text not null check (source in ('makeup', 'lucky')),
+  source        text not null check (source in ('makeup', 'lucky', 'paint', 'hair')),  -- 11/11 페인팅·헤어 추가
   look_id       text not null,
   image_bucket  text not null default 'gallery-pending' check (image_bucket in ('gallery-pending', 'gallery')),
   image_path    text not null,

@@ -3,6 +3,8 @@ import { verifyUser } from './_freeUsage'
 import { imageUrlOf, isUuid, json, PENDING, publicUrl, removeImage, rest, uploadImage, type GalleryEnv, type GalleryRow } from './_gallery'
 
 const LIST_LIMIT = 60
+// 2026-11-11 네 기능 — 9가지·럭키·페이스 페인팅·헤어 컬러
+const SOURCES = ['makeup', 'lucky', 'paint', 'hair']
 const MAX_BYTES = 2 * 1024 * 1024
 const MAX_PENDING = 3
 const MAX_TOTAL = 20
@@ -22,7 +24,9 @@ export async function onRequestGet({ request, env }: { request: Request; env: Ga
   try {
     const url = new URL(request.url)
     const order = url.searchParams.get('sort') === 'hearts' ? 'heart_count.desc,created_at.desc' : 'created_at.desc'
-    const rows = await rest<GalleryRow[]>(env, `gallery_post?status=eq.approved&image_bucket=eq.gallery&select=id,source,look_id,image_path,heart_count,created_at&order=${order}&limit=${LIST_LIMIT}`)
+    const src = url.searchParams.get('source')
+    const only = src && SOURCES.includes(src) ? `&source=eq.${src}` : ''
+    const rows = await rest<GalleryRow[]>(env, `gallery_post?status=eq.approved&image_bucket=eq.gallery${only}&select=id,source,look_id,image_path,heart_count,created_at&order=${order}&limit=${LIST_LIMIT}`)
     const posts = rows.map((r) => ({ id: r.id, source: r.source, lookId: r.look_id, image: publicUrl(env, r.image_path), hearts: r.heart_count }))
 
     const token = bearer(request)
@@ -50,7 +54,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: G
   let body: { image?: string; source?: string; lookId?: string; consent?: boolean; adultSelf?: boolean; locale?: string }
   try { body = await request.json() } catch { return json({ error: 'bad_json' }, 400) }
   if (body.consent !== true || body.adultSelf !== true) return json({ error: 'consent_required' }, 400)
-  if (body.source !== 'makeup' && body.source !== 'lucky') return json({ error: 'bad_source' }, 400)
+  if (!SOURCES.includes(body.source as string)) return json({ error: 'bad_source' }, 400)
   if (!body.lookId || !/^[a-z0-9-]{1,40}$/.test(body.lookId)) return json({ error: 'bad_look' }, 400)
   const m = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/.exec(body.image || '')
   if (!m || (m[1].length * 3) / 4 > MAX_BYTES) return json({ error: 'bad_image' }, 400)

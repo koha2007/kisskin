@@ -43,12 +43,24 @@ interface CompositeOpts {
   styleName: string
   styleDesc: string
   isEn?: boolean
+  /** 어느 기능 결과인지 — 카드 왼쪽 위 배지(2026-11-11 네 기능 카드 통일). 기본 makeup */
+  kind?: CardKind
+  /** 'story' = 1080×1920(9:16, 스토리·릴스·틱톡) · 'feed' = 1080×1350(4:5, 인스타 피드) */
+  ratio?: CardRatio
+}
+
+export type CardKind = 'makeup' | 'lucky' | 'paint' | 'hair'
+export type CardRatio = 'story' | 'feed'
+const BADGE: Record<CardKind, string> = { makeup: '9 LOOKS', lucky: 'LUCKY MAKEUP', paint: 'FACE PAINT', hair: 'HAIR COLOR' }
+/** GA4 tag('paint:pearl-corner' 등) 앞부분으로 기능을 고른다 */
+export function kindOfTag(tag: string): CardKind {
+  const k = tag.split(':')[0]
+  return k === 'lucky' || k === 'paint' || k === 'hair' ? k : 'makeup'
 }
 
 /** 인스타 스토리·릴스·틱톡 세로 풀사이즈(9:16). 피드용 4:5 로 돌리려면 5 / 4. */
 const OUT_W = 1080
-const OUT_RATIO = 16 / 9
-const OUT_H = Math.round(OUT_W * OUT_RATIO) // 1920
+const OUT_H: Record<CardRatio, number> = { story: 1920, feed: 1350 }
 
 /** 설명은 2줄까지만 — 더 길어지면 카드가 그만큼 작아진다. */
 const MAX_DESC_LINES = 2
@@ -62,7 +74,7 @@ const INK = '#070953'
 const MUTED = '#475569'
 
 /** 워터마크/라벨/브랜딩을 얹은 합성 캔버스를 반환. afterSrc 로드 실패 시 throw. */
-export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: CompositeOpts): Promise<HTMLCanvasElement> {
+export async function buildMakeupComposite({ afterSrc, styleName, styleDesc, kind = 'makeup', ratio = 'story' }: CompositeOpts): Promise<HTMLCanvasElement> {
   const img = new Image()
   img.crossOrigin = 'anonymous'
   await new Promise<void>((resolve, reject) => {
@@ -72,7 +84,7 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   })
 
   const W = OUT_W
-  const H = OUT_H
+  const H = OUT_H[ratio]
 
   const canvas = document.createElement('canvas')
   canvas.width = W
@@ -148,6 +160,23 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc }: C
   const fh = Math.round(nh * fit)
   ctx.drawImage(img, cardX + Math.round((cardW - fw) / 2), cardTop + Math.round((cardH - fh) / 2), fw, fh)
   ctx.restore()
+
+  // 기능 배지 — 네 기능(9가지·럭키·페인팅·헤어) 카드를 한 형식으로
+  {
+    const bf = Math.round(W * 0.024)                 // 26
+    ctx.font = `800 ${bf}px ${FONT}`
+    const label = BADGE[kind]
+    const padX = Math.round(bf * 0.7), bh = Math.round(bf * 1.75)
+    const bw = Math.round(ctx.measureText(label).width + padX * 2)
+    const bx = cardX + Math.round(W * 0.025), by = cardTop + Math.round(W * 0.025)
+    roundRect(ctx, bx, by, bw, bh, bh / 2)
+    ctx.fillStyle = INK
+    ctx.fill()
+    ctx.fillStyle = '#ffffff'
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(label, bx + padX, by + bh / 2 + 1)
+  }
 
   // ── ⑤ 카드 아래 캡션 — 전부 가운데 정렬
   ctx.textAlign = 'center'

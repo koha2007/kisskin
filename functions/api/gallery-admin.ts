@@ -14,6 +14,7 @@ async function guard(request: Request, env: GalleryEnv): Promise<Response | null
 export async function onRequestGet({ request, env }: { request: Request; env: GalleryEnv }) {
   const denied = await guard(request, env)
   if (denied) return denied
+  if (new URL(request.url).searchParams.get('stats') === '1') return stats(env)
   try {
     const rows = await rest<GalleryRow[]>(env, 'gallery_post?status=eq.pending&select=id,source,look_id,image_bucket,image_path,report_count,created_at&order=created_at.asc&limit=50')
     const posts = await Promise.all(rows.map(async (r) => ({ id: r.id, source: r.source, lookId: r.look_id, reports: r.report_count, createdAt: r.created_at, image: await imageUrlOf(env, r) })))
@@ -51,5 +52,35 @@ export async function onRequestPost({ request, env }: { request: Request; env: G
   } catch (e) {
     console.error('[gallery-admin] action', e)
     return json({ error: 'action_failed' }, 500)
+  }
+}
+
+// ── 주간 참가 집계(2026-11-11 운영자: "선물은 나중, 얼마나 참가하는지 데이터부터") ──
+// 주 = 월요일 시작(UTC). 올린 수·승인 수·올린 사람 수·하트 수·하트 누른 사람 수를 기능별로.
+const weekOf = (iso: string) => {
+  const d = new Date(iso); const day = (d.getUTCDay() + 6) % 7
+  d.setUTCDate(d.getUTCDate() - day); return d.toISOString().slice(0, 10)
+}
+async function stats(env: GalleryEnv): Promise<Response> {
+  try {
+    const posts = await rest<{ id: string; source: string; status: string; user_id: string; created_at: string; heart_count: number }[]>(env, 'gallery_post?select=id,source,status,user_id,created_at,heart_count&order=created_at.desc&limit=5000')
+    const hearts = await rest<{ post_id: string; user_id: string; created_at: string }[]>(env, 'gallery_heart?select=post_id,user_id,created_at&order=created_at.desc&limit=20000')
+    const srcOf = new Map(posts.map((p) => [p.id, p.source]))
+    type Row = { week: string; source: string; posts: number; approved: number; uploaders: Set<string>; hearts: number; hearters: Set<string> }
+    const rows = new Map<string, Row>()
+    const get = (week: string, source: string) => {
+      const k = `${week}|${source}`
+      if (!rows.has(k)) rows.set(k, { week, source, posts: 0, approved: 0, uploaders: new Set(), hearts: 0, hearters: new Set() })
+      return rows.get(k)!
+    }
+    for (const p of posts) { const r = get(weekOf(p.created_at), p.source); r.posts++; if (p.status === 'approved') r.approved++; r.uploaders.add(p.user_id) }
+    for (const h of hearts) { const r = get(weekOf(h.created_at), srcOf.get(h.post_id) ?? 'unknown'); r.hearts++; r.hearters.add(h.user_id) }
+    const out = [...rows.values()].map((r) => ({ week: r.week, source: r.source, posts: r.posts, approved: r.approved, uploaders: r.uploaders.size, hearts: r.hearts, hearters: r.hearters.size }))
+      .sort((a, b) => (a.week === b.week ? a.source.localeCompare(b.source) : b.week.localeCompare(a.week)))
+    const top = [...posts].filter((p) => p.status === 'approved').sort((a, b) => b.heart_count - a.heart_count).slice(0, 10).map((p) => ({ id: p.id, source: p.source, hearts: p.heart_count }))
+    return json({ weeks: out, totals: { posts: posts.length, approved: posts.filter((p) => p.status === 'approved').length, uploaders: new Set(posts.map((p) => p.user_id)).size, hearts: hearts.length, hearters: new Set(hearts.map((h) => h.user_id)).size }, top })
+  } catch (e) {
+    console.error('[gallery-admin] stats', e)
+    return json({ error: 'stats_failed' }, 500)
   }
 }

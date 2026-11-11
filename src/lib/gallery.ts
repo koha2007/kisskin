@@ -2,8 +2,15 @@
 import { supabase } from './supabase'
 import { FORTUNE_LOOKS } from './fortune/looks'
 import { ALL_MAKEUP_STYLES } from './makeup/styles'
+import { paintById } from './paint/designs'
+import { hairById } from './hair/colors'
 
-export type GallerySource = 'makeup' | 'lucky'
+export type GallerySource = 'makeup' | 'lucky' | 'paint' | 'hair'
+export const GALLERY_SOURCES: GallerySource[] = ['makeup', 'lucky', 'paint', 'hair']
+export const SOURCE_LABEL: Record<GallerySource, { ko: string; en: string }> = {
+  makeup: { ko: '9가지 메이크업', en: '9 Looks' }, lucky: { ko: '럭키 메이크업', en: 'Lucky Makeup' },
+  paint: { ko: '페이스 페인팅', en: 'Face Painting' }, hair: { ko: '헤어 컬러', en: 'Hair Color' },
+}
 export interface GalleryPost { id: string; source: GallerySource; lookId: string; image: string; hearts: number }
 export interface MyGalleryPost extends Omit<GalleryPost, 'image'> { status: 'pending' | 'approved'; image: string | null }
 export interface GalleryList { posts: GalleryPost[]; hearted: string[]; mine: MyGalleryPost[] }
@@ -20,9 +27,12 @@ const authHeaders = async (): Promise<Record<string, string>> => {
   return t ? { Authorization: `Bearer ${t}` } : {}
 }
 
-export async function fetchGallery(): Promise<GalleryList | null> {
+export async function fetchGallery(o: { sort?: 'hearts' | 'new'; source?: GallerySource } = {}): Promise<GalleryList | null> {
   try {
-    const res = await fetch('/api/gallery', { headers: await authHeaders(), cache: 'no-store' })
+    const q = new URLSearchParams()
+    if (o.sort === 'hearts') q.set('sort', 'hearts')
+    if (o.source) q.set('source', o.source)
+    const res = await fetch('/api/gallery' + (q.toString() ? `?${q}` : ''), { headers: await authHeaders(), cache: 'no-store' })
     if (!res.ok) return null
     return (await res.json()) as GalleryList
   } catch { return null }
@@ -88,11 +98,16 @@ export function lookLabel(source: GallerySource, lookId: string, isEn: boolean):
     const l = FORTUNE_LOOKS.find((x) => x.id === lookId)
     return l ? (isEn ? l.nameEn : l.fortuneKo) : ''
   }
+  if (source === 'paint') { const d = paintById(lookId); return d ? (isEn ? d.en : d.ko) : '' }
+  if (source === 'hair') { const c = hairById(lookId); return c ? (isEn ? c.en : c.ko) : '' }
   const s = ALL_MAKEUP_STYLES.find((x) => x.id === lookId)
   return s ? (isEn ? s.subEn : s.nameKo) : ''
 }
 
 export function lookTryHref(source: GallerySource, lookId: string, isEn: boolean): string {
+  const p = isEn ? '/en' : ''
+  if (source === 'paint') return `${p}/face-paint/?d=${encodeURIComponent(lookId)}`
+  if (source === 'hair') return `${p}/hair-color/?c=${encodeURIComponent(lookId)}`
   const base = source === 'lucky' ? '/lucky-makeup/' : '/makeup/'
-  return `${isEn ? '/en' : ''}${base}?look=${encodeURIComponent(lookId)}`
+  return `${p}${base}?look=${encodeURIComponent(lookId)}`
 }

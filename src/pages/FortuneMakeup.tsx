@@ -547,7 +547,7 @@ function NineBox({ isEn, base, photo, lacking, order, loggedIn, free, resume, on
       const branded: string[] = []
       for (const id of order) {
         const l = fortuneLookById(id)
-        const c = await buildMakeupComposite({ afterSrc: images[id]!, styleName: isEn ? `${l.nameEn} makeup` : l.nameKo, styleDesc: isEn ? l.hookEn : l.hookKo })
+        const c = await buildMakeupComposite({ kind: 'lucky', afterSrc: images[id]!, styleName: isEn ? `${l.nameEn} makeup` : l.nameKo, styleDesc: isEn ? l.hookEn : l.hookKo })
         branded.push(c.toDataURL('image/jpeg', 0.92))
       }
       if (off) return

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { trackEvent } from '../lib/analytics'
-import { deleteMyPost, fetchGallery, galleryAction, lookLabel, lookTryHref, type GalleryList } from '../lib/gallery'
+import { deleteMyPost, fetchGallery, galleryAction, lookLabel, lookTryHref, GALLERY_SOURCES, SOURCE_LABEL, type GalleryList, type GallerySource } from '../lib/gallery'
 
 export default function GalleryPage() {
   const { locale } = useI18n()
@@ -12,16 +12,20 @@ export default function GalleryPage() {
   const [data, setData] = useState<GalleryList | null>(null)
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading')
   const [msg, setMsg] = useState<string | null>(null)
+  // 2026-11-11 — 네 기능 탭 + 하트순(기본)/최신순
+  const [source, setSource] = useState<GallerySource | 'all'>('all')
+  const [sort, setSort] = useState<'hearts' | 'new'>('hearts')
 
-  const load = () => fetchGallery().then((d) => {
+  const opts = () => ({ sort, source: source === 'all' ? undefined : source })
+  const load = () => fetchGallery(opts()).then((d) => {
     setData(d)
     setState(d ? 'ready' : 'error')
   })
   useEffect(() => {
     let off = false
-    void fetchGallery().then((d) => { if (off) return; setData(d); setState(d ? 'ready' : 'error') })
+    void fetchGallery({ sort, source: source === 'all' ? undefined : source }).then((d) => { if (off) return; setData(d); setState(d ? 'ready' : 'error') })
     return () => { off = true }
-  }, [])
+  }, [sort, source])
 
   const goLogin = () => { window.location.href = '/auth?next=' + encodeURIComponent(window.location.pathname) }
 
@@ -80,6 +84,19 @@ export default function GalleryPage() {
         )}
 
         <section className="mt-10">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap gap-1.5 text-[12px] font-bold" role="tablist">
+              {(['all', ...GALLERY_SOURCES] as const).map((s) => (
+                <button key={s} type="button" role="tab" aria-selected={source === s} onClick={() => { setSource(s); trackEvent('gallery_tab', { source: s }) }} className={`border px-2.5 py-1.5 ${source === s ? 'border-navy bg-navy text-white' : 'border-slate-300 bg-white'}`}>{s === 'all' ? (isEn ? 'All' : '전체') : isEn ? SOURCE_LABEL[s].en : SOURCE_LABEL[s].ko}</button>
+              ))}
+            </div>
+            <div className="flex gap-1 text-[12px] font-bold">
+              {(['hearts', 'new'] as const).map((o) => (
+                <button key={o} type="button" aria-pressed={sort === o} onClick={() => setSort(o)} className={`px-2 py-1.5 ${sort === o ? 'text-primary-dark underline underline-offset-4' : 'text-slate-500'}`}>{o === 'hearts' ? (isEn ? 'Most hearts' : '하트순') : (isEn ? 'Newest' : '최신순')}</button>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4" />
           {state === 'loading' && <p className="py-10 text-center text-sm text-slate-500">{isEn ? 'Loading…' : '불러오는 중…'}</p>}
           {state === 'error' && <p className="py-10 text-center text-sm text-slate-500">{isEn ? 'Could not load the gallery. Please refresh.' : '갤러리를 불러오지 못했어요. 새로고침해 주세요.'}</p>}
           {state === 'ready' && posts.length === 0 && (
@@ -97,10 +114,11 @@ export default function GalleryPage() {
                   <li key={p.id} className="flex flex-col bg-white">
                     <div className="relative">
                       <img src={p.image} alt={isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
-                      <span className="absolute left-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
+                      <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? SOURCE_LABEL[p.source].en : SOURCE_LABEL[p.source].ko}</span>
+                      <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
                     </div>
                     <div className="flex items-center justify-between gap-2 p-2">
-                      <a href={lookTryHref(p.source, p.lookId, isEn)} onClick={() => trackEvent('gallery_try_look', { look: p.lookId })} className="min-w-0 truncate text-[13px] font-extrabold underline-offset-4 hover:underline">{name || (isEn ? 'Try this' : '따라 만들기')}</a>
+                      <a href={lookTryHref(p.source, p.lookId, isEn)} onClick={() => trackEvent('gallery_try_look', { source: p.source, look: p.lookId })} className="min-w-0 truncate text-[13px] font-extrabold underline-offset-4 hover:underline">{name || (isEn ? 'Try this' : '따라 만들기')}</a>
                       <button type="button" aria-pressed={on} aria-label={isEn ? `Heart, ${p.hearts}` : `하트 ${p.hearts}개`} onClick={() => void heart(p.id)} className="flex min-h-[44px] shrink-0 items-center gap-1 px-1 text-[13px] font-bold">
                         <span className={`material-symbols-outlined text-[20px] ${on ? 'text-primary-dark' : ''}`} style={on ? { fontVariationSettings: "'FILL' 1" } : undefined}>favorite</span>
                         <span className="tabular-nums">{p.hearts}</span>

@@ -232,7 +232,7 @@ export default function FiveLooksBox({ storeKey, isEn, base, photo, picked, look
       const branded: string[] = []
       for (const id of ids) {
         const l = lookOf(id)
-        const c = await buildMakeupComposite({ afterSrc: items[id]!.image!, styleName: l?.name ?? '', styleDesc: l?.desc ?? '' })
+        const c = await buildMakeupComposite({ afterSrc: items[id]!.image!, styleName: l?.name ?? '', styleDesc: l?.desc ?? '', kind: storeKey })
         branded.push(c.toDataURL('image/jpeg', 0.92))
       }
       if (off) return
