@@ -6,7 +6,9 @@ import { CREDIT_PACKS, isPackId } from './_packs'
 
 const LUCKY_BACKS = new Set(['/lucky-makeup/', '/en/lucky-makeup/'])
 // 5장·15장 결제 후 돌아올 페이지 — 고르던 룩과 셀카로 이어 만든다(2026-11-02). 열린 리다이렉트 방지용 허용 목록.
-const PACK_BACKS = new Set(['/makeup/', '/en/makeup/', ...LUCKY_BACKS])
+const PACK_BACKS = new Set(['/makeup/', '/en/makeup/', ...LUCKY_BACKS,
+  // 2026-11-11 페이스 페인팅·헤어 컬러 AI 완성본(크레딧 1개)
+  '/face-paint/', '/en/face-paint/', '/hair-color/', '/en/hair-color/'])
 
 interface Env {
   POLAR_ACCESS_TOKEN: string
