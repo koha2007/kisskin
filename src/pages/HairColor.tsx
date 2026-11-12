@@ -27,7 +27,7 @@ const KO = {
   step1: '색 고르기', step2: '내 사진으로 무료 미리보기',
   galleryTitle: (n: string) => `${n} · AI 염색 예시`, gallerySub: '같은 모델을 정면·45도·옆에서 AI 로 염색한 실제 결과예요. 색을 누르면 바뀌어요.', original: '원래 머리', angle: { front: '정면', three: '45도', profile: '옆모습' } as Record<'front' | 'three' | 'profile', string>, all: '전체', seasonQ: '내 계절을 모르면',
   seasonLink: '퍼스널컬러 무료 진단 →',
-  demo: '예시 모델 사진이에요. 내 사진으로 바꿔 보세요.', camera: '셀카 찍기', gallery: '사진 고르기', change: '사진 바꾸기', backDemo: '예시 모델로 돌아가기',
+  demo: '위 AI 염색 예시(정면)예요. 내 사진으로 바꾸면 바로 대 볼 수 있어요.', camera: '셀카 찍기', gallery: '사진 고르기', change: '사진 바꾸기', backDemo: '예시 모델로 돌아가기',
   loading: '머리카락 찾는 중… (처음 한 번 10초 안팎)', noHair: '머리카락을 찾지 못했어요. 머리가 보이는 사진으로 바꿔 주세요.', hat: '모자·두건을 쓴 사진 같아요. 보이는 머리만 바뀌어요.', engineErr: '인식 도구를 불러오지 못했어요. 새로고침해 주세요.', badFile: '사진을 읽지 못했어요. 다른 사진으로 해 주세요.',
   strength: '진하기', compare: '누르고 있으면 원래 머리', bleach: '밝은 색이라 검은 머리는 실제로 탈색이 필요할 수 있어요. AI 염색으로 더 진짜처럼 볼 수 있어요.',
   save: '이 색으로 저장하기(무료)', saveTitle: '헤어 컬러',
@@ -43,7 +43,7 @@ const EN: typeof KO = {
   step1: 'Pick a colour', step2: 'Free instant preview on your photo',
   galleryTitle: (n: string) => `${n} · AI dye examples`, gallerySub: 'Real AI results on the same model from the front, at 45° and in profile. Tap a colour to switch.', original: 'Original', angle: { front: 'Front', three: '45°', profile: 'Profile' }, all: 'All', seasonQ: 'Don’t know your season?',
   seasonLink: 'Free personal colour test →',
-  demo: 'This is a sample model photo. Try your own.', camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Change photo', backDemo: 'Back to the sample model',
+  demo: 'This is the AI dye example (front) above. Add your photo to try it on yourself.', camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Change photo', backDemo: 'Back to the sample model',
   loading: 'Finding your hair… (about 10s the first time)', noHair: 'We couldn’t find hair. Try a photo where your hair shows.', hat: 'Looks like a hat or scarf — only visible hair will change.', engineErr: 'The tool failed to load. Please refresh.', badFile: 'Couldn’t read that photo. Please try another.',
   strength: 'Strength', compare: 'Hold to see the original', bleach: 'This is a light shade — dark hair may need bleaching in real life. The AI dye shows it more realistically.',
   save: 'Save this colour (free)', saveTitle: 'Hair Color',
@@ -90,6 +90,16 @@ export default function HairColor() {
     }
   }, 0); return () => window.clearTimeout(t) }, [])
 
+  // 예시 모델(내 사진 없음)일 땐 간단 합성 대신 위 AI 염색 정면 사진을 그대로 보여 준다(11/12 운영자).
+  const [demoLoaded, setDemoLoaded] = useState<{ id: string; im: HTMLImageElement } | null>(null)
+  const demoAi = demoLoaded?.id === color ? demoLoaded.im : null
+  useEffect(() => {
+    if (photo) return
+    let off = false
+    loadImg(`/hair/jj/${color}-front.webp?v=20261111b`).then((im) => { if (!off) setDemoLoaded({ id: color, im }) }).catch(() => { /* 합성으로 대체 */ })
+    return () => { off = true }
+  }, [photo, color])
+
   useEffect(() => {
     let off = false
     ;(async () => {
@@ -109,13 +119,18 @@ export default function HairColor() {
 
   useEffect(() => {
     const c = canvasRef.current; if (!c || !img) return
+    if (!photo && demoAi && !peek) {
+      c.width = demoAi.naturalWidth; c.height = demoAi.naturalHeight
+      c.getContext('2d')!.drawImage(demoAi, 0, 0)
+      return
+    }
     if (!mask || peek) {
       c.width = img.naturalWidth; c.height = img.naturalHeight
       c.getContext('2d')!.drawImage(img, 0, 0)
       return
     }
     recolorHair(c, img, mask, hairById(color)!.hex, strength)
-  }, [img, mask, color, strength, peek])
+  }, [img, mask, color, strength, peek, photo, demoAi])
 
   const choosePhoto = async (mode: 'camera' | 'gallery') => {
     const file = await pickImage(mode); if (!file) return
@@ -138,6 +153,8 @@ export default function HairColor() {
   }
 
   const cur = hairById(color)!
+  const demoShown = !photo && !!demoAi
+  const canUse = status === 'ready' || demoShown
   const name = isEn ? cur.en : cur.ko
   // 카드 설명 — 어울리는 계절(기능 이름은 카드 배지 HAIR COLOR 가 맡는다)
   const cardDesc = (isEn ? 'Suits ' : '') + cur.seasons.map((s) => (isEn ? SEASON_LABEL[s].en : SEASON_LABEL[s].ko)).join(' · ') + (isEn ? '' : ' 추천')
@@ -179,12 +196,12 @@ export default function HairColor() {
               <h2 className="text-lg font-extrabold md:text-2xl">{T.step2}</h2>
               <div className="relative mx-auto mt-4 max-w-md overflow-hidden bg-slate-200">
                 <canvas ref={canvasRef} className="block h-auto w-full select-none" />
-                {status === 'loading' && <p className="absolute inset-x-0 bottom-0 bg-navy/80 py-2 text-center text-sm font-bold text-white">{T.loading}</p>}
-                {status === 'nohair' && <p className="absolute inset-x-0 bottom-0 bg-primary py-2 text-center text-sm font-bold text-navy">{T.noHair}</p>}
-                {status === 'error' && <p className="absolute inset-x-0 bottom-0 bg-primary py-2 text-center text-sm font-bold text-navy">{T.engineErr}</p>}
+                {status === 'loading' && !demoShown && <p className="absolute inset-x-0 bottom-0 bg-navy/80 py-2 text-center text-sm font-bold text-white">{T.loading}</p>}
+                {status === 'nohair' && !demoShown && <p className="absolute inset-x-0 bottom-0 bg-primary py-2 text-center text-sm font-bold text-navy">{T.noHair}</p>}
+                {status === 'error' && !demoShown && <p className="absolute inset-x-0 bottom-0 bg-primary py-2 text-center text-sm font-bold text-navy">{T.engineErr}</p>}
                 {status === 'ready' && mask?.hat && <p className="absolute inset-x-0 top-0 bg-primary/90 py-1.5 text-center text-[12px] font-bold text-navy">{T.hat}</p>}
               </div>
-              {status === 'ready' && (
+              {canUse && (
                 <button type="button" onPointerDown={() => setPeek(true)} onPointerUp={() => setPeek(false)} onPointerLeave={() => setPeek(false)} onContextMenu={(e) => e.preventDefault()}
                   className="mx-auto mt-2 block w-full max-w-md select-none border border-slate-300 bg-white py-2 text-[13px] font-bold touch-none">{T.compare}</button>
               )}
@@ -218,7 +235,7 @@ export default function HairColor() {
                 <label className="mt-4 block text-[13px] font-bold">{T.strength} <span className="tabular-nums text-slate-500">{Math.round(strength * 100)}%</span>
                   <input type="range" min={0.3} max={1} step={0.02} value={strength} onChange={(e) => { setStrength(+e.target.value); setSaved(null) }} className="w-full accent-[#d6247f]" /></label>
                 {cur.bleach && <p className="mt-2 bg-cream px-3 py-2 text-[12px] font-semibold text-slate-700 break-keep">{T.bleach}</p>}
-                {status === 'ready' && (
+                {canUse && (
                   <div className="mt-4">
                     {saved
                       ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={name} desc={cardDesc} fileName={`kissinskin-hair-${color}.jpg`} tag="hair:free" isEn={isEn} gallery={photo ? { source: 'hair', lookId: color } : undefined} /></div>
