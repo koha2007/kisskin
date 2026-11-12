@@ -70,7 +70,10 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
   try {
     const body = await request.json().catch(() => ({})) as { redirect?: boolean; email?: string; type?: string; pack?: string; back?: string }
     const useRedirect = !!body.redirect
-    const origin = request.headers.get('Origin') || 'https://kissinskin.net'
+    // 결제 후 돌아올 주소의 앞부분 — 요청 헤더를 그대로 믿지 않고 우리 사이트(·미리보기·로컬)만 받는다(11/12 점검).
+    const reqOrigin = request.headers.get('Origin') || ''
+    const origin = /^https:\/\/((www\.)?kissinskin\.net|[a-z0-9-]+\.kisskin\.pages\.dev)$|^http:\/\/localhost(:\d+)?$/.test(reqOrigin)
+      ? reqOrigin : 'https://kissinskin.net'
 
     const checkoutBody: Record<string, unknown> = {
       allow_discount_codes: true,
