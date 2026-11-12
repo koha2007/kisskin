@@ -1406,5 +1406,100 @@
     "video": {
       "seconds": 16
     }
+  },
+  {
+    "slug": "winged-eyeliner",
+    "publishedAt": "2026-11-12",
+    "introKo": "아이라인 꼬리가 양쪽 다르게 올라가거나 번져서 고민인가요? 언더 속눈썹 라인의 연장선을 따라 각도를 잡고, 꼬리를 먼저 그린 뒤 눈 안쪽으로 연결하면 대칭 맞추기가 훨씬 쉬워져요.",
+    "introEn": "Struggling with uneven wings or messy liner? Line up the angle with your lower lash line, draw the outer wing tip first, and connect it back toward the center. This makes creating symmetrical lines simple.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "언더 라인 연장선으로 각도 정하기",
+        "titleEn": "Find the angle from the lower lash line",
+        "bodyKo": "아래 속눈썹 라인이 위로 자연스럽게 이어지는 가상의 연장선을 생각하세요. 눈꼬리 끝에서 그 연장선을 따라 사선으로 짧은 기준점을 찍어줘요.",
+        "bodyEn": "Imagine the curve of your lower lash line continuing upward toward the tail of your brow. Mark a small guide line outward along that angle.",
+        "toolsKo": "붓펜 아이라이너 또는 슬림 펜슬",
+        "toolsEn": "Brush pen eyeliner or thin pencil",
+        "swatches": [
+          "#2b221e"
+        ],
+        "searchKeywords": "초극세 붓펜 아이라이너 블랙",
+        "shopEn": "fine tip liquid eyeliner",
+        "shortKo": "언더 라인 연장선 따라 각도 잡기",
+        "shortEn": "Angle along lower lash line"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "꼬리 팁 먼저 빼고 안쪽으로 연결",
+        "titleEn": "Draw the wing tip, then connect inward",
+        "bodyKo": "눈동자 쪽에서 밖으로 그리지 말고, 방금 정한 꼬리 끝점에서 눈동자 중간을 향해 안쪽으로 가볍게 선을 연결해요. 선을 안으로 끌어당기면 삼각존 형태가 완성돼요.",
+        "bodyEn": "Instead of drawing from the inner corner outward, start at the outer tip and glide inward toward the center of your lid. This creates a neat triangular wing.",
+        "toolsKo": "붓펜 아이라이너",
+        "toolsEn": "Brush pen eyeliner",
+        "swatches": [
+          "#2b221e"
+        ],
+        "searchKeywords": "안번지는 붓펜 아이라이너 브라운",
+        "shopEn": "waterproof pen liner",
+        "shortKo": "꼬리 끝에서 안쪽으로 연결",
+        "shortEn": "Draw from tip inward"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "점막 라인과 꼬리 틈 메우기",
+        "titleEn": "Fill the gap and smooth the line",
+        "bodyKo": "15편에서 배운 점막 라인과 방금 만든 꼬리 사이의 틈을 메워요. 붓펜 끝으로 가볍게 터치해 라인을 하나로 매끈하게 이어줍니다.",
+        "bodyEn": "Connect the wing smoothly to the tightline from lesson 15. Fill the small gap between the wing base and your lash line so the flow looks seamless.",
+        "toolsKo": "붓펜 아이라이너",
+        "toolsEn": "Brush pen eyeliner",
+        "swatches": [
+          "#2b221e"
+        ],
+        "searchKeywords": "워터프루프 리퀴드 아이라이너",
+        "shopEn": "liquid eyeliner black",
+        "shortKo": "점막과 꼬리 사이 빈 곳 채우기",
+        "shortEn": "Fill gap to tightline"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "테이프나 면봉으로 선 가다듬기",
+        "titleEn": "Clean up edges with a swab or tape",
+        "bodyKo": "라인이 두껍거나 삐뚤어졌다면 로션을 살짝 묻힌 면봉으로 밑에서 위로 닦아내듯 날렵하게 정리해요. 그리기 전 미리 가이드 테이프를 붙였다 떼어내도 깔끔해 보여요.",
+        "bodyEn": "If the line looks thick, take a cotton swab dampened with a tiny drop of lotion and sweep upward under the wing to sharpen it. Applying guide tape before lining also gives crisp edges.",
+        "toolsKo": "뾰족한 면봉 · 로션 또는 가이드 테이프",
+        "toolsEn": "Pointed cotton swab · lotion or paper tape",
+        "swatches": [
+          "#f5ede4"
+        ],
+        "searchKeywords": "메이크업 뾰족 면봉",
+        "shopEn": "pointed cotton swabs",
+        "shortKo": "면봉으로 아래에서 위로 다듬기",
+        "shortEn": "Sharpen edge with a swab"
+      }
+    ],
+    "tipsKo": [
+      "눈을 완전히 감지 말고 거울을 정면으로 바짝 보면서 각도를 잡아야 눈을 떴을 때 묻히지 않아요.",
+      "쌍꺼풀 접히는 라인에 아이라인 꼬리가 끼지 않도록 접히는 골 골짜기 바로 아래나 위로 각도를 조절하세요."
+    ],
+    "tipsEn": [
+      "Look straight into a mirror with your eyes open to set the angle; if you close your eyes, the wing may hide inside your crease.",
+      "Ensure the wing tip clears your eye crease so the line stays smooth when your eyes are open."
+    ],
+    "mistakeKo": "눈 앞머리부터 꼬리까지 한 번에 길게 그리려고 하면 라인이 두꺼워지고 양쪽 각도가 달라져요.",
+    "mistakeEn": "Trying to draw one continuous stroke from the inner corner to the wing tip often results in thick, uneven lines.",
+    "chartPrompt": "close-up of sharp brown winged eyeliner extending smoothly from the outer eye corner along the angle of the lower lash line, with neat tightlining between lashes and clean skin around the outer eye area",
+    "videoTitleKo": "윙 아이라인",
+    "videoTitleEn": "Winged Eyeliner",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
