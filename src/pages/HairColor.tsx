@@ -12,7 +12,7 @@ import ResultSaveEmail from '../components/makeup/ResultSaveEmail'
 import { pickImage } from '../lib/nativePicker'
 import { trackEvent } from '../lib/analytics'
 import { savePendingSelfieFromSrc, takePendingSelfie, keepPendingSelfie, clearPendingSelfie } from '../lib/makeup/pendingSelfie'
-import { initEngine, buildHairMask, recolorHair, type Engine, type HairMask } from '../lib/makeup/looksEngine'
+import { initEngine, buildHairMask, recolorHair, fadeHair, type Engine, type HairMask } from '../lib/makeup/looksEngine'
 import { HAIR_COLORS, SEASON_LABEL, hairById, promptHair, type Season } from '../lib/hair/colors'
 import { trackCheckoutReturn } from '../lib/purchaseTracking'
 
@@ -99,6 +99,23 @@ export default function HairColor() {
     loadImg(`/hair/jj/${color}-front.webp?v=20261111b`).then((im) => { if (!off) setDemoLoaded({ id: color, im }) }).catch(() => { /* 합성으로 대체 */ })
     return () => { off = true }
   }, [photo, color])
+  // AI 예시에도 진하기가 먹도록 그 사진의 머리카락 영역을 따로 찾는다(11/13 운영자: 진하기 조절 안 됨).
+  const [demoMaskSt, setDemoMaskSt] = useState<{ id: string; m: HairMask } | null>(null)
+  const demoMask = demoMaskSt?.id === color ? demoMaskSt.m : null
+  useEffect(() => {
+    if (photo || !demoAi) return
+    let off = false
+    ;(async () => {
+      try {
+        if (!engRef.current) engRef.current = initEngine()
+        const eng = await engRef.current
+        if (off) return
+        const m = buildHairMask(eng, demoAi)
+        if (!off && m) setDemoMaskSt({ id: color, m })
+      } catch { /* 마스크 없으면 그대로 보여 준다 */ }
+    })()
+    return () => { off = true }
+  }, [photo, demoAi, color])
 
   useEffect(() => {
     let off = false
@@ -120,6 +137,7 @@ export default function HairColor() {
   useEffect(() => {
     const c = canvasRef.current; if (!c || !img) return
     if (!photo && demoAi && !peek) {
+      if (demoMask) { fadeHair(c, demoAi, demoMask, strength); return }
       c.width = demoAi.naturalWidth; c.height = demoAi.naturalHeight
       c.getContext('2d')!.drawImage(demoAi, 0, 0)
       return
@@ -130,7 +148,7 @@ export default function HairColor() {
       return
     }
     recolorHair(c, img, mask, hairById(color)!.hex, strength)
-  }, [img, mask, color, strength, peek, photo, demoAi])
+  }, [img, mask, color, strength, peek, photo, demoAi, demoMask])
 
   const choosePhoto = async (mode: 'camera' | 'gallery') => {
     const file = await pickImage(mode); if (!file) return

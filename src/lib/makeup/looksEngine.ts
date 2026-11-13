@@ -417,6 +417,30 @@ export function recolorHair(canvas: HTMLCanvasElement, img: HTMLImageElement, ma
   ctx.putImageData(frame, 0, 0)
 }
 
+/** 이미 염색된 사진(AI 염색 예시)의 진하기 조절 — strength 1 = 그대로, 낮을수록 머리카락이 원래 자연 갈색 쪽으로 옅어진다. */
+export function fadeHair(canvas: HTMLCanvasElement, img: HTMLImageElement, mask: HairMask, strength: number) {
+  const { w, h, alpha, meanLum } = mask
+  canvas.width = w; canvas.height = h
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!
+  ctx.drawImage(img, 0, 0, w, h)
+  if (strength >= 0.999) return
+  const frame = ctx.getImageData(0, 0, w, h); const fd = frame.data
+  const base = Math.max(0.05, meanLum)
+  const keep = Math.max(0, Math.min(1, strength))
+  for (let i = 0; i < w * h; i++) {
+    const a0 = alpha[i]; if (a0 < 50) continue
+    const a = Math.min(1, (a0 - 50) / 170)
+    const p = i * 4
+    const r = fd[p], g = fd[p + 1], b = fd[p + 2]
+    const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    const rel = Math.min(1.4, Math.max(0.35, Math.pow(lum / base, 0.75)))
+    const [nr, ng, nb] = hslToRgb(25 / 360, 0.32, Math.min(0.5, 0.2 * rel)) // 자연 짙은 갈색(가닥 명암 유지)
+    const k = a * (1 - keep)
+    fd[p] = r + (nr - r) * k; fd[p + 1] = g + (ng - g) * k; fd[p + 2] = b + (nb - b) * k
+  }
+  ctx.putImageData(frame, 0, 0)
+}
+
 function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
   r /= 255; g /= 255; b /= 255
   const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2
