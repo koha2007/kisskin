@@ -233,7 +233,9 @@ export default function HairColor() {
               {err && <p className="mx-auto mt-2 max-w-md bg-primary/20 px-3 py-2 text-[13px] font-bold">{err}</p>}
             </div>
 
-            <div className="order-2 min-w-0 md:col-start-2 md:row-start-1">
+            {/* 오른쪽 기둥 — 모바일은 contents 로 풀려 예시→색→미리보기→AI 순서, PC 는 색·AI 를 한 기둥에(빈칸 방지 11/13) */}
+            <div className="contents md:col-start-2 md:row-span-2 md:row-start-1 md:block md:space-y-6">
+            <div className="order-2 min-w-0">
               <div className="border border-slate-200 bg-white p-4">
                 <p className="text-base font-extrabold">{T.step1}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5 text-[12px] font-bold">
@@ -256,18 +258,19 @@ export default function HairColor() {
                 {canUse && (
                   <div className="mt-4">
                     {saved
-                      ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={name} desc={cardDesc} fileName={`kissinskin-hair-${color}.jpg`} tag="hair:free" isEn={isEn} gallery={photo ? { source: 'hair', lookId: color } : undefined} /></div>
+                      ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={name} desc={cardDesc} fileName={`kissinskin-hair-${color}.jpg`} tag="hair:free" isEn={isEn} gallery={photo ? { source: 'hair', lookId: color } : undefined} galleryNeedsOwnPhoto={!photo} /></div>
                       : <button type="button" onClick={saveFree} className="w-full bg-primary py-3 text-sm font-extrabold text-navy">{T.save}</button>}
                   </div>
                 )}
               </div>
             </div>
-            <div className="order-4 min-w-0 space-y-4 md:col-start-2 md:row-start-2">
+            <div className="order-4 min-w-0 space-y-4">
               <AiFinish isEn={isEn} base={base} pool="hair" ready={!!photo && !!img}
                 blockedHint={!photo ? T.needOwn : undefined}
                 build={() => (img ? { source: img, prompt: promptHair(cur), styleId: cur.id } : null)}
                 before={photo} name={name} desc={cardDesc} onStash={stash} resetKey={`${photo?.length}:${color}`} refreshKey={refresh} galleryLook={color} />
               <p className="text-xs text-slate-500 break-keep">{T.privacy}</p>
+            </div>
             </div>
           </div>
         </section>

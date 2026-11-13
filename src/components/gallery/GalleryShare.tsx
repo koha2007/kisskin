@@ -57,8 +57,9 @@ export function GalleryShareButton({ image, name, source, lookId, isEn, classNam
   const [open, setOpen] = useState(false)
   return (
     <>
-      <button type="button" onClick={() => { setOpen(true); trackEvent('gallery_open', { source, look: lookId }) }} className={className ?? 'flex w-full items-center justify-center gap-1.5 border border-white/40 py-3 text-sm font-bold'}>
-        <span className="material-symbols-outlined text-base">photo_library</span>{isEn ? 'Post to the gallery' : '갤러리에 올리기'}
+      <button type="button" onClick={() => { setOpen(true); trackEvent('gallery_open', { source, look: lookId }) }} className={className ?? 'flex w-full flex-col items-center justify-center border border-white/40 py-2.5 text-sm font-bold'}>
+        <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-base text-primary-on-dark" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>{isEn ? 'Post to the heart gallery' : '하트 갤러리에 올리기'}</span>
+        {!className && <span className="mt-0.5 text-[11px] font-semibold opacity-70">{isEn ? 'Others tap ♥ on it · shown after a quick review' : '다른 사람들이 하트를 눌러 줘요 · 검토 후 공개'}</span>}
       </button>
       {open && <GalleryDialog image={image} name={name} source={source} lookId={lookId} isEn={isEn} onClose={() => setOpen(false)} />}
     </>

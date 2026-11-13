@@ -45,6 +45,8 @@ const KO = {
   note: '같은 사진·같은 선택은 실패해도 다시 눌러 이어서 만들어요(추가 차감 없음). 결과는 AI 가 만든 이미지예요.',
   err: { login: '로그인이 필요해요.', topup: '크레딧이 없어요. 충전하면 바로 이어서 만들 수 있어요.', free_used: '', choose: '', unavailable: '서비스가 잠시 준비 중이에요. 잠시 후 다시 시도해 주세요.', retry: '생성에 실패했어요. 다시 눌러 주세요. 추가로 차감되지 않아요.' } as Record<GenError, string>,
   checkoutErr: '결제창을 열지 못했어요. 잠시 후 다시 시도해 주세요.',
+  cmpHead: ['', '무료 미리보기', 'AI 완성본'],
+  cmp: [['방식', '사진 위에 색·무늬를 얹어요', '빛·그림자·질감까지 AI 가 다시 그려요'], ['시간', '바로', '30초~1분'], ['가격', '무료 · 무제한', '크레딧 1개'], ['하트 갤러리', '내 사진이면 올리기 가능', '올리기 가능']],
 }
 const EN: typeof KO = {
   kicker: 'AI finish', title: 'Make it look real', sub: '1 credit · about 30–60 seconds',
@@ -53,6 +55,8 @@ const EN: typeof KO = {
   note: 'If it fails, tap again with the same photo and choice — you won’t be charged twice. The result is an AI-generated image.',
   err: { login: 'Please log in.', topup: 'No credits left. Top up and carry on right here.', free_used: '', choose: '', unavailable: 'Service is briefly unavailable. Please try again shortly.', retry: 'Generation failed. Tap again — you won’t be charged twice.' },
   checkoutErr: 'Couldn’t open checkout. Please try again shortly.',
+  cmpHead: ['', 'Free preview', 'AI finish'],
+  cmp: [['How', 'Colour or design laid over your photo', 'AI repaints light, shadow and texture'], ['Time', 'Instant', '30–60 seconds'], ['Price', 'Free · unlimited', '1 credit'], ['Heart gallery', 'Yes, with your own photo', 'Yes']],
 }
 
 export default function AiFinish({ isEn, base, pool, ready, blockedHint, build, before, name, desc, onStash, resetKey, refreshKey, galleryLook }: Props) {
@@ -122,6 +126,18 @@ export default function AiFinish({ isEn, base, pool, ready, blockedHint, build, 
       <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-on-dark">{T.kicker}</p>
       <h3 className="mt-1 text-xl font-extrabold">{T.title}</h3>
       <p className="mt-0.5 text-[13px] text-white/75">{T.sub}</p>
+      {gen.k !== 'done' && (
+        <table className="mt-4 w-full table-fixed border-collapse text-left text-[12px] leading-snug break-keep">
+          <thead><tr className="border-b border-white/25">{T.cmpHead.map((h, i) => <th key={i} scope="col" className={`pb-1.5 font-extrabold ${i === 0 ? 'w-[24%]' : ''} ${i === 2 ? 'text-primary-on-dark' : 'text-white/80'}`}>{h}</th>)}</tr></thead>
+          <tbody>{T.cmp.map(([k, a, b]) => (
+            <tr key={k} className="border-b border-white/10 align-top">
+              <th scope="row" className="py-1.5 pr-1 font-bold text-white/60">{k}</th>
+              <td className="py-1.5 pr-2 text-white/80">{a}</td>
+              <td className="py-1.5 font-bold">{b}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      )}
       {gen.k === 'done' && (
         <div className="mt-4 space-y-3">
           <div className="grid grid-cols-2 gap-2">

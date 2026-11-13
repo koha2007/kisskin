@@ -19,7 +19,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 type Composite = { file: File; dataUrl: string }
 
-export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn, gallery }: {
+export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn, gallery, galleryNeedsOwnPhoto }: {
   /** 생성 결과 data URL */
   image: string
   /** 룩 이름(합성 이미지·메일 라벨) */
@@ -31,6 +31,8 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
   isEn: boolean
   /** 있으면 '갤러리에 올리기' 버튼을 보여 준다 */
   gallery?: { source: GallerySource; lookId: string }
+  /** 예시 모델 사진이라 갤러리에 못 올릴 때 — 내 사진으로 하면 올릴 수 있다고 알려 준다(11/13) */
+  galleryNeedsOwnPhoto?: boolean
 }) {
   const [toast, setToast] = useState<string | null>(null)
   const [email, setEmail] = useState('')
@@ -121,13 +123,20 @@ export default function ResultSaveEmail({ image, name, desc, fileName, tag, isEn
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 text-white">
       {toast && <div role="status" className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-full bg-navy px-5 py-2.5 text-sm font-bold text-white shadow-lg">{toast}</div>}
       {gallery && <GalleryShareButton image={image} name={name} source={gallery.source} lookId={gallery.lookId} isEn={isEn} />}
+      {!gallery && galleryNeedsOwnPhoto && (
+        <p className="flex items-start gap-2 border border-white/25 px-3 py-2.5 text-[12px] font-semibold leading-snug text-white/85 break-keep">
+          <span className="material-symbols-outlined text-base text-primary-on-dark" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+          <span>{isEn ? 'This is the sample model. Use your own photo to post it to the ' : '예시 모델 사진이라 갤러리엔 못 올려요. 내 사진으로 만들면 '}
+            <a href={isEn ? '/en/gallery/' : '/gallery/'} className="font-extrabold text-white underline underline-offset-2">{isEn ? 'heart gallery' : '하트 갤러리'}</a>{isEn ? ' and collect hearts.' : '에 올려 하트를 받을 수 있어요.'}</span>
+        </p>
+      )}
       <button type="button" onClick={() => void save('story')} className="flex w-full items-center justify-center gap-1.5 bg-primary-dark py-3.5 text-[15px] font-bold text-white hover:bg-primary transition-colors">
         <span className="material-symbols-outlined text-base">download</span>{isEn ? 'Save · Story 9:16' : '이미지 저장 · 스토리 9:16'}
       </button>
-      <button type="button" onClick={() => void save('feed')} className="flex w-full items-center justify-center gap-1.5 border border-current py-2.5 text-[13px] font-bold opacity-90">
+      <button type="button" onClick={() => void save('feed')} className="flex w-full items-center justify-center gap-1.5 border border-white/60 py-2.5 text-[13px] font-bold text-white">
         {isEn ? 'Save for feed · 4:5' : '피드용으로 저장 · 4:5'}
       </button>
 

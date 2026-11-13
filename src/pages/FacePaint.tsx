@@ -349,7 +349,7 @@ export default function FacePaint() {
                     {items.length > 0 && status === 'ready' && (
                       <div className="mt-4">
                         {saved
-                          ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={names} desc={descs} fileName="kissinskin-face-paint.jpg" tag="paint:free" isEn={isEn} gallery={photo ? { source: 'paint', lookId: items[0]?.id ?? 'pearl-corner' } : undefined} /></div>
+                          ? <div className="bg-navy p-3"><ResultSaveEmail image={saved} name={names} desc={descs} fileName="kissinskin-face-paint.jpg" tag="paint:free" isEn={isEn} gallery={photo ? { source: 'paint', lookId: items[0]?.id ?? 'pearl-corner' } : undefined} galleryNeedsOwnPhoto={!photo} /></div>
                           : <button type="button" onClick={saveFree} className="w-full bg-primary py-3 text-sm font-extrabold text-navy">{T.save}</button>}
                       </div>
                     )}
