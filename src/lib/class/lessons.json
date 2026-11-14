@@ -1501,5 +1501,84 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "puppy-eyeliner",
+    "publishedAt": "2026-11-14",
+    "introKo": "눈꼬리를 위로 올리는 캣아이라인과 달리, 강아지 아이라인은 눈꼬리를 살짝 아래로 내려 순하고 선한 인상을 만들어요. 눈 아래 삼각존과 연결하는 것이 핵심이에요.",
+    "introEn": "Unlike a cat-eye wing, puppy eyeliner curves slightly downward for a soft, gentle look. The key is seamlessly connecting the outer flick to the lower lash line.",
+    "minutes": 10,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "속눈썹 사이 점막 채우기",
+        "titleEn": "Fill the upper waterline",
+        "bodyKo": "15편에서 배운 대로 펜슬 아이라이너로 위 속눈썹 사이사이 점막을 채워줘요. 눈동자가 선명해 보여요.",
+        "bodyEn": "Fill the upper waterline between your lash roots using a pencil liner, as shown in lesson 15. This makes your eyes look clear and defined.",
+        "toolsKo": "슬림 브라운 젤 아이라이너",
+        "toolsEn": "Slim brown gel eyeliner pencil",
+        "swatches": [
+          "#4a3528"
+        ],
+        "searchKeywords": "슬림 젤 아이라이너 브라운",
+        "shopEn": "brown slim gel eyeliner",
+        "shortKo": "위 점막부터 채우기",
+        "shortEn": "Fill upper waterline first"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "눈매 따라 라인 꼬리 내리기",
+        "titleEn": "Draw the wing slightly downward",
+        "bodyKo": "눈꺼풀 곡선을 그대로 따라서 눈꼬리 끝보다 1~2밀리미터 정도 아래 방향으로 자연스럽게 그어 내려줘요. 너무 길지 않게 3밀리미터 안쪽으로 빼요.",
+        "bodyEn": "Follow the natural curve of your upper lid and extend the line slightly downward, about 1–2 mm below the outer corner. Keep the wing short, under 3 mm long.",
+        "toolsKo": "펜슬 또는 젤 아이라이너",
+        "toolsEn": "Pencil or gel eyeliner",
+        "swatches": [
+          "#3d2b20"
+        ],
+        "searchKeywords": "안번지는 젤 펜슬 아이라이너",
+        "shopEn": "waterproof gel eyeliner",
+        "shortKo": "눈 곡선 따라 아래로 연장",
+        "shortEn": "Extend gently downward"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "아래 꼬리 1/3 삼각존 음영 연결",
+        "titleEn": "Connect to the outer third of the lower lash line",
+        "bodyKo": "작은 납작 브러시에 매트 브라운 섀도를 묻혀 눈 아래 꼬리 1/3 지점에서 위 라인 꼬리까지 삼각존을 부드럽게 채워 연결해요.",
+        "bodyEn": "Using a small flat brush with matte brown shadow, fill the outer triangle zone on the outer third of your lower lash line, blending it smoothly into the upper flick.",
+        "toolsKo": "매트 브라운 아이섀도 · 납작 아이섀도 브러시",
+        "toolsEn": "Matte brown eyeshadow · small flat brush",
+        "swatches": [
+          "#705240",
+          "#593e2f"
+        ],
+        "searchKeywords": "음영 브라운 아이섀도 팔레트",
+        "shopEn": "matte brown eyeshadow",
+        "shortKo": "삼각존 브라운 섀도 연결",
+        "shortEn": "Blend brown into lower outer third"
+      }
+    ],
+    "tipsKo": [
+      "블랙보다 미디엄 브라운이나 딥 브라운 색상을 사용하면 훨씬 인상이 순해 보여요.",
+      "눈을 뜬 상태에서 정면을 바라보며 꼬리 방향을 잡아야 어색하지 않아요."
+    ],
+    "tipsEn": [
+      "Using a medium or deep brown liner creates a much softer look than intense black.",
+      "Look straight into the mirror with your eyes open to guide the downward wing angle naturally."
+    ],
+    "mistakeKo": "꼬리를 너무 많이 내리면 눈이 피곤하고 울상처럼 보일 수 있어요.",
+    "mistakeEn": "Dragging the wing down too far can make your eyes look tired or droopy.",
+    "chartPrompt": "a pencil face chart showing soft puppy eyeliner: a slim dark brown eyeliner following the upper lid curve and slanting slightly downward at the outer corner, seamlessly connected to a soft matte brown shadow on the outer third of the lower lash line (triangular zone)",
+    "videoTitleKo": "강아지 아이라인",
+    "videoTitleEn": "Puppy Eyeliner",
+    "video": {
+      "seconds": 16
+    }
   }
 ]

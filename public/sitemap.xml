@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/analysis/</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/analysis/" />
@@ -215,7 +215,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/face-paint/</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/face-paint/" />
@@ -224,7 +224,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/face-paint/</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/face-paint/" />
@@ -233,7 +233,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/hair-color/</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/hair-color/" />
@@ -242,7 +242,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/hair-color/</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/hair-color/" />
@@ -1221,4 +1221,6 @@
   <url><loc>https://kissinskin.net/en/class/eyeliner-basics-tightline/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /></url>
   <url><loc>https://kissinskin.net/class/winged-eyeliner/</loc><lastmod>2026-11-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/winged-eyeliner/" /></url>
   <url><loc>https://kissinskin.net/en/class/winged-eyeliner/</loc><lastmod>2026-11-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/winged-eyeliner/" /></url>
+  <url><loc>https://kissinskin.net/class/puppy-eyeliner/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/puppy-eyeliner/" /></url>
+  <url><loc>https://kissinskin.net/en/class/puppy-eyeliner/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/puppy-eyeliner/" /></url>
 </urlset>
