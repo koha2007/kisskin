@@ -31,8 +31,9 @@ export async function onRequestGet({ request, env }: { request: Request; env: Ga
     const order = url.searchParams.get('sort') === 'hearts' ? 'heart_count.desc,created_at.desc' : 'created_at.desc'
     const src = url.searchParams.get('source')
     const only = src && SOURCES.includes(src) ? `&source=eq.${src}` : ''
-    const rows = await rest<GalleryRow[]>(env, `gallery_post?status=eq.approved&image_bucket=eq.gallery${only}&select=id,source,look_id,image_path,heart_count,created_at&order=${order}&limit=${LIST_LIMIT}`)
-    const posts = rows.map((r) => ({ id: r.id, source: r.source, lookId: r.look_id, image: publicUrl(env, r.image_path), hearts: r.heart_count }))
+    const rows = await rest<GalleryRow[]>(env, `gallery_post?status=eq.approved&image_bucket=eq.gallery${only}&select=id,source,look_id,image_path,heart_count,created_at,consent_text&order=${order}&limit=${LIST_LIMIT}`)
+    // 2026-11-16 운영자 예시(AI 생성 모델) 카드 = consent_text 'sample:' — 화면에 "예시" 표시. 동의 문구 자체는 내보내지 않는다
+    const posts = rows.map((r) => ({ id: r.id, source: r.source, lookId: r.look_id, image: publicUrl(env, r.image_path), hearts: r.heart_count, sample: (r.consent_text ?? '').startsWith('sample:') }))
 
     const token = bearer(request)
     const user = token ? await verifyUser(env, token) : null

@@ -15,7 +15,7 @@ export const OBANG: Record<Element, string> = {
 const HANJA: Record<Element, string> = { wood: '木', fire: '火', earth: '土', metal: '金', water: '水' }
 const STEM_ELEM_HANJA = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水']
 export const INK = '#1b1b1f', CREAM = '#f6eedc', RED = '#d6402f', YELLOW = '#f2b632'
-export const SANS = "'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif"
+export const SANS = "Paperlogy, 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', sans-serif"
 export const BRUSH = "'Song Myung', 'Nanum Myeongjo', serif"
 export const HAND = "'Gaegu', 'Nanum Pen Script', cursive"
 

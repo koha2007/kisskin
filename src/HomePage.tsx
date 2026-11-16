@@ -282,16 +282,13 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
       {/* ── About this site — operator transparency (E-E-A-T) ── */}
       <section id="about-this-site" className="py-16 bg-white border-t border-slate-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-3">
-            About this site
-          </div>
           <h2 className="font-serif text-3xl md:text-[2.5rem] font-semibold text-navy tracking-tight mb-4 leading-snug">
-            {isEn ? 'Who builds this, and how it’s run' : '누가 만들고, 어떻게 운영되는가'}
+            {isEn ? 'Who runs this site' : '만든 사람과 운영 방식'}
           </h2>
           <p className="text-slate-600 text-base leading-relaxed mb-4">
             {isEn
-              ? <>kissinskin is run by an independent developer, <strong>koha</strong>. Uploaded photos are deleted right after analysis, payments are handled by Polar (Merchant of Record), and the site is funded by user payments and affiliate commissions — with no outside investment.</>
-              : <>kissinskin은 개인 개발자 <strong>koha</strong>가 운영합니다. 업로드한 사진은 분석 직후 삭제되고, 결제는 Polar(Merchant of Record)가 처리하며, 운영비는 사용자 결제와 제휴 수수료로 충당합니다(외부 투자 없음).</>}
+              ? <>Run by independent developer <strong>koha</strong>. Photos are deleted right after use; payments go through Polar.</>
+              : <>개인 개발자 <strong>koha</strong>가 운영해요. 사진은 쓰고 바로 지우고, 결제는 Polar가 처리해요.</>}
           </p>
           {/* 2026-09-10: 두 문단이 홈에 통째로 노출돼 너무 길다는 지적 → 요지는 위 한 문단으로
               올리고, 상세(데이터·AI·수익 구조)는 접는다. DOM 은 유지되므로 SEO 손실 0. */}

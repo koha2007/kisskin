@@ -21,7 +21,7 @@ export const CARD_W = 1080
 export const CARD_H = 1920
 
 const FONT_STACK =
-  "'Pretendard Variable', 'Pretendard', -apple-system, system-ui, 'Apple SD Gothic Neo', sans-serif"
+  "Paperlogy, 'Pretendard Variable', 'Pretendard', -apple-system, system-ui, 'Apple SD Gothic Neo', sans-serif"
 
 /** Wait for web fonts so Korean + emoji render instead of tofu boxes. */
 async function ensureFonts(): Promise<void> {

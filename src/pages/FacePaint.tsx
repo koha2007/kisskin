@@ -26,7 +26,7 @@ type FL = Awaited<ReturnType<typeof initFaceOnly>>
 
 const KO = {
   kicker: 'FACE PAINTING · 페이스 페인팅', title1: '페이스 페인팅', title2: '내 얼굴에 붙여 보기',
-  lead: '진주·크롬 별·레이스 같은 작은 스티커부터 명화로 덮는 얼굴 전체, 1년 열두 달 시즌 페인팅까지 46종. 무늬는 얼굴을 알아보고 제자리에 붙고, 손가락으로 옮기고 키우고 돌릴 수 있어요. 무료로 저장하고, 원하면 AI 가 진짜 칠한 것처럼 완성해 드려요.',
+  lead: '작은 스티커부터 명화 얼굴까지 46종.',
   strip: [['작은 무늬', '무료'], ['위치 조정', '무료'], ['AI 완성', '크레딧 1']],
   tabs: { small: '작은 무늬', half: '얼굴 절반', full: '얼굴 전체', season: '시즌' } as Record<PaintSize, string>,
   tabHint: { small: '여러 개 겹쳐 붙일 수 있어요(최대 6개)', half: '작은 무늬와 함께 붙일 수 있어요', full: '명화의 얼굴 — AI 완성본으로 그려요', season: '1년 열두 달, 기념일마다 바뀌는 페인팅' } as Record<PaintSize, string>,
@@ -46,7 +46,7 @@ const KO = {
 }
 const EN: typeof KO = {
   kicker: 'FACE PAINTING', title1: 'Face Painting', title2: 'try it on your face',
-  lead: '46 designs, from pearls, chrome stars and lace to full-face masterpieces and a painting for every month. Designs find their place on your face, and you can drag, resize and rotate them. Save for free, or let AI finish it like real paint.',
+  lead: '46 designs, from tiny gems to full-face art.',
   strip: [['Small designs', 'Free'], ['Placement', 'Free'], ['AI finish', '1 credit']],
   tabs: { small: 'Small', half: 'Half face', full: 'Full face', season: 'Seasonal' },
   tabHint: { small: 'Stack up to 6 designs', half: 'Combine with small designs', full: 'Masterpiece faces — painted by AI', season: 'A painting for every month and holiday' },
@@ -233,7 +233,6 @@ export default function FacePaint() {
   }
 
   const list = PAINT_DESIGNS.filter((d) => d.size === tab)
-  const eyebrow = 'text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark'
   const range = 'w-full accent-[#d6247f]'
   return (
     <div className="font-display bg-background-light min-h-screen text-navy">
@@ -242,8 +241,7 @@ export default function FacePaint() {
         <section className="pt-10 md:pt-14">
           <div className="grid gap-8 md:grid-cols-2 md:items-end">
             <div className="min-w-0">
-              <p className={eyebrow}>{T.kicker}</p>
-              <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{T.title1}<br /><span className="text-primary-dark">{T.title2}</span></h1>
+              <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{T.title1}<br /><span className="text-primary-dark">{T.title2}</span></h1>
               <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 md:text-lg break-keep">{T.lead}</p>
             </div>
             <ul className="grid grid-cols-3 divide-x divide-slate-200 border border-slate-200 bg-white text-center md:max-w-sm md:justify-self-end md:w-full">

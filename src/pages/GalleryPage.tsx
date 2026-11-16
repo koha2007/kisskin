@@ -61,15 +61,14 @@ export default function GalleryPage() {
       <ToolsNav />
       <main className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <section className="pt-10 md:pt-14">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-dark md:text-xs">{isEn ? 'Gallery' : 'Gallery · 갤러리'}</p>
-          <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{isEn ? 'Looks made by our customers' : '고객이 만든 메이크업'}</h1>
-          <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 break-keep">{isEn ? 'Real customers’ selfies with AI makeup, shared by choice. Tap the heart on a look you like.' : '고객이 직접 공개한, 본인 셀카로 만든 AI 메이크업이에요. 마음에 드는 룩에 하트를 눌러 주세요.'}</p>
+          <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{isEn ? 'Heart Gallery' : '하트 갤러리'}</h1>
+          <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 break-keep">{isEn ? 'Heart the looks you love.' : '마음에 드는 룩에 하트를 눌러 주세요.'}</p>
           {/* 2026-11-11 두 갈래 — 새로 만들기 / 저장해 둔 결과를 사진첩에서 올리기 */}
           <div className="mt-5 flex flex-wrap items-start gap-2">
             <a href={makeHref} className="inline-flex items-center gap-1.5 bg-navy px-5 py-3 text-sm font-bold text-white"><span className="material-symbols-outlined text-base">auto_awesome</span>{isEn ? 'Make my look' : '내 메이크업 만들기'}</a>
             <GalleryUploadButton isEn={isEn} onDone={() => void load()} />
           </div>
-          <p className="mt-2.5 max-w-lg text-[12px] leading-relaxed text-slate-500 break-keep">{isEn ? 'Already made a look? Pick the saved result from your photos. It goes public after a quick review.' : '이미 만든 메이크업이 있다면, 저장해 둔 결과 사진을 사진첩에서 골라 올려 주세요. 운영자 확인 후 공개돼요.'}</p>
+          <p className="mt-2.5 max-w-lg text-[12px] leading-relaxed text-slate-500 break-keep">{isEn ? 'Saved results work too. Shown after review.' : '저장해 둔 결과도 올릴 수 있어요. 확인 후 공개돼요.'}</p>
         </section>
 
         {msg && <p role="status" className="mt-6 bg-white px-3 py-2 text-[13px] font-bold">{msg}</p>}
@@ -119,9 +118,9 @@ export default function GalleryPage() {
                 return (
                   <li key={p.id} className="flex flex-col bg-white">
                     <div className="relative">
-                      <img src={p.image} alt={isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
+                      <img src={p.image} alt={p.sample ? (isEn ? `${name}, sample on an AI-generated model` : `${name}, AI 생성 모델 예시`) : isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
                       <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? SOURCE_LABEL[p.source].en : SOURCE_LABEL[p.source].ko}</span>
-                      <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
+                      <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">{p.sample ? (isEn ? 'AI · Sample' : 'AI · 예시') : 'AI'}</span>
                     </div>
                     <div className="flex items-center justify-between gap-2 p-2">
                       <a href={lookTryHref(p.source, p.lookId, isEn)} onClick={() => trackEvent('gallery_try_look', { source: p.source, look: p.lookId })} className="min-w-0 truncate text-[13px] font-extrabold underline-offset-4 hover:underline">{name || (isEn ? 'Try this' : '따라 만들기')}</a>

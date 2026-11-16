@@ -11,7 +11,7 @@ export const SOURCE_LABEL: Record<GallerySource, { ko: string; en: string }> = {
   makeup: { ko: '9가지 메이크업', en: '9 Looks' }, lucky: { ko: '럭키 메이크업', en: 'Lucky Makeup' },
   paint: { ko: '페이스 페인팅', en: 'Face Painting' }, hair: { ko: '헤어 컬러', en: 'Hair Color' },
 }
-export interface GalleryPost { id: string; source: GallerySource; lookId: string; image: string; hearts: number }
+export interface GalleryPost { id: string; source: GallerySource; lookId: string; image: string; hearts: number; /** 운영자 예시(AI 생성 모델) — 2026-11-16 */ sample?: boolean }
 export interface MyGalleryPost extends Omit<GalleryPost, 'image'> { status: 'pending' | 'approved'; image: string | null }
 export interface GalleryList { posts: GalleryPost[]; hearted: string[]; mine: MyGalleryPost[] }
 

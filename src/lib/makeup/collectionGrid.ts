@@ -20,7 +20,8 @@ const TILE_H = Math.round((TILE_W * 4) / 3)            // 437
 const GRID_TOP = 330
 const FOCUS_Y = 0.3
 
-const FONT = '"Pretendard Variable", Pretendard, system-ui, sans-serif'
+// 2026-11-16 사이트 글꼴이 Paperlogy 로 바뀌었는데 카드만 Pretendard(미로드)를 찾아 기기 기본 글꼴로 그려졌다 → Paperlogy 먼저
+const FONT = 'Paperlogy, "Pretendard Variable", Pretendard, system-ui, sans-serif'
 const INK = '#070953'
 const MUTED = '#475569'
 const PINK = '#c4177c' // primary-dark — 흰 바탕 위 글자는 원색 대신 진한 쪽(대비 규칙)
@@ -42,7 +43,7 @@ export async function buildCollectionGrid(
   const imgs = await Promise.all(looks.map((l) => loadImage(l.image)))
   let logo: HTMLImageElement | null = null
   try { logo = await loadImage('/logo.png') } catch { /* 로고 없이도 그린다 */ }
-  try { await Promise.all([document.fonts?.load(`800 64px "Pretendard Variable"`), document.fonts?.load(`500 32px "Pretendard Variable"`)]) } catch { /* 폴백 폰트로 그린다 */ }
+  try { await Promise.all([document.fonts?.load(`800 64px Paperlogy`), document.fonts?.load(`500 32px Paperlogy`)]) } catch { /* 폴백 폰트로 그린다 */ }
 
   const canvas = document.createElement('canvas')
   canvas.width = W

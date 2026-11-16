@@ -10,7 +10,7 @@ export interface GalleryEnv {
 export interface GalleryRow {
   id: string; user_id: string; source: 'makeup' | 'lucky'; look_id: string
   image_bucket: 'gallery-pending' | 'gallery'; image_path: string; status: 'pending' | 'approved'
-  heart_count: number; report_count: number; created_at: string
+  heart_count: number; report_count: number; created_at: string; consent_text?: string
 }
 export const PENDING = 'gallery-pending'
 export const PUBLIC = 'gallery'

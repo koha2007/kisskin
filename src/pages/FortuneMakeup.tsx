@@ -201,7 +201,6 @@ export default function FortuneMakeup() {
   }
 
   const cur = fortuneLookById(look)
-  const eyebrow = 'text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark'
   const btn = 'flex w-full items-center justify-center gap-1.5 py-3.5 text-[15px] font-bold transition-colors disabled:opacity-60'
   const busy = gen.k === 'busy'
   const none = !!free && freeLeft === 0 && credits === 0
@@ -214,8 +213,7 @@ export default function FortuneMakeup() {
           {/* 히어로 — 이름 = 럭키 메이크업(운영자 10/22 확정). 가격 한 줄을 첫 화면에 */}
           <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-end">
             <div className="min-w-0">
-              <p className={eyebrow}>{T.kicker}</p>
-              <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.08] break-keep">{T.title1}<br /><span className="text-primary">{T.title2}</span></h1>
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.08] break-keep">{T.title1}<br /><span className="text-primary">{T.title2}</span></h1>
               <p className="mt-4 max-w-lg text-base md:text-lg text-slate-600 leading-relaxed">{T.lead}</p>
             </div>
             <div className="min-w-0 md:justify-self-end md:w-full md:max-w-sm">
@@ -707,7 +705,7 @@ function IntroSeo({ isEn, base, fortuneHref }: { isEn: boolean; base: string; fo
 const KO = {
   kicker: 'Lucky makeup · 럭키 메이크업',
   title1: '럭키 메이크업', title2: '원하는 운을 내 얼굴에',
-  lead: '재물운 · 연애운 · 합격운 · 건강운… 관상에서 운을 보는 자리를 살려 그리는 메이크업 9가지. 원하는 운 하나를 고르고 셀카를 찍거나 넣으면, 내 얼굴로 바로 만들어 드려요.',
+  lead: '관상의 운 자리를 살린 메이크업 9가지.',
   priceStrip: [['1장', '가입 무료'], ['5장', '$2.99'], ['9가지 운 전부', '$4.99']] as [string, string][],
   noSub: '한 번 결제 · 구독 없음',
   ctaStart: '운 고르기', ctaPrice: '가격 보기',
@@ -738,7 +736,7 @@ const KO = {
 const EN: typeof KO = {
   kicker: 'Lucky makeup · K-face reading',
   title1: 'Lucky Makeup', title2: 'The luck you want, on your face',
-  lead: 'Wealth, love, exams, health… 9 makeup looks that light up the spots Korean face reading links to each kind of luck. Pick one, take or add a selfie, and we make it on your own face.',
+  lead: '9 looks drawn on the face-reading spots for luck.',
   priceStrip: [['1 look', 'Free'], ['5 looks', '$2.99'], ['All 9 lucks', '$4.99']],
   noSub: 'One-time payment · no subscription',
   ctaStart: 'Pick a luck', ctaPrice: 'See pricing',

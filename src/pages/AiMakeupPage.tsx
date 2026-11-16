@@ -36,7 +36,7 @@ const PLUS: CheckoutPack = { id: 'plus', credits: 15, value: 6.99 }
 
 const KO = {
   kicker: 'AI MAKEUP · 9가지 메이크업', title1: '9가지 메이크업', title2: '내 얼굴에 바로',
-  lead: '계절 룩부터 K-pop 아이돌까지. 원하는 룩을 고르고 셀카를 넣으면 내 얼굴로 만들어 드려요. 같은 셀카로 룩만 바꿔 계속 만들 수 있어요.',
+  lead: '룩 하나 고르고, 셀카 한 장이면 끝.',
   strip: [['1장', '가입 무료'], ['5장', '$2.99'], ['9룩 전부', '$4.99']], pickCta: '룩 고르기', priceCta: '가격 보기', noSub: '한 번 결제 · 구독 없음',
   gridTitle: '몇 가지 만들까요?', gridHint: { one: '하나를 누르면 아래에서 바로 만들어요', five: (n: number) => `5가지를 눌러 고르세요 · ${n}/5`, nine: '9가지 전부 만들어요' }, fiveFull: '5가지를 모두 골랐어요. 바꾸려면 고른 룩을 다시 눌러 빼 주세요.', gridNote: '예시 사진은 AI 생성 모델에 같은 도구로 입힌 결과예요.',
   makeKicker: '내 얼굴로 만들기', how: '이 룩 하는 방법 보기 →', before: '내 사진', after: '결과',
@@ -55,7 +55,7 @@ const KO = {
 }
 const EN: typeof KO = {
   kicker: 'AI MAKEUP · 9 LOOKS', title1: '9 Makeup Looks', title2: 'on your own face',
-  lead: 'From seasonal looks to K-pop idol. Pick a look, add a selfie and see it on your face. Keep the same selfie and switch looks as often as you like.',
+  lead: 'Pick a look, add a selfie. Done.',
   strip: [['1 look', 'Free'], ['5 looks', '$2.99'], ['All 9', '$4.99']], pickCta: 'Pick a look', priceCta: 'See pricing', noSub: 'One-time payment · no subscription',
   gridTitle: 'How many looks?', gridHint: { one: 'Tap one to make it below', five: (n: number) => `Tap 5 looks · ${n}/5`, nine: 'We’ll make all 9' }, fiveFull: 'You’ve picked 5. Tap a picked look to remove it first.', gridNote: 'Examples are this tool’s output on an AI-generated model.',
   makeKicker: 'Make it on my face', how: 'See how to do this look →', before: 'My photo', after: 'Result',
@@ -210,7 +210,6 @@ export default function AiMakeupPage() {
   }
 
   const btn = 'flex w-full items-center justify-center gap-1.5 py-3.5 text-[15px] font-bold transition-colors disabled:opacity-60'
-  const eyebrow = 'text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark'
   return (
     <div className="font-display bg-background-light min-h-screen text-navy">
       <ChargeReceiptToast st={charge} onClose={closeCharge} isEn={isEn} />
@@ -219,8 +218,7 @@ export default function AiMakeupPage() {
         <section className="pt-10 md:pt-14">
           <div className="grid gap-8 md:grid-cols-2 md:items-end">
             <div className="min-w-0">
-              <p className={eyebrow}>{T.kicker}</p>
-              <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{T.title1}<br /><span className="text-primary-dark">{T.title2}</span></h1>
+              <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{T.title1}<br /><span className="text-primary-dark">{T.title2}</span></h1>
               <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 md:text-lg break-keep">{T.lead}</p>
             </div>
             <div className="min-w-0 md:w-full md:max-w-sm md:justify-self-end">

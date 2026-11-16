@@ -90,9 +90,8 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
       <CollectionDemo isEn={isEn} />
 
       <section id="paid" aria-labelledby="home-paid" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 pb-2 pt-8 text-navy md:px-4 md:pt-12">
-        <span className="inline-block rounded-full px-3 py-0.5 text-[13px] font-extrabold" style={{ background: PINK }}>{isEn ? 'Paid · AI makeup' : '유료 · AI 메이크업'}</span>
-        <h2 id="home-paid" className="mb-1 mt-1.5 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px] break-keep">{isEn ? 'First 2 free, then credits' : '처음 2장은 무료, 그다음은 크레딧'}</h2>
-        <p className="mb-2 text-sm leading-normal break-keep">{isEn ? '1 credit = 1 photo, for both makeup types. Tax may be added at checkout.' : '크레딧 1개 = 사진 1장. 두 메이크업에 똑같이 써요. 결제창에서 세금이 더해질 수 있어요.'}</p>
+        <h2 id="home-paid" className="mb-1 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px] break-keep">{isEn ? 'First 2 free' : '처음 2장은 무료'}</h2>
+        <p className="mb-2 text-sm leading-normal break-keep">{isEn ? 'Then 1 credit = 1 photo.' : '그다음은 크레딧 1개 = 사진 1장.'}</p>
         <div className="grid gap-x-10 md:grid-cols-2">
           {plans.map((p) => (
             <a key={p.id} href={p.href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_plan', promotion_id: p.id })} className="grid grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3.5 border-b border-navy py-4 text-navy md:grid-cols-[88px_minmax(0,1fr)_auto]">
@@ -105,13 +104,13 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
             </a>
           ))}
         </div>
+        <p className="mt-2 text-[12px] text-slate-500 break-keep">{isEn ? 'Tax may be added at checkout.' : '결제창에서 세금이 더해질 수 있어요.'}</p>
       </section>
 
       <HomeWeeklyLook isEn={isEn} />
 
       <section id="free" aria-labelledby="home-free" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 py-8 text-navy md:px-4 md:py-12">
-        <span className="inline-block rounded-full bg-navy px-3 py-0.5 text-[13px] font-extrabold text-white">{isEn ? 'Free · No payment' : '무료 · 결제 없음'}</span>
-        <h2 id="home-free" className="mb-3.5 mt-1.5 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px]">{isEn ? 'Try everything free' : '무료로 다 써 보세요'}</h2>
+        <h2 id="home-free" className="mb-3.5 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px]">{isEn ? 'Try everything free' : '무료로 다 써 보세요'}</h2>
         <div className="flex flex-col gap-6">
           {groups.map((g) => (
             <div key={g.title}>

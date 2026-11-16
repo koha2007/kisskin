@@ -21,8 +21,8 @@ export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
       <section aria-label={isEn ? 'Customer gallery' : '고객 갤러리'} className="mx-auto max-w-[1120px] px-5 pb-6 text-navy md:px-4">
         <a href={href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_gallery_invite' })} className="flex items-center justify-between gap-3 border-2 border-navy px-4 py-3 md:px-6">
           <span className="min-w-0">
-            <strong className="block text-[15px] font-extrabold md:text-lg break-keep">{isEn ? 'Share your look, collect hearts' : '내 결과를 올리고 하트를 받아 보세요'}</strong>
-            <span className="block text-[12px] md:text-[13px] break-keep">{isEn ? 'Tap “Post to the gallery” on any result — 9 looks, lucky, face paint or hair.' : '결과 화면의 "갤러리에 올리기" — 9가지·럭키·페인팅·헤어 모두 돼요'}</span>
+            <strong className="block text-[15px] font-extrabold md:text-lg break-keep">{isEn ? 'Post your look, get hearts' : '내 결과 올리고 하트 받기'}</strong>
+            <span className="block text-[12px] md:text-[13px] break-keep">{isEn ? 'All four tools can post.' : '네 가지 기능 모두 올릴 수 있어요'}</span>
           </span>
           <span className="shrink-0 text-[13px] font-extrabold underline underline-offset-4">{isEn ? 'Gallery →' : '갤러리 →'}</span>
         </a>
@@ -45,8 +45,9 @@ export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
         {posts.slice(0, 12).map((p) => (
           <li key={p.id} className="w-32 shrink-0 md:w-44">
             <a href={href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_gallery', promotion_id: p.source })} className="relative block">
-              <img src={p.image} alt={isEn ? `${lookLabel(p.source, p.lookId, true)}, AI result on a customer's selfie` : `${lookLabel(p.source, p.lookId, false)}, 고객 셀카로 만든 AI 결과`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
+              <img src={p.image} alt={p.sample ? (isEn ? `${lookLabel(p.source, p.lookId, true)}, sample on an AI-generated model` : `${lookLabel(p.source, p.lookId, false)}, AI 생성 모델 예시`) : isEn ? `${lookLabel(p.source, p.lookId, true)}, AI result on a customer's selfie` : `${lookLabel(p.source, p.lookId, false)}, 고객 셀카로 만든 AI 결과`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
               <span className="absolute left-1 top-1 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? SOURCE_LABEL[p.source].en : SOURCE_LABEL[p.source].ko}</span>
+              {p.sample && <span className="absolute bottom-1 left-1 bg-white/90 px-1.5 py-0.5 text-[10px] font-extrabold">{isEn ? 'Sample' : '예시'}</span>}
               <span className="absolute bottom-1 right-1 flex items-center gap-0.5 bg-white/90 px-1.5 py-0.5 text-[11px] font-extrabold"><span className="material-symbols-outlined text-[13px] text-primary-dark" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>{p.hearts}</span>
             </a>
           </li>

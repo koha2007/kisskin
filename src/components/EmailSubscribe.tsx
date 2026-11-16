@@ -200,8 +200,8 @@ export function EmailSubscribe({ source, variant = 'card', className = '', resul
       ? 'Your result in one email, so you can open it again later. It also has a one-tap button for the weekly K-beauty letter — nothing else is sent unless you tap it.'
       : '지금 이 결과를 한 통으로 정리해 보내드려요. 나중에 다시 열어볼 수 있게요. 같은 메일에 주간 레터 신청 버튼도 있는데, 누르기 전에는 아무것도 보내지 않습니다.'
     : isEn
-      ? 'The week’s new releases and news, cut down to one short email. No account needed.'
-      : '지난 한 주의 신제품과 뉴스만 짧게 추려서. 가입 없이 이메일만 남기면 됩니다.'
+      ? 'New launches and news, one short email. No sign-up.'
+      : '신제품·뉴스만 짧게. 이메일만 남기면 돼요.'
 
   return (
     <section

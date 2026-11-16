@@ -22,33 +22,33 @@ const PENDING = 'hair:pending'
 
 const KO = {
   kicker: 'HAIR COLOR · 헤어 컬러', title1: '나만의 헤어 컬러', title2: '염색 전에 먼저 보기',
-  lead: '16가지 색을 한 모델이 정면·45도·옆에서 먼저 AI 염색해 봤어요. 마음에 드는 색을 내 사진에 무료로 바로 대 보고, AI 가 진짜 염색한 것처럼 만들어 드려요.',
+  lead: '16가지 색, 내 사진에 먼저 대 보기.',
   strip: [['16가지 색', '무료'], ['계절 추천', '무료'], ['AI 염색', '크레딧 1']],
   step1: '색 고르기', step2: '내 사진으로 무료 미리보기',
-  galleryTitle: (n: string) => `${n} · AI 염색 예시`, gallerySub: '같은 모델을 정면·45도·옆에서 AI 로 염색한 실제 결과예요. 색을 누르면 바뀌어요.', original: '원래 머리', angle: { front: '정면', three: '45도', profile: '옆모습' } as Record<'front' | 'three' | 'profile', string>, all: '전체', seasonQ: '내 계절을 모르면',
+  galleryTitle: (n: string) => `${n} · AI 염색 예시`, gallerySub: '색을 누르면 바뀌어요.', original: '원래 머리', angle: { front: '정면', three: '45도', profile: '옆모습' } as Record<'front' | 'three' | 'profile', string>, all: '전체', seasonQ: '내 계절을 모르면',
   seasonLink: '퍼스널컬러 무료 진단 →',
   demo: '위 AI 염색 예시(정면)예요. 내 사진으로 바꾸면 바로 대 볼 수 있어요.', camera: '셀카 찍기', gallery: '사진 고르기', change: '사진 바꾸기', backDemo: '예시 모델로 돌아가기',
   loading: '머리카락 찾는 중… (처음 한 번 10초 안팎)', noHair: '머리카락을 찾지 못했어요. 머리가 보이는 사진으로 바꿔 주세요.', hat: '모자·두건을 쓴 사진 같아요. 보이는 머리만 바뀌어요.', engineErr: '인식 도구를 불러오지 못했어요. 새로고침해 주세요.', badFile: '사진을 읽지 못했어요. 다른 사진으로 해 주세요.',
   strength: '진하기', compare: '누르고 있으면 원래 머리', bleach: '밝은 색이라 검은 머리는 실제로 탈색이 필요할 수 있어요. AI 염색으로 더 진짜처럼 볼 수 있어요.',
   save: '이 색으로 저장하기(무료)', saveTitle: '헤어 컬러',
   needOwn: '내 사진을 넣으면 AI 염색을 만들 수 있어요.',
-  aiNote: '예시는 이 도구의 AI 염색으로 AI 생성 모델에 만든 결과예요. 무료 미리보기는 색만 대 보는 간단 합성이라 AI 결과보다 덜 자연스러워요.',
+  aiNote: '예시는 AI 생성 모델이에요. 무료 미리보기는 간단 합성이라 AI보다 덜 자연스러워요.',
   privacy: '머리카락 인식은 이 기기 안에서만 해요. 사진은 AI 염색을 만들 때만 보내고 저장하지 않아요.',
   tip: '팁: 머리 전체가 보이고 밝은 곳에서 찍은 사진일수록 정확해요.',
 }
 const EN: typeof KO = {
   kicker: 'HAIR COLOR', title1: 'Find Your Hair Color', title2: 'see it before you dye',
-  lead: 'One model tried all 16 colours with AI — front, 45° and profile. Hold your favourite up to your own photo for free, then let AI make it look like a real salon dye.',
+  lead: 'Try 16 colours on your own photo first.',
   strip: [['16 colours', 'Free'], ['By season', 'Free'], ['AI dye', '1 credit']],
   step1: 'Pick a colour', step2: 'Free instant preview on your photo',
-  galleryTitle: (n: string) => `${n} · AI dye examples`, gallerySub: 'Real AI results on the same model from the front, at 45° and in profile. Tap a colour to switch.', original: 'Original', angle: { front: 'Front', three: '45°', profile: 'Profile' }, all: 'All', seasonQ: 'Don’t know your season?',
+  galleryTitle: (n: string) => `${n} · AI dye examples`, gallerySub: 'Tap a colour to switch.', original: 'Original', angle: { front: 'Front', three: '45°', profile: 'Profile' }, all: 'All', seasonQ: 'Don’t know your season?',
   seasonLink: 'Free personal colour test →',
   demo: 'This is the AI dye example (front) above. Add your photo to try it on yourself.', camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Change photo', backDemo: 'Back to the sample model',
   loading: 'Finding your hair… (about 10s the first time)', noHair: 'We couldn’t find hair. Try a photo where your hair shows.', hat: 'Looks like a hat or scarf — only visible hair will change.', engineErr: 'The tool failed to load. Please refresh.', badFile: 'Couldn’t read that photo. Please try another.',
   strength: 'Strength', compare: 'Hold to see the original', bleach: 'This is a light shade — dark hair may need bleaching in real life. The AI dye shows it more realistically.',
   save: 'Save this colour (free)', saveTitle: 'Hair Color',
   needOwn: 'Add your own photo to make an AI dye.',
-  aiNote: 'Examples are this tool’s AI dye on an AI-generated model. The free preview is a quick colour overlay, so it looks less natural than the AI result.',
+  aiNote: 'Examples use an AI-generated model. The free preview is a quick overlay, less natural than AI.',
   privacy: 'Hair detection runs on this device. Your photo is sent only to make an AI dye and is not stored.',
   tip: 'Tip: a bright photo that shows all of your hair works best.',
 }
@@ -177,7 +177,6 @@ export default function HairColor() {
   // 카드 설명 — 어울리는 계절(기능 이름은 카드 배지 HAIR COLOR 가 맡는다)
   const cardDesc = (isEn ? 'Suits ' : '') + cur.seasons.map((s) => (isEn ? SEASON_LABEL[s].en : SEASON_LABEL[s].ko)).join(' · ') + (isEn ? '' : ' 추천')
   const list = HAIR_COLORS.filter((c) => season === 'all' || c.seasons.includes(season))
-  const eyebrow = 'text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-primary-dark'
   const ptc = isEn ? '/en/tools/personal-color/' : '/tools/personal-color/'
   return (
     <div className="font-display bg-background-light min-h-screen text-navy">
@@ -186,8 +185,7 @@ export default function HairColor() {
         <section className="pt-10 md:pt-14">
           <div className="grid gap-8 md:grid-cols-2 md:items-end">
             <div className="min-w-0">
-              <p className={eyebrow}>{T.kicker}</p>
-              <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{T.title1}<br /><span className="text-primary-dark">{T.title2}</span></h1>
+              <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight md:text-6xl break-keep">{T.title1}<br /><span className="text-primary-dark">{T.title2}</span></h1>
               <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 md:text-lg break-keep">{T.lead}</p>
             </div>
             <div className="min-w-0 md:w-full md:max-w-sm md:justify-self-end">
