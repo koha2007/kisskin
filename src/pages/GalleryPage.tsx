@@ -120,7 +120,7 @@ export default function GalleryPage() {
                     <div className="relative">
                       <img src={p.image} alt={p.sample ? (isEn ? `${name}, sample on an AI-generated model` : `${name}, AI 생성 모델 예시`) : isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
                       <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? SOURCE_LABEL[p.source].en : SOURCE_LABEL[p.source].ko}</span>
-                      <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">{p.sample ? (isEn ? 'AI · Sample' : 'AI · 예시') : 'AI'}</span>
+                      <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
                     </div>
                     <div className="flex items-center justify-between gap-2 p-2">
                       <a href={lookTryHref(p.source, p.lookId, isEn)} onClick={() => trackEvent('gallery_try_look', { source: p.source, look: p.lookId })} className="min-w-0 truncate text-[13px] font-extrabold underline-offset-4 hover:underline">{name || (isEn ? 'Try this' : '따라 만들기')}</a>

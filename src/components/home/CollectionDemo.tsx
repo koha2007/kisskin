@@ -48,7 +48,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
   }, [lang])
 
   const steps = isEn ? STEPS_EN : STEPS_KO
-  // 2026-11-02 개편: 작은 영상(왼쪽) + 3단계(오른쪽). 모바일은 단계 제목만, 설명은 PC 에서만.
+  // 2026-11-02 개편: 작은 영상(왼쪽) + 3단계(오른쪽). 11-17 운영자 "글이 너무 많다" → 단계 제목만(설명 d 는 화면에 안 씀).
   return (
     <section id="demo" className="bg-cream scroll-mt-16 text-navy" aria-labelledby="demo-title">
       <div className="mx-auto flex max-w-[1120px] items-center gap-3.5 px-5 py-6 md:gap-16 md:px-4 md:py-11">
@@ -59,7 +59,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
               className="block aspect-[390/844] w-full rounded-[22px] bg-navy object-cover" />
           </div>
           <figcaption className="mt-2 text-center text-[11.5px] leading-snug break-keep">
-            {isEn ? 'Real site screens. The model is AI-generated.' : '실제 사이트 화면이에요. 모델은 AI 생성 이미지예요.'}
+            {isEn ? 'AI-generated model' : 'AI 생성 모델'}
           </figcaption>
         </figure>
         <div className="flex min-w-0 flex-1 flex-col gap-3 md:gap-5">
@@ -71,10 +71,7 @@ export default function CollectionDemo({ isEn }: { isEn: boolean }) {
             {steps.map((s, i) => (
               <li key={s.t} className="flex gap-2 md:gap-3">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy text-xs font-extrabold text-white md:h-[30px] md:w-[30px] md:text-sm">{i + 1}</span>
-                <span className="min-w-0">
-                  <span className="block text-sm font-extrabold leading-snug md:text-base break-keep">{s.t}</span>
-                  <span className="mt-0.5 hidden text-[13px] leading-normal md:block break-keep">{s.d}</span>
-                </span>
+                <span className="min-w-0 text-sm font-extrabold leading-snug md:text-base break-keep">{s.t}</span>
               </li>
             ))}
           </ol>

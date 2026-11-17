@@ -90,16 +90,12 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
       <CollectionDemo isEn={isEn} />
 
       <section id="paid" aria-labelledby="home-paid" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 pb-2 pt-8 text-navy md:px-4 md:pt-12">
-        <h2 id="home-paid" className="mb-1 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px] break-keep">{isEn ? 'First 2 free' : '처음 2장은 무료'}</h2>
-        <p className="mb-2 text-sm leading-normal break-keep">{isEn ? 'Then 1 credit = 1 photo.' : '그다음은 크레딧 1개 = 사진 1장.'}</p>
+        <h2 id="home-paid" className="mb-2 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px] break-keep">{isEn ? 'First 2 free' : '처음 2장은 무료'}</h2>
         <div className="grid gap-x-10 md:grid-cols-2">
           {plans.map((p) => (
             <a key={p.id} href={p.href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_plan', promotion_id: p.id })} className="grid grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3.5 border-b border-navy py-4 text-navy md:grid-cols-[88px_minmax(0,1fr)_auto]">
               <span className={`flex aspect-square w-full items-center justify-center rounded-[18px] font-extrabold tracking-[-0.05em] md:rounded-[21px] ${p.small ? 'text-2xl' : 'text-[34px]'}`} style={{ background: p.bg, color: p.fg }}>{p.icon}</span>
-              <span className="flex min-w-0 flex-col gap-0.5">
-                <strong className="text-[17px] font-extrabold leading-tight tracking-[-0.03em] break-keep">{p.name}</strong>
-                <span className="text-[13px] leading-snug break-keep">{p.desc}</span>
-              </span>
+              <strong className="min-w-0 text-[17px] font-extrabold leading-tight tracking-[-0.03em] break-keep">{p.name}</strong>
               <strong className="text-lg font-extrabold">{p.price}</strong>
             </a>
           ))}

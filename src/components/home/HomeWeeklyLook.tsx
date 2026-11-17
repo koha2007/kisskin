@@ -58,17 +58,12 @@ export default function HomeWeeklyLook({ isEn }: { isEn: boolean }) {
         </div>
 
         <div className="flex min-w-0 flex-col gap-[18px]">
-          <p className="text-[15px] leading-normal break-keep md:text-lg">{t(W.desc)}</p>
-
           <div className="border-t-2 border-navy">
             {W.products.map((p, i) => (
               <a key={p.slug} href={`${prefix}/products/${p.slug}/`} onClick={track(`product:${p.slug}`)} className="grid grid-cols-[28px_36px_minmax(0,1fr)_auto] items-center gap-2.5 border-b border-navy py-3 text-navy md:grid-cols-[32px_40px_minmax(0,1fr)_auto] md:gap-3">
                 <Num n={i + 1} />
                 <span className="h-9 w-9 rounded-[10px] md:h-10 md:w-10" style={{ background: p.swatch }} />
-                <span className="flex min-w-0 flex-col gap-0.5">
-                  <strong className="text-[15px] font-extrabold leading-snug break-keep md:text-base">{t(p.name)}</strong>
-                  <span className="text-[13px] break-keep">{t(p.note)}</span>
-                </span>
+                <strong className="min-w-0 text-[15px] font-extrabold leading-snug break-keep md:text-base">{t(p.name)}</strong>
                 <span className="whitespace-nowrap text-[13px] font-extrabold md:text-sm">{isEn ? 'Shop →' : '사러 가기 →'}</span>
               </a>
             ))}
@@ -76,10 +71,7 @@ export default function HomeWeeklyLook({ isEn }: { isEn: boolean }) {
 
           <a href={`/analysis/?style=${W.styleId}`} onClick={track('try')} className="grid grid-cols-[76px_minmax(0,1fr)] items-center gap-3.5 rounded-3xl bg-navy py-2.5 pl-2.5 pr-[18px] text-white">
             <img src={LOOK_HERO[W.styleId].after} alt={isEn ? 'This look on an AI-generated model' : '이 룩을 입힌 AI 생성 모델'} width={76} height={76} loading="lazy" decoding="async" className="h-[76px] w-[76px] rounded-2xl object-cover object-[50%_25%]" />
-            <span className="flex min-w-0 flex-col gap-0.5">
-              <strong className="text-lg font-extrabold break-keep md:text-xl">{isEn ? 'Try it on your face →' : '내 얼굴에 입혀 보기 →'}</strong>
-              <span className="text-xs break-keep">{isEn ? 'First look free when you sign up · photo is an AI-generated model' : '가입하면 첫 장 무료 · 사진은 AI 생성 모델'}</span>
-            </span>
+            <strong className="min-w-0 text-lg font-extrabold break-keep md:text-xl">{isEn ? 'Try it on your face →' : '내 얼굴에 입혀 보기 →'}</strong>
           </a>
 
           <div>
