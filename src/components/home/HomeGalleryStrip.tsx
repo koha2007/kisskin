@@ -15,7 +15,19 @@ export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
     return () => { off = true }
   }, [])
   const href = isEn ? '/en/gallery/' : '/gallery/'
-  if (all === null) return null
+  // 2026-11-17 불러오는 동안 빈 칸 자리를 잡아 둔다 — 없을 땐 띠가 나중에 끼어들어 아래 사용법이 밀렸다(CLS 0.034)
+  if (all === null) {
+    return (
+      <section aria-hidden="true" className="mx-auto max-w-[1120px] px-5 pb-8 md:px-4">
+        <div className="h-[33px] md:h-[48px]" />
+        <ul className="mt-3 flex gap-2.5 overflow-hidden pb-2">
+          {Array.from({ length: 8 }, (_, i) => (
+            <li key={i} className="w-32 shrink-0 md:w-44"><div className="aspect-[4/5] w-full bg-slate-100" /><div className="mt-1 h-[18px]" /></li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
   if (all.length < HOME_MIN_POSTS) {
     return (
       <section aria-label={isEn ? 'Customer gallery' : '고객 갤러리'} className="mx-auto max-w-[1120px] px-5 pb-6 text-navy md:px-4">

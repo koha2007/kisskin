@@ -176,12 +176,26 @@ html {
    → 기본 글꼴(Arial/Roboto)을 Pretendard 의 세로 지표(ascent 95% · descent 24%, canvas 실측)와 폭(100.3%)에 맞춘
    대체 글꼴을 스택에서 Pretendard 바로 뒤에 둔다. 줄 상자는 첫 글꼴 지표로 정해지므로 한글이 시스템 글꼴로
    그려지는 동안에도 줄 높이가 같다. */
+/* 2026-11-17 글꼴이 Paperlogy 로 바뀌었는데(11/02) 대체 글꼴은 Pretendard 지표(100.3%) 그대로였다 → 영문 도구 랜딩
+   모바일 실측 CLS 0.134(/en/tools/face-shape/). Paperlogy 를 canvas 로 다시 쟀다(같은 영문 문장, Arial 대비):
+   500 = 폭 114.4% · ascent 98 · descent 20 / 800 = Arial Bold 대비 110.7%. override 는 size-adjust 로 다시 곱해지므로
+   나눠서 넣는다(98/114.4 = 85.7%). 굵기마다 폭이 달라 두 벌로 나눈다. 이름은 스택 호환 위해 그대로 둔다. */
 @font-face {
   font-family: "Pretendard Fallback";
   src: local("Arial"), local("ArialMT"), local("Roboto"), local("Helvetica Neue"), local("Liberation Sans");
-  size-adjust: 100.3%;
-  ascent-override: 95%;
-  descent-override: 24%;
+  font-weight: 100 600;
+  size-adjust: 114.4%;
+  ascent-override: 85.7%;
+  descent-override: 17.5%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Pretendard Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Roboto Bold"), local("Roboto-Bold"), local("Helvetica Neue Bold"), local("Liberation Sans Bold");
+  font-weight: 700 900;
+  size-adjust: 110.7%;
+  ascent-override: 88.5%;
+  descent-override: 18.1%;
   line-gap-override: 0%;
 }
 

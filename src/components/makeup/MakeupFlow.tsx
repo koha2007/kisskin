@@ -80,7 +80,10 @@ export default function MakeupFlow() {
   const [topupFrom, setTopupFrom] = useState('direct')
   const [usage, setUsage] = useState<MakeupUsage | null>(null)  // 이번 생성의 과금 결과(무료/크레딧)
   // 미로그인 여부를 업로드 화면에서 미리 알려준다(사진 올린 뒤 게이트에 걸리는 헛수고 방지).
-  const [loggedOut, setLoggedOut] = useState(false)
+  // 2026-11-17 확인이 끝난 뒤 안내가 끼어들며 화면이 밀렸다(CLS 0.066) → 저장된 세션이 없으면 첫 화면부터 띄운다.
+  const [loggedOut, setLoggedOut] = useState(() => {
+    try { return !Object.keys(localStorage).some((k) => /^sb-.*-auth-token$/.test(k)) } catch { return false }
+  })
   // 9룩 컬렉션(2026-10-12): 업로드 뒤 컬렉션으로 갈지 / 결제 복귀로 이어 만들지
   const [collectionMode, setCollectionMode] = useState(false)
   const [collectionResume, setCollectionResume] = useState(false)

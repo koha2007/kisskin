@@ -11,7 +11,11 @@ export const REVIEW_POSTS_EN: ReviewPost[] = [
     title: '2026 Global Bestselling Lipsticks: Top 10 (Sephora + Olive Young Data)',
     // 실제 유입 검색어가 "top 10 best-selling lipstick in the world"(노출 22·순위 10.5)라
     // 그 어순을 그대로 앞에 둔다. 접미사까지 91자였다.
-    seoTitle: 'Top 10 Best-Selling Lipsticks in the World (2026 Data)',
+    // 2026-11-17 GA4: 노출 971·순위 5.8 인데 CTR 1.44% — 검색 결과에서 고를 이유가 없었다.
+    // 어순(검색어)은 그대로 두고, 1위가 한국 제품이라는 답 + 설명 앞머리에 실제 브랜드명을 넣는다.
+    seoTitle: 'Top 10 Best-Selling Lipsticks in the World 2026: #1 Korean',
+    seoDescription:
+      'rom&nd, Laneige, Charlotte Tilbury, MAC, NARS… the 10 lipsticks selling most worldwide in 2026, ranked from Sephora, Olive Young and LOFT sales.',
     summary:
       'We merged Q1 2026 sales data from Sephora US, Olive Young Korea, and LOFT Japan into one global bestseller ranking of the top 10 lipsticks.',
     intro:
