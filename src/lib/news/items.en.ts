@@ -5,6 +5,28 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'sseen-by-hong-dual-tap-concealer-launch',
+    category: 'global',
+    title: 'Makeup Artist Hong Hyun-jung Enters K-Beauty Color Sector with Dual-Tip Concealer Launch',
+    summary:
+      'Makeup artist Hong Hyun-jung has introduced a dual-tip concealer alongside the launch of her debut brand, \'Sseen by Hong.\' Featuring two tips—\'Skin\' and \'Blushed\'—the product is a functional color solution offering SPF50+ PA++++ protection and vegan certification.',
+    body: [
+      '> TLDR: Hong Hyun-jung Brand Launch | Dual-Tip Concealer Released | SPF50+ PA++++ Vegan Functional',
+      'Makeup artist Hong Hyun-jung has launched a dual-tip concealer through her debut brand, \'Sseen by Hong.\' The product consists of two applicator tips: a \'Skin\' tip that covers imperfections and a \'Blushed\' tip designed to maintain color even over cream blush.',
+      '> DATA: SPF50+ PA++++, Vegan Certified, 2 Shades (01/02), Price 35,000 KRW (Released Nov 13, 2026) — Per K-Culture Article',
+      'Notably, the \'Blushed\' tip is specifically designed to solve the issue of concealer washing out blush color when used with cream blush. It delivers a lightweight, seamless matte finish and has been certified by the Korea Agency of Vegan Certification and Services.',
+      'Available starting November 13, 2026, at Hyundai Hi and the official online store, this product demonstrates Hong Hyun-jung’s distinct presence in the K-beauty color cosmetics sector.',
+      'For consumers, it is expected to draw attention as a practical new product that preserves both color intensity and coverage even when using cream blush and concealer together.',
+    ],
+    date: '2026-11-17',
+    readMinutes: 3,
+    tags: ['Makeup', 'Concealer', 'K-Beauty'],
+    image: '/news/sseen-by-hong-dual-tap-concealer-launch.webp',
+    seoTitle: 'Hong Hyun-jung Launches Sseen by Hong Dual-Tip Concealer',
+    seoDescription:
+      'Makeup artist Hong Hyun-jung debuts brand Sseen by Hong with a dual-tip vegan concealer designed to seamlessly cover blemishes and layer over cream blush.',
+  },
+  {
     slug: 'ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike',
     category: 'skincare',
     title: 'Ampoule N Launches Daiso-Exclusive Ampoules; Prime Day Eye Cream Sales Surge',

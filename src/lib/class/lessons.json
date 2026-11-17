@@ -1580,5 +1580,103 @@
     "video": {
       "seconds": 16
     }
+  },
+  {
+    "slug": "hooded-eyes-makeup",
+    "publishedAt": "2026-11-17",
+    "introKo": "후드 아이(덮인 눈꺼풀)는 눈을 뜨면 눈꺼풀 접히는 선 안쪽으로 섀도와 아이라인이 말려 들어가 잘 보이지 않는 눈 모양이에요. 감은 상태를 기준으로 화장하면 눈을 떴을 때 색감이 사라지고 답답해 보일 수 있어요. 핵심은 '눈을 뜬 상태에서 음영 범위를 잡는 것'입니다.",
+    "introEn": "With hooded eyes, the natural fold can swallow your eyeshadow and eyeliner when your eyes are open. If you apply makeup only with your eyes closed, it can completely disappear once you open them. The secret is defining your application zones while looking straight ahead with your eyes open.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "눈 뜬 채로 음영 기준선 찍기",
+        "titleEn": "Mark the shadow zone with eyes open",
+        "bodyKo": "거울을 정면으로 바라본 상태에서, 눈꺼풀 접히는 선 바로 위에 작은 점을 가볍게 찍어두세요. 이 위치까지 베이지 매트 섀도를 넓게 펴 바르면 눈을 떴을 때도 그윽한 음영이 자연스럽게 보여요.",
+        "bodyEn": "Look straight into the mirror and place a tiny mark just above your natural fold. Blend a matte beige shadow up to this line so the soft contour remains visible when your eyes are open.",
+        "toolsKo": "매트 아이섀도 · 총알 브러시",
+        "toolsEn": "Matte eyeshadow · detail pencil brush",
+        "swatches": [
+          "#cbb5a1",
+          "#a88e7b"
+        ],
+        "searchKeywords": "음영 매트 아이섀도 브라운",
+        "shopEn": "matte brown eyeshadow",
+        "shortKo": "눈 뜬 상태로 음영 위치 찍기",
+        "shortEn": "Mark shadow zone with eyes open"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "접히는 선 위쪽까지 매트 음영 넓히기",
+        "titleEn": "Extend matte shade above the fold",
+        "bodyKo": "펄이 없는 중간 톤 브라운 매트 섀도로 방금 찍은 점 위쪽까지 부드럽게 그라데이션해요. 펄이 많은 섀도는 부어 보일 수 있으니 매트 제형을 중심으로 사용하는 것이 훨씬 깔끔해 보여요.",
+        "bodyEn": "Use a matte mid-tone brown shadow to blend slightly above the mark you made. Avoid heavy shimmers on the hooded fold, as reflective textures can make the lid look puffier.",
+        "toolsKo": "매트 음영 섀도 · 블렌딩 브러시",
+        "toolsEn": "Matte eyeshadow · blending brush",
+        "swatches": [
+          "#9e7e6b",
+          "#826352"
+        ],
+        "searchKeywords": "매트 아이섀도 팔레트 브라운",
+        "shopEn": "matte brown palette",
+        "shortKo": "매트 섀도로 눈꺼풀 부기 눌러주기",
+        "shortEn": "Use matte shadow to soften the hood"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "얇은 펜슬로 라인은 가늘게 그리기",
+        "titleEn": "Keep the eyeliner line ultra-thin",
+        "bodyKo": "라인을 두껍게 그리면 눈꺼풀이 덮이면서 눈 안쪽이 까맣게 뭉쳐 보여요. 얇은 슬림 펜슬 라이너로 속눈썹 사이 틈만 채우고, 눈꼬리 부분만 눈을 뜬 상태에서 수평으로 가늘게 빼주세요.",
+        "bodyEn": "Thick eyeliner gets smudged and hidden by the skin fold. Fill only the gaps between lashes with a fine pencil liner, then extend a thin tail straight out while keeping your eyes open.",
+        "toolsKo": "슬림 젤 펜슬 아이라이너",
+        "toolsEn": "Slim gel pencil eyeliner",
+        "swatches": [
+          "#3d2d24",
+          "#2b1e17"
+        ],
+        "searchKeywords": "슬림 젤 아이라이너 브라운",
+        "shopEn": "slim gel pencil eyeliner",
+        "shortKo": "라인은 아주 가늘게 눈꼬리 위주",
+        "shortEn": "Keep liner thin, focus on outer tail"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "삼각존과 눈꼬리 연결로 눈 트여 보이기",
+        "titleEn": "Connect the outer V for an open look",
+        "bodyKo": "짙은 브라운 섀도로 뺀 아이라인 경계를 살살 풀어주고, 언더 눈꼬리 삼각존에도 옅게 연결해요. 덮인 눈이 답답하지 않고 가로로 길어 보이는 효과가 있어요.",
+        "bodyEn": "Softly blend the liner edge with a dark brown shadow, connecting it to the outer corner of the lower lash line. This visually widens the eyes horizontally and keeps them looking open.",
+        "toolsKo": "사선 아이라이너 브러시 · 짙은 음영 섀도",
+        "toolsEn": "Angled liner brush · deep brown shadow",
+        "swatches": [
+          "#594336",
+          "#402f25"
+        ],
+        "searchKeywords": "포인트 음영 아이섀도 딥브라운",
+        "shopEn": "deep brown eyeshadow",
+        "shortEn": "Extend outer V to lengthen eyes"
+      }
+    ],
+    "tipsKo": [
+      "눈을 뜬 채 정면을 보고 음영 위치를 체크해야 눈꺼풀 속으로 색이 사라지지 않아요.",
+      "눈꺼풀 위쪽 펄 섀도는 부어 보이기 쉬우니, 펄을 쓰고 싶다면 20편에서 다룰 애교살에만 살짝 얹어주세요."
+    ],
+    "tipsEn": [
+      "Always check shadow placement while looking straight ahead so your shadow doesn't get hidden under the fold.",
+      "Avoid shimmer on the hooded fold; keep sparkles to the lower lash line, which we cover in lesson 20."
+    ],
+    "mistakeKo": "눈을 감고 아이라인을 두껍게 그리면 눈을 떴을 때 라인이 접혀 번지고 눈이 더 답답해 보여요.",
+    "mistakeEn": "Drawing thick eyeliner with closed eyes causes the folded skin to cover the line, leading to smudging and making the eyes look heavy.",
+    "chartPrompt": "pencil face chart of a woman with hooded eyes: matte soft medium brown eyeshadow blended just above the eye fold visible when looking straight, an ultra-thin dark brown gel liner along the upper lash line extending horizontally outward, soft brown shade seamlessly filling the outer V, no heavy glitter on the lid",
+    "videoTitleKo": "후드아이 메이크업",
+    "videoTitleEn": "Hooded Eyes Makeup",
+    "video": {
+      "seconds": 19
+    }
   }
 ]

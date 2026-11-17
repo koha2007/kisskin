@@ -2,6 +2,28 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'sseen-by-hong-dual-tap-concealer-launch',
+    category: 'global',
+    title: '메이크업 아티스트 홍현정, 듀얼 팁 컨실러 출시로 K‑뷰티 컬러 영역 진출',
+    summary:
+      '홍현정 메이크업 아티스트가 첫 브랜드 ‘Sseen by Hong’ 론칭과 함께 듀얼 팁 컨실러를 내놨습니다. ‘Skin’과 ‘Blushed’ 두 가지 팁을 구성한 이 제품은 SPF50+ PA++++, 비건 인증을 갖춘 기능성 컬러 솔루션입니다.',
+    body: [
+      '> TLDR: 홍현정 브랜드 론칭 | 듀얼 팁 컨실러 출시 | SPF50+ PA++++ 비건 기능성',
+      '메이크업 아티스트 홍현정이 자신의 첫 브랜드 ‘Sseen by Hong’을 통해 듀얼 팁 컨실러를 출시했습니다. 이 제품은 결점을 커버하는 ‘Skin’ 팁과 크림 블러시 위에서도 색상을 유지시키는 ‘Blushed’ 팁 두 가지로 구성됩니다.',
+      '> DATA: SPF50+ PA++++, 비건 인증, 2가지 쉐이드(01/02), 가격 35,000원 (2026년 11월 13일 출시) — K‑Culture 기사 기준',
+      '‘Blushed’ 팁은 크림 블러시 사용 시 컨실러가 블러시 색을 밀어내는 문제를 해결하도록 설계된 점이 특히 눈에 띕니다. 얇게 밀착되는 매트 마감이며 한국비건인증원 인증을 받았습니다.',
+      '이 제품은 2026년 11월 13일부터 현대 하이 및 공식 온라인 스토어에서 구매 가능해, K‑뷰티 색조 분야에서 홍현정의 독자적인 입지를 보여줍니다.',
+      '소비자 입장에서는 크림 블러시와 컨실러를 동시에 쓰는 상황에서도 색감과 커버력을 모두 챙길 수 있는 실용적인 신제품으로 눈길을 끌 전망입니다.',
+    ],
+    date: '2026-11-17',
+    readMinutes: 3,
+    tags: ['메이크업', '컨실러', 'K‑뷰티'],
+    image: '/news/sseen-by-hong-dual-tap-concealer-launch.webp',
+    seoTitle: '홍현정 듀얼 팁 컨실러 출시',
+    seoDescription:
+      '홍현정 메이크업 아티스트 브랜드 ‘Sseen by Hong’의 첫 제품, 듀얼 팁 컨실러 출시 소식과 특징을 전합니다.',
+  },
+  {
     slug: 'ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike',
     category: 'skincare',
     title: 'Ampoule N, 다이소 전용 앰플 출시·프라임데이 아이크림 판매 급상승',

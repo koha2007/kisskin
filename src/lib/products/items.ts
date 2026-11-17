@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'peukwi-all-day-cover-black-cushion',
+    category: 'base',
+    brand: '퓌',
+    name: '올데이 커버 블랙 쿠션',
+    title: '퓌 올데이 커버 블랙 쿠션 — 세미매트 고커버·스킨케어 77%',
+    summary:
+      '출시 직후 80시간 랭킹 1위, 지금도 베스트셀러로 사랑받는 퓌의 ‘올데이 커버 블랙 쿠션’은 세미매트 피니시에 스킨케어 77%를 담아 고커버지만 답답함 없이 밀착됩니다.',
+    highlights: ['세미매트 고커버', '스킨케어 77%', 'X‑FINE 색소 분산'],
+    details: [
+      '세미매트 피니시로 피부 결을 정돈하면서도 자연스럽고 편안한 표현을 선사합니다.',
+      '스킨케어 성분 77% 함유로 촉촉하면서도 부담 없는 밀착감을 구현합니다.',
+      'X‑FINE 색소 분산 기술로 입자가 고르게 퍼져 얇고 완벽한 커버를 완성합니다.',
+    ],
+    whoFor:
+      '피부 표현은 중요하지만 답답함을 싫어하는 세미매트 마니아에게 적합하며, 중·고커버를 원하지만 촉촉한 마무리를 선호하는 복합성 또는 건성 피부에 특히 잘 맞습니다.',
+    howTo: [
+      '스펀지에 내용물을 적당량 덜어 피부에 톡톡 두드리며 밀착시켜 얇고 고르게 펴 바릅니다.',
+      '덧바를 때는 피부 결을 따라 가볍게 터치하며, 커버가 필요한 부위는 살짝 더해줍니다.',
+    ],
+    pros: [
+      '높은 커버력과 세미매트 마무리를 동시에 잡음',
+      '스킨케어 성분 다량 함유로 건조하지 않음',
+    ],
+    cons: [
+      '세미매트 피니시에 호불호 있을 수 있음',
+    ],
+    image: '/products/peukwi-all-day-cover-black-cushion.webp',
+    coupangQuery: '퓌 올데이 커버 블랙 쿠션',
+    globalQuery: 'Peukwi All Day Cover Black Cushion',
+    clio: true,
+    clioCategory: 'base',
+    date: '2026-11-17',
+    tags: ['세미매트', '고커버', '스킨케어쿠션'],
+    seoTitle: '퓌 올데이 커버 블랙 쿠션 세미매트 고커버',
+    seoDescription:
+      '스킨케어 성분 77% 함유로 얇고 밀착되는 세미매트 쿠션의 베스트셀러 특징을 한눈에.',
+  },
+  {
     slug: 'maybelline-sky-high-tubing-mascara',
     category: 'eye',
     brand: '메이블린',

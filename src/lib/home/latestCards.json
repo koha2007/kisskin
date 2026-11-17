@@ -6,6 +6,14 @@
   "products": {
     "ko": [
       {
+        "slug": "peukwi-all-day-cover-black-cushion",
+        "brand": "퓌",
+        "name": "올데이 커버 블랙 쿠션",
+        "category": "base",
+        "image": "/products/peukwi-all-day-cover-black-cushion.webp",
+        "date": "2026-11-17"
+      },
+      {
         "slug": "maybelline-sky-high-tubing-mascara",
         "brand": "메이블린",
         "name": "스카이 하이 튜빙 마스카라",
@@ -28,17 +36,17 @@
         "category": "fragrance",
         "image": null,
         "date": "2026-10-27"
-      },
-      {
-        "slug": "unove-deep-damage-treatment",
-        "brand": "유노브",
-        "name": "딥 데미지 트리트먼트",
-        "category": "hair",
-        "image": "/products/unove-deep-damage-treatment.webp",
-        "date": "2026-10-20"
       }
     ],
     "en": [
+      {
+        "slug": "peukwi-all-day-cover-black-cushion",
+        "brand": "fwee",
+        "name": "All Day Cover Black Cushion",
+        "category": "base",
+        "image": "/products/peukwi-all-day-cover-black-cushion.webp",
+        "date": "2026-11-17"
+      },
       {
         "slug": "maybelline-sky-high-tubing-mascara",
         "brand": "Maybelline",
@@ -62,19 +70,18 @@
         "category": "fragrance",
         "image": null,
         "date": "2026-10-27"
-      },
-      {
-        "slug": "unove-deep-damage-treatment",
-        "brand": "UNOVE",
-        "name": "Deep Damage Treatment",
-        "category": "hair",
-        "image": "/products/unove-deep-damage-treatment.webp",
-        "date": "2026-10-20"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "sseen-by-hong-dual-tap-concealer-launch",
+        "title": "메이크업 아티스트 홍현정, 듀얼 팁 컨실러 출시로 K‑뷰티 컬러 영역 진출",
+        "category": "global",
+        "image": "/news/sseen-by-hong-dual-tap-concealer-launch.webp",
+        "date": "2026-11-17"
+      },
       {
         "slug": "ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike",
         "title": "Ampoule N, 다이소 전용 앰플 출시·프라임데이 아이크림 판매 급상승",
@@ -95,16 +102,16 @@
         "category": "global",
         "image": null,
         "date": "2026-10-27"
-      },
-      {
-        "slug": "marshique-ulta-beauty-entry",
-        "title": "MARSHIQUE, 북미 최대 뷰티 리테일러 울타(Ulta Beauty)에 공식 입점 발표",
-        "category": "global",
-        "image": "/news/marshique-ulta-beauty-entry.webp",
-        "date": "2026-10-20"
       }
     ],
     "en": [
+      {
+        "slug": "sseen-by-hong-dual-tap-concealer-launch",
+        "title": "Makeup Artist Hong Hyun-jung Enters K-Beauty Color Sector with Dual-Tip Concealer Launch",
+        "category": "global",
+        "image": "/news/sseen-by-hong-dual-tap-concealer-launch.webp",
+        "date": "2026-11-17"
+      },
       {
         "slug": "ampoule-n-daiso-entry-and-prime-days-eye-cream-sales-spike",
         "title": "Ampoule N Launches Daiso-Exclusive Ampoules; Prime Day Eye Cream Sales Surge",
@@ -125,13 +132,6 @@
         "category": "global",
         "image": null,
         "date": "2026-10-27"
-      },
-      {
-        "slug": "marshique-ulta-beauty-entry",
-        "title": "MARSHIQUE Announces Official Launch at Ulta Beauty, North America's Largest Beauty Retailer",
-        "category": "global",
-        "image": "/news/marshique-ulta-beauty-entry.webp",
-        "date": "2026-10-20"
       }
     ]
   }

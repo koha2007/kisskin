@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'peukwi-all-day-cover-black-cushion',
+    category: 'base',
+    brand: 'fwee',
+    name: 'All Day Cover Black Cushion',
+    title: 'fwee All Day Cover Black Cushion — Semi-Matte High Coverage & 77% Skincare',
+    summary:
+      'Ranked #1 for 80 hours right after launch and still a beloved bestseller, fwee\'s All Day Cover Black Cushion delivers high coverage with a semi-matte finish infused with 77% skincare ingredients for weightless, seamless adherence.',
+    highlights: ['Semi-matte high coverage', '77% skincare ingredients', 'X-FINE pigment dispersion'],
+    details: [
+      'Smooths skin texture with a semi-matte finish while providing a comfortable, natural look.',
+      'Formulated with 77% skincare ingredients to ensure a hydrating, weightless fit.',
+      'Utilizes X-FINE pigment dispersion technology for evenly distributed particles that create thin, flawless coverage.',
+    ],
+    whoFor:
+      'Ideal for semi-matte lovers who want great skin expression without feeling heavy, and perfect for combination or dry skin types seeking medium-to-high coverage with a hydrating feel.',
+    howTo: [
+      'Dispense a moderate amount onto the puff, then gently pat onto the skin to apply a thin, even layer.',
+      'Follow the skin texture with light touches when reapplying, adding an extra layer over areas needing more coverage.',
+    ],
+    pros: [
+      'Combines high coverage with a refined semi-matte finish',
+      'High skincare content prevents skin from feeling dry',
+    ],
+    cons: [
+      'Semi-matte finish may not appeal to everyone',
+    ],
+    image: '/products/peukwi-all-day-cover-black-cushion.webp',
+    coupangQuery: '퓌 올데이 커버 블랙 쿠션',
+    globalQuery: 'Peukwi All Day Cover Black Cushion',
+    clio: true,
+    clioCategory: 'base',
+    date: '2026-11-17',
+    tags: ['SemiMatte', 'HighCoverage', 'SkincareCushion'],
+    seoTitle: 'fwee All Day Cover Black Cushion Review & Guide',
+    seoDescription:
+      'Discover fwee All Day Cover Black Cushion featuring high semi-matte coverage with 77% skincare ingredients.',
+  },
+  {
     slug: 'maybelline-sky-high-tubing-mascara',
     category: 'eye',
     brand: 'Maybelline',
