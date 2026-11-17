@@ -553,14 +553,27 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
             <h2 className="px-4 pt-1.5 text-[21px] font-extrabold leading-tight tracking-[-0.02em] break-keep">
               {isEn ? 'Now see the other 8 on your face.' : '나머지 8룩도 내 얼굴로 볼까요?'}
             </h2>
-            <div className="mt-3 flex gap-1 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
-              {MAKEUP_STYLES.filter((s) => s.id !== styleId).map((s) => (
-                <span key={s.id} className="relative block h-[76px] w-[60px] shrink-0 overflow-hidden rounded-md">
-                  <img src={lookImage(s.id)?.after} alt="" decoding="async" className="h-full w-full object-cover" />
-                  <span className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <span className="absolute inset-x-1 bottom-1 text-[9px] font-extrabold leading-tight">{isEn ? s.subEn : s.nameKo}</span>
-                </span>
-              ))}
+            {/* 2026-11-17 "왜 결제를 안 하나": 첫 룩 19명 중 다음 장을 만든 사람 1명. 모델 사진 대신 **내 얼굴** 9칸 —
+                방금 만든 룩만 선명하고 나머지 8칸은 내 셀카를 흐리게 + 그 룩 색을 얹는다(Lensa "여러 버전의 나"). 생성 비용 0. */}
+            <div className="mt-3 grid grid-cols-3 gap-1 px-4" aria-label={isEn ? 'Your 9 looks' : '내 얼굴 9룩'}>
+              {MAKEUP_STYLES.map((s) => {
+                const done = s.id === styleId
+                return (
+                  <span key={s.id} className="relative block aspect-[3/4] overflow-hidden rounded-md bg-navy">
+                    <img
+                      src={done ? afterSrc : beforeSrc}
+                      alt=""
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                      style={done ? undefined : { filter: 'blur(7px) saturate(1.15)', transform: 'scale(1.12)' }}
+                    />
+                    {!done && <span className="absolute inset-0 opacity-55 mix-blend-soft-light" style={{ background: s.mood }} />}
+                    {!done && <span className="absolute inset-0 flex items-center justify-center"><span className="material-symbols-outlined text-[22px] text-white/90" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span></span>}
+                    {done && <span className="absolute right-1 top-1 rounded-full px-1.5 py-0.5 text-[9px] font-extrabold" style={{ background: PRIMARY }}>{isEn ? 'Done' : '완성'}</span>}
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-1 pb-1 pt-3 text-[9.5px] font-extrabold leading-tight">{isEn ? s.subEn : s.nameKo}</span>
+                  </span>
+                )
+              })}
             </div>
             <div className="p-4 pt-3">
               <button

@@ -81,6 +81,27 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       return new Response(JSON.stringify({ error: 'Failed to delete gallery images' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
     }
 
+    // 2026-11-17 점검: 내 메이크업 결과(makeup_look) 이미지도 cascade 로는 행만 지워지고 'results' 저장소 파일은 남았다
+    // (공유 링크 /result/{id} 로 열리는 공개 파일). 갤러리와 같은 규칙 — 먼저 지우고, 실패하면 계정도 지우지 않는다.
+    const looksRes = await fetch(`${supabaseUrl}/rest/v1/makeup_look?user_id=eq.${userId}&select=image_path`, {
+      headers: { 'Authorization': `Bearer ${serviceRoleKey}`, 'apikey': serviceRoleKey },
+    })
+    if (!looksRes.ok) {
+      console.error('[delete-account] look list', looksRes.status)
+      return new Response(JSON.stringify({ error: 'Failed to delete look images' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+    }
+    for (const l of (await looksRes.json()) as { image_path: string | null }[]) {
+      if (!l.image_path) continue
+      const del = await fetch(`${supabaseUrl}/storage/v1/object/results/${l.image_path}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${serviceRoleKey}`, 'apikey': serviceRoleKey },
+      })
+      if (!del.ok && del.status !== 404 && del.status !== 400) {
+        console.error('[delete-account] look image', del.status)
+        return new Response(JSON.stringify({ error: 'Failed to delete look images' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+      }
+    }
+
     // Delete user via Supabase Admin API
     const res = await fetch(`${supabaseUrl}/auth/v1/admin/users/${userId}`, {
       method: 'DELETE',

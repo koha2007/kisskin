@@ -88,18 +88,18 @@ export default function MakeupSelfieUpload({ onNext, onBack, isEn = false, hintL
             style={surfaceStyle}
           >
             <span className="material-symbols-outlined text-xl shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-              lock
+              visibility
             </span>
             <span className="flex-1 text-[13px] font-semibold leading-snug break-keep">
               {isEn ? (
                 <>
-                  <span className="font-extrabold">Login required</span> to generate AI makeup.
-                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">First look free · No card needed</span>
+                  <span className="font-extrabold">1 free preview, no sign-up</span>
+                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">Sign up free to save in HD · No card needed</span>
                 </>
               ) : (
                 <>
-                  AI 메이크업 생성은 <span className="font-extrabold">로그인 필수</span>예요.
-                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">회원가입하면 첫 1룩 무료 · 카드 등록 없음</span>
+                  <span className="font-extrabold">가입 없이 미리보기 1장</span>
+                  <span className="block text-white/65 text-[11.5px] font-medium mt-0.5">고화질 저장은 무료 가입 · 카드 등록 없음</span>
                 </>
               )}
             </span>

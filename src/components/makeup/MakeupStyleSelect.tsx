@@ -62,6 +62,8 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
   const empty = !!freeStatus && freeLeft === 0 && credits === 0 && !!onTopup
   const countLine = empty
     ? (isEn ? 'Free look used · from $0.47 per look' : '무료 1룩 사용 완료 · 1룩 $0.47부터')
+    : loginHref
+    ? (isEn ? 'Free preview · no sign-up' : '가입 없이 미리보기 무료')
     : !freeStatus
     ? (isEn ? '1 credit · 1 result image' : '1크레딧 = 결과 1장 생성')
     : (isEn
@@ -240,7 +242,7 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
         className="sticky bottom-0 px-5 pt-3 pb-6 max-w-xl w-full mx-auto"
         style={footerScrim}
       >
-        {/* 생성 직전 화면 — 로그인이 "필수"임을 여기서도 못박는다(업로드 화면 배너와 같은 톤). */}
+        {/* 생성 직전 화면 — 2026-11-17 가입 전 미리보기 1장(업로드 화면 배너와 같은 톤). */}
         {loginHref && (
           <a
             href={loginHref}
@@ -248,12 +250,12 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
             style={surfaceStyle}
           >
             <span className="material-symbols-outlined text-[15px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-              lock
+              visibility
             </span>
             {isEn ? (
-              <span><span className="font-extrabold">Login required</span> to generate · first look free</span>
+              <span><span className="font-extrabold">1 free preview</span> without sign-up · save in HD free</span>
             ) : (
-              <span>생성하려면 <span className="font-extrabold">로그인 필수</span> · 첫 1룩 무료</span>
+              <span><span className="font-extrabold">가입 없이 미리보기 1장</span> · 고화질 저장은 무료 가입</span>
             )}
             <span className="underline underline-offset-2 opacity-80">{isEn ? 'Log in' : '로그인'}</span>
           </a>
@@ -292,7 +294,9 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
               ? (isEn ? 'Create with free pass' : '무료권으로 생성하기')
               : freeStatus
                 ? (isEn ? 'Create with 1 credit' : '크레딧 1개로 생성하기')
-                : (isEn ? 'Try this style' : '이 스타일로 생성하기')}
+                : loginHref
+                  ? (isEn ? 'Preview this look free' : '이 룩 무료로 미리보기')
+                  : (isEn ? 'Try this style' : '이 스타일로 생성하기')}
           </button>
         )}
         {onCollection && !empty && (

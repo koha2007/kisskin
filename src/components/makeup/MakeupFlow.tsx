@@ -51,7 +51,10 @@ function loginHref(style?: MakeupStyleId): string {
 // 에러 후 행동: 같은 작업 재생성 / 처음부터 / 로그인 필요 / 크레딧 충전
 type ErrAction = 'regenerate' | 'restart' | 'login' | 'topup' | 'choose'
 
-type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup' | 'collection'
+type Step = 'upload' | 'style' | 'processing' | 'result' | 'error' | 'topup' | 'collection' | 'preview'
+
+// 2026-11-17 가입 전 미리보기 1장(/api/makeup-preview) — 같은 탭에서 한 번 쓰면 다음부턴 곧장 로그인으로
+const PREVIEW_USED_KEY = 'kisskin_preview_used'
 interface Selfie { photo: string }
 
 // 크레딧 충전(Polar) 왕복에도 고르던 룩이 살아남게 — 셀카는 pendingSelfie 가 맡는다.
@@ -81,6 +84,8 @@ export default function MakeupFlow() {
   const [usage, setUsage] = useState<MakeupUsage | null>(null)  // 이번 생성의 과금 결과(무료/크레딧)
   // 미로그인 여부를 업로드 화면에서 미리 알려준다(사진 올린 뒤 게이트에 걸리는 헛수고 방지).
   // 2026-11-17 확인이 끝난 뒤 안내가 끼어들며 화면이 밀렸다(CLS 0.066) → 저장된 세션이 없으면 첫 화면부터 띄운다.
+  // 가입 전 미리보기 결과(워터마크를 얹어 보여 준다)
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null)
   const [loggedOut, setLoggedOut] = useState(() => {
     try { return !Object.keys(localStorage).some((k) => /^sb-.*-auth-token$/.test(k)) } catch { return false }
   })
@@ -111,6 +116,32 @@ export default function MakeupFlow() {
         // 2026-10-17: 찡그린 얼굴 에러 화면 → '로그인' 한 번 더, 를 건너뛰고 곧장 로그인으로.
         // 셀카는 업로드 때 세션에 맡겨 뒀고(savePendingSelfieFromSrc) 룩은 ?style= 로 실려 가서,
         // 로그인 화면이 "이 룩을 바로 만들어 드려요"로 받고 복귀 즉시 생성이 이어진다.
+        // 2026-11-17: 가입부터 요구하면 로그인 화면에서 대부분 떠났다(75명 → 가입 23) → 미리보기 1장을 먼저 보여 준다.
+        // 하루 한도·전체 상한에 걸리거나 실패하면 예전처럼 곧장 로그인으로.
+        let previewUsed = false
+        try { previewUsed = sessionStorage.getItem(PREVIEW_USED_KEY) === '1' } catch { /* 없으면 시도 */ }
+        if (!previewUsed) {
+          setStatus(isEn ? 'Making your preview… (up to ~1 min)' : '미리보기 만드는 중… (최대 1분)')
+          try {
+            const pimg = new Image()
+            await new Promise<void>((res, rej) => { pimg.onload = () => res(); pimg.onerror = () => rej(new Error('load')); pimg.src = photo })
+            const { canvas, size } = fitPreserveAspect(pimg)
+            const pr = await fetch('/api/makeup-preview', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ image: canvas.toDataURL('image/png'), styleId: id, size }),
+            })
+            if (!alive()) return
+            try { sessionStorage.setItem(PREVIEW_USED_KEY, '1') } catch { /* 무시 */ }
+            const pd = (await pr.json().catch(() => ({}))) as { image?: string; error?: string }
+            if (pr.ok && pd.image) {
+              setPreviewSrc(pd.image); setAfterStyle(id)
+              gtagEvent('makeup_preview', { style: id })
+              setStep('preview'); return
+            }
+            gtagEvent('makeup_preview_fail', { style: id, reason: pd.error || String(pr.status) })
+          } catch { if (!alive()) return }
+        }
         gtagEvent('makeup_login_gate', { style: id })
         // replace: 뒤로 가기가 여기로 돌아와 다시 생성→로그인으로 튕기는 고리를 막는다.
         window.location.replace(loginHref(id))
@@ -405,6 +436,43 @@ export default function MakeupFlow() {
             {isEn ? 'Try again' : '다시 시도'}
           </button>
         )}
+      </div>
+    )
+  }
+
+  if (step === 'preview' && previewSrc) {
+    const look = styleById(styleId)
+    return (
+      <div className="min-h-[100dvh] flex flex-col font-display text-white" style={screenBg}>
+        <main className="flex-1 flex flex-col px-5 pt-6 pb-6 max-w-xl w-full mx-auto">
+          <p className="text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">{isEn ? 'Preview' : '미리보기'}</p>
+          <h1 className="mt-1 text-center text-[22px] font-extrabold leading-tight tracking-[-0.02em] break-keep">
+            {isEn ? `${look.subEn} — on your face` : `내 얼굴에 '${look.nameKo}'`}
+          </h1>
+          <div className="relative mt-4 overflow-hidden rounded-2xl select-none" onContextMenu={(e) => e.preventDefault()}>
+            <img src={previewSrc} alt={isEn ? 'Low-resolution preview of your AI makeup' : 'AI 메이크업 미리보기(저화질)'} draggable={false} className="block w-full" />
+            {/* 미리보기 표시 — 저장용 고화질은 가입 뒤 무료권으로 만든다 */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex flex-col justify-around overflow-hidden opacity-35">
+              {Array.from({ length: 6 }, (_, i) => (
+                <span key={i} className="block -rotate-[24deg] whitespace-nowrap text-center text-[22px] font-extrabold tracking-[0.2em]">kissinskin · PREVIEW · kissinskin · PREVIEW</span>
+              ))}
+            </div>
+          </div>
+          <a
+            href={loginHref(styleId)}
+            onClick={() => gtagEvent('makeup_preview_signup', { style: styleId })}
+            className={`${btnPrimary} mt-5 block text-center`}
+            style={btnPrimaryStyle}
+          >
+            {isEn ? 'Get it in HD — sign up free' : '무료 가입하고 고화질로 받기'}
+          </a>
+          <p className="mt-2 text-center text-[12px] text-white/65 break-keep">
+            {isEn ? 'Same selfie, made right away · first look free · no card' : '같은 셀카로 바로 만들어요 · 첫 1장 무료 · 카드 없음'}
+          </p>
+          <button type="button" onClick={() => setStep('style')} className="mt-4 text-center text-xs text-white/60 underline underline-offset-2">
+            {isEn ? 'Pick a different look' : '다른 룩 고르기'}
+          </button>
+        </main>
       </div>
     )
   }
