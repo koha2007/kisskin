@@ -5,16 +5,28 @@
 // 참여 안내 한 줄(빈 띠로 메인이 비어 보이지 않게). 선물·순위 문구는 아직 넣지 않는다.
 import { useEffect, useState } from 'react'
 import { trackEvent } from '../../lib/analytics'
-import { fetchGallery, HOME_MIN_POSTS, lookLabel, type GalleryPost } from '../../lib/gallery'
+import { fetchGallery, galleryAction, HOME_MIN_POSTS, lookLabel, type GalleryPost } from '../../lib/gallery'
+import GalleryLightbox from '../gallery/GalleryLightbox'
 
 export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
   const [all, setAll] = useState<GalleryPost[] | null>(null)
+  // 2026-11-17 누르면 크게 보기(갤러리로 이동하지 않고 그 자리에서) + 하트
+  const [hearted, setHearted] = useState<string[]>([])
+  const [openIdx, setOpenIdx] = useState<number | null>(null)
   useEffect(() => {
     let off = false
-    void fetchGallery({ sort: 'new' }).then((d) => { if (!off) setAll(d?.posts ?? []) })
+    void fetchGallery({ sort: 'new' }).then((d) => { if (!off) { setAll(d?.posts ?? []); setHearted(d?.hearted ?? []) } })
     return () => { off = true }
   }, [])
   const href = isEn ? '/en/gallery/' : '/gallery/'
+  const heart = async (id: string) => {
+    const r = await galleryAction(id, 'heart')
+    if (r === 'login') { window.location.href = '/auth?next=' + encodeURIComponent(window.location.pathname); return }
+    if (!r || typeof r.hearted !== 'boolean') return
+    setHearted((h) => (r.hearted ? [...h, id] : h.filter((x) => x !== id)))
+    setAll((a) => a && a.map((p) => (p.id === id ? { ...p, hearts: r.hearts ?? p.hearts } : p)))
+    if (r.hearted) trackEvent('gallery_heart', { id, from: 'home' })
+  }
   // 2026-11-17 불러오는 동안 빈 칸 자리를 잡아 둔다 — 없을 땐 띠가 나중에 끼어들어 아래 사용법이 밀렸다(CLS 0.034)
   if (all === null) {
     return (
@@ -48,15 +60,27 @@ export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
         <a href={href} className="shrink-0 text-[13px] font-extrabold underline underline-offset-4">{isEn ? 'See all →' : '전체 보기 →'}</a>
       </div>
       <ul className="mt-3 flex gap-2.5 overflow-x-auto pb-2">
-        {all.slice(0, 12).map((p) => (
+        {all.slice(0, 12).map((p, i) => (
           <li key={p.id} className="w-32 shrink-0 md:w-44">
-            <a href={href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_gallery', promotion_id: p.source })} className="block">
+            <button type="button" onClick={() => { trackEvent('select_promotion', { creative_slot: 'home_gallery', promotion_id: p.source }); setOpenIdx(i) }} className="block w-full cursor-zoom-in text-left">
               <img src={p.image} alt={p.sample ? (isEn ? `${lookLabel(p.source, p.lookId, true)}, sample on an AI-generated model` : `${lookLabel(p.source, p.lookId, false)}, AI 생성 모델 예시`) : isEn ? `${lookLabel(p.source, p.lookId, true)}, AI result on a customer's selfie` : `${lookLabel(p.source, p.lookId, false)}, 고객 셀카로 만든 AI 결과`} loading="lazy" className="aspect-[4/5] w-full object-cover" />
               <span className="mt-1 flex items-center justify-end gap-0.5 text-[12px] font-extrabold"><span className="material-symbols-outlined text-[13px] text-primary-dark" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>{p.hearts}</span>
-            </a>
+            </button>
           </li>
         ))}
       </ul>
+      {openIdx !== null && (
+        <GalleryLightbox
+          posts={all.slice(0, 12)}
+          index={openIdx}
+          hearted={hearted}
+          isEn={isEn}
+          onIndex={setOpenIdx}
+          onClose={() => setOpenIdx(null)}
+          onHeart={(id) => void heart(id)}
+          footerLink={{ href, label: isEn ? 'See the whole gallery →' : '하트 갤러리 전체 보기 →' }}
+        />
+      )}
     </section>
   )
 }

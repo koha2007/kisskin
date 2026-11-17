@@ -5,6 +5,7 @@ import { useI18n } from '../i18n/I18nContext'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { trackEvent } from '../lib/analytics'
 import { GalleryUploadButton } from '../components/gallery/GalleryShare'
+import GalleryLightbox from '../components/gallery/GalleryLightbox'
 import { deleteMyPost, fetchGallery, galleryAction, lookLabel, lookTryHref, GALLERY_SOURCES, SOURCE_LABEL, type GalleryList, type GallerySource } from '../lib/gallery'
 
 export default function GalleryPage() {
@@ -16,6 +17,8 @@ export default function GalleryPage() {
   // 2026-11-11 — 네 기능 탭 + 하트순(기본)/최신순
   const [source, setSource] = useState<GallerySource | 'all'>('all')
   const [sort, setSort] = useState<'hearts' | 'new'>('hearts')
+  // 2026-11-17 사진 누르면 크게 보기(라이트박스)
+  const [openIdx, setOpenIdx] = useState<number | null>(null)
 
   const opts = () => ({ sort, source: source === 'all' ? undefined : source })
   const load = () => fetchGallery(opts()).then((d) => {
@@ -117,11 +120,11 @@ export default function GalleryPage() {
                 const name = lookLabel(p.source, p.lookId, isEn)
                 return (
                   <li key={p.id} className="flex flex-col bg-white">
-                    <div className="relative">
+                    <button type="button" onClick={() => setOpenIdx(posts.indexOf(p))} aria-label={isEn ? `View ${name} larger` : `${name} 크게 보기`} className="relative block cursor-zoom-in text-left">
                       <img src={p.image} alt={p.sample ? (isEn ? `${name}, sample on an AI-generated model` : `${name}, AI 생성 모델 예시`) : isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
                       <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? SOURCE_LABEL[p.source].en : SOURCE_LABEL[p.source].ko}</span>
                       <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
-                    </div>
+                    </button>
                     <div className="flex items-center justify-between gap-2 p-2">
                       <a href={lookTryHref(p.source, p.lookId, isEn)} onClick={() => trackEvent('gallery_try_look', { source: p.source, look: p.lookId })} className="min-w-0 truncate text-[13px] font-extrabold underline-offset-4 hover:underline">{name || (isEn ? 'Try this' : '따라 만들기')}</a>
                       <button type="button" aria-pressed={on} aria-label={isEn ? `Heart, ${p.hearts}` : `하트 ${p.hearts}개`} onClick={() => void heart(p.id)} className="flex min-h-[44px] shrink-0 items-center gap-1 px-1 text-[13px] font-bold">
@@ -137,6 +140,17 @@ export default function GalleryPage() {
           )}
         </section>
       </main>
+      {openIdx !== null && posts[openIdx] && (
+        <GalleryLightbox
+          posts={posts}
+          index={openIdx}
+          hearted={data?.hearted ?? []}
+          isEn={isEn}
+          onIndex={setOpenIdx}
+          onClose={() => setOpenIdx(null)}
+          onHeart={(id) => void heart(id)}
+        />
+      )}
       <ToolsFooter />
     </div>
   )
