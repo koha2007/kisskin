@@ -453,7 +453,7 @@ export default function MakeupCollection({ isEn, photo, resume, onBack, onRetake
             )}
             <p className="text-center text-[11px] text-white/55 break-keep">
               {balance != null && (isEn ? `Balance: ${balance} credit(s) · ` : `현재 잔액 ${balance} 크레딧 · `)}
-              {isEn ? 'Secure checkout via Polar · refund requests within 14 days' : 'Polar 안전 결제 · 14일 이내 환불 요청 가능'}
+              {isEn ? 'Secure checkout via Polar · refund requests within 14 days' : 'Polar 안전 결제 · 영어 결제창 · 해외 결제 되는 카드 · 14일 이내 환불 요청'}
             </p>
           </div>
         )}

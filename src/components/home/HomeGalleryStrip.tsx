@@ -1,5 +1,5 @@
 // 홈 "오늘의 하트" (2026-11-02 → 11-11 네 문 바로 아래로 · 11-17 이름 "오늘의 하트 룩"→"오늘의 하트")
-// 2026-11-17 운영자: "카드만 보이게" — 기능 탭·기능 배지·예시 표시를 빼고 4:5 카드 전체를 보여 준다(하트 수는 카드 아래).
+// 2026-11-17 운영자: "제일 마지막에 올린 이미지가 메인에" → 하트순 대신 최신순. "카드만 보이게" — 기능 탭·기능 배지·예시 표시를 빼고 4:5 카드 전체를 보여 준다(하트 수는 카드 아래).
 // 운영자 11/11: "메이크업 밑에 사용자 결과 이미지 올리고 하트 많이 받은 사람 기프트 — 기프트는 아직, 참가 데이터부터."
 // 하트순 · 기능 탭(전체/9가지/럭키/페인팅/헤어). 승인 사진이 HOME_MIN_POSTS 장 미만이면 사진 띠 대신
 // 참여 안내 한 줄(빈 띠로 메인이 비어 보이지 않게). 선물·순위 문구는 아직 넣지 않는다.
@@ -11,7 +11,7 @@ export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
   const [all, setAll] = useState<GalleryPost[] | null>(null)
   useEffect(() => {
     let off = false
-    void fetchGallery({ sort: 'hearts' }).then((d) => { if (!off) setAll(d?.posts ?? []) })
+    void fetchGallery({ sort: 'new' }).then((d) => { if (!off) setAll(d?.posts ?? []) })
     return () => { off = true }
   }, [])
   const href = isEn ? '/en/gallery/' : '/gallery/'

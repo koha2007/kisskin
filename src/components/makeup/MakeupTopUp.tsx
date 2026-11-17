@@ -201,6 +201,8 @@ export default function MakeupTopUp({ isEn, onBack, resultSrc, doneStyle, photo,
             ['block', isEn ? 'One-time payment — not a subscription' : '1회 결제 · 구독 아님, 자동 결제 없음'],
             ['replay', isEn ? 'Come straight back here after paying — same selfie' : '결제 후 바로 돌아와 같은 셀카로 이어서'],
             ['verified_user', isEn ? 'Secure checkout by Polar · refund requests within 14 days' : 'Polar 안전 결제 · 14일 이내 환불 요청 가능'],
+            // 2026-11-17 결제 점검: Polar 결제창은 영어만 되고(locale=ko 무시) 해외 결제가 안 되는 국내 전용 카드는 거절된다
+            ...(isEn ? [] : [['credit_card', '결제창은 영어로 열려요 · 해외 결제 되는 카드(VISA·Master·AMEX)']]),
           ].map(([icon, text]) => (
             <li key={icon} className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px] text-white/55">{icon}</span>
