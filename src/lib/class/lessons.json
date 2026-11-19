@@ -1678,5 +1678,102 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "monolid-makeup",
+    "publishedAt": "2026-11-19",
+    "introKo": "무쌍 눈은 쌍꺼풀이 없어서 섀도와 라인을 다르게 올려야 해요. 넓고 시원해 보이게 그라데이션을 위로, 펄은 중앙에만, 라인은 점막과 꼬리만 강조하면 자연스럽게 완성돼요.",
+    "introEn": "Monolids need a different approach: blend shadow upward and outward for an open look, keep shimmer only at the center, and focus liner on the waterline and outer tail for a naturally defined finish.",
+    "minutes": 13,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "섀도 그라데이션 위로 넓게",
+        "titleEn": "Blend shadow upward and wide",
+        "bodyKo": "연한 베이스 섀도를 눈두덩 전체에 넓게 올려요. 중간 컬러로 쌍꺼풀 라인보다 위까지, 눈을 뜬 상태에서 자연스럽게 보일 때까지 위로 블렌딩해요. 무쌍은 음영을 넓게 펴야 답답해 보이지 않아요.",
+        "bodyEn": "Apply a light base shadow all over the lid. With a mid-tone shade, blend above where a crease would be—look straight ahead and bring the color up until it’s softly visible. A wide gradient keeps monolids from looking closed-in.",
+        "toolsKo": "매트 아이섀도 브러시",
+        "toolsEn": "Matte eyeshadow · blending brush",
+        "swatches": [
+          "#e6d0b7",
+          "#b48c6b"
+        ],
+        "searchKeywords": "매트 브라운 아이섀도",
+        "shopEn": "matte brown eyeshadow",
+        "shortKo": "섀도는 위로 넓게 블렌딩",
+        "shortEn": "Blend shadow up and out"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "펄은 눈 중앙에만",
+        "titleEn": "Shimmer only on the center",
+        "bodyKo": "손가락이나 작은 브러시로 밝은 펄 섀도를 눈동자 중앙에만 톡톡 얹어요. 눈을 떴을 때 반짝임이 보이면 충분해요. 전체에 바르면 부어 보일 수 있어요.",
+        "bodyEn": "Tap a light shimmer shadow just on the center of the lid with your finger or a small brush. Stop when you see a subtle glow with your eyes open. Applying shimmer all over can make lids look puffy.",
+        "toolsKo": "펄 섀도 · 작은 브러시",
+        "toolsEn": "Shimmer eyeshadow · small brush",
+        "swatches": [
+          "#f7e8d7",
+          "#e3cdbb"
+        ],
+        "searchKeywords": "은은한 펄 아이섀도",
+        "shopEn": "sheer shimmer eyeshadow",
+        "shortKo": "펄은 중앙에만 살짝",
+        "shortEn": "Shimmer just on the center"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "아이라인: 점막·꼬리만 길게",
+        "titleEn": "Liner: tightline and long tail",
+        "bodyKo": "젤 또는 펜슬로 점막만 얇게 채우고, 꼬리만 길게 빼요. 눈꼬리는 살짝 위로 빼면 또렷해 보여요. 두껍게 그리면 눈이 더 작아 보여요.",
+        "bodyEn": "With gel or pencil, fill in just the waterline between lashes. Extend the outer tail slightly upward for definition. Avoid thick lines—they can make eyes look smaller.",
+        "toolsKo": "젤 아이라이너 · 브러시",
+        "toolsEn": "Gel eyeliner · liner brush",
+        "swatches": [
+          "#3e2a21"
+        ],
+        "searchKeywords": "젤 아이라이너 브라운",
+        "shopEn": "brown gel eyeliner",
+        "shortKo": "점막·꼬리만 얇고 길게",
+        "shortEn": "Tightline and extend the tail"
+      },
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "아래 꼬리 음영 넣기",
+        "titleEn": "Shadow under the outer lower lashline",
+        "bodyKo": "작은 브러시로 중간 브라운 섀도를 눈 아래 꼬리 쪽 1/3에만 얇게 그려요. 자연스럽게 이어지게 블렌딩하면 눈매가 길어 보여요.",
+        "bodyEn": "Using a small brush, apply a medium brown shadow to the outer third of the lower lashline. Blend softly for a seamless look—this elongates the eye shape.",
+        "toolsKo": "작은 브러시 · 음영 섀도",
+        "toolsEn": "Small brush · shading shadow",
+        "swatches": [
+          "#b48c6b"
+        ],
+        "searchKeywords": "미디움 브라운 섀도",
+        "shopEn": "medium brown shadow",
+        "shortKo": "아래 꼬리만 음영 주기",
+        "shortEn": "Shadow outer lower lashline"
+      }
+    ],
+    "tipsKo": [
+      "섀도는 눈 뜬 상태에서 블렌딩하면 높이를 맞추기 쉬워요.",
+      "아이라인은 한 번에 길게 빼지 말고, 짧게 끊어 그리면 더 깔끔해요."
+    ],
+    "tipsEn": [
+      "Blend shadow with your eyes open to match the height easily.",
+      "Draw liner in short strokes for a cleaner tail."
+    ],
+    "mistakeKo": "섀도를 좁게 바르면 무쌍 눈이 더 답답해 보여요.",
+    "mistakeEn": "Keeping shadow too low makes monolids look more closed-in.",
+    "chartPrompt": "on both eyes: a wide soft brown shadow blended well above the crease area, a touch of pale shimmer centered on the eyelids, a thin dark liner tightlined between upper lashes with a long upward flick at the outer corners, and medium brown shadow softly blended on the outer third of the lower lashline; the rest of the face is bare for focus",
+    "videoTitleKo": "무쌍 아이메이크업",
+    "videoTitleEn": "Monolid Eye Makeup",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
