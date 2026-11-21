@@ -1775,5 +1775,103 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "aegyo-sal",
+    "publishedAt": "2026-11-21",
+    "introKo": "웃을 때 눈 밑에 살짝 올라오는 애교살은 눈매를 밝고 환하게 연출해 줘요. 밝은 펄과 연한 그림자 선 두 가지만 기억하면 1분 만에 완성할 수 있어요.",
+    "introEn": "The soft under-eye contour, known as aegyo-sal, brings a bright, youthful look to your eyes. With just a subtle shadow line and a touch of shimmer, you can define it in under a minute.",
+    "minutes": 5,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "미소 지어 애교살 위치 찾기",
+        "titleEn": "Smile to locate the under-eye curve",
+        "bodyKo": "거울을 보고 가볍게 미소를 지어보세요. 눈 밑에 볼록하게 도톰해지는 영역이 바로 애교살 자리예요.",
+        "bodyEn": "Look into the mirror and smile gently. The soft, rounded area that puffs up just under your lower lash line is your natural aegyo-sal.",
+        "toolsKo": "거울",
+        "toolsEn": "Mirror",
+        "swatches": [
+          "#f5e1d3"
+        ],
+        "searchKeywords": "애교살 음영 펜슬 연한브라운",
+        "shopEn": "under eye contour pencil",
+        "shortKo": "미소 지어 볼록한 곳 찾기",
+        "shortEn": "Smile to find the rounded contour"
+      },
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "볼록한 부분 아래에 연한 그림자 그리기",
+        "titleEn": "Define a soft shadow line underneath",
+        "bodyKo": "볼록한 부분 바로 아래 경계선에 연한 브라운 펜슬이나 음영 섀도로 얇은 선을 그어요. 진하게 그리면 다크서클처럼 보일 수 있으니 아주 연하게 지나는 것이 중요해요.",
+        "bodyEn": "Using a light brown contour pencil or shadow, trace a sheer line right along the lower border of the bulge. Keep it soft and faint so it doesn't resemble dark circles.",
+        "toolsKo": "슬림 음영 펜슬 또는 납작 브러시",
+        "toolsEn": "Slim contour pencil or flat liner brush",
+        "swatches": [
+          "#bca495"
+        ],
+        "searchKeywords": "음영 라이너 음영 펜슬 브라운",
+        "shopEn": "sheer shadow contour pencil",
+        "shortKo": "연한 브라운으로 그림자 선 그리기",
+        "shortEn": "Trace a faint brown shadow line"
+      },
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "볼록한 중앙에 밝은 펄 채우기",
+        "titleEn": "Highlight the center with bright shimmer",
+        "bodyKo": "그림자 선 위, 볼록하게 올라온 중앙 영역에 샴페인이나 핑크 베이지 빛의 맑은 펄 섀도를 얹어요. 눈앞머리부터 중앙까지 살짝 터치해주면 눈매가 또렷해 보여요.",
+        "bodyEn": "Apply a champagne or pink-beige shimmer shadow over the center of the rounded area. Gently pat from the inner corner toward the middle for a glowing look.",
+        "toolsKo": "스틱 섀도 또는 미니 브러시",
+        "toolsEn": "Shimmer stick eyeshadow or detail brush",
+        "swatches": [
+          "#f9e4d4",
+          "#fceddc"
+        ],
+        "searchKeywords": "스틱 아이섀도 펄 샴페인",
+        "shopEn": "shimmer eyeshadow stick champagne",
+        "shortKo": "볼록한 중앙에 밝은 펄 얹기",
+        "shortEn": "Brighten center with shimmer"
+      },
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "손가락으로 경계 살짝 펴기",
+        "titleEn": "Blend edges smoothly for a natural finish",
+        "bodyKo": "약지 손가락이나 깨끗한 스폰지로 그림자 선과 펄의 경계를 톡톡 두드려 펴주세요. 과하게 그리면 눈이 부어 보일 수 있으니 자연스럽게 스며들도록 연출해요.",
+        "bodyEn": "Tap softly with your ring finger or a mini sponge to smooth out the edges of the shadow line and highlight. Blending prevents the area from looking puffy or harsh.",
+        "toolsKo": "약지 손가락 또는 미니 스폰지",
+        "toolsEn": "Ring finger or mini sponge",
+        "swatches": [
+          "#ebd4c3"
+        ],
+        "searchKeywords": "디테일 메이크업 스폰지 톡톡",
+        "shopEn": "mini precision applicator sponge",
+        "shortKo": "톡톡 두드려 경계 자연스럽게",
+        "shortEn": "Blend gently to prevent puffiness"
+      }
+    ],
+    "tipsKo": [
+      "매우 입자가 굵은 왕글리터보다는 입자가 고운 샴페인 펄이나 쉬머 제형을 써야 눈 밑 주름에 끼지 않고 매끈해 보여요.",
+      "다크서클 가리기는 7편에서 다루었듯이 베이스 단계에서 미리 깨끗하게 정리해두어야 애교살 메이크업의 색감이 맑게 살아나요."
+    ],
+    "tipsEn": [
+      "Choose fine champagne shimmer or satin formulas over heavy chunky glitter so the delicate skin looks smooth without setting into fine lines.",
+      "As shown in lesson 7, conceal dark circles fully during base prep so your under-eye highlight stays bright and clear."
+    ],
+    "mistakeKo": "그림자 선을 너무 굵고 어둡게 그리면 눈 밑이 칙칙해지고 다크서클처럼 보여요.",
+    "mistakeEn": "Drawing the shadow line too thick or dark creates a dull look that resembles dark circles.",
+    "chartPrompt": "a close up face chart focusing on under-eye makeup: soft light beige skin base under the eyes, a very faint soft taupe shadow arc right under the eye fat pad, and a subtle glowing champagne pink pearl shimmer placed delicately on the plump center of the under-eye area, with smooth natural edges",
+    "safetyKo": "눈가 가까이에 펄이나 펜슬을 사용할 때는 가루가 눈 안에 들어가지 않도록 조심하고, 찌르지 않게 살살 다뤄주세요.",
+    "safetyEn": "When applying shadow or pencils near the waterline, use light pressure and be careful not to let fallout or product tips enter the eye.",
+    "videoTitleKo": "애교살 메이크업",
+    "videoTitleEn": "Aegyo-Sal Makeup Guide",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
