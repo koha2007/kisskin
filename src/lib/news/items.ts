@@ -2,6 +2,27 @@ import type { NewsItem } from './types'
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
+    slug: 'olive-young-color-ground-hongdae-makeup-store-launch',
+    category: 'global',
+    title: 'CJ 올리브영, 홍대에 메이크업 전문 매장 ‘컬러 그라운드’ 4층 규모 오픈',
+    summary:
+      'CJ 올리브영이 서울 홍대에 메이크업 전문 매장 ‘컬러 그라운드’를 최근 오픈하며 K‑뷰티의 색조 시장 공세를 강화하고 있습니다. 고객은 매장에서 개인 컬러 상담을 받을 수 있는 공간도 제공합니다.',
+    body: [
+      '> TLDR: 메이크업 전문 매장 오픈 | 4층 규모 | 개인 컬러 상담 공간 제공',
+      'CJ 올리브영이 2026년 11월 20일 서울 홍대에 메이크업 전문 매장 ‘컬러 그라운드’를 오픈했습니다. 색조 카테고리 전용 매장으로 K‑뷰티 색조 시장 강화를 목표로 합니다.',
+      '> DATA: 매장 규모는 174평, 4개 층으로 구성되고 고객 개인 컬러를 평가받을 수 있는 공간도 포함되어 있음',
+      '이번 매장 오픈은 K‑뷰티가 스킨케어 중심에서 색조 중심으로 확장하고 있다는 산업 전환점을 보여줍니다. 글로벌 경쟁 심화 속, 한국 화장품 유통과 브랜드 전략 변화가 가속화되고 있습니다.',
+      '소비자 관점에서는 한번에 다양한 제품을 경험하고 전문가의 맞춤 상담까지 받을 수 있다는 점에서 색조 뷰티 접근성이 크게 향상되었다는 의미가 있습니다.',
+    ],
+    date: '2026-11-24',
+    readMinutes: 3,
+    tags: ['컬러메이크업', '올리브영', 'K-뷰티'],
+    image: '/news/olive-young-color-ground-hongdae-makeup-store-launch.webp',
+    seoTitle: '올리브영 홍대에 메이크업 전문 매장 오픈',
+    seoDescription:
+      '서울 홍대에 오픈한 메이크업 전문 매장 ‘컬러 그라운드’는 4층 규모로 구성되며 개인 컬러 상담 공간까지 갖춰 K-뷰티 색조 확대 전략의',
+  },
+  {
     slug: 'sseen-by-hong-dual-tap-concealer-launch',
     category: 'global',
     title: '메이크업 아티스트 홍현정, 듀얼 팁 컨실러 출시로 K‑뷰티 컬러 영역 진출',

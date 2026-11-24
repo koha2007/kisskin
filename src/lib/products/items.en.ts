@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // language toggle and hreflang map one-to-one). Newest on top.
 export const PRODUCT_ITEMS_EN: ProductPost[] = [
   {
+    slug: 'hourglass-ambient-lighting-edit-unlocked-palette',
+    category: 'trend',
+    brand: 'Hourglass',
+    name: 'Ambient Lighting Edit Unlocked Palette',
+    title: 'Hourglass Ambient Lighting Edit Unlocked Palette — Effortless Glow in One Go',
+    summary:
+      'Spotlighted this season by Sephora, Ulta, and beauty editors alike, this limited-edition Hourglass glow palette offers effortless blurring and radiance in a single step.',
+    highlights: ['Photoluminescent Technology', 'Instant Blurring & Radiance', 'Orange, Pink, and Mauve Color Mix'],
+    details: [
+      'Innovative Photoluminescent Technology softly diffuses light to naturally blur imperfections.',
+      'Combines blush, bronzer, and highlighter in one palette to create a cohesive, all-over glow.',
+      'Available in Love, Hope, and Luck variations, each featuring unique color moods and limited-edition artwork packaging with a jewelry charm.',
+    ],
+    whoFor:
+      'Ideal for combination or dry skin seeking natural radiance and blurring benefits, especially flattering on muted skin tones. Versatile for everything from everyday look to party makeup.',
+    howTo: [
+      'Lightly sweep the finishing powder all over your face with a slanted brush to set and brighten.',
+      'Customize your glow by layering highlighter on upper cheekbones and the bridge of the nose, blush on the apples of cheeks, and bronzer under cheekbones and around the hairline.',
+    ],
+    pros: [
+      'Complete blush, highlighter, and bronzer in a single palette',
+      'Formulated with special technology that softly diffuses light',
+    ],
+    cons: [
+      'High price point as a luxury premium product',
+    ],
+    image: '/products/hourglass-ambient-lighting-edit-unlocked-palette.webp',
+    coupangQuery: '아워글래스 언록드 팔레트',
+    globalQuery: 'Hourglass Ambient Lighting Edit Unlocked palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-11-24',
+    tags: ['Limited Edition', 'Glow Palette', 'Radiant Blur'],
+    seoTitle: 'Hourglass Ambient Lighting Edit Unlocked Palette',
+    seoDescription:
+      'Discover the limited-edition Hourglass palette featuring Photoluminescent Technology for seamless blurring and an effortless glow.',
+  },
+  {
     slug: 'peukwi-all-day-cover-black-cushion',
     category: 'base',
     brand: 'fwee',

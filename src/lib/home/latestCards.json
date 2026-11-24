@@ -6,6 +6,14 @@
   "products": {
     "ko": [
       {
+        "slug": "hourglass-ambient-lighting-edit-unlocked-palette",
+        "brand": "아워글래스",
+        "name": "앰비언트 라이팅 에디트 언록드 팔레트",
+        "category": "trend",
+        "image": "/products/hourglass-ambient-lighting-edit-unlocked-palette.webp",
+        "date": "2026-11-24"
+      },
+      {
         "slug": "peukwi-all-day-cover-black-cushion",
         "brand": "퓌",
         "name": "올데이 커버 블랙 쿠션",
@@ -28,17 +36,17 @@
         "category": "lip",
         "image": "/products/espoir-lip-tint-glaze.webp",
         "date": "2026-11-03"
-      },
-      {
-        "slug": "phlur-peach-skin-body-mist",
-        "brand": "플러 (PHLUR)",
-        "name": "피치 스킨 바디 미스트",
-        "category": "fragrance",
-        "image": null,
-        "date": "2026-10-27"
       }
     ],
     "en": [
+      {
+        "slug": "hourglass-ambient-lighting-edit-unlocked-palette",
+        "brand": "Hourglass",
+        "name": "Ambient Lighting Edit Unlocked Palette",
+        "category": "trend",
+        "image": "/products/hourglass-ambient-lighting-edit-unlocked-palette.webp",
+        "date": "2026-11-24"
+      },
       {
         "slug": "peukwi-all-day-cover-black-cushion",
         "brand": "fwee",
@@ -62,19 +70,18 @@
         "category": "lip",
         "image": "/products/espoir-lip-tint-glaze.webp",
         "date": "2026-11-03"
-      },
-      {
-        "slug": "phlur-peach-skin-body-mist",
-        "brand": "PHLUR",
-        "name": "Peach Skin Body Mist",
-        "category": "fragrance",
-        "image": null,
-        "date": "2026-10-27"
       }
     ]
   },
   "news": {
     "ko": [
+      {
+        "slug": "olive-young-color-ground-hongdae-makeup-store-launch",
+        "title": "CJ 올리브영, 홍대에 메이크업 전문 매장 ‘컬러 그라운드’ 4층 규모 오픈",
+        "category": "global",
+        "image": "/news/olive-young-color-ground-hongdae-makeup-store-launch.webp",
+        "date": "2026-11-24"
+      },
       {
         "slug": "sseen-by-hong-dual-tap-concealer-launch",
         "title": "메이크업 아티스트 홍현정, 듀얼 팁 컨실러 출시로 K‑뷰티 컬러 영역 진출",
@@ -95,16 +102,16 @@
         "category": "hair",
         "image": "/news/moo100-amazon-us-haircare-launch.webp",
         "date": "2026-11-03"
-      },
-      {
-        "slug": "eu-greenwashing-ban-pfhxa-k-beauty-impact",
-        "title": "EU, PFHxA 포함 화장품 친환경 무검증 주장 즉시 금지 발표",
-        "category": "global",
-        "image": null,
-        "date": "2026-10-27"
       }
     ],
     "en": [
+      {
+        "slug": "olive-young-color-ground-hongdae-makeup-store-launch",
+        "title": "CJ Olive Young Opens 4-Story Makeup Specialty Store ‘Color Ground’ in Hongdae",
+        "category": "global",
+        "image": "/news/olive-young-color-ground-hongdae-makeup-store-launch.webp",
+        "date": "2026-11-24"
+      },
       {
         "slug": "sseen-by-hong-dual-tap-concealer-launch",
         "title": "Makeup Artist Hong Hyun-jung Enters K-Beauty Color Sector with Dual-Tip Concealer Launch",
@@ -125,13 +132,6 @@
         "category": "hair",
         "image": "/news/moo100-amazon-us-haircare-launch.webp",
         "date": "2026-11-03"
-      },
-      {
-        "slug": "eu-greenwashing-ban-pfhxa-k-beauty-impact",
-        "title": "EU Announces Immediate Ban on Unverified Green Claims for Cosmetics Containing PFHxA",
-        "category": "global",
-        "image": null,
-        "date": "2026-10-27"
       }
     ]
   }

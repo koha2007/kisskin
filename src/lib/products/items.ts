@@ -5,6 +5,44 @@ import type { ProductPost } from './types'
 // top (the generator inserts right after the array-open anchor below).
 export const PRODUCT_ITEMS: ProductPost[] = [
   {
+    slug: 'hourglass-ambient-lighting-edit-unlocked-palette',
+    category: 'trend',
+    brand: '아워글래스',
+    name: '앰비언트 라이팅 에디트 언록드 팔레트',
+    title: 'Hourglass 앰비언트 라이팅 에디트 언록드 팔레트 — 한 번에 글로우 완성',
+    summary:
+      '이번 시즌 세포라·울타·뷰티 에디터들이 주목한, 블러링과 광채를 한 번에 살리는 아워글래스의 한정판 글로우 팔레트입니다.',
+    highlights: ['포토루미네선트 테크', '블러·광채 한 번에', '주황·핑크·무브 컬러 조합'],
+    details: [
+      '혁신적인 Photoluminescent Technology로 빛을 부드럽게 확산하고 잡티를 자연스럽게 블러 처리합니다.',
+      '블러셔·브론저·하이라이터를 한 팩에 담아 피부 전체에 통합된 글로우를 연출할 수 있습니다.',
+      '러브·호프·럭 변형에 따라 각기 다른 무드의 컬러 조합과 쥬얼리 참이 포함된 한정 아트워크 패키지를 만날 수 있습니다.',
+    ],
+    whoFor:
+      '자연스러운 광채와 블러링 효과를 동시에 원하는 복합성 또는 건성 피부, 저채도를 선호하는 피부 톤에 특히 어울립니다. 데일리부터 파티 메이크업까지 다양한 상황에서 활용 가능합니다.',
+    howTo: [
+      '슬anted 브러시로 피니싱 파우더를 톤업처럼 얼굴 전체에 가볍게 쓸어 마무리하세요.',
+      '하이라이터 부분은 광대 위, 코 브릿지에, 블러셔는 볼 중앙에, 브론저는 광대 아래와 이마 외곽에 부분적으로 레이어링해 글로우를 조절하세요.',
+    ],
+    pros: [
+      '한 팩으로 블러·하이라이터·브론저 완성',
+      '빛을 부드럽게 확산하는 특수 기술 적용',
+    ],
+    cons: [
+      '고가의 프리미엄 제품이라 부담스러울 수 있음',
+    ],
+    image: '/products/hourglass-ambient-lighting-edit-unlocked-palette.webp',
+    coupangQuery: '아워글래스 언록드 팔레트',
+    globalQuery: 'Hourglass Ambient Lighting Edit Unlocked palette',
+    clio: false,
+    clioCategory: 'main',
+    date: '2026-11-24',
+    tags: ['한정판', '글로우팔레트', '광채블러'],
+    seoTitle: '글로우 마무리 한정 팔레트',
+    seoDescription:
+      '한정 아워글래스 글로우 팔레트로 블러 과광 표현까지 가능한 매력적인 치크·하이라이터·브론저 구성입니다.',
+  },
+  {
     slug: 'peukwi-all-day-cover-black-cushion',
     category: 'base',
     brand: '퓌',

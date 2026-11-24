@@ -5,6 +5,27 @@ import type { NewsItem } from './types'
 // Keep EN_NEWS_SLUGS (enSlugs.ts) in sync with this list.
 export const NEWS_ITEMS_EN: NewsItem[] = [
   {
+    slug: 'olive-young-color-ground-hongdae-makeup-store-launch',
+    category: 'global',
+    title: 'CJ Olive Young Opens 4-Story Makeup Specialty Store ‘Color Ground’ in Hongdae',
+    summary:
+      'CJ Olive Young recently opened \'Color Ground,\' a dedicated makeup store in Hongdae, Seoul, expanding its reach in the K-beauty color cosmetics market. The store also features a dedicated space for personal color consultations.',
+    body: [
+      '> TLDR: Dedicated makeup store opening | 4 floors | Personal color consultation space provided',
+      'On November 20, 2026, CJ Olive Young opened \'Color Ground,\' a specialized makeup store in Hongdae, Seoul. Designed exclusively for color cosmetics, the store aims to strengthen the brand\'s presence in the K-beauty color market.',
+      '> DATA: The store spans 174 pyeong across 4 floors and includes a dedicated space for customer personal color assessments',
+      'This opening signals an industry turning point as K-beauty expands from a skincare focus into color cosmetics. Amid intensifying global competition, changes in Korean cosmetics retail and brand strategies are accelerating.',
+      'From a consumer perspective, accessibility to color cosmetics is greatly enhanced, offering shoppers the chance to experience a wide array of products in one place while receiving tailored expert consultations.',
+    ],
+    date: '2026-11-24',
+    readMinutes: 3,
+    tags: ['Color Makeup', 'Olive Young', 'K-Beauty'],
+    image: '/news/olive-young-color-ground-hongdae-makeup-store-launch.webp',
+    seoTitle: 'CJ Olive Young Opens 4-Story \'Color Ground\' in Hongdae',
+    seoDescription:
+      'CJ Olive Young has launched Color Ground in Hongdae, a 4-story flagship dedicated to K-beauty color cosmetics and personal color consultations.',
+  },
+  {
     slug: 'sseen-by-hong-dual-tap-concealer-launch',
     category: 'global',
     title: 'Makeup Artist Hong Hyun-jung Enters K-Beauty Color Sector with Dual-Tip Concealer Launch',

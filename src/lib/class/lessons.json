@@ -1873,5 +1873,117 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "curl-lashes-mascara",
+    "publishedAt": "2026-11-24",
+    "introKo": "속눈썹만 또렷하게 올려도 눈이 두 배는 시원하고 커 보여요. 뷰러로 뿌리부터 3번에 나눠 집고, 마스카라를 얇게 바르면 하루 종일 처지지 않는 컬을 만들 수 있어요.",
+    "introEn": "Well-curled lashes make your eyes look instantly brighter and wider. Curling in three steps from the root and applying a light layer of mascara keeps your curl lifted all day.",
+    "minutes": 8,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "뷰러로 뿌리집기",
+        "titleEn": "Curl at the root",
+        "bodyKo": "시선을 아래로 내리고 뷰러 고무를 속눈썹 뿌리에 바짝 대요. 눈꺼풀 살이 집히지 않게 조심하면서 3초 동안 지그시 힘을 줘요. 이때 뷰러 각도를 위로 꺾지 말고 정면을 유지해요.",
+        "bodyEn": "Look down and place the curler pad right at the lash root. Gently press for 3 seconds without pinching your skin. Keep the curler angle straight rather than tilting it upward.",
+        "toolsKo": "속눈썹 뷰러",
+        "toolsEn": "Eyelash curler",
+        "swatches": [
+          "#2b2321"
+        ],
+        "searchKeywords": "컬링 속눈썹 뷰러 곡률",
+        "shopEn": "eyelash curler",
+        "shortKo": "뿌리에 대고 3초 지그시",
+        "shortEn": "Hold at root for 3 seconds"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "중간과 끝 3단계 꺾기",
+        "titleEn": "Curl middle and tips",
+        "bodyKo": "뷰러를 살짝 떼어 속눈썹 중간 지점으로 이동한 뒤 2초간 집어줘요. 마지막으로 속눈썹 끝부분을 가볍게 1초간 집으면 부자연스럽게 꺾이지 않는 자연스러운 부채꼴 컬이 완성돼요.",
+        "bodyEn": "Move the curler to the middle of the lashes and press for 2 seconds. Finish by lightly clamping the tips for 1 second to create a soft, natural curve instead of an L-shape.",
+        "toolsKo": "속눈썹 뷰러",
+        "toolsEn": "Eyelash curler",
+        "swatches": [
+          "#362c29"
+        ],
+        "searchKeywords": "속눈썹 뷰러 리필 고무",
+        "shopEn": "eyelash curler pad",
+        "shortKo": "뿌리·중간·끝 3단계 집기",
+        "shortEn": "Curl root, middle, then tip"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "마스카라 뿌리 지그재그 바르기",
+        "titleEn": "Wiggle mascara at the root",
+        "bodyKo": "마스카라 솔의 액을 휴지에 살짝 덜어낸 뒤 바르세요. 속눈썹 뿌리 깊숙이 솔을 대고 가로로 살짝 지그재그로 흔든 다음, 끝까지 곧게 쓸어 올려줘요.",
+        "bodyEn": "Wipe excess mascara off the wand with a tissue first. Place the wand at the root, wiggle slightly side-to-side, and sweep straight up to the tips.",
+        "toolsKo": "마스카라",
+        "toolsEn": "Mascara",
+        "swatches": [
+          "#1c1615"
+        ],
+        "searchKeywords": "컬링 워터프루프 마스카라 블랙",
+        "shopEn": "curling waterproof mascara",
+        "shortKo": "뿌리는 지그재그 끝은 쓱",
+        "shortEn": "Wiggle root and sweep up"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "속눈썹 빗으로 뭉침 정돈하기",
+        "titleEn": "Comb through clumps",
+        "bodyKo": "마스카라 액이 완전히 마르기 전에 속눈썹 전용 빗으로 아래에서 위로 쓸어 올려요. 뭉친 액이 정리되면서 속눈썹 가닥가닥이 깨끗하게 갈라져 보여요.",
+        "bodyEn": "Before the mascara dries, comb upward using a lash comb. This removes excess product and separates each lash cleanly without clumping.",
+        "toolsKo": "속눈썹 빗",
+        "toolsEn": "Lash comb",
+        "swatches": [
+          "#221a18"
+        ],
+        "searchKeywords": "마스카라 뭉침 속눈썹 빗",
+        "shopEn": "metal lash comb",
+        "shortKo": "마르기 전 빗으로 빗기",
+        "shortEn": "Comb before mascara dries"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "컬 오래 유지하는 마무리 기법",
+        "titleEn": "Lock in the curl all day",
+        "bodyKo": "습기나 유분 때문에 컬이 잘 처진다면, 마스카라 전후로 투명 픽서를 얇게 바르세요. 속눈썹 뿌리 쪽에 가볍게 투명 파우더를 털어두는 것도 고정력에 도움이 돼요.",
+        "bodyEn": "If your lashes droop easily from moisture or oil, sweep a thin layer of lash fixer before or after mascara. Lightly dusting translucent powder near the lash line also helps hold the lift.",
+        "toolsKo": "속눈썹 픽서",
+        "toolsEn": "Lash fixer",
+        "swatches": [
+          "#2e2624"
+        ],
+        "searchKeywords": "투명 마스카라 픽서 고정",
+        "shopEn": "lash fixer mascara primer",
+        "shortKo": "픽서로 하루 종일 컬 고정",
+        "shortEn": "Lock curl with a lash fixer"
+      }
+    ],
+    "tipsKo": [
+      "뷰러를 사용하기 전 드라이기 바람으로 뷰러를 살짝 따뜻하게 데우면 컬링이 훨씬 잘 돼요.",
+      "마스카라 솔에 내용물이 너무 많이 묻어 있으면 쉽게 처지고 뭉치니 용기 입구나 휴지에 미리 덜어내세요."
+    ],
+    "tipsEn": [
+      "Warming your eyelash curler slightly with a hairdryer before use helps hold a stronger curve.",
+      "Always wipe excess mascara off the wand before applying to prevent heavy, drooping lashes."
+    ],
+    "mistakeKo": "마스카라를 속눈썹 끝부분에만 너무 두껍게 바르면 무게감 때문에 컬이 금방 처져요.",
+    "mistakeEn": "Applying heavy layers of mascara on the tips weighs the lashes down and ruins the curl.",
+    "chartPrompt": "close-up of clean eyelid with ultra-lifted, neatly separated dark brown lashes curled in a perfect soft C-curve, subtle tightline eyeliner",
+    "videoTitleKo": "뷰러와 마스카라",
+    "videoTitleEn": "Lash Curl & Mascara",
+    "video": {
+      "seconds": 22
+    }
   }
 ]
