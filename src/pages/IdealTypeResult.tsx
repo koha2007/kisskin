@@ -3,7 +3,7 @@
 // 답 배지, AI 한 줄). 쿼리는 마운트 뒤에만 읽는다(정적 HTML 과 첫 렌더를 같게 → 하이드레이션 오류 방지).
 // 테스트 결과는 잠그지 않는다(16Personalities 불만 교훈). 그림은 모두 AI 일러스트 — 화면·카드에 표시.
 import { useEffect, useMemo, useState } from 'react'
-import { IDEAL_ORDER, IDEAL_TYPES, PLACE_LABEL, idealImage, type IdealGender, type IdealPlace, type IdealTypeCode } from '../lib/ideal-type/types'
+import { IDEAL_ORDER, IDEAL_PLACES, IDEAL_TYPES, PLACE_LABEL, idealImage, type IdealGender, type IdealPlace, type IdealTypeCode } from '../lib/ideal-type/types'
 import { IQ_QUESTIONS, decodeAnswers, placeOf } from '../lib/ideal-type/questions'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import IdentityCard from '../components/IdentityCard'
@@ -14,7 +14,10 @@ import { localizeCard } from '../lib/identityCard/types'
 import { LOOK_HERO } from '../lib/makeup/lookImages'
 import { styleById } from '../lib/makeup/styles'
 import { trackEvent } from '../lib/analytics'
+import IdealSideBySide from '../components/ideal/IdealSideBySide'
 import { useI18n } from '../i18n/I18nContext'
+
+const LAST_KEY = 'kisskin_ideal_last'
 
 interface Mine { g: 'm' | 'f' | 'a'; answers: number[]; place: IdealPlace }
 
@@ -29,10 +32,15 @@ export default function IdealTypeResult({ code }: { code: IdealTypeCode }) {
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search)
+    // 로그인·결제 왕복(?side=1·?paid=1)에서 g·a 가 빠지면 이 탭에 적어 둔 내 결과로 되살린다
+    if (!p.get('a') && (p.get('side') === '1' || p.get('paid') === '1')) {
+      try { const last = JSON.parse(sessionStorage.getItem(LAST_KEY) || 'null') as { code?: string; g?: string; a?: string } | null; if (last?.code === code && last.g && last.a) { p.set('g', last.g); p.set('a', last.a) } } catch { /* noop */ }
+    }
     const answers = decodeAnswers(p.get('a'))
     const g = p.get('g')
     if (!answers || (g !== 'm' && g !== 'f' && g !== 'a')) return
     setMine({ g, answers, place: placeOf(answers) })
+    try { sessionStorage.setItem(LAST_KEY, JSON.stringify({ code, g, a: p.get('a') })) } catch { /* noop */ }
     setShown(g === 'm' ? 'm' : 'f')
     // AI 한 줄 — 실패·한도 초과면 미리 쓴 문장 그대로(202 fallback)
     const ctrl = new AbortController()
@@ -42,7 +50,8 @@ export default function IdealTypeResult({ code }: { code: IdealTypeCode }) {
     return () => ctrl.abort()
   }, [code, isEn])
 
-  const place: IdealPlace = mine?.place ?? 'picnic'
+  const [placeOverride, setPlaceOverride] = useState<IdealPlace | null>(null)
+  const place: IdealPlace = placeOverride ?? mine?.place ?? 'picnic'
   const name = isEn ? t.en : t.ko
   const look = styleById(t.look)
   const lookHref = isEn ? '/en/makeup/' : `/analysis/?style=${t.look}`
@@ -132,6 +141,31 @@ export default function IdealTypeResult({ code }: { code: IdealTypeCode }) {
             saveLabel={isEn ? 'Save image' : '이미지 저장하기'} isEn={isEn} share={{ url: shareUrl, text: shareText, title: isEn ? `Ideal type: ${t.en}` : `이상형: ${t.ko}` }} shareLabel={isEn ? 'Share' : '공유하기'} />
           {mine && aiLine && <p className="mt-2 text-center text-[12px] text-slate-500 break-keep">{isEn ? 'The line on your card was written by AI from your answers.' : '카드 속 한 줄은 내 답을 보고 AI가 썼어요.'}</p>}
         </section>}
+
+        {/* 유료 — 이상형 옆에 선 나(맛보기 무료 → 고화질 크레딧 1개) */}
+        <IdealSideBySide isEn={isEn} code={code} g={shown} place={place} name={name} />
+
+        {/* 11/25 데이트 장소별 4장 — 64장 전부 둘러보기(체류·이미지 검색). 누르면 카드 그림도 그 장면으로 */}
+        <section aria-labelledby="ideal-places" className="mt-12">
+          <h2 id="ideal-places" className="text-[22px] font-extrabold tracking-[-0.03em]">{isEn ? `The ${t.en} on 4 first dates` : `데이트 장소별 ${t.ko}`}</h2>
+          <p className="mt-1 text-[13px] text-slate-500 break-keep">{isEn ? 'Tap a scene to put it on your card. AI-generated illustrations.' : '누르면 카드 그림이 그 장면으로 바뀌어요. AI 일러스트예요.'}</p>
+          <div className="mt-3 grid grid-cols-2 gap-2.5 md:grid-cols-4">
+            {IDEAL_PLACES.map((pl) => (
+              <button key={pl} type="button" onClick={() => { setPlaceOverride(pl); trackEvent('ideal_place_view', { result_slug: code, place: pl }); window.scrollTo({ top: 0, behavior: 'smooth' }) }} aria-pressed={place === pl}
+                className={`overflow-hidden rounded-2xl border-2 bg-white text-left ${place === pl ? 'border-navy' : 'border-transparent'}`}>
+                <img src={idealImage(code, shown, pl)} alt={isEn ? `${t.en} ideal type, ${shown === 'm' ? 'man' : 'woman'}, ${PLACE_LABEL[pl].en.toLowerCase()}, AI illustration` : `${PLACE_LABEL[pl].ko}의 ${t.ko} 이상형 ${shown === 'm' ? '남자' : '여자'}, AI 일러스트`} width={384} height={432} loading="lazy" className="aspect-[8/9] w-full object-cover" />
+                <span className="block px-2 py-1.5 text-[13px] font-extrabold">{isEn ? PLACE_LABEL[pl].en : PLACE_LABEL[pl].ko}</span>
+              </button>
+            ))}
+          </div>
+          {both && (
+            <div className="mt-3 flex gap-2" role="group" aria-label={isEn ? 'Show man or woman' : '남자·여자 보기'}>
+              {(['f', 'm'] as IdealGender[]).map((g) => (
+                <button key={g} type="button" onClick={() => setShown(g)} aria-pressed={shown === g} className={`min-h-[40px] rounded-full border px-4 text-[13px] font-extrabold ${shown === g ? 'border-navy bg-navy text-white' : 'border-navy'}`}>{g === 'f' ? (isEn ? 'Woman' : '여자') : (isEn ? 'Man' : '남자')}</button>
+              ))}
+            </div>
+          )}
+        </section>
 
         <section aria-labelledby="ideal-more" className="mx-auto mt-12 max-w-[760px]">
           <h2 id="ideal-more" className="text-[24px] font-extrabold tracking-[-0.03em]">{isEn ? `About the ${t.en} type` : `${t.ko} 이상형은 이런 사람`}</h2>

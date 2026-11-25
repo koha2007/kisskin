@@ -246,7 +246,7 @@ const TOOL_SOURCES = {
   'face-shape':     ['src/pages/FaceShapeQuiz.tsx', 'src/pages/FaceShapeResult.tsx', 'src/lib/face-shape', 'src/lib/recommendations/face-shape.ts'],
   'makeup-mbti':    ['src/pages/MakeupMbtiQuiz.tsx', 'src/pages/MakeupMbtiResult.tsx', 'src/lib/makeup-mbti', 'src/lib/recommendations/makeup-mbti.ts'],
   'perfume-type':   ['src/pages/PerfumeTypeQuiz.tsx', 'src/pages/PerfumeTypeResult.tsx', 'src/lib/perfume-type', 'src/lib/recommendations/perfume-type.ts'],
-  'ideal-type':     ['src/pages/IdealTypeQuiz.tsx', 'src/pages/IdealTypeResult.tsx', 'src/lib/ideal-type', 'public/ideal-type'],
+  'ideal-type':     ['src/pages/IdealTypeQuiz.tsx', 'src/pages/IdealTypeResult.tsx', 'src/lib/ideal-type', 'src/components/ideal', 'public/ideal-type'],
 }
 // 도구 결과 카드(제품 카드 포함)는 이 공용 컴포넌트들이 만든다 → 4개 도구 전부에 물린다.
 const RESULT_SHARED = ['src/components/result-grid']

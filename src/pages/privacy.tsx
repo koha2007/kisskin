@@ -79,6 +79,7 @@ function PrivacyKo() {
         <li>입력한 <strong>생년월일(과 선택한 태어난 시)</strong>은 사주 계산에만 쓰이며 서버로 보내지 않습니다. 결과 · 생년월일 · 관상 도감은 다시 보여 주기 위해 <strong>이 기기의 브라우저 저장소(localStorage)</strong>에만 남고, 브라우저 데이터를 지우면 사라집니다. 당사는 이를 수집하거나 볼 수 없습니다.</li>
         <li>"친구에게 보내기" 링크에는 동물상 · 운 점수 · 오행 요약만 담기며 <strong>사진과 생년월일은 들어가지 않습니다</strong>.</li>
         <li>처방 메이크업을 내 얼굴에 입혀 보는 경우에만 셀카가 AI 메이크업 생성에 쓰이며, 처리 방식은 3.1항(AI 메이크업)과 같습니다.</li>
+        <li><strong>AI 이상형 테스트 "이상형 옆에 선 나"</strong>: 직접 올린 본인 셀카 1장을 이상형(AI 가상 인물) 옆에 선 사진을 만드는 데만 OpenAI 로 보내며, 처리 방식은 3.1항과 같습니다(서버 저장 없음, 생성 후 즉시 폐기). 다른 사람의 사진은 올릴 수 없으며, 결과 이미지에는 "AI 생성" 표시가 들어갑니다. 무료 맛보기의 하루 1장 제한을 위해 IP 주소를 하루 동안만 기록합니다.</li>
         <li><strong>정밀 풀이</strong>를 요청하면 생년월일 원본이나 사진이 아니라, 이미 계산된 결과(사주 기둥 한자 · 오행 개수 · 동물상 비율 · 관상 수치 · 운 점수)만 AI 풀이 생성을 위해 서버를 거쳐 OpenAI로 전송됩니다. 당사 서버는 이를 저장하지 않으며, 받은 풀이는 이 기기에만 저장됩니다.</li>
       </ul>
 
@@ -396,6 +397,7 @@ function PrivacyEn() {
         <li>Your <strong>birth date (and optional birth hour)</strong> is used only to compute your five elements and is not sent to a server. Your result, birth date and Face Dex stay <strong>in this device's browser storage (localStorage)</strong> so they can be shown again, and disappear when you clear your browser data. We cannot collect or see them.</li>
         <li>"Send to friends" links contain only your animal face, fortune scores and element summary — <strong>never your photo or birth date</strong>.</li>
         <li>Only if you choose to try the prescribed makeup on your face is your selfie used for AI makeup generation, handled exactly as in Section 3.1 (AI makeup).</li>
+        <li><strong>AI Ideal Type Test — "Me + my ideal type"</strong>: the one selfie you upload is sent to OpenAI only to create a photo of you beside your ideal type (a fictional AI character), handled exactly as in Section 3.1 (not stored, discarded right after generation). You may not upload anyone else's photo, and every result carries an "AI-generated" label. For the one-free-preview-per-day limit, your IP address is kept for one day only.</li>
         <li>If you request a <strong>full reading</strong>, we send only your already-computed results (pillar characters, element counts, animal-face percentages, face ratios and fortune scores) — never your raw birth date or photo — through our server to OpenAI to write the reading. Our server does not store them, and the reading is saved only on this device.</li>
       </ul>
 

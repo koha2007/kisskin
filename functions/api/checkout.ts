@@ -10,6 +10,8 @@ const PACK_BACKS = new Set(['/makeup/', '/en/makeup/', ...LUCKY_BACKS,
   // 2026-11-11 페이스 페인팅·헤어 컬러 AI 완성본(크레딧 1개)
   '/face-paint/', '/en/face-paint/', '/hair-color/', '/en/hair-color/'])
 
+const IDEAL_BACK = /^\/(en\/)?tools\/ideal-type\/(golden-retriever|black-cat|fox|bunny|teddy-bear|deer|wolf|dino)\/$/
+
 interface Env {
   POLAR_ACCESS_TOKEN: string
   POLAR_PRODUCT_ID?: string       // Subscription product ID (set in Cloudflare env)
@@ -139,7 +141,8 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       if (body.pack === 'collection' && body.back && LUCKY_BACKS.has(body.back)) {
         checkoutBody.success_url = `${origin}${body.back}?nine=1&checkout_id={CHECKOUT_ID}`
       }
-      if ((body.pack === 'starter' || body.pack === 'plus') && body.back && PACK_BACKS.has(body.back)) {
+      // 2026-11-25 이상형 테스트 유형 페이지("이상형 옆에 선 나" 고화질) — 고정 경로 16개만
+      if ((body.pack === 'starter' || body.pack === 'plus') && body.back && (PACK_BACKS.has(body.back) || IDEAL_BACK.test(body.back))) {
         checkoutBody.success_url = `${origin}${body.back}?paid=1&checkout_id={CHECKOUT_ID}`
       }
     } else {
