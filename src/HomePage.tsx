@@ -549,6 +549,7 @@ function HomePage({ onNavigate: onNavigateProp, user: userProp }: HomePageProps)
                 <li><a href={toolHref('/tools/personal-color/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Personal Color' : '퍼스널 컬러 진단'}</a></li>
                 <li><a href={toolHref('/tools/face-shape/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Face Shape' : '얼굴형 진단'}</a></li>
                 <li><a href={toolHref('/tools/perfume-type/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Perfume Type' : '향수 진단'}</a></li>
+                <li><a href={toolHref('/tools/ideal-type/')} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Ideal Type Test' : 'AI 이상형 테스트'}</a></li>
                 <li><a href={isEn ? '/en/looks/' : '/looks/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup How-To' : '메이크업 방법'}</a></li>
                 <li><a href={isEn ? '/en/class/' : '/class/'} className="hover:text-primary transition-colors cursor-pointer">{isEn ? 'Makeup Class' : '메이크업 클래스'}</a></li>
                 <li><a href={isEn ? '/en/news/' : '/news/'} className="hover:text-primary transition-colors cursor-pointer">{t('nav.news')}</a></li>

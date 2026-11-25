@@ -346,6 +346,14 @@ export async function renderIdentityCardCanvas(
   try { ctx.letterSpacing = '2px' } catch { /* noop */ }
   ctx.fillText('kissinskin.net', cx, CARD_H - 92)
   try { ctx.letterSpacing = '0px' } catch { /* noop */ }
+  // 2026-11-25 AI 기본법 31조 — 일러스트가 AI 생성이면 저장 카드에도 표시(예술 예외라도 표시해 둔다)
+  if (drewArt) {
+    ctx.font = `700 24px ${FONT_STACK}`
+    ctx.fillStyle = withAlpha(INK, 0.55)
+    try { ctx.letterSpacing = '4px' } catch { /* noop */ }
+    ctx.fillText('AI ILLUSTRATION · AI 일러스트', cx, CARD_H - 48)
+    try { ctx.letterSpacing = '0px' } catch { /* noop */ }
+  }
 
   return canvas
 }

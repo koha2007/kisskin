@@ -29,7 +29,8 @@ const TYPES: Record<string, TypeDef> = {
 }
 const PLACES: Record<string, string> = {
   picnic: 'a picnic by the Han River in Seoul suggested with a few big cut-paper shapes — a checkered blanket, a river band, a simple bridge silhouette and N Seoul Tower',
-  lpbar: 'a cozy LP bar at night — shelves of vinyl records, a turntable, a warm lamp glow, a small bar table',
+  // 11/25 운영자: 이용 나이 만 14세 이상 → 술 대신 커피·논알코올
+  lpbar: 'a cozy LP listening cafe in the evening — shelves of vinyl records, a turntable, a warm lamp glow, a small table with coffee cups or a soda (absolutely no alcohol, no wine, no beer, no cocktails)',
   exhibition: 'a bright art gallery — large abstract cut-paper artworks on white walls, a gallery bench',
   amusement: 'an amusement park at dusk — a Ferris wheel, a carousel and string lights',
 }
@@ -82,7 +83,7 @@ const combos = Object.keys(TYPES).flatMap((t) => (['m', 'f'] as G[]).map((g) => 
 const phase = process.argv[2] || 'all'
 
 if (phase === 'base' || phase === 'all') {
-  await pool(combos.filter(({ t, g }) => !existsSync(resolve(OUT, `${t}-${g}-picnic.webp`))), 4, async ({ t, g }) => {
+  await pool(combos.filter(({ t, g }) => !existsSync(resolve(OUT, `${t}-${g}-picnic.webp`))), 3, async ({ t, g }) => {
     const def = TYPES[t]
     await generate(`${t}-${g}-picnic`, `${person(def, g, t)} Scene: ${PLACES.picnic}. Signature type color: ${def.color} (a big bold paper shape behind the figure). Hidden type motif: ${def.motif} as a cut-paper silhouette somewhere in the scene.\n\n${STYLE}`)
     console.log('ok base', t, g)
@@ -90,7 +91,7 @@ if (phase === 'base' || phase === 'all') {
 }
 if (phase === 'places' || phase === 'all') {
   const jobs = combos.flatMap((c) => ['lpbar', 'exhibition', 'amusement'].map((p) => ({ ...c, p }))).filter(({ t, g, p }) => !existsSync(resolve(OUT, `${t}-${g}-${p}.webp`)) && existsSync(resolve(OUT, `${t}-${g}-picnic.webp`)))
-  await pool(jobs, 4, async ({ t, g, p }) => {
+  await pool(jobs, 3, async ({ t, g, p }) => {
     const def = TYPES[t]
     await edit(`${t}-${g}-${p}`, resolve(OUT, `${t}-${g}-picnic.webp`), `Make a new poster in exactly the same art style, featuring the SAME person (same face, hair and outfit) from this image, now in a new scene: ${PLACES[p]}. Keep the signature type color (${def.color}) as one big bold paper shape, and hide ${def.motif} as a small cut-paper silhouette in the scene. Different natural pose fitting the place.\n\n${STYLE}`)
     console.log('ok place', t, g, p)

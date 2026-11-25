@@ -19,7 +19,7 @@ const MAX = 100
 const git = (...a) => execFileSync('git', a, { encoding: 'utf8' })
 const LOOKS = ['natural-glow', 'spring-blush', 'summer-glow', 'autumn-berry', 'winter-frost', 'cloud-skin', 'blood-lip', 'maximalist-eye', 'kpop-idol']
 const LUCKY = ['wealth', 'love', 'marriage', 'reunion', 'career', 'exam', 'health', 'popularity', 'travel']
-const TOOLS = ['personal-color', 'face-shape', 'makeup-mbti', 'perfume-type', 'beauty-dna', 'today-fortune']
+const TOOLS = ['personal-color', 'face-shape', 'makeup-mbti', 'perfume-type', 'beauty-dna', 'today-fortune', 'ideal-type']
 const CORE = ['/', '/makeup/', '/lucky-makeup/', '/face-paint/', '/hair-color/', '/looks/', '/tools/']
 const looks = LOOKS.map((i) => `/looks/${i}/`)
 const lucky = LUCKY.map((i) => `/lucky-makeup/${i}/`)
@@ -40,6 +40,7 @@ const RULES = [
   [/^src\/pages\/PersonalColor|^src\/lib\/personal-color|^src\/lib\/recommendations\/personal-color/, ['/tools/personal-color/']],
   [/^src\/pages\/FaceShape|^src\/lib\/face-shape|^src\/lib\/recommendations\/face-shape/, ['/tools/face-shape/']],
   [/^src\/pages\/MakeupMbti|^src\/lib\/makeup-mbti|^src\/lib\/recommendations\/makeup-mbti/, ['/tools/makeup-mbti/']],
+  [/^src\/pages\/IdealType|^src\/lib\/ideal-type|^public\/ideal-type/, ['/tools/ideal-type/']],
   [/^src\/pages\/PerfumeType|^src\/lib\/perfume-type|^src\/lib\/recommendations\/perfume-type/, ['/tools/perfume-type/']],
   [/^src\/pages\/BeautyDna|^src\/lib\/beauty-dna|^src\/components\/beauty-dna/, ['/tools/beauty-dna/']],
   [/^src\/pages\/TodayFortune/, ['/tools/today-fortune/']],

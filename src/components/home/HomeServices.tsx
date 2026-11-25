@@ -13,6 +13,8 @@ import CollectionDemo from './CollectionDemo'
 import HomeWeeklyLook from './HomeWeeklyLook'
 import HomeFreePass from './HomeFreePass'
 import HomeGalleryStrip from './HomeGalleryStrip'
+import HomeIdealBanner from './HomeIdealBanner'
+import { idealImage } from '../../lib/ideal-type/types'
 
 const PINK = '#ef4da0'
 const NAVY = '#070953'
@@ -22,12 +24,12 @@ const PINK_TEXT = '#d6247f'
 interface Tile { ko: string; en: string; koDesc: string; enDesc: string; img: string; path: string; pos?: string; shared?: boolean }
 
 const KNOW: Tile[] = [
+  { ko: 'AI 이상형', en: 'Ideal Type', koDesc: 'NEW · 10문항, 8가지', enDesc: 'NEW · 10 questions, 8 types', img: idealImage('golden-retriever', 'f'), path: '/tools/ideal-type/', pos: '50% 30%' },
   { ko: '오늘의 운세', en: 'Today’s Fortune', koDesc: '생년월일로 10초', enDesc: 'Birth date, 10 seconds', img: luckyLookImg('travel'), path: '/tools/today-fortune/', pos: '50% 20%' },
   { ko: '퍼스널컬러', en: 'Personal Color', koDesc: '6문항, 내 계절 찾기', enDesc: '6 questions, your season', img: TOOL_CARD_IMAGES.personalColor, path: '/tools/personal-color/' },
   { ko: '얼굴형', en: 'Face Shape', koDesc: '6문항, 컨투어·헤어', enDesc: '6 questions, contour & hair', img: TOOL_CARD_IMAGES.faceShape, path: '/tools/face-shape/' },
   { ko: '메이크업 MBTI', en: 'Makeup MBTI', koDesc: '8문항, 16가지 성향', enDesc: '8 questions, 16 types', img: TOOL_CARD_IMAGES.mbti, path: '/tools/makeup-mbti/' },
   { ko: '향수 찾기', en: 'Perfume Finder', koDesc: '5문항, 6가지 향', enDesc: '5 questions, 6 scents', img: TOOL_CARD_IMAGES.perfume, path: '/tools/perfume-type/' },
-  { ko: '내 맞춤 루틴', en: 'My Routine', koDesc: '진단 4개를 하나로', enDesc: '4 quizzes in one', img: '/dna/feature.webp', path: '/tools/beauty-dna/' },
 ]
 const LEARN: Tile[] = [
   { ko: '룩 따라 하기', en: 'Look How-Tos', koDesc: '페이스 차트 4단계', enDesc: 'Face charts, 4 steps', img: '/looks/charts/autumn-berry.webp', path: '/looks/', pos: '50% 42%' },
@@ -69,6 +71,9 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
         </div>
       </section>
 
+      {/* 11/25 NEW 띠 — 셀카 없이 1분 무료 입구(1단계 방문). 캐러셀 X */}
+      <HomeIdealBanner isEn={isEn} />
+
       <HomeFreePass isEn={isEn} />
 
       <section aria-label={isEn ? 'Start makeup' : '메이크업 시작하기'} className="mx-auto grid max-w-[1120px] grid-cols-2 gap-x-3.5 gap-y-6 px-5 py-6 md:gap-x-10 md:gap-y-10 md:px-4 md:py-11">
@@ -89,22 +94,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
 
       <CollectionDemo isEn={isEn} />
 
-      <section id="paid" aria-labelledby="home-paid" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 pb-2 pt-8 text-navy md:px-4 md:pt-12">
-        <h2 id="home-paid" className="mb-2 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px] break-keep">{isEn ? 'First 2 free' : '처음 2장은 무료'}</h2>
-        <div className="grid gap-x-10 md:grid-cols-2">
-          {plans.map((p) => (
-            <a key={p.id} href={p.href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_plan', promotion_id: p.id })} className="grid grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3.5 border-b border-navy py-4 text-navy md:grid-cols-[88px_minmax(0,1fr)_auto]">
-              <span className={`flex aspect-square w-full items-center justify-center rounded-[18px] font-extrabold tracking-[-0.05em] md:rounded-[21px] ${p.small ? 'text-2xl' : 'text-[34px]'}`} style={{ background: p.bg, color: p.fg }}>{p.icon}</span>
-              <strong className="min-w-0 text-[17px] font-extrabold leading-tight tracking-[-0.03em] break-keep">{p.name}</strong>
-              <strong className="text-lg font-extrabold">{p.price}</strong>
-            </a>
-          ))}
-        </div>
-        <p className="mt-2 text-[12px] text-slate-500 break-keep">{isEn ? 'Tax may be added at checkout.' : '결제창에서 세금이 더해질 수 있어요.'}</p>
-      </section>
-
-      <HomeWeeklyLook isEn={isEn} />
-
+      {/* 11/25 무료 테스트 줄을 가격표 위로 — 써 보기 전에 가격부터 보이던 순서 교정 */}
       <section id="free" aria-labelledby="home-free" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 py-8 text-navy md:px-4 md:py-12">
         <h2 id="home-free" className="mb-3.5 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px]">{isEn ? 'Try everything free' : '무료로 다 써 보세요'}</h2>
         <div className="flex flex-col gap-6">
@@ -126,6 +116,23 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
           ))}
         </div>
       </section>
+
+      <section id="paid" aria-labelledby="home-paid" className="mx-auto max-w-[1120px] scroll-mt-16 px-5 pb-2 pt-8 text-navy md:px-4 md:pt-12">
+        <h2 id="home-paid" className="mb-2 text-[25px] font-extrabold leading-tight tracking-[-0.04em] md:text-[34px] break-keep">{isEn ? 'First 2 free' : '처음 2장은 무료'}</h2>
+        <div className="grid gap-x-10 md:grid-cols-2">
+          {plans.map((p) => (
+            <a key={p.id} href={p.href} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_plan', promotion_id: p.id })} className="grid grid-cols-[76px_minmax(0,1fr)_auto] items-center gap-3.5 border-b border-navy py-4 text-navy md:grid-cols-[88px_minmax(0,1fr)_auto]">
+              <span className={`flex aspect-square w-full items-center justify-center rounded-[18px] font-extrabold tracking-[-0.05em] md:rounded-[21px] ${p.small ? 'text-2xl' : 'text-[34px]'}`} style={{ background: p.bg, color: p.fg }}>{p.icon}</span>
+              <strong className="min-w-0 text-[17px] font-extrabold leading-tight tracking-[-0.03em] break-keep">{p.name}</strong>
+              <strong className="text-lg font-extrabold">{p.price}</strong>
+            </a>
+          ))}
+        </div>
+        <p className="mt-2 text-[12px] text-slate-500 break-keep">{isEn ? 'Tax may be added at checkout.' : '결제창에서 세금이 더해질 수 있어요.'}</p>
+      </section>
+
+      <HomeWeeklyLook isEn={isEn} />
+
     </>
   )
 }
