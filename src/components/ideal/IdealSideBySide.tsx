@@ -10,6 +10,7 @@ import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { keepPendingSelfie, takePendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { newJobId } from '../../lib/makeup/generateLook'
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
+import { IDEAL_PAID_SAMPLES } from '../home/HomeIdealBanner'
 import { PLACE_LABEL, type IdealGender, type IdealPlace, type IdealTypeCode } from '../../lib/ideal-type/types'
 
 type St = { k: 'idle' } | { k: 'busy'; hd: boolean } | { k: 'done'; image: string; hd: boolean } | { k: 'error'; msg: string; action?: 'login' | 'topup' }
@@ -92,8 +93,18 @@ export default function IdealSideBySide({ isEn, code, g, place, name }: { isEn: 
       <h2 id="ideal-side" className="mt-1 text-[24px] font-extrabold leading-tight tracking-[-0.03em] md:text-[30px] break-keep">{isEn ? `A date photo of you and your ${name}` : `${name} 이상형과 함께 찍은 데이트 사진`}</h2>
       <p className="mt-2 text-[14px] leading-snug text-white/80 break-keep">{isEn ? `One selfie → you and your ideal type at the ${PLACE_LABEL[place].en.toLowerCase()}, with your date makeup on. First preview free (low-res, watermarked) · HD = 1 credit.` : `셀카 한 장이면 ${PLACE_LABEL[place].ko}에서 이상형과 나란히, 내 얼굴엔 데이트 메이크업. 첫 맛보기 무료(저화질·워터마크) · 고화질 크레딧 1개.`}</p>
 
+      {/* 예시 3장 — 운영자 본인 사진으로 만든 실제 결과(배경 다름) */}
+      {st.k !== 'done' && (
+        <div className="mt-4">
+          <div className="grid grid-cols-3 gap-2">
+            {IDEAL_PAID_SAMPLES.map((src, i) => <img key={src} src={src} alt={isEn ? `Example ${i + 1}: the operator's own photo with an ideal type, AI-generated` : `예시 ${i + 1}: 운영자 본인 사진으로 만든 결과, AI 생성`} width={213} height={320} loading="lazy" className="aspect-[2/3] w-full rounded-xl object-cover" />)}
+          </div>
+          <p className="mt-1.5 text-[11px] text-white/60 break-keep">{isEn ? 'Examples made from the operator\'s own selfie — your face stays your face.' : '운영자 본인 셀카로 만든 예시예요. 얼굴은 내 얼굴 그대로 나와요.'}</p>
+        </div>
+      )}
+
       <div className="mt-5 grid gap-5 md:grid-cols-[200px_minmax(0,1fr)]">
-        <button type="button" onClick={() => fileRef.current?.click()} className="flex aspect-[3/4] w-full max-w-[200px] items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-white/40 bg-white/5 text-[14px] font-bold">
+        <button type="button" onClick={() => fileRef.current?.click()} className="flex aspect-[3/4] w-[150px] md:w-full md:max-w-[200px] items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-white/40 bg-white/5 text-[14px] font-bold">
           {photo ? <img src={photo} alt={isEn ? 'Your selfie' : '내 셀카'} className="h-full w-full object-cover" /> : <span className="px-3 text-center">{isEn ? '+ Add a selfie (front-facing)' : '+ 셀카 올리기 (정면)'}</span>}
         </button>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => pick(e.target.files?.[0])} />
