@@ -351,7 +351,7 @@ export async function renderIdentityCardCanvas(
     ctx.font = `700 24px ${FONT_STACK}`
     ctx.fillStyle = withAlpha(INK, 0.55)
     try { ctx.letterSpacing = '4px' } catch { /* noop */ }
-    ctx.fillText('AI ILLUSTRATION · AI 일러스트', cx, CARD_H - 48)
+    ctx.fillText('AI 일러스트 · AI ART', cx, CARD_H - 48)
     try { ctx.letterSpacing = '0px' } catch { /* noop */ }
   }
 

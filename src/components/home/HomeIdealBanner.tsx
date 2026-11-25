@@ -43,12 +43,12 @@ export default function HomeIdealBanner({ isEn }: { isEn: boolean }) {
             <Stack srcs={FREE.map((p) => idealImage(p.code, p.g))} ratio="aspect-[8/9]" label={isEn ? 'AI art' : 'AI 일러스트'} />
             <span className="mt-auto flex min-h-[40px] items-center justify-center rounded-full bg-navy px-3 text-[13px] font-extrabold text-white">{isEn ? 'Start free →' : '무료로 시작 →'}</span>
           </a>
-          <a href={href} onClick={go('paid')} className="flex min-w-0 flex-col gap-1.5 rounded-2xl p-2.5 text-white md:p-5" style={{ background: '#070953' }}>
+          <a href={`${href}photo/`} onClick={go('paid')} className="flex min-w-0 flex-col gap-1.5 rounded-2xl p-2.5 text-white md:p-5" style={{ background: '#070953' }}>
             <span className="w-fit rounded-full px-2 py-0.5 text-[11px] font-extrabold text-navy" style={{ background: '#ef4da0' }}>{isEn ? 'PAID · 1st preview free' : '유료 · 첫 맛보기 무료'}</span>
             <strong className="text-[15px] leading-tight md:text-[22px] break-keep">{isEn ? 'Me + my ideal type' : '이상형 옆에 선 나'}</strong>
             <span className="text-[12px] leading-snug text-white/80 md:text-[15px] break-keep">{isEn ? 'One selfie → a date photo together, with date makeup · HD 1 credit' : '셀카 한 장 → 함께 찍은 데이트 사진 · 고화질 크레딧 1개'}</span>
             <Stack srcs={IDEAL_PAID_SAMPLES} ratio="aspect-[2/3]" label={isEn ? 'AI · operator photo' : 'AI · 운영자 사진 예시'} />
-            <span className="mt-auto flex min-h-[40px] items-center justify-center rounded-full px-3 text-[13px] font-extrabold text-navy" style={{ background: '#ef4da0' }}>{isEn ? 'Test, then make it →' : '테스트하고 만들기 →'}</span>
+            <span className="mt-auto flex min-h-[40px] items-center justify-center rounded-full px-3 text-[13px] font-extrabold text-navy" style={{ background: '#ef4da0' }}>{isEn ? 'Make my photo →' : '내 사진 만들기 →'}</span>
           </a>
         </div>
       </div>

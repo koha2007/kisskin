@@ -10,7 +10,7 @@ const PACK_BACKS = new Set(['/makeup/', '/en/makeup/', ...LUCKY_BACKS,
   // 2026-11-11 페이스 페인팅·헤어 컬러 AI 완성본(크레딧 1개)
   '/face-paint/', '/en/face-paint/', '/hair-color/', '/en/hair-color/'])
 
-const IDEAL_BACK = /^\/(en\/)?tools\/ideal-type\/(golden-retriever|black-cat|fox|bunny|teddy-bear|deer|wolf|dino)\/$/
+const IDEAL_BACK = /^\/(en\/)?tools\/ideal-type\/(golden-retriever|black-cat|fox|bunny|teddy-bear|deer|wolf|dino|photo)\/$/
 
 interface Env {
   POLAR_ACCESS_TOKEN: string

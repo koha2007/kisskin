@@ -136,3 +136,8 @@ export const IDEAL_IMG_V = '20261125'
 export function idealImage(code: IdealTypeCode, g: IdealGender, place: IdealPlace = 'picnic'): string {
   return `/ideal-type/${code}-${g}-${place}.webp?v=${IDEAL_IMG_V}`
 }
+
+/** 저장 카드용 클로즈업 — 같은 그림을 얼굴 기준으로 자른 것(11/25, OpenCV YuNet 얼굴 위치, 다시 그리지 않음) */
+export function idealCardImage(code: IdealTypeCode, g: IdealGender, place: IdealPlace = 'picnic'): string {
+  return `/ideal-type/card/${code}-${g}-${place}.webp?v=${IDEAL_IMG_V}`
+}

@@ -16,7 +16,7 @@ import { PLACE_LABEL, type IdealGender, type IdealPlace, type IdealTypeCode } fr
 type St = { k: 'idle' } | { k: 'busy'; hd: boolean } | { k: 'done'; image: string; hd: boolean } | { k: 'error'; msg: string; action?: 'login' | 'topup' }
 const JOB_KEY = 'kisskin_ideal_side_job'
 
-export default function IdealSideBySide({ isEn, code, g, place, name }: { isEn: boolean; code: IdealTypeCode; g: IdealGender; place: IdealPlace; name: string }) {
+export default function IdealSideBySide({ isEn, code, g, place, name, hideSamples = false, step }: { isEn: boolean; code: IdealTypeCode; g: IdealGender; place: IdealPlace; name: string; hideSamples?: boolean; step?: string }) {
   const [photo, setPhoto] = useState<string | null>(null)
   const [agree, setAgree] = useState(false)
   const [st, setSt] = useState<St>({ k: 'idle' })
@@ -90,11 +90,11 @@ export default function IdealSideBySide({ isEn, code, g, place, name }: { isEn: 
   return (
     <section id="side" aria-labelledby="ideal-side" className="mx-auto mt-12 max-w-[760px] scroll-mt-20 rounded-3xl p-5 text-white md:p-8" style={{ background: '#070953' }}>
       <p className="text-[12px] font-extrabold tracking-[0.2em] text-[#ef4da0]">{isEn ? 'ME + MY IDEAL TYPE' : '이상형 옆에 선 나'}</p>
-      <h2 id="ideal-side" className="mt-1 text-[24px] font-extrabold leading-tight tracking-[-0.03em] md:text-[30px] break-keep">{isEn ? `A date photo of you and your ${name}` : `${name} 이상형과 함께 찍은 데이트 사진`}</h2>
+      <h2 id="ideal-side" className="mt-1 text-[24px] font-extrabold leading-tight tracking-[-0.03em] md:text-[30px] break-keep">{step ? `${step} ` : ''}{isEn ? `A date photo of you and your ${name}` : `${name} 이상형과 함께 찍은 데이트 사진`}</h2>
       <p className="mt-2 text-[14px] leading-snug text-white/80 break-keep">{isEn ? `One selfie → you and your ideal type at the ${PLACE_LABEL[place].en.toLowerCase()}, with your date makeup on. First preview free (low-res, watermarked) · HD = 1 credit.` : `셀카 한 장이면 ${PLACE_LABEL[place].ko}에서 이상형과 나란히, 내 얼굴엔 데이트 메이크업. 첫 맛보기 무료(저화질·워터마크) · 고화질 크레딧 1개.`}</p>
 
       {/* 예시 3장 — 운영자 본인 사진으로 만든 실제 결과(배경 다름) */}
-      {st.k !== 'done' && (
+      {st.k !== 'done' && !hideSamples && (
         <div className="mt-4">
           <div className="grid grid-cols-3 gap-2">
             {IDEAL_PAID_SAMPLES.map((src, i) => <img key={src} src={src} alt={isEn ? `Example ${i + 1}: the operator's own photo with an ideal type, AI-generated` : `예시 ${i + 1}: 운영자 본인 사진으로 만든 결과, AI 생성`} width={213} height={320} loading="lazy" className="aspect-[2/3] w-full rounded-xl object-cover" />)}

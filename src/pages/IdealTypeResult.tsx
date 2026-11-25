@@ -3,7 +3,7 @@
 // 답 배지, AI 한 줄). 쿼리는 마운트 뒤에만 읽는다(정적 HTML 과 첫 렌더를 같게 → 하이드레이션 오류 방지).
 // 테스트 결과는 잠그지 않는다(16Personalities 불만 교훈). 그림은 모두 AI 일러스트 — 화면·카드에 표시.
 import { useEffect, useMemo, useState } from 'react'
-import { IDEAL_ORDER, IDEAL_PLACES, IDEAL_TYPES, PLACE_LABEL, idealImage, type IdealGender, type IdealPlace, type IdealTypeCode } from '../lib/ideal-type/types'
+import { IDEAL_ORDER, IDEAL_PLACES, IDEAL_TYPES, PLACE_LABEL, idealCardImage, idealImage, type IdealGender, type IdealPlace, type IdealTypeCode } from '../lib/ideal-type/types'
 import { IQ_QUESTIONS, decodeAnswers, placeOf } from '../lib/ideal-type/questions'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import IdentityCard from '../components/IdentityCard'
@@ -81,7 +81,7 @@ export default function IdealTypeResult({ code }: { code: IdealTypeCode }) {
           {/* 그림 — 성별 둘 다 보기(검색 방문·상관없음)면 나란히, 아니면 크게 한 장 */}
           {mine && !both ? (
             <div>
-              <IdentityCard label={isEn ? 'IDEAL TYPE' : '나의 이상형'} emoji={t.emoji} card={card} illustration={idealImage(code, shown, place)} fileSlug={`ideal-${code}`}
+              <IdentityCard label={isEn ? 'IDEAL TYPE' : '나의 이상형'} emoji={t.emoji} card={card} illustration={idealCardImage(code, shown, place)} fileSlug={`ideal-${code}`}
                 saveLabel={isEn ? 'Save image' : '이미지 저장하기'} isEn={isEn} share={{ url: shareUrl, text: shareText, title: isEn ? `Ideal type: ${t.en}` : `이상형: ${t.ko}` }} shareLabel={isEn ? 'Share' : '공유하기'} />
               <p className="mt-2 text-center text-[12px] text-slate-500 break-keep">{isEn ? `First date: ${PLACE_LABEL[place].en} · AI-generated illustration, not a real person` : `첫 데이트: ${PLACE_LABEL[place].ko} · AI로 그린 일러스트예요(실제 인물 아님)`}{aiLine ? (isEn ? ' · the line was written by AI from your answers' : ' · 카드 속 한 줄은 내 답을 보고 AI가 썼어요') : ''}</p>
             </div>
@@ -137,7 +137,7 @@ export default function IdealTypeResult({ code }: { code: IdealTypeCode }) {
         {/* 공유 카드 — 화면 미리보기 = 저장 PNG. 내 결과(성별 하나)면 위에서 이미 보여 준다 */}
         {both && <section aria-labelledby="ideal-card" className="mx-auto mt-12 max-w-[420px]">
           <h2 id="ideal-card" className="mb-3 text-center text-[22px] font-extrabold tracking-[-0.03em]">{isEn ? 'Save & share your card' : '내 이상형 카드 저장·공유'}</h2>
-          <IdentityCard label={isEn ? 'IDEAL TYPE' : '나의 이상형'} emoji={t.emoji} card={card} illustration={idealImage(code, shown, place)} fileSlug={`ideal-${code}`}
+          <IdentityCard label={isEn ? 'IDEAL TYPE' : '나의 이상형'} emoji={t.emoji} card={card} illustration={idealCardImage(code, shown, place)} fileSlug={`ideal-${code}`}
             saveLabel={isEn ? 'Save image' : '이미지 저장하기'} isEn={isEn} share={{ url: shareUrl, text: shareText, title: isEn ? `Ideal type: ${t.en}` : `이상형: ${t.ko}` }} shareLabel={isEn ? 'Share' : '공유하기'} />
           {mine && aiLine && <p className="mt-2 text-center text-[12px] text-slate-500 break-keep">{isEn ? 'The line on your card was written by AI from your answers.' : '카드 속 한 줄은 내 답을 보고 AI가 썼어요.'}</p>}
         </section>}
