@@ -33,6 +33,15 @@
 | 3 | 그림 **64장**(유형 × 성별 × Q1 장소) — 샘플 먼저 | Spotify Audio Aura: "내 답이 그림에 보이는" 조합이 공유를 만듦. 비용 $3~11로 작음 |
 | 4 | "이상형만 AI로 새로 그리기" = **1차에서 뺌** | 주류 성공작(Snapchat·Epik·Lensa)은 모두 셀카 기반. 글만으로 이성 이미지를 만드는 앱은 성인물 쪽으로 쏠리는 경우가 많음(App Store 17+ 다수) → 브랜드·안전 위험 |
 
+### 🎨 무료 그림 화풍 — 11/25 서치·비교 후 결정: **B안(컷페이퍼 콜라주 + 판화 질감 + 유형 고정 색·동물 모티프)**
+| | A안(첫 샘플) 부드러운 물감 일러스트 | **B안(채택)** 마티스 컷페이퍼 콜라주 |
+|---|---|---|
+| 2025~26 흐름 | 손그림 느낌은 맞지만 "AI가 흉내 낸 수채화"로 읽힐 위험(Skechers 2026 광고 비판) | Spotify Wrapped 2025가 'AI 같은 매끈함' 비판 뒤 스크랩북·아날로그로 전환, Pinterest 2026 콜라주, 일러스트 시장 과슈·판화 질감 급증 |
+| 우리 브랜드 | 지금 결과 카드(컷페이퍼)와 따로 놂 | 결과 카드와 같은 언어 → "미술 × 메이크업" |
+| 유형 체계 | 유형이 그림에서 안 보임 | 16Personalities처럼 **유형마다 고정 색 1개 + 숨은 동물 모양**(강아지상 = 머스터드 해 + 리트리버) → 64장이 한 시리즈로 보임 |
+| 기각 | 지브리·애니풍: 2025 최대 유행이지만 저작권 논란·OpenAI 제한·누구나 만드는 그림이라 차별점 X | |
+- 보완: B안 샘플은 앉은 자세 → 아래 20% 여백이 좁음. 본 생성 때 "서 있거나 앉아도 발밑 여백 20%" 지시 추가. 유형별 고정 색 8개는 결과 카드 gradient 색과 맞춰 정할 것.
+
 ### 📷 사용자 사진 넣기 — 11/25 서치·확인
 | 항목 | 글로벌 사례 | 우리 결정 |
 |---|---|---|
@@ -210,6 +219,7 @@
 - Pinterest: [Pinterest Business](https://business.pinterest.com/blog/how-gen-z-is-taking-back-their-taste-from-ai/) · [YPulse(Shuffles)](https://www.ypulse.com/newsfeed/2022/08/03/pinterest-is-appealing-to-gen-z-and-millennials-with-a-new-app-called-shuffles-that-helps-users-create-mood-boards-and-collages/)
 - 11/25 결정 근거: [Snap Newsroom(Dreams)](https://newsroom.snap.com/dreams) · [TechCrunch(Dreams)](https://techcrunch.com/2023/08/29/snapchat-launches-a-new-ai-selfie-feature-called-dreams) · [Spotify Me in 2023](https://newsroom.spotify.com/tag/me-in-2023) · [Tinder 성별 설정](https://www.help.tinder.com/hc/articles/15668360470669-Gender-Sexual-Orientation) · [You2 App Store](https://apps.apple.com/us/app/id6760884531) · [Couplio App Store](https://apps.apple.com/us/app/id6751223823)
 - 사진 넣기(11/25): [TechCrunch(Lensa)](https://techcrunch.com/2022/12/01/lensa-ai-climbs-the-app-store-charts-as-its-magic-avatars-go-viral) · [NBC(Epik)](https://www.nbcnews.com/tech/ai-yearbook-app-epik-not-free-social-media-rcna118702) · [Lensa BIPA 소송](https://petapixel.com/2023/03/16/lawsuit-alleges-lensa-ai-app-illegally-took-users-biometric-data) · [OpenAI 이용 정책](https://openai.com/policies/usage-policies/) · [AI 기본법 워터마크(중앙데일리)](https://www.koreajoongangdaily.com/business/koreas-groundbreaking-ai-law-requires-watermarks-on-generated-content-but-enforcement-gaps-remain/12094830) · [PetaPixel(AI 표시법)](https://petapixel.com/2026/01/29/south-korea-launches-landmark-laws-requiring-labels-on-ai-generated-content/) · [PhotoWorkout(얼굴 유지 시험)](https://www.photoworkout.com/gpt-image-26-test/) · [OpenAI 포럼(매끈한 피부)](https://community.openai.com/t/gpt-image-2-produces-plastic-looking-faces-in-product-edit/1394653)
+- 화풍(11/25): [Fast Company·Spotify 2025](https://newsroom.spotify.com/?p=37865) · [iMusician(2024 AI 광택→2025 아날로그)](https://imusician.pro/en/resources/blog/spotify-wrapped-2025) · [Creative Bloq 2026 일러스트 흐름](https://www.creativebloq.com/art/illustration/messy-meaningful-and-made-by-humans-the-biggest-illustration-trends-for-2026) · [IllustrationX 시장 분석](https://www.illustrationx.com/news/6932/trendx_-_our_deep_analysis_of_whats_going_on_in_the_market) · [Highsnobiety 2026 패션 일러스트](https://www.highsnobiety.com/p/2026-is-the-year-of-the-fashion-illustrator) · [DesignRush Skechers](https://www.designrush.com/best-designs/print/trends/skechers-bad-ai-ads-on-purpose) · [NBC 지브리 유행](https://www.nbcnews.com/tech/tech-news/studio-ghibli-chatgpt-inspired-memes-portraits-rcna198273) · [Zeda Labs 16P 캐릭터](https://dribbble.com/zedalabs/projects/240402-16-Personalities)
 - Bumble·Tinder: [TechCrunch](https://techcrunch.com/2026/03/12/bumble-introduces-an-ai-dating-assistant-bee/) · [Axios](https://www.axios.com/2026/03/12/tinder-ai-features-hinge-bumble)
 
 ---

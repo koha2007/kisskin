@@ -19,11 +19,17 @@ const SAMPLES: Record<string, string> = {
   'golden-retriever-m-picnic': 'A young Korean man in his late 20s with a "golden retriever" vibe: gentle slightly down-turned eyes, a big warm open smile, soft wavy hair. Outfit: cream cable-knit sweater, light-wash straight denim, white sneakers, a canvas tote. Scene: a sunny riverside picnic by the Han River in Seoul — a checkered blanket, a small basket, bridges and the city skyline softly in the distance, late-afternoon golden light.',
 }
 
+// 11/25 B안 — "더 발전": 2025~26 흐름(손맛·콜라주·판화 질감, Spotify Wrapped 2025 아날로그 전환,
+//   'AI 같은 매끈함' 반발) + 16Personalities식 체계(유형마다 고정 색 + 동물 모티프). 사람 얼굴은 단순하게.
+const STYLE_B = 'Bold cut-paper collage poster in the spirit of Henri Matisse\'s late cut-outs, combined with risograph print grain and visible gouache brush texture. Built from layered, scissor-cut and slightly torn paper shapes with visible edges and tiny misregistration, like a real handmade print, not digital. The figure is drawn simply and graphically (simplified features, a few confident lines), charming and stylish, never hyper-detailed or glossy. Limited palette: warm cream paper, deep navy, terracotta, and ONE signature type color used boldly. Full-body single figure and background as one composed poster. Leave calm empty space in the top 15% and bottom 20% for text added later. Not a photograph, not 3D, not anime. No text, no letters, no logos, no watermark. Fully clothed, non-sexual, friendly.'
+SAMPLES['golden-retriever-m-picnic-b'] = 'A young Korean man in his late 20s with a "golden retriever" vibe: gentle down-turned eyes, a big warm open smile, soft wavy hair. Outfit: cream cable-knit sweater, light-wash denim, white sneakers, a canvas tote. Scene: picnic by the Han River in Seoul suggested with a few big cut-paper shapes — a checkered blanket, a river band, a simple bridge silhouette and N Seoul Tower. Signature type color: golden mustard yellow (a big sun-like paper circle behind him). Hidden type motif: a small cut-paper golden retriever silhouette lying on the blanket.'
+const styleFor = (id: string) => (id.endsWith('-b') ? STYLE_B : STYLE)
+
 const ids = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SAMPLES)
 for (const id of ids) {
   const out = resolve(OUT, `${id}.webp`)
   if (existsSync(out)) { console.log('skip', id); continue }
-  const prompt = `${SAMPLES[id]}\n\n${STYLE}`
+  const prompt = `${SAMPLES[id]}\n\n${styleFor(id)}`
   const base = env.OPENAI_BASE_URL?.replace(/\/$/, '')
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   let url = 'https://api.openai.com/v1/images/generations'
