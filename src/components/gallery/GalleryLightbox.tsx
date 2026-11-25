@@ -167,7 +167,7 @@ export default function GalleryLightbox({ posts, index, hearted, isEn, onIndex, 
       <div className="mx-auto flex w-full max-w-xl items-center justify-between gap-3 px-4 pb-[max(16px,env(safe-area-inset-bottom))] pt-3">
         <div className="min-w-0">
           <a href={lookTryHref(p.source, p.lookId, isEn)} onClick={() => trackEvent('gallery_try_look', { source: p.source, look: p.lookId, from: 'lightbox' })} className="block truncate text-[16px] font-extrabold underline-offset-4 hover:underline">{name}</a>
-          <span className="block text-[12px] text-white/60">{isEn ? 'Make this look on my face →' : '이 룩 내 얼굴로 만들기 →'}</span>
+          <span className="block text-[12px] text-white/60">{isEn ? 'AI-generated · Make this look on my face →' : 'AI 생성 · 이 룩 내 얼굴로 만들기 →'}</span>
           {footerLink && <a href={footerLink.href} className="mt-1 block text-[12px] font-bold text-white/70 underline underline-offset-2">{footerLink.label}</a>}
         </div>
         <button

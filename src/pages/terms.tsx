@@ -112,6 +112,7 @@ function TermsKo() {
       <h2>9. AI 투명성 및 면책</h2>
       <ul>
         <li>AI가 생성한 메이크업 시뮬레이션은 <strong>예술적 근사치</strong>이며 실제 외모의 보장이 아닙니다.</li>
+        <li>저장·공유용 결과 이미지에는 <strong>"AI 생성" 표시</strong>가 들어갑니다(인공지능 기본법 제31조). 결과물을 다른 곳에 올릴 때 이 표시를 지우거나 실제 사진처럼 속이는 데 쓰지 마세요.</li>
         <li>서비스는 자동화된 처리(OpenAI의 이미지 생성 모델 및 Google Gemini 언어 모델, 장애 시 OpenAI 언어 모델로 대체)를 사용합니다. 사람의 검토나 큐레이션은 없습니다.</li>
         <li>제품 추천은 피부 분석에 기반한 AI 제안이며, kissinskin은 어떠한 제품도 제조·판매·보증하지 않습니다.</li>
         <li>AI 추천에 따른 구매 결정에 대해 당사는 책임지지 않습니다.</li>
@@ -282,6 +283,7 @@ function TermsEn() {
       <h2>9. AI Transparency & Disclaimer</h2>
       <ul>
         <li>AI-generated makeup simulations are <strong>artistic approximations</strong>, not guarantees of real-world appearance.</li>
+        <li>Saved and shared result images carry a visible <strong>"AI-generated" label</strong> (Korea AI Basic Act, Art. 31; EU AI Act, Art. 50). Do not remove it or use a result to pass it off as a real photo.</li>
         <li>The Service uses automated processing (OpenAI's image generation model and Google's Gemini language model, with an OpenAI language model as fallback) to generate results. No human reviews or curates the output.</li>
         <li>Product recommendations are AI-generated suggestions based on your skin analysis. kissinskin does not manufacture, sell, or endorse any recommended products.</li>
         <li>kissinskin is not liable for any purchasing decisions you make based on AI recommendations.</li>

@@ -75,7 +75,7 @@ const INK = '#070953'
 const MUTED = '#475569'
 
 /** 워터마크/라벨/브랜딩을 얹은 합성 캔버스를 반환. afterSrc 로드 실패 시 throw. */
-export async function buildMakeupComposite({ afterSrc, styleName, styleDesc, kind = 'makeup', ratio = 'story' }: CompositeOpts): Promise<HTMLCanvasElement> {
+export async function buildMakeupComposite({ afterSrc, styleName, styleDesc, isEn, kind = 'makeup', ratio = 'story' }: CompositeOpts): Promise<HTMLCanvasElement> {
   const img = new Image()
   img.crossOrigin = 'anonymous'
   await new Promise<void>((resolve, reject) => {
@@ -177,6 +177,27 @@ export async function buildMakeupComposite({ afterSrc, styleName, styleDesc, kin
     ctx.textAlign = 'left'
     ctx.textBaseline = 'middle'
     ctx.fillText(label, bx + padX, by + bh / 2 + 1)
+  }
+
+  // AI 생성 표시 — 2026-11-25 AI 기본법 제31조(2026-01-22 시행): 저장·공유로 서비스 밖에 나가는
+  // 결과물에는 AI 생성 사실을 표시, 실제 사람(내 셀카)을 닮은 사진은 눈에 보이는 표시가 원칙.
+  // 사진 위(카드 오른쪽 아래)에 얹어 캡션을 잘라내도 남게 한다. isEn 을 안 넘기는 호출부는 문서 언어로.
+  {
+    const en = isEn ?? (typeof document !== 'undefined' && document.documentElement.lang?.toLowerCase().startsWith('en'))
+    const label = en ? 'AI-generated' : 'AI 생성'
+    const af = Math.round(W * 0.02)                  // 22
+    ctx.font = `700 ${af}px ${FONT}`
+    const padX = Math.round(af * 0.6), ah = Math.round(af * 1.6)
+    const aw = Math.round(ctx.measureText(label).width + padX * 2)
+    const m = Math.round(W * 0.022)
+    const ax = cardX + cardW - aw - m, ay = cardTop + cardH - ah - m
+    roundRect(ctx, ax, ay, aw, ah, ah / 2)
+    ctx.fillStyle = 'rgba(7,9,40,0.62)'
+    ctx.fill()
+    ctx.fillStyle = '#ffffff'
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(label, ax + padX, ay + ah / 2 + 1)
   }
 
   // ── ⑤ 카드 아래 캡션 — 전부 가운데 정렬
