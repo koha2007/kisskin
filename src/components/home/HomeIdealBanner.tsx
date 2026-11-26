@@ -10,7 +10,14 @@ const FREE = [
   { code: 'black-cat', g: 'f' },
   { code: 'bunny', g: 'f' },
 ] as const
-export const IDEAL_PAID_SAMPLES = ['golden-retriever-picnic', 'bunny-amusement', 'black-cat-lpbar'].map((f) => `/ideal-type/samples/${f}.webp?v=20261125`)
+// 11/26 예시 9장 교체: 남자 사용자(운영자 사진) 3 · 여자 사용자(예시 모델) 3 · 이상형 단독 스튜디오 3 — 데이트 6장은 배경 모두 다름
+const ex = (f: string) => `/ideal-type/samples/ex-${f}.webp?v=20261126`
+export const IDEAL_EXAMPLES = {
+  m: ['m-bunny-popup', 'm-fox-hanbok', 'm-deer-winter'].map(ex),
+  f: ['f-golden-photobooth', 'f-wolf-hongdae', 'f-blackcat-amusement'].map(ex),
+  solo: ['s-fox-m', 's-deer-f', 's-teddy-m'].map(ex),
+}
+export const IDEAL_PAID_SAMPLES = [IDEAL_EXAMPLES.m[0], IDEAL_EXAMPLES.f[0], IDEAL_EXAMPLES.m[1]]
 
 function Stack({ srcs, ratio, label }: { srcs: readonly string[]; ratio: string; label: string }) {
   return (
@@ -47,7 +54,7 @@ export default function HomeIdealBanner({ isEn }: { isEn: boolean }) {
             <span className="w-fit rounded-full px-2 py-0.5 text-[11px] font-extrabold text-navy" style={{ background: '#ef4da0' }}>{isEn ? 'PAID · 1st preview free' : '유료 · 첫 맛보기 무료'}</span>
             <strong className="text-[15px] leading-tight md:text-[22px] break-keep">{isEn ? 'Me + my ideal type' : '이상형 옆에 선 나'}</strong>
             <span className="text-[12px] leading-snug text-white/80 md:text-[15px] break-keep">{isEn ? 'One selfie → a date photo together, with K-pop idol makeup · HD 1 credit' : '셀카 한 장 → 함께 찍은 데이트 사진 · 고화질 크레딧 1개'}</span>
-            <Stack srcs={IDEAL_PAID_SAMPLES} ratio="aspect-[2/3]" label={isEn ? 'AI · operator photo' : 'AI · 운영자 사진 예시'} />
+            <Stack srcs={IDEAL_PAID_SAMPLES} ratio="aspect-[2/3]" label={isEn ? 'AI-generated examples' : 'AI 생성 예시'} />
             <span className="mt-auto flex min-h-[40px] items-center justify-center rounded-full px-3 text-[13px] font-extrabold text-navy" style={{ background: '#ef4da0' }}>{isEn ? 'Make my photo →' : '내 사진 만들기 →'}</span>
           </a>
         </div>

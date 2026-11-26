@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import IdealSideBySide, { type IdealCutKind } from '../components/ideal/IdealSideBySide'
-import { IDEAL_PAID_SAMPLES } from '../components/home/HomeIdealBanner'
+import { IDEAL_EXAMPLES } from '../components/home/HomeIdealBanner'
 import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_TYPES, NEW_SIDE_PLACES, idealBadge, SIDE_PLACES, SIDE_PLACE_LABEL, idealCardImage, refPlace, type IdealGender, type IdealTypeCode, type SidePlace } from '../lib/ideal-type/types'
 import { trackEvent } from '../lib/analytics'
 import { useI18n } from '../i18n/I18nContext'
@@ -54,10 +54,19 @@ export default function IdealPhotoPage() {
 
         {/* ① 예시 */}
         <section aria-labelledby="photo-ex" className="mt-6">
-          <h2 id="photo-ex" className="text-[15px] font-extrabold">{isEn ? 'Real examples — the operator\'s own selfie' : '실제 예시 — 운영자 본인 셀카로 만든 결과'}</h2>
-          <div className="mt-2 grid grid-cols-3 gap-2 md:gap-4">
-            {IDEAL_PAID_SAMPLES.map((src, i) => <img key={src} src={src} alt={isEn ? `Example ${i + 1}, AI-generated from the operator's selfie` : `예시 ${i + 1}, 운영자 셀카로 만든 AI 생성 사진`} width={320} height={480} className="aspect-[2/3] w-full rounded-2xl object-cover" />)}
-          </div>
+          <h2 id="photo-ex" className="text-[15px] font-extrabold">{isEn ? 'Examples — 9 photos made with this tool' : '예시 9장 — 실제로 이 기능으로 만든 사진'}</h2>
+          {([
+            ['m', isEn ? 'A man\'s selfie + his ideal type (operator\'s photo)' : '남자 사용자 + 이상형 데이트 (운영자 사진)', IDEAL_EXAMPLES.m],
+            ['f', isEn ? 'A woman\'s selfie + her ideal type (sample model)' : '여자 사용자 + 이상형 데이트 (예시 모델)', IDEAL_EXAMPLES.f],
+            ['solo', isEn ? 'Ideal type alone — studio shot (no selfie)' : '이상형 단독 — 스튜디오 컷 (셀카 없이)', IDEAL_EXAMPLES.solo],
+          ] as const).map(([k, label, srcs]) => (
+            <div key={k} className="mt-3">
+              <h3 className="text-[13px] font-bold text-slate-600 break-keep">{label}</h3>
+              <div className="mt-1.5 grid grid-cols-3 gap-2 md:gap-4">
+                {srcs.map((src, i) => <img key={src} src={src} alt={isEn ? `${label} — example ${i + 1}, AI-generated` : `${label} — 예시 ${i + 1}, AI 생성 사진`} width={320} height={480} loading={k === 'm' ? undefined : 'lazy'} className="aspect-[2/3] w-full rounded-2xl object-cover" />)}
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* ② 이상형 고르기 */}

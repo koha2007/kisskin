@@ -11,13 +11,12 @@ import { fitPreserveAspect } from '../../lib/makeup/compose'
 import { keepPendingSelfie, takePendingSelfie } from '../../lib/makeup/pendingSelfie'
 import { newJobId } from '../../lib/makeup/generateLook'
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
-import { IDEAL_PAID_SAMPLES } from '../home/HomeIdealBanner'
+import { IDEAL_EXAMPLES, IDEAL_PAID_SAMPLES } from '../home/HomeIdealBanner'
 import { SIDE_PLACE_LABEL, type IdealGender, type IdealTypeCode, type SidePlace } from '../../lib/ideal-type/types'
 
 type St = { k: 'idle' } | { k: 'busy'; hd: boolean } | { k: 'done'; image: string; hd: boolean } | { k: 'error'; msg: string; action?: 'login' | 'topup' }
 const JOB_KEY = 'kisskin_ideal_side_job'
 export type IdealCutKind = 'side' | 'solo'
-const STUDIO_SAMPLES = ['black-cat-f', 'golden-retriever-m', 'bunny-f', 'wolf-m']
 
 export default function IdealSideBySide({ isEn, code, g, place, name, hideSamples = false, step, kind = 'side' }: { isEn: boolean; code: IdealTypeCode; g: IdealGender; place: SidePlace; name: string; hideSamples?: boolean; step?: string; kind?: IdealCutKind }) {
   const solo = kind === 'solo'
@@ -104,17 +103,17 @@ export default function IdealSideBySide({ isEn, code, g, place, name, hideSample
       {st.k !== 'done' && !hideSamples && !solo && (
         <div className="mt-4">
           <div className="grid grid-cols-3 gap-2">
-            {IDEAL_PAID_SAMPLES.map((src, i) => <img key={src} src={src} alt={isEn ? `Example ${i + 1}: the operator's own photo with an ideal type, AI-generated` : `예시 ${i + 1}: 운영자 본인 사진으로 만든 결과, AI 생성`} width={213} height={320} loading="lazy" className="aspect-[2/3] w-full rounded-xl object-cover" />)}
+            {IDEAL_PAID_SAMPLES.map((src, i) => <img key={src} src={src} alt={isEn ? `Example ${i + 1}: a user photo with an ideal type, AI-generated` : `예시 ${i + 1}: 사용자 사진으로 만든 결과, AI 생성`} width={213} height={320} loading="lazy" className="aspect-[2/3] w-full rounded-xl object-cover" />)}
           </div>
-          <p className="mt-1.5 text-[11px] text-white/60 break-keep">{isEn ? 'Examples made from the operator\'s own selfie — your face stays your face.' : '운영자 본인 셀카로 만든 예시예요. 얼굴은 내 얼굴 그대로 나와요.'}</p>
+          <p className="mt-1.5 text-[11px] text-white/60 break-keep">{isEn ? 'Examples — your face stays your face, with K-pop idol makeup and an idol hair colour.' : '예시 — 얼굴은 내 얼굴 그대로, K-pop 아이돌 메이크업과 아이돌 헤어 컬러로 나와요.'}</p>
         </div>
       )}
 
       {/* 단독 컷 예시 4장 — 11/26 시험 생성(가상 인물, 'AI 생성 · 가상 인물' 박음) */}
       {st.k !== 'done' && solo && (
         <div className="mt-4">
-          <div className="grid grid-cols-4 gap-1.5">
-            {STUDIO_SAMPLES.map((f) => <img key={f} src={`/ideal-type/samples/studio-${f}.webp?v=20261126`} alt={isEn ? 'Example studio shot, AI-generated fictional person' : '스튜디오 컷 예시, AI 생성 가상 인물'} width={160} height={240} loading="lazy" className="aspect-[2/3] w-full rounded-xl object-cover" />)}
+          <div className="grid grid-cols-3 gap-2">
+            {IDEAL_EXAMPLES.solo.map((f) => <img key={f} src={f} alt={isEn ? 'Example studio shot, AI-generated fictional person' : '스튜디오 컷 예시, AI 생성 가상 인물'} width={160} height={240} loading="lazy" className="aspect-[2/3] w-full rounded-xl object-cover" />)}
           </div>
           <p className="mt-1.5 text-[11px] text-white/60 break-keep">{isEn ? 'Examples — one studio backdrop for every shot; makeup changes with the face type.' : '예시 — 배경은 모두 같은 스튜디오, 메이크업은 상마다 달라요.'}</p>
         </div>

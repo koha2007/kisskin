@@ -7,7 +7,7 @@ export default function Head() {
   const title = '이상형 옆에 선 나 — 셀카 한 장으로 AI 데이트 사진 | 키스인스킨'
   const desc = '이상형(강아지상·고양이상·여우상…)을 고르고 셀카 한 장만 올리면 둘이 함께 찍은 AI 데이트 사진(성수 팝업·포토부스·한복 등 9곳). 내 얼굴엔 K-pop 아이돌 메이크업. 이상형 단독 스튜디오 컷도. 첫 맛보기 무료, 고화질 크레딧 1개.'
   const url = 'https://kissinskin.net/tools/ideal-type/photo/'
-  const og = 'https://kissinskin.net/ideal-type/samples/bunny-amusement.webp'
+  const og = 'https://kissinskin.net/ideal-type/samples/ex-f-golden-photobooth.webp'
   return (
     <>
       <title>{title}</title>

@@ -67,12 +67,17 @@ export function buildSidePrompt(code: IdealTypeCode, g: 'm' | 'f', place: SidePl
     'Create ONE photorealistic, candid date photo of exactly two people standing side by side, framed from the knees up, ' +
     'both looking at the camera and smiling naturally, shoulders close, friendly and warm. Non-sexual, fully clothed, tasteful, modest outfits (no crop tops, no bare midriff, no cleavage).\n\n' +
     'PERSON 1 = the person in the FIRST image. Keep their identity EXACTLY: same face shape, eyes, eyebrows, nose, mouth, jawline, ' +
-    'skin tone and texture, moles, hairstyle and hair colour — unmistakably the same individual, not a prettier or different person. ' +
+    'skin tone and texture, moles, hairstyle, hair length and parting — unmistakably the same individual, not a prettier or different person. ' +
     'Do not change their age or body type. Give PERSON 1 a stylish date outfit that suits the place. ' +
     `PERSON 1 wears K-pop idol makeup ("${look.subEn}"): ${look.prompt} ` +
-    'The makeup must be clearly visible at a glance (like a K-pop idol on stage-off day), not a no-makeup look: dewy glass skin, ' +
-    'an obvious glossy pink gradient lip, a soft pink flush and a little shimmer on the eyelids and under-eye. ' +
-    "Do NOT change PERSON 1's hair. Keep real skin texture, no plastic smoothing.\n\n" +
+    // 11/26 운영자: "너무 약하지 않게 조금 강조" — 무대 밖 아이돌 화보 수준까지 올린다(무대 메이크업까지는 X)
+    'Make the makeup DEFINITELY noticeable, like a K-pop idol in a magazine photoshoot (not stage-heavy, but never a no-makeup look): ' +
+    'luminous dewy glass skin with a visible glow on the cheekbones and nose bridge, a saturated glossy pink-coral gradient lip (deep in the centre), ' +
+    'a clear rosy pink blush on the apples of the cheeks, pink-brown shimmer on the eyelids, a thin brown liner with a tiny lifted tail, ' +
+    'defined lashes and sparkling highlighted aegyo-sal under the eyes. For a man, the same idol makeup slightly softer (glass skin, tinted pink lip, soft brown eye shading, groomed brows). ' +
+    // 11/26 운영자: 헤어 컬러도 조금 변화 — 모양·길이는 그대로, 색만 아이돌 톤
+    `Change ONLY PERSON 1's hair COLOUR (keep the exact hairstyle, length, parting and volume): ${look.hair ?? 'a warm rose-brown milk-tea idol brown'} ` +
+    'Keep real skin texture, no plastic smoothing.\n\n' +
     `PERSON 2 = ${partner(code, g)}. ` +
     `PERSON 2 wears ${t.fashionEn.join(', ').toLowerCase()} — take the outfit colours and mood from the SECOND image (an illustration)` +
     (own ? '' : ', adapted naturally to the place') + ', but render everything as a real photograph. ' +

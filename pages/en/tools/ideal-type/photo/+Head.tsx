@@ -7,7 +7,7 @@ export default function Head() {
   const title = 'Me + My Ideal Type — AI Date Photo from One Selfie | kissinskin'
   const desc = 'Pick your ideal type (Golden Retriever, Black Cat, Fox…) and add one selfie for an AI date photo of the two of you (pop-up store, photo booth, hanbok and more), with K-pop idol makeup — or your ideal type alone in a studio shot. First preview free; HD 1 credit.'
   const url = 'https://kissinskin.net/en/tools/ideal-type/photo/'
-  const og = 'https://kissinskin.net/ideal-type/samples/bunny-amusement.webp'
+  const og = 'https://kissinskin.net/ideal-type/samples/ex-f-golden-photobooth.webp'
   return (
     <>
       <title>{title}</title>
