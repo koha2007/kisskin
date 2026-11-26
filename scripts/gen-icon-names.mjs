@@ -5,7 +5,12 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
-const valid = new Set(readFileSync('scripts/material-symbols-names.txt', 'utf8').split('\n').map((s) => s.trim()).filter(Boolean))
+let valid
+try { valid = new Set(readFileSync('scripts/material-symbols-names.txt', 'utf8').split('\n').map((s) => s.trim()).filter(Boolean)) } catch {
+  // 목록이 없으면 빌드를 멈추지 않고 전체 아이콘 폰트로(빈 값 → Head 가 icon_names 를 빼고 요청)
+  writeFileSync('src/lib/iconNames.generated.ts', `// 자동 생성(scripts/gen-icon-names.mjs) — 손으로 고치지 말 것\nexport const ICON_NAMES = ''\n`)
+  console.warn('[icons] names list missing — full font'); process.exit(0)
+}
 const files = []
 const walk = (d) => { for (const f of readdirSync(d)) { const p = join(d, f); if (statSync(p).isDirectory()) walk(p); else if (/\.(tsx?|html)$/.test(f) && !f.endsWith('.generated.ts')) files.push(p) } }
 walk('src'); walk('pages')

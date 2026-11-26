@@ -71,7 +71,7 @@ export default function Head() {
       */}
       <link
         rel="stylesheet"
-        href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&icon_names=${ICON_NAMES}&display=block`}
+        href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1${ICON_NAMES ? `&icon_names=${ICON_NAMES}` : ''}&display=block`}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
