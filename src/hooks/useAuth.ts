@@ -5,6 +5,7 @@ import { syncUserLocale } from '../lib/userLocale'
 import { trackSignUp, trackLogin } from '../lib/analytics'
 import { startDnaSync } from '../lib/beauty-dna/sync'
 import { claimStoredRef, ensureMyCode, forgetMyCode } from '../lib/referral'
+import { isInternalEmail, markInternal } from '../lib/internalTraffic'
 
 // 가입/로그인 완료를 **여기 한 곳에서만** 집계한다. AuthPage 에서 잡으면 구글
 // 로그인(리다이렉트로 나갔다 돌아옴)이 통째로 빠진다.
@@ -53,7 +54,14 @@ export function startAuthTracking(): void {
   authTrackingStarted = true
   supabase.auth.onAuthStateChange((event, session) => {
     const user = session?.user ?? null
-    if (event === 'SIGNED_IN' || (event === 'INITIAL_SESSION' && user && isNewUser(user))) countAuth(user)
+    const count = event === 'SIGNED_IN' || (event === 'INITIAL_SESSION' && user && isNewUser(user))
+    if (!user?.email) { if (count) countAuth(user); return }
+    // 2026-11-26 가족·운영자 계정은 로그인하는 순간 이 기기를 내부 트래픽으로 표시(GA4·Clarity 제외).
+    // 예전엔 미사용 AnalysisApp 에만 있어 결제할 때만 빠졌다. 가족이면 가입·로그인 집계도 보내지 않는다.
+    void isInternalEmail(user.email).then((family) => {
+      if (family) { markInternal(); return }
+      if (count) countAuth(user)
+    })
   })
 }
 
