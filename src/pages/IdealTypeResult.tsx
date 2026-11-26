@@ -3,7 +3,7 @@
 // 답 배지, AI 한 줄). 쿼리는 마운트 뒤에만 읽는다(정적 HTML 과 첫 렌더를 같게 → 하이드레이션 오류 방지).
 // 테스트 결과는 잠그지 않는다(16Personalities 불만 교훈). 그림은 모두 AI 일러스트 — 화면·카드에 표시.
 import { useEffect, useMemo, useState } from 'react'
-import { IDEAL_ORDER, IDEAL_PLACES, IDEAL_TYPES, PLACE_LABEL, idealCardImage, idealImage, type IdealGender, type IdealPlace, type IdealTypeCode } from '../lib/ideal-type/types'
+import { IDEAL_ORDER, IDEAL_PLACES, IDEAL_TYPES, PLACE_LABEL, idealBadge, idealCardImage, idealImage, type IdealGender, type IdealPlace, type IdealTypeCode } from '../lib/ideal-type/types'
 import { IQ_QUESTIONS, decodeAnswers, placeOf } from '../lib/ideal-type/questions'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import IdentityCard from '../components/IdentityCard'
@@ -74,7 +74,7 @@ export default function IdealTypeResult({ code }: { code: IdealTypeCode }) {
       <ToolsNav />
       <main className="mx-auto max-w-[1080px] px-5 pb-16 pt-6 md:px-6 md:pt-10">
         <p className="text-[13px] font-extrabold tracking-[0.2em]" style={{ color: t.color }}>{mine ? (isEn ? 'YOUR IDEAL TYPE' : '나의 이상형') : (isEn ? 'IDEAL TYPE' : '이상형 유형')}</p>
-        <h1 className="mt-1 text-[34px] font-extrabold leading-tight tracking-[-0.04em] md:text-[52px]">{t.emoji} {name}{!isEn && <span className="ml-2 text-[18px] font-bold text-slate-500 md:text-[24px]">{t.en}</span>}</h1>
+        <h1 className="mt-1 text-[34px] font-extrabold leading-tight tracking-[-0.04em] md:text-[52px]"><img src={idealBadge(code)} alt="" aria-hidden="true" width={56} height={56} className="mr-2 inline-block h-11 w-11 align-[-6px] md:h-14 md:w-14" />{name}{!isEn && <span className="ml-2 text-[18px] font-bold text-slate-500 md:text-[24px]">{t.en}</span>}</h1>
         <p className="mt-2 text-[17px] font-semibold leading-snug md:text-[20px] break-keep">{isEn ? t.taglineEn : t.taglineKo}</p>
 
         <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">

@@ -18,6 +18,73 @@ export const PLACE_LABEL: Record<IdealPlace, { ko: string; en: string }> = {
   amusement: { ko: '놀이공원', en: 'Amusement park' },
 }
 
+/**
+ * 유료 사진("이상형 옆에 선 나") 전용 장소 — 11/26 운영자: 10·20대가 요즘 많이 찾는 곳 추가.
+ * 근거(11/26 서치): 성수 팝업(상반기 팝업 2,130개 +44.7%, 팝가) · 네컷 포토부스 · 고궁 한복 대여
+ *   · 홍대(위피 2025 연애 결산 "실패 없는 데이트 코스") · 겨울 일루미네이션(시즌).
+ * 무료 그림(64장)은 4곳뿐이라, 새 장소는 그림 없이 사진만 — 참고 그림은 refPlace()로 피크닉 것을 쓴다(추가 비용 0).
+ * 상표·실제 매장 이름은 쓰지 않는다(인생네컷·롯데월드 X).
+ */
+export type SidePlace = IdealPlace | 'popup' | 'photobooth' | 'hanbok' | 'hongdae' | 'winter-lights'
+export const SIDE_PLACES: SidePlace[] = ['picnic', 'popup', 'photobooth', 'amusement', 'hanbok', 'hongdae', 'winter-lights', 'lpbar', 'exhibition']
+export const NEW_SIDE_PLACES: SidePlace[] = ['popup', 'photobooth', 'hanbok', 'hongdae', 'winter-lights']
+export const SIDE_PLACE_LABEL: Record<SidePlace, { ko: string; en: string }> = {
+  ...PLACE_LABEL,
+  popup: { ko: '성수 팝업스토어', en: 'Pop-up store' },
+  photobooth: { ko: '네컷 포토부스', en: 'Photo booth' },
+  hanbok: { ko: '고궁 한복 데이트', en: 'Hanbok at the palace' },
+  hongdae: { ko: '홍대 거리', en: 'Hongdae street' },
+  'winter-lights': { ko: '크리스마스 일루미네이션', en: 'Winter lights' },
+}
+/**
+ * 11/26 운영자: 사진 속 이상형(AI 가상 인물)의 메이크업은 동물상마다 다르게 — 사용자는 K-pop 아이돌 고정.
+ * 상 특징(눈꼬리·인상)을 살리는 방향. 남자는 같은 방향의 그루밍(티 덜 나게).
+ */
+export const IDEAL_MAKEUP: Record<IdealTypeCode, { ko: string; en: string; f: string; m: string }> = {
+  'golden-retriever': {
+    ko: '처진 눈꼬리 살린 코랄 메이크업', en: 'Coral, puppy-eye makeup',
+    f: 'warm "puppy-eye" makeup — soft brown shadow and liner extended slightly DOWN at the outer corners, coral-peach blush high on the cheeks, a juicy coral lip, fresh dewy skin',
+    m: 'warm, fresh grooming — even dewy skin, soft natural brows, a hint of coral tint on the lips and cheeks so he looks bright and healthy',
+  },
+  'black-cat': {
+    ko: '올라간 캣 아이라인 메이크업', en: 'Sharp cat-eye makeup',
+    f: 'chic "cat-eye" makeup — a sharp black winged liner flicked UP at the outer corners, smoky taupe shadow, soft-matte porcelain skin, a muted rosewood (MLBB) lip',
+    m: 'cool, clean grooming — soft-matte skin, defined straight brows, a thin smudge of dark liner along the upper lash line for sharper eyes, natural muted lips',
+  },
+  'fox': {
+    ko: '길게 뺀 모카 음영 메이크업', en: 'Long mocha-shadow makeup',
+    f: 'sleek "fox-eye" makeup — mocha-brown shadow blended long and outward toward the temples, slim lifted liner, soft contour on the cheekbones, a nude-beige glossy lip',
+    m: 'polished grooming — light contour along the jaw and cheekbones, groomed slightly lifted brows, a faint brown shadow at the outer eyes, natural nude lips',
+  },
+  'bunny': {
+    ko: '반짝 애교살 핑크 메이크업', en: 'Sparkly pink, aegyo-sal makeup',
+    f: 'sweet "bunny" makeup — glittery highlighted aegyo-sal (under-eye), round pink blush on the apples of the cheeks, big doe lashes, a glossy cherry-pink lip',
+    m: 'soft, boyish grooming — bright clear skin, a touch of light under-eye brightening, faint pink flush on the cheeks, a light pink lip balm tint',
+  },
+  'teddy-bear': {
+    ko: '포근한 웜브라운 내추럴 메이크업', en: 'Cozy warm-brown makeup',
+    f: 'cozy warm-brown makeup — natural glow skin, soft warm-brown eyeshadow, rounded brows, a brick-terracotta blush and a warm brown-rose lip',
+    m: 'natural warm grooming — healthy glowing skin, full natural brows, no visible makeup beyond an even warm complexion and moisturised lips',
+  },
+  'deer': {
+    ko: '맑은 투명 피부 메이크업', en: 'Clear, sheer-skin makeup',
+    f: 'clear "deer" makeup — sheer translucent cloud skin, almost-bare eyes with long separated lashes, the softest peach flush, a sheer watery lip tint',
+    m: 'clean, clear grooming — fresh translucent skin, soft natural brows, a sheer lip balm; he looks pure and fresh-faced',
+  },
+  'wolf': {
+    ko: '강렬한 스모키·레드 립 메이크업', en: 'Intense smoky, red-lip makeup',
+    f: 'intense "wolf" makeup — a smoky charcoal-brown eye, strong defined brows, sculpted cheekbones and a bold matte red lip',
+    m: 'intense grooming — matte skin, strong dark straight brows, a smudged dark-brown shadow around the eyes for a deep gaze, natural lips',
+  },
+  'dino': {
+    ko: '건강한 글로시 브론즈 메이크업', en: 'Healthy glossy-bronze makeup',
+    f: 'sporty "healthy glow" makeup — glossy sun-kissed skin with bronzer, a golden highlight on the cheekbones, minimal mascara, a clear glossy lip',
+    m: 'sporty grooming — glossy healthy tanned skin, a light bronzer glow, natural brows, clear lip balm; energetic and outdoorsy',
+  },
+}
+
+export const refPlace =(p: SidePlace): IdealPlace => ((IDEAL_PLACES as string[]).includes(p) ? (p as IdealPlace) : 'picnic')
+
 export interface IdealType {
   code: IdealTypeCode
   emoji: string
@@ -140,4 +207,9 @@ export function idealImage(code: IdealTypeCode, g: IdealGender, place: IdealPlac
 /** 저장 카드용 클로즈업 — 같은 그림을 얼굴 기준으로 자른 것(11/25, OpenCV YuNet 얼굴 위치, 다시 그리지 않음) */
 export function idealCardImage(code: IdealTypeCode, g: IdealGender, place: IdealPlace = 'picnic'): string {
   return `/ideal-type/card/${code}-${g}-${place}.webp?v=${IDEAL_IMG_V}`
+}
+
+/** 동물상 뱃지(11/26 운영자 제공 에나멜 핀 세트에서 8개 원형으로 자름, 투명 배경 256px) */
+export function idealBadge(code: IdealTypeCode): string {
+  return `/ideal-type/badge/${code}.webp?v=20261126`
 }
