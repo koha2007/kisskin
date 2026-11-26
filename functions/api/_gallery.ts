@@ -30,10 +30,12 @@ export async function rest<T>(env: GalleryEnv, path: string, init: RequestInit =
   return (text ? JSON.parse(text) : null) as T
 }
 
-export async function uploadImage(env: GalleryEnv, bucket: string, path: string, bytes: Uint8Array): Promise<void> {
+// 2026-11-26 파일 이름이 uuid 라 내용이 안 바뀐다 → 브라우저가 1년 캐시(전엔 1시간·복사 후엔 no-cache 라 방문마다 다시 받음)
+const LONG_CACHE = 'public, max-age=31536000, immutable'
+export async function uploadImage(env: GalleryEnv, bucket: string, path: string, bytes: Uint8Array | ArrayBuffer): Promise<void> {
   const res = await fetch(`${env.VITE_SUPABASE_URL}/storage/v1/object/${bucket}/${path}`, {
     method: 'POST',
-    headers: { ...auth(env), 'Content-Type': 'image/jpeg', 'Cache-Control': 'max-age=3600' },
+    headers: { ...auth(env), 'Content-Type': 'image/jpeg', 'Cache-Control': LONG_CACHE, 'x-upsert': 'true' },
     body: bytes,
   })
   if (!res.ok) throw new Error(`upload ${res.status}: ${(await res.text()).slice(0, 200)}`)
@@ -52,6 +54,20 @@ export async function copyImage(env: GalleryEnv, from: string, to: string, path:
     body: JSON.stringify({ bucketId: from, sourceKey: path, destinationBucket: to, destinationKey: path }),
   })
   if (!res.ok) throw new Error(`copy ${res.status}: ${(await res.text()).slice(0, 200)}`)
+}
+
+/**
+ * 2026-11-26 홈 "오늘의 하트"가 가장 늦게 뜨던 원인 = 카드(130~180px)에 1024px 원본(장당 90~190KB)을 그대로 씀.
+ * 작은 썸네일(긴 변 360px)을 같은 버킷 `t/<path>` 에 따로 둔다. 없으면 화면이 원본으로 되돌아간다(onError).
+ */
+export const thumbPath = (path: string) => `t/${path}`
+/** 버킷 사이 이동을 "받아서 올리기"로 — 복사(copy)는 캐시 설정이 사라져 no-cache 가 된다. 없으면 false */
+export async function moveThumb(env: GalleryEnv, from: string, to: string, path: string): Promise<boolean> {
+  const res = await fetch(`${env.VITE_SUPABASE_URL}/storage/v1/object/${from}/${thumbPath(path)}`, { headers: auth(env) })
+  if (!res.ok) return false
+  await uploadImage(env, to, thumbPath(path), await res.arrayBuffer())
+  await removeImage(env, from, thumbPath(path)).catch(() => undefined)
+  return true
 }
 
 export const publicUrl = (env: GalleryEnv, path: string) => `${env.VITE_SUPABASE_URL}/storage/v1/object/public/${PUBLIC}/${path}`

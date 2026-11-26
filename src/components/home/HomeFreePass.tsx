@@ -4,15 +4,31 @@
 import { useEffect, useState } from 'react'
 import { trackEvent } from '../../lib/analytics'
 import { getFreeStatus } from '../../lib/freeStatus'
+import { supabase } from '../../lib/supabase'
+
+// 2026-11-26 운영자: 홈에서 이 띠가 가장 늦게 뜸 → 지난번 값을 기억해 두었다가 같은 회원이면 바로 그리고,
+// 서버 확인(/api/free-status)이 끝나면 고친다. 다 쓰거나 로그아웃이면 지운다.
+const CACHE_KEY = 'kisskin_free_pass_cache'
 
 export default function HomeFreePass({ isEn }: { isEn: boolean }) {
   const [left, setLeft] = useState({ makeup: 0, lucky: 0 })
 
   useEffect(() => {
     let cancelled = false
-    getFreeStatus()
-      .then((s) => { if (!cancelled && s) setLeft({ makeup: s.makeup.left, lucky: s.lucky.left }) })
-      .catch(() => { /* 안내만 생략 */ })
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      const uid = session?.user?.id
+      if (!uid) { try { localStorage.removeItem(CACHE_KEY) } catch { /* noop */ } return }
+      try {
+        const c = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null') as { uid?: string; makeup?: number; lucky?: number } | null
+        if (!cancelled && c?.uid === uid) setLeft({ makeup: c.makeup ?? 0, lucky: c.lucky ?? 0 })
+      } catch { /* noop */ }
+      return getFreeStatus({ balance: false }).then((s) => {
+        if (cancelled || !s) return
+        const v = { makeup: s.makeup.left, lucky: s.lucky.left }
+        setLeft(v)
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ uid, ...v })) } catch { /* noop */ }
+      })
+    }).catch(() => { /* 안내만 생략 */ })
     return () => { cancelled = true }
   }, [])
 

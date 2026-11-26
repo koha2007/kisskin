@@ -5,7 +5,7 @@
 // 참여 안내 한 줄(빈 띠로 메인이 비어 보이지 않게). 선물·순위 문구는 아직 넣지 않는다.
 import { useEffect, useState } from 'react'
 import { trackEvent } from '../../lib/analytics'
-import { fetchGallery, galleryAction, HOME_MIN_POSTS, lookLabel, type GalleryPost } from '../../lib/gallery'
+import { fetchGallery, galleryAction, HOME_MIN_POSTS, lookLabel, thumbFallback, type GalleryPost } from '../../lib/gallery'
 import GalleryLightbox from '../gallery/GalleryLightbox'
 
 export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
@@ -63,7 +63,7 @@ export default function HomeGalleryStrip({ isEn }: { isEn: boolean }) {
         {all.slice(0, 12).map((p, i) => (
           <li key={p.id} className="w-32 shrink-0 md:w-44">
             <button type="button" onClick={() => { trackEvent('select_promotion', { creative_slot: 'home_gallery', promotion_id: p.source }); setOpenIdx(i) }} className="relative block w-full cursor-zoom-in text-left">
-              <img src={p.image} alt={p.sample ? (isEn ? `${lookLabel(p.source, p.lookId, true)}, sample on an AI-generated model` : `${lookLabel(p.source, p.lookId, false)}, AI 생성 모델 예시`) : isEn ? `${lookLabel(p.source, p.lookId, true)}, AI result on a customer's selfie` : `${lookLabel(p.source, p.lookId, false)}, 고객 셀카로 만든 AI 결과`} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+              <img src={p.thumb ?? p.image} onError={thumbFallback(p)} width={176} height={220} decoding="async" alt={p.sample ? (isEn ? `${lookLabel(p.source, p.lookId, true)}, sample on an AI-generated model` : `${lookLabel(p.source, p.lookId, false)}, AI 생성 모델 예시`) : isEn ? `${lookLabel(p.source, p.lookId, true)}, AI result on a customer's selfie` : `${lookLabel(p.source, p.lookId, false)}, 고객 셀카로 만든 AI 결과`} loading={i < 4 ? "eager" : "lazy"} className="aspect-[4/5] w-full object-cover" />
               <span className="absolute right-1 top-1 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
               <span className="mt-1 flex items-center justify-end gap-0.5 text-[12px] font-extrabold"><span className="material-symbols-outlined text-[13px] text-primary-dark" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>{p.hearts}</span>
             </button>

@@ -1,11 +1,12 @@
 // 고객 갤러리 — GET 공개 목록(+로그인 시 내 사진·하트) · POST 올리기 · DELETE 내 사진 삭제 (2026-11-02)
 import { verifyUser } from './_freeUsage'
-import { imageUrlOf, isUuid, notifyAdminsNewPost, json, PENDING, publicUrl, removeImage, rest, uploadImage, type GalleryEnv, type GalleryRow } from './_gallery'
+import { imageUrlOf, isUuid, notifyAdminsNewPost, json, PENDING, publicUrl, removeImage, rest, thumbPath, uploadImage, type GalleryEnv, type GalleryRow } from './_gallery'
 
 const LIST_LIMIT = 60
 // 2026-11-11 네 기능 — 9가지·럭키·페이스 페인팅·헤어 컬러
 const SOURCES = ['makeup', 'lucky', 'paint', 'hair']
 const MAX_BYTES = 2 * 1024 * 1024
+const MAX_THUMB_BYTES = 200 * 1024
 const MAX_PENDING = 3
 const MAX_TOTAL = 20
 // 동의 증빙은 서버가 정한 문구로 남긴다(클라이언트가 보낸 글을 믿지 않는다). 화면 문구를 바꾸면 여기도 바꿀 것.
@@ -33,7 +34,7 @@ export async function onRequestGet({ request, env }: { request: Request; env: Ga
     const only = src && SOURCES.includes(src) ? `&source=eq.${src}` : ''
     const rows = await rest<GalleryRow[]>(env, `gallery_post?status=eq.approved&image_bucket=eq.gallery${only}&select=id,source,look_id,image_path,heart_count,created_at,consent_text&order=${order}&limit=${LIST_LIMIT}`)
     // 2026-11-16 운영자 예시(AI 생성 모델) 카드 = consent_text 'sample:' — 화면에 "예시" 표시. 동의 문구 자체는 내보내지 않는다
-    const posts = rows.map((r) => ({ id: r.id, source: r.source, lookId: r.look_id, image: publicUrl(env, r.image_path), hearts: r.heart_count, sample: (r.consent_text ?? '').startsWith('sample:') }))
+    const posts = rows.map((r) => ({ id: r.id, source: r.source, lookId: r.look_id, image: publicUrl(env, r.image_path), thumb: publicUrl(env, thumbPath(r.image_path)), hearts: r.heart_count, sample: (r.consent_text ?? '').startsWith('sample:') }))
 
     const token = bearer(request)
     const user = token ? await verifyUser(env, token) : null
@@ -57,7 +58,7 @@ export async function onRequestPost({ request, env, waitUntil }: { request: Requ
   const user = await verifyUser(env, token)
   if (!user) return json({ error: 'invalid_token' }, 401)
 
-  let body: { image?: string; source?: string; lookId?: string; consent?: boolean; adultSelf?: boolean; locale?: string; origin?: string }
+  let body: { image?: string; thumb?: string; source?: string; lookId?: string; consent?: boolean; adultSelf?: boolean; locale?: string; origin?: string }
   try { body = await request.json() } catch { return json({ error: 'bad_json' }, 400) }
   if (body.consent !== true || body.adultSelf !== true) return json({ error: 'consent_required' }, 400)
   if (!SOURCES.includes(body.source as string)) return json({ error: 'bad_source' }, 400)
@@ -74,6 +75,12 @@ export async function onRequestPost({ request, env, waitUntil }: { request: Requ
     if (own.length >= MAX_TOTAL || own.filter((r) => r.status === 'pending').length >= MAX_PENDING) return json({ error: 'limit' }, 429)
     const path = `${crypto.randomUUID()}.jpg`
     await uploadImage(env, PENDING, path, bytes)
+    // 썸네일(선택) — 실패해도 올리기는 성공. 화면은 원본으로 되돌아간다
+    const tm = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/.exec(body.thumb || '')
+    if (tm && (tm[1].length * 3) / 4 <= MAX_THUMB_BYTES) {
+      const tb = Uint8Array.from(atob(tm[1]), (c) => c.charCodeAt(0))
+      if (tb[0] === 0xff && tb[1] === 0xd8) await uploadImage(env, PENDING, thumbPath(path), tb).catch((e) => console.error('[gallery] thumb', e))
+    }
     const locale = body.locale === 'en' ? 'en' : 'ko'
     try {
       const [row] = await rest<{ id: string }[]>(env, 'gallery_post', {
@@ -108,6 +115,7 @@ export async function onRequestDelete({ request, env }: { request: Request; env:
     const [row] = await rest<GalleryRow[]>(env, `gallery_post?id=eq.${id}&user_id=eq.${user.id}&select=id,image_bucket,image_path`)
     if (!row) return json({ error: 'not_found' }, 404)
     await removeImage(env, row.image_bucket, row.image_path)
+    await removeImage(env, row.image_bucket, thumbPath(row.image_path)).catch(() => undefined)
     await rest(env, `gallery_post?id=eq.${id}&user_id=eq.${user.id}`, { method: 'DELETE' })
     return json({ ok: true })
   } catch (e) {

@@ -32,14 +32,19 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
     lucky: { used: 0, limit: FREE_LIMITS.lucky, left: 0 },
     tool: { used: 0, limit: FREE_LIMITS.tool, left: 0 },
   }
-  for (const pool of Object.keys(out) as FreePool[]) {
-    const raw = await getFreeUsed(env, pool, user, true)
+  // 2026-11-26 홈 무료권 띠가 늦게 뜸 — 세 풀·첫 결제 확인을 차례로(왕복 5번) → 한꺼번에(왕복 2번)
+  const pools = Object.keys(out) as FreePool[]
+  const [raws, firstOffer] = await Promise.all([
+    Promise.all(pools.map((pool) => getFreeUsed(env, pool, user, true))),
+    CREDIT_PACKS.first.id ? isFirstPurchase(env, user.id) : Promise.resolve(false),
+  ])
+  for (const [i, pool] of pools.entries()) {
+    const raw = raws[i]
     // 장부 조회 실패 — 틀린 "남음"보다 안 보여 주는 게 낫다(화면은 null → 개수 숨김, 생성 시 서버가 최종 판정)
     if (raw === null) return json({ error: 'ledger_unavailable' }, 503)
     const used = Math.min(raw, FREE_LIMITS[pool])
     out[pool] = { used, limit: FREE_LIMITS[pool], left: FREE_LIMITS[pool] - used }
   }
-  // 첫 결제 특가($0.99) 노출 여부 — 상품이 준비돼 있고 충전 이력이 없을 때만
-  const firstOffer = !!CREDIT_PACKS.first.id && (await isFirstPurchase(env, user.id))
+  // 첫 결제 특가($0.99) 노출 여부 — 상품이 준비돼 있고 충전 이력이 없을 때만 (위에서 함께 조회)
   return json({ ...out, firstOffer })
 }

@@ -16,14 +16,15 @@ export interface FreeStatus {
   balance: number
 }
 
-export async function getFreeStatus(): Promise<FreeStatus | null> {
+/** opts.balance=false — 크레딧 잔액이 필요 없는 곳(홈 무료권 띠)은 조회를 건너뛴다 (2026-11-26) */
+export async function getFreeStatus(opts: { balance?: boolean } = {}): Promise<FreeStatus | null> {
   const { data: { session } } = await supabase.auth.getSession()
   const token = session?.access_token
   if (!token) return null
   try {
     const [res, balance] = await Promise.all([
       fetch('/api/free-status', { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }),
-      getCreditBalance().catch(() => 0),
+      opts.balance === false ? Promise.resolve(0) : getCreditBalance().catch(() => 0),
     ])
     if (!res.ok) return null
     const d = (await res.json()) as Partial<FreeStatus>

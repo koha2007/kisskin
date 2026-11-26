@@ -11,7 +11,13 @@ export const SOURCE_LABEL: Record<GallerySource, { ko: string; en: string }> = {
   makeup: { ko: '9가지 메이크업', en: '9 Looks' }, lucky: { ko: '럭키 메이크업', en: 'Lucky Makeup' },
   paint: { ko: '페이스 페인팅', en: 'Face Painting' }, hair: { ko: '헤어 컬러', en: 'Hair Color' },
 }
-export interface GalleryPost { id: string; source: GallerySource; lookId: string; image: string; hearts: number; /** 운영자 예시(AI 생성 모델) — 2026-11-16 */ sample?: boolean }
+export interface GalleryPost { id: string; source: GallerySource; lookId: string; image: string; /** 2026-11-26 작은 썸네일(긴 변 360) — 없으면 onError 로 image */ thumb?: string; hearts: number; /** 운영자 예시(AI 생성 모델) — 2026-11-16 */ sample?: boolean }
+/** 썸네일이 없거나 깨지면 원본으로 한 번만 되돌린다 — <img onError={thumbFallback(p)} /> */
+export const thumbFallback = (p: Pick<GalleryPost, 'image'>) => (e: { currentTarget: HTMLImageElement }) => {
+  const el = e.currentTarget
+  if (el.dataset.fb) return
+  el.dataset.fb = '1'; el.src = p.image
+}
 export interface MyGalleryPost extends Omit<GalleryPost, 'image'> { status: 'pending' | 'approved'; image: string | null }
 export interface GalleryList { posts: GalleryPost[]; hearted: string[]; mine: MyGalleryPost[] }
 
@@ -39,16 +45,16 @@ export async function fetchGallery(o: { sort?: 'hearts' | 'new'; source?: Galler
 }
 
 /** 결과 이미지 → 긴 변 1024 JPEG(서버 제한 2MB 안쪽) */
-function toUploadJpeg(src: string): Promise<string> {
+function toUploadJpeg(src: string, max = 1024, q = 0.86): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
     img.onload = () => {
-      const k = Math.min(1, 1024 / Math.max(img.naturalWidth, img.naturalHeight))
+      const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight))
       const c = document.createElement('canvas')
       c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k)
       c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height)
-      resolve(c.toDataURL('image/jpeg', 0.86))
+      resolve(c.toDataURL('image/jpeg', q))
     }
     img.onerror = () => reject(new Error('image load failed'))
     img.src = src
@@ -64,10 +70,11 @@ export async function submitToGallery(o: { image: string; source: GallerySource;
     const t = await token()
     if (!t) return 'login'
     const image = await toUploadJpeg(o.image)
+    const thumb = await toUploadJpeg(o.image, 360, 0.8).catch(() => undefined)
     const res = await fetch('/api/gallery', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
-      body: JSON.stringify({ image, source: o.source, lookId: o.lookId, locale: o.locale, origin: o.origin ?? 'result', consent: true, adultSelf: true }),
+      body: JSON.stringify({ image, thumb, source: o.source, lookId: o.lookId, locale: o.locale, origin: o.origin ?? 'result', consent: true, adultSelf: true }),
     })
     if (res.status === 401) return 'login'
     if (res.status === 429) return 'limit'

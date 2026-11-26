@@ -6,7 +6,7 @@ import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import { trackEvent } from '../lib/analytics'
 import { GalleryUploadButton } from '../components/gallery/GalleryShare'
 import GalleryLightbox from '../components/gallery/GalleryLightbox'
-import { deleteMyPost, fetchGallery, galleryAction, lookLabel, lookTryHref, GALLERY_SOURCES, SOURCE_LABEL, type GalleryList, type GallerySource } from '../lib/gallery'
+import { deleteMyPost, fetchGallery, galleryAction, lookLabel, lookTryHref, thumbFallback, GALLERY_SOURCES, SOURCE_LABEL, type GalleryList, type GallerySource } from '../lib/gallery'
 
 export default function GalleryPage() {
   const { locale } = useI18n()
@@ -121,7 +121,7 @@ export default function GalleryPage() {
                 return (
                   <li key={p.id} className="flex flex-col bg-white">
                     <button type="button" onClick={() => setOpenIdx(posts.indexOf(p))} aria-label={isEn ? `View ${name} larger` : `${name} 크게 보기`} className="relative block cursor-zoom-in text-left">
-                      <img src={p.image} alt={p.sample ? (isEn ? `${name}, sample on an AI-generated model` : `${name}, AI 생성 모델 예시`) : isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
+                      <img src={p.thumb ?? p.image} onError={thumbFallback(p)} decoding="async" alt={p.sample ? (isEn ? `${name}, sample on an AI-generated model` : `${name}, AI 생성 모델 예시`) : isEn ? `${name}, AI makeup on a customer's selfie` : `${name}, 고객 셀카로 만든 AI 메이크업`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
                       <span className="absolute left-1.5 top-1.5 bg-navy px-1.5 py-0.5 text-[10px] font-extrabold text-white">{isEn ? SOURCE_LABEL[p.source].en : SOURCE_LABEL[p.source].ko}</span>
                       <span className="absolute right-1.5 top-1.5 bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white">AI</span>
                     </button>
