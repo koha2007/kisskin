@@ -4,7 +4,7 @@
 //   `purchase` 는 죽은 코드 AnalysisApp.tsx 에만 있었고, 지금 /analysis/ 에 뜨는 MakeupFlow 는
 //   `checkout_id` 를 읽지 않았다. 그래서 결제가 있어도 GA4 매출은 $0 으로 남는다(9월은 실제로도
 //   Polar 주문 0건이라 어긋남은 없었다). 이 파일이 그 복귀 처리를 맡는다.
-import { isInternalTraffic, isInternalEmail, markInternalIfFamily } from './internalTraffic'
+import { isInternalTraffic, isInternalEmail, markInternal } from './internalTraffic'
 
 const PENDING_KEY = 'kisskin_pending_pack'
 const FIRED_KEY = 'kisskin_purchased'
@@ -27,9 +27,9 @@ function gtagEvent(name: string, params?: Record<string, unknown>) {
 // Also drops family/operator purchases — Polar returns the checkout customerEmail,
 // which lets us catch family devices that paid before logging in (so the
 // markInternalIfFamily login-hook never ran). Polar dashboard is untouched.
-export function firePurchaseOnce(transactionId: string, params: Record<string, unknown>, customerEmail?: string | null) {
+export async function firePurchaseOnce(transactionId: string, params: Record<string, unknown>, customerEmail?: string | null): Promise<void> {
   if (!transactionId) return
-  if (isInternalEmail(customerEmail)) { markInternalIfFamily(customerEmail); return }
+  if (await isInternalEmail(customerEmail)) { markInternal(); return }
   try {
     const fired: string[] = JSON.parse(localStorage.getItem(FIRED_KEY) || '[]')
     if (fired.includes(transactionId)) return
@@ -79,7 +79,7 @@ export async function trackCheckoutReturn(): Promise<void> {
     }
     const value = typeof r.amount === 'number' ? r.amount / 100 : (pack?.value ?? 0)
     const itemId = pack ? `credit_${pack.id}` : 'credit_pack'
-    firePurchaseOnce(checkoutId, {
+    await firePurchaseOnce(checkoutId, {
       value,
       currency: (r.currency || 'usd').toUpperCase(),
       checkout_type: 'credit',

@@ -32,19 +32,29 @@ const INTERNAL_KEY = 'kisskin_internal'
  */
 const APP_TRAFFIC: 'exclude' | 'measure' = 'exclude'
 
-// Family accounts (also the operator). Lower-cased; compared case-insensitively.
-const FAMILY_EMAILS = new Set([
-  'koha2007@naver.com',
-  'koha3d77@gmail.com',
-  'dangni81@naver.com',
-  'dangni81@gmail.com',
-  'shj01205@naver.com',
+
+// 가족·운영자 계정 — 이메일 원문이 아니라 해시만 둔다(scripts/hash-family-emails.mjs 로 생성).
+const FAMILY_EMAIL_HASHES = new Set([
+  'f88cbfbd1c11792422eed3005e85ed8f533da11034b149a9a0076b2c12d4502e',
+  'aec7379021ea5770d0680b3370ec2eb4bd6cf62528c8d55b5f2b7185423894e7',
+  '6f1f569d9ac934485273f3623fdb1133354beab8155c2776b39ab7c008cb7ec4',
+  '2b30f41a7145cb4d46ca3332c62268dc104aacd6f5d836cc34269640b6230edf',
+  '1f4abac972a49cb33dfc39c506111f8dfc45f77f0ed982fa2d3e4c5c0ac5b772',
 ])
 
 let cached: boolean | null = null
 
-export function isInternalEmail(email?: string | null): boolean {
-  return !!email && FAMILY_EMAILS.has(email.trim().toLowerCase())
+// 2026-11-26 공개 JS 에 이메일 원문이 실리던 것을 해시로 — sha256('kissinskin-internal:' + 소문자 이메일).
+// 목록 갱신: FAMILY_EMAILS 에 원문을 적고 `node scripts/hash-family-emails.mjs` 를 돌리면 해시로 바뀐다(원문은 커밋하지 말 것).
+const SALT = 'kissinskin-internal:'
+async function sha256Hex(text: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+export async function isInternalEmail(email?: string | null): Promise<boolean> {
+  if (!email || typeof crypto === 'undefined' || !crypto.subtle) return false
+  try { return FAMILY_EMAIL_HASHES.has(await sha256Hex(SALT + email.trim().toLowerCase())) } catch { return false }
 }
 
 /**
@@ -102,6 +112,6 @@ export function markInternal() {
 }
 
 /** Tag the device as internal when an authenticated email is a family account. */
-export function markInternalIfFamily(email?: string | null) {
-  if (isInternalEmail(email)) markInternal()
+export async function markInternalIfFamily(email?: string | null): Promise<void> {
+  if (await isInternalEmail(email)) markInternal()
 }

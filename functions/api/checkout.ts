@@ -109,11 +109,9 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
         credits: String(pack.credits), // Polar metadata 값은 문자열 — 웹훅은 product ID 로 크레딧 결정(이건 참고용)
       }
     } else {
-      // ── 기존 흐름 유지: type=subscription → 구독, 그 외 → $2.99 분석 one-time ──
-      const productId = body.type === 'subscription'
-        ? (env.POLAR_PRODUCT_ID || ONE_TIME_PRODUCT_ID)
-        : ONE_TIME_PRODUCT_ID
-      checkoutBody.products = [productId]
+      // 2026-11-26 점검: 옛 단건($2.99 분석)·구독 흐름은 화면에서 더 이상 쓰지 않는다(AnalysisApp 미사용).
+      // 로그인 없이 누구나 Polar 결제창을 만들 수 있어 막는다. 결제는 크레딧 팩(pack)만.
+      return errJson('legacy_checkout_removed', 410, { message: '지금은 크레딧 충전만 할 수 있어요.' })
     }
 
     // Customer 연결은 "반복 결제(구독)"에만 건다.
