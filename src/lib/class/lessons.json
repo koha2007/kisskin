@@ -1985,5 +1985,104 @@
     "video": {
       "seconds": 22
     }
+  },
+  {
+    "slug": "smoky-eye-basics",
+    "publishedAt": "2026-11-26",
+    "introKo": "스모키 아이는 검은 가루를 얹는 게 아니라, 펜슬 아이라이너를 부드럽게 번뜨려 그라데이션을 만드는 연출법이에요. 브라운 펜슬과 같은 색의 섀도만 있으면 초보자도 뭉침 없이 그윽한 눈매를 만들 수 있어요.",
+    "introEn": "A smoky eye isn't about slapping on black powder; it's about smudging a pencil liner into a smooth gradient. With just a brown pencil and matching eyeshadow, beginners can easily build depth without patchiness.",
+    "minutes": 10,
+    "levelKo": "보통",
+    "levelEn": "Medium",
+    "steps": [
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "부드러운 브라운 펜슬로 라인 긋기",
+        "titleEn": "Line with a soft brown pencil",
+        "bodyKo": "부드러운 질감의 브라운 펜슬 아이라이너로 속눈썹 가까이에 줄을 그어요. 너무 깨끗하게 그릴 필요 없어요. 눈꼬리는 약간 두껍게 칠해도 괜찮아요.",
+        "bodyEn": "Draw along your upper lash line using a soft brown gel pencil. Don't worry about clean lines; making it a bit thicker near the outer corner is perfectly fine.",
+        "toolsKo": "부드러운 브라운 펜슬 아이라이너",
+        "toolsEn": "Soft brown gel pencil liner",
+        "swatches": [
+          "#4a3228"
+        ],
+        "searchKeywords": "부드러운 젤 아이라이너 펜슬 브라운",
+        "shopEn": "brown gel pencil liner",
+        "shortKo": "속눈썹 라인 따라 펜슬 긋기",
+        "shortEn": "Draw brown pencil along lashes"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeOuter",
+        "titleKo": "펜슬이 마르기 전 위로 번지기",
+        "titleEn": "Smudge upward before it sets",
+        "bodyKo": "펜슬이 고정되기 전에 총알 브러시나 손가락 끝으로 라인을 위쪽으로 쓸어 올려요. 경계선만 부드럽게 펼쳐서 눈꺼풀 중간까지 그라데이션을 만들어요.",
+        "bodyEn": "Before the liner sets, use a pencil brush or fingertip to smudge the top edge upward. Blend up toward the middle of the lid to create a smooth transition.",
+        "toolsKo": "총알 브러시 또는 손가락",
+        "toolsEn": "Pencil brush or fingertip",
+        "swatches": [
+          "#6b4c3e",
+          "#8c6754"
+        ],
+        "searchKeywords": "총알 포인트 아이섀도 브러시",
+        "shopEn": "pencil eyeshadow brush",
+        "shortKo": "마르기 전에 위로 번지기",
+        "shortEn": "Smudge edge upward quickly"
+      },
+      {
+        "area": "eyes",
+        "crop": "eyeLid",
+        "titleKo": "같은 계열 브라운 섀도로 덮어 고정하기",
+        "titleEn": "Layer with matching brown eyeshadow",
+        "bodyKo": "번뜨린 라인 위에 비슷한 딥 브라운 섀도를 톡톡 얹어 고정해요. 펜슬 유분기를 잡아서 크리즈를 막고 음영을 더 깊게 만들어 줘요.",
+        "bodyEn": "Pat a matching deep brown eyeshadow over the smudged liner to lock it in place. This absorbs pencil oils, prevents creasing, and deepens the shadow.",
+        "toolsKo": "납작 아이섀도 브러시 · 딥 브라운 섀도",
+        "toolsEn": "Flat packing brush · deep brown eyeshadow",
+        "swatches": [
+          "#3d271d",
+          "#593c2d"
+        ],
+        "searchKeywords": "딥 브라운 음영 아이섀도",
+        "shopEn": "deep brown eyeshadow",
+        "shortKo": "섀도로 덮어 유분 고정",
+        "shortEn": "Lock liner with brown shadow"
+      },
+      {
+        "area": "eyes",
+        "crop": "underEye",
+        "titleKo": "언더 삼각존 채워 음영 연결하기",
+        "titleEn": "Connect the look along lower lash line",
+        "bodyKo": "브러시에 남아 있는 딥 브라운 섀도로 언더 눈꼬리 삼각존을 부드럽게 이어 줘요. 위아래 음영이 자연스럽게 연결되어 그윽해 보여요.",
+        "bodyEn": "Use the leftover eyeshadow on your brush to softly shade the outer third of your lower lash line. Connecting top and bottom makes the eye look seamlessly deep.",
+        "toolsKo": "디테일 아이섀도 브러시",
+        "toolsEn": "Detail shadow brush",
+        "swatches": [
+          "#593c2d"
+        ],
+        "searchKeywords": "디테일 삼각존 아이섀도 브러시",
+        "shopEn": "detail smudge brush",
+        "shortKo": "언더 삼각존 연결하기",
+        "shortEn": "Shade lower outer corner"
+      }
+    ],
+    "tipsKo": [
+      "초보자는 블랙보다 딥 브라운이나 토프 브라운으로 시작하면 얼룩져 보이지 않아요.",
+      "아이섀도를 바르기 전에 눈꺼풀 유분을 파우더로 가볍게 정리하면 번짐이 덜해요."
+    ],
+    "tipsEn": [
+      "Beginners should start with deep brown or taupe instead of black to avoid harsh spots.",
+      "Dusting a little translucent powder over eyelids before starting helps keep smudges controlled."
+    ],
+    "mistakeKo": "펜슬이 완전히 마른 뒤에 번지려고 하면 라인이 뜯겨 나가 얼룩이 생겨요.",
+    "mistakeEn": "Trying to smudge the gel pencil after it completely dries tears the line and causes uneven patches.",
+    "chartPrompt": "a close-up focused on the eyes featuring a beginner brown smoky eye: a deep chocolate brown gel liner smudged softly upward from the lash line into a warm medium-brown eyeshadow transition, with outer corner shadow connected beneath the lower lash line",
+    "safetyKo": "펜슬이나 브러시가 눈동자에 직접 닿지 않도록 속눈썹 뿌리 겉면에만 사용하세요.",
+    "safetyEn": "Keep pencils and brushes along the lash outer edge and avoid touching the eyeball directly.",
+    "videoTitleKo": "스모키 아이 기초",
+    "videoTitleEn": "Smoky Eye for Beginners",
+    "video": {
+      "seconds": 19
+    }
   }
 ]
