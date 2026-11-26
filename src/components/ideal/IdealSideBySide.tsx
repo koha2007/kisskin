@@ -125,6 +125,17 @@ export default function IdealSideBySide({ isEn, code, g, place, name, hideSample
         </button>}
         {!solo && <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => pick(e.target.files?.[0])} />}
         <div className="flex flex-col gap-3">
+          {/* 11/26 운영자: 어떤 사진을 넣어야 하는지 짧게 — 얼굴만 나와도 된다, 몸·옷은 AI가 만든다 */}
+          {!solo && (
+            <div className="rounded-2xl bg-white/10 p-3 text-[13px] leading-snug break-keep">
+              <p className="font-extrabold">{isEn ? 'Which photo?' : '어떤 사진을 넣나요?'}</p>
+              <ul className="mt-1 space-y-0.5 text-white/85">
+                <li>✅ {isEn ? 'One clear, front-facing photo of your face — a selfie or ID photo is fine.' : '얼굴 정면이 잘 보이는 사진 1장 — 셀카·증명사진 OK'}</li>
+                <li>✅ {isEn ? 'Face only is enough: body, outfit and background are made by AI.' : '얼굴만 나와도 돼요. 몸·옷·배경은 AI가 자동으로 만들어요'}</li>
+                <li>❌ {isEn ? 'Avoid sunglasses, masks, group photos, heavy filters or dark photos.' : '선글라스·마스크·여러 명·강한 필터·어두운 사진은 피해 주세요'}</li>
+              </ul>
+            </div>
+          )}
           {!solo && <label className="flex items-start gap-2 text-[13px] leading-snug text-white/85 break-keep">
             <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#ef4da0]" />
             <span>{isEn ? 'This is a photo of me (not someone else), and I am 14 or older. The other person is a fictional AI character.' : '내 사진이에요(다른 사람 사진 X), 만 14세 이상이에요. 옆 사람은 AI 가상 인물이에요.'}</span>

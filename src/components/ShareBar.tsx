@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { withRef } from '../lib/referral'
+import { loadKakaoSdk } from '../lib/kakaoSdk'
 
 declare global {
   interface Window {
@@ -49,6 +50,7 @@ export default function ShareBar({
   const [copied, setCopied] = useState(false)
   // SSR-safe: only enable native-share button after mount, otherwise hydration mismatches (React #418).
   const [hasNativeShare, setHasNativeShare] = useState(false)
+  useEffect(() => { loadKakaoSdk() }, [])
   useEffect(() => {
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') setHasNativeShare(true)
   }, [])

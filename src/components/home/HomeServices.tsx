@@ -6,6 +6,7 @@
 // GA4 select_promotion creative_slot: home_hero_primary / home_hero_lucky / home_hero_paint / home_hero_hair(11/11 네 문) ·
 //   home_plan(promotion_id=free|starter|collection|plus) · home_tile(promotion_id=도구 경로)
 import { LOOK_HERO } from '../../lib/makeup/lookImages'
+import { smImg } from '../../lib/smImage'
 import { luckyLookImg } from '../../lib/fortune/looks'
 import { TOOL_CARD_IMAGES } from '../../lib/toolCardImages'
 import { trackEvent } from '../../lib/analytics'
@@ -79,7 +80,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
       <section aria-label={isEn ? 'Start makeup' : '메이크업 시작하기'} className="mx-auto grid max-w-[1120px] grid-cols-2 gap-x-3.5 gap-y-6 px-5 py-6 md:gap-x-10 md:gap-y-10 md:px-4 md:py-11">
         {doors.map((d) => (
           <a key={d.slot} href={d.href} onClick={() => trackEvent('select_promotion', { creative_slot: d.slot })} className="flex min-w-0 flex-col gap-2.5 text-navy md:flex-row md:gap-6">
-            <img src={d.img} alt={d.alt} width={400} height={400} decoding="async" className="aspect-square w-full shrink-0 rounded-[34px] object-cover object-[50%_22%] md:w-[230px] md:rounded-[46px]" />
+            <img {...smImg(d.img)} alt={d.alt} width={400} height={400} decoding="async" className="aspect-square w-full shrink-0 rounded-[34px] object-cover object-[50%_22%] md:w-[230px] md:rounded-[46px]" />
             <span className="flex min-w-0 flex-col gap-1.5">
               <span className="text-[19px] font-extrabold leading-tight tracking-[-0.04em] md:text-[32px]">{d.name}</span>
               <span className="text-[13px] font-semibold leading-normal md:text-[15px]" style={{ color: PINK_TEXT }}>{d.desc}</span>
@@ -104,7 +105,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
               <div className="grid grid-cols-3 gap-x-2.5 md:gap-x-8">
                 {g.items.map((it) => (
                   <a key={it.path} href={`${prefix}${it.path}`} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_tile', promotion_id: it.path })} className="flex min-w-0 flex-col items-center gap-1.5 pb-1 pt-3 text-center text-navy md:flex-row md:gap-3.5 md:border-b md:border-navy md:py-3 md:text-left">
-                    <img src={it.img} alt="" width={88} height={88} loading="lazy" decoding="async" className="h-[88px] w-[88px] shrink-0 rounded-[21px] object-cover" style={{ objectPosition: it.pos ?? '50% 50%' }} />
+                    <img {...smImg(it.img)} alt="" width={88} height={88} loading="lazy" decoding="async" className="h-[88px] w-[88px] shrink-0 rounded-[21px] object-cover" style={{ objectPosition: it.pos ?? '50% 50%' }} />
                     <span className="flex min-w-0 flex-col gap-0.5">
                       <strong className="text-sm font-extrabold leading-tight tracking-[-0.03em] md:text-base break-keep">{isEn ? it.en : it.ko}</strong>
                       <span className="text-xs leading-snug md:text-[13px] break-keep">{isEn ? it.enDesc : it.koDesc}</span>

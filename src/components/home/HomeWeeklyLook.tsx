@@ -3,6 +3,7 @@
 // GA4 select_promotion creative_slot: home_weekly_look
 //   promotion_id = try | product:{slug} | new_product:{slug} | news:{slug} | all_products | all_news
 import { WEEKLY_LOOK as W } from '../../lib/home/weeklyLook'
+import { smImg } from '../../lib/smImage'
 import CARDS from '../../lib/home/latestCards.json'
 import { LOOK_HERO } from '../../lib/makeup/lookImages'
 import { trackEvent } from '../../lib/analytics'
@@ -70,7 +71,7 @@ export default function HomeWeeklyLook({ isEn }: { isEn: boolean }) {
           </div>
 
           <a href={`/analysis/?style=${W.styleId}`} onClick={track('try')} className="grid grid-cols-[76px_minmax(0,1fr)] items-center gap-3.5 rounded-3xl bg-navy py-2.5 pl-2.5 pr-[18px] text-white">
-            <img src={LOOK_HERO[W.styleId].after} alt={isEn ? 'This look on an AI-generated model' : '이 룩을 입힌 AI 생성 모델'} width={76} height={76} loading="lazy" decoding="async" className="h-[76px] w-[76px] rounded-2xl object-cover object-[50%_25%]" />
+            <img {...smImg(LOOK_HERO[W.styleId].after)} alt={isEn ? 'This look on an AI-generated model' : '이 룩을 입힌 AI 생성 모델'} width={76} height={76} loading="lazy" decoding="async" className="h-[76px] w-[76px] rounded-2xl object-cover object-[50%_25%]" />
             <strong className="min-w-0 text-lg font-extrabold break-keep md:text-xl">{isEn ? 'Try it on your face →' : '내 얼굴에 입혀 보기 →'}</strong>
           </a>
 

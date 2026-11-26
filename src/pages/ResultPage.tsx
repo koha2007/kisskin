@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
+import { loadKakaoSdk } from '../lib/kakaoSdk'
 import { loadSharedResult, type SharedResultData } from '../lib/shareResult'
 import { useI18n } from '../i18n/I18nContext'
 
-// Kakao JavaScript SDK (loaded globally via <script> in pages/+Head.tsx)
+// Kakao JavaScript SDK (2026-11-26: 이 화면에서 loadKakaoSdk() 로 받는다)
 declare global {
   interface Window {
     Kakao?: {
@@ -46,6 +47,7 @@ function buildBuyLink(brand: string, name: string): string {
 }
 
 export default function ResultPage({ onNavigate }: ResultPageProps) {
+  useEffect(() => { loadKakaoSdk() }, [])
   const nav = (page: string) => {
     const paths: Record<string, string> = { home: '/', analysis: '/analysis/', terms: '/terms/', privacy: '/privacy/', refund: '/refund/', contact: '/contact/', auth: '/auth/', mypage: '/mypage/' }
     if (onNavigate) onNavigate(page as 'home' | 'analysis' | 'terms' | 'privacy' | 'refund' | 'contact' | 'auth')

@@ -8,6 +8,7 @@
 //   히어로 9룩은 AI 모델이라 "실제 사람 × 여러 룩"을 보여 주는 유일한 자리.
 // ⚠ 다른 사람 사진을 여기 올릴 땐 반드시 본인 동의 + 18세 이상 + 축소본만(10/17 성장 점검 안전 조건).
 import BeforeAfterSlider from '../makeup/BeforeAfterSlider'
+import { smImg } from '../../lib/smImage'
 import { trackEvent } from '../../lib/analytics'
 import { ALL_MAKEUP_STYLES } from '../../lib/makeup/styles'
 
@@ -79,7 +80,7 @@ export default function RealPersonSection({ isEn }: { isEn: boolean }) {
               <li key={id} className="snap-start shrink-0 w-[38vw] max-w-[170px] md:w-[150px]">
                 <a href={`/analysis/?style=${id}`} onClick={() => trackEvent('select_promotion', { creative_slot: 'home_real_look', promotion_id: id })} className="group block">
                   <span className="block aspect-[4/5] overflow-hidden rounded-lg ring-1 ring-white/15 group-hover:ring-white/60 transition">
-                    <img src={`/real/koha-front-${id}.webp`} alt={isEn ? `koha with ${name} makeup — AI result from his selfie` : `운영자 koha의 ${name} — 셀카로 만든 AI 결과`} loading="lazy" decoding="async" width={320} height={400} className="h-full w-full object-cover" />
+                    <img {...smImg(`/real/koha-front-${id}.webp`)} alt={isEn ? `koha with ${name} makeup — AI result from his selfie` : `운영자 koha의 ${name} — 셀카로 만든 AI 결과`} loading="lazy" decoding="async" width={320} height={400} className="h-full w-full object-cover" />
                   </span>
                   <span className="mt-2 block truncate text-xs font-bold text-white/80 group-hover:text-white">{name}</span>
                 </a>

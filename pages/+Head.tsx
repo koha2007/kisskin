@@ -1,4 +1,5 @@
 import { usePageContext } from 'vike-react/usePageContext'
+import { ICON_NAMES } from '../src/lib/iconNames.generated'
 
 export default function Head() {
   // Localize the language-specific global meta for /en/* routes so prerendered
@@ -58,11 +59,7 @@ export default function Head() {
       <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
       {/* Paperlogy 본문 굵기 미리 받기 — @font-face 는 src/index.css */}
       <link rel="preload" href="/fonts/Paperlogy-500.woff2" as="font" type="font/woff2" crossOrigin="" />
-      <script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
-        crossOrigin="anonymous"
-        defer
-      />
+      {/* 카카오 SDK 는 공유 버튼이 있는 화면에서만 받는다 — src/lib/kakaoSdk.ts (2026-11-26) */}
       {/*
         아이콘 폰트는 <head> 에서 동기 로드한다. 예전엔 bodyHtmlEnd 에서 media="print"
         트릭으로 비동기 주입했는데, 그러면 CSS 가 붙기 전까지 @font-face 자체가 없어서
@@ -70,10 +67,11 @@ export default function Head() {
         보인다. 첫 화면이 "face 얼굴형 자가 진단 / 진단 시작하기 arrow_forward" 처럼
         깨져 보였고, 네이버 인앱 웹뷰 유입이 1~14초 만에 튕기던 유력 원인이다.
         display=block 이면 폰트 대기 중 글자가 '투명'으로 잡혀 리거처 텍스트가 새지 않는다.
+        2026-11-26 icon_names= 로 쓰는 아이콘만(2.3MB → ≈124KB). 목록은 빌드 때 scripts/gen-icon-names.mjs 가 만든다.
       */}
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=block"
+        href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&icon_names=${ICON_NAMES}&display=block`}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",

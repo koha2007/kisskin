@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useI18n } from '../i18n/I18nContext'
+import { smImg } from '../lib/smImage'
 import SectionHeader from './home/SectionHeader'
 import { CLASS_LESSONS, chartSrc } from '../lib/class/lessons'
 import { CURRICULUM } from '../lib/class/curriculum'
@@ -91,7 +92,7 @@ export default function HomeContentSections() {
             {lessons.map((l) => (
               <a key={l.slug} href={`${base}/class/${l.slug}/`} className={card}>
                 <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
-                  <img src={chartSrc(l.slug)} alt={isEn ? `${l.titleEn} — face chart` : `${l.titleKo} 페이스 차트`} loading="lazy" decoding="async"
+                  <img {...smImg(chartSrc(l.slug))} alt={isEn ? `${l.titleEn} — face chart` : `${l.titleKo} 페이스 차트`} loading="lazy" decoding="async"
                     className="absolute left-1/2 top-[-27%] w-[140%] max-w-none -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]" />
                   <span className="absolute left-2 top-2 inline-flex h-6 items-center justify-center rounded-full bg-navy px-2 text-[11px] font-extrabold text-white">{isEn ? `Lesson ${l.n}` : `${l.n}편`}</span>
                   {l.video && <span className="absolute right-2 top-2 inline-flex h-6 items-center gap-0.5 rounded-full bg-white/90 px-2 text-[11px] font-extrabold text-navy"><span className="material-symbols-outlined text-[14px]">play_arrow</span>{isEn ? 'Video' : '영상'}</span>}
@@ -127,7 +128,7 @@ export default function HomeContentSections() {
                 <a key={p.slug} href={`${base}/products/${p.slug}/`} className={card}>
                   <div className="relative aspect-[4/5] flex items-center justify-center" style={{ background: gradient(meta.color) }}>
                     {p.image ? (
-                      <img src={p.image} alt={isEn ? `${p.name} — illustrative image` : `${p.name} 연출컷`} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                      <img {...smImg(p.image)} alt={isEn ? `${p.name} — illustrative image` : `${p.name} 연출컷`} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
                       <span className="relative flex items-center justify-center w-16 h-16 rounded-full bg-white/15 ring-1 ring-white/25 text-3xl select-none" aria-hidden="true">{meta.emoji}</span>
                     )}
@@ -161,7 +162,7 @@ export default function HomeContentSections() {
                 <a key={n.slug} href={`${base}/news/${n.slug}/`} className={card}>
                   <div className="relative aspect-[4/5] flex items-center justify-center" style={{ background: gradient(meta.color) }}>
                     {n.image ? (
-                      <img src={n.image} alt={n.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                      <img {...smImg(n.image)} alt={n.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
                       <span className="relative flex items-center justify-center w-16 h-16 rounded-full bg-white/15 ring-1 ring-white/25 text-3xl select-none" aria-hidden="true">{meta.emoji}</span>
                     )}

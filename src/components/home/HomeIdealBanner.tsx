@@ -3,6 +3,7 @@
 // 11/25 운영자: 무료·유료를 한눈에 나눠 보이게 + 유료는 운영자 사진 예시 3장(배경 다름).
 // GA4: select_promotion creative_slot=home_ideal_banner, promotion_id=free|paid
 import { trackEvent } from '../../lib/analytics'
+import { smImg } from '../../lib/smImage'
 import { idealImage } from '../../lib/ideal-type/types'
 
 const FREE = [
@@ -23,7 +24,7 @@ function Stack({ srcs, ratio, label }: { srcs: readonly string[]; ratio: string;
   return (
     <span className="relative flex items-center justify-center py-1" aria-hidden="true">
       {srcs.map((src, i) => (
-        <img key={src} src={src} alt="" width={120} height={150} decoding="async"
+        <img key={src} {...smImg(src)} alt="" width={120} height={150} decoding="async"
           className={`${ratio} w-[31%] max-w-[120px] rounded-xl border-2 border-white object-cover shadow-md ${i ? '-ml-[6%]' : ''}`}
           style={{ transform: `rotate(${(i - 1) * 6}deg)`, zIndex: i === 1 ? 2 : 1 }} />
       ))}
