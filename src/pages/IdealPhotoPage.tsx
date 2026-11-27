@@ -1,12 +1,13 @@
 // 유료 "이상형 옆에 선 나" 전용 페이지 (2026-11-25, 운영자: 유료 입구가 무료 퀴즈와 같으면 안 된다)
 // 퀴즈 없이 바로: ① 예시 3장 ② 이상형 고르기(성별·유형 8·장소 4) ③ 셀카 → 맛보기 무료 / 고화질 크레딧 1개.
 // 11/26: 컷 2종(나+이상형 데이트컷 / 이상형 단독 스튜디오컷) · 장소 9곳(10·20대 인기 5곳 추가) · 내 메이크업 = K-pop 아이돌.
-// 이상형을 모르면 1분 테스트로. 고른 값은 주소(?t=&g=&p=)와 세션에 둔다(로그인·결제 왕복 대비).
+// 이상형을 모르면 1분 테스트로. 고른 값은 주소(?t=&g=&p=&o=)와 세션에 둔다(로그인·결제 왕복 대비).
+// 11/27: 고르기 카드 = 실사 AI 가상 인물(무료 퀴즈 그림과 구분, 생성 참고와 같은 얼굴) · 이상형 의상 8종(IDEAL_OUTFITS, 20대 트렌드).
 import { useEffect, useState } from 'react'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import IdealSideBySide, { type IdealCutKind } from '../components/ideal/IdealSideBySide'
 import { IDEAL_EXAMPLES } from '../components/home/HomeIdealBanner'
-import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_TYPES, NEW_SIDE_PLACES, idealBadge, SIDE_PLACES, SIDE_PLACE_LABEL, idealCardImage, refPlace, type IdealGender, type IdealTypeCode, type SidePlace } from '../lib/ideal-type/types'
+import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_OUTFITS, IDEAL_OUTFIT_LABEL, IDEAL_TYPES, NEW_SIDE_PLACES, idealBadge, idealRealThumb, SIDE_PLACES, SIDE_PLACE_LABEL, type IdealGender, type IdealOutfit, type IdealTypeCode, type SidePlace } from '../lib/ideal-type/types'
 import { trackEvent } from '../lib/analytics'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -19,22 +20,24 @@ export default function IdealPhotoPage() {
   const [g, setG] = useState<IdealGender>('m')
   const [place, setPlace] = useState<SidePlace>('picnic')
   const [kind, setKind] = useState<IdealCutKind>('side')
+  const [outfit, setOutfit] = useState<IdealOutfit>('type')
 
   // 주소 → 세션 순으로 되살린다(결제 복귀는 경로만 남아서)
   useEffect(() => {
     const q = new URLSearchParams(window.location.search)
-    let t = q.get('t'), gg = q.get('g'), p = q.get('p'), c = q.get('c')
-    if (!t) { try { const s = JSON.parse(sessionStorage.getItem(PICK_KEY) || 'null') as { t?: string; g?: string; p?: string; c?: string } | null; t = s?.t ?? null; gg = s?.g ?? null; p = s?.p ?? null; c = s?.c ?? null } catch { /* noop */ } }
+    let t = q.get('t'), gg = q.get('g'), p = q.get('p'), c = q.get('c'), o = q.get('o')
+    if (!t) { try { const s = JSON.parse(sessionStorage.getItem(PICK_KEY) || 'null') as { t?: string; g?: string; p?: string; c?: string; o?: string } | null; t = s?.t ?? null; gg = s?.g ?? null; p = s?.p ?? null; c = s?.c ?? null; o = s?.o ?? null } catch { /* noop */ } }
     if (c === 'solo' || c === 'side') setKind(c)
     if (t && (IDEAL_ORDER as string[]).includes(t)) setCode(t as IdealTypeCode)
     if (gg === 'm' || gg === 'f') setG(gg)
     if (p && (SIDE_PLACES as string[]).includes(p)) setPlace(p as SidePlace)
+    if (o && (IDEAL_OUTFITS as string[]).includes(o)) setOutfit(o as IdealOutfit)
   }, [])
   useEffect(() => {
-    try { sessionStorage.setItem(PICK_KEY, JSON.stringify({ t: code, g, p: place, c: kind })) } catch { /* noop */ }
-    const q = new URLSearchParams(window.location.search); q.set('t', code); q.set('g', g); q.set('p', place); q.set('c', kind)
+    try { sessionStorage.setItem(PICK_KEY, JSON.stringify({ t: code, g, p: place, c: kind, o: outfit })) } catch { /* noop */ }
+    const q = new URLSearchParams(window.location.search); q.set('t', code); q.set('g', g); q.set('p', place); q.set('c', kind); q.set('o', outfit)
     window.history.replaceState(null, '', `${window.location.pathname}?${q.toString()}${window.location.hash}`)
-  }, [code, g, place, kind])
+  }, [code, g, place, kind, outfit])
 
   const t = IDEAL_TYPES[code]
   const quiz = isEn ? '/en/tools/ideal-type/' : '/tools/ideal-type/'
@@ -81,13 +84,24 @@ export default function IdealPhotoPage() {
             {IDEAL_ORDER.map((c) => { const x = IDEAL_TYPES[c]; const on = c === code; return (
               <button key={c} type="button" aria-pressed={on} onClick={() => { setCode(c); trackEvent('ideal_photo_pick', { result_slug: c }) }} className={`overflow-hidden rounded-xl border-2 bg-white text-left ${on ? 'border-navy ring-2 ring-navy/25' : 'border-transparent'}`}>
                 <span className="relative block">
-                  <img src={idealCardImage(c, g, refPlace(place))} alt={isEn ? `${x.en}, AI illustration` : `${x.ko}, AI 일러스트`} width={174} height={228} loading="lazy" className="aspect-[580/760] w-full object-cover" />
+                  <img src={idealRealThumb(c, g)} alt={isEn ? `${x.en} — AI-generated fictional person` : `${x.ko} — AI 생성 가상 인물`} width={174} height={228} loading="lazy" className="aspect-[580/760] w-full object-cover object-top" />
                   <img src={idealBadge(c)} alt="" aria-hidden="true" width={44} height={44} loading="lazy" className="absolute left-1 top-1 h-8 w-8 drop-shadow md:h-11 md:w-11" />
+                  <span className="absolute bottom-1 right-1 rounded bg-black/55 px-1 py-px text-[9px] font-bold text-white md:text-[10px]">{isEn ? 'AI person' : 'AI 가상 인물'}</span>
                 </span>
                 <span className="block truncate px-1.5 py-1 text-[12px] font-extrabold md:text-[14px]">{isEn ? x.en : x.ko}</span>
               </button>
             ) })}
           </div>
+          <h3 className="mt-5 text-[15px] font-extrabold">{isEn ? 'Their outfit' : '이상형 의상'} <span className="text-[12px] font-bold text-slate-600">{isEn ? '· 2026 trends for 20-somethings' : '· 요즘 20대 트렌드'}</span></h3>
+          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4 md:max-w-[760px]" role="group" aria-label={isEn ? 'Outfit' : '의상'}>
+            {IDEAL_OUTFITS.map((o) => { const x = IDEAL_OUTFIT_LABEL[o]; const on = outfit === o; return (
+              <button key={o} type="button" aria-pressed={on} onClick={() => { setOutfit(o); trackEvent('ideal_photo_outfit', { outfit: o }) }} className={`min-h-[52px] rounded-2xl border-2 px-3 py-2 text-left ${on ? 'border-navy bg-navy text-white' : 'border-navy bg-white text-navy'}`}>
+                <span className="block text-[14px] font-extrabold break-keep">{isEn ? x.en : x.ko}</span>
+                <span className={`block text-[11px] leading-tight break-keep ${on ? 'text-white/75' : 'text-slate-600'}`}>{isEn ? x.descEn : x.descKo}</span>
+              </button>
+            ) })}
+          </div>
+          {kind === 'side' && place === 'hanbok' && outfit !== 'type' && <p className="mt-1.5 text-[12px] text-slate-600 break-keep">{isEn ? 'At the palace, both of you wear hanbok instead.' : '고궁 한복 데이트에선 둘 다 한복으로 바뀌어요.'}</p>}
           <h3 className="mt-5 text-[15px] font-extrabold">{isEn ? 'Which photo?' : '어떤 사진?'}</h3>
           <div className="mt-2 grid grid-cols-2 gap-2 md:max-w-[560px]" role="group" aria-label={isEn ? 'Photo type' : '사진 종류'}>
             {([
@@ -111,13 +125,14 @@ export default function IdealPhotoPage() {
             <div className="min-w-0 text-[13px] leading-snug break-keep md:text-[14px]">
               <p><strong className="text-[15px]">{isEn ? t.en : t.ko}</strong> · {isEn ? t.taglineEn : t.taglineKo}</p>
               <p className="mt-1"><span className="font-extrabold">{isEn ? 'Their makeup: ' : '이상형 메이크업: '}</span>{isEn ? IDEAL_MAKEUP[code].en : IDEAL_MAKEUP[code].ko}</p>
+              <p><span className="font-extrabold">{isEn ? 'Their outfit: ' : '이상형 의상: '}</span>{outfit === 'type' ? (isEn ? t.fashionEn.join(', ') : t.fashionKo.join(', ')) : (isEn ? `${IDEAL_OUTFIT_LABEL[outfit].en} — ${IDEAL_OUTFIT_LABEL[outfit].descEn}` : `${IDEAL_OUTFIT_LABEL[outfit].ko} — ${IDEAL_OUTFIT_LABEL[outfit].descKo}`)}</p>
               {kind === 'side' && <p><span className="font-extrabold">{isEn ? 'Your makeup: ' : '내 메이크업: '}</span>{isEn ? 'K-pop idol makeup' : 'K-pop 아이돌 메이크업'}</p>}
             </div>
           </div>
         </section>
 
         {/* ③ 셀카 → 만들기 */}
-        <IdealSideBySide isEn={isEn} code={code} g={g} place={place} name={isEn ? t.en : t.ko} hideSamples step="2." kind={kind} />
+        <IdealSideBySide isEn={isEn} code={code} g={g} place={place} name={isEn ? t.en : t.ko} hideSamples step="2." kind={kind} outfit={outfit} />
       </main>
       <ToolsFooter />
     </div>

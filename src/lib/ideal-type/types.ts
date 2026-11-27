@@ -213,3 +213,63 @@ export function idealCardImage(code: IdealTypeCode, g: IdealGender, place: Ideal
 export function idealBadge(code: IdealTypeCode): string {
   return `/ideal-type/badge/${code}.webp?v=20261126`
 }
+
+/**
+ * 11/27 운영자: 유료 사진은 그림 말고 "실제 사람"으로 — 8유형×남녀 실사 AI 가상 인물 16명(그림을 실사로 옮김, scripts/gen-ideal-type-real.mts).
+ * 고르기 화면(유료)과 생성 참고 이미지 모두 이 사진 → 고른 얼굴이 결과에 그대로 유지된다(포즈·조명은 매번 새로).
+ * 실존 인물·연예인 닮음 금지, 화면에 "AI 가상 인물" 표시.
+ */
+export const IDEAL_REAL_V = '20261127'
+export function idealRealImage(code: IdealTypeCode, g: IdealGender): string {
+  return `/ideal-type/real/${code}-${g}.webp?v=${IDEAL_REAL_V}`
+}
+export function idealRealThumb(code: IdealTypeCode, g: IdealGender): string {
+  return `/ideal-type/real/thumb/${code}-${g}.webp?v=${IDEAL_REAL_V}`
+}
+
+/**
+ * 11/27 운영자: 유료 사진에서 이상형 의상도 고르기 — 요즘 20대가 찾는 옷(11/27 서치).
+ * 근거: 무신사 에디터 픽 2026(밤비코어·그래놀라 코어·쿼터집, 배럴 진) · 무신사×하이브 화보(구조적인 블레이저·코튼 셔츠·스트레이트 데님)
+ *   · 핀터레스트 프리딕트 2026(포엣코어, Gen Z 주도 67%) · 보그·W 코리아(고프코어+스커트, 올드머니·모카 무스) · 겨울 시즌(숏패딩).
+ * 'type' = 유형 기본 옷(참고 사진 그대로). 노출 있는 옷은 넣지 않는다(만 14세 이상 이용).
+ */
+export type IdealOutfit = 'type' | 'quarterzip' | 'bambi' | 'poet' | 'oldmoney' | 'gorp' | 'blazer' | 'padding'
+export const IDEAL_OUTFITS: IdealOutfit[] = ['type', 'quarterzip', 'bambi', 'poet', 'oldmoney', 'gorp', 'blazer', 'padding']
+export const IDEAL_OUTFIT_LABEL: Record<IdealOutfit, { ko: string; en: string; descKo: string; descEn: string; m: string; f: string }> = {
+  type: { ko: '유형 기본', en: 'Signature look', descKo: '사진 속 옷 그대로', descEn: 'As in the photo', m: '', f: '' },
+  quarterzip: {
+    ko: '쿼터집 니트', en: 'Quarter-zip knit', descKo: '쿼터집 + 배럴 진', descEn: 'Quarter-zip + barrel jeans',
+    m: 'a grey-melange quarter-zip knit sweater over a white tee, mid-blue barrel-leg jeans, clean white leather sneakers',
+    f: 'a cream quarter-zip knit sweater, mid-blue barrel-leg jeans, small silver earrings, white leather sneakers',
+  },
+  bambi: {
+    ko: '밤비코어', en: 'Bambi-core', descKo: '부드러운 브라운·리본', descEn: 'Soft browns, little ribbons',
+    m: 'a soft fawn-brown mohair cardigan over a cream shirt, chocolate-brown corduroy trousers, brown suede loafers — gentle and cozy',
+    f: 'a soft fawn-brown fuzzy cardigan with a small ribbon at the collar, a cream lace-trimmed blouse, a brown midi skirt, brown Mary Jane flats — gentle and lovely',
+  },
+  poet: {
+    ko: '포엣코어', en: 'Poet-core', descKo: '셔츠 + 니트 베스트', descEn: 'Shirt + knit vest',
+    m: 'a crisp white shirt under a navy cable-knit vest, charcoal wool trousers, brown leather loafers, a slim book in hand — literary, academic',
+    f: 'a white ruffle-collar blouse under a navy knit vest, a long charcoal pleated skirt, black loafers with white socks, a slim book in hand — literary, academic',
+  },
+  oldmoney: {
+    ko: '올드머니', en: 'Old money', descKo: '모카 코트·캐시미어', descEn: 'Mocha coat, cashmere',
+    m: 'a long mocha-brown wool coat over a cream cashmere turtleneck, beige wool trousers, polished brown loafers — quiet luxury, no logos',
+    f: 'a long mocha-brown wool coat over a cream cashmere knit, beige wide wool trousers, a small structured leather bag, ballet flats — quiet luxury, no logos',
+  },
+  gorp: {
+    ko: '고프코어', en: 'Gorp-core', descKo: '바람막이 + 아웃도어', descEn: 'Windbreaker, outdoorsy',
+    m: 'a khaki technical windbreaker, a grey fleece underneath, black cargo pants, chunky trail sneakers, a small crossbody bag — outdoorsy, no logos',
+    f: 'a khaki technical windbreaker over a soft knit, a flowing ivory midi skirt, ballet flats with white socks — outdoorsy-meets-girly, no logos',
+  },
+  blazer: {
+    ko: '블레이저', en: 'Blazer', descKo: '구조적인 재킷 + 데님', descEn: 'Structured jacket + denim',
+    m: 'a structured oversized charcoal blazer with broad shoulders, a white cotton shirt, straight dark denim, black derby shoes',
+    f: 'a structured oversized black blazer with broad shoulders, a white cotton shirt, straight blue denim, black loafers',
+  },
+  padding: {
+    ko: '숏패딩', en: 'Puffer', descKo: '숏패딩 + 머플러 (겨울)', descEn: 'Short puffer + scarf (winter)',
+    m: 'a glossy black short puffer jacket, a soft check wool scarf, a grey hoodie, wide grey sweatpants, chunky sneakers — cozy winter date',
+    f: 'a cream short puffer jacket, a soft pink knit scarf and earmuffs, a knit dress, warm knee boots — cozy winter date',
+  },
+}

@@ -6,8 +6,9 @@
 // 다른 사람 사진은 받지 않는다: 상대는 항상 AI 가상 인물(딥페이크 방지). 본인 사진 동의는 화면에서 받는다.
 // 11/26 운영자: ① 내 얼굴 메이크업 = K-pop 아이돌 고정, 이상형 얼굴 = 동물상별 메이크업(IDEAL_MAKEUP) ② 장소 추가(10·20대 인기, SIDE_PLACES)
 //   ③ kind 'solo' = 이상형 혼자 찍은 스튜디오 프로필 컷(셀카 없음, 배경은 하나로 통일). 가격·맛보기 규칙은 같다(맛보기 키는 따로).
+// 11/27 운영자: 참고 이미지 = 그림 → 실사 AI 가상 인물 사진(/ideal-type/real/, 고르기 화면과 같은 얼굴) · outfit = 이상형 의상 고르기(IDEAL_OUTFITS, 'type' = 사진 속 옷).
 // 결과는 클라이언트가 "AI 생성" 표시를 이미지 자체에 박는다(src/lib/aiStamp.ts, AI 기본법 31조).
-import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_TYPES, SIDE_PLACES, refPlace, type IdealTypeCode, type SidePlace } from '../../src/lib/ideal-type/types'
+import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_OUTFITS, IDEAL_OUTFIT_LABEL, IDEAL_TYPES, SIDE_PLACES, type IdealOutfit, type IdealTypeCode, type SidePlace } from '../../src/lib/ideal-type/types'
 import { styleById } from '../../src/lib/makeup/styles'
 import { creditsConfigured, deductCredits } from './_credits'
 import { verifyUser, type UsageStore } from './_freeUsage'
@@ -59,10 +60,15 @@ function partner(code: IdealTypeCode, g: 'm' | 'f'): string {
     `Their makeup matches their "${t.en}" face type: ${IDEAL_MAKEUP[code][g]}`
 }
 
-export function buildSidePrompt(code: IdealTypeCode, g: 'm' | 'f', place: SidePlace): string {
-  const t = IDEAL_TYPES[code]
+// 이상형 옷: 고른 의상 / 기본은 참고 사진 속 옷 그대로
+function outfitLine(g: 'm' | 'f', outfit: IdealOutfit): string {
+  return outfit === 'type'
+    ? 'the same outfit as in their reference photo'
+    : `${IDEAL_OUTFIT_LABEL[outfit][g]} (this REPLACES the outfit in the reference photo)`
+}
+
+export function buildSidePrompt(code: IdealTypeCode, g: 'm' | 'f', place: SidePlace, outfit: IdealOutfit = 'type'): string {
   const look = styleById('kpop-idol')
-  const own = refPlace(place) === place
   return (
     'Create ONE photorealistic, candid date photo of exactly two people standing side by side, framed from the knees up, ' +
     'both looking at the camera and smiling naturally, shoulders close, friendly and warm. Non-sexual, fully clothed, tasteful, modest outfits (no crop tops, no bare midriff, no cleavage).\n\n' +
@@ -78,23 +84,23 @@ export function buildSidePrompt(code: IdealTypeCode, g: 'm' | 'f', place: SidePl
     // 11/26 운영자: 헤어 컬러도 조금 변화 — 모양·길이는 그대로, 색만 아이돌 톤
     `Change ONLY PERSON 1's hair COLOUR (keep the exact hairstyle, length, parting and volume): ${look.hair ?? 'a warm rose-brown milk-tea idol brown'} ` +
     'Keep real skin texture, no plastic smoothing.\n\n' +
-    `PERSON 2 = ${partner(code, g)}. ` +
-    `PERSON 2 wears ${t.fashionEn.join(', ').toLowerCase()} — take the outfit colours and mood from the SECOND image (an illustration)` +
-    (own ? '' : ', adapted naturally to the place') + ', but render everything as a real photograph. ' +
+    `PERSON 2 = the person in the SECOND image (a photo of ${partner(code, g)}). ` +
+    'Keep PERSON 2\'s face, hairstyle and hair colour the same as in the SECOND image — clearly the same person — but with a new natural pose for this scene. ' +
+    `PERSON 2 wears ${place === 'hanbok' ? 'a rented modern hanbok in soft colours (as described for the place)' : outfitLine(g, outfit)}. ` +
     'PERSON 2 must not resemble any celebrity or real person. PERSON 1 and PERSON 2 have DIFFERENT makeup as described.\n\n' +
     `Place: ${SCENE[place]}. Natural light, 35mm lens, shallow depth of field, realistic colours. ` +
     'Portrait orientation. No text, letters, numbers, logos or watermark.'
   )
 }
 
-export function buildSoloPrompt(code: IdealTypeCode, g: 'm' | 'f'): string {
-  const t = IDEAL_TYPES[code]
+export function buildSoloPrompt(code: IdealTypeCode, g: 'm' | 'f', outfit: IdealOutfit = 'type'): string {
   return (
-    'Create ONE photorealistic studio profile photo of exactly one person, framed from the waist up (head and shoulders large in the frame, face clearly the focus), ' +
-    'body slightly angled, relaxed posture, looking at the camera with a natural, warm expression. Non-sexual, fully clothed, tasteful, modest outfits (no crop tops, no bare midriff, no cleavage).\n\n' +
-    `The person = ${partner(code, g)}. ` +
-    `They wear ${t.fashionEn.join(', ').toLowerCase()} — take the outfit, hairstyle, colours and mood from the image (an illustration), ` +
-    'but render everything as a real high-end photograph with real skin texture and natural hair. ' +
+    'Create ONE photorealistic studio profile photo of exactly one person, STANDING, framed from the waist up (head and shoulders large in the frame, face clearly the focus), ' +
+    'body slightly angled, relaxed posture, looking at the camera with a natural, warm expression. Use a NEW pose — do not copy the pose of the reference photo. ' +
+    'Non-sexual, fully clothed, tasteful, modest outfits (no crop tops, no bare midriff, no cleavage).\n\n' +
+    `The person = the one in the image (a photo of ${partner(code, g)}). Keep the same face, hairstyle and hair colour — clearly the same person. ` +
+    `They wear ${outfitLine(g, outfit)}. ` +
+    'Real high-end photograph with real skin texture and natural hair. ' +
     'They must not resemble any celebrity or real person.\n\n' +
     `Background: ${STUDIO}. 85mm lens, crisp focus on the eyes, clean editorial colour grading like a magazine profile shoot. ` +
     'Portrait orientation. No text, letters, numbers, logos or watermark.'
@@ -105,12 +111,13 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (!env.OPENAI_API_KEY && !env.CF_AIG_TOKEN) return json({ error: 'not_configured' }, 500)
   if (!env.MAKEUP_USAGE) return json({ error: 'guard_unconfigured' }, 503)
 
-  let body: { image?: string; type?: string; g?: string; place?: string; mode?: string; jobId?: string; kind?: string }
+  let body: { image?: string; type?: string; g?: string; place?: string; mode?: string; jobId?: string; kind?: string; outfit?: string }
   try { body = await request.json() } catch { return json({ error: 'bad_json' }, 400) }
   const code = body.type as IdealTypeCode
   const solo = body.kind === 'solo'
   const place: SidePlace = solo ? 'picnic' : (body.place as SidePlace)
   const g = body.g === 'm' ? 'm' : body.g === 'f' ? 'f' : null
+  const outfit: IdealOutfit = (IDEAL_OUTFITS as string[]).includes(body.outfit || '') ? (body.outfit as IdealOutfit) : 'type'
   if ((!solo && !body.image) || !(IDEAL_ORDER as string[]).includes(code) || !(SIDE_PLACES as string[]).includes(place) || !g) return json({ error: 'missing_fields' }, 400)
   if (body.image && body.image.length > 11_000_000) return json({ error: 'too_large' }, 413)
   const tag = solo ? 'solo' : 'side'
@@ -147,14 +154,14 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
     await env.MAKEUP_USAGE.put(attemptKey, String(attempts + 1), { expirationTtl: JOB_TTL })
   }
 
-  // 참고 그림(같은 사이트 정적 파일)
+  // 참고 사진 = 실사 AI 가상 인물(같은 사이트 정적 파일)
   let ref: Blob
   try {
     // 운영은 요청 주소의 출처 그대로. dev(vite 셔임)는 request.url 에 포트가 없어 localhost Origin 만 허용한다.
     let origin = new URL(request.url).origin
     const o = request.headers.get('Origin') || ''
     if (/^http:\/\/localhost(:\d+)?$/.test(o) && new URL(request.url).hostname === 'localhost') origin = o
-    const r = await fetch(`${origin}/ideal-type/${code}-${g}-${refPlace(place)}.webp`)
+    const r = await fetch(`${origin}/ideal-type/real/${code}-${g}.webp`)
     if (!r.ok) throw new Error('ref')
     ref = new Blob([await r.arrayBuffer()], { type: 'image/webp' })
   } catch { return json({ error: 'ref_missing', retryable: true }, 502) }
@@ -163,7 +170,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   fd.append('model', 'gpt-image-2')
   if (!solo) fd.append('image[]', dataUrlToBlob(body.image!), 'me.png')
   fd.append('image[]', ref, 'ideal.webp')
-  fd.append('prompt', solo ? buildSoloPrompt(code, g) : buildSidePrompt(code, g, place))
+  fd.append('prompt', solo ? buildSoloPrompt(code, g, outfit) : buildSidePrompt(code, g, place, outfit))
   fd.append('size', '1024x1536')
   fd.append('quality', preview ? 'low' : 'medium')
   fd.append('n', '1')

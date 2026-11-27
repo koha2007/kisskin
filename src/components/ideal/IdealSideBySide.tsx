@@ -12,13 +12,13 @@ import { keepPendingSelfie, takePendingSelfie } from '../../lib/makeup/pendingSe
 import { newJobId } from '../../lib/makeup/generateLook'
 import { startPackCheckout } from '../../lib/makeup/packCheckout'
 import { IDEAL_EXAMPLES, IDEAL_PAID_SAMPLES } from '../home/HomeIdealBanner'
-import { SIDE_PLACE_LABEL, type IdealGender, type IdealTypeCode, type SidePlace } from '../../lib/ideal-type/types'
+import { SIDE_PLACE_LABEL, type IdealGender, type IdealOutfit, type IdealTypeCode, type SidePlace } from '../../lib/ideal-type/types'
 
 type St = { k: 'idle' } | { k: 'busy'; hd: boolean } | { k: 'done'; image: string; hd: boolean } | { k: 'error'; msg: string; action?: 'login' | 'topup' }
 const JOB_KEY = 'kisskin_ideal_side_job'
 export type IdealCutKind = 'side' | 'solo'
 
-export default function IdealSideBySide({ isEn, code, g, place, name, hideSamples = false, step, kind = 'side' }: { isEn: boolean; code: IdealTypeCode; g: IdealGender; place: SidePlace; name: string; hideSamples?: boolean; step?: string; kind?: IdealCutKind }) {
+export default function IdealSideBySide({ isEn, code, g, place, name, hideSamples = false, step, kind = 'side', outfit = 'type' }: { isEn: boolean; code: IdealTypeCode; g: IdealGender; place: SidePlace; name: string; hideSamples?: boolean; step?: string; kind?: IdealCutKind; outfit?: IdealOutfit }) {
   const solo = kind === 'solo'
   const jobKey = `${JOB_KEY}_${kind}`
   const [photo, setPhoto] = useState<string | null>(null)
@@ -34,7 +34,7 @@ export default function IdealSideBySide({ isEn, code, g, place, name, hideSample
     if (p) { setPhoto(p); setAgree(true); keepPendingSelfie(p) }
   }, [])
   // 고른 장면이 바뀌면 이전 결과를 지운다
-  useEffect(() => { setSt({ k: 'idle' }) }, [code, g, place, kind])
+  useEffect(() => { setSt({ k: 'idle' }) }, [code, g, place, kind, outfit])
 
   const pick = (f: File | undefined) => {
     if (!f) return
@@ -61,12 +61,12 @@ export default function IdealSideBySide({ isEn, code, g, place, name, hideSample
     // 같은 작업 재시도 = 같은 jobId(이중 차감 X)
     let jobId = ''
     if (hd) { try { jobId = sessionStorage.getItem(jobKey) || '' } catch { /* noop */ } if (!jobId) { jobId = newJobId(); try { sessionStorage.setItem(jobKey, jobId) } catch { /* noop */ } } }
-    trackEvent(hd ? 'ideal_side_hd' : 'ideal_side_preview', { result_slug: code, place: solo ? 'studio' : place, cut: kind })
+    trackEvent(hd ? 'ideal_side_hd' : 'ideal_side_preview', { result_slug: code, place: solo ? 'studio' : place, cut: kind, outfit })
     try {
       const res = await fetch('/api/ideal-side', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-        body: JSON.stringify({ image: solo ? undefined : photo, type: code, g, place, kind, mode: hd ? 'credit' : 'preview', jobId }),
+        body: JSON.stringify({ image: solo ? undefined : photo, type: code, g, place, kind, outfit, mode: hd ? 'credit' : 'preview', jobId }),
       })
       const d = (await res.json().catch(() => ({}))) as { image?: string; error?: string; moderation?: boolean }
       if (res.ok && d.image) {
