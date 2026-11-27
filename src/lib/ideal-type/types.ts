@@ -273,3 +273,8 @@ export const IDEAL_OUTFIT_LABEL: Record<IdealOutfit, { ko: string; en: string; d
     f: 'a cream short puffer jacket, a soft pink knit scarf and earmuffs, a knit dress, warm knee boots — cozy winter date',
   },
 }
+
+/** 의상 칸 예시 = 옷만 펼친 플랫레이(얼굴 X, 11/27). 'type' 칸은 고른 이상형 실사 썸네일을 쓴다. */
+export function idealOutfitImage(o: Exclude<IdealOutfit, 'type'>, g: IdealGender): string {
+  return `/ideal-type/outfit/${o}-${g}.webp?v=${IDEAL_REAL_V}`
+}

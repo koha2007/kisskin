@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { ToolsNav, ToolsFooter } from '../components/ToolsLayout'
 import IdealSideBySide, { type IdealCutKind } from '../components/ideal/IdealSideBySide'
 import { IDEAL_EXAMPLES } from '../components/home/HomeIdealBanner'
-import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_OUTFITS, IDEAL_OUTFIT_LABEL, IDEAL_TYPES, NEW_SIDE_PLACES, idealBadge, idealRealThumb, SIDE_PLACES, SIDE_PLACE_LABEL, type IdealGender, type IdealOutfit, type IdealTypeCode, type SidePlace } from '../lib/ideal-type/types'
+import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_OUTFITS, IDEAL_OUTFIT_LABEL, IDEAL_TYPES, NEW_SIDE_PLACES, idealBadge, idealOutfitImage, idealRealThumb, SIDE_PLACES, SIDE_PLACE_LABEL, type IdealGender, type IdealOutfit, type IdealTypeCode, type SidePlace } from '../lib/ideal-type/types'
 import { trackEvent } from '../lib/analytics'
 import { useI18n } from '../i18n/I18nContext'
 
@@ -93,11 +93,12 @@ export default function IdealPhotoPage() {
             ) })}
           </div>
           <h3 className="mt-5 text-[15px] font-extrabold">{isEn ? 'Their outfit' : '이상형 의상'}</h3>
-          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4 md:max-w-[760px]" role="group" aria-label={isEn ? 'Outfit' : '의상'}>
+          <div className="mt-2 grid grid-cols-4 gap-2 md:max-w-[760px] md:gap-3" role="group" aria-label={isEn ? 'Outfit' : '의상'}>
             {IDEAL_OUTFITS.map((o) => { const x = IDEAL_OUTFIT_LABEL[o]; const on = outfit === o; return (
-              <button key={o} type="button" aria-pressed={on} onClick={() => { setOutfit(o); trackEvent('ideal_photo_outfit', { outfit: o }) }} className={`min-h-[52px] rounded-2xl border-2 px-3 py-2 text-left ${on ? 'border-navy bg-navy text-white' : 'border-navy bg-white text-navy'}`}>
-                <span className="block text-[14px] font-extrabold break-keep">{isEn ? x.en : x.ko}</span>
-                <span className={`block text-[11px] leading-tight break-keep ${on ? 'text-white/75' : 'text-slate-600'}`}>{isEn ? x.descEn : x.descKo}</span>
+              <button key={o} type="button" aria-pressed={on} onClick={() => { setOutfit(o); trackEvent('ideal_photo_outfit', { outfit: o }) }} className={`overflow-hidden rounded-xl border-2 text-left ${on ? 'border-navy bg-navy text-white ring-2 ring-navy/25' : 'border-transparent bg-white text-navy'}`}>
+                <img src={o === 'type' ? idealRealThumb(code, g) : idealOutfitImage(o, g)} alt={isEn ? `${x.en} outfit example` : `${x.ko} 의상 예시`} width={160} height={160} loading="lazy" className={`aspect-square w-full ${o === 'type' ? 'object-cover object-top' : 'object-cover'}`} />
+                <span className="block px-1.5 pt-1 text-[12px] font-extrabold leading-tight break-keep md:text-[14px]">{isEn ? x.en : x.ko}</span>
+                <span className={`block px-1.5 pb-1.5 text-[10px] leading-tight break-keep md:text-[12px] ${on ? 'text-white/75' : 'text-slate-600'}`}>{isEn ? x.descEn : x.descKo}</span>
               </button>
             ) })}
           </div>
