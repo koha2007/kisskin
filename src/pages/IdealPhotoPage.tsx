@@ -92,7 +92,7 @@ export default function IdealPhotoPage() {
               </button>
             ) })}
           </div>
-          <h3 className="mt-5 text-[15px] font-extrabold">{isEn ? 'Their outfit' : '이상형 의상'} <span className="text-[12px] font-bold text-slate-600">{isEn ? '· 2026 trends for 20-somethings' : '· 요즘 20대 트렌드'}</span></h3>
+          <h3 className="mt-5 text-[15px] font-extrabold">{isEn ? 'Their outfit' : '이상형 의상'}</h3>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4 md:max-w-[760px]" role="group" aria-label={isEn ? 'Outfit' : '의상'}>
             {IDEAL_OUTFITS.map((o) => { const x = IDEAL_OUTFIT_LABEL[o]; const on = outfit === o; return (
               <button key={o} type="button" aria-pressed={on} onClick={() => { setOutfit(o); trackEvent('ideal_photo_outfit', { outfit: o }) }} className={`min-h-[52px] rounded-2xl border-2 px-3 py-2 text-left ${on ? 'border-navy bg-navy text-white' : 'border-navy bg-white text-navy'}`}>

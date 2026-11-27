@@ -7,7 +7,7 @@
 import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import sharp from 'sharp'
-import { IDEAL_MAKEUP, IDEAL_TYPES, type IdealOutfit, type IdealTypeCode } from '../src/lib/ideal-type/types'
+import { IDEAL_MAKEUP, IDEAL_OUTFITS, IDEAL_OUTFIT_LABEL, IDEAL_TYPES, type IdealOutfit, type IdealTypeCode } from '../src/lib/ideal-type/types'
 import { buildSidePrompt, buildSoloPrompt } from '../functions/api/ideal-side'
 
 const ROOT = resolve(import.meta.dirname, '..')
@@ -15,8 +15,8 @@ const env: Record<string, string> = Object.fromEntries(readFileSync(resolve(ROOT
 const OUT = resolve(ROOT, 'tmp-ideal-type/real')
 mkdirSync(OUT, { recursive: true })
 
-const [mode, code] = process.argv.slice(2) as ['ref' | 'test', IdealTypeCode | 'all']
-if (code !== 'all' && !IDEAL_TYPES[code]) throw new Error('type?')
+const [mode, code] = process.argv.slice(2) as ['ref' | 'test' | 'outfit', IdealTypeCode | 'all']
+if (mode !== 'outfit' && code !== 'all' && !IDEAL_TYPES[code]) throw new Error('type?')
 
 function endpoint() {
   const base = env.OPENAI_BASE_URL?.replace(/\/$/, '')
@@ -26,6 +26,24 @@ function endpoint() {
   else { if (base) url = `${base}/v1/images/edits`; headers.Authorization = `Bearer ${env.OPENAI_API_KEY}` }
   return { url, headers }
 }
+
+// ③ outfit : 의상 칸 예시 = 옷만 펼친 플랫레이(얼굴 X — "이 사람으로 나오나" 헷갈림 방지) · medium 1024² · 결과 tmp-ideal-type/real/outfit/
+//   npx tsx scripts/gen-ideal-type-real.mts outfit all   |  outfit quarterzip-m
+async function generate(id: string, prompt: string) {
+  const out = resolve(OUT, 'outfit', `${id}.webp`)
+  if (existsSync(out)) { console.log('skip', id); return }
+  const { url, headers } = endpoint()
+  const res = await fetch(url.replace('/edits', '/generations'), { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'gpt-image-2', prompt, size: '1024x1024', quality: 'medium', n: 1 }) })
+  const text = await res.text()
+  if (!res.ok) throw new Error(`${id} ${res.status} ${text.slice(0, 300)}`)
+  await sharp(Buffer.from(JSON.parse(text).data[0].b64_json, 'base64')).webp({ quality: 88 }).toFile(out)
+  console.log('ok', id)
+}
+const outfitPrompt = (o: IdealOutfit, g: 'm' | 'f') =>
+  `A top-down flat-lay fashion product photo of ONE complete ${g === 'm' ? "men's" : "women's"} outfit, neatly laid out as if worn, on a plain warm cream paper background: ` +
+  `${IDEAL_OUTFIT_LABEL[o][g].replace(/, a slim book in hand/, ', with a slim closed book beside it')}. ` +
+  'Every piece fully visible and arranged in a clean, balanced editorial layout (top in the upper half, bottoms below, shoes at the bottom, small accessories at the side). ' +
+  'No person, no mannequin, no hands, no hanger. Soft even daylight, gentle shadows, realistic fabric texture, magazine styling. No text, letters, logos or brand marks.'
 
 async function edit(id: string, images: string[], prompt: string, quality: 'high' | 'medium') {
   const out = resolve(OUT, `${id}.webp`)
@@ -70,7 +88,12 @@ const pool = async (jobs: (() => Promise<void>)[], n = 4) => {
   await Promise.all(Array.from({ length: n }, async () => { while (i < jobs.length) { const j = jobs[i++]; await j().catch((e) => { console.error('FAIL', (e as Error).message); process.exitCode = 1 }) } }))
 }
 
-if (mode === 'ref') {
+if (mode === 'outfit') {
+  mkdirSync(resolve(OUT, 'outfit'), { recursive: true })
+  const all = IDEAL_OUTFITS.filter((o) => o !== 'type').flatMap((o) => (['m', 'f'] as const).map((g) => `${o}-${g}`))
+  const ids = code === 'all' ? all : [code as string]
+  await pool(ids.map((id) => () => { const [o, g] = id.split('-') as [IdealOutfit, 'm' | 'f']; return generate(id, outfitPrompt(o, g)) }))
+} else if (mode === 'ref') {
   const codes = code === 'all' ? (Object.keys(IDEAL_TYPES) as IdealTypeCode[]) : [code]
   await pool(codes.flatMap((c) => (['m', 'f'] as const).map((g) => () => edit(`${c}-${g}`, [resolve(ROOT, `tmp-ideal-type/set/${c}-${g}-picnic.webp`)], refPrompt(c, g), 'high'))))
 } else {
