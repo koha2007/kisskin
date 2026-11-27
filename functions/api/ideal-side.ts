@@ -1,6 +1,6 @@
 // AI 이상형 테스트 — "이상형 옆에 선 나" (2026-11-25, docs/IDEAL_TYPE_PLAN.md 3-5·3-6절)
 // 내 셀카 1장 + 이상형 유형 그림(참고) → 사진풍으로 둘이 나란히 선 데이트 사진, 내 얼굴엔 데이트 메이크업.
-//   · mode 'preview' = 맛보기: 가입 X, IP 하루 1장, 전체 하루 PREVIEW_CAP 장, quality low → 화면·이미지에 워터마크
+//   · mode 'preview' = 맛보기: 가입 X, IP 1장(평생·데이트컷/단독컷 합쳐서, 11/27 운영자: 매일 무료 X), 전체 하루 PREVIEW_CAP 장, quality low → 화면·이미지에 워터마크
 //   · mode 'credit'  = 고화질: 로그인 + 크레딧 1개(ref=jobId 멱등, 같은 작업 5회까지 재시도)
 // 프롬프트는 서버가 만든다(유형·성별·장소 코드만 받음) — 임의 이미지 생성기로 쓸 수 없다.
 // 다른 사람 사진은 받지 않는다: 상대는 항상 AI 가상 인물(딥페이크 방지). 본인 사진 동의는 화면에서 받는다.
@@ -24,6 +24,7 @@ interface Env {
 
 const PREVIEW_CAP = 40
 const DAY_SEC = 26 * 60 * 60
+const ONCE_SEC = 400 * 24 * 60 * 60
 const MAX_JOB_ATTEMPTS = 5
 const JOB_TTL = 30 * 24 * 60 * 60
 
@@ -127,12 +128,14 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (preview) {
     const day = new Date().toISOString().slice(0, 10)
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
-    const ipKey = `${tag}:ip:${day}:${ip}`, allKey = `${tag}:all:${day}`
-    if (await env.MAKEUP_USAGE.get(ipKey)) return json({ error: 'preview_used' }, 429)
+    const ipKey = `ideal:once:${ip}`, allKey = `${tag}:all:${day}`
+    // 옛 하루 키(11/27 이전, 데이트컷·단독컷 따로)도 본다
+    const old = await Promise.all(['side', 'solo'].map((k) => env.MAKEUP_USAGE!.get(`${k}:ip:${day}:${ip}`)))
+    if ((await env.MAKEUP_USAGE.get(ipKey)) || old.some(Boolean)) return json({ error: 'preview_used' }, 429)
     const all = parseInt((await env.MAKEUP_USAGE.get(allKey)) || '0', 10) || 0
     if (all >= PREVIEW_CAP) return json({ error: 'preview_cap' }, 429)
     // 호출 전에 잡는다 — 실패해도 되돌리지 않음(실패 무한 재시도 우회 차단)
-    await env.MAKEUP_USAGE.put(ipKey, '1', { expirationTtl: DAY_SEC })
+    await env.MAKEUP_USAGE.put(ipKey, '1', { expirationTtl: ONCE_SEC })
     await env.MAKEUP_USAGE.put(allKey, String(all + 1), { expirationTtl: DAY_SEC })
   } else {
     const auth = request.headers.get('Authorization') || ''

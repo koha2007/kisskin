@@ -6,7 +6,7 @@
 // 익명 무료는 예전에 IP·지문 로테이션으로 무한 우회됐다(makeup-edit.ts 주석). 그래서 이 미리보기는
 //   · 프롬프트를 서버가 만든다(9룩 styleId 만 받음) — 임의 이미지 생성기로 쓸 수 없다
 //   · quality=low (장당 ~$0.01~0.02) — 화면에선 워터마크를 얹어 "미리보기"로만 보인다
-//   · IP 하루 1장 + 전체 하루 PREVIEW_DAILY_CAP 장 — 로테이션해도 하루 비용 상한이 고정된다
+//   · IP 1장(평생, 11/27 운영자: 매일 새로 생기는 무료 X) + 전체 하루 PREVIEW_DAILY_CAP 장 — 로테이션해도 하루 비용 상한이 고정된다
 //   · 저장소(KV)가 없으면 호출하지 않는다(fail-closed)
 // 가입하면 같은 셀카·같은 룩으로 무료권 1장(medium)을 정식으로 만든다 — 기존 흐름 그대로.
 import { MAKEUP_STYLES, promptWholeFace, type MakeupStyleId } from '../../src/lib/makeup/styles'
@@ -22,6 +22,8 @@ interface Env {
 /** 하루 전체 상한 — low 장당 ~$0.02 기준 하루 최대 ~$1 */
 const PREVIEW_DAILY_CAP = 50
 const DAY_SEC = 26 * 60 * 60
+/** 11/27: IP 맛보기 기록은 날짜 없이 400일 보관 — '하루 1장'이 아니라 '한 번'(가입 무료권 2장 외 매일 무료 X) */
+const ONCE_SEC = 400 * 24 * 60 * 60
 
 const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } })
@@ -47,13 +49,14 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
 
   const day = new Date().toISOString().slice(0, 10)
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
-  const ipKey = `preview:ip:${day}:${ip}`
+  const ipKey = `preview:once:${ip}`
   const allKey = `preview:all:${day}`
-  if (await env.MAKEUP_USAGE.get(ipKey)) return json({ error: 'preview_used' }, 429)
+  // 옛 하루 키(11/27 이전)도 본다 — 배포 당일 한 장 더 받지 않게
+  if ((await env.MAKEUP_USAGE.get(ipKey)) || (await env.MAKEUP_USAGE.get(`preview:ip:${day}:${ip}`))) return json({ error: 'preview_used' }, 429)
   const all = parseInt((await env.MAKEUP_USAGE.get(allKey)) || '0', 10) || 0
   if (all >= PREVIEW_DAILY_CAP) return json({ error: 'preview_cap' }, 429)
   // 호출 "전"에 잡는다 — 실패해도 되돌리지 않는다(실패를 무한 재시도하는 우회 차단).
-  await env.MAKEUP_USAGE.put(ipKey, '1', { expirationTtl: DAY_SEC })
+  await env.MAKEUP_USAGE.put(ipKey, '1', { expirationTtl: ONCE_SEC })
   await env.MAKEUP_USAGE.put(allKey, String(all + 1), { expirationTtl: DAY_SEC })
 
   const fd = new FormData()

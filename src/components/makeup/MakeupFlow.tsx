@@ -118,9 +118,9 @@ export default function MakeupFlow() {
         // 셀카는 업로드 때 세션에 맡겨 뒀고(savePendingSelfieFromSrc) 룩은 ?style= 로 실려 가서,
         // 로그인 화면이 "이 룩을 바로 만들어 드려요"로 받고 복귀 즉시 생성이 이어진다.
         // 2026-11-17: 가입부터 요구하면 로그인 화면에서 대부분 떠났다(75명 → 가입 23) → 미리보기 1장을 먼저 보여 준다.
-        // 하루 한도·전체 상한에 걸리거나 실패하면 예전처럼 곧장 로그인으로.
+        // 한 번(11/27: 하루 1장 → 평생 1장)·전체 상한에 걸리거나 실패하면 예전처럼 곧장 로그인으로.
         let previewUsed = false
-        try { previewUsed = sessionStorage.getItem(PREVIEW_USED_KEY) === '1' } catch { /* 없으면 시도 */ }
+        try { previewUsed = localStorage.getItem(PREVIEW_USED_KEY) === '1' } catch { /* 없으면 시도 */ }
         if (!previewUsed) {
           setStatus(isEn ? 'Making your preview… (up to ~1 min)' : '미리보기 만드는 중… (최대 1분)')
           try {
@@ -133,7 +133,7 @@ export default function MakeupFlow() {
               body: JSON.stringify({ image: canvas.toDataURL('image/png'), styleId: id, size }),
             })
             if (!alive()) return
-            try { sessionStorage.setItem(PREVIEW_USED_KEY, '1') } catch { /* 무시 */ }
+            try { localStorage.setItem(PREVIEW_USED_KEY, '1') } catch { /* 무시 */ }
             const pd = (await pr.json().catch(() => ({}))) as { image?: string; error?: string }
             if (pr.ok && pd.image) {
               setPreviewSrc(await stampPreview(pd.image, isEn)); setAfterStyle(id)

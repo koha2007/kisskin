@@ -1,5 +1,5 @@
 // "이상형 옆에 선 나" — 맛보기(무료·저화질·워터마크) → 고화질(크레딧 1개) (2026-11-25)
-// 규칙(docs/IDEAL_TYPE_PLAN.md): 내 셀카가 들어가 AI가 새로 그리면 유료, 첫 1장(하루 1장)은 맛보기.
+// 규칙(docs/IDEAL_TYPE_PLAN.md): 내 셀카가 들어가 AI가 새로 그리면 유료, 첫 1장(한 번만, 11/27)은 맛보기.
 // 본인 사진만(동의 체크) · 상대는 AI 가상 인물 · 결과 이미지에 "AI 생성" 표시를 박는다(AI 기본법 31조).
 // 11/26: 내 얼굴 메이크업 = K-pop 아이돌 고정 · 장소 9곳(SidePlace) · kind 'solo' = 이상형 혼자 스튜디오 컷(셀카 없음).
 // 로그인·충전 왕복: 셀카를 세션에 맡기고 ?side=1#side 로 돌아온다.
@@ -76,7 +76,7 @@ export default function IdealSideBySide({ isEn, code, g, place, name, hideSample
       }
       if (res.status === 401) { if (photo) keepPendingSelfie(photo); setSt({ k: 'error', msg: isEn ? 'Please log in to get the HD photo.' : '고화질은 로그인 후 받을 수 있어요.', action: 'login' }); return }
       if (res.status === 402) { if (photo) keepPendingSelfie(photo); setSt({ k: 'error', msg: isEn ? 'No credits left. Top up 5 credits ($2.99) and come right back.' : '크레딧이 없어요. 5개($2.99) 충전하면 바로 이어서 만들어요.', action: 'topup' }); return }
-      if (d.error === 'preview_used' || d.error === 'preview_cap') { setSt({ k: 'error', msg: isEn ? 'Today\'s free preview is used. Get the HD photo for 1 credit.' : '오늘 맛보기는 이미 썼어요. 고화질은 크레딧 1개로 받을 수 있어요.' }); return }
+      if (d.error === 'preview_used' || d.error === 'preview_cap') { setSt({ k: 'error', msg: isEn ? 'Your free preview is used. Get the HD photo for 1 credit.' : '무료 맛보기는 이미 썼어요. 고화질은 크레딧 1개로 받을 수 있어요.' }); return }
       setSt({ k: 'error', msg: d.moderation && !solo ? (isEn ? 'This photo could not be used. Try a clear, front-facing selfie.' : '이 사진으로는 만들 수 없어요. 정면이 잘 보이는 셀카로 다시 해 주세요.') : (isEn ? 'Generation failed. Tap again — you won\'t be charged twice.' : '만들지 못했어요. 다시 눌러 주세요. 두 번 차감되지 않아요.') })
     } catch { setSt({ k: 'error', msg: isEn ? 'Network error. Please try again.' : '연결이 끊겼어요. 다시 시도해 주세요.' }) }
   }

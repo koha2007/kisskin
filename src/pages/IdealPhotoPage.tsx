@@ -51,7 +51,7 @@ export default function IdealPhotoPage() {
         <h1 className="mt-2 text-[32px] font-extrabold leading-tight tracking-[-0.04em] md:text-[50px] break-keep">{isEn ? 'Me + my ideal type' : '이상형 옆에 선 나'}</h1>
         <p className="mt-2 max-w-[640px] text-[16px] leading-snug md:text-[18px] break-keep">{isEn ? 'Pick your ideal type, add one selfie — get a date photo of the two of you, with K-pop idol makeup on your face. Or get your ideal type alone in a studio shot.' : '이상형을 고르고 셀카 한 장만 올리면, 둘이 함께 찍은 데이트 사진이 나와요. 내 얼굴엔 K-pop 아이돌 메이크업까지. 이상형 혼자 찍은 스튜디오 컷도 받을 수 있어요.'}</p>
         <ul className="mt-3 flex flex-wrap gap-2 text-[13px] font-bold">
-          <li className="rounded-full bg-white px-3 py-1.5 shadow-sm">{isEn ? 'Preview: free, no sign-up (1/day, low-res)' : '맛보기: 무료·가입 없이 (하루 1장, 저화질)'}</li>
+          <li className="rounded-full bg-white px-3 py-1.5 shadow-sm">{isEn ? 'Preview: free, no sign-up (once, low-res)' : '맛보기: 무료·가입 없이 (1회, 저화질)'}</li>
           <li className="rounded-full bg-white px-3 py-1.5 shadow-sm">{isEn ? 'HD: 1 credit · 5 credits $2.99' : '고화질: 크레딧 1개 · 5개 $2.99'}</li>
         </ul>
 
