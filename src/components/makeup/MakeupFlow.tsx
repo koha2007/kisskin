@@ -184,13 +184,13 @@ export default function MakeupFlow() {
       if (!res.ok) {
         const code = data.error
         if (code === 'login_required') {
-          setErrMsg(isEn ? 'Sign up and get your first look free · No card needed.' : '회원가입하면 첫 1룩 무료 · 카드 등록 없음.')
+          setErrMsg(isEn ? 'Sign up for 2 free credits · No card needed.' : '회원가입하면 무료 크레딧 2개 · 카드 등록 없음.')
           setErrAction('login')
         } else if (res.status === 401) {
           setErrMsg(isEn ? 'Your session expired. Please log in again.' : '로그인이 만료됐어요. 다시 로그인해 주세요.')
           setErrAction('login')
         } else if (res.status === 409 && code === 'free_pass_used') {
-          setErrMsg(isEn ? 'Your free pass is already used. You can make it with a credit.' : '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.')
+          setErrMsg(isEn ? 'Free passes are now free credits. You can make it with a credit.' : '무료권은 무료 크레딧으로 바뀌었어요. 크레딧으로 만들 수 있어요.')
           setErrAction('choose')
         } else if (res.status === 409 && code === 'pay_required') {
           setErrMsg(isEn ? 'Choose whether to use your free pass or a credit.' : '무료권과 크레딧 중 무엇을 쓸지 골라 주세요.')
@@ -468,7 +468,7 @@ export default function MakeupFlow() {
             {isEn ? 'Get it in HD — sign up free' : '무료 가입하고 고화질로 받기'}
           </a>
           <p className="mt-2 text-center text-[12px] text-white/65 break-keep">
-            {isEn ? 'Same selfie, made right away · first look free · no card' : '같은 셀카로 바로 만들어요 · 첫 1장 무료 · 카드 없음'}
+            {isEn ? 'Same selfie, made right away · 2 free looks · no card' : '같은 셀카로 바로 만들어요 · 가입 무료 2장 · 카드 없음'}
           </p>
           <button type="button" onClick={() => setStep('style')} className="mt-4 text-center text-xs text-white/60 underline underline-offset-2">
             {isEn ? 'Pick a different look' : '다른 룩 고르기'}

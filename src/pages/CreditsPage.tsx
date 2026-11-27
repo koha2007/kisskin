@@ -48,16 +48,21 @@ export default function CreditsPage() {
   useEffect(() => {
     if (!user?.id) return
     let off = false
-    getCreditBalance().then((n) => { if (!off) setBalance(n) }).catch(() => { if (!off) setBalance(0) })
-    getCreditHistory(LIMIT).then((r) => { if (!off) setRows(r) })
-    getFreeStatus().then((s) => { if (!off) setFree(s) })
+    // 11/27: free-status 가 가입 무료 크레딧을 먼저 지급하므로, 그 뒤에 잔액·내역을 읽는다
+    getFreeStatus().then((s) => {
+      if (off) return
+      setFree(s)
+      getCreditBalance().then((n) => { if (!off) setBalance(Math.max(n, s?.balance ?? 0)) }).catch(() => { if (!off) setBalance(s?.balance ?? 0) })
+      getCreditHistory(LIMIT).then((r) => { if (!off) setRows(r) })
+    })
     return () => { off = true }
   }, [user?.id])
 
-  const charged = (rows ?? []).filter((r) => r.type === 'charge').reduce((s, r) => s + r.amount, 0)
-  const used = (rows ?? []).filter((r) => r.type === 'deduct').reduce((s, r) => s + r.amount, 0)
+  const charged = (rows ?? []).filter((r) => r.type === 'charge' || r.type === 'bonus').reduce((s, r) => s + r.amount, 0)
+  const used = (rows ?? []).filter((r) => r.type === 'deduct' || r.type === 'expire').reduce((s, r) => s + r.amount, 0)
   const fmt = (iso: string) => new Date(iso).toLocaleString(isKo ? 'ko-KR' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-  const freeLeft = free ? free.makeup.left + free.lucky.left : 0
+  const bonus = free?.bonus ?? null
+  const until = (iso: string) => { const d = new Date(iso); return isKo ? `${d.getMonth() + 1}월 ${d.getDate()}일까지` : `until ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` }
 
   return (
     <div style={{ minHeight: '100dvh', background: C.cream, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 16px' }}>
@@ -76,36 +81,19 @@ export default function CreditsPage() {
           <span style={{ fontSize: '15px', color: C.navy, fontWeight: 700 }}>{isKo ? '개' : balance === 1 ? 'credit' : 'credits'}</span>
         </div>
         <p style={{ fontSize: '13px', color: C.muted, margin: '0 0 4px', lineHeight: 1.5 }}>
-          {isKo ? '크레딧 1개 = AI 메이크업 1장(2026 메이크업·럭키 메이크업 공통)' : '1 credit = 1 AI makeup look (2026 looks & lucky makeup)'}
+          {isKo ? '크레딧 1개 = 생성 1번 — AI 메이크업·럭키·페이스 페인팅·헤어·이상형 사진·뷰티 DNA·정밀 풀이 어디든 (9룩 모음은 9개)' : '1 credit = 1 creation — any AI makeup, lucky, face paint, hair, ideal-type photo, Beauty DNA or reading (9-look set = 9)'}
         </p>
-        {/* 가입 무료권 — 크레딧과 별개. 풀마다 몇 장 중 몇 장 썼는지(서버 장부 기준, 재가입해도 이어짐) */}
-        <div style={{ marginTop: '12px', border: `1px solid ${C.line}`, borderRadius: RAD }}>
-          <p style={{ margin: 0, padding: '10px 12px', fontSize: '13px', fontWeight: 700, color: C.navy, borderBottom: `1px solid ${C.line}` }}>
-            {isKo ? '가입 무료권' : 'Free sign-up passes'}
-            {free && <span style={{ fontWeight: 600, color: C.muted }}>{isKo ? ` · ${freeLeft}장 남음 / ${free.makeup.limit + free.lucky.limit}장` : ` · ${freeLeft} of ${free.makeup.limit + free.lucky.limit} left`}</span>}
-          </p>
-          {free ? (
-            ([
-              { k: isKo ? '2026 메이크업' : '2026 makeup looks', p: free.makeup },
-              { k: isKo ? '럭키 메이크업' : 'Lucky makeup', p: free.lucky },
-            ]).map((x) => (
-              <div key={x.k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', fontSize: '13px', color: C.navy }}>
-                <span>{x.k}</span>
-                <span style={{ fontWeight: 700, color: x.p.left > 0 ? C.sage : C.muted }}>
-                  {isKo
-                    ? `${x.p.left > 0 ? '남음' : '사용함'} · ${x.p.used}/${x.p.limit}장 사용`
-                    : `${x.p.left > 0 ? 'Available' : 'Used'} · ${x.p.used}/${x.p.limit} used`}
-                </span>
-              </div>
-            ))
-          ) : free === undefined ? (
-            <p style={{ margin: 0, padding: '9px 12px', fontSize: '12px', color: C.muted }}>…</p>
-          ) : (
-            <p style={{ margin: 0, padding: '9px 12px', fontSize: '12px', color: C.muted }}>
-              {isKo ? '무료권 정보를 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.' : 'Couldn’t load your free passes. Please refresh in a moment.'}
-            </p>
-          )}
-        </div>
+        {/* 11/27 가입 무료 크레딧(30일) — 위 잔액에 이미 들어 있음. 남은 무료분·기한만 따로 안내 */}
+        {bonus && bonus.granted > 0 && (
+          <div style={{ marginTop: '12px', border: `1px solid ${C.line}`, borderRadius: RAD, padding: '10px 12px', fontSize: '13px', color: C.navy, display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
+            <span style={{ fontWeight: 700 }}>{isKo ? '가입 무료 크레딧' : 'Sign-up free credits'}</span>
+            <span style={{ fontWeight: 700, color: bonus.remaining > 0 ? C.sage : C.muted, textAlign: 'right' }}>
+              {bonus.remaining > 0
+                ? (isKo ? `${bonus.remaining}개 남음 · ${until(bonus.expiresAt)}` : `${bonus.remaining} left · ${until(bonus.expiresAt)}`)
+                : (isKo ? '모두 사용함' : 'All used')}
+            </span>
+          </div>
+        )}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '16px' }}>
           <a href="/makeup/" style={btn(true)}>
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>auto_awesome</span>
@@ -146,7 +134,7 @@ export default function CreditsPage() {
         ) : (
           <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
             {rows.map((r) => {
-              const plus = r.type === 'charge'
+              const plus = r.type === 'charge' || r.type === 'bonus'
               return (
                 <li key={r.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 0', borderTop: `1px solid ${C.line}` }}>
                   <span className="material-symbols-outlined" aria-hidden style={{ fontSize: '20px', color: plus ? C.sage : C.muted }}>
@@ -171,8 +159,8 @@ export default function CreditsPage() {
         )}
         <p style={{ fontSize: '12px', color: C.muted, margin: '14px 0 0', lineHeight: 1.6 }}>
           {isKo
-            ? `가입 무료권으로 만든 룩은 크레딧을 쓰지 않아 여기 나오지 않아요.${rows && rows.length >= LIMIT ? ` 최근 ${LIMIT}건까지 보여요.` : ''} 충전이 안 보이면 support@kissinskin.net 으로 알려 주세요.`
-            : `Looks made with free passes don’t use credits, so they aren’t listed.${rows && rows.length >= LIMIT ? ` Showing the latest ${LIMIT}.` : ''} Missing a top-up? Email support@kissinskin.net.`}
+            ? `가입 무료 크레딧은 받은 날부터 30일 동안 쓸 수 있고, 무료분부터 먼저 써요. 기한이 지나면 남은 무료분만 사라져요(결제한 크레딧은 기한 없음).${rows && rows.length >= LIMIT ? ` 최근 ${LIMIT}건까지 보여요.` : ''} 충전이 안 보이면 support@kissinskin.net 으로 알려 주세요.`
+            : `Sign-up free credits last 30 days and are used first. After that, only the unused free ones expire (purchased credits never expire).${rows && rows.length >= LIMIT ? ` Showing the latest ${LIMIT}.` : ''} Missing a top-up? Email support@kissinskin.net.`}
         </p>
       </div>
     </div>

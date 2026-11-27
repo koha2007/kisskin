@@ -9,5 +9,5 @@ export const LUCKY_PRICE = {
   starter: { credits: 5, usd: 2.99 },
   nine: { credits: 9, usd: 4.99 },
   lineKo: '첫 장 무료 · 5장 $2.99 · 9가지 운 전부 9장 $4.99',
-  lineEn: 'First look free · 5 looks $2.99 · all 9 lucks $4.99',
+  lineEn: '2 free looks · 5 looks $2.99 · all 9 lucks $4.99',
 } as const

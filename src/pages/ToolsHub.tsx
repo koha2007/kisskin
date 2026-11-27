@@ -36,8 +36,8 @@ const TOOLS: Tool[] = [
     icon: 'auto_awesome',
     koTitle: 'AI 메이크업 시뮬레이터',
     enTitle: 'AI Makeup Try-On',
-    koDesc: '셀카 한 장으로 K-뷰티 메이크업 — 가입하면 첫 1룩 무료.',
-    enDesc: 'K-beauty makeup on your selfie — first look free when you sign up.',
+    koDesc: '셀카 한 장으로 K-뷰티 메이크업 — 가입하면 무료 2장.',
+    enDesc: 'K-beauty makeup on your selfie — 2 free looks when you sign up.',
     koCta: '시작하기',
     enCta: 'Start',
     accent: 'var(--color-tool-ai)',
@@ -246,7 +246,7 @@ export default function ToolsHub() {
                 </div>
                 <div className="flex-1 p-6 md:p-10 flex flex-col justify-center">
                   <p className="t-eyebrow text-primary-on-dark mb-3">
-                    {isEn ? 'Signature · First look free' : '시그니처 · 첫 1룩 무료'}
+                    {isEn ? 'Signature · 2 free looks' : '시그니처 · 가입 무료 2장'}
                   </p>
                   <h2 className="t-h1 mb-3">
                     {isEn ? 'AI Makeup Try-On' : 'AI 메이크업 시뮬레이터'}

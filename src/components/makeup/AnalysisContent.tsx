@@ -20,7 +20,7 @@ export default function AnalysisContent() {
     ? [
         {
           q: 'Is the virtual makeup try-on really free?',
-          a: 'Yes — sign up and get your first look free, no card needed. After that, 1 look = 1 credit · credits from $2.99 (5 credits) · all 9 looks $4.99. Credits cover the AI compute, which is the honest reason nothing here is unlimited: someone pays for the GPU either way.',
+          a: 'Yes — sign up and get 2 looks free, no card needed. After that, 1 look = 1 credit · credits from $2.99 (5 credits) · all 9 looks $4.99. Credits cover the AI compute, which is the honest reason nothing here is unlimited: someone pays for the GPU either way.',
         },
         {
           q: 'What happens to my selfie?',
@@ -42,7 +42,7 @@ export default function AnalysisContent() {
     : [
         {
           q: 'AI 메이크업, 정말 무료인가요?',
-          a: '회원가입하면 첫 1룩 무료이고 카드 등록은 필요 없어요. 그다음부터는 크레딧을 써요 — 1룩 = 크레딧 1개 · 크레딧 5개 $2.99부터 · 9룩 전부 $4.99. AI 연산 비용이 실제로 들기 때문입니다. "무제한 무료"라고 하지 않는 이유가 그것입니다 — GPU 비용은 누군가 냅니다.',
+          a: '회원가입하면 무료 2장이고 카드 등록은 필요 없어요. 그다음부터는 크레딧을 써요 — 1룩 = 크레딧 1개 · 크레딧 5개 $2.99부터 · 9룩 전부 $4.99. AI 연산 비용이 실제로 들기 때문입니다. "무제한 무료"라고 하지 않는 이유가 그것입니다 — GPU 비용은 누군가 냅니다.',
         },
         {
           q: '올린 셀카는 어떻게 되나요?',

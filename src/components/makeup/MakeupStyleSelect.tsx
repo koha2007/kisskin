@@ -61,14 +61,14 @@ export default function MakeupStyleSelect({ onConfirm, onBack, isEn = false, ini
   const credits = freeStatus?.balance ?? 0
   const empty = !!freeStatus && freeLeft === 0 && credits === 0 && !!onTopup
   const countLine = empty
-    ? (isEn ? 'Free look used · from $0.47 per look' : '무료 1룩 사용 완료 · 1룩 $0.47부터')
+    ? (isEn ? 'Credits used up · from $0.47 per look' : '크레딧을 다 썼어요 · 1룩 $0.47부터')
     : loginHref
     ? (isEn ? 'Free preview · no sign-up' : '가입 없이 미리보기 무료')
     : !freeStatus
     ? (isEn ? '1 credit · 1 result image' : '1크레딧 = 결과 1장 생성')
     : (isEn
-      ? `Free pass ${freeLeft} · Credits ${credits} left`
-      : `남은 무료권 ${freeLeft}장 · 크레딧 ${credits}개`)
+      ? (freeLeft > 0 ? `Free pass ${freeLeft} · Credits ${credits} left` : `Credits ${credits} left (incl. free credits)`)
+      : (freeLeft > 0 ? `남은 무료권 ${freeLeft}장 · 크레딧 ${credits}개` : `크레딧 ${credits}개 (가입 무료 크레딧 포함)`))
 
   const handleConfirm = (pay?: PayChoice) => {
     gtagEvent('style_selected', { style: selected, pay: pay ?? 'unknown' })

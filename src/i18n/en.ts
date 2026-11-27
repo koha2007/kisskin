@@ -31,7 +31,7 @@ export default {
   'home.hero.subtitle': 'One selfie. 9 K-beauty makeup looks on your own face — one at a time, or all 9 at once. Free AI personal color and makeup analysis from Seoul, Korea.',
   // free-pivot home redesign (2026-06-29) new keys
   'home.hero.uploadCta': 'Upload your selfie — free',
-  'home.hero.priceSub': 'Sign up for your first look free · all 9 looks + grid image $4.99',
+  'home.hero.priceSub': 'Sign up for 2 free looks · all 9 looks + grid image $4.99',
   'home.ba.title': 'See the transformation',
   'home.ba.subtitle': 'We bring out your natural beauty',
   'home.slider.title': '9 trending K-beauty looks',
@@ -78,7 +78,7 @@ export default {
   'home.toolsShowcase.subtitle': 'We synthesize your four free quiz results into your own makeup and product list — no selfie needed.',
   'home.toolsShowcase.signatureBadge': 'kissinskin signature',
   'home.toolsShowcase.mainTitle': 'AI Makeup Simulator',
-  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up and get your first look free · No card needed.',
+  'home.toolsShowcase.mainDesc': 'Real-time AI analysis recommends the looks that suit you best. Sign up and get 2 looks free · No card needed.',
   'home.toolsShowcase.mainCta': 'Try now',
   'home.toolsShowcase.cardCta': 'Start',
   'home.toolsShowcase.seeAllTools': 'See all tools',
@@ -149,7 +149,7 @@ export default {
   'home.how.freeCta': 'Start for free',
   'home.how.giftTitle': 'Sign up for 2 free generations',
   'home.how.giftDesc': 'One look of your choice from the 9 2026 makeup looks, plus one of the 9 lucky makeup looks — both free on your own selfie from a single sign-up.',
-  'home.how.payBadge': 'First look free · all 9 for $4.99',
+  'home.how.payBadge': '2 free looks · all 9 for $4.99',
   'home.how.payTitle': 'Try it on your own face with AI',
   'home.how.payStep1': 'Upload Photo',
   'home.how.payStep1Desc': 'Take a selfie or choose a photo from your gallery',
@@ -169,7 +169,7 @@ export default {
   // Final CTA
   'home.cta.title1': 'Change starts with',
   'home.cta.title2': 'a single photo',
-  'home.cta.subtitle': 'One selfie is all it takes. Sign up and your first look is free — or get all 9 looks plus a grid image for $4.99.',
+  'home.cta.subtitle': 'One selfie is all it takes. Sign up and 2 looks are free — or get all 9 looks plus a grid image for $4.99.',
 
   // Footer
   'home.footer.desc': 'AI K-Beauty Makeup Simulator & Korean Cosmetics Recommendation',
@@ -292,7 +292,7 @@ export default {
   'mypage.changePasswordBtn': 'Change Password',
   'mypage.passwordChanged': 'Password changed successfully.',
   'mypage.deleteAccount': 'Delete Account',
-  'mypage.deleteWarning': 'Your account, saved records and remaining credits will be permanently deleted. Payment records and free-pass abuse-prevention records are kept as described in our Privacy Policy.',
+  'mypage.deleteWarning': 'Your account, saved records and remaining credits will be permanently deleted. Payment records and free-credit abuse-prevention records are kept as described in our Privacy Policy.',
   'mypage.deleteAccountBtn': 'Delete Account',
   'mypage.deleteConfirm': 'Are you sure you want to delete your account?',
   'mypage.deleteConfirmBtn': 'Delete',

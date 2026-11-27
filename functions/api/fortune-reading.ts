@@ -11,7 +11,7 @@
 // ⚠ 문구 규칙: 재미로 보는 결과 · 질병/수명/사고/손재 등 겁주는 말 금지 · 외모 비하·사람 평가 금지.
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits, getBalance } from './_credits'
-import { FREE_LIMITS, claimFreePass, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, claimFreePass, ensureSignupBonus, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
 import { ELEMENTS, STEMS_HANJA, BRANCHES_HANJA, controls, generates, generatedBy, monthPillarOf, stemElement, type Element } from '../../src/lib/fortune/saju'
 
 interface Env {
@@ -164,6 +164,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (!authHeader.startsWith('Bearer ')) return json({ error: 'login_required' }, 401)
   const user = await verifyUser(env, authHeader.slice(7))
   if (!user) return json({ error: 'invalid_token' }, 401)
+  await ensureSignupBonus(env, user) // 11/27 가입 무료 크레딧
 
   const used = await getFreeUsed(env, 'tool', user)
   const picked = await resolveTier(body.pay, used, FREE_LIMITS.tool, async () =>

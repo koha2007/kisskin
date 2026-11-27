@@ -24,8 +24,15 @@ export interface UsageStore {
 
 export type FreePool = 'makeup' | 'lucky' | 'tool'
 
-/** 풀별 무료 장수. 합계 2장(가입 무료권 2개 = 메이크업 1 + 럭키 1). */
-export const FREE_LIMITS: Record<FreePool, number> = { makeup: 1, lucky: 1, tool: 0 }
+/**
+ * 풀별 무료 장수 — 2026-11-27 운영자 B안: 무료권 폐지 → 가입 무료 크레딧 2개(30일, 어떤 기능이든).
+ * 그래서 지금은 모든 풀 0장(생성 경로는 전부 크레딧). 옛 사용 기록은 LEGACY_FREE_LIMITS 로 "남은 수 → 크레딧 전환"에만 쓴다.
+ */
+export const FREE_LIMITS: Record<FreePool, number> = { makeup: 0, lucky: 0, tool: 0 }
+/** 11/27 이전 무료권 장수(메이크업 1 + 럭키 1) — 기존 회원 전환 계산용 */
+export const LEGACY_FREE_LIMITS: Record<FreePool, number> = { makeup: 1, lucky: 1, tool: 0 }
+export const SIGNUP_BONUS = 2
+export const SIGNUP_BONUS_DAYS = 30
 
 /** KV 옛 키 접두사 — tool 풀의 옛 기록은 뷰티 DNA 시절의 mu:dna:, lucky 는 0010 실행 전 후퇴용 */
 const KV_PREFIX: Record<FreePool, string> = { makeup: 'mu:', lucky: 'mu:lucky:', tool: 'mu:dna:' }
@@ -202,4 +209,43 @@ export async function resolveTier(
   if (pay === 'free') return used < limit ? 'free' : 'free_pass_used'
   if (used >= limit) return 'credit'
   return (await hasCredits()) ? 'pay_required' : 'free'
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 가입 무료 크레딧 2개(30일) — 2026-11-27 B안 (0013 마이그레이션)
+// ────────────────────────────────────────────────────────────────────
+// 로그인한 사용자가 서버를 처음 부를 때(free-status·생성 API) 한 번 지급한다.
+//   신규 = 2개 / 기존 회원 = 2 − 옛 무료권 사용 수(장부 + 옛 KV) / 같은 이메일·소셜로 예전에 받았으면 0.
+// KV `bonus:done:{user}` 로 두 번째부터는 RPC 없이 넘어간다. 0013 실행 전(RPC 없음)이면 아무것도 안 한다.
+// ════════════════════════════════════════════════════════════════════
+export type BonusResult = 'granted' | 'done' | 'missing' | 'error'
+export async function ensureSignupBonus(env: FreeEnv, user: AuthUser): Promise<BonusResult> {
+  const doneKey = `bonus:done:${user.id}`
+  if (env.MAKEUP_USAGE && (await env.MAKEUP_USAGE.get(doneKey).catch(() => null))) return 'done'
+  const pools: FreePool[] = ['makeup', 'lucky']
+  // strict: 장부 조회가 실패하면(사용 수 불확실) 이번엔 지급하지 않는다 — 다음 호출 때 다시
+  const used = await Promise.all(pools.map((p) => getFreeUsed(env, p, user, true)))
+  if (used.some((u) => u === null)) return 'error'
+  const legacyLeft = pools.reduce((n, p, i) => n + Math.max(0, LEGACY_FREE_LIMITS[p] - (used[i] as number)), 0)
+  const r = await rpc<{ granted?: boolean; reason?: string }>(env, 'grant_signup_bonus', {
+    p_user_id: user.id, p_hashes: await ledgerHashes(user), p_amount: Math.min(SIGNUP_BONUS, legacyLeft), p_days: SIGNUP_BONUS_DAYS,
+  })
+  if (!r.ok) return r.missing ? 'missing' : 'error'
+  if (env.MAKEUP_USAGE) await env.MAKEUP_USAGE.put(doneKey, '1').catch(() => {})
+  return r.data?.granted ? 'granted' : 'done'
+}
+
+/** 무료 크레딧 남은 수·기한(화면 안내용). 없거나 조회 실패 → null */
+export async function getSignupBonus(env: FreeEnv, userId: string): Promise<{ remaining: number; granted: number; expiresAt: string } | null> {
+  if (!env.VITE_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return null
+  try {
+    const res = await fetch(`${env.VITE_SUPABASE_URL}/rest/v1/bonus_credits?user_id=eq.${encodeURIComponent(userId)}&select=granted,remaining,expires_at`, {
+      headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}` },
+    })
+    if (!res.ok) return null
+    const row = ((await res.json()) as Array<{ granted: number; remaining: number; expires_at: string }>)[0]
+    if (!row) return null
+    const live = new Date(row.expires_at).getTime() > Date.now()
+    return { granted: row.granted, remaining: live ? row.remaining : 0, expiresAt: row.expires_at }
+  } catch { return null }
 }

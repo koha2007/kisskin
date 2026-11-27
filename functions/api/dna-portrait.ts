@@ -12,7 +12,7 @@
 // 설정: gpt-image-2, medium, size 1024x1536 (베이스가 3:4 세로).
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits, getBalance } from './_credits'
-import { FREE_LIMITS, claimFreePass, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, claimFreePass, ensureSignupBonus, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -55,6 +55,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   }
   const user = await verifyUser(env, authHeader.slice(7))
   if (!user) return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
+  await ensureSignupBonus(env, user) // 11/27 가입 무료 크레딧
 
   // ── 비용 가드 ──
   if (!env.MAKEUP_USAGE) return json({ error: 'guard_unconfigured', message: '사용량 저장소가 설정되지 않았습니다.' }, 503)

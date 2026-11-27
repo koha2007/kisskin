@@ -22,7 +22,7 @@ const TOOLS: Tool[] = [
     emoji: '💄',
     titleKo: 'AI 메이크업 시뮬레이터',
     titleEn: 'AI Makeup Simulator',
-    descKo: '셀카 한 장으로 9가지 K-뷰티 룩, 가입하면 첫 1룩 무료',
+    descKo: '셀카 한 장으로 9가지 K-뷰티 룩, 가입하면 무료 2장',
     descEn: '9 K-beauty looks on your selfie — 1st free',
     accent: '#ef4da0', // --color-tool-ai
   },

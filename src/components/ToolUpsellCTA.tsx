@@ -102,7 +102,7 @@ export default function ToolUpsellCTA({ name, accentColor, accentColorTo, tool, 
           <span className="material-symbols-outlined">arrow_forward</span>
         </a>
         <p className="mt-4 text-xs text-slate-400">
-          {isEn ? 'Sign up and get your first look free · No card needed · Credits from $2.99' : '회원가입하면 첫 1룩 무료 · 카드 등록 없음 · 이후 크레딧 $2.99부터'}
+          {isEn ? 'Sign up and get 2 looks free · No card needed · Credits from $2.99' : '회원가입하면 무료 2장 · 카드 등록 없음 · 이후 크레딧 $2.99부터'}
         </p>
       </div>
     </section>

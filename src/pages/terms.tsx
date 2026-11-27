@@ -41,7 +41,7 @@ export default function Terms({ onNavigate }: TermsProps) {
 function TermsKo() {
   return (
     <>
-      <p className="legal-date">시행일: 2026년 11월 11일 (게시일: 2026년 11월 4일)</p>
+      <p className="legal-date">시행일: 2026년 11월 27일 (게시일: 2026년 11월 27일 · 가입 무료 크레딧 조항 — 이용자에게 유리한 변경이라 즉시 시행)</p>
 
       <h2>1. 약관 동의</h2>
       <p>kissinskin(<a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>, 이하 "서비스")에 접속하거나 이를 이용함으로써 본 이용약관(이하 "약관")에 동의한 것으로 간주됩니다. 동의하지 않는 경우 서비스를 이용하지 마십시오. 본 약관은 이용자와 kissinskin 사이에 법적 구속력을 가지는 계약입니다.</p>
@@ -57,7 +57,7 @@ function TermsKo() {
 
       <h2>3. 결제 및 과금</h2>
       <ul>
-        <li>회원가입 시 <strong>무료권 2장</strong>(2026 AI 메이크업 9룩 중 1장 + 럭키 메이크업 9가지 운 중 1장)을 드리며, 무료권과 크레딧 중 무엇을 쓸지는 생성할 때 직접 고릅니다. 크레딧은 <strong>Starter 5회 $2.99 USD</strong>, <strong>9룩 컬렉션 9회 $4.99 USD</strong>, <strong>Plus 15회 $6.99 USD</strong>의 1회 결제로 충전하며, 회원 탈퇴 시 남은 크레딧은 함께 삭제됩니다. 구독·정기결제·숨겨진 수수료는 없습니다. 퍼스널컬러·얼굴형·메이크업 MBTI·향수 진단 도구는 결제 없이 무료로 이용할 수 있습니다.</li>
+        <li>회원가입 시 <strong>무료 크레딧 2개</strong>를 드리며, 크레딧 1개로 쓰는 모든 생성(AI 메이크업·럭키 메이크업·페이스 페인팅·헤어·이상형 사진·뷰티 DNA·정밀 풀이 등)에 쓸 수 있습니다. 무료 크레딧은 <strong>받은 날부터 30일</strong> 동안 쓸 수 있고 결제한 크레딧보다 먼저 사용되며, 기한이 지나면 남은 무료 크레딧만 사라집니다. 같은 이메일·소셜 계정으로 다시 가입해도 다시 지급되지 않으며, 무료 크레딧은 환불·현금 전환·양도할 수 없습니다. 결제한 크레딧은 기한이 없습니다. 크레딧은 <strong>Starter 5회 $2.99 USD</strong>, <strong>9룩 컬렉션 9회 $4.99 USD</strong>, <strong>Plus 15회 $6.99 USD</strong>의 1회 결제로 충전하며, 회원 탈퇴 시 남은 크레딧은 함께 삭제됩니다. 구독·정기결제·숨겨진 수수료는 없습니다. 퍼스널컬러·얼굴형·메이크업 MBTI·향수 진단 도구는 결제 없이 무료로 이용할 수 있습니다.</li>
         <li>결제는 <strong>Polar</strong>(<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>, Merchant of Record)가 안전하게 처리합니다. Polar가 청구, 세금 계산, 결제 처리를 당사 대신 수행합니다.</li>
         <li>Polar가 지원하는 신용카드 및 기타 결제 수단을 사용할 수 있습니다.</li>
         <li>결제를 완료함으로써 선택한 결제 수단의 과금 권한을 Polar에 부여합니다.</li>
@@ -212,7 +212,7 @@ function TermsKo() {
 function TermsEn() {
   return (
     <>
-      <p className="legal-date">Effective Date: November 11, 2026 (posted November 4, 2026)</p>
+      <p className="legal-date">Effective Date: November 27, 2026 (posted November 27, 2026 · sign-up free credits clause, effective immediately as it only benefits users)</p>
 
       <h2>1. Agreement to Terms</h2>
       <p>By accessing or using kissinskin (<a href="https://kissinskin.net" target="_blank" rel="noopener noreferrer">https://kissinskin.net</a>), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service. These Terms constitute a legally binding agreement between you and kissinskin.</p>
@@ -228,7 +228,7 @@ function TermsEn() {
 
       <h2>3. Payment & Billing</h2>
       <ul>
-        <li>Every new member gets <strong>2 free passes</strong> (1 of the 9 2026 AI makeup looks + 1 of the 9 lucky makeup looks), and you choose whether to use a free pass or a credit each time. Credits are bought as a one-time purchase — <strong>Starter, 5 for $2.99 USD</strong>, <strong>9-Look Collection, 9 for $4.99 USD</strong>, or <strong>Plus, 15 for $6.99 USD</strong>. Remaining credits are deleted when you delete your account. There are no subscriptions, recurring charges, or hidden fees. The Personal Color, Face Shape, Makeup MBTI, and Perfume diagnostic tools are free and require no payment.</li>
+        <li>Every new member gets <strong>2 free credits</strong>, usable on any 1-credit creation (AI makeup, lucky makeup, face paint, hair, ideal-type photo, Beauty DNA, readings and more). Free credits last <strong>30 days from sign-up</strong>, are used before purchased credits, and only the unused free credits expire. They are not re-issued when signing up again with the same email or social account, and cannot be refunded, cashed out or transferred. Purchased credits never expire. Credits are bought as a one-time purchase — <strong>Starter, 5 for $2.99 USD</strong>, <strong>9-Look Collection, 9 for $4.99 USD</strong>, or <strong>Plus, 15 for $6.99 USD</strong>. Remaining credits are deleted when you delete your account. There are no subscriptions, recurring charges, or hidden fees. The Personal Color, Face Shape, Makeup MBTI, and Perfume diagnostic tools are free and require no payment.</li>
         <li>Payment is securely processed by <strong>Polar</strong> (<a href="https://polar.sh" target="_blank" rel="noopener noreferrer">polar.sh</a>), a Merchant of Record. Polar handles all billing, tax calculation, and payment processing on our behalf.</li>
         <li>Accepted payment methods include credit/debit cards and other methods supported by Polar.</li>
         <li>By completing a purchase, you authorize Polar to charge your selected payment method.</li>

@@ -409,12 +409,12 @@ function PriceTable({ isEn, onMode, onFifteen, paying }: { isEn: boolean; onMode
   const per = (usd: number, n: number) => (usd / n).toFixed(2)
   const rows = isEn
     ? [
-        { mode: 'one' as const, cta: 'Pick 1 look', n: '1 look', price: 'Free', sub: 'Sign-up free pass — 1 lucky look', items: ['Any one of the 9 lucks', 'On your own selfie', 'Before / after'], best: false },
+        { mode: 'one' as const, cta: 'Pick 1 look', n: '2 looks', price: 'Free', sub: 'Sign-up free credits — 2 (30 days)', items: ['Any one of the 9 lucks', 'On your own selfie', 'Before / after'], best: false },
         { mode: 'five' as const, cta: 'Pick 5 looks · $2.99', n: `${LUCKY_PRICE.starter.credits} looks`, price: `$${LUCKY_PRICE.starter.usd}`, sub: `$${per(LUCKY_PRICE.starter.usd, LUCKY_PRICE.starter.credits)} per look`, items: ['Pick any lucks you like', 'Also works for the 2026 makeup looks', 'Use them any time'], best: false },
         { mode: 'nine' as const, cta: 'Make all 9 · $4.99', n: 'All 9 lucks', price: `$${LUCKY_PRICE.nine.usd}`, sub: `9 looks · $${per(LUCKY_PRICE.nine.usd, 9)} per look`, items: ['One selfie → all 9 at once', '3×3 board to save & post', 'Every how-to + product links'], best: true },
       ]
     : [
-        { mode: 'one' as const, cta: '1가지 고르기', n: '1장', price: '무료', sub: '가입 무료권 — 럭키 메이크업 1장', items: ['9가지 운 중 원하는 하나', '내 셀카에 바로', '비포 · 애프터'], best: false },
+        { mode: 'one' as const, cta: '1가지 고르기', n: '2장', price: '무료', sub: '가입 무료 크레딧 2개 (30일)', items: ['9가지 운 중 원하는 하나', '내 셀카에 바로', '비포 · 애프터'], best: false },
         { mode: 'five' as const, cta: '5가지 고르기 · $2.99', n: `${LUCKY_PRICE.starter.credits}장`, price: `$${LUCKY_PRICE.starter.usd}`, sub: `장당 $${per(LUCKY_PRICE.starter.usd, LUCKY_PRICE.starter.credits)}`, items: ['원하는 운을 골라서', '2026 메이크업 9룩에도 사용', '쓰고 싶을 때 언제든'], best: false },
         { mode: 'nine' as const, cta: '9가지 전부 만들기 · $4.99', n: '9가지 운 전부', price: `$${LUCKY_PRICE.nine.usd}`, sub: `9장 · 장당 $${per(LUCKY_PRICE.nine.usd, 9)}`, items: ['셀카 한 장 → 9장 한 번에', '3×3 모아보기 저장·공유', '9가지 방법 + 제품 링크'], best: true },
       ]
@@ -718,15 +718,15 @@ const KO = {
   camera: '셀카 찍기', gallery: '사진 고르기', change: '다른 사진으로', photoReady: '셀카 준비됐어요',
   make: '이 메이크업으로 생성하기', makeFree: '무료권으로 생성하기', makeCredit: '보유 1장으로 생성하기',
   useFree: '무료권으로 생성', useCredit: '보유 1장으로 생성', loginMake: '로그인하고 생성하기',
-  counts: (f: number, c: number) => `남은 무료권 ${f}장 · 보유 ${c}장`,
+  counts: (_f: number, c: number) => `보유 ${c}장 (가입 무료 크레딧 포함)`,
   photoTip: '정면 · 앞머리 넘기기 · 무표정 · 고른 조명이면 더 잘 나와요.',
   badFile: '사진을 열 수 없어요. JPG나 PNG로 해 주세요.',
-  loginNote: '생성하려면 로그인 필수 · 가입하면 럭키 메이크업 1장 무료',
+  loginNote: '생성하려면 로그인 필수 · 가입하면 무료 크레딧 2개(아무 기능이나, 30일)',
   generating: '메이크업을 입히는 중… (최대 1분 · 이 화면을 열어 두세요)',
   topup: '충전하기 (5장 $2.99부터)',
   genErr: {
-    login: '로그인이 필요해요.', topup: '남은 장수가 없어요. 충전하면 바로 이어서 만들 수 있어요.', free_used: '럭키 무료권은 이미 사용했어요. 보유한 장수로 만들 수 있어요.',
-    choose: '무료권과 보유 장수 중 무엇을 쓸지 골라 주세요.', unavailable: '잠시 후 다시 시도해 주세요.', retry: '생성에 실패했어요. 다시 누르면 추가 차감 없이 다시 만들어요.',
+    login: '로그인이 필요해요.', topup: '남은 장수가 없어요. 충전하면 바로 이어서 만들 수 있어요.', free_used: '무료권은 가입 무료 크레딧으로 바뀌었어요. 새로고침 후 보유 장수로 만들어 주세요.',
+    choose: '새로고침 후 다시 눌러 주세요.', unavailable: '잠시 후 다시 시도해 주세요.', retry: '생성에 실패했어요. 다시 누르면 추가 차감 없이 다시 만들어요.',
   } as Record<GenError, string>,
   before: '비포', after: '애프터', usedFree: '무료권 1장 사용', usedCredit: '1장 사용',
   howAndShop: '이 메이크업 따라 하기 · 제품 보기', another: '다른 운도 만들어 보기',
@@ -749,15 +749,15 @@ const EN: typeof KO = {
   camera: 'Take a selfie', gallery: 'Choose a photo', change: 'Use another photo', photoReady: 'Selfie ready',
   make: 'Create this look', makeFree: 'Create with free pass', makeCredit: 'Create with 1 look',
   useFree: 'Use free pass', useCredit: 'Use 1 look', loginMake: 'Log in to create',
-  counts: (f: number, c: number) => `Free pass ${f} · ${c} looks left`,
+  counts: (_f: number, c: number) => `${c} looks left (incl. free credits)`,
   photoTip: 'Front-facing, hair off the forehead, neutral expression, even light.',
   badFile: 'We couldn’t open that photo. Please use a JPG or PNG.',
-  loginNote: 'Log in to create · sign up and 1 lucky look is free',
+  loginNote: 'Log in to create · sign up for 2 free credits (anything, 30 days)',
   generating: 'Applying the makeup… (up to a minute — keep this page open)',
   topup: 'Top up (5 looks from $2.99)',
   genErr: {
-    login: 'Please log in.', topup: 'No looks left. Top up and carry on right here.', free_used: 'Your lucky free pass is already used. You can use your looks.',
-    choose: 'Choose your free pass or your looks.', unavailable: 'Please try again in a moment.', retry: 'That didn’t work. Tap again — you won’t be charged twice.',
+    login: 'Please log in.', topup: 'No looks left. Top up and carry on right here.', free_used: 'Free passes are now sign-up free credits. Please refresh and use your looks.',
+    choose: 'Please refresh and tap again.', unavailable: 'Please try again in a moment.', retry: 'That didn’t work. Tap again — you won’t be charged twice.',
   },
   before: 'Before', after: 'After', usedFree: '1 free pass used', usedCredit: '1 look used',
   howAndShop: 'How to do this look · products', another: 'Try another luck',

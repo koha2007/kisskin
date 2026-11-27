@@ -10,7 +10,8 @@
 // ════════════════════════════════════════════════════════════════════
 import { supabase } from './supabase'
 
-export type CreditTxType = 'charge' | 'deduct'
+/** 11/27: bonus = 가입 무료 크레딧 지급, expire = 30일 지나 남은 무료분 회수 (0013) */
+export type CreditTxType = 'charge' | 'deduct' | 'bonus' | 'expire'
 
 export interface CreditTransaction {
   id: number
@@ -25,7 +26,22 @@ export interface CreditTransaction {
  * 로그인 유저의 현재 크레딧 잔액.
  * 미로그인·행 없음·오류 → 0 (fail-safe: 잔액을 부풀리지 않음).
  */
+// 11/27 가입 무료 크레딧(2개·30일): 서버가 /api/free-status 를 처음 받을 때 지급한다.
+// 잔액을 바로 읽는 화면(페인팅·헤어 마무리, 9룩 모음, 충전 창)이 지급 "전" 0개를 보지 않게, 세션마다 한 번 먼저 부른다.
+let bonusOnce: Promise<void> | null = null
+export function ensureSignupBonusOnce(): Promise<void> {
+  if (!bonusOnce) {
+    bonusOnce = (async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) { bonusOnce = null; return }
+      await fetch('/api/free-status', { headers: { Authorization: `Bearer ${session.access_token}` }, cache: 'no-store' }).catch(() => {})
+    })()
+  }
+  return bonusOnce
+}
+
 export async function getCreditBalance(): Promise<number> {
+  await ensureSignupBonusOnce().catch(() => {})
   const { data, error } = await supabase.rpc('get_credit_balance')
   if (error) {
     console.warn('[credits] balance fetch failed:', error.message)
@@ -100,11 +116,14 @@ export async function waitForCharge(opts: { tries?: number; intervalMs?: number;
 /** 장부 한 줄 → 사람이 읽는 이름. 차감 ref 는 작업 id(UUID)라 어떤 룩인지는 알 수 없다 → "AI 메이크업 1장". */
 export function creditTxLabel(tx: CreditTransaction, isKo: boolean): string {
   const ref = tx.ref || ''
+  if (tx.type === 'bonus') return isKo ? `가입 무료 크레딧 (${tx.amount}개)` : `Sign-up free credits (${tx.amount})`
+  if (tx.type === 'expire') return isKo ? '무료 크레딧 기한 만료' : 'Free credits expired'
   if (tx.type === 'charge') {
     if (isReferral(ref)) return isKo ? '친구 초대 보너스' : 'Friend invite bonus'
     return isKo ? `크레딧 충전 (${tx.amount}개)` : `Top-up (${tx.amount} credits)`
   }
   if (ref.startsWith('refund:')) return isKo ? '환불로 회수' : 'Refunded purchase'
   if (ref.startsWith('reading:')) return isKo ? '정밀 풀이' : 'In-depth reading'
-  return isKo ? 'AI 메이크업 생성' : 'AI makeup look'
+  if (ref.startsWith('ideal-')) return isKo ? '이상형 사진 생성' : 'Ideal-type photo'
+  return isKo ? 'AI 생성' : 'AI generation'
 }

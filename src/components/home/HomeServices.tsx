@@ -52,7 +52,7 @@ export default function HomeServices({ isEn }: { isEn: boolean }) {
     { name: isEn ? 'Hair Color' : '나만의 헤어 컬러', desc: isEn ? 'See 16 shades before you dye' : '염색 전에 16가지 색 미리 보기', img: '/hair/jj/pink-front.webp?v=20261111b', href: `${prefix}/hair-color/`, slot: 'home_hero_hair', alt: isEn ? 'Baby pink hair colour on an AI-generated model' : '베이비 핑크 헤어 컬러, AI 생성 모델' },
   ]
   const plans = [
-    { id: 'free', icon: '1+1', small: true, bg: NAVY, fg: '#ffffff', name: isEn ? '2 free looks when you sign up' : '가입하면 2장 무료', desc: isEn ? '1 makeup look + 1 lucky look · no card' : '9가지 메이크업 1장 + 럭키 1장 · 카드 없음', price: isEn ? 'Free' : '무료', href: '/auth/?next=%2Fanalysis%2F' },
+    { id: 'free', icon: '1+1', small: true, bg: NAVY, fg: '#ffffff', name: isEn ? '2 free looks when you sign up' : '가입하면 2장 무료', desc: isEn ? 'Any feature · 30 days · no card' : '원하는 기능 아무거나 · 30일 · 카드 없음', price: isEn ? 'Free' : '무료', href: '/auth/?next=%2Fanalysis%2F' },
     { id: 'starter', icon: '5', bg: NAVY, fg: '#ffffff', name: isEn ? '5 credits' : '크레딧 5개', desc: isEn ? '5 looks · about $0.60 each' : '5장 · 장당 약 $0.60', price: '$2.99', href: `${prefix}/makeup/#price` },
     { id: 'collection', icon: '9', bg: PINK, fg: NAVY, name: isEn ? '9 credits · All 9 at once' : '크레딧 9개 · 9룩 한 번에', desc: isEn ? '9 looks from one selfie + 1 grid image' : '같은 셀카로 9장 + 모아보기 1장', price: '$4.99', href: '/analysis/?collection=new' },
     { id: 'plus', icon: '15', bg: NAVY, fg: '#ffffff', name: isEn ? '15 credits' : '크레딧 15개', desc: isEn ? '15 looks · about $0.47 each' : '15장 · 장당 약 $0.47', price: '$6.99', href: `${prefix}/makeup/#price` },

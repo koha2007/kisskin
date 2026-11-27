@@ -129,7 +129,8 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
       if (data.session?.user) {
         setLoggedIn(true)
         getCreditBalance().then((n) => { if (!cancelled) setCreditsLeft(n) }).catch(() => {})
-        getFreeStatus().then((f) => { if (!cancelled) setLuckyLeft(f?.lucky.left ?? 0) }).catch(() => {})
+        // 11/27: 럭키 무료권 → 남은 가입 무료 크레딧
+        getFreeStatus().then((f) => { if (!cancelled) setLuckyLeft(f?.bonus?.remaining ?? 0) }).catch(() => {})
       }
     }).catch(() => { /* 세션 없음 — 익명 입력 */ })
     return () => { cancelled = true }
@@ -500,7 +501,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
                 {isEn ? `${balanceNow} credit${balanceNow === 1 ? '' : 's'} left` : `크레딧 ${balanceNow}개 남음`}
               </span>
             )}
-            {typeof usage?.freeLeft === 'number' && (
+            {typeof usage?.freeLeft === 'number' && usage.freeLeft > 0 && (
               <span className="text-white/70">
                 · {isEn ? `${usage.freeLeft} makeup free pass left` : `메이크업 무료권 ${usage.freeLeft}장 남음`}
               </span>
@@ -523,7 +524,7 @@ export default function MakeupResult({ styleId, beforeSrc, afterSrc, usage, onRe
             <img src={luckyLookImg('wealth')} alt="" decoding="async" className="h-[92px] w-[72px] shrink-0 rounded-md object-cover object-[50%_20%]" />
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-extrabold uppercase tracking-[0.16em]" style={{ color: PRIMARY }}>
-                {isEn ? '1 free pass left' : '무료권 1장 남음'}
+                {isEn ? `${luckyLeft} free credit${luckyLeft === 1 ? '' : 's'} left` : `무료 크레딧 ${luckyLeft}개 남음`}
               </p>
               <h2 className="mt-1 text-[17px] font-extrabold leading-tight tracking-[-0.02em] break-keep">
                 {isEn ? 'Try Lucky Makeup for free' : '럭키 메이크업도 무료로 만들어 보세요'}

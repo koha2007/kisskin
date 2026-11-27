@@ -4,8 +4,8 @@ export default function MakeupPageHead({ isEn }: { isEn: boolean }) {
   const url = isEn ? `${ORIGIN}/en/makeup/` : `${ORIGIN}/makeup/`
   const title = isEn ? '9 AI Makeup Looks on Your Selfie — Seasonal & K-Beauty | kissinskin' : 'AI 메이크업 9가지 — 계절 룩·K-뷰티를 내 셀카에 | 키스인스킨'
   const desc = isEn
-    ? 'Pick from 9 K-beauty looks, including spring, summer, autumn and winter, and see them on your own selfie. First look free when you sign up.'
-    : '봄·여름·가을·겨울 계절 룩과 K-뷰티 메이크업 9가지 중 원하는 룩을 골라 내 셀카에 입혀 보세요. 가입하면 첫 1장 무료.'
+    ? 'Pick from 9 K-beauty looks, including spring, summer, autumn and winter, and see them on your own selfie. 2 free looks when you sign up.'
+    : '봄·여름·가을·겨울 계절 룩과 K-뷰티 메이크업 9가지 중 원하는 룩을 골라 내 셀카에 입혀 보세요. 가입하면 무료 2장.'
   return (
     <>
       <title>{title}</title>

@@ -4,7 +4,8 @@
 // 생성 "전에" 이번 생성이 무료권인지 크레딧인지 화면에 알려 주기 위한 읽기 전용 API.
 // 판정 규칙·저장소는 makeup-edit / dna-portrait 와 같은 _freeUsage.ts.
 // ════════════════════════════════════════════════════════════════════
-import { FREE_LIMITS, getFreeUsed, verifyUser, type FreePool, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, ensureSignupBonus, getFreeUsed, getSignupBonus, verifyUser, type FreePool, type UsageStore } from './_freeUsage'
+import { creditsConfigured, getBalance } from './_credits'
 import { CREDIT_PACKS } from './_packs'
 import { isFirstPurchase } from './checkout'
 
@@ -26,6 +27,8 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   const user = await verifyUser(env, authHeader.slice(7))
   if (!user) return json({ error: 'invalid_token' }, 401)
   if (!env.MAKEUP_USAGE) return json({ error: 'guard_unconfigured' }, 503)
+  // 11/27 B안: 가입 무료 크레딧 2개(30일) 지급을 잔액 조회보다 먼저 — 화면이 0개로 보지 않게
+  await ensureSignupBonus(env, user)
 
   const out: Record<FreePool, { used: number; limit: number; left: number }> = {
     makeup: { used: 0, limit: FREE_LIMITS.makeup, left: 0 },
@@ -34,9 +37,11 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   }
   // 2026-11-26 홈 무료권 띠가 늦게 뜸 — 세 풀·첫 결제 확인을 차례로(왕복 5번) → 한꺼번에(왕복 2번)
   const pools = Object.keys(out) as FreePool[]
-  const [raws, firstOffer] = await Promise.all([
+  const [raws, firstOffer, balance, bonus] = await Promise.all([
     Promise.all(pools.map((pool) => getFreeUsed(env, pool, user, true))),
     CREDIT_PACKS.first.id ? isFirstPurchase(env, user.id) : Promise.resolve(false),
+    creditsConfigured(env) ? getBalance(env, user.id).catch(() => null) : Promise.resolve(null),
+    getSignupBonus(env, user.id),
   ])
   for (const [i, pool] of pools.entries()) {
     const raw = raws[i]
@@ -46,5 +51,5 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
     out[pool] = { used, limit: FREE_LIMITS[pool], left: FREE_LIMITS[pool] - used }
   }
   // 첫 결제 특가($0.99) 노출 여부 — 상품이 준비돼 있고 충전 이력이 없을 때만 (위에서 함께 조회)
-  return json({ ...out, firstOffer })
+  return json({ ...out, firstOffer, balance, bonus })
 }

@@ -342,7 +342,7 @@ export default function FiveLooksBox({ storeKey, isEn, base, photo, picked, look
             ) : (
               <button type="button" disabled={!selfie || paying} onClick={() => void buy()} className={`${btn} bg-primary text-navy`}>{paying ? '…' : (isEn ? 'Buy & make all 5 · $2.99' : '5장 구매하고 만들기 · $2.99')}</button>
             )}
-            {free && <p className="text-center text-[11px] text-white/70">{isEn ? `You have ${credits} looks · free passes are for the 1-look tab` : `보유 ${credits}장 · 무료권은 1가지 탭에서 사용해요`}</p>}
+            {free && <p className="text-center text-[11px] text-white/70">{isEn ? `You have ${credits} looks (incl. free credits)` : `보유 ${credits}장 (가입 무료 크레딧 포함)`}</p>}
             {!selfie && <p className="text-center text-[11px] text-white/60 break-keep">{isEn ? 'All 5 use the same selfie. Front-facing, even light works best.' : '5장 모두 같은 셀카로 만들어요. 정면·고른 조명이면 더 잘 나와요.'}</p>}
           </>
         )}

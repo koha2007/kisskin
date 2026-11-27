@@ -148,7 +148,7 @@ export default function MakeupTopUp({ isEn, onBack, resultSrc, doneStyle, photo,
         <p className="mt-3 text-[14px] leading-relaxed text-white/75 break-keep">
           {balance != null && balance > 0
             ? (isEn ? `You have ${balance} credit${balance === 1 ? '' : 's'}. Add more anytime — 1 look uses 1 credit.` : `지금 크레딧 ${balance}개가 있어요. 1룩에 1개씩 쓰이고, 언제든 더 채울 수 있어요.`)
-            : (isEn ? 'Your free look is used. One payment, no subscription — same selfie, new looks.' : '무료 1룩은 다 썼어요. 한 번만 결제하면 같은 셀카로 바로 이어서 만들어요. 구독이 아니에요.')}
+            : (isEn ? 'Your free credits are used. One payment, no subscription — same selfie, new looks.' : '무료 크레딧은 다 썼어요. 한 번만 결제하면 같은 셀카로 바로 이어서 만들어요. 구독이 아니에요.')}
         </p>
 
         {/* 요금 — 라디오 카드. 추천안 미리 선택, 1룩당 값을 같이 보여 비교를 쉽게. */}

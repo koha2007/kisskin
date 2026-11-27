@@ -55,6 +55,8 @@ async function callRpc<T>(env: CreditsEnv, fn: string, params: Record<string, un
  */
 export async function getBalance(env: CreditsEnv, userId: string): Promise<number> {
   const { url, key } = requireConfig(env)
+  // 11/27: 기한 지난 가입 무료 크레딧을 먼저 회수(0013 전이면 실패 무시)
+  await callRpc(env, 'expire_bonus', { p_user_id: userId }).catch(() => {})
   const res = await fetch(
     `${url}/rest/v1/user_credits?user_id=eq.${encodeURIComponent(userId)}&select=balance`,
     {

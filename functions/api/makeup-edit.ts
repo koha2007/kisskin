@@ -21,7 +21,7 @@
 // 설정: gpt-image-2, medium quality. (input_fidelity 미지원 모델이라 전송 안 함.)
 // ════════════════════════════════════════════════════════════════════
 import { creditsConfigured, deductCredits, getBalance } from './_credits'
-import { FREE_LIMITS, claimFreePass, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
+import { FREE_LIMITS, claimFreePass, ensureSignupBonus, getFreeUsed, resolveTier, verifyUser, type FreeClaim, type UsageStore } from './_freeUsage'
 interface Env {
   OPENAI_API_KEY?: string
   OPENAI_BASE_URL?: string
@@ -91,6 +91,8 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   if (!user) {
     return json({ error: 'invalid_token', message: '로그인이 만료됐어요. 다시 로그인해 주세요.' }, 401)
   }
+  // 11/27 B안: 가입 무료 크레딧 2개(30일) — 처음 부를 때 한 번 지급(신규 2·기존 회원은 남은 무료권만큼)
+  await ensureSignupBonus(env, user)
 
   // ── 비용 가드 (fail-closed) ──
   if (!env.MAKEUP_USAGE) {
@@ -111,7 +113,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
   const picked = creditOnly ? 'credit' : await resolveTier(body.pay, used, FREE_LIMIT, async () =>
     creditsConfigured(env) && (await getBalance(env, user.id).catch(() => 0)) > 0)
   if (picked === 'free_pass_used') {
-    return json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+    return json({ error: 'free_pass_used', message: '무료권은 가입 무료 크레딧으로 바뀌었어요. 새로고침 후 크레딧으로 만들어 주세요.', freeLeft: 0 }, 409)
   }
   if (picked === 'pay_required') {
     return json({ error: 'pay_required', message: '새로고침 후 무료권과 크레딧 중 무엇을 쓸지 골라 주세요.' }, 409)
@@ -125,7 +127,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
     claim = await claimFreePass(env, pool, user, pool, (body.jobId || '').slice(0, 100) || `${user.id}:free:${crypto.randomUUID()}`)
     if (!claim.ok) {
       return claim.reason === 'used'
-        ? json({ error: 'free_pass_used', message: '무료권을 이미 사용했어요. 크레딧으로 만들 수 있어요.', freeLeft: 0 }, 409)
+        ? json({ error: 'free_pass_used', message: '무료권은 가입 무료 크레딧으로 바뀌었어요. 새로고침 후 크레딧으로 만들어 주세요.', freeLeft: 0 }, 409)
         : json({ error: 'free_pass_error', message: '무료권 확인 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.' }, 503)
     }
   }

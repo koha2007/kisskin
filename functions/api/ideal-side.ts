@@ -11,7 +11,7 @@
 import { IDEAL_MAKEUP, IDEAL_ORDER, IDEAL_OUTFITS, IDEAL_OUTFIT_LABEL, IDEAL_TYPES, SIDE_PLACES, type IdealOutfit, type IdealTypeCode, type SidePlace } from '../../src/lib/ideal-type/types'
 import { styleById } from '../../src/lib/makeup/styles'
 import { creditsConfigured, deductCredits } from './_credits'
-import { verifyUser, type UsageStore } from './_freeUsage'
+import { ensureSignupBonus, verifyUser, type UsageStore } from './_freeUsage'
 
 interface Env {
   OPENAI_API_KEY?: string
@@ -142,6 +142,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
     if (!auth.startsWith('Bearer ')) return json({ error: 'login_required' }, 401)
     const user = await verifyUser(env, auth.slice(7))
     if (!user) return json({ error: 'invalid_token' }, 401)
+    await ensureSignupBonus(env, user) // 11/27 가입 무료 크레딧
     if (!creditsConfigured(env)) return json({ error: 'credits_unconfigured' }, 503)
     const jobId = (body.jobId || '').slice(0, 100)
     if (!jobId) return json({ error: 'missing_job' }, 400)

@@ -207,9 +207,10 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
     if (!user?.id) return
     let cancelled = false
     getCreditBalance()
-      .then((n) => { if (!cancelled) setCredits(n) })
-      .catch(() => { if (!cancelled) setCredits(0) })
-    getFreeStatus().then((st) => { if (!cancelled) setFreeStatus(st) })
+      .then((n) => { if (!cancelled) setCredits((c) => Math.max(n, c ?? 0)) })
+      .catch(() => { if (!cancelled) setCredits((c) => c ?? 0) })
+    // 11/27: free-status 가 가입 무료 크레딧을 지급한 뒤의 잔액을 돌려준다 — 더 큰 값으로 맞춘다
+    getFreeStatus().then((st) => { if (cancelled) return; setFreeStatus(st); if (st) setCredits((c) => Math.max(st.balance, c ?? 0)) })
     getMyReferral().then((r) => { if (!cancelled) setReferral(r) })
     return () => { cancelled = true }
   }, [user?.id])
@@ -432,8 +433,8 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
         </div>
         <p style={{ fontSize: '12px', color: C.muted, margin: '12px 0 0', lineHeight: 1.5 }}>
           {isKo
-            ? '크레딧 1개 = AI 메이크업 1장. 가입 무료권 2장(2026 메이크업 9룩 중 1장 + 럭키 메이크업 9가지 운 중 1장)은 원할 때 골라서 쓰면 돼요.'
-            : '1 credit = 1 AI makeup. Your 2 free sign-up passes (1 of the 9 2026 makeup looks + 1 of the 9 lucky makeup looks) — use them whenever you like.'}
+            ? '크레딧 1개 = 생성 1번(AI 메이크업·럭키·페인팅·헤어·이상형 사진 등 어디든). 가입 무료 크레딧 2개는 받은 날부터 30일 동안 써요.'
+            : '1 credit = 1 creation (AI makeup, lucky, face paint, hair, ideal-type photo and more). Your 2 sign-up free credits last 30 days.'}
         </p>
         <a
           href="/mypage/credits/"
@@ -442,11 +443,11 @@ export default function MyPage({ onNavigate, user: userProp, onLogout: onLogoutP
           <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>receipt_long</span>
           {isKo ? '충전·사용 내역 보기' : 'View top-ups & usage'}
         </a>
-        {freeStatus && (
+        {freeStatus?.bonus && freeStatus.bonus.remaining > 0 && (
           <p style={{ fontSize: '12px', color: C.navy, margin: '6px 0 0', lineHeight: 1.5, fontWeight: 600 }}>
-            {isKo
-              ? `무료권 남음 ${freeStatus.makeup.left + freeStatus.lucky.left}/2 · 2026 메이크업 ${freeStatus.makeup.left > 0 ? '남음' : '사용함'} · 럭키 메이크업 ${freeStatus.lucky.left > 0 ? '남음' : '사용함'}`
-              : `Free passes left ${freeStatus.makeup.left + freeStatus.lucky.left}/2 · 2026 makeup ${freeStatus.makeup.left > 0 ? 'available' : 'used'} · Lucky makeup ${freeStatus.lucky.left > 0 ? 'available' : 'used'}`}
+            {(() => { const d = new Date(freeStatus.bonus.expiresAt); return isKo
+              ? `이 중 가입 무료 크레딧 ${freeStatus.bonus.remaining}개 · ${d.getMonth() + 1}월 ${d.getDate()}일까지`
+              : `Includes ${freeStatus.bonus.remaining} sign-up free ${freeStatus.bonus.remaining === 1 ? 'credit' : 'credits'} · until ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` })()}
           </p>
         )}
       </div>
