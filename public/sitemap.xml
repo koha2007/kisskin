@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kissinskin.net/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/" />
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/analysis/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/analysis/" />
@@ -23,7 +23,7 @@
   <!-- Tools Hub -->
   <url>
     <loc>https://kissinskin.net/tools/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -53,7 +53,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/natural-glow/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/natural-glow/" />
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/natural-glow/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/natural-glow/" />
@@ -71,7 +71,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/cloud-skin/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/cloud-skin/" />
@@ -80,7 +80,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/cloud-skin/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/cloud-skin/" />
@@ -89,7 +89,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/blood-lip/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blood-lip/" />
@@ -98,7 +98,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/blood-lip/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blood-lip/" />
@@ -107,7 +107,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/maximalist-eye/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/maximalist-eye/" />
@@ -116,7 +116,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/maximalist-eye/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/maximalist-eye/" />
@@ -125,7 +125,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/metallic-eye/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/metallic-eye/" />
@@ -134,7 +134,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/metallic-eye/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/metallic-eye/" />
@@ -143,7 +143,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/bold-lip/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/bold-lip/" />
@@ -152,7 +152,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/bold-lip/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/bold-lip/" />
@@ -161,7 +161,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/blush-draping/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blush-draping/" />
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/blush-draping/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/blush-draping/" />
@@ -179,7 +179,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/grunge/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/grunge/" />
@@ -188,7 +188,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/grunge/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/grunge/" />
@@ -197,7 +197,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/kpop-idol/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/kpop-idol/" />
@@ -206,7 +206,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/kpop-idol/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/kpop-idol/" />
@@ -251,7 +251,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/lucky-makeup/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/" />
@@ -260,7 +260,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/lucky-makeup/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/lucky-makeup/" />
@@ -534,24 +534,24 @@
   <!-- Ideal Type Test -->
   <url>
     <loc>https://kissinskin.net/tools/ideal-type/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/photo/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/golden-retriever/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/black-cat/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/fox/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/bunny/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/teddy-bear/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/deer/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/wolf/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://kissinskin.net/tools/ideal-type/dino/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/photo/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/golden-retriever/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/black-cat/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/fox/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/bunny/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/teddy-bear/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/deer/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/wolf/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://kissinskin.net/tools/ideal-type/dino/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
   <!-- Long-form Guide -->
   <url>
     <loc>https://kissinskin.net/about-makeup-ai/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -559,13 +559,13 @@
   <!-- Legal -->
   <url>
     <loc>https://kissinskin.net/terms/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://kissinskin.net/privacy/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -594,7 +594,7 @@
   <!-- English (/en/*) URLs — pages with bilingual content -->
   <url>
     <loc>https://kissinskin.net/en/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/" />
@@ -621,7 +621,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/privacy/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/privacy/" />
@@ -630,7 +630,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/terms/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.25</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/terms/" />
@@ -648,7 +648,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/about-makeup-ai/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/about-makeup-ai/" />
@@ -732,21 +732,21 @@
   <url><loc>https://kissinskin.net/en/tools/perfume-type/gourmand/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/perfume-type/gourmand/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/perfume-type/gourmand/" /></url>
 
   <!-- EN Ideal Type Test -->
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/photo/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/photo/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/photo/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/photo/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/golden-retriever/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/golden-retriever/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/golden-retriever/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/golden-retriever/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/black-cat/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/black-cat/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/black-cat/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/black-cat/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/fox/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/fox/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/fox/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/fox/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/bunny/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/bunny/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/bunny/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/bunny/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/teddy-bear/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/teddy-bear/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/teddy-bear/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/teddy-bear/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/deer/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/deer/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/deer/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/deer/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/wolf/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/wolf/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/wolf/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/wolf/" /></url>
-  <url><loc>https://kissinskin.net/en/tools/ideal-type/dino/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/dino/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/dino/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/dino/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/photo/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/photo/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/photo/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/photo/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/golden-retriever/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/golden-retriever/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/golden-retriever/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/golden-retriever/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/black-cat/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/black-cat/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/black-cat/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/black-cat/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/fox/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/fox/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/fox/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/fox/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/bunny/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/bunny/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/bunny/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/bunny/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/teddy-bear/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/teddy-bear/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/teddy-bear/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/teddy-bear/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/deer/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/deer/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/deer/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/deer/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/wolf/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/wolf/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/wolf/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/wolf/" /></url>
+  <url><loc>https://kissinskin.net/en/tools/ideal-type/dino/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/ideal-type/dino/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/tools/ideal-type/dino/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/tools/ideal-type/dino/" /></url>
 
   <!-- EN Tools Hub -->
   <url>
     <loc>https://kissinskin.net/en/tools/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/tools/" />
@@ -756,7 +756,7 @@
 
   <url>
     <loc>https://kissinskin.net/looks/spring-blush/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/spring-blush/" />
@@ -765,7 +765,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/spring-blush/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/spring-blush/" />
@@ -774,7 +774,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/summer-glow/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/summer-glow/" />
@@ -783,7 +783,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/summer-glow/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/summer-glow/" />
@@ -792,7 +792,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/autumn-berry/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/autumn-berry/" />
@@ -801,7 +801,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/autumn-berry/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/autumn-berry/" />
@@ -810,7 +810,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/looks/winter-frost/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/winter-frost/" />
@@ -819,7 +819,7 @@
   </url>
   <url>
     <loc>https://kissinskin.net/en/looks/winter-frost/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/looks/winter-frost/" />
@@ -1226,48 +1226,50 @@
   <url><loc>https://kissinskin.net/en/products/naming-high-dew-lip-glaze/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/naming-high-dew-lip-glaze/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/naming-high-dew-lip-glaze/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/naming-high-dew-lip-glaze/" /></url>
   <url><loc>https://kissinskin.net/products/romand-lip-matter/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/romand-lip-matter/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/romand-lip-matter/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/romand-lip-matter/" /></url>
   <url><loc>https://kissinskin.net/en/products/romand-lip-matter/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/products/romand-lip-matter/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/products/romand-lip-matter/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/products/romand-lip-matter/" /></url>
-  <url><loc>https://kissinskin.net/class/makeup-order/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-order/" /></url>
-  <url><loc>https://kissinskin.net/en/class/makeup-order/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-order/" /></url>
-  <url><loc>https://kissinskin.net/class/skin-prep/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/skin-prep/" /></url>
-  <url><loc>https://kissinskin.net/en/class/skin-prep/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/skin-prep/" /></url>
-  <url><loc>https://kissinskin.net/class/undertone-foundation-shade/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/undertone-foundation-shade/" /></url>
-  <url><loc>https://kissinskin.net/en/class/undertone-foundation-shade/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/undertone-foundation-shade/" /></url>
-  <url><loc>https://kissinskin.net/class/makeup-tools-basics/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-tools-basics/" /></url>
-  <url><loc>https://kissinskin.net/en/class/makeup-tools-basics/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-tools-basics/" /></url>
-  <url><loc>https://kissinskin.net/class/foundation-not-cakey/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/foundation-not-cakey/" /></url>
-  <url><loc>https://kissinskin.net/en/class/foundation-not-cakey/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/foundation-not-cakey/" /></url>
-  <url><loc>https://kissinskin.net/class/how-to-use-cushion/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/how-to-use-cushion/" /></url>
-  <url><loc>https://kissinskin.net/en/class/how-to-use-cushion/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/how-to-use-cushion/" /></url>
-  <url><loc>https://kissinskin.net/class/under-eye-concealer/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/under-eye-concealer/" /></url>
-  <url><loc>https://kissinskin.net/en/class/under-eye-concealer/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/under-eye-concealer/" /></url>
-  <url><loc>https://kissinskin.net/class/cover-blemishes/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/cover-blemishes/" /></url>
-  <url><loc>https://kissinskin.net/en/class/cover-blemishes/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/cover-blemishes/" /></url>
-  <url><loc>https://kissinskin.net/class/set-makeup-powder/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/set-makeup-powder/" /></url>
-  <url><loc>https://kissinskin.net/en/class/set-makeup-powder/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/set-makeup-powder/" /></url>
-  <url><loc>https://kissinskin.net/class/glass-skin-makeup/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/glass-skin-makeup/" /></url>
-  <url><loc>https://kissinskin.net/en/class/glass-skin-makeup/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/glass-skin-makeup/" /></url>
-  <url><loc>https://kissinskin.net/class/eyebrow-shape-face-shape/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
-  <url><loc>https://kissinskin.net/en/class/eyebrow-shape-face-shape/</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
-  <url><loc>https://kissinskin.net/class/natural-eyebrows/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/natural-eyebrows/" /></url>
-  <url><loc>https://kissinskin.net/en/class/natural-eyebrows/</loc><lastmod>2026-11-03</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/natural-eyebrows/" /></url>
-  <url><loc>https://kissinskin.net/class/korean-straight-brows/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/korean-straight-brows/" /></url>
-  <url><loc>https://kissinskin.net/en/class/korean-straight-brows/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/korean-straight-brows/" /></url>
-  <url><loc>https://kissinskin.net/class/eyeshadow-for-beginners/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /></url>
-  <url><loc>https://kissinskin.net/en/class/eyeshadow-for-beginners/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /></url>
-  <url><loc>https://kissinskin.net/class/eyeliner-basics-tightline/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /></url>
-  <url><loc>https://kissinskin.net/en/class/eyeliner-basics-tightline/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /></url>
-  <url><loc>https://kissinskin.net/class/winged-eyeliner/</loc><lastmod>2026-11-12</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/winged-eyeliner/" /></url>
-  <url><loc>https://kissinskin.net/en/class/winged-eyeliner/</loc><lastmod>2026-11-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/winged-eyeliner/" /></url>
-  <url><loc>https://kissinskin.net/class/puppy-eyeliner/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/puppy-eyeliner/" /></url>
-  <url><loc>https://kissinskin.net/en/class/puppy-eyeliner/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/puppy-eyeliner/" /></url>
-  <url><loc>https://kissinskin.net/class/hooded-eyes-makeup/</loc><lastmod>2026-11-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/hooded-eyes-makeup/" /></url>
-  <url><loc>https://kissinskin.net/en/class/hooded-eyes-makeup/</loc><lastmod>2026-11-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/hooded-eyes-makeup/" /></url>
-  <url><loc>https://kissinskin.net/class/monolid-makeup/</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/monolid-makeup/" /></url>
-  <url><loc>https://kissinskin.net/en/class/monolid-makeup/</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/monolid-makeup/" /></url>
-  <url><loc>https://kissinskin.net/class/aegyo-sal/</loc><lastmod>2026-11-21</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/aegyo-sal/" /></url>
-  <url><loc>https://kissinskin.net/en/class/aegyo-sal/</loc><lastmod>2026-11-21</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/aegyo-sal/" /></url>
-  <url><loc>https://kissinskin.net/class/curl-lashes-mascara/</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/curl-lashes-mascara/" /></url>
-  <url><loc>https://kissinskin.net/en/class/curl-lashes-mascara/</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/curl-lashes-mascara/" /></url>
-  <url><loc>https://kissinskin.net/class/smoky-eye-basics/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/smoky-eye-basics/" /></url>
-  <url><loc>https://kissinskin.net/en/class/smoky-eye-basics/</loc><lastmod>2026-11-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/smoky-eye-basics/" /></url>
+  <url><loc>https://kissinskin.net/class/makeup-order/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-order/" /></url>
+  <url><loc>https://kissinskin.net/en/class/makeup-order/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-order/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-order/" /></url>
+  <url><loc>https://kissinskin.net/class/skin-prep/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/skin-prep/" /></url>
+  <url><loc>https://kissinskin.net/en/class/skin-prep/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/skin-prep/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/skin-prep/" /></url>
+  <url><loc>https://kissinskin.net/class/undertone-foundation-shade/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/undertone-foundation-shade/" /></url>
+  <url><loc>https://kissinskin.net/en/class/undertone-foundation-shade/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/undertone-foundation-shade/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/undertone-foundation-shade/" /></url>
+  <url><loc>https://kissinskin.net/class/makeup-tools-basics/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-tools-basics/" /></url>
+  <url><loc>https://kissinskin.net/en/class/makeup-tools-basics/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/makeup-tools-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/makeup-tools-basics/" /></url>
+  <url><loc>https://kissinskin.net/class/foundation-not-cakey/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/foundation-not-cakey/" /></url>
+  <url><loc>https://kissinskin.net/en/class/foundation-not-cakey/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/foundation-not-cakey/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/foundation-not-cakey/" /></url>
+  <url><loc>https://kissinskin.net/class/how-to-use-cushion/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/how-to-use-cushion/" /></url>
+  <url><loc>https://kissinskin.net/en/class/how-to-use-cushion/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/how-to-use-cushion/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/how-to-use-cushion/" /></url>
+  <url><loc>https://kissinskin.net/class/under-eye-concealer/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/under-eye-concealer/" /></url>
+  <url><loc>https://kissinskin.net/en/class/under-eye-concealer/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/under-eye-concealer/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/under-eye-concealer/" /></url>
+  <url><loc>https://kissinskin.net/class/cover-blemishes/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/cover-blemishes/" /></url>
+  <url><loc>https://kissinskin.net/en/class/cover-blemishes/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/cover-blemishes/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/cover-blemishes/" /></url>
+  <url><loc>https://kissinskin.net/class/set-makeup-powder/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/set-makeup-powder/" /></url>
+  <url><loc>https://kissinskin.net/en/class/set-makeup-powder/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/set-makeup-powder/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/set-makeup-powder/" /></url>
+  <url><loc>https://kissinskin.net/class/glass-skin-makeup/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/glass-skin-makeup/" /></url>
+  <url><loc>https://kissinskin.net/en/class/glass-skin-makeup/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/glass-skin-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/glass-skin-makeup/" /></url>
+  <url><loc>https://kissinskin.net/class/eyebrow-shape-face-shape/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
+  <url><loc>https://kissinskin.net/en/class/eyebrow-shape-face-shape/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyebrow-shape-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyebrow-shape-face-shape/" /></url>
+  <url><loc>https://kissinskin.net/class/natural-eyebrows/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/natural-eyebrows/" /></url>
+  <url><loc>https://kissinskin.net/en/class/natural-eyebrows/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/natural-eyebrows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/natural-eyebrows/" /></url>
+  <url><loc>https://kissinskin.net/class/korean-straight-brows/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/korean-straight-brows/" /></url>
+  <url><loc>https://kissinskin.net/en/class/korean-straight-brows/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/korean-straight-brows/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/korean-straight-brows/" /></url>
+  <url><loc>https://kissinskin.net/class/eyeshadow-for-beginners/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /></url>
+  <url><loc>https://kissinskin.net/en/class/eyeshadow-for-beginners/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeshadow-for-beginners/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeshadow-for-beginners/" /></url>
+  <url><loc>https://kissinskin.net/class/eyeliner-basics-tightline/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /></url>
+  <url><loc>https://kissinskin.net/en/class/eyeliner-basics-tightline/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/eyeliner-basics-tightline/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/eyeliner-basics-tightline/" /></url>
+  <url><loc>https://kissinskin.net/class/winged-eyeliner/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/winged-eyeliner/" /></url>
+  <url><loc>https://kissinskin.net/en/class/winged-eyeliner/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/winged-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/winged-eyeliner/" /></url>
+  <url><loc>https://kissinskin.net/class/puppy-eyeliner/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/puppy-eyeliner/" /></url>
+  <url><loc>https://kissinskin.net/en/class/puppy-eyeliner/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/puppy-eyeliner/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/puppy-eyeliner/" /></url>
+  <url><loc>https://kissinskin.net/class/hooded-eyes-makeup/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/hooded-eyes-makeup/" /></url>
+  <url><loc>https://kissinskin.net/en/class/hooded-eyes-makeup/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/hooded-eyes-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/hooded-eyes-makeup/" /></url>
+  <url><loc>https://kissinskin.net/class/monolid-makeup/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/monolid-makeup/" /></url>
+  <url><loc>https://kissinskin.net/en/class/monolid-makeup/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/monolid-makeup/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/monolid-makeup/" /></url>
+  <url><loc>https://kissinskin.net/class/aegyo-sal/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/aegyo-sal/" /></url>
+  <url><loc>https://kissinskin.net/en/class/aegyo-sal/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/aegyo-sal/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/aegyo-sal/" /></url>
+  <url><loc>https://kissinskin.net/class/curl-lashes-mascara/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/curl-lashes-mascara/" /></url>
+  <url><loc>https://kissinskin.net/en/class/curl-lashes-mascara/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/curl-lashes-mascara/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/curl-lashes-mascara/" /></url>
+  <url><loc>https://kissinskin.net/class/smoky-eye-basics/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/smoky-eye-basics/" /></url>
+  <url><loc>https://kissinskin.net/en/class/smoky-eye-basics/</loc><lastmod>2026-11-27</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/smoky-eye-basics/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/smoky-eye-basics/" /></url>
+  <url><loc>https://kissinskin.net/class/blush-placement-face-shape/</loc><lastmod>2026-11-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/blush-placement-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/blush-placement-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/blush-placement-face-shape/" /></url>
+  <url><loc>https://kissinskin.net/en/class/blush-placement-face-shape/</loc><lastmod>2026-11-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ko" href="https://kissinskin.net/class/blush-placement-face-shape/" /><xhtml:link rel="alternate" hreflang="en" href="https://kissinskin.net/en/class/blush-placement-face-shape/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://kissinskin.net/class/blush-placement-face-shape/" /></url>
 </urlset>

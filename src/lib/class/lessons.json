@@ -2084,5 +2084,101 @@
     "video": {
       "seconds": 19
     }
+  },
+  {
+    "slug": "blush-placement-face-shape",
+    "publishedAt": "2026-11-28",
+    "introKo": "블러셔는 터치하는 위치와 방향에 따라 얼굴형이 달라 보여요. 내 얼굴형에 맞는 연출법을 알면 한층 생기 있고 입체적인 메이크업을 완성할 수 있어요.",
+    "introEn": "Blush placement can change the look of your face shape. Finding the right technique for your features creates a fresh, dimensional look.",
+    "minutes": 10,
+    "levelKo": "쉬움",
+    "levelEn": "Easy",
+    "steps": [
+      {
+        "area": "cheeks",
+        "crop": "cheekBlend",
+        "titleKo": "웃었을 때 올라오는 볼 중심",
+        "titleEn": "Apples of the cheeks",
+        "bodyKo": "살짝 웃었을 때 가장 높게 올라오는 볼 중앙에 둥글게 얹어요. 둥글고 귀여운 느낌을 주며, 시선을 얼굴 중앙으로 모아 줘요.",
+        "bodyEn": "Smile slightly and apply color in soft circles onto the highest points of your cheeks. This creates a sweet look and draws focus to the center of the face.",
+        "toolsKo": "파우더 블러셔 · 블러셔 브러시",
+        "toolsEn": "Powder blush · blush brush",
+        "swatches": [
+          "#f4a28c",
+          "#fbc4b5"
+        ],
+        "searchKeywords": "피치 코랄 파우더 블러셔",
+        "shopEn": "peach powder blush",
+        "shortKo": "웃을 때 볼 중앙에 둥글게",
+        "shortEn": "Circle on apples of cheeks"
+      },
+      {
+        "area": "cheeks",
+        "crop": "cheekTemple",
+        "titleKo": "광대 위 하이 블러셔와 관자놀이 C자",
+        "titleEn": "High blush and temple C-zone",
+        "bodyKo": "볼 위쪽부터 관자놀이까지 C자 모양으로 감싸듯 연결해요. 눈매가 시원해 보이고 시선이 위로 올라가 리프팅된 듯한 느낌을 줘요.",
+        "bodyEn": "Sweep color from high on the cheekbones up toward the temples in a C shape. This opens up the eye area and creates a lifted look.",
+        "toolsKo": "리퀴드 블러셔 · 스펀지",
+        "toolsEn": "Liquid blush · makeup sponge",
+        "swatches": [
+          "#e8898a",
+          "#f2b3b4"
+        ],
+        "searchKeywords": "리퀴드 워터 블러셔 로즈",
+        "shopEn": "liquid rose blush",
+        "shortKo": "볼 위에서 관자놀이까지 C자",
+        "shortEn": "C shape from cheeks to temples"
+      },
+      {
+        "area": "cheeks",
+        "crop": "cheekBlend",
+        "titleKo": "콧등을 연결하는 W 블러셔",
+        "titleEn": "W-shaped sun-kissed blush",
+        "bodyKo": "양 볼에서 시작해 콧등 중앙을 가로질러 W 모양으로 이어 줘요. 햇살을 받아서 살짝 그을린 듯 건강하고 생기 있는 분위기가 연출돼요.",
+        "bodyEn": "Blend across both cheeks and over the bridge of the nose in a wide W shape. This creates a warm, sun-kissed, youthful look.",
+        "toolsKo": "크림 블러셔 · 손가락",
+        "toolsEn": "Cream blush · fingers",
+        "swatches": [
+          "#f0937d",
+          "#f8c2b5"
+        ],
+        "searchKeywords": "크림 블러셔 피치 핑크",
+        "shopEn": "cream blush peach",
+        "shortKo": "콧등 이어 W 모양 터치",
+        "shortEn": "Connect across nose in a W shape"
+      },
+      {
+        "area": "cheeks",
+        "crop": "cheekBlend",
+        "titleKo": "5가지 얼굴형별 블러셔 방향",
+        "titleEn": "Placement for 5 face shapes",
+        "bodyKo": "긴 얼굴은 가로로 넓게, 동그란 얼굴은 위쪽 사선으로 터치해요. 각진 얼굴은 넓게 감싸고, 하트형은 광대 아래에 터치해요. 계란형은 볼 중앙에 얹어요. 윤곽 쉐딩은 25편에서 다뤄요.",
+        "bodyEn": "Apply in horizontal sweeps for long faces and upward diagonal angles for round faces. Soften square faces with broad strokes, apply slightly below cheekbones for heart shapes, and center color on the apples for oval faces. Contour is covered in lesson 25.",
+        "toolsKo": "파우더 블러셔 · 대형 브러시",
+        "toolsEn": "Powder blush · large brush",
+        "swatches": [
+          "#ea938f",
+          "#f5c0bd"
+        ],
+        "searchKeywords": "은은한 펄 파우더 블러셔",
+        "shopEn": "soft shimmer blush",
+        "shortKo": "얼굴형 따라 가로·사선 조절",
+        "shortEn": "Adjust angle by face shape"
+      }
+    ],
+    "tipsKo": [
+      "진한 색은 브러시 손등에 덜어 터치하면 양 조절이 쉬워요.",
+      "인중보다 아래로 블러셔가 내려가면 얼굴이 길어 보일 수 있어요."
+    ],
+    "tipsEn": [
+      "Tap excess pigment onto the back of your hand before applying color to your cheeks.",
+      "Keep blush above the bottom of your nose so your face doesn't look pulled down."
+    ],
+    "mistakeKo": "웃으면서 하단 볼에 바른 뒤 무표정이 되면 블러셔 위치가 아래로 내려가 보여요.",
+    "mistakeEn": "Applying blush too low while smiling causes the color to drop too far down when your face relaxes.",
+    "chartPrompt": "soft peach-pink blush placement on the cheeks of a blank face chart, showing a naturally flushed and lifted look with clean skin base",
+    "videoTitleKo": "얼굴형별 블러셔",
+    "videoTitleEn": "Face Shape Blush"
   }
 ]
